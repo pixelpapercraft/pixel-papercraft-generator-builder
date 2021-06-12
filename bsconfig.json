@@ -1,0 +1,11 @@
+{
+  "name": "pixel-papercraft-generators",
+  "bsc-flags": ["-bs-super-errors"],
+  "sources": [{ "dir": "src", "subdirs": true }],
+  "package-specs": [{ "module": "commonjs", "in-source": true }],
+  "suffix": ".bs.js",
+  "namespace": false,
+  "ppx-flags": [],
+  "bs-dependencies": ["@rescript/react", "@ryyppy/rescript-promise"],
+  "reason": { "react-jsx": 3 }
+}

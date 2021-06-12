@@ -1,0 +1,1 @@
+let generators = [Example.generator]
