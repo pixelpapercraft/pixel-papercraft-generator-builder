@@ -1,1 +1,1 @@
-# pixel-papercraft-generator
+# Papercraft Generator
