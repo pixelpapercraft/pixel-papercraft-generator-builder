@@ -422,5 +422,5 @@ switch weapon {
 You can provide some text instructions and comments with your inputs using `Generator.defineText()`.
 
 ```res
-Generator.defineText("Instructions", "Click body parts to change the texture.")
+Generator.defineText("Click body parts to change the texture.")
 ```
