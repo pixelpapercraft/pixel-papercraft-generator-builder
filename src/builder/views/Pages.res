@@ -78,7 +78,7 @@ let make = (
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}
         <img
-          className="border mb-8"
+          className="border shadow-xl mb-8"
           style={ReactDOM.Style.make(
             ~width="595px",
             ~height="842px",

@@ -30,10 +30,22 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
+module Config = {
+  let colCount = 4
+  let rowCount = 6
+  let gridCellSize = 128
+  let gridWidth = gridCellSize * colCount
+  let gridHeight = gridCellSize * rowCount
+  let offsetX = (PageSize.A4.px.width - gridWidth) / 2
+  let offsetY = (PageSize.A4.px.height - gridHeight) / 2
+}
+
 let drawGrid = () => {
-  for y in 0 to 5 {
-    for x in 0 to 3 {
-      Generator.drawImage("Grid", (x * 128, y * 128))
+  for y in 0 to Config.rowCount - 1 {
+    for x in 0 to Config.colCount - 1 {
+      let xpos = Config.offsetX + x * Config.gridCellSize
+      let ypos = Config.offsetY + y * Config.gridCellSize
+      Generator.drawImage("Grid", (xpos, ypos))
     }
   }
 }
@@ -42,7 +54,12 @@ let drawPage = (texture, src) => {
   drawGrid()
 
   let dst = (gridx, gridy) => {
-    (gridx * 128 + 128 / 4, gridy * 128 + 128 / 4, 128 / 2, 128 / 2)
+    (
+      Config.offsetX + gridx * Config.gridCellSize + Config.gridCellSize / 4,
+      Config.offsetY + gridy * Config.gridCellSize + Config.gridCellSize / 4,
+      Config.gridCellSize / 2,
+      Config.gridCellSize / 2,
+    )
   }
 
   Generator.drawTexture(texture, src, dst(0, 0), ~rotate=0.0, ())
@@ -94,7 +111,12 @@ let script = () => {
 
   let src = (8, 11, sw, sh)
 
-  let dst = (gridx, gridy) => (gridx * 128 + 64 - dw / 2, gridy * 128 + 64 - dh / 2, dw, dh)
+  let dst = (gridx, gridy) => (
+    Config.offsetX + gridx * Config.gridCellSize + Config.gridCellSize / 2 - dw / 2,
+    Config.offsetY + gridy * Config.gridCellSize + Config.gridCellSize / 2 - dh / 2,
+    dw,
+    dh,
+  )
 
   let rows = 6
   let cols = 4

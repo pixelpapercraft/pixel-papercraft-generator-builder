@@ -92,7 +92,7 @@ function Pages(Props) {
                             }, showPageIds ? React.createElement("h1", {
                                     className: "font-bold text-2xl mb-4"
                                   }, page.id) : null, React.createElement("img", {
-                                  className: "border mb-8",
+                                  className: "border shadow-xl mb-8",
                                   style: Object.assign({}, {
                                         height: "842px",
                                         width: "595px"
