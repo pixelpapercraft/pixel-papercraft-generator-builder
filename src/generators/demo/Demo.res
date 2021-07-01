@@ -94,6 +94,8 @@ let drawPage = (texture, src) => {
 }
 
 let script = () => {
+  Generator.defineText("Demonstration of some generator features.")
+
   Generator.usePage("Page 1")
   drawPage("Steve", (8, 8, 8, 8))
 

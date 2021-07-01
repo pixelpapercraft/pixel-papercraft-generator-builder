@@ -56,6 +56,10 @@ let defineTextureInput = (id: string, options) => {
   model := Builder.defineTextureInput(model.contents, id, options)
 }
 
+let defineText = (text: string) => {
+  model := Builder.defineText(model.contents, text)
+}
+
 let usePage = id => {
   model := Builder.usePage(model.contents, id)
 }

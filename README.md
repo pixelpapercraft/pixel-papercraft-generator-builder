@@ -416,3 +416,11 @@ switch weapon {
   | _ => () // All other values, do nothing
 }
 ```
+
+### Providing instructions or comments
+
+You can provide some text instructions and comments with your inputs using `Generator.defineText()`.
+
+```res
+Generator.defineText("Instructions", "Click body parts to change the texture.")
+```

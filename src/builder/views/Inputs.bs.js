@@ -172,67 +172,87 @@ var SelectInput = {
   make: Inputs$SelectInput
 };
 
+function Inputs$Text(Props) {
+  var text = Props.text;
+  return React.createElement("div", {
+              className: "mb-4"
+            }, React.createElement("p", undefined, text));
+}
+
+var $$Text = {
+  make: Inputs$Text
+};
+
 function Inputs(Props) {
   var model = Props.model;
   var onChange = Props.onChange;
-  return React.createElement("div", {
-              className: "bg-gray-100 p-4 mb-8 rounded"
-            }, model.inputs.map(function (variable) {
-                  switch (variable.TAG | 0) {
-                    case /* CustomStringInput */0 :
-                        var id = variable._0;
-                        return React.createElement("div", {
-                                    key: id
-                                  }, Curry._1(variable._1, (function (param) {
-                                          return Curry._1(onChange, Builder.setStringInputValue(model, id, param));
-                                        })));
-                    case /* TextureInput */2 :
-                        var match = variable._1;
-                        var standardHeight = match.standardHeight;
-                        var standardWidth = match.standardWidth;
-                        var id$1 = variable._0;
-                        return React.createElement(Inputs$TextureInput, {
-                                    id: id$1,
-                                    textures: model.values.textures,
-                                    choices: match.choices,
-                                    onChange: (function (param) {
-                                        if (param === undefined) {
-                                          return Curry._1(onChange, Builder.clearTexture(model, id$1));
-                                        }
-                                        var texture = Builder.Texture.make(Caml_option.valFromOption(param), standardWidth, standardHeight);
-                                        return Curry._1(onChange, Builder.addTexture(model, id$1, texture));
-                                      }),
-                                    key: id$1
-                                  });
-                    case /* BooleanInput */3 :
-                        var id$2 = variable._0;
-                        var checked = Builder.getBooleanInputValue(model, id$2);
-                        return React.createElement(Inputs$BooleanInput, {
-                                    id: id$2,
-                                    checked: checked,
-                                    onChange: (function (param) {
-                                        return Curry._1(onChange, Builder.setBooleanInputValue(model, id$2, param));
-                                      }),
-                                    key: id$2
-                                  });
-                    case /* SelectInput */4 :
-                        var id$3 = variable._0;
-                        var value = Builder.getSelectInputValue(model, id$3);
-                        return React.createElement(Inputs$SelectInput, {
-                                    id: id$3,
-                                    options: variable._1,
-                                    value: value,
-                                    onChange: (function (param) {
-                                        return Curry._1(onChange, Builder.setSelectInputValue(model, id$3, param));
-                                      }),
-                                    key: id$3
-                                  });
-                    case /* RegionInput */1 :
-                    case /* RangeInput */5 :
-                        return null;
-                    
-                  }
-                }));
+  if (model.inputs.length > 0) {
+    return React.createElement("div", {
+                className: "bg-gray-100 p-4 mb-8 rounded"
+              }, model.inputs.map(function (input) {
+                    switch (input.TAG | 0) {
+                      case /* Text */0 :
+                          return React.createElement(Inputs$Text, {
+                                      text: input._1,
+                                      key: input._0
+                                    });
+                      case /* CustomStringInput */1 :
+                          var id = input._0;
+                          return React.createElement("div", {
+                                      key: id
+                                    }, Curry._1(input._1, (function (param) {
+                                            return Curry._1(onChange, Builder.setStringInputValue(model, id, param));
+                                          })));
+                      case /* TextureInput */3 :
+                          var match = input._1;
+                          var standardHeight = match.standardHeight;
+                          var standardWidth = match.standardWidth;
+                          var id$1 = input._0;
+                          return React.createElement(Inputs$TextureInput, {
+                                      id: id$1,
+                                      textures: model.values.textures,
+                                      choices: match.choices,
+                                      onChange: (function (param) {
+                                          if (param === undefined) {
+                                            return Curry._1(onChange, Builder.clearTexture(model, id$1));
+                                          }
+                                          var texture = Builder.Texture.make(Caml_option.valFromOption(param), standardWidth, standardHeight);
+                                          return Curry._1(onChange, Builder.addTexture(model, id$1, texture));
+                                        }),
+                                      key: id$1
+                                    });
+                      case /* BooleanInput */4 :
+                          var id$2 = input._0;
+                          var checked = Builder.getBooleanInputValue(model, id$2);
+                          return React.createElement(Inputs$BooleanInput, {
+                                      id: id$2,
+                                      checked: checked,
+                                      onChange: (function (param) {
+                                          return Curry._1(onChange, Builder.setBooleanInputValue(model, id$2, param));
+                                        }),
+                                      key: id$2
+                                    });
+                      case /* SelectInput */5 :
+                          var id$3 = input._0;
+                          var value = Builder.getSelectInputValue(model, id$3);
+                          return React.createElement(Inputs$SelectInput, {
+                                      id: id$3,
+                                      options: input._1,
+                                      value: value,
+                                      onChange: (function (param) {
+                                          return Curry._1(onChange, Builder.setSelectInputValue(model, id$3, param));
+                                        }),
+                                      key: id$3
+                                    });
+                      case /* RegionInput */2 :
+                      case /* RangeInput */6 :
+                          return null;
+                      
+                    }
+                  }));
+  } else {
+    return null;
+  }
 }
 
 var make = Inputs;
@@ -240,5 +260,6 @@ var make = Inputs;
 exports.TextureInput = TextureInput;
 exports.BooleanInput = BooleanInput;
 exports.SelectInput = SelectInput;
+exports.$$Text = $$Text;
 exports.make = make;
 /* Icon Not a pure module */

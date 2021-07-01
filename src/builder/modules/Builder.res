@@ -237,6 +237,7 @@ module Input = {
   type pageId = string
 
   type t =
+    | Text(id, string)
     | CustomStringInput(id, (string => unit) => React.element)
     | RegionInput(pageId, (int, int, int, int), unit => unit)
     | TextureInput(id, textureArgs)
@@ -250,6 +251,7 @@ module Model = {
     pageId: string,
     region: (int, int, int, int),
   }
+
   type values = {
     images: Js.Dict.t<Image.t>,
     textures: Js.Dict.t<Texture.t>,
@@ -284,6 +286,7 @@ module Model = {
 let hasInput = (model: Model.t, idToFind: string) => {
   Js.Array2.find(model.inputs, input => {
     let id = switch input {
+    | Text(id, _) => id
     | RegionInput(_, _, _) => ""
     | CustomStringInput(id, _) => id
     | TextureInput(id, _) => id
@@ -449,6 +452,23 @@ let defineTextureInput = (model: Model.t, id, options) => {
     inputs: inputs,
   }
 }
+
+let defineText = (model: Model.t, text: string) => {
+  let isText = input =>
+    switch input {
+    | Input.Text(_) => true
+    | _ => false
+    }
+  let textCount = model.inputs->Js.Array2.filter(isText)->Js.Array2.length
+  let id = "text-" ++ Js.Int.toString(textCount + 1)
+  let input = Input.Text(id, text)
+  let inputs = Js.Array2.concat(model.inputs, [input])
+  {
+    ...model,
+    inputs: inputs,
+  }
+}
+
 let drawImage = (model: Model.t, id: string, (x, y): position) => {
   let model = ensureCurrentPage(model)
   let currentPage = model.currentPage

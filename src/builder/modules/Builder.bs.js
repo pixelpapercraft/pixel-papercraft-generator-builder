@@ -189,7 +189,7 @@ var Model = {
 function hasInput(model, idToFind) {
   return Caml_option.undefined_to_opt(model.inputs.find(function (input) {
                   var id;
-                  id = input.TAG === /* RegionInput */1 ? "" : input._0;
+                  id = input.TAG === /* RegionInput */2 ? "" : input._0;
                   return id === idToFind;
                 }));
 }
@@ -332,7 +332,7 @@ function ensureCurrentPage(model) {
 function defineRegionInput(model, region, callback) {
   var pageId = getCurrentDefinedPageId(model);
   var inputs = model.inputs.concat([{
-          TAG: /* RegionInput */1,
+          TAG: /* RegionInput */2,
           _0: pageId,
           _1: region,
           _2: callback
@@ -347,7 +347,7 @@ function defineRegionInput(model, region, callback) {
 
 function defineCustomStringInput(model, id, fn) {
   var inputs = model.inputs.concat([{
-          TAG: /* CustomStringInput */0,
+          TAG: /* CustomStringInput */1,
           _0: id,
           _1: fn
         }]);
@@ -361,7 +361,7 @@ function defineCustomStringInput(model, id, fn) {
 
 function defineBooleanInput(model, id, initial) {
   var inputs = model.inputs.concat([{
-          TAG: /* BooleanInput */3,
+          TAG: /* BooleanInput */4,
           _0: id
         }]);
   var newModel_pages = model.pages;
@@ -382,7 +382,7 @@ function defineBooleanInput(model, id, initial) {
 
 function defineSelectInput(model, id, options) {
   var inputs = model.inputs.concat([{
-          TAG: /* SelectInput */4,
+          TAG: /* SelectInput */5,
           _0: id,
           _1: options
         }]);
@@ -404,9 +404,33 @@ function defineSelectInput(model, id, options) {
 
 function defineTextureInput(model, id, options) {
   var input = {
-    TAG: /* TextureInput */2,
+    TAG: /* TextureInput */3,
     _0: id,
     _1: options
+  };
+  var inputs = model.inputs.concat([input]);
+  return {
+          inputs: inputs,
+          pages: model.pages,
+          currentPage: model.currentPage,
+          values: model.values
+        };
+}
+
+function defineText(model, text) {
+  var isText = function (input) {
+    if (input.TAG === /* Text */0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  var textCount = model.inputs.filter(isText).length;
+  var id = "text-" + (textCount + 1 | 0).toString();
+  var input = {
+    TAG: /* Text */0,
+    _0: id,
+    _1: text
   };
   var inputs = model.inputs.concat([input]);
   return {
@@ -530,6 +554,7 @@ exports.defineCustomStringInput = defineCustomStringInput;
 exports.defineBooleanInput = defineBooleanInput;
 exports.defineSelectInput = defineSelectInput;
 exports.defineTextureInput = defineTextureInput;
+exports.defineText = defineText;
 exports.drawImage = drawImage;
 exports.addImage = addImage;
 exports.addTexture = addTexture;

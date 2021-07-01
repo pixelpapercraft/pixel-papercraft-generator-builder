@@ -68,6 +68,11 @@ function defineTextureInput(id, options) {
   
 }
 
+function defineText(text) {
+  model.contents = Builder.defineText(model.contents, text);
+  
+}
+
 function usePage(id) {
   model.contents = Builder.usePage(model.contents, id);
   
@@ -134,6 +139,7 @@ exports.defineSelectInput = defineSelectInput;
 exports.setSelectInputValue = setSelectInputValue;
 exports.getSelectInputValue = getSelectInputValue;
 exports.defineTextureInput = defineTextureInput;
+exports.defineText = defineText;
 exports.usePage = usePage;
 exports.drawTexture = drawTexture;
 exports.drawTextureLegacy = drawTextureLegacy;

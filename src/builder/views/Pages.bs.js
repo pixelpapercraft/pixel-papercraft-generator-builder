@@ -17,7 +17,7 @@ function Pages$RegionInputs(Props) {
   var currentPageId = Props.currentPageId;
   var onClick = Props.onClick;
   var regions = model.inputs.reduce((function (acc, input) {
-          if (input.TAG === /* RegionInput */1 && input._0 === currentPageId) {
+          if (input.TAG === /* RegionInput */2 && input._0 === currentPageId) {
             return acc.concat([[
                           input._1,
                           input._2

@@ -145,6 +145,13 @@ module SelectInput = {
   }
 }
 
+module Text = {
+  @react.component
+  let make = (~text) => {
+    <div className="mb-4"> <p> {React.string(text)} </p> </div>
+  }
+}
+
 @react.component
 let make = (~model: Builder.Model.t, ~onChange) => {
   let onTextureChange = (
@@ -181,31 +188,36 @@ let make = (~model: Builder.Model.t, ~onChange) => {
     onChange(model)
   }
 
-  <div className="bg-gray-100 p-4 mb-8 rounded">
-    {Js.Array2.map(model.inputs, variable => {
-      switch variable {
-      | RegionInput(_, _, _) => React.null
-      | CustomStringInput(id, f) => <div key={id}> {f(onStringInputChange(id))} </div>
-      | TextureInput(id, {standardWidth, standardHeight, choices}) =>
-        <TextureInput
-          key={id}
-          id={id}
-          choices={choices}
-          textures={model.values.textures}
-          onChange={onTextureChange(id, standardWidth, standardHeight)}
-        />
-      | BooleanInput(id) => {
-          let checked = Builder.getBooleanInputValue(model, id)
-          <BooleanInput key={id} id={id} onChange={onBooleanInputChange(id)} checked={checked} />
-        }
-      | SelectInput(id, options) => {
-          let value = Builder.getSelectInputValue(model, id)
-          <SelectInput
-            key={id} id={id} options={options} value onChange={onSelectInputChange(id)}
+  if Js.Array2.length(model.inputs) > 0 {
+    <div className="bg-gray-100 p-4 mb-8 rounded">
+      {Js.Array2.map(model.inputs, input => {
+        switch input {
+        | Text(id, text) => <Text key={id} text={text} />
+        | RegionInput(_, _, _) => React.null
+        | CustomStringInput(id, f) => <div key={id}> {f(onStringInputChange(id))} </div>
+        | TextureInput(id, {standardWidth, standardHeight, choices}) =>
+          <TextureInput
+            key={id}
+            id={id}
+            choices={choices}
+            textures={model.values.textures}
+            onChange={onTextureChange(id, standardWidth, standardHeight)}
           />
+        | BooleanInput(id) => {
+            let checked = Builder.getBooleanInputValue(model, id)
+            <BooleanInput key={id} id={id} onChange={onBooleanInputChange(id)} checked={checked} />
+          }
+        | SelectInput(id, options) => {
+            let value = Builder.getSelectInputValue(model, id)
+            <SelectInput
+              key={id} id={id} options={options} value onChange={onSelectInputChange(id)}
+            />
+          }
+        | RangeInput(_, _) => React.null
         }
-      | RangeInput(_, _) => React.null
-      }
-    })->React.array}
-  </div>
+      })->React.array}
+    </div>
+  } else {
+    React.null
+  }
 }
