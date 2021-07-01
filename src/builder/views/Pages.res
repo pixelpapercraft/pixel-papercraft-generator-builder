@@ -81,7 +81,11 @@ let make = (
           : React.null}
         <img
           className="border mb-8"
-          style={ReactDOM.Style.make(~width="595px", ~height="842px", ())}
+          style={ReactDOM.Style.make(
+            ~width="595px",
+            ~height="842px",
+            (),
+          )->ReactDOM.Style.unsafeAddStyle({"imageRendering": "pixelated"})}
           src={dataUrl}
         />
         <RegionInputs

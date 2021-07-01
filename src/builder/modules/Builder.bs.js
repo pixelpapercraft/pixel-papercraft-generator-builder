@@ -107,13 +107,23 @@ function drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, opti
   var context = page.context;
   context.save();
   context.translate(dx, dy);
-  var degrees = options.rotate * Math.PI / 180.0;
-  context.rotate(degrees);
-  var match = options.flip;
-  if (match === "Horizontal") {
+  var match = options.rotate;
+  if (typeof match === "object") {
+    if (match.NAME === "Center") {
+      var radians = match.VAL * Math.PI / 180.0;
+      context.translate(dw / 2 | 0, dh / 2 | 0);
+      context.rotate(radians);
+      context.translate((-dw | 0) / 2 | 0, (-dh | 0) / 2 | 0);
+    } else {
+      var radians$1 = match.VAL * Math.PI / 180.0;
+      context.rotate(radians$1);
+    }
+  }
+  var match$1 = options.flip;
+  if (match$1 === "Horizontal") {
     context.translate(dw, 0);
     context.scale(-1, 1);
-  } else if (match === "None") {
+  } else if (match$1 === "None") {
     
   } else {
     context.translate(0, dh);
@@ -455,6 +465,27 @@ function addTexture(model, id, texture) {
         };
 }
 
+function clearTexture(model, id) {
+  var entries = Js_dict.entries(model.values.textures).filter(function (param) {
+        return param[0] !== id;
+      });
+  var textures = Js_dict.fromArray(entries);
+  var init = model.values;
+  return {
+          inputs: model.inputs,
+          pages: model.pages,
+          currentPage: model.currentPage,
+          values: {
+            images: init.images,
+            textures: textures,
+            booleans: init.booleans,
+            selects: init.selects,
+            ranges: init.ranges,
+            strings: init.strings
+          }
+        };
+}
+
 function drawTexture(model, id, param, param$1, flip, rotate, param$2) {
   var model$1 = ensureCurrentPage(model);
   var currentPage = model$1.currentPage;
@@ -463,6 +494,14 @@ function drawTexture(model, id, param, param$1, flip, rotate, param$2) {
     draw(texture, currentPage, param[0], param[1], param[2], param[3], param$1[0], param$1[1], param$1[2], param$1[3], flip, rotate, undefined);
   }
   return model$1;
+}
+
+function hasImage(model, id) {
+  return Js_dict.get(model.values.images, id) !== undefined;
+}
+
+function hasTexture(model, id) {
+  return Js_dict.get(model.values.textures, id) !== undefined;
 }
 
 exports.CanvasFactory = CanvasFactory;
@@ -494,5 +533,8 @@ exports.defineTextureInput = defineTextureInput;
 exports.drawImage = drawImage;
 exports.addImage = addImage;
 exports.addTexture = addTexture;
+exports.clearTexture = clearTexture;
 exports.drawTexture = drawTexture;
+exports.hasImage = hasImage;
+exports.hasTexture = hasTexture;
 /* No side effect */

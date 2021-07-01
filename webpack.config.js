@@ -9,7 +9,7 @@ const devtool = isProduction ? "source-map" : "inline-source-map";
 
 module.exports = {
   mode,
-  entry: "./src/app/index.bs.js",
+  entry: "./src/index.bs.js",
   devtool: devtool,
   devServer: {
     contentBase: "./dist",

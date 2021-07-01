@@ -39,7 +39,7 @@ let drawHead = (name, x, y) => {
 }
 
 let script = () => {
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64})
+  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
   Generator.defineBooleanInput("Show Folds", true)
   let showFolds = Generator.getBooleanInputValue("Show Folds")

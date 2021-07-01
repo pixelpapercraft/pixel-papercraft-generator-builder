@@ -65,9 +65,17 @@ let drawTexture = (
   source: Builder.rectangle,
   dest: Builder.rectangle,
   ~flip: Builder.Texture.flip=#None,
+  ~rotateLegacy: float=0.0,
   ~rotate: float=0.0,
   (),
 ) => {
+  let rotate = if rotateLegacy !== 0.0 {
+    #Corner(rotateLegacy)
+  } else if rotate !== 0.0 {
+    #Center(rotate)
+  } else {
+    #None
+  }
   model := Builder.drawTexture(model.contents, id, source, dest, ~flip, ~rotate, ())
 }
 
@@ -77,6 +85,7 @@ let drawTextureLegacy = (
   source: Builder.rectangleLegacy,
   dest: Builder.rectangleLegacy,
   ~flip: Builder.Texture.flip=#None,
+  ~rotateLegacy: float=0.0,
   ~rotate: float=0.0,
   (),
 ) => {
@@ -85,6 +94,7 @@ let drawTextureLegacy = (
     (source.x, source.y, source.w, source.h),
     (dest.x, dest.y, dest.w, dest.h),
     ~flip,
+    ~rotateLegacy,
     ~rotate,
     (),
   )
@@ -92,4 +102,12 @@ let drawTextureLegacy = (
 
 let drawImage = (id: string, position: Builder.position) => {
   model := Builder.drawImage(model.contents, id, position)
+}
+
+let hasImage = (id: string) => {
+  Builder.hasImage(model.contents, id)
+}
+
+let hasTexture = (id: string) => {
+  Builder.hasTexture(model.contents, id)
 }

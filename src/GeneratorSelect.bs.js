@@ -3,8 +3,8 @@
 
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var FormInput = require("./FormInput.bs.js");
-var Generators = require("../../generators/Generators.bs.js");
+var FormInput = require("./builder/views/FormInput.bs.js");
+var Generators = require("./generators/Generators.bs.js");
 
 function GeneratorSelect(Props) {
   var onChange = Props.onChange;

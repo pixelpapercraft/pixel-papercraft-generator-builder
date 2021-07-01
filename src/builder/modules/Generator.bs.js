@@ -73,15 +73,26 @@ function usePage(id) {
   
 }
 
-function drawTexture(id, source, dest, flipOpt, rotateOpt, param) {
+function drawTexture(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, param) {
   var flip = flipOpt !== undefined ? flipOpt : "None";
+  var rotateLegacy = rotateLegacyOpt !== undefined ? rotateLegacyOpt : 0.0;
   var rotate = rotateOpt !== undefined ? rotateOpt : 0.0;
-  model.contents = Builder.drawTexture(model.contents, id, source, dest, flip, rotate, undefined);
+  var rotate$1 = rotateLegacy !== 0.0 ? ({
+        NAME: "Corner",
+        VAL: rotateLegacy
+      }) : (
+      rotate !== 0.0 ? ({
+            NAME: "Center",
+            VAL: rotate
+          }) : "None"
+    );
+  model.contents = Builder.drawTexture(model.contents, id, source, dest, flip, rotate$1, undefined);
   
 }
 
-function drawTextureLegacy(id, source, dest, flipOpt, rotateOpt, param) {
+function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, param) {
   var flip = flipOpt !== undefined ? flipOpt : "None";
+  var rotateLegacy = rotateLegacyOpt !== undefined ? rotateLegacyOpt : 0.0;
   var rotate = rotateOpt !== undefined ? rotateOpt : 0.0;
   return drawTexture(id, [
               source.x,
@@ -93,12 +104,20 @@ function drawTextureLegacy(id, source, dest, flipOpt, rotateOpt, param) {
               dest.y,
               dest.w,
               dest.h
-            ], flip, rotate, undefined);
+            ], flip, rotateLegacy, rotate, undefined);
 }
 
 function drawImage(id, position) {
   model.contents = Builder.drawImage(model.contents, id, position);
   
+}
+
+function hasImage(id) {
+  return Builder.hasImage(model.contents, id);
+}
+
+function hasTexture(id) {
+  return Builder.hasTexture(model.contents, id);
 }
 
 exports.model = model;
@@ -119,4 +138,6 @@ exports.usePage = usePage;
 exports.drawTexture = drawTexture;
 exports.drawTextureLegacy = drawTextureLegacy;
 exports.drawImage = drawImage;
+exports.hasImage = hasImage;
+exports.hasTexture = hasTexture;
 /* model Not a pure module */

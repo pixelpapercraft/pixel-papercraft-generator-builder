@@ -2,7 +2,12 @@ open FormInput
 
 module TextureInput = {
   @react.component
-  let make = (~id, ~onChange) => {
+  let make = (
+    ~id: string,
+    ~textures: Js.Dict.t<Builder.Texture.t>,
+    ~choices: array<string>,
+    ~onChange: option<Dom2.Image.t> => unit,
+  ) => {
     let (name, setName) = React.useState(() => None)
 
     let onInputChange = e => {
@@ -21,7 +26,7 @@ module TextureInput = {
             | Some(result) => {
                 setName(_ => Some(file.name))
                 Builder.ImageFactory.makeFromUrl(result)
-                ->Promise.thenResolve(image => onChange(image))
+                ->Promise.thenResolve(image => onChange(Some(image)))
                 ->ignore
               }
             }
@@ -30,9 +35,33 @@ module TextureInput = {
         }
       }
     }
+
+    let onChoiceChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let value = target["value"]
+      let texture = Js.Dict.get(textures, value)
+      switch texture {
+      | None => onChange(None)
+      | Some(texture) => onChange(Some(texture.image))
+      }
+    }
+
     <div className="mb-4">
       <div className="font-bold"> {React.string(id)} </div>
       <div className="flex items-center">
+        {Js.Array2.length(choices) > 0
+          ? <div>
+              <select onChange={onChoiceChange} className="p-2">
+                <option value=""> {React.string("None")} </option>
+                {choices
+                ->Js.Array2.map(choice => {
+                  <option key={choice} value={choice}> {React.string(choice)} </option>
+                })
+                ->React.array}
+              </select>
+              <span className="px-2"> {React.string("or")} </span>
+            </div>
+          : React.null}
         <div className="overflow-hidden relative w-48">
           <button
             className="bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
@@ -59,7 +88,7 @@ module BooleanInput = {
   @react.component
   let make = (~id, ~checked, ~onChange) => {
     let onInputChange = _ => onChange(!checked)
-    <div>
+    <div className="mb-4">
       <div className="flex flex-col">
         {switch checked {
         | false =>
@@ -122,11 +151,19 @@ let make = (~model: Builder.Model.t, ~onChange) => {
     id: string,
     standardWidth: int,
     standardHeight: int,
-    image: Builder.Image.t,
+    image: option<Builder.Image.t>,
   ) => {
-    let texture = Builder.Texture.make(image, standardWidth, standardHeight)
-    let model = Builder.addTexture(model, id, texture)
-    onChange(model)
+    switch image {
+    | None => {
+        let model = Builder.clearTexture(model, id)
+        onChange(model)
+      }
+    | Some(image) => {
+        let texture = Builder.Texture.make(image, standardWidth, standardHeight)
+        let model = Builder.addTexture(model, id, texture)
+        onChange(model)
+      }
+    }
   }
 
   let onStringInputChange = (id: string, value: string) => {
@@ -149,9 +186,13 @@ let make = (~model: Builder.Model.t, ~onChange) => {
       switch variable {
       | RegionInput(_, _, _) => React.null
       | CustomStringInput(id, f) => <div key={id}> {f(onStringInputChange(id))} </div>
-      | TextureInput(id, {standardWidth, standardHeight}) =>
+      | TextureInput(id, {standardWidth, standardHeight, choices}) =>
         <TextureInput
-          key={id} id={id} onChange={onTextureChange(id, standardWidth, standardHeight)}
+          key={id}
+          id={id}
+          choices={choices}
+          textures={model.values.textures}
+          onChange={onTextureChange(id, standardWidth, standardHeight)}
         />
       | BooleanInput(id) => {
           let checked = Builder.getBooleanInputValue(model, id)

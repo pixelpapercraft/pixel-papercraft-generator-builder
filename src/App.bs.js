@@ -3,9 +3,9 @@
 
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var Generators = require("../../generators/Generators.bs.js");
+var Generators = require("./generators/Generators.bs.js");
 var Caml_option = require("rescript/lib/js/caml_option.js");
-var GeneratorView = require("./GeneratorView.bs.js");
+var GeneratorView = require("./builder/views/GeneratorView.bs.js");
 var GeneratorSelect = require("./GeneratorSelect.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 

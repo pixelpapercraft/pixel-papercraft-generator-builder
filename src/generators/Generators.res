@@ -1,1 +1,1 @@
-let generators = [Example.generator]
+let generators = [Example.generator, Demo.generator]

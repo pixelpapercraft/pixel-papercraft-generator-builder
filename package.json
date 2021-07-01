@@ -1,37 +1,31 @@
 {
-  "name": "pixel-papercraft-generators",
+  "name": "pixel-papercraft-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Papercraft generator for Pixel Papercraft",
   "type": "commonjs",
   "scripts": {
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
     "res:build": "rescript build",
-    "res:watch": "rescript build -w",
-    "blocks:makeTextures": "node ./src/generators/minecraft-block/MinecraftBlockMakeTextures.bs.js"
+    "res:watch": "rescript build -w"
   },
-  "author": "",
+  "author": "Pixel Papercraft",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:kevanstannard/pixel-papercraft-generator-builder.git"
-  },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.4",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.13.13",
     "autoprefixer": "^10.2.6",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.6",
-    "html-webpack-plugin": "^5.3.1",
+    "html-webpack-plugin": "^5.3.2",
     "imageinfo": "^1.0.4",
     "merge-img": "^2.1.3",
-    "postcss": "^8.3.0",
-    "postcss-loader": "^5.3.0",
-    "rescript": "^9.1.3",
-    "style-loader": "^2.0.0",
-    "tailwindcss": "^2.1.4",
-    "webpack": "^5.38.1",
+    "postcss": "^8.3.5",
+    "postcss-loader": "^6.1.0",
+    "style-loader": "^3.0.0",
+    "tailwindcss": "^2.2.4",
+    "webpack": "^5.41.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
@@ -40,6 +34,7 @@
     "@ryyppy/rescript-promise": "^2.1.0",
     "jspdf": "^2.3.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "rescript": "^9.1.4"
   }
 }

@@ -1,4 +1,5 @@
 type context2d
+type domMatrix
 
 module Image = {
   type t = Dom.htmlImageElement
@@ -42,6 +43,7 @@ module Context2d = {
   @send external scale: (context2d, int, int) => unit = "scale"
   @send external rotate: (context2d, float) => unit = "rotate"
   @send external fillRect: (context2d, int, int, int, int) => unit = "fillRect"
+  @send external getTransform: context2d => domMatrix = "getTransform"
   @set external fillStyle: (context2d, string) => unit = "fillStyle"
 
   let setFillStyleRGBA = (context, r, g, b, a) => {

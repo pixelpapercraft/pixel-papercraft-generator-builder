@@ -95,7 +95,9 @@ module Texture = {
     )
 
   type flip = [#None | #Horizontal | #Vertical]
-  type drawNearestNeighborOptions = {rotate: float, flip: flip}
+  type rotate = [#None | #Corner(float) | #Center(float)]
+
+  type drawNearestNeighborOptions = {rotate: rotate, flip: flip}
 
   let drawNearestNeighbor = (
     texture: t,
@@ -150,8 +152,19 @@ module Texture = {
     // Move to the destination coordinate
     Context2d.translate(context, dx, dy)
 
-    let degrees = options.rotate *. Js.Math._PI /. 180.0
-    Context2d.rotate(context, degrees)
+    switch options.rotate {
+    | #None => ()
+    | #Corner(degrees) => {
+        let radians = degrees *. Js.Math._PI /. 180.0
+        Context2d.rotate(context, radians)
+      }
+    | #Center(degrees) => {
+        let radians = degrees *. Js.Math._PI /. 180.0
+        Context2d.translate(context, dw / 2, dh / 2)
+        Context2d.rotate(context, radians)
+        Context2d.translate(context, -dw / 2, -dh / 2)
+      }
+    }
 
     switch options.flip {
     | #None => ()
@@ -182,7 +195,7 @@ module Texture = {
     dw,
     dh,
     ~flip: flip,
-    ~rotate: float,
+    ~rotate: rotate,
     (),
   ) => {
     let sourceScaleX = Belt.Int.toFloat(texture.width) /. Belt.Int.toFloat(texture.standardWidth)
@@ -214,7 +227,11 @@ module Input = {
     step: int,
   }
 
-  type textureArgs = {standardWidth: int, standardHeight: int}
+  type textureArgs = {
+    standardWidth: int,
+    standardHeight: int,
+    choices: array<string>,
+  }
 
   type id = string
   type pageId = string
@@ -467,13 +484,26 @@ let addTexture = (model: Model.t, id: string, texture: Texture.t) => {
   }
 }
 
+let clearTexture = (model: Model.t, id: string) => {
+  let entries =
+    Js.Dict.entries(model.values.textures)->Js.Array2.filter(((textureId, _)) => textureId !== id)
+  let textures = Js.Dict.fromArray(entries)
+  {
+    ...model,
+    values: {
+      ...model.values,
+      textures: textures,
+    },
+  }
+}
+
 let drawTexture = (
   model: Model.t,
   id: string,
   (sx, sy, sw, sh): rectangle,
   (dx, dy, dw, dh): rectangle,
   ~flip: Texture.flip,
-  ~rotate: float,
+  ~rotate: Texture.rotate,
   (),
 ) => {
   let model = ensureCurrentPage(model)
@@ -485,4 +515,20 @@ let drawTexture = (
   | _ => ()
   }
   model
+}
+
+let hasImage = (model: Model.t, id: string) => {
+  let image = Js.Dict.get(model.values.images, id)
+  switch image {
+  | None => false
+  | Some(_) => true
+  }
+}
+
+let hasTexture = (model: Model.t, id: string) => {
+  let texture = Js.Dict.get(model.values.textures, id)
+  switch texture {
+  | None => false
+  | Some(_) => true
+  }
 }

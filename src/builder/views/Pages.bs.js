@@ -98,10 +98,12 @@ function Pages(Props) {
                                     className: "font-bold text-2xl mb-4"
                                   }, page.id) : null, React.createElement("img", {
                                   className: "border mb-8",
-                                  style: {
-                                    height: "842px",
-                                    width: "595px"
-                                  },
+                                  style: Object.assign({}, {
+                                        height: "842px",
+                                        width: "595px"
+                                      }, {
+                                        imageRendering: "pixelated"
+                                      }),
                                   src: dataUrl
                                 }), React.createElement(Pages$RegionInputs, {
                                   model: model,

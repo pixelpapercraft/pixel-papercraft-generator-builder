@@ -5,11 +5,15 @@ var Icon = require("./Icon.bs.js");
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var Builder = require("../modules/Builder.bs.js");
+var Js_dict = require("rescript/lib/js/js_dict.js");
 var FormInput = require("./FormInput.bs.js");
 var Caml_array = require("rescript/lib/js/caml_array.js");
+var Caml_option = require("rescript/lib/js/caml_option.js");
 
 function Inputs$TextureInput(Props) {
   var id = Props.id;
+  var textures = Props.textures;
+  var choices = Props.choices;
   var onChange = Props.onChange;
   var match = React.useState(function () {
         
@@ -31,7 +35,9 @@ function Inputs$TextureInput(Props) {
           Curry._1(setName, (function (param) {
                   return file.name;
                 }));
-          Builder.ImageFactory.makeFromUrl(result).then(Curry.__1(onChange));
+          Builder.ImageFactory.makeFromUrl(result).then(function (image) {
+                return Curry._1(onChange, Caml_option.some(image));
+              });
           return ;
         }
         
@@ -39,13 +45,35 @@ function Inputs$TextureInput(Props) {
     fileReader.readAsDataURL(file);
     
   };
+  var onChoiceChange = function (e) {
+    var target = e.target;
+    var value = target.value;
+    var texture = Js_dict.get(textures, value);
+    if (texture !== undefined) {
+      return Curry._1(onChange, Caml_option.some(texture.image));
+    } else {
+      return Curry._1(onChange, undefined);
+    }
+  };
   return React.createElement("div", {
               className: "mb-4"
             }, React.createElement("div", {
                   className: "font-bold"
                 }, id), React.createElement("div", {
                   className: "flex items-center"
-                }, React.createElement("div", {
+                }, choices.length > 0 ? React.createElement("div", undefined, React.createElement("select", {
+                            className: "p-2",
+                            onChange: onChoiceChange
+                          }, React.createElement("option", {
+                                value: ""
+                              }, "None"), choices.map(function (choice) {
+                                return React.createElement("option", {
+                                            key: choice,
+                                            value: choice
+                                          }, choice);
+                              })), React.createElement("span", {
+                            className: "px-2"
+                          }, "or")) : null, React.createElement("div", {
                       className: "overflow-hidden relative w-48"
                     }, React.createElement("button", {
                           className: "bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center"
@@ -71,7 +99,9 @@ function Inputs$BooleanInput(Props) {
   var onInputChange = function (param) {
     return Curry._1(onChange, !checked);
   };
-  return React.createElement("div", undefined, React.createElement("div", {
+  return React.createElement("div", {
+              className: "mb-4"
+            }, React.createElement("div", {
                   className: "flex flex-col"
                 }, checked ? React.createElement("label", {
                         className: "mt-3 inline-flex items-center cursor-pointer"
@@ -163,8 +193,13 @@ function Inputs(Props) {
                         var id$1 = variable._0;
                         return React.createElement(Inputs$TextureInput, {
                                     id: id$1,
+                                    textures: model.values.textures,
+                                    choices: match.choices,
                                     onChange: (function (param) {
-                                        var texture = Builder.Texture.make(param, standardWidth, standardHeight);
+                                        if (param === undefined) {
+                                          return Curry._1(onChange, Builder.clearTexture(model, id$1));
+                                        }
+                                        var texture = Builder.Texture.make(Caml_option.valFromOption(param), standardWidth, standardHeight);
                                         return Curry._1(onChange, Builder.addTexture(model, id$1, texture));
                                       }),
                                     key: id$1
