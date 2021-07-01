@@ -88,12 +88,7 @@ function Pages(Props) {
                     })), model.pages.map(function (page) {
                   var dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas);
                   return React.createElement("div", {
-                              key: page.id,
-                              className: "relative",
-                              style: {
-                                height: "842px",
-                                width: "595px"
-                              }
+                              key: page.id
                             }, showPageIds ? React.createElement("h1", {
                                     className: "font-bold text-2xl mb-4"
                                   }, page.id) : null, React.createElement("img", {

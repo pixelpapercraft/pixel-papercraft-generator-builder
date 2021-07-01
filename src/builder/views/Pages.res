@@ -63,6 +63,7 @@ let make = (
   }
 
   let showPageIds = Js.Array2.length(model.pages) > 1
+
   <div>
     <div className="mb-4">
       <Buttons.Button state=#Ready size=#Small color=#Green onClick={onDownload}>
@@ -72,10 +73,7 @@ let make = (
     {model.pages
     ->Js.Array2.map(page => {
       let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
-      <div
-        key={page.id}
-        className="relative"
-        style={ReactDOM.Style.make(~width="595px", ~height="842px", ())}>
+      <div key={page.id}>
         {showPageIds
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}
