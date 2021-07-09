@@ -1,5 +1,5 @@
-let requireImage = fileName => Generator.require("./images/" ++ fileName)
-let requireTexture = fileName => Generator.require("./textures/" ++ fileName)
+let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
+let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
 let id = "example"
 
@@ -56,6 +56,8 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  thumbnail: None,
+  video: None,
   images: images,
   textures: textures,
   script: script,

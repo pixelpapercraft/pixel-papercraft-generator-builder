@@ -1,8 +1,10 @@
-@val external require: string => string = "require"
+@val external requireImage: string => string = "require"
 
 type imageDef = Builder.imageDef
 type textureDef = Builder.textureDef
 type generatorDef = Builder.generatorDef
+type thumnbnailDef = Builder.thumnbnailDef
+type videoDef = Builder.videoDef
 
 let model = ref(Builder.Model.make())
 

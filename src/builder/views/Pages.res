@@ -73,7 +73,7 @@ let make = (
     {model.pages
     ->Js.Array2.map(page => {
       let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
-      <div key={page.id}>
+      <div key={page.id} className="relative">
         {showPageIds
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}

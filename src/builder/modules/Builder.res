@@ -2,9 +2,13 @@ open Dom2
 
 type textureDef = {id: string, url: string, standardWidth: int, standardHeight: int}
 type imageDef = {id: string, url: string}
+type thumnbnailDef = {url: string}
+type videoDef = {url: string}
 type generatorDef = {
   id: string,
   name: string,
+  thumbnail: option<thumnbnailDef>,
+  video: option<videoDef>,
   images: array<imageDef>,
   textures: array<textureDef>,
   script: unit => unit,

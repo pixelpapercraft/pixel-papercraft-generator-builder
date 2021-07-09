@@ -150,6 +150,8 @@ function script(param) {
 var generator = {
   id: id,
   name: name,
+  thumbnail: undefined,
+  video: undefined,
   images: images,
   textures: textures,
   script: script
