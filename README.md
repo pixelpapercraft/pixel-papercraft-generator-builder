@@ -92,10 +92,7 @@ let script = () => {
   let ox = 74
   let oy = 25
   Generator.drawTexture(
-    "Skin",
-    (16, 8, 8, 8),
-    (ox + 128, oy + 64, 64, 64),
-    ()
+    "Skin", (16, 8, 8, 8), (ox + 128, oy + 64, 64, 64), ()
   )
 }
 
