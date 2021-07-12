@@ -16,6 +16,10 @@ var id = "minecraft-golem-character";
 
 var name = "Minecraft Golem Character";
 
+var thumbnail = {
+  url: require("./thumbnail.jpg")
+};
+
 var images = [
   {
     id: "Background",
@@ -1735,10 +1739,12 @@ function script(param) {
   
 }
 
+var generator_thumbnail = thumbnail;
+
 var generator = {
   id: id,
   name: name,
-  thumbnail: undefined,
+  thumbnail: generator_thumbnail,
   video: undefined,
   instructions: undefined,
   images: images,
@@ -1750,9 +1756,10 @@ exports.requireImage = requireImage;
 exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
+exports.thumbnail = thumbnail;
 exports.images = images;
 exports.textures = textures;
 exports.steve = steve;
 exports.script = script;
 exports.generator = generator;
-/* images Not a pure module */
+/* thumbnail Not a pure module */

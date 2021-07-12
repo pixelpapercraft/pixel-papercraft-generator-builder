@@ -5,6 +5,10 @@ let id = "minecraft-cat-character"
 
 let name = "Minecraft Cat Character"
 
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnail.jpg"),
+}
+
 let images: array<Generator.imageDef> = [
   {
     id: "Background",
@@ -554,7 +558,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,
