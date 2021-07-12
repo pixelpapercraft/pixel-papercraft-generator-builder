@@ -20,8 +20,6 @@ var MinecraftCreeperCharacterGenerator = require("./minecraft-creeper-character/
 var MinecraftUltimateBendableGenerator = require("./minecraft-ultimate-bendable/MinecraftUltimateBendableGenerator.bs.js");
 var MinecraftEndermanCharacterGenerator = require("./minecraft-enderman-character/MinecraftEndermanCharacterGenerator.bs.js");
 
-var isDev = process.env.NODE_ENV === "development";
-
 var character = [
   MinecraftCharacterGenerator.generator,
   MinecraftActionFigureGenerator.generator,
@@ -53,10 +51,10 @@ var mod = [];
 
 var other = [];
 
-var dev = isDev ? [
-    ExampleGenerator.generator,
-    DemoGenerator.generator
-  ] : [];
+var dev = [
+  ExampleGenerator.generator,
+  DemoGenerator.generator
+];
 
 var all = Belt_Array.concatMany([
       character,
@@ -68,7 +66,6 @@ var all = Belt_Array.concatMany([
       dev
     ]);
 
-exports.isDev = isDev;
 exports.character = character;
 exports.mobCharacter = mobCharacter;
 exports.mob = mob;
@@ -77,4 +74,4 @@ exports.mod = mod;
 exports.other = other;
 exports.dev = dev;
 exports.all = all;
-/* isDev Not a pure module */
+/* all Not a pure module */
