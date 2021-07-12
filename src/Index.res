@@ -4,6 +4,28 @@ open Dom2.Document
 require('tailwindcss/tailwind.css');
 `)
 
+// @send external localeCompare: (string, string) => int = "localeCompare"
+
+// let generatorsSorted =
+//   Generators.all->Belt.SortArray.stableSortBy((
+//     a: Generator.generatorDef,
+//     b: Generator.generatorDef,
+//   ) => localeCompare(a.name, b.name))
+
+module GeneratorOptGroup = {
+  open FormInput
+  @react.component
+  let make = (~label, ~generators) => {
+    <OptGroup label={label}>
+      {generators
+      ->Js.Array2.map((generator: Generator.generatorDef) => {
+        <Option key={generator.id} value={generator.id}> {React.string(generator.name)} </Option>
+      })
+      ->React.array}
+    </OptGroup>
+  }
+}
+
 module GeneratorSelect = {
   open FormInput
 
@@ -20,11 +42,13 @@ module GeneratorSelect = {
     }
     <Select onChange={onSelectChange} value={value} size=#Large>
       <Option key="" value=""> {React.string("Select generator")} </Option>
-      {Generators.generators
-      ->Js.Array2.map(generator => {
-        <Option key={generator.id} value={generator.id}> {React.string(generator.name)} </Option>
-      })
-      ->React.array}
+      <GeneratorOptGroup label="Characters" generators={Generators.character} />
+      <GeneratorOptGroup label="Mob Characters" generators={Generators.mobCharacter} />
+      <GeneratorOptGroup label="Mob" generators={Generators.mob} />
+      <GeneratorOptGroup label="Blocks, Items and Accessories" generators={Generators.utility} />
+      <GeneratorOptGroup label="Mod" generators={Generators.mod} />
+      <GeneratorOptGroup label="Other" generators={Generators.other} />
+      <GeneratorOptGroup label="Dev" generators={Generators.dev} />
     </Select>
   }
 }
@@ -39,8 +63,7 @@ module App = {
     let (generatorDef, setGeneratorDef) = React.useState(_ => None)
 
     React.useEffect1(() => {
-      let generatorDef =
-        Generators.generators->Js.Array2.find(generator => generator.id == url.hash)
+      let generatorDef = Generators.all->Js.Array2.find(generator => generator.id == url.hash)
       setGeneratorDef(_ => generatorDef)
       None
     }, [url.hash])

@@ -5,6 +5,7 @@ type textureDef = Builder.textureDef
 type generatorDef = Builder.generatorDef
 type thumnbnailDef = Builder.thumnbnailDef
 type videoDef = Builder.videoDef
+type instructionsDef = Builder.instructionsDef
 
 let model = ref(Builder.Model.make())
 

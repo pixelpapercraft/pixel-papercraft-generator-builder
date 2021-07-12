@@ -4,6 +4,14 @@
 var PageSize = require("../../builder/modules/PageSize.bs.js");
 var Generator = require("../../builder/modules/Generator.bs.js");
 
+function requireImage(fileName) {
+  return require("./images/" + fileName);
+}
+
+function requireTexture(fileName) {
+  return require("./textures/" + fileName);
+}
+
 var id = "demo";
 
 var name = "Demo";
@@ -152,11 +160,14 @@ var generator = {
   name: name,
   thumbnail: undefined,
   video: undefined,
+  instructions: undefined,
   images: images,
   textures: textures,
   script: script
 };
 
+exports.requireImage = requireImage;
+exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.images = images;

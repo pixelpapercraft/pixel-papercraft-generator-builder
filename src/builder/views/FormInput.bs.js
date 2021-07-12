@@ -16,6 +16,18 @@ var $$Option = {
   make: FormInput$Option
 };
 
+function FormInput$OptGroup(Props) {
+  var label = Props.label;
+  var children = Props.children;
+  return React.createElement("optgroup", {
+              label: label
+            }, children);
+}
+
+var OptGroup = {
+  make: FormInput$OptGroup
+};
+
 function FormInput$Select(Props) {
   var onChange = Props.onChange;
   var value = Props.value;
@@ -40,5 +52,6 @@ var Select = {
 };
 
 exports.$$Option = $$Option;
+exports.OptGroup = OptGroup;
 exports.Select = Select;
 /* Icon Not a pure module */

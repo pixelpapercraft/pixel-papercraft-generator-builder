@@ -4,11 +4,14 @@ type textureDef = {id: string, url: string, standardWidth: int, standardHeight: 
 type imageDef = {id: string, url: string}
 type thumnbnailDef = {url: string}
 type videoDef = {url: string}
+type instructionsDef = React.element
+
 type generatorDef = {
   id: string,
   name: string,
   thumbnail: option<thumnbnailDef>,
   video: option<videoDef>,
+  instructions: option<instructionsDef>,
   images: array<imageDef>,
   textures: array<textureDef>,
   script: unit => unit,

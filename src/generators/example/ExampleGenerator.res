@@ -58,6 +58,7 @@ let generator: Generator.generatorDef = {
   name: name,
   thumbnail: None,
   video: None,
+  instructions: None,
   images: images,
   textures: textures,
   script: script,

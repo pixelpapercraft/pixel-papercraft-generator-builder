@@ -1,3 +1,6 @@
+let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
+let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
+
 let id = "demo"
 
 let name = "Demo"
@@ -5,26 +8,26 @@ let name = "Demo"
 let images: array<Generator.imageDef> = [
   {
     id: "Grid",
-    url: Generator.requireImage("./images/Grid.png"),
+    url: requireImage("Grid.png"),
   },
 ]
 
 let textures: array<Generator.textureDef> = [
   {
     id: "Creeper",
-    url: Generator.requireImage("./textures/Creeper.png"),
+    url: requireTexture("Creeper.png"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Steve",
-    url: Generator.requireImage("./textures/Steve.png"),
+    url: requireTexture("Steve.png"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Steve256",
-    url: Generator.requireImage("./textures/Steve256.png"),
+    url: requireTexture("Steve256.png"),
     standardWidth: 256,
     standardHeight: 256,
   },
@@ -138,6 +141,7 @@ let generator: Generator.generatorDef = {
   name: name,
   thumbnail: None,
   video: None,
+  instructions: None,
   images: images,
   textures: textures,
   script: script,

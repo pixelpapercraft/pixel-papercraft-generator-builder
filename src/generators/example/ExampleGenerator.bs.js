@@ -195,6 +195,7 @@ var generator = {
   name: name,
   thumbnail: undefined,
   video: undefined,
+  instructions: undefined,
   images: images,
   textures: textures,
   script: script

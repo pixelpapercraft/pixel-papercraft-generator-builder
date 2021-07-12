@@ -13,6 +13,25 @@ var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js
 require('tailwindcss/tailwind.css');
 ;
 
+function Index$GeneratorOptGroup(Props) {
+  var label = Props.label;
+  var generators = Props.generators;
+  return React.createElement(FormInput.OptGroup.make, {
+              label: label,
+              children: generators.map(function (generator) {
+                    return React.createElement(FormInput.$$Option.make, {
+                                value: generator.id,
+                                children: generator.name,
+                                key: generator.id
+                              });
+                  })
+            });
+}
+
+var GeneratorOptGroup = {
+  make: Index$GeneratorOptGroup
+};
+
 function Index$GeneratorSelect(Props) {
   var onChange = Props.onChange;
   var value = Props.value;
@@ -30,12 +49,27 @@ function Index$GeneratorSelect(Props) {
                   value: "",
                   children: "Select generator",
                   key: ""
-                }), Generators.generators.map(function (generator) {
-                  return React.createElement(FormInput.$$Option.make, {
-                              value: generator.id,
-                              children: generator.name,
-                              key: generator.id
-                            });
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Characters",
+                  generators: Generators.character
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Mob Characters",
+                  generators: Generators.mobCharacter
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Mob",
+                  generators: Generators.mob
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Blocks, Items and Accessories",
+                  generators: Generators.utility
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Mod",
+                  generators: Generators.mod
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Other",
+                  generators: Generators.other
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Dev",
+                  generators: Generators.dev
                 }));
 }
 
@@ -51,7 +85,7 @@ function Index$App(Props) {
   var setGeneratorDef = match[1];
   var generatorDef = match[0];
   React.useEffect((function () {
-          var generatorDef = Generators.generators.find(function (generator) {
+          var generatorDef = Generators.all.find(function (generator) {
                 return generator.id === url.hash;
               });
           var generatorDef$1 = generatorDef === undefined ? undefined : Caml_option.some(generatorDef);
@@ -88,6 +122,7 @@ var root = document.getElementById("root");
 
 ReactDom.render(React.createElement(Index$App, {}), root);
 
+exports.GeneratorOptGroup = GeneratorOptGroup;
 exports.GeneratorSelect = GeneratorSelect;
 exports.App = App;
 exports.root = root;

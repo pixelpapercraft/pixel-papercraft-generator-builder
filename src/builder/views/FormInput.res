@@ -5,6 +5,13 @@ module Option = {
   }
 }
 
+module OptGroup = {
+  @react.component
+  let make = (~label, ~children) => {
+    <optgroup label={label}> {children} </optgroup>
+  }
+}
+
 // https://tailwindcomponents.com/component/dropdown-1
 module Select = {
   type size = [#Large | #Medium]
