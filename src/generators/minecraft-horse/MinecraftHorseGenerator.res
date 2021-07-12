@@ -5,6 +5,10 @@ let id = "minecraft-horse"
 
 let name = "Minecraft Horse"
 
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnail.jpg"),
+}
+
 let imageIds = ["Foreground-Horse", "Foreground-Mule", "Folds-Horse", "Folds-Mule", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
@@ -420,7 +424,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,
