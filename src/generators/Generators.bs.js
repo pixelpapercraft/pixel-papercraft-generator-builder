@@ -15,6 +15,7 @@ var MinecraftCatCharacterGenerator = require("./minecraft-cat-character/Minecraf
 var MinecraftCowCharacterGenerator = require("./minecraft-cow-character/MinecraftCowCharacterGenerator.bs.js");
 var MinecraftCapeAndElytraGenerator = require("./minecraft-cape-and-elytra/MinecraftCapeAndElytraGenerator.bs.js");
 var MinecraftCharacterHeadsGenerator = require("./minecraft-character-heads/MinecraftCharacterHeadsGenerator.bs.js");
+var MinecraftGolemCharacterGenerator = require("./minecraft-golem-character/MinecraftGolemCharacterGenerator.bs.js");
 var MinecraftCreeperCharacterGenerator = require("./minecraft-creeper-character/MinecraftCreeperCharacterGenerator.bs.js");
 var MinecraftUltimateBendableGenerator = require("./minecraft-ultimate-bendable/MinecraftUltimateBendableGenerator.bs.js");
 var MinecraftEndermanCharacterGenerator = require("./minecraft-enderman-character/MinecraftEndermanCharacterGenerator.bs.js");
@@ -31,7 +32,8 @@ var mobCharacter = [
   MinecraftCreeperCharacterGenerator.generator,
   MinecraftCatCharacterGenerator.generator,
   MinecraftCowCharacterGenerator.generator,
-  MinecraftEndermanCharacterGenerator.generator
+  MinecraftEndermanCharacterGenerator.generator,
+  MinecraftGolemCharacterGenerator.generator
 ];
 
 var mob = [

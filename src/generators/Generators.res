@@ -13,6 +13,7 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftCatCharacterGenerator.generator,
   MinecraftCowCharacterGenerator.generator,
   MinecraftEndermanCharacterGenerator.generator,
+  MinecraftGolemCharacterGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
