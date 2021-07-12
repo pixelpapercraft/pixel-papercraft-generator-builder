@@ -22,6 +22,9 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
+let steve = TextureMap.MinecraftCharacterLegacy.steve
+let alex = TextureMap.MinecraftCharacterLegacy.alex
+
 let script = () => {
   // Inputs
   Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
@@ -72,39 +75,29 @@ let script = () => {
   // Head
   let ox = 74
   let oy = 25
+  Generator.drawTextureLegacy("Skin", steve.base.head.right, {x: ox, y: oy + 64, w: 64, h: 64}, ()) // Right
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 0, y: 8, w: 8, h: 8},
-    {x: ox, y: oy + 64, w: 64, h: 64},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 8, y: 8, w: 8, h: 8},
+    steve.base.head.front,
     {x: ox + 64, y: oy + 64, w: 64, h: 64},
     (),
   ) // Face
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 16, y: 8, w: 8, h: 8},
+    steve.base.head.left,
     {x: ox + 128, y: oy + 64, w: 64, h: 64},
     (),
   ) // Left
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 24, y: 8, w: 8, h: 8},
+    steve.base.head.back,
     {x: ox + 192, y: oy + 64, w: 64, h: 64},
     (),
   ) // Back
+  Generator.drawTextureLegacy("Skin", steve.base.head.top, {x: ox + 64, y: oy, w: 64, h: 64}, ()) // Top
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 8, y: 0, w: 8, h: 8},
-    {x: ox + 64, y: oy, w: 64, h: 64},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 16, y: 0, w: 8, h: 8},
+    steve.base.head.bottom,
     {x: ox + 64, y: oy + 128, w: 64, h: 64},
     ~flip=#Vertical,
     (),
@@ -113,39 +106,29 @@ let script = () => {
   // Torso
   let ox = 268
   let oy = 201
+  Generator.drawTextureLegacy("Skin", steve.base.body.right, {x: ox, y: oy + 32, w: 32, h: 96}, ()) // Right
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 16, y: 20, w: 4, h: 12},
-    {x: ox, y: oy + 32, w: 32, h: 96},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 20, y: 20, w: 8, h: 12},
+    steve.base.body.front,
     {x: ox + 32, y: oy + 32, w: 64, h: 96},
     (),
   ) // Face
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 28, y: 20, w: 4, h: 12},
+    steve.base.body.left,
     {x: ox + 96, y: oy + 32, w: 32, h: 96},
     (),
   ) // Left
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 32, y: 20, w: 8, h: 12},
+    steve.base.body.back,
     {x: ox + 128, y: oy + 32, w: 64, h: 96},
     (),
   ) // Back
+  Generator.drawTextureLegacy("Skin", steve.base.body.top, {x: ox + 32, y: oy, w: 64, h: 32}, ()) // Top
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 20, y: 16, w: 8, h: 4},
-    {x: ox + 32, y: oy, w: 64, h: 32},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 16, w: 8, h: 4},
+    steve.base.body.bottom,
     {x: ox + 32, y: oy + 128, w: 64, h: 32},
     ~flip=#Vertical,
     (),
@@ -158,37 +141,37 @@ let script = () => {
     let oy = 373
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 40, y: 20, w: 4, h: 12},
+      alex.base.rightArm.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 44, y: 20, w: 3, h: 12},
+      alex.base.rightArm.front,
       {x: ox + 32, y: oy + 32, w: 24, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 47, y: 20, w: 4, h: 12},
+      alex.base.rightArm.left,
       {x: ox + 56, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 51, y: 20, w: 3, h: 12},
+      alex.base.rightArm.back,
       {x: ox + 88, y: oy + 32, w: 24, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 44, y: 16, w: 3, h: 4},
+      alex.base.rightArm.top,
       {x: ox + 32, y: oy, w: 24, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 47, y: 16, w: 3, h: 4},
+      alex.base.rightArm.bottom,
       {x: ox + 32, y: oy + 128, w: 24, h: 32},
       ~flip=#Vertical,
       (),
@@ -199,37 +182,37 @@ let script = () => {
     let oy = 373
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 32, y: 52, w: 4, h: 12},
+      alex.base.leftArm.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 36, y: 52, w: 3, h: 12},
+      alex.base.leftArm.front,
       {x: ox + 32, y: oy + 32, w: 24, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 39, y: 52, w: 4, h: 12},
+      alex.base.leftArm.left,
       {x: ox + 56, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 43, y: 52, w: 3, h: 12},
+      alex.base.leftArm.back,
       {x: ox - 24, y: oy + 32, w: 24, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 36, y: 48, w: 3, h: 4},
+      alex.base.leftArm.top,
       {x: ox + 32, y: oy, w: 24, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 39, y: 48, w: 3, h: 4},
+      alex.base.leftArm.bottom,
       {x: ox + 32, y: oy + 128, w: 24, h: 32},
       ~flip=#Vertical,
       (),
@@ -240,37 +223,37 @@ let script = () => {
     let oy = 373
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 40, y: 20, w: 4, h: 12},
+      steve.base.rightArm.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 44, y: 20, w: 4, h: 12},
+      steve.base.rightArm.front,
       {x: ox + 32, y: oy + 32, w: 32, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 48, y: 20, w: 4, h: 12},
+      steve.base.rightArm.left,
       {x: ox + 64, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 52, y: 20, w: 4, h: 12},
+      steve.base.rightArm.back,
       {x: ox + 96, y: oy + 32, w: 32, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 44, y: 16, w: 4, h: 4},
+      steve.base.rightArm.top,
       {x: ox + 32, y: oy, w: 32, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 48, y: 16, w: 4, h: 4},
+      steve.base.rightArm.bottom,
       {x: ox + 32, y: oy + 128, w: 32, h: 32},
       ~flip=#Vertical,
       (),
@@ -281,37 +264,37 @@ let script = () => {
     let oy = 373
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 32, y: 52, w: 4, h: 12},
+      steve.base.leftArm.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 36, y: 52, w: 4, h: 12},
+      steve.base.leftArm.front,
       {x: ox + 32, y: oy + 32, w: 32, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 40, y: 52, w: 4, h: 12},
+      steve.base.leftArm.left,
       {x: ox + 64, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 44, y: 52, w: 4, h: 12},
+      steve.base.leftArm.back,
       {x: ox - 32, y: oy + 32, w: 32, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 36, y: 48, w: 4, h: 4},
+      steve.base.leftArm.top,
       {x: ox + 32, y: oy, w: 32, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 40, y: 48, w: 4, h: 4},
+      steve.base.leftArm.bottom,
       {x: ox + 32, y: oy + 128, w: 32, h: 32},
       ~flip=#Vertical,
       (),
@@ -323,37 +306,37 @@ let script = () => {
   let oy = 587
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 0, y: 20, w: 4, h: 12},
+    steve.base.rightLeg.right,
     {x: ox, y: oy + 32, w: 32, h: 96},
     (),
   ) // Right
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 4, y: 20, w: 4, h: 12},
+    steve.base.rightLeg.front,
     {x: ox + 32, y: oy + 32, w: 32, h: 96},
     (),
   ) // Face
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 8, y: 20, w: 4, h: 12},
+    steve.base.rightLeg.left,
     {x: ox + 64, y: oy + 32, w: 32, h: 96},
     (),
   ) // Left
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 12, y: 20, w: 4, h: 12},
+    steve.base.rightLeg.back,
     {x: ox + 96, y: oy + 32, w: 32, h: 96},
     (),
   ) // Back
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 4, y: 16, w: 4, h: 4},
+    steve.base.rightLeg.top,
     {x: ox + 32, y: oy, w: 32, h: 32},
     (),
   ) // Top
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 8, y: 16, w: 4, h: 4},
+    steve.base.rightLeg.bottom,
     {x: ox + 32, y: oy + 128, w: 32, h: 32},
     ~flip=#Vertical,
     (),
@@ -364,37 +347,32 @@ let script = () => {
   let oy = 587
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 16, y: 52, w: 4, h: 12},
+    steve.base.leftLeg.right,
     {x: ox, y: oy + 32, w: 32, h: 96},
     (),
   ) // Right
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 20, y: 52, w: 4, h: 12},
+    steve.base.leftLeg.front,
     {x: ox + 32, y: oy + 32, w: 32, h: 96},
     (),
   ) // Face
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 24, y: 52, w: 4, h: 12},
+    steve.base.leftLeg.left,
     {x: ox + 64, y: oy + 32, w: 32, h: 96},
     (),
   ) // Left
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 28, y: 52, w: 4, h: 12},
+    steve.base.leftLeg.back,
     {x: ox - 32, y: oy + 32, w: 32, h: 96},
     (),
   ) // Back
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.top, {x: ox + 32, y: oy, w: 32, h: 32}, ()) // Top
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 20, y: 48, w: 4, h: 4},
-    {x: ox + 32, y: oy, w: 32, h: 32},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 24, y: 48, w: 4, h: 4},
+    steve.base.leftLeg.bottom,
     {x: ox + 32, y: oy + 128, w: 32, h: 32},
     ~flip=#Vertical,
     (),
@@ -407,37 +385,37 @@ let script = () => {
     let oy = 25
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 32, y: 8, w: 8, h: 8},
+      steve.overlay.head.right,
       {x: ox, y: oy + 64, w: 64, h: 64},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 40, y: 8, w: 8, h: 8},
+      steve.overlay.head.front,
       {x: ox + 64, y: oy + 64, w: 64, h: 64},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 48, y: 8, w: 8, h: 8},
+      steve.overlay.head.left,
       {x: ox + 128, y: oy + 64, w: 64, h: 64},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 56, y: 8, w: 8, h: 8},
+      steve.overlay.head.back,
       {x: ox + 192, y: oy + 64, w: 64, h: 64},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 40, y: 0, w: 8, h: 8},
+      steve.overlay.head.top,
       {x: ox + 64, y: oy, w: 64, h: 64},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 48, y: 0, w: 8, h: 8},
+      steve.overlay.head.bottom,
       {x: ox + 64, y: oy + 128, w: 64, h: 64},
       ~flip=#Vertical,
       (),
@@ -450,37 +428,37 @@ let script = () => {
     let oy = 201
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 16, y: 36, w: 4, h: 12},
+      steve.overlay.body.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 20, y: 36, w: 8, h: 12},
+      steve.overlay.body.front,
       {x: ox + 32, y: oy + 32, w: 64, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 28, y: 36, w: 4, h: 12},
+      steve.overlay.body.left,
       {x: ox + 96, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 32, y: 36, w: 8, h: 12},
+      steve.overlay.body.back,
       {x: ox + 128, y: oy + 32, w: 64, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 20, y: 32, w: 8, h: 4},
+      steve.overlay.body.top,
       {x: ox + 32, y: oy, w: 64, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 28, y: 32, w: 8, h: 4},
+      steve.overlay.body.bottom,
       {x: ox + 32, y: oy + 128, w: 64, h: 32},
       ~flip=#Vertical,
       (),
@@ -496,37 +474,37 @@ let script = () => {
       let oy = 373
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 40, y: 36, w: 4, h: 12},
+        alex.overlay.rightArm.right,
         {x: ox, y: oy + 32, w: 32, h: 96},
         (),
       ) // Right
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 44, y: 36, w: 3, h: 12},
+        alex.overlay.rightArm.front,
         {x: ox + 32, y: oy + 32, w: 24, h: 96},
         (),
       ) // Face
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 47, y: 36, w: 4, h: 12},
+        alex.overlay.rightArm.left,
         {x: ox + 56, y: oy + 32, w: 32, h: 96},
         (),
       ) // Left
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 51, y: 36, w: 3, h: 12},
+        alex.overlay.rightArm.back,
         {x: ox + 88, y: oy + 32, w: 24, h: 96},
         (),
       ) // Back
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 44, y: 32, w: 3, h: 4},
+        alex.overlay.rightArm.top,
         {x: ox + 32, y: oy, w: 24, h: 32},
         (),
       ) // Top
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 47, y: 32, w: 3, h: 4},
+        alex.overlay.rightArm.bottom,
         {x: ox + 32, y: oy + 128, w: 24, h: 32},
         (),
       )
@@ -538,37 +516,37 @@ let script = () => {
       let oy = 373
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 48, y: 52, w: 4, h: 12},
+        alex.overlay.leftArm.right,
         {x: ox, y: oy + 32, w: 32, h: 96},
         (),
       ) // Right
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 52, y: 52, w: 3, h: 12},
+        alex.overlay.leftArm.front,
         {x: ox + 32, y: oy + 32, w: 24, h: 96},
         (),
       ) // Face
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 55, y: 52, w: 4, h: 12},
+        alex.overlay.leftArm.left,
         {x: ox + 56, y: oy + 32, w: 32, h: 96},
         (),
       ) // Left
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 59, y: 52, w: 3, h: 12},
+        alex.overlay.leftArm.back,
         {x: ox - 24, y: oy + 32, w: 24, h: 96},
         (),
       ) // Back
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 52, y: 48, w: 3, h: 4},
+        alex.overlay.leftArm.top,
         {x: ox + 32, y: oy, w: 24, h: 32},
         (),
       ) // Top
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 55, y: 48, w: 3, h: 4},
+        alex.overlay.leftArm.bottom,
         {x: ox + 32, y: oy + 128, w: 24, h: 32},
         (),
       )
@@ -580,37 +558,37 @@ let script = () => {
       let oy = 373
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 40, y: 36, w: 4, h: 12},
+        steve.overlay.rightArm.right,
         {x: ox, y: oy + 32, w: 32, h: 96},
         (),
       ) // Right
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 44, y: 36, w: 4, h: 12},
+        steve.overlay.rightArm.front,
         {x: ox + 32, y: oy + 32, w: 32, h: 96},
         (),
       ) // Face
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 48, y: 36, w: 4, h: 12},
+        steve.overlay.rightArm.left,
         {x: ox + 64, y: oy + 32, w: 32, h: 96},
         (),
       ) // Left
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 52, y: 36, w: 4, h: 12},
+        steve.overlay.rightArm.back,
         {x: ox + 96, y: oy + 32, w: 32, h: 96},
         (),
       ) // Back
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 44, y: 32, w: 4, h: 4},
+        steve.overlay.rightArm.top,
         {x: ox + 32, y: oy, w: 32, h: 32},
         (),
       ) // Top
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 48, y: 32, w: 4, h: 4},
+        steve.overlay.rightArm.bottom,
         {x: ox + 32, y: oy + 128, w: 32, h: 32},
         ~flip=#Vertical,
         (),
@@ -623,37 +601,37 @@ let script = () => {
       let oy = 373
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 48, y: 52, w: 4, h: 12},
+        steve.overlay.leftArm.right,
         {x: ox, y: oy + 32, w: 32, h: 96},
         (),
       ) // Right
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 52, y: 52, w: 4, h: 12},
+        steve.overlay.leftArm.front,
         {x: ox + 32, y: oy + 32, w: 32, h: 96},
         (),
       ) // Face
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 56, y: 52, w: 4, h: 12},
+        steve.overlay.leftArm.left,
         {x: ox + 64, y: oy + 32, w: 32, h: 96},
         (),
       ) // Left
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 60, y: 52, w: 4, h: 12},
+        steve.overlay.leftArm.back,
         {x: ox - 32, y: oy + 32, w: 32, h: 96},
         (),
       ) // Back
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 52, y: 48, w: 4, h: 4},
+        steve.overlay.leftArm.top,
         {x: ox + 32, y: oy, w: 32, h: 32},
         (),
       ) // Top
       Generator.drawTextureLegacy(
         "Skin",
-        {x: 56, y: 48, w: 4, h: 4},
+        steve.overlay.leftArm.bottom,
         {x: ox + 32, y: oy + 128, w: 32, h: 32},
         ~flip=#Vertical,
         (),
@@ -667,37 +645,37 @@ let script = () => {
     let oy = 587
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 0, y: 36, w: 4, h: 12},
+      steve.overlay.rightLeg.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 4, y: 36, w: 4, h: 12},
+      steve.overlay.rightLeg.front,
       {x: ox + 32, y: oy + 32, w: 32, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 8, y: 36, w: 4, h: 12},
+      steve.overlay.rightLeg.left,
       {x: ox + 64, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 12, y: 36, w: 4, h: 12},
+      steve.overlay.rightLeg.back,
       {x: ox + 96, y: oy + 32, w: 32, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 4, y: 32, w: 4, h: 4},
+      steve.overlay.rightLeg.top,
       {x: ox + 32, y: oy, w: 32, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 8, y: 32, w: 4, h: 4},
+      steve.overlay.rightLeg.bottom,
       {x: ox + 32, y: oy + 128, w: 32, h: 32},
       ~flip=#Vertical,
       (),
@@ -710,37 +688,37 @@ let script = () => {
     let oy = 587
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 0, y: 52, w: 4, h: 12},
+      steve.overlay.leftLeg.right,
       {x: ox, y: oy + 32, w: 32, h: 96},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 4, y: 52, w: 4, h: 12},
+      steve.overlay.leftLeg.front,
       {x: ox + 32, y: oy + 32, w: 32, h: 96},
       (),
     ) // Face
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 8, y: 52, w: 4, h: 12},
+      steve.overlay.leftLeg.left,
       {x: ox + 64, y: oy + 32, w: 32, h: 96},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 12, y: 52, w: 4, h: 12},
+      steve.overlay.leftLeg.back,
       {x: ox - 32, y: oy + 32, w: 32, h: 96},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 4, y: 48, w: 4, h: 4},
+      steve.overlay.leftLeg.top,
       {x: ox + 32, y: oy, w: 32, h: 32},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 8, y: 48, w: 4, h: 4},
+      steve.overlay.leftLeg.bottom,
       {x: ox + 32, y: oy + 128, w: 32, h: 32},
       ~flip=#Vertical,
       (),
