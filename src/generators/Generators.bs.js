@@ -6,6 +6,7 @@ var DemoGenerator = require("./demo/DemoGenerator.bs.js");
 var ExampleGenerator = require("./example/ExampleGenerator.bs.js");
 var MinecraftBlockGenerator = require("./minecraft-block/MinecraftBlockGenerator.bs.js");
 var MinecraftGolemGenerator = require("./minecraft-golem/MinecraftGolemGenerator.bs.js");
+var MinecraftHorseGenerator = require("./minecraft-horse/MinecraftHorseGenerator.bs.js");
 var MinecraftCreeperGenerator = require("./minecraft-creeper/MinecraftCreeperGenerator.bs.js");
 var MinecraftEndermanGenerator = require("./minecraft-enderman/MinecraftEndermanGenerator.bs.js");
 var MinecraftCharacterGenerator = require("./minecraft-character/MinecraftCharacterGenerator.bs.js");
@@ -34,7 +35,8 @@ var mobCharacter = [
 var mob = [
   MinecraftCreeperGenerator.generator,
   MinecraftEndermanGenerator.generator,
-  MinecraftGolemGenerator.generator
+  MinecraftGolemGenerator.generator,
+  MinecraftHorseGenerator.generator
 ];
 
 var utility = [

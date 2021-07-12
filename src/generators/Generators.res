@@ -18,6 +18,7 @@ let mob: array<Generator.generatorDef> = [
   MinecraftCreeperGenerator.generator,
   MinecraftEndermanGenerator.generator,
   MinecraftGolemGenerator.generator,
+  MinecraftHorseGenerator.generator,
 ]
 
 // Blocks, Items and Accessories
