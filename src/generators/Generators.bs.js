@@ -17,6 +17,7 @@ var MinecraftCapeAndElytraGenerator = require("./minecraft-cape-and-elytra/Minec
 var MinecraftCharacterHeadsGenerator = require("./minecraft-character-heads/MinecraftCharacterHeadsGenerator.bs.js");
 var MinecraftCreeperCharacterGenerator = require("./minecraft-creeper-character/MinecraftCreeperCharacterGenerator.bs.js");
 var MinecraftUltimateBendableGenerator = require("./minecraft-ultimate-bendable/MinecraftUltimateBendableGenerator.bs.js");
+var MinecraftEndermanCharacterGenerator = require("./minecraft-enderman-character/MinecraftEndermanCharacterGenerator.bs.js");
 
 var isDev = process.env.NODE_ENV === "development";
 
@@ -29,7 +30,8 @@ var character = [
 var mobCharacter = [
   MinecraftCreeperCharacterGenerator.generator,
   MinecraftCatCharacterGenerator.generator,
-  MinecraftCowCharacterGenerator.generator
+  MinecraftCowCharacterGenerator.generator,
+  MinecraftEndermanCharacterGenerator.generator
 ];
 
 var mob = [
