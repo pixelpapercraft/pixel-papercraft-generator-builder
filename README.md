@@ -1,4 +1,4 @@
-# Pixel Papercraft Generator
+# Pixel Papercraft Generator Builder
 
 ## Getting started
 
@@ -212,14 +212,18 @@ let script = () => {
 
 Use the `defineTextureInput` function.
 
-You must also specify a `standardWidth` and `standardHeight`. This is required so that higher resolution textures will also work.
+You must also specify some options:
+
+- `standardWidth` and `standardHeight` - the default width and height of the texture. These are required so that higher resolution textures will work.
+- `choices` - an array of texture names that may be selected instead of selecting a texture file. Specify an empty array `[]` if none required.
 
 ```res
 Generator.defineTextureInput(
   "Skin",
   {
     standardWidth: 64,
-    standardHeight: 64
+    standardHeight: 64,
+    choices: ["Steve", "Alex"]
   }
 )
 ```
@@ -415,6 +419,42 @@ switch weapon {
   | "Crossbow" => Generator.drawImage("Crossbow", (100, 100))
   | _ => () // All other values, do nothing
 }
+```
+
+### Defining clickable regions
+
+You can define clickable regions on your pages, and what actions should occur when a region is clicked.
+
+Clickable regions are defined using the `Generator.defineRegionInput(region, onClick)` function.
+
+For example, you could toggle a variable using a clickable region.
+
+```res
+// Define the input
+Generator.defineBooleanInput("Show overlay", false)
+
+// Get the input value
+let showOverlay = Generator.getBooleanInputValue("Show overlay")
+
+let region = (0, 0, 100, 100)
+let onClick = () => {
+  // Toggle the input value
+  Generator.setBooleanInputValue("Show overlay", !showOverlay)
+}
+
+// Define the clickable region
+Generator.defineRegionInput(region, onClick)
+```
+
+But this could be written more concisely as:
+
+```res
+Generator.defineBooleanInput("Show overlay", false)
+let showOverlay = Generator.getBooleanInputValue("Show overlay")
+
+Generator.defineRegionInput((0, 0, 100, 100), () => {
+  Generator.setBooleanInputValue("Show overlay", !showOverlay)
+})
 ```
 
 ### Providing instructions or comments
