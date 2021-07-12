@@ -2,6 +2,7 @@
 'use strict';
 
 var Generator = require("../../builder/modules/Generator.bs.js");
+var TextureMap = require("../TextureMap.bs.js");
 
 function requireImage(id) {
   return require("./images/" + id + ".png");
@@ -33,6 +34,8 @@ var textures = [{
     standardHeight: 64
   }];
 
+var steve = TextureMap.MinecraftCharacterLegacy.steve;
+
 function script(param) {
   Generator.defineTextureInput("Skin", {
         standardWidth: 64,
@@ -45,793 +48,433 @@ function script(param) {
         0,
         0
       ]);
-  Generator.drawTextureLegacy("Skin", {
-        x: 0,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.head.right, {
         x: 74,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.head.front, {
         x: 138,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.head.left, {
         x: 202,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 24,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.head.back, {
         x: 266,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.head.top, {
         x: 138,
         y: 25,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.head.bottom, {
         x: 138,
         y: 153,
         w: 64,
         h: 64
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.head.right, {
         x: 74,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.head.front, {
         x: 138,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.head.left, {
         x: 202,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.head.back, {
         x: 266,
         y: 89,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.head.top, {
         x: 138,
         y: 25,
         w: 64,
         h: 64
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.head.bottom, {
         x: 138,
         y: 153,
         w: 64,
         h: 64
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.body.right, {
         x: 268,
         y: 233,
         w: 32,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 20,
-        w: 8,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.body.front, {
         x: 300,
         y: 233,
         w: 64,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.body.left, {
         x: 364,
         y: 233,
         w: 32,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 20,
-        w: 8,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.body.back, {
         x: 396,
         y: 233,
         w: 64,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 16,
-        w: 8,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.body.top, {
         x: 300,
         y: 201,
         w: 64,
         h: 32
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 16,
-        w: 8,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.body.bottom, {
         x: 300,
         y: 329,
         w: 64,
         h: 32
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.body.right, {
         x: 268,
         y: 233,
         w: 32,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 36,
-        w: 8,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.body.front, {
         x: 300,
         y: 233,
         w: 64,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.body.left, {
         x: 364,
         y: 233,
         w: 32,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 36,
-        w: 8,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.body.back, {
         x: 396,
         y: 233,
         w: 64,
         h: 96
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 32,
-        w: 8,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.body.top, {
         x: 300,
         y: 201,
         w: 64,
         h: 32
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 32,
-        w: 8,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.body.bottom, {
         x: 300,
         y: 329,
         w: 64,
         h: 32
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightArm.right, {
         x: 96,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightArm.front, {
         x: 112,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightArm.left, {
         x: 128,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightArm.back, {
         x: 144,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightArm.top, {
         x: 112,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightArm.bottom, {
         x: 112,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightArm.right, {
         x: 96,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightArm.front, {
         x: 112,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightArm.left, {
         x: 128,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightArm.back, {
         x: 144,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightArm.top, {
         x: 112,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightArm.bottom, {
         x: 112,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftArm.right, {
         x: 190,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 36,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftArm.front, {
         x: 206,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftArm.left, {
         x: 222,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftArm.back, {
         x: 174,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 36,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftArm.top, {
         x: 206,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftArm.bottom, {
         x: 206,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftArm.right, {
         x: 190,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftArm.front, {
         x: 206,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftArm.front, {
         x: 222,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 60,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftArm.back, {
         x: 174,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftArm.top, {
         x: 206,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftArm.bottom, {
         x: 206,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 0,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightLeg.right, {
         x: 276,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightLeg.front, {
         x: 292,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightLeg.left, {
         x: 308,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 12,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightLeg.back, {
         x: 324,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightLeg.top, {
         x: 292,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.rightLeg.bottom, {
         x: 292,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 0,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightLeg.right, {
         x: 276,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightLeg.front, {
         x: 292,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightLeg.left, {
         x: 308,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 12,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightLeg.back, {
         x: 324,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightLeg.top, {
         x: 292,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.rightLeg.bottom, {
         x: 292,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.right, {
         x: 369,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.front, {
         x: 385,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 24,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.left, {
         x: 401,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.back, {
         x: 353,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.top, {
         x: 385,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 24,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.base.leftLeg.bottom, {
         x: 385,
         y: 638,
         w: 16,
         h: 16
       }, "Vertical", undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 0,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.right, {
         x: 369,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.front, {
         x: 385,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.left, {
         x: 401,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 12,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.back, {
         x: 353,
         y: 400,
         w: 16,
         h: 238
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.top, {
         x: 385,
         y: 384,
         w: 16,
         h: 16
       }, undefined, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.bottom, {
         x: 385,
         y: 638,
         w: 16,
@@ -863,6 +506,7 @@ exports.id = id;
 exports.name = name;
 exports.images = images;
 exports.textures = textures;
+exports.steve = steve;
 exports.script = script;
 exports.generator = generator;
 /* images Not a pure module */
