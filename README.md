@@ -405,7 +405,7 @@ Generator.defineSelectInput("Weapon", ["None", "Sword", "Crossbow"])
 To use these values use `Generator.getSelectInputValue()`
 
 ```res
-let weapon = Generator.getSelectInputValue("Weapon")";
+let weapon = Generator.getSelectInputValue("Weapon");
 
 if weapon === "Sword" {
   Generator.drawImage("Sword", (100, 100))
@@ -417,7 +417,7 @@ if weapon === "Sword" {
 Or an alternative syntax:
 
 ```res
-let weapon = Generator.getSelectInputValue("Weapon")";
+let weapon = Generator.getSelectInputValue("Weapon");
 
 switch weapon {
   | "Sword" => Generator.drawImage("Sword", (100, 100))
