@@ -4,19 +4,24 @@
 
 ### First time setup
 
-Install Node v14.
+Install Node v14 and Git.
 
-This is best installed using [Node Version Manager](https://github.com/nvm-sh/nvm).
+Node is best installed using [Node Version Manager](https://github.com/nvm-sh/nvm).
 
 Once you have NVM installed, then install Node v14:
 
-```
+```sh
 nvm install 14.16.0
 ```
 
-Install the dependencies:
+Install Git [from the official site](https://git-scm.com/downloads).
 
-```
+Clone this repository and install the dependencies:
+
+```sh
+cd <parent_folder_for_the_generator_builder>
+git clone https://github.com/pixelpapercraft/pixel-papercraft-generator-builder generator-builder
+cd generator-builder
 npm install
 ```
 
@@ -400,7 +405,7 @@ Generator.defineSelectInput("Weapon", ["None", "Sword", "Crossbow"])
 To use these values use `Generator.getSelectInputValue()`
 
 ```res
-let weapon = Generator.getSelectInputValue("Weapon")";
+let weapon = Generator.getSelectInputValue("Weapon");
 
 if weapon === "Sword" {
   Generator.drawImage("Sword", (100, 100))
@@ -412,7 +417,7 @@ if weapon === "Sword" {
 Or an alternative syntax:
 
 ```res
-let weapon = Generator.getSelectInputValue("Weapon")";
+let weapon = Generator.getSelectInputValue("Weapon");
 
 switch weapon {
   | "Sword" => Generator.drawImage("Sword", (100, 100))
