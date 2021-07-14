@@ -16,7 +16,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Skin",
-    url: requireTexture("Steve"),
+    url: requireTexture("SkinS"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -92,6 +92,33 @@ let script = () => {
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
 
+  // Overlay Region variables
+  let hideHelmet = Generator.getBooleanInputValue("Hide Helmet")
+  let hideJacket = Generator.getBooleanInputValue("Hide Jacket")
+  let hideRightPant = Generator.getBooleanInputValue("Hide Right Pant")
+  let hideLeftPant = Generator.getBooleanInputValue("Hide Left Pant")
+  let hideRightSleeve = Generator.getBooleanInputValue("Hide Right Sleeve")
+  let hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve")
+
+  Generator.defineRegionInput((39, 19, 256, 208), () => {
+    Generator.setBooleanInputValue("Hide Helmet", !hideHelmet)
+  })
+  Generator.defineRegionInput((120, 198, 464, 272), () => {
+    Generator.setBooleanInputValue("Hide Jacket", !hideJacket)
+  })
+  Generator.defineRegionInput((398, 408, 176, 208), () => {
+    Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant)
+  })
+  Generator.defineRegionInput((398, 622, 176, 208), () => {
+    Generator.setBooleanInputValue("Hide Left Pant", !hideLeftPant)
+  })
+  Generator.defineRegionInput((29, 493, 160, 336), () => {
+    Generator.setBooleanInputValue("Hide Right Sleeve", !hideRightSleeve)
+  })
+  Generator.defineRegionInput((216, 493, 160, 336), () => {
+    Generator.setBooleanInputValue("Hide Left Sleeve", !hideLeftSleeve)
+  })
+
   // Background
   Generator.drawImage("Background", (0, 0))
 
@@ -131,47 +158,6 @@ let script = () => {
   Generator.drawTextureLegacy(
     "Skin",
     {x: 16, y: 0, w: 8, h: 8},
-    {x: ox + 64, y: oy + 144, w: 64, h: 64},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
-
-  // Helmet
-  let ox = 39
-  let oy = 19
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 32, y: 8, w: 8, h: 8},
-    {x: ox + 0, y: oy + 64, w: 64, h: 80},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 40, y: 8, w: 8, h: 8},
-    {x: ox + 64, y: oy + 64, w: 64, h: 80},
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 48, y: 8, w: 8, h: 8},
-    {x: ox + 128, y: oy + 64, w: 64, h: 80},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 56, y: 8, w: 8, h: 8},
-    {x: ox + 192, y: oy + 64, w: 64, h: 80},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 40, y: 0, w: 8, h: 8},
-    {x: ox + 64, y: oy + 0, w: 64, h: 64},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 48, y: 0, w: 8, h: 8},
     {x: ox + 64, y: oy + 144, w: 64, h: 64},
     ~flip=#Vertical,
     (),
@@ -218,47 +204,6 @@ let script = () => {
     (),
   ) // Bottom
 
-  // Nose Overlay
-  let ox = 57
-  let oy = 400
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 44, y: 13, w: 1, h: 1},
-    {x: ox + 0, y: oy + 16, w: 16, h: 32},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 44, y: 13, w: 1, h: 1},
-    {x: ox + 16, y: oy + 16, w: 16, h: 32},
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 44, y: 13, w: 1, h: 1},
-    {x: ox + 32, y: oy + 16, w: 16, h: 32},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 44, y: 13, w: 1, h: 1},
-    {x: ox + 48, y: oy + 16, w: 16, h: 32},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 44, y: 13, w: 1, h: 1},
-    {x: ox + 16, y: oy + 0, w: 16, h: 16},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 44, y: 13, w: 1, h: 1},
-    {x: ox + 16, y: oy + 48, w: 16, h: 16},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
-
   //Waist
   let ox = 325
   let oy = 77
@@ -295,47 +240,6 @@ let script = () => {
   Generator.drawTextureLegacy(
     "Skin",
     {x: 28, y: 16, w: 4, h: 4},
-    {x: ox + 48, y: oy + 88, w: 72, h: 48},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
-
-  //Belt
-  let ox = 325
-  let oy = 77
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 20, y: 44, w: 8, h: 4},
-    {x: ox + 48, y: oy + 48, w: 72, h: 40},
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 44, w: 4, h: 4},
-    {x: ox + 120, y: oy + 48, w: 48, h: 40},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 16, y: 44, w: 4, h: 4},
-    {x: ox + 0, y: oy + 48, w: 48, h: 40},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 32, y: 44, w: 8, h: 4},
-    {x: ox + 168, y: oy + 48, w: 72, h: 40},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 32, w: 8, h: 4},
-    {x: ox + 48, y: oy + 0, w: 72, h: 48},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 32, w: 4, h: 4},
     {x: ox + 48, y: oy + 88, w: 72, h: 48},
     ~flip=#Vertical,
     (),
@@ -382,47 +286,6 @@ let script = () => {
     (),
   ) // Bottom
 
-  //Jacket
-  let ox = 120
-  let oy = 198
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 20, y: 36, w: 8, h: 8},
-    {x: ox + 88, y: oy + 88, w: 144, h: 96},
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 36, w: 4, h: 8},
-    {x: ox + 232, y: oy + 88, w: 88, h: 96},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 32, y: 36, w: 8, h: 8},
-    {x: ox + 320, y: oy + 88, w: 144, h: 96},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 16, y: 36, w: 4, h: 8},
-    {x: ox + 0, y: oy + 88, w: 88, h: 96},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 20, y: 32, w: 8, h: 4},
-    {x: ox + 88, y: oy + 0, w: 144, h: 88},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 32, w: 8, h: 4},
-    {x: ox + 88, y: oy + 184, w: 144, h: 88},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
-
   //Right Leg
   let ox = 398
   let oy = 408
@@ -464,47 +327,6 @@ let script = () => {
     (),
   ) //Bottom
 
-  //Right Pant
-  let ox = 398
-  let oy = 408
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 4, y: 36, w: 4, h: 12},
-    {x: ox + 40, y: oy + 40, w: 48, h: 128},
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 8, y: 36, w: 4, h: 12},
-    {x: ox + 88, y: oy + 40, w: 40, h: 128},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 12, y: 36, w: 4, h: 12},
-    {x: ox + 128, y: oy + 40, w: 48, h: 128},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 0, y: 36, w: 4, h: 12},
-    {x: ox + 0, y: oy + 40, w: 40, h: 128},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 4, y: 32, w: 4, h: 4},
-    {x: ox + 40, y: oy + 0, w: 48, h: 40},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 8, y: 32, w: 4, h: 4},
-    {x: ox + 40, y: oy + 168, w: 48, h: 40},
-    ~flip=#Vertical,
-    (),
-  ) //Bottom
-
   //Left Leg
   let ox = 398
   let oy = 622
@@ -541,47 +363,6 @@ let script = () => {
   Generator.drawTextureLegacy(
     "Skin",
     {x: 24, y: 48, w: 4, h: 4},
-    {x: ox + 40, y: oy + 168, w: 48, h: 40},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
-
-  //Left Pant
-  let ox = 398
-  let oy = 622
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 4, y: 52, w: 4, h: 12},
-    {x: ox + 40, y: oy + 40, w: 48, h: 128},
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 8, y: 52, w: 4, h: 12},
-    {x: ox + 88, y: oy + 40, w: 40, h: 128},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 12, y: 52, w: 4, h: 12},
-    {x: ox + 128, y: oy + 40, w: 48, h: 128},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 0, y: 52, w: 4, h: 12},
-    {x: ox + 0, y: oy + 40, w: 40, h: 128},
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 4, y: 48, w: 4, h: 4},
-    {x: ox + 40, y: oy + 0, w: 48, h: 40},
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 8, y: 48, w: 4, h: 4},
     {x: ox + 40, y: oy + 168, w: 48, h: 40},
     ~flip=#Vertical,
     (),
@@ -662,87 +443,6 @@ let script = () => {
     Generator.drawTextureLegacy(
       "Skin",
       {x: 48, y: 16, w: 4, h: 4},
-      {x: ox + 48, y: oy + 288, w: 32, h: 48},
-      ~flip=#Vertical,
-      (),
-    ) //Bottom
-  }
-
-  //Right Sleeve
-  let ox = 29
-  let oy = 493
-  if alexModel {
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 44, y: 36, w: 3, h: 12},
-      {x: ox + 48, y: oy + 48, w: 32, h: 240},
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 47, y: 36, w: 4, h: 12},
-      {x: ox + 80, y: oy + 48, w: 48, h: 240},
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 51, y: 36, w: 3, h: 12},
-      {x: ox + 128, y: oy + 48, w: 32, h: 240},
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 40, y: 36, w: 4, h: 12},
-      {x: ox + 0, y: oy + 48, w: 48, h: 240},
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 44, y: 32, w: 3, h: 4},
-      {x: ox + 48, y: oy + 0, w: 32, h: 48},
-      (),
-    ) // Top
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 47, y: 32, w: 3, h: 4},
-      {x: ox + 48, y: oy + 288, w: 32, h: 48},
-      ~flip=#Vertical,
-      (),
-    ) //Bottom
-  } else {
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 44, y: 36, w: 4, h: 12},
-      {x: ox + 48, y: oy + 48, w: 32, h: 240},
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 48, y: 36, w: 4, h: 12},
-      {x: ox + 80, y: oy + 48, w: 48, h: 240},
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 52, y: 36, w: 4, h: 12},
-      {x: ox + 128, y: oy + 48, w: 32, h: 240},
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 40, y: 36, w: 4, h: 12},
-      {x: ox + 0, y: oy + 48, w: 48, h: 240},
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 44, y: 32, w: 4, h: 4},
-      {x: ox + 48, y: oy + 0, w: 32, h: 48},
-      (),
-    ) // Top
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 48, y: 32, w: 4, h: 4},
       {x: ox + 48, y: oy + 288, w: 32, h: 48},
       ~flip=#Vertical,
       (),
@@ -830,85 +530,425 @@ let script = () => {
     ) //Bottom
   }
 
-  //Left Sleeve
-  let ox = 216
-  let oy = 493
-  if alexModel {
+  // Overlays
+  if !hideHelmet {
+    // Helmet
+    let ox = 39
+    let oy = 19
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 52, y: 52, w: 3, h: 12},
-      {x: ox + 48, y: oy + 48, w: 32, h: 240},
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 55, y: 52, w: 4, h: 12},
-      {x: ox + 80, y: oy + 48, w: 48, h: 240},
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 59, y: 52, w: 3, h: 12},
-      {x: ox + 128, y: oy + 48, w: 32, h: 240},
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 48, y: 52, w: 4, h: 12},
-      {x: ox + 0, y: oy + 48, w: 48, h: 240},
+      {x: 32, y: 8, w: 8, h: 8},
+      {x: ox + 0, y: oy + 64, w: 64, h: 80},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 52, y: 48, w: 3, h: 4},
-      {x: ox + 48, y: oy + 0, w: 32, h: 48},
-      (),
-    ) //Top
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 55, y: 48, w: 3, h: 4},
-      {x: ox + 48, y: oy + 288, w: 32, h: 48},
-      ~flip=#Vertical,
-      (),
-    ) //Bottom
-  } else {
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 52, y: 52, w: 4, h: 12},
-      {x: ox + 48, y: oy + 48, w: 32, h: 240},
+      {x: 40, y: 8, w: 8, h: 8},
+      {x: ox + 64, y: oy + 64, w: 64, h: 80},
       (),
     ) // Front
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 56, y: 52, w: 4, h: 12},
-      {x: ox + 80, y: oy + 48, w: 48, h: 240},
+      {x: 48, y: 8, w: 8, h: 8},
+      {x: ox + 128, y: oy + 64, w: 64, h: 80},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 60, y: 52, w: 4, h: 12},
-      {x: ox + 128, y: oy + 48, w: 32, h: 240},
+      {x: 56, y: 8, w: 8, h: 8},
+      {x: ox + 192, y: oy + 64, w: 64, h: 80},
       (),
     ) // Back
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 48, y: 52, w: 4, h: 12},
-      {x: ox + 0, y: oy + 48, w: 48, h: 240},
+      {x: 40, y: 0, w: 8, h: 8},
+      {x: ox + 64, y: oy + 0, w: 64, h: 64},
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 48, y: 0, w: 8, h: 8},
+      {x: ox + 64, y: oy + 144, w: 64, h: 64},
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+
+    // Nose Overlay
+    let ox = 57
+    let oy = 400
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 44, y: 13, w: 1, h: 1},
+      {x: ox + 0, y: oy + 16, w: 16, h: 32},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 52, y: 48, w: 4, h: 4},
-      {x: ox + 48, y: oy + 0, w: 32, h: 48},
+      {x: 44, y: 13, w: 1, h: 1},
+      {x: ox + 16, y: oy + 16, w: 16, h: 32},
       (),
-    ) //Top
+    ) // Front
     Generator.drawTextureLegacy(
       "Skin",
-      {x: 56, y: 48, w: 4, h: 4},
-      {x: ox + 48, y: oy + 288, w: 32, h: 48},
+      {x: 44, y: 13, w: 1, h: 1},
+      {x: ox + 32, y: oy + 16, w: 16, h: 32},
+      (),
+    ) // Left
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 44, y: 13, w: 1, h: 1},
+      {x: ox + 48, y: oy + 16, w: 16, h: 32},
+      (),
+    ) // Back
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 44, y: 13, w: 1, h: 1},
+      {x: ox + 16, y: oy + 0, w: 16, h: 16},
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 44, y: 13, w: 1, h: 1},
+      {x: ox + 16, y: oy + 48, w: 16, h: 16},
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+  }
+
+  if !hideJacket {
+    //Belt
+    let ox = 325
+    let oy = 77
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 20, y: 44, w: 8, h: 4},
+      {x: ox + 48, y: oy + 48, w: 72, h: 40},
+      (),
+    ) // Front
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 28, y: 44, w: 4, h: 4},
+      {x: ox + 120, y: oy + 48, w: 48, h: 40},
+      (),
+    ) // Left
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 16, y: 44, w: 4, h: 4},
+      {x: ox + 0, y: oy + 48, w: 48, h: 40},
+      (),
+    ) // Right
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 32, y: 44, w: 8, h: 4},
+      {x: ox + 168, y: oy + 48, w: 72, h: 40},
+      (),
+    ) // Back
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 28, y: 32, w: 8, h: 4},
+      {x: ox + 48, y: oy + 0, w: 72, h: 48},
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 28, y: 32, w: 4, h: 4},
+      {x: ox + 48, y: oy + 88, w: 72, h: 48},
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+
+    //Jacket
+    let ox = 120
+    let oy = 198
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 20, y: 36, w: 8, h: 8},
+      {x: ox + 88, y: oy + 88, w: 144, h: 96},
+      (),
+    ) // Front
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 28, y: 36, w: 4, h: 8},
+      {x: ox + 232, y: oy + 88, w: 88, h: 96},
+      (),
+    ) // Left
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 32, y: 36, w: 8, h: 8},
+      {x: ox + 320, y: oy + 88, w: 144, h: 96},
+      (),
+    ) // Back
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 16, y: 36, w: 4, h: 8},
+      {x: ox + 0, y: oy + 88, w: 88, h: 96},
+      (),
+    ) // Right
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 20, y: 32, w: 8, h: 4},
+      {x: ox + 88, y: oy + 0, w: 144, h: 88},
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 28, y: 32, w: 8, h: 4},
+      {x: ox + 88, y: oy + 184, w: 144, h: 88},
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+  }
+
+  if !hideRightPant {
+    //Right Pant
+    let ox = 398
+    let oy = 408
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 4, y: 36, w: 4, h: 12},
+      {x: ox + 40, y: oy + 40, w: 48, h: 128},
+      (),
+    ) // Front
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 8, y: 36, w: 4, h: 12},
+      {x: ox + 88, y: oy + 40, w: 40, h: 128},
+      (),
+    ) // Left
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 12, y: 36, w: 4, h: 12},
+      {x: ox + 128, y: oy + 40, w: 48, h: 128},
+      (),
+    ) // Back
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 0, y: 36, w: 4, h: 12},
+      {x: ox + 0, y: oy + 40, w: 40, h: 128},
+      (),
+    ) // Right
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 4, y: 32, w: 4, h: 4},
+      {x: ox + 40, y: oy + 0, w: 48, h: 40},
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 8, y: 32, w: 4, h: 4},
+      {x: ox + 40, y: oy + 168, w: 48, h: 40},
       ~flip=#Vertical,
       (),
     ) //Bottom
+  }
+
+  if !hideLeftPant {
+    //Left Pant
+    let ox = 398
+    let oy = 622
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 4, y: 52, w: 4, h: 12},
+      {x: ox + 40, y: oy + 40, w: 48, h: 128},
+      (),
+    ) // Front
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 8, y: 52, w: 4, h: 12},
+      {x: ox + 88, y: oy + 40, w: 40, h: 128},
+      (),
+    ) // Left
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 12, y: 52, w: 4, h: 12},
+      {x: ox + 128, y: oy + 40, w: 48, h: 128},
+      (),
+    ) // Back
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 0, y: 52, w: 4, h: 12},
+      {x: ox + 0, y: oy + 40, w: 40, h: 128},
+      (),
+    ) // Right
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 4, y: 48, w: 4, h: 4},
+      {x: ox + 40, y: oy + 0, w: 48, h: 40},
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 8, y: 48, w: 4, h: 4},
+      {x: ox + 40, y: oy + 168, w: 48, h: 40},
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+  }
+
+  if !hideRightSleeve {
+    //Right Sleeve
+    let ox = 29
+    let oy = 493
+    if alexModel {
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 44, y: 36, w: 3, h: 12},
+        {x: ox + 48, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Front
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 47, y: 36, w: 4, h: 12},
+        {x: ox + 80, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Left
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 51, y: 36, w: 3, h: 12},
+        {x: ox + 128, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Back
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 40, y: 36, w: 4, h: 12},
+        {x: ox + 0, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Right
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 44, y: 32, w: 3, h: 4},
+        {x: ox + 48, y: oy + 0, w: 32, h: 48},
+        (),
+      ) // Top
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 47, y: 32, w: 3, h: 4},
+        {x: ox + 48, y: oy + 288, w: 32, h: 48},
+        ~flip=#Vertical,
+        (),
+      ) //Bottom
+    } else {
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 44, y: 36, w: 4, h: 12},
+        {x: ox + 48, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Front
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 48, y: 36, w: 4, h: 12},
+        {x: ox + 80, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Left
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 52, y: 36, w: 4, h: 12},
+        {x: ox + 128, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Back
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 40, y: 36, w: 4, h: 12},
+        {x: ox + 0, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Right
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 44, y: 32, w: 4, h: 4},
+        {x: ox + 48, y: oy + 0, w: 32, h: 48},
+        (),
+      ) // Top
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 48, y: 32, w: 4, h: 4},
+        {x: ox + 48, y: oy + 288, w: 32, h: 48},
+        ~flip=#Vertical,
+        (),
+      ) //Bottom
+    }
+  }
+
+  if !hideLeftSleeve {
+    //Left Sleeve
+    let ox = 216
+    let oy = 493
+    if alexModel {
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 52, y: 52, w: 3, h: 12},
+        {x: ox + 48, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Front
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 55, y: 52, w: 4, h: 12},
+        {x: ox + 80, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Left
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 59, y: 52, w: 3, h: 12},
+        {x: ox + 128, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Back
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 48, y: 52, w: 4, h: 12},
+        {x: ox + 0, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Right
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 52, y: 48, w: 3, h: 4},
+        {x: ox + 48, y: oy + 0, w: 32, h: 48},
+        (),
+      ) //Top
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 55, y: 48, w: 3, h: 4},
+        {x: ox + 48, y: oy + 288, w: 32, h: 48},
+        ~flip=#Vertical,
+        (),
+      ) //Bottom
+    } else {
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 52, y: 52, w: 4, h: 12},
+        {x: ox + 48, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Front
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 56, y: 52, w: 4, h: 12},
+        {x: ox + 80, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Left
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 60, y: 52, w: 4, h: 12},
+        {x: ox + 128, y: oy + 48, w: 32, h: 240},
+        (),
+      ) // Back
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 48, y: 52, w: 4, h: 12},
+        {x: ox + 0, y: oy + 48, w: 48, h: 240},
+        (),
+      ) // Right
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 52, y: 48, w: 4, h: 4},
+        {x: ox + 48, y: oy + 0, w: 32, h: 48},
+        (),
+      ) //Top
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 56, y: 48, w: 4, h: 4},
+        {x: ox + 48, y: oy + 288, w: 32, h: 48},
+        ~flip=#Vertical,
+        (),
+      ) //Bottom
+    }
   }
 
   //Flower
