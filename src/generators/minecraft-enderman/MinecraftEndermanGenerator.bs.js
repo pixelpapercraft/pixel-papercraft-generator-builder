@@ -21,6 +21,7 @@ var thumbnail = {
 
 var imageIds = [
   "Background",
+  "Labels",
   "Folds"
 ];
 
@@ -60,6 +61,8 @@ function script(param) {
         choices: []
       });
   Generator.defineBooleanInput("Show Folds", true);
+  Generator.defineBooleanInput("Show Labels", true);
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   Generator.drawImage("Background", [
         0,
@@ -990,7 +993,13 @@ function script(param) {
         h: 16
       }, undefined, 180.0, undefined, undefined);
   if (showFolds) {
-    return Generator.drawImage("Folds", [
+    Generator.drawImage("Folds", [
+          0,
+          0
+        ]);
+  }
+  if (showLabels) {
+    return Generator.drawImage("Labels", [
                 0,
                 0
               ]);

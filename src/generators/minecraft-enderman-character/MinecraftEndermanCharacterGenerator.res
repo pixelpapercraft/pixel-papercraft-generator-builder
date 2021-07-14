@@ -9,16 +9,9 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail.jpg"),
 }
 
-let images: array<Generator.imageDef> = [
-  {
-    id: "Background",
-    url: requireImage("Background"),
-  },
-  {
-    id: "Folds",
-    url: requireImage("Folds"),
-  },
-]
+let imageIds = ["Background", "Labels", "Folds"]
+let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
@@ -37,8 +30,10 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Show Labels", true)
 
-  // Get user variables
+  // Get user variable values
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
   // Background
@@ -320,6 +315,11 @@ let script = () => {
   // Fold Lines
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
   }
 }
 

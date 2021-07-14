@@ -20,16 +20,20 @@ var thumbnail = {
   url: require("./thumbnail.jpg")
 };
 
-var images = [
-  {
-    id: "Background",
-    url: requireImage("Background")
-  },
-  {
-    id: "Folds",
-    url: requireImage("Folds")
-  }
+var imageIds = [
+  "Background",
+  "Labels",
+  "Folds"
 ];
+
+function toImageDef(id) {
+  return {
+          id: id,
+          url: requireImage(id)
+        };
+}
+
+var images = imageIds.map(toImageDef);
 
 var textures = [{
     id: "Skin",
@@ -47,6 +51,8 @@ function script(param) {
         choices: []
       });
   Generator.defineBooleanInput("Show Folds", true);
+  Generator.defineBooleanInput("Show Labels", true);
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   Generator.drawImage("Background", [
         0,
@@ -485,7 +491,13 @@ function script(param) {
         h: 16
       }, "Vertical", undefined, undefined, undefined);
   if (showFolds) {
-    return Generator.drawImage("Folds", [
+    Generator.drawImage("Folds", [
+          0,
+          0
+        ]);
+  }
+  if (showLabels) {
+    return Generator.drawImage("Labels", [
                 0,
                 0
               ]);
@@ -511,6 +523,8 @@ exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.thumbnail = thumbnail;
+exports.imageIds = imageIds;
+exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.steve = steve;
