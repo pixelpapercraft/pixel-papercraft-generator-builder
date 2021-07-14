@@ -150,7 +150,7 @@ module TexturePicker = {
                 versionId: versionId,
                 textureId: textureId,
                 frame: frame,
-                rotate: rotation,
+                rot: rotation,
               }
               onChange(Face.encodeFaceTexture(faceTexture))
             }
@@ -178,7 +178,7 @@ module TexturePicker = {
                       versionId: versionId,
                       textureId: textureId,
                       frame: frame,
-                      rotate: 0,
+                      rot: 0,
                     }
                     onChange(Face.encodeFaceTexture(faceTexture))
                   }

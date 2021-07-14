@@ -187,7 +187,7 @@ let makeDataFile = (versions: array<version>) => {
       `
     {
       id: "${textureData["id"]}",
-      url: Generator.requireImage("./${textureData["url"]}").default.src,
+      url: Generator.requireImage("./${textureData["url"]}"),
       standardWidth: ${textureData["standardWidth"]->Js.Int.toString},
       standardHeight: ${textureData["standardHeight"]->Js.Int.toString},
     }

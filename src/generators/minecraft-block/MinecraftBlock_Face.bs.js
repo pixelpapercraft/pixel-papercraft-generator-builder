@@ -14,7 +14,7 @@ function decodeFaceTexture(s) {
             versionId: "",
             textureId: "",
             frame: 0,
-            rotate: 0
+            rot: 0
           };
   } else {
     return JSON.parse(s);
@@ -44,9 +44,7 @@ function defineInputRegion(faceId, region) {
               }));
 }
 
-function drawTexture(face, param, param$1, rotation) {
-  var rotate = face.rotate;
-  var versionId = face.versionId;
+function drawTexture(face, param, param$1, $staropt$star, $staropt$star$1, param$2) {
   var dh = param$1[3];
   var dw = param$1[2];
   var dy = param$1[1];
@@ -55,6 +53,10 @@ function drawTexture(face, param, param$1, rotation) {
   var sw = param[2];
   var sy = param[1];
   var sx = param[0];
+  var flip = $staropt$star !== undefined ? $staropt$star : "None";
+  var rotate = $staropt$star$1 !== undefined ? $staropt$star$1 : 0.0;
+  var rot = face.rot;
+  var versionId = face.versionId;
   var index = MinecraftBlock_Textures.findTextureFrameIndex(versionId, face.textureId, face.frame);
   if (index === undefined) {
     return ;
@@ -62,7 +64,7 @@ function drawTexture(face, param, param$1, rotation) {
   var ix = index + sx | 0;
   var iy = index + sy | 0;
   var source;
-  switch (rotate) {
+  switch (rot) {
     case 0 :
         source = [
           sx,
@@ -105,8 +107,8 @@ function drawTexture(face, param, param$1, rotation) {
   }
   var destination;
   var exit = 0;
-  if (rotate > 2 || rotate < 0) {
-    if (rotate !== 3) {
+  if (rot > 2 || rot < 0) {
+    if (rot !== 3) {
       destination = [
         dx,
         dy,
@@ -116,7 +118,7 @@ function drawTexture(face, param, param$1, rotation) {
     } else {
       exit = 1;
     }
-  } else if (rotate !== 1) {
+  } else if (rot !== 1) {
     destination = [
       dx,
       dy,
@@ -134,24 +136,17 @@ function drawTexture(face, param, param$1, rotation) {
       dw
     ];
   }
-  var rotate$1 = rotation + Math.imul(rotate, 90) | 0;
-  return Generator.drawTexture(versionId, source, destination, undefined, undefined, rotate$1, undefined);
+  var rot$1 = (rotate | 0) + Math.imul(rot, 90) | 0;
+  return Generator.drawTexture(versionId, source, destination, flip, undefined, rot$1, undefined);
 }
 
-function draw(faceId, source, destination) {
+function draw(faceId, source, destination, flipOpt, rotateOpt, param) {
+  var flip = flipOpt !== undefined ? flipOpt : "None";
+  var rotate = rotateOpt !== undefined ? rotateOpt : 0.0;
   var faceTexturesString = Generator.getStringInputValue(faceId);
   var faceTextures = decodeFaceTextures(faceTexturesString);
   faceTextures.forEach(function (faceTexture) {
-        return drawTexture(faceTexture, source, destination, 0);
-      });
-  
-}
-
-function draw180(faceId, source, destination) {
-  var faceTexturesString = Generator.getStringInputValue(faceId);
-  var faceTextures = decodeFaceTextures(faceTexturesString);
-  faceTextures.forEach(function (faceTexture) {
-        return drawTexture(faceTexture, source, destination, 180);
+        return drawTexture(faceTexture, source, destination, flip, rotate, undefined);
       });
   
 }
@@ -166,5 +161,4 @@ exports.decodeFaceTextures = decodeFaceTextures;
 exports.defineInputRegion = defineInputRegion;
 exports.drawTexture = drawTexture;
 exports.draw = draw;
-exports.draw180 = draw180;
 /* Generator Not a pure module */

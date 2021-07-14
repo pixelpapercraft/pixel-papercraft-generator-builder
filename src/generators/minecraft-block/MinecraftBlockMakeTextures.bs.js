@@ -147,7 +147,7 @@ function makeDataFile(versions) {
                     standardHeight: standardHeight
                   };
           }).map(function (textureData) {
-          return "\n    {\n      id: \"" + textureData.id + "\",\n      url: Generator.requireImage(\"./" + textureData.url + "\").default.src,\n      standardWidth: " + textureData.standardWidth.toString() + ",\n      standardHeight: " + textureData.standardHeight.toString() + ",\n    }\n    ";
+          return "\n    {\n      id: \"" + textureData.id + "\",\n      url: Generator.requireImage(\"./" + textureData.url + "\"),\n      standardWidth: " + textureData.standardWidth.toString() + ",\n      standardHeight: " + textureData.standardHeight.toString() + ",\n    }\n    ";
         }).join(",");
   var texturesCode = "\n    let textures: array<Generator.textureDef> = [\n      " + texturesData + "\n    ]\n  ";
   var code = "\n    // This is a generated file\n\n    " + texturesCode + "\n\n    let versions = " + JSON.stringify(versionsData) + "\n  ";
