@@ -9,6 +9,14 @@ var MinecraftBlock_Face = require("./MinecraftBlock_Face.bs.js");
 var MinecraftBlock_Textures = require("./MinecraftBlock_Textures.bs.js");
 var MinecraftBlock_Components = require("./MinecraftBlock_Components.bs.js");
 
+var id = "minecraft-block";
+
+var name = "Minecraft Block";
+
+var thumbnail = {
+  url: require("./thumbnail.jpg")
+};
+
 function make(ox, oy) {
   return {
           top: [
@@ -1255,10 +1263,6 @@ var Snow = {
   draw: draw$6
 };
 
-var id = "minecraft-block";
-
-var name = "Minecraft Block";
-
 var images = [
   {
     id: "Background",
@@ -1409,10 +1413,12 @@ function script(param) {
             ]);
 }
 
+var generator_thumbnail = thumbnail;
+
 var generator = {
   id: id,
   name: name,
-  thumbnail: undefined,
+  thumbnail: generator_thumbnail,
   video: undefined,
   instructions: undefined,
   images: images,
@@ -1431,6 +1437,9 @@ var textures = MinecraftBlock_Textures.textures;
 exports.Components = Components;
 exports.Textures = Textures;
 exports.Face = Face;
+exports.id = id;
+exports.name = name;
+exports.thumbnail = thumbnail;
 exports.Block = Block;
 exports.Slab = Slab;
 exports.Stair = Stair;
@@ -1438,10 +1447,8 @@ exports.Fence = Fence;
 exports.Door = Door;
 exports.Trapdoor = Trapdoor;
 exports.Snow = Snow;
-exports.id = id;
-exports.name = name;
 exports.images = images;
 exports.textures = textures;
 exports.script = script;
 exports.generator = generator;
-/* images Not a pure module */
+/* thumbnail Not a pure module */
