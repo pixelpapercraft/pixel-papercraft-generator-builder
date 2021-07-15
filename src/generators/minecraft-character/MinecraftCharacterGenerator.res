@@ -42,15 +42,17 @@ let script = () => {
   Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
-  //Generator.defineBooleanInput("Show Overlay", true)
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
+
+  Generator.defineText(
+    "Click in the papercraft template to turn on and off the overlay for each part.",
+  )
 
   // Draw
   let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
-  //let showOverlay = Generator.getBooleanInputValue("Show Overlay")
   let hideHelmet = Generator.getBooleanInputValue("Hide Helmet")
   let hideJacket = Generator.getBooleanInputValue("Hide Jacket")
   let hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve")

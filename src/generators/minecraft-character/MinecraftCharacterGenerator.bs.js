@@ -74,6 +74,7 @@ function script(param) {
       });
   Generator.defineBooleanInput("Show Folds", true);
   Generator.defineBooleanInput("Show Labels", true);
+  Generator.defineText("Click in the papercraft template to turn on and off the overlay for each part.");
   var alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex";
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
