@@ -23,22 +23,38 @@ var thumbnail = {
 
 var creeperTexture = requireTexture("creeper");
 
-var instructions = React.createElement("div", undefined, React.createElement("h2", {
-          className: "mb-4 text-2xl font-bold"
-        }, "How do I use the Creeper Generator?"), React.createElement("h3", {
-          className: "mb-4 font-bold"
-        }, "Option 1: Use a texture pack or mod Creeper skin"), React.createElement("ul", {
-          className: "mb-4 ml-4 list-decimal"
-        }, React.createElement("li", undefined, "Download your favourite texture pack or mod."), React.createElement("li", undefined, "Find the creeper.png file."), React.createElement("li", undefined, "Select this file in the generator."), React.createElement("li", undefined, "Download and print your new Creeper papercraft.")), React.createElement("h3", {
-          className: "mb-4 font-bold"
-        }, "Option 2: Create your own Creeper skin"), React.createElement("ul", {
-          className: "mb-4 ml-4 list-decimal"
-        }, React.createElement("li", undefined, "Download a sample Creeper skin.", React.createElement("a", {
+var instructions = React.createElement("div", undefined, React.createElement(Generator.Markup.H2.make, {
+          children: "How to use the Minecraft Creeper Generator?"
+        }), React.createElement(Generator.Markup.H3.make, {
+          children: "Option 1: Use a texture pack or mod Creeper skin"
+        }), React.createElement(Generator.Markup.OL.make, {
+          children: null
+        }, React.createElement(Generator.Markup.LI.make, {
+              children: "Download your favourite texture pack or mod."
+            }), React.createElement(Generator.Markup.LI.make, {
+              children: "Find the creeper.png file."
+            }), React.createElement(Generator.Markup.LI.make, {
+              children: "Select this file in the generator."
+            }), React.createElement(Generator.Markup.LI.make, {
+              children: "Download and print your new Creeper papercraft."
+            })), React.createElement(Generator.Markup.H3.make, {
+          children: "Option 2: Create your own Creeper skin"
+        }), React.createElement(Generator.Markup.OL.make, {
+          children: null
+        }, React.createElement(Generator.Markup.LI.make, {
+              children: null
+            }, "Download a sample Creeper skin.", React.createElement("a", {
                   href: creeperTexture
                 }, React.createElement("img", {
                       className: "border p-1",
                       src: creeperTexture
-                    }))), React.createElement("li", undefined, "Edit this skin in your favourite graphics program."), React.createElement("li", undefined, "Select this file in the generator."), React.createElement("li", undefined, "Download and print your new Creeper papercraft.")));
+                    }))), React.createElement(Generator.Markup.LI.make, {
+              children: "Edit this skin in your favourite graphics program."
+            }), React.createElement(Generator.Markup.LI.make, {
+              children: "Select this file in the generator."
+            }), React.createElement(Generator.Markup.LI.make, {
+              children: "Download and print your new Creeper papercraft."
+            })));
 
 var imageIds = [
   "Background",
