@@ -380,6 +380,19 @@ function defineBooleanInput(model, id, initial) {
   }
 }
 
+function defineButtonInput(model, id) {
+  var inputs = model.inputs.concat([{
+          TAG: /* ButtonInput */7,
+          _0: id
+        }]);
+  return {
+          inputs: inputs,
+          pages: model.pages,
+          currentPage: model.currentPage,
+          values: model.values
+        };
+}
+
 function defineSelectInput(model, id, options) {
   var inputs = model.inputs.concat([{
           TAG: /* SelectInput */5,
@@ -552,6 +565,7 @@ exports.ensureCurrentPage = ensureCurrentPage;
 exports.defineRegionInput = defineRegionInput;
 exports.defineCustomStringInput = defineCustomStringInput;
 exports.defineBooleanInput = defineBooleanInput;
+exports.defineButtonInput = defineButtonInput;
 exports.defineSelectInput = defineSelectInput;
 exports.defineTextureInput = defineTextureInput;
 exports.defineText = defineText;

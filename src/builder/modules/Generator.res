@@ -35,6 +35,10 @@ let defineBooleanInput = (id, initial) => {
   model := Builder.defineBooleanInput(model.contents, id, initial)
 }
 
+let defineButtonInput = (id) => {
+  model := Builder.defineButtonInput(model.contents, id)
+}
+
 let setBooleanInputValue = (id, value) => {
   model := Builder.setBooleanInputValue(model.contents, id, value)
 }

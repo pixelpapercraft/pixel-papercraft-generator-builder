@@ -247,6 +247,11 @@ function GeneratorInputs(Props) {
                       case /* RegionInput */2 :
                       case /* RangeInput */6 :
                           return null;
+                      case /* ButtonInput */7 :
+                          var id$4 = input._0;
+                          return React.createElement("button", {
+                                      key: id$4
+                                    }, id$4);
                       
                     }
                   }));

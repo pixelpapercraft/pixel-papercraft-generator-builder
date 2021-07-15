@@ -214,6 +214,7 @@ let make = (~model: Builder.Model.t, ~onChange) => {
             />
           }
         | RangeInput(_, _) => React.null
+        | ButtonInput(id) => <button key={id}>{React.string(id)}</button>
         }
       })->React.array}
     </div>
