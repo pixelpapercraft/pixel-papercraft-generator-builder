@@ -10,30 +10,27 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let instructions: Generator.instructionsDef = {
+  open Generator.Markup
   let creeperTexture = requireTexture("creeper")
   <div>
-    <h2 className="mb-4 text-2xl font-bold">
-      {"How do I use the Creeper Generator?"->React.string}
-    </h2>
-    <h3 className="mb-4 font-bold">
-      {"Option 1: Use a texture pack or mod Creeper skin"->React.string}
-    </h3>
-    <ul className="mb-4 ml-4 list-decimal">
-      <li> {"Download your favourite texture pack or mod."->React.string} </li>
-      <li> {"Find the creeper.png file."->React.string} </li>
-      <li> {"Select this file in the generator."->React.string} </li>
-      <li> {"Download and print your new Creeper papercraft."->React.string} </li>
-    </ul>
-    <h3 className="mb-4 font-bold"> {"Option 2: Create your own Creeper skin"->React.string} </h3>
-    <ul className="mb-4 ml-4 list-decimal">
-      <li>
+    <H2> {"How to use the Minecraft Creeper Generator?"->React.string} </H2>
+    <H3> {"Option 1: Use a texture pack or mod Creeper skin"->React.string} </H3>
+    <OL>
+      <LI> {"Download your favourite texture pack or mod."->React.string} </LI>
+      <LI> {"Find the creeper.png file."->React.string} </LI>
+      <LI> {"Select this file in the generator."->React.string} </LI>
+      <LI> {"Download and print your new Creeper papercraft."->React.string} </LI>
+    </OL>
+    <H3> {"Option 2: Create your own Creeper skin"->React.string} </H3>
+    <OL>
+      <LI>
         {"Download a sample Creeper skin."->React.string}
         <a href={creeperTexture}> <img className="border p-1" src={creeperTexture} /> </a>
-      </li>
-      <li> {"Edit this skin in your favourite graphics program."->React.string} </li>
-      <li> {"Select this file in the generator."->React.string} </li>
-      <li> {"Download and print your new Creeper papercraft."->React.string} </li>
-    </ul>
+      </LI>
+      <LI> {"Edit this skin in your favourite graphics program."->React.string} </LI>
+      <LI> {"Select this file in the generator."->React.string} </LI>
+      <LI> {"Download and print your new Creeper papercraft."->React.string} </LI>
+    </OL>
   </div>
 }
 

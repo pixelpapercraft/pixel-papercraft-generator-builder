@@ -4,14 +4,6 @@ open Dom2.Document
 require('tailwindcss/tailwind.css');
 `)
 
-// @send external localeCompare: (string, string) => int = "localeCompare"
-
-// let generatorsSorted =
-//   Generators.all->Belt.SortArray.stableSortBy((
-//     a: Generator.generatorDef,
-//     b: Generator.generatorDef,
-//   ) => localeCompare(a.name, b.name))
-
 module GeneratorOptGroup = {
   open FormInput
   @react.component
@@ -75,7 +67,7 @@ module App = {
       }
     }
 
-    <div className="p-4 pb-64">
+    <div className="p-8 pb-64">
       <div className="pb-8">
         <GeneratorSelect onChange={onGeneratorChange} value={url.hash} />
       </div>

@@ -7,6 +7,43 @@ type thumnbnailDef = Builder.thumnbnailDef
 type videoDef = Builder.videoDef
 type instructionsDef = Builder.instructionsDef
 
+module Markup = {
+  module H2 = {
+    @react.component
+    let make = (~children) => {
+      <h2 className="mb-4 text-2xl font-bold"> {children} </h2>
+    }
+  }
+
+  module H3 = {
+    @react.component
+    let make = (~children) => {
+      <h3 className="mb-4 font-bold"> {children} </h3>
+    }
+  }
+
+  module LI = {
+    @react.component
+    let make = (~children) => {
+      <li> {children} </li>
+    }
+  }
+
+  module OL = {
+    @react.component
+    let make = (~children) => {
+      <ul className="mb-4 ml-4 list-decimal"> {children} </ul>
+    }
+  }
+
+  module P = {
+    @react.component
+    let make = (~children) => {
+      <p className="mb-4"> {children} </p>
+    }
+  }
+}
+
 let model = ref(Builder.Model.make())
 
 let setModel = newModel => {
