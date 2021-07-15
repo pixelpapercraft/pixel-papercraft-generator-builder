@@ -2,13 +2,94 @@
 'use strict';
 
 var Curry = require("rescript/lib/js/curry.js");
-var Pages = require("./Pages.bs.js");
 var React = require("react");
-var Inputs = require("./Inputs.bs.js");
 var Builder = require("../modules/Builder.bs.js");
 var Generator = require("../modules/Generator.bs.js");
+var Caml_option = require("rescript/lib/js/caml_option.js");
 var ScriptRunner = require("../modules/ScriptRunner.bs.js");
+var GeneratorPages = require("./GeneratorPages.bs.js");
 var ResourceLoader = require("../modules/ResourceLoader.bs.js");
+var GeneratorInputs = require("./GeneratorInputs.bs.js");
+
+function GeneratorView$Thumbnail(Props) {
+  var thumbnail = Props.thumbnail;
+  return React.createElement("div", {
+              className: "mb-8 border bg-gray-100 p-4 w-72 h-72"
+            }, React.createElement("img", {
+                  height: "256",
+                  src: thumbnail.url,
+                  width: "256"
+                }));
+}
+
+var Thumbnail = {
+  make: GeneratorView$Thumbnail
+};
+
+function GeneratorView$Video(Props) {
+  var video = Props.video;
+  return React.createElement("div", {
+              className: "mb-8",
+              style: {
+                maxWidth: "640px"
+              }
+            }, React.createElement("div", {
+                  style: {
+                    maxWidth: "640px",
+                    paddingTop: "56.25%",
+                    position: "relative",
+                    width: "100%"
+                  }
+                }, React.createElement("iframe", {
+                      style: {
+                        height: "100%",
+                        position: "absolute",
+                        top: "0",
+                        width: "100%"
+                      },
+                      allowFullScreen: true,
+                      src: video.url
+                    })));
+}
+
+var Video = {
+  make: GeneratorView$Video
+};
+
+function GeneratorView$Instructions(Props) {
+  var instructions = Props.instructions;
+  return React.createElement("div", {
+              className: "mb-8"
+            }, instructions);
+}
+
+var Instructions = {
+  make: GeneratorView$Instructions
+};
+
+function GeneratorView$GeneratorInfo(Props) {
+  var generatorDef = Props.generatorDef;
+  var video = generatorDef.video;
+  var tmp;
+  if (video !== undefined) {
+    tmp = React.createElement(GeneratorView$Video, {
+          video: video
+        });
+  } else {
+    var thumbnail = generatorDef.thumbnail;
+    tmp = thumbnail !== undefined ? React.createElement(GeneratorView$Thumbnail, {
+            thumbnail: thumbnail
+          }) : null;
+  }
+  var instructions = generatorDef.instructions;
+  return React.createElement("div", undefined, tmp, instructions !== undefined ? React.createElement(GeneratorView$Instructions, {
+                    instructions: Caml_option.valFromOption(instructions)
+                  }) : null);
+}
+
+var GeneratorInfo = {
+  make: GeneratorView$GeneratorInfo
+};
 
 function GeneratorView(Props) {
   var generatorDef = Props.generatorDef;
@@ -52,10 +133,12 @@ function GeneratorView(Props) {
   var onPagesInputsChange = function (param) {
     return runScript(Generator.getModel(undefined));
   };
-  return React.createElement("div", undefined, model !== undefined ? React.createElement("div", undefined, React.createElement(Inputs.make, {
+  return React.createElement("div", undefined, model !== undefined ? React.createElement("div", undefined, React.createElement(GeneratorView$GeneratorInfo, {
+                        generatorDef: generatorDef
+                      }), React.createElement(GeneratorInputs.make, {
                         model: model,
                         onChange: onInputsChange
-                      }), React.createElement(Pages.make, {
+                      }), React.createElement(GeneratorPages.make, {
                         generatorDef: generatorDef,
                         model: model,
                         onChange: onPagesInputsChange
@@ -66,8 +149,12 @@ var make = GeneratorView;
 
 var $$default = GeneratorView;
 
+exports.Thumbnail = Thumbnail;
+exports.Video = Video;
+exports.Instructions = Instructions;
+exports.GeneratorInfo = GeneratorInfo;
 exports.make = make;
 exports.$$default = $$default;
 exports.default = $$default;
 exports.__esModule = true;
-/* Pages Not a pure module */
+/* react Not a pure module */

@@ -12,7 +12,7 @@ function px(n) {
   return n.toString() + "px";
 }
 
-function Pages$RegionInputs(Props) {
+function GeneratorPages$RegionInputs(Props) {
   var model = Props.model;
   var currentPageId = Props.currentPageId;
   var onClick = Props.onClick;
@@ -52,10 +52,10 @@ function Pages$RegionInputs(Props) {
 
 var RegionInputs = {
   px: px,
-  make: Pages$RegionInputs
+  make: GeneratorPages$RegionInputs
 };
 
-function Pages(Props) {
+function GeneratorPages(Props) {
   var generatorDef = Props.generatorDef;
   var model = Props.model;
   var onChange = Props.onChange;
@@ -101,7 +101,7 @@ function Pages(Props) {
                                         imageRendering: "pixelated"
                                       }),
                                   src: dataUrl
-                                }), React.createElement(Pages$RegionInputs, {
+                                }), React.createElement(GeneratorPages$RegionInputs, {
                                   model: model,
                                   currentPageId: page.id,
                                   onClick: (function (callback) {
@@ -112,7 +112,7 @@ function Pages(Props) {
                 }));
 }
 
-var make = Pages;
+var make = GeneratorPages;
 
 exports.RegionInputs = RegionInputs;
 exports.make = make;
