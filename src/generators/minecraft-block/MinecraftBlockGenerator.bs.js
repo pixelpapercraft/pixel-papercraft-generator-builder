@@ -9,14 +9,6 @@ var MinecraftBlock_Face = require("./MinecraftBlock_Face.bs.js");
 var MinecraftBlock_Textures = require("./MinecraftBlock_Textures.bs.js");
 var MinecraftBlock_Components = require("./MinecraftBlock_Components.bs.js");
 
-function requireImage(id) {
-  return require("./images/" + id + ".png");
-}
-
-function requireTexture(id) {
-  return require("./textures/" + id + ".png");
-}
-
 function make(ox, oy) {
   return {
           top: [
@@ -76,37 +68,37 @@ function draw(blockId, ox, oy) {
         0,
         16,
         16
-      ], regions.top);
+      ], regions.top, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("BlockFaceBottom" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.bottom);
+      ], regions.bottom, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("BlockFaceRight" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.right);
+      ], regions.right, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("BlockFaceFront" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.front);
+      ], regions.front, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("BlockFaceLeft" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.left);
+      ], regions.left, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("BlockFaceBack" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.back);
+      ], regions.back, undefined, undefined, undefined);
   Generator.drawImage("Tabs-Block", [
         ox - 32 | 0,
         oy - 1 | 0
@@ -185,37 +177,37 @@ function draw$1(blockId, ox, oy) {
         0,
         16,
         16
-      ], regions.top);
+      ], regions.top, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("SlabFaceBottom" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.bottom);
+      ], regions.bottom, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("SlabFaceRight" + blockId, [
         0,
         8,
         16,
         8
-      ], regions.right);
+      ], regions.right, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("SlabFaceFront" + blockId, [
         0,
         8,
         16,
         8
-      ], regions.front);
+      ], regions.front, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("SlabFaceLeft" + blockId, [
         0,
         8,
         16,
         8
-      ], regions.left);
+      ], regions.left, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("SlabFaceBack" + blockId, [
         0,
         8,
         16,
         8
-      ], regions.back);
+      ], regions.back, undefined, undefined, undefined);
   Generator.drawImage("Tabs-Slab", [
         ox - 32 | 0,
         oy - 1 | 0
@@ -306,49 +298,49 @@ function draw$2(blockId, ox, oy) {
         8,
         16,
         8
-      ], regions.top);
-  MinecraftBlock_Face.draw180("StairFaceBack" + blockId, [
+      ], regions.top, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("StairFaceBack" + blockId, [
         0,
         0,
         16,
         8
-      ], regions.back2);
+      ], regions.back2, undefined, 180.0, undefined);
   MinecraftBlock_Face.draw("StairFaceBottom" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.bottom);
+      ], regions.bottom, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("StairFaceRight" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.right);
+      ], regions.right, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("StairFaceFront" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.front);
+      ], regions.front, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("StairFaceLeft" + blockId, [
         0,
         0,
         16,
         16
-      ], regions.left);
+      ], regions.left, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("StairFaceBack" + blockId, [
         0,
         8,
         16,
         8
-      ], regions.back);
-  MinecraftBlock_Face.draw180("StairFaceTop" + blockId, [
+      ], regions.back, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("StairFaceTop" + blockId, [
         0,
         0,
         16,
         8
-      ], regions.top2);
+      ], regions.top2, undefined, 180.0, undefined);
   Generator.drawImage("Tabs-Stair", [
         ox - 32 | 0,
         oy - 1 | 0
@@ -626,229 +618,229 @@ function draw$3(blockId, ox, oy) {
         6,
         4,
         4
-      ], regions.top);
+      ], regions.top, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         6,
         6,
         4,
         4
-      ], regions.bottom);
+      ], regions.bottom, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceRight" + blockId, [
         6,
         0,
         4,
         16
-      ], regions.right);
+      ], regions.right, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         6,
         0,
         4,
         16
-      ], regions.front);
+      ], regions.front, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceLeft" + blockId, [
         6,
         0,
         4,
         16
-      ], regions.left);
+      ], regions.left, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         6,
         0,
         4,
         16
-      ], regions.back);
+      ], regions.back, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceTop" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.stop1);
+      ], regions.stop1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.sbottom1);
+      ], regions.sbottom1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceRight" + blockId, [
         7,
         1,
         2,
         3
-      ], regions.sright1);
+      ], regions.sright1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         10,
         1,
         6,
         3
-      ], regions.sfront1);
+      ], regions.sfront1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceLeft" + blockId, [
         7,
         1,
         2,
         3
-      ], regions.sleft1);
-  MinecraftBlock_Face.draw180("FenceFaceBack" + blockId, [
+      ], regions.sleft1, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         0,
         1,
         6,
         3
-      ], regions.sback1);
+      ], regions.sback1, undefined, 180.0, undefined);
   MinecraftBlock_Face.draw("FenceFaceTop" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.stop2);
+      ], regions.stop2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.sbottom2);
+      ], regions.sbottom2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceRight" + blockId, [
         7,
         7,
         2,
         3
-      ], regions.sright2);
+      ], regions.sright2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         10,
         7,
         6,
         3
-      ], regions.sfront2);
+      ], regions.sfront2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceLeft" + blockId, [
         7,
         7,
         2,
         3
-      ], regions.sleft2);
-  MinecraftBlock_Face.draw180("FenceFaceBack" + blockId, [
+      ], regions.sleft2, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         0,
         7,
         6,
         3
-      ], regions.sback2);
+      ], regions.sback2, undefined, 180.0, undefined);
   MinecraftBlock_Face.draw("FenceFaceTop" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.ltop1);
+      ], regions.ltop1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.lbottom1);
+      ], regions.lbottom1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceRight" + blockId, [
         7,
         1,
         2,
         3
-      ], regions.lright1);
+      ], regions.lright1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         10,
         1,
         6,
         3
-      ], regions.lfront1);
+      ], regions.lfront1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceLeft" + blockId, [
         7,
         1,
         2,
         3
-      ], regions.lleft1);
-  MinecraftBlock_Face.draw180("FenceFaceBack" + blockId, [
+      ], regions.lleft1, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         0,
         1,
         6,
         3
-      ], regions.lback1);
+      ], regions.lback1, undefined, 180.0, undefined);
   MinecraftBlock_Face.draw("FenceFaceTop" + blockId, [
         0,
         7,
         6,
         2
-      ], regions.l2top1);
+      ], regions.l2top1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         0,
         7,
         6,
         2
-      ], regions.l2bottom1);
+      ], regions.l2bottom1, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         0,
         1,
         6,
         3
-      ], regions.l2front1);
-  MinecraftBlock_Face.draw180("FenceFaceBack" + blockId, [
+      ], regions.l2front1, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         7,
         1,
         6,
         3
-      ], regions.l2back1);
+      ], regions.l2back1, undefined, 180.0, undefined);
   MinecraftBlock_Face.draw("FenceFaceTop" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.ltop2);
+      ], regions.ltop2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         10,
         7,
         6,
         2
-      ], regions.lbottom2);
+      ], regions.lbottom2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceRight" + blockId, [
         7,
         7,
         2,
         3
-      ], regions.lright2);
+      ], regions.lright2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         10,
         7,
         6,
         3
-      ], regions.lfront2);
+      ], regions.lfront2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceLeft" + blockId, [
         7,
         7,
         2,
         3
-      ], regions.lleft2);
-  MinecraftBlock_Face.draw180("FenceFaceBack" + blockId, [
+      ], regions.lleft2, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         0,
         7,
         6,
         3
-      ], regions.lback2);
+      ], regions.lback2, undefined, 180.0, undefined);
   MinecraftBlock_Face.draw("FenceFaceTop" + blockId, [
         0,
         7,
         6,
         2
-      ], regions.l2top2);
+      ], regions.l2top2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceBottom" + blockId, [
         0,
         7,
         6,
         2
-      ], regions.l2bottom2);
+      ], regions.l2bottom2, undefined, undefined, undefined);
   MinecraftBlock_Face.draw("FenceFaceFront" + blockId, [
         0,
         7,
         6,
         3
-      ], regions.l2front2);
-  MinecraftBlock_Face.draw180("FenceFaceBack" + blockId, [
+      ], regions.l2front2, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("FenceFaceBack" + blockId, [
         7,
         7,
         6,
         3
-      ], regions.l2back2);
+      ], regions.l2back2, undefined, 180.0, undefined);
   Generator.drawImage("Tabs-Fence", [
         ox - 32 | 0,
         oy - 1 | 0
@@ -868,6 +860,401 @@ var Fence = {
   draw: draw$3
 };
 
+function make$4(ox, oy) {
+  return {
+          top: [
+            (ox + 192 | 0) - 12 | 0,
+            oy - 12 | 0,
+            24,
+            128
+          ],
+          bottom: [
+            (ox + 192 | 0) - 12 | 0,
+            (oy + 256 | 0) + 12 | 0,
+            24,
+            128
+          ],
+          right1: [
+            (ox + 128 | 0) - 24 | 0,
+            oy + 64 | 0,
+            24,
+            128
+          ],
+          front1: [
+            ox + 128 | 0,
+            oy + 64 | 0,
+            128,
+            128
+          ],
+          left1: [
+            ox + 256 | 0,
+            oy + 64 | 0,
+            24,
+            128
+          ],
+          back1: [
+            (ox + 256 | 0) + 24 | 0,
+            oy + 64 | 0,
+            128,
+            128
+          ],
+          right2: [
+            (ox + 128 | 0) - 24 | 0,
+            oy + 192 | 0,
+            24,
+            128
+          ],
+          front2: [
+            ox + 128 | 0,
+            oy + 192 | 0,
+            128,
+            128
+          ],
+          left2: [
+            ox + 256 | 0,
+            oy + 192 | 0,
+            24,
+            128
+          ],
+          back2: [
+            (ox + 256 | 0) + 24 | 0,
+            oy + 192 | 0,
+            128,
+            128
+          ]
+        };
+}
+
+var Regions$4 = {
+  size: 128,
+  size2: 24,
+  make: make$4
+};
+
+function draw$4(blockId, ox, oy) {
+  var regions = make$4(ox, oy);
+  MinecraftBlock_Face.defineInputRegion("DoorFace1" + blockId, regions.front1);
+  MinecraftBlock_Face.defineInputRegion("DoorFace2" + blockId, regions.front2);
+  MinecraftBlock_Face.draw("DoorFace2" + blockId, [
+        13,
+        0,
+        3,
+        16
+      ], regions.top, undefined, -90.0, undefined);
+  MinecraftBlock_Face.draw("DoorFace2" + blockId, [
+        13,
+        0,
+        3,
+        16
+      ], regions.bottom, undefined, 90.0, undefined);
+  MinecraftBlock_Face.draw("DoorFace1" + blockId, [
+        0,
+        0,
+        3,
+        16
+      ], regions.right1, "Horizontal", undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace1" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.front1, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace1" + blockId, [
+        0,
+        0,
+        3,
+        16
+      ], regions.left1, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace1" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.back1, "Horizontal", undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace2" + blockId, [
+        0,
+        0,
+        3,
+        16
+      ], regions.right2, "Horizontal", undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace2" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.front2, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace2" + blockId, [
+        0,
+        0,
+        3,
+        16
+      ], regions.left2, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("DoorFace2" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.back2, "Horizontal", undefined, undefined);
+  Generator.drawImage("Tabs-Door", [
+        ox - 32 | 0,
+        oy - 1 | 0
+      ]);
+  var showFolds = Generator.getBooleanInputValue("Show Folds");
+  if (showFolds) {
+    return Generator.drawImage("Folds-Door", [
+                ox - 32 | 0,
+                oy - 1 | 0
+              ]);
+  }
+  
+}
+
+var Door = {
+  Regions: Regions$4,
+  draw: draw$4
+};
+
+function make$5(ox, oy) {
+  return {
+          top: [
+            ox + 128 | 0,
+            (oy + 128 | 0) - 24 | 0,
+            128,
+            24
+          ],
+          bottom: [
+            ox + 128 | 0,
+            oy + 256 | 0,
+            128,
+            24
+          ],
+          right: [
+            (ox + 64 | 0) - 12 | 0,
+            (oy + 192 | 0) - 12 | 0,
+            128,
+            24
+          ],
+          front: [
+            ox + 128 | 0,
+            oy + 128 | 0,
+            128,
+            128
+          ],
+          left: [
+            (ox + 192 | 0) + 12 | 0,
+            (oy + 192 | 0) - 12 | 0,
+            128,
+            24
+          ],
+          back: [
+            (ox + 256 | 0) + 24 | 0,
+            oy + 128 | 0,
+            128,
+            128
+          ]
+        };
+}
+
+var Regions$5 = {
+  size: 128,
+  size2: 24,
+  make: make$5
+};
+
+function draw$5(blockId, ox, oy) {
+  var regions = make$5(ox, oy);
+  MinecraftBlock_Face.defineInputRegion("TrapdoorFace" + blockId, regions.front);
+  MinecraftBlock_Face.draw("TrapdoorFace" + blockId, [
+        0,
+        0,
+        16,
+        3
+      ], regions.top, undefined, 180.0, undefined);
+  MinecraftBlock_Face.draw("TrapdoorFace" + blockId, [
+        0,
+        0,
+        16,
+        3
+      ], regions.bottom, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("TrapdoorFace" + blockId, [
+        0,
+        0,
+        16,
+        3
+      ], regions.right, undefined, 90.0, undefined);
+  MinecraftBlock_Face.draw("TrapdoorFace" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.front, "Horizontal", undefined, undefined);
+  MinecraftBlock_Face.draw("TrapdoorFace" + blockId, [
+        0,
+        0,
+        16,
+        3
+      ], regions.left, undefined, -90.0, undefined);
+  MinecraftBlock_Face.draw("TrapdoorFace" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.back, undefined, undefined, undefined);
+  Generator.drawImage("Tabs-Trapdoor", [
+        ox - 32 | 0,
+        oy - 1 | 0
+      ]);
+  var showFolds = Generator.getBooleanInputValue("Show Folds");
+  if (showFolds) {
+    return Generator.drawImage("Folds-Trapdoor", [
+                ox - 32 | 0,
+                oy - 1 | 0
+              ]);
+  }
+  
+}
+
+var Trapdoor = {
+  Regions: Regions$5,
+  draw: draw$5
+};
+
+function make$6(ox, oy, levels, offset) {
+  return {
+          top: [
+            ox + 128 | 0,
+            ((oy + 128 | 0) - (levels << 4) | 0) + (offset << 3) | 0,
+            128,
+            128
+          ],
+          bottom: [
+            ox + 128 | 0,
+            oy + 256 | 0,
+            128,
+            128
+          ],
+          right: [
+            ox,
+            ((oy + 256 | 0) - (levels << 4) | 0) + (offset << 3) | 0,
+            128,
+            (levels << 4) - (offset << 3) | 0
+          ],
+          front: [
+            ox + 128 | 0,
+            ((oy + 256 | 0) - (levels << 4) | 0) + (offset << 3) | 0,
+            128,
+            (levels << 4) - (offset << 3) | 0
+          ],
+          left: [
+            ox + 256 | 0,
+            ((oy + 256 | 0) - (levels << 4) | 0) + (offset << 3) | 0,
+            128,
+            (levels << 4) - (offset << 3) | 0
+          ],
+          back: [
+            ox + 384 | 0,
+            ((oy + 256 | 0) - (levels << 4) | 0) + (offset << 3) | 0,
+            128,
+            (levels << 4) - (offset << 3) | 0
+          ]
+        };
+}
+
+var Regions$6 = {
+  size: 128,
+  make: make$6
+};
+
+function draw$6(blockId, ox, oy) {
+  Generator.defineSelectInput("Block " + blockId + " Level", [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]);
+  Generator.defineBooleanInput("Block " + blockId + " Offset for Intermediate Levels", false);
+  var levels = Belt_Option.getWithDefault(Belt_Int.fromString(Generator.getSelectInputValue("Block " + blockId + " Level")), 1);
+  var offset = Generator.getBooleanInputValue("Block " + blockId + " Offset for Intermediate Levels") ? 1 : 0;
+  var regions = make$6(ox, oy, levels, offset);
+  MinecraftBlock_Face.defineInputRegion("SnowFaceTop" + blockId, regions.top);
+  MinecraftBlock_Face.defineInputRegion("SnowFaceBottom" + blockId, regions.bottom);
+  MinecraftBlock_Face.defineInputRegion("SnowFaceRight" + blockId, regions.right);
+  MinecraftBlock_Face.defineInputRegion("SnowFaceFront" + blockId, regions.front);
+  MinecraftBlock_Face.defineInputRegion("SnowFaceLeft" + blockId, regions.left);
+  MinecraftBlock_Face.defineInputRegion("SnowFaceBack" + blockId, regions.back);
+  MinecraftBlock_Face.draw("SnowFaceTop" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.top, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("SnowFaceBottom" + blockId, [
+        0,
+        0,
+        16,
+        16
+      ], regions.bottom, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("SnowFaceRight" + blockId, [
+        0,
+        (16 - (levels << 1) | 0) + offset | 0,
+        16,
+        (levels << 1) - offset | 0
+      ], regions.right, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("SnowFaceFront" + blockId, [
+        0,
+        (16 - (levels << 1) | 0) + offset | 0,
+        16,
+        (levels << 1) - offset | 0
+      ], regions.front, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("SnowFaceLeft" + blockId, [
+        0,
+        (16 - (levels << 1) | 0) + offset | 0,
+        16,
+        (levels << 1) - offset | 0
+      ], regions.left, undefined, undefined, undefined);
+  MinecraftBlock_Face.draw("SnowFaceBack" + blockId, [
+        0,
+        (16 - (levels << 1) | 0) + offset | 0,
+        16,
+        (levels << 1) - offset | 0
+      ], regions.back, undefined, undefined, undefined);
+  Generator.drawImage("Tabs-Snow-Bottom", [
+        ox - 32 | 0,
+        oy - 1 | 0
+      ]);
+  var showFolds = Generator.getBooleanInputValue("Show Folds");
+  if (showFolds) {
+    Generator.drawImage("Folds-Snow-Bottom", [
+          ox - 32 | 0,
+          oy - 1 | 0
+        ]);
+  }
+  Generator.drawImage("Tabs-Snow-Top", [
+        ox - 32 | 0,
+        (((oy - 1 | 0) + 128 | 0) - (levels << 4) | 0) + (offset << 3) | 0
+      ]);
+  Generator.drawImage("Tabs-Snow-Middle", [
+        ox - 32 | 0,
+        oy - 1 | 0
+      ]);
+  if (showFolds) {
+    return Generator.drawImage("Folds-Snow-Top", [
+                ox - 32 | 0,
+                (((oy - 1 | 0) + 128 | 0) - (levels << 4) | 0) + (offset << 3) | 0
+              ]);
+  }
+  
+}
+
+var Snow = {
+  Regions: Regions$6,
+  draw: draw$6
+};
+
 var id = "minecraft-block";
 
 var name = "Minecraft Block";
@@ -875,43 +1262,79 @@ var name = "Minecraft Block";
 var images = [
   {
     id: "Background",
-    url: requireImage("Background")
+    url: require("./images/Background.png")
   },
   {
     id: "Title",
-    url: requireImage("Title")
+    url: require("./images/Title.png")
   },
   {
     id: "Folds-Block",
-    url: requireImage("Folds-Block")
+    url: require("./images/Folds-Block.png")
   },
   {
     id: "Tabs-Block",
-    url: requireImage("Tabs-Block")
+    url: require("./images/Tabs-Block.png")
   },
   {
     id: "Folds-Slab",
-    url: requireImage("Folds-Slab")
+    url: require("./images/Folds-Slab.png")
   },
   {
     id: "Tabs-Slab",
-    url: requireImage("Tabs-Slab")
+    url: require("./images/Tabs-Slab.png")
   },
   {
     id: "Folds-Stair",
-    url: requireImage("Folds-Stair")
+    url: require("./images/Folds-Stair.png")
   },
   {
     id: "Tabs-Stair",
-    url: requireImage("Tabs-Stair")
+    url: require("./images/Tabs-Stair.png")
   },
   {
     id: "Folds-Fence",
-    url: requireImage("Folds-Fence")
+    url: require("./images/Folds-Fence.png")
   },
   {
     id: "Tabs-Fence",
-    url: requireImage("Tabs-Fence")
+    url: require("./images/Tabs-Fence.png")
+  },
+  {
+    id: "Folds-Door",
+    url: require("./images/Folds-Door.png")
+  },
+  {
+    id: "Tabs-Door",
+    url: require("./images/Tabs-Door.png")
+  },
+  {
+    id: "Folds-Trapdoor",
+    url: require("./images/Folds-Trapdoor.png")
+  },
+  {
+    id: "Tabs-Trapdoor",
+    url: require("./images/Tabs-Trapdoor.png")
+  },
+  {
+    id: "Folds-Snow-Top",
+    url: require("./images/Folds-Snow-Top.png")
+  },
+  {
+    id: "Folds-Snow-Bottom",
+    url: require("./images/Folds-Snow-Bottom.png")
+  },
+  {
+    id: "Tabs-Snow-Top",
+    url: require("./images/Tabs-Snow-Top.png")
+  },
+  {
+    id: "Tabs-Snow-Middle",
+    url: require("./images/Tabs-Snow-Middle.png")
+  },
+  {
+    id: "Tabs-Snow-Bottom",
+    url: require("./images/Tabs-Snow-Bottom.png")
   }
 ];
 
@@ -941,7 +1364,10 @@ function script(param) {
           "Block",
           "Slab",
           "Stair",
-          "Fence"
+          "Fence",
+          "Door",
+          "Trapdoor",
+          "Snow Layers"
         ]);
     var blockType = Generator.getSelectInputValue(typeName);
     switch (blockType) {
@@ -949,17 +1375,29 @@ function script(param) {
           var oy = 16 + Math.imul(400, i - 1 | 0) | 0;
           draw(blockId, 57, oy);
           break;
-      case "Fence" :
+      case "Door" :
           var oy$1 = 16 + Math.imul(400, i - 1 | 0) | 0;
-          draw$3(blockId, 57, oy$1);
+          draw$4(blockId, 57, oy$1);
+          break;
+      case "Fence" :
+          var oy$2 = 16 + Math.imul(400, i - 1 | 0) | 0;
+          draw$3(blockId, 57, oy$2);
           break;
       case "Slab" :
-          var oy$2 = 16 + Math.imul(400, i - 1 | 0) | 0;
-          draw$1(blockId, 57, oy$2);
+          var oy$3 = 16 + Math.imul(400, i - 1 | 0) | 0;
+          draw$1(blockId, 57, oy$3);
+          break;
+      case "Snow Layers" :
+          var oy$4 = 16 + Math.imul(400, i - 1 | 0) | 0;
+          draw$6(blockId, 57, oy$4);
           break;
       case "Stair" :
-          var oy$3 = 16 + Math.imul(400, i - 1 | 0) | 0;
-          draw$2(blockId, 57, oy$3);
+          var oy$5 = 16 + Math.imul(400, i - 1 | 0) | 0;
+          draw$2(blockId, 57, oy$5);
+          break;
+      case "Trapdoor" :
+          var oy$6 = 16 + Math.imul(400, i - 1 | 0) | 0;
+          draw$5(blockId, 57, oy$6);
           break;
       default:
         
@@ -993,12 +1431,13 @@ var textures = MinecraftBlock_Textures.textures;
 exports.Components = Components;
 exports.Textures = Textures;
 exports.Face = Face;
-exports.requireImage = requireImage;
-exports.requireTexture = requireTexture;
 exports.Block = Block;
 exports.Slab = Slab;
 exports.Stair = Stair;
 exports.Fence = Fence;
+exports.Door = Door;
+exports.Trapdoor = Trapdoor;
+exports.Snow = Snow;
 exports.id = id;
 exports.name = name;
 exports.images = images;

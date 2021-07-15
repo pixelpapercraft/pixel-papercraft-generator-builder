@@ -2,9 +2,6 @@ module Components = MinecraftBlock_Components
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 
-let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
-let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
-
 type region = (int, int, int, int)
 
 module Block = {
@@ -40,12 +37,12 @@ module Block = {
     Face.defineInputRegion("BlockFaceLeft" ++ blockId, regions.left)
     Face.defineInputRegion("BlockFaceBack" ++ blockId, regions.back)
 
-    Face.draw("BlockFaceTop" ++ blockId, (0, 0, 16, 16), regions.top)
-    Face.draw("BlockFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom)
-    Face.draw("BlockFaceRight" ++ blockId, (0, 0, 16, 16), regions.right)
-    Face.draw("BlockFaceFront" ++ blockId, (0, 0, 16, 16), regions.front)
-    Face.draw("BlockFaceLeft" ++ blockId, (0, 0, 16, 16), regions.left)
-    Face.draw("BlockFaceBack" ++ blockId, (0, 0, 16, 16), regions.back)
+    Face.draw("BlockFaceTop" ++ blockId, (0, 0, 16, 16), regions.top, ())
+    Face.draw("BlockFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom, ())
+    Face.draw("BlockFaceRight" ++ blockId, (0, 0, 16, 16), regions.right, ())
+    Face.draw("BlockFaceFront" ++ blockId, (0, 0, 16, 16), regions.front, ())
+    Face.draw("BlockFaceLeft" ++ blockId, (0, 0, 16, 16), regions.left, ())
+    Face.draw("BlockFaceBack" ++ blockId, (0, 0, 16, 16), regions.back, ())
 
     Generator.drawImage("Tabs-Block", (ox - 32, oy - 1))
 
@@ -89,12 +86,12 @@ module Slab = {
     Face.defineInputRegion("SlabFaceLeft" ++ blockId, regions.left)
     Face.defineInputRegion("SlabFaceBack" ++ blockId, regions.back)
 
-    Face.draw("SlabFaceTop" ++ blockId, (0, 0, 16, 16), regions.top)
-    Face.draw("SlabFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom)
-    Face.draw("SlabFaceRight" ++ blockId, (0, 8, 16, 8), regions.right)
-    Face.draw("SlabFaceFront" ++ blockId, (0, 8, 16, 8), regions.front)
-    Face.draw("SlabFaceLeft" ++ blockId, (0, 8, 16, 8), regions.left)
-    Face.draw("SlabFaceBack" ++ blockId, (0, 8, 16, 8), regions.back)
+    Face.draw("SlabFaceTop" ++ blockId, (0, 0, 16, 16), regions.top, ())
+    Face.draw("SlabFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom, ())
+    Face.draw("SlabFaceRight" ++ blockId, (0, 8, 16, 8), regions.right, ())
+    Face.draw("SlabFaceFront" ++ blockId, (0, 8, 16, 8), regions.front, ())
+    Face.draw("SlabFaceLeft" ++ blockId, (0, 8, 16, 8), regions.left, ())
+    Face.draw("SlabFaceBack" ++ blockId, (0, 8, 16, 8), regions.back, ())
 
     Generator.drawImage("Tabs-Slab", (ox - 32, oy - 1))
 
@@ -144,14 +141,14 @@ module Stair = {
     Face.defineInputRegion("StairFaceBack" ++ blockId, regions.back)
     //Face.defineInputRegion("StairFaceBack2" ++ blockId, regions.back2)
 
-    Face.draw("StairFaceTop" ++ blockId, (0, 8, 16, 8), regions.top)
-    Face.draw180("StairFaceBack" ++ blockId, (0, 0, 16, 8), regions.back2)
-    Face.draw("StairFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom)
-    Face.draw("StairFaceRight" ++ blockId, (0, 0, 16, 16), regions.right)
-    Face.draw("StairFaceFront" ++ blockId, (0, 0, 16, 16), regions.front)
-    Face.draw("StairFaceLeft" ++ blockId, (0, 0, 16, 16), regions.left)
-    Face.draw("StairFaceBack" ++ blockId, (0, 8, 16, 8), regions.back)
-    Face.draw180("StairFaceTop" ++ blockId, (0, 0, 16, 8), regions.top2)
+    Face.draw("StairFaceTop" ++ blockId, (0, 8, 16, 8), regions.top, ())
+    Face.draw("StairFaceBack" ++ blockId, (0, 0, 16, 8), regions.back2, ~rotate=180.0, ())
+    Face.draw("StairFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom, ())
+    Face.draw("StairFaceRight" ++ blockId, (0, 0, 16, 16), regions.right, ())
+    Face.draw("StairFaceFront" ++ blockId, (0, 0, 16, 16), regions.front, ())
+    Face.draw("StairFaceLeft" ++ blockId, (0, 0, 16, 16), regions.left, ())
+    Face.draw("StairFaceBack" ++ blockId, (0, 8, 16, 8), regions.back, ())
+    Face.draw("StairFaceTop" ++ blockId, (0, 0, 16, 8), regions.top2, ~rotate=180.0, ())
 
     Generator.drawImage("Tabs-Stair", (ox - 32, oy - 1))
 
@@ -276,48 +273,48 @@ module Fence = {
     Face.defineInputRegion("FenceFaceLeft" ++ blockId, regions.left)
     Face.defineInputRegion("FenceFaceBack" ++ blockId, regions.back)
 
-    Face.draw("FenceFaceTop" ++ blockId, (6, 6, 4, 4), regions.top)
-    Face.draw("FenceFaceBottom" ++ blockId, (6, 6, 4, 4), regions.bottom)
-    Face.draw("FenceFaceRight" ++ blockId, (6, 0, 4, 16), regions.right)
-    Face.draw("FenceFaceFront" ++ blockId, (6, 0, 4, 16), regions.front)
-    Face.draw("FenceFaceLeft" ++ blockId, (6, 0, 4, 16), regions.left)
-    Face.draw("FenceFaceBack" ++ blockId, (6, 0, 4, 16), regions.back)
+    Face.draw("FenceFaceTop" ++ blockId, (6, 6, 4, 4), regions.top, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (6, 6, 4, 4), regions.bottom, ())
+    Face.draw("FenceFaceRight" ++ blockId, (6, 0, 4, 16), regions.right, ())
+    Face.draw("FenceFaceFront" ++ blockId, (6, 0, 4, 16), regions.front, ())
+    Face.draw("FenceFaceLeft" ++ blockId, (6, 0, 4, 16), regions.left, ())
+    Face.draw("FenceFaceBack" ++ blockId, (6, 0, 4, 16), regions.back, ())
 
-    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.stop1)
-    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.sbottom1)
-    Face.draw("FenceFaceRight" ++ blockId, (7, 1, 2, 3), regions.sright1)
-    Face.draw("FenceFaceFront" ++ blockId, (10, 1, 6, 3), regions.sfront1)
-    Face.draw("FenceFaceLeft" ++ blockId, (7, 1, 2, 3), regions.sleft1)
-    Face.draw180("FenceFaceBack" ++ blockId, (0, 1, 6, 3), regions.sback1)
+    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.stop1, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.sbottom1, ())
+    Face.draw("FenceFaceRight" ++ blockId, (7, 1, 2, 3), regions.sright1, ())
+    Face.draw("FenceFaceFront" ++ blockId, (10, 1, 6, 3), regions.sfront1, ())
+    Face.draw("FenceFaceLeft" ++ blockId, (7, 1, 2, 3), regions.sleft1, ())
+    Face.draw("FenceFaceBack" ++ blockId, (0, 1, 6, 3), regions.sback1, ~rotate=180.0, ())
 
-    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.stop2)
-    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.sbottom2)
-    Face.draw("FenceFaceRight" ++ blockId, (7, 7, 2, 3), regions.sright2)
-    Face.draw("FenceFaceFront" ++ blockId, (10, 7, 6, 3), regions.sfront2)
-    Face.draw("FenceFaceLeft" ++ blockId, (7, 7, 2, 3), regions.sleft2)
-    Face.draw180("FenceFaceBack" ++ blockId, (0, 7, 6, 3), regions.sback2)
+    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.stop2, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.sbottom2, ())
+    Face.draw("FenceFaceRight" ++ blockId, (7, 7, 2, 3), regions.sright2, ())
+    Face.draw("FenceFaceFront" ++ blockId, (10, 7, 6, 3), regions.sfront2, ())
+    Face.draw("FenceFaceLeft" ++ blockId, (7, 7, 2, 3), regions.sleft2, ())
+    Face.draw("FenceFaceBack" ++ blockId, (0, 7, 6, 3), regions.sback2, ~rotate=180.0, ())
 
-    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.ltop1)
-    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.lbottom1)
-    Face.draw("FenceFaceRight" ++ blockId, (7, 1, 2, 3), regions.lright1)
-    Face.draw("FenceFaceFront" ++ blockId, (10, 1, 6, 3), regions.lfront1)
-    Face.draw("FenceFaceLeft" ++ blockId, (7, 1, 2, 3), regions.lleft1)
-    Face.draw180("FenceFaceBack" ++ blockId, (0, 1, 6, 3), regions.lback1)
-    Face.draw("FenceFaceTop" ++ blockId, (0, 7, 6, 2), regions.l2top1)
-    Face.draw("FenceFaceBottom" ++ blockId, (0, 7, 6, 2), regions.l2bottom1)
-    Face.draw("FenceFaceFront" ++ blockId, (0, 1, 6, 3), regions.l2front1)
-    Face.draw180("FenceFaceBack" ++ blockId, (7, 1, 6, 3), regions.l2back1)
+    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.ltop1, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.lbottom1, ())
+    Face.draw("FenceFaceRight" ++ blockId, (7, 1, 2, 3), regions.lright1, ())
+    Face.draw("FenceFaceFront" ++ blockId, (10, 1, 6, 3), regions.lfront1, ())
+    Face.draw("FenceFaceLeft" ++ blockId, (7, 1, 2, 3), regions.lleft1, ())
+    Face.draw("FenceFaceBack" ++ blockId, (0, 1, 6, 3), regions.lback1, ~rotate=180.0, ())
+    Face.draw("FenceFaceTop" ++ blockId, (0, 7, 6, 2), regions.l2top1, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (0, 7, 6, 2), regions.l2bottom1, ())
+    Face.draw("FenceFaceFront" ++ blockId, (0, 1, 6, 3), regions.l2front1, ())
+    Face.draw("FenceFaceBack" ++ blockId, (7, 1, 6, 3), regions.l2back1, ~rotate=180.0, ())
 
-    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.ltop2)
-    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.lbottom2)
-    Face.draw("FenceFaceRight" ++ blockId, (7, 7, 2, 3), regions.lright2)
-    Face.draw("FenceFaceFront" ++ blockId, (10, 7, 6, 3), regions.lfront2)
-    Face.draw("FenceFaceLeft" ++ blockId, (7, 7, 2, 3), regions.lleft2)
-    Face.draw180("FenceFaceBack" ++ blockId, (0, 7, 6, 3), regions.lback2)
-    Face.draw("FenceFaceTop" ++ blockId, (0, 7, 6, 2), regions.l2top2)
-    Face.draw("FenceFaceBottom" ++ blockId, (0, 7, 6, 2), regions.l2bottom2)
-    Face.draw("FenceFaceFront" ++ blockId, (0, 7, 6, 3), regions.l2front2)
-    Face.draw180("FenceFaceBack" ++ blockId, (7, 7, 6, 3), regions.l2back2)
+    Face.draw("FenceFaceTop" ++ blockId, (10, 7, 6, 2), regions.ltop2, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (10, 7, 6, 2), regions.lbottom2, ())
+    Face.draw("FenceFaceRight" ++ blockId, (7, 7, 2, 3), regions.lright2, ())
+    Face.draw("FenceFaceFront" ++ blockId, (10, 7, 6, 3), regions.lfront2, ())
+    Face.draw("FenceFaceLeft" ++ blockId, (7, 7, 2, 3), regions.lleft2, ())
+    Face.draw("FenceFaceBack" ++ blockId, (0, 7, 6, 3), regions.lback2, ~rotate=180.0, ())
+    Face.draw("FenceFaceTop" ++ blockId, (0, 7, 6, 2), regions.l2top2, ())
+    Face.draw("FenceFaceBottom" ++ blockId, (0, 7, 6, 2), regions.l2bottom2, ())
+    Face.draw("FenceFaceFront" ++ blockId, (0, 7, 6, 3), regions.l2front2, ())
+    Face.draw("FenceFaceBack" ++ blockId, (7, 7, 6, 3), regions.l2back2, ~rotate=180.0, ())
 
     Generator.drawImage("Tabs-Fence", (ox - 32, oy - 1))
 
@@ -328,21 +325,235 @@ module Fence = {
   }
 }
 
+module Door = {
+  module Regions = {
+    type faces = {
+      top: region,
+      bottom: region,
+      right1: region,
+      front1: region,
+      left1: region,
+      back1: region,
+      right2: region,
+      front2: region,
+      left2: region,
+      back2: region,
+    }
+
+    let size = 128
+    let size2 = 24
+
+    let make = (ox, oy): faces => {
+      top: (ox + size * 3 / 2 - size2 / 2, oy - size2 / 2, size2, size),
+      bottom: (ox + size * 3 / 2 - size2 / 2, oy + size * 2 + size2 / 2, size2, size),
+      right1: (ox + size - size2, oy + size / 2, size2, size),
+      front1: (ox + size, oy + size / 2, size, size),
+      left1: (ox + size * 2, oy + size / 2, size2, size),
+      back1: (ox + size * 2 + size2, oy + size / 2, size, size),
+      right2: (ox + size - size2, oy + size * 3 / 2, size2, size),
+      front2: (ox + size, oy + size * 3 / 2, size, size),
+      left2: (ox + size * 2, oy + size * 3 / 2, size2, size),
+      back2: (ox + size * 2 + size2, oy + size * 3 / 2, size, size),
+    }
+  }
+
+  let draw = (blockId: string, ox: int, oy: int) => {
+    let regions = Regions.make(ox, oy)
+
+    Face.defineInputRegion("DoorFace1" ++ blockId, regions.front1)
+    Face.defineInputRegion("DoorFace2" ++ blockId, regions.front2)
+
+    Face.draw("DoorFace2" ++ blockId, (13, 0, 3, 16), regions.top, ~rotate=-90.0, ())
+    Face.draw("DoorFace2" ++ blockId, (13, 0, 3, 16), regions.bottom, ~rotate=90.0, ())
+    Face.draw("DoorFace1" ++ blockId, (0, 0, 3, 16), regions.right1, ~flip=#Horizontal, ())
+    Face.draw("DoorFace1" ++ blockId, (0, 0, 16, 16), regions.front1, ())
+    Face.draw("DoorFace1" ++ blockId, (0, 0, 3, 16), regions.left1, ())
+    Face.draw("DoorFace1" ++ blockId, (0, 0, 16, 16), regions.back1, ~flip=#Horizontal, ())
+    Face.draw("DoorFace2" ++ blockId, (0, 0, 3, 16), regions.right2, ~flip=#Horizontal, ())
+    Face.draw("DoorFace2" ++ blockId, (0, 0, 16, 16), regions.front2, ())
+    Face.draw("DoorFace2" ++ blockId, (0, 0, 3, 16), regions.left2, ())
+    Face.draw("DoorFace2" ++ blockId, (0, 0, 16, 16), regions.back2, ~flip=#Horizontal, ())
+
+    Generator.drawImage("Tabs-Door", (ox - 32, oy - 1))
+
+    let showFolds = Generator.getBooleanInputValue("Show Folds")
+    if showFolds {
+      Generator.drawImage("Folds-Door", (ox - 32, oy - 1))
+    }
+  }
+}
+
+module Trapdoor = {
+  module Regions = {
+    type faces = {
+      top: region,
+      bottom: region,
+      right: region,
+      front: region,
+      left: region,
+      back: region,
+    }
+
+    let size = 128
+    let size2 = 24
+
+    let make = (ox, oy): faces => {
+      top: (ox + size, oy + size - size2, size, size2),
+      bottom: (ox + size, oy + size * 2, size, size2),
+      right: (ox + size / 2 - size2 / 2, oy + size * 3 / 2 - size2 / 2, size, size2),
+      front: (ox + size, oy + size, size, size),
+      left: (ox + size * 3 / 2 + size2 / 2, oy + size * 3 / 2 - size2 / 2, size, size2),
+      back: (ox + size * 2 + size2, oy + size, size, size),
+    }
+  }
+
+  let draw = (blockId: string, ox: int, oy: int) => {
+    let regions = Regions.make(ox, oy)
+
+    Face.defineInputRegion("TrapdoorFace" ++ blockId, regions.front)
+
+    Face.draw("TrapdoorFace" ++ blockId, (0, 0, 16, 3), regions.top, ~rotate=180.0, ())
+    Face.draw("TrapdoorFace" ++ blockId, (0, 0, 16, 3), regions.bottom, ())
+    Face.draw("TrapdoorFace" ++ blockId, (0, 0, 16, 3), regions.right, ~rotate=90.0, ())
+    Face.draw("TrapdoorFace" ++ blockId, (0, 0, 16, 16), regions.front, ~flip=#Horizontal, ())
+    Face.draw("TrapdoorFace" ++ blockId, (0, 0, 16, 3), regions.left, ~rotate=-90.0, ())
+    Face.draw("TrapdoorFace" ++ blockId, (0, 0, 16, 16), regions.back, ())
+
+    Generator.drawImage("Tabs-Trapdoor", (ox - 32, oy - 1))
+
+    let showFolds = Generator.getBooleanInputValue("Show Folds")
+    if showFolds {
+      Generator.drawImage("Folds-Trapdoor", (ox - 32, oy - 1))
+    }
+  }
+}
+
+module Snow = {
+  module Regions = {
+    type faces = {
+      top: region,
+      bottom: region,
+      right: region,
+      front: region,
+      left: region,
+      back: region,
+    }
+
+    let size = 128
+
+    let make = (ox, oy, levels, offset): faces => {
+      top: (ox + size, oy + size - levels * 16 + offset * 8, size, size),
+      bottom: (ox + size, oy + size * 2, size, size),
+      right: (ox, oy + size * 2 - levels * 16 + offset * 8, size, levels * 16 - offset * 8),
+      front: (ox + size, oy + size * 2 - levels * 16 + offset * 8, size, levels * 16 - offset * 8),
+      left: (
+        ox + size * 2,
+        oy + size * 2 - levels * 16 + offset * 8,
+        size,
+        levels * 16 - offset * 8,
+      ),
+      back: (
+        ox + size * 3,
+        oy + size * 2 - levels * 16 + offset * 8,
+        size,
+        levels * 16 - offset * 8,
+      ),
+    }
+  }
+
+  let draw = (blockId: string, ox: int, oy: int) => {
+    Generator.defineSelectInput(
+      "Block " ++ blockId ++ " Level",
+      ["1", "2", "3", "4", "5", "6", "7", "8"],
+    )
+    Generator.defineBooleanInput("Block " ++ blockId ++ " Offset for Intermediate Levels", false)
+
+    let levels =
+      Generator.getSelectInputValue("Block " ++ blockId ++ " Level")
+      ->Belt.Int.fromString
+      ->Belt.Option.getWithDefault(1)
+
+    let offset = Generator.getBooleanInputValue(
+      "Block " ++ blockId ++ " Offset for Intermediate Levels",
+    )
+      ? 1
+      : 0
+
+    let regions = Regions.make(ox, oy, levels, offset)
+
+    Face.defineInputRegion("SnowFaceTop" ++ blockId, regions.top)
+    Face.defineInputRegion("SnowFaceBottom" ++ blockId, regions.bottom)
+    Face.defineInputRegion("SnowFaceRight" ++ blockId, regions.right)
+    Face.defineInputRegion("SnowFaceFront" ++ blockId, regions.front)
+    Face.defineInputRegion("SnowFaceLeft" ++ blockId, regions.left)
+    Face.defineInputRegion("SnowFaceBack" ++ blockId, regions.back)
+
+    Face.draw("SnowFaceTop" ++ blockId, (0, 0, 16, 16), regions.top, ())
+    Face.draw("SnowFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom, ())
+    Face.draw(
+      "SnowFaceRight" ++ blockId,
+      (0, 16 - levels * 2 + offset, 16, levels * 2 - offset),
+      regions.right,
+      (),
+    )
+    Face.draw(
+      "SnowFaceFront" ++ blockId,
+      (0, 16 - levels * 2 + offset, 16, levels * 2 - offset),
+      regions.front,
+      (),
+    )
+    Face.draw(
+      "SnowFaceLeft" ++ blockId,
+      (0, 16 - levels * 2 + offset, 16, levels * 2 - offset),
+      regions.left,
+      (),
+    )
+    Face.draw(
+      "SnowFaceBack" ++ blockId,
+      (0, 16 - levels * 2 + offset, 16, levels * 2 - offset),
+      regions.back,
+      (),
+    )
+
+    Generator.drawImage("Tabs-Snow-Bottom", (ox - 32, oy - 1))
+
+    let showFolds = Generator.getBooleanInputValue("Show Folds")
+    if showFolds {
+      Generator.drawImage("Folds-Snow-Bottom", (ox - 32, oy - 1))
+    }
+
+    Generator.drawImage("Tabs-Snow-Top", (ox - 32, oy - 1 + 128 - levels * 16 + offset * 8))
+    Generator.drawImage("Tabs-Snow-Middle", (ox - 32, oy - 1))
+    if showFolds {
+      Generator.drawImage("Folds-Snow-Top", (ox - 32, oy - 1 + 128 - levels * 16 + offset * 8))
+    }
+  }
+}
+
 let id = "minecraft-block"
 
 let name = "Minecraft Block"
 
 let images: array<Generator.imageDef> = [
-  {id: "Background", url: requireImage("Background")},
-  {id: "Title", url: requireImage("Title")},
-  {id: "Folds-Block", url: requireImage("Folds-Block")},
-  {id: "Tabs-Block", url: requireImage("Tabs-Block")},
-  {id: "Folds-Slab", url: requireImage("Folds-Slab")},
-  {id: "Tabs-Slab", url: requireImage("Tabs-Slab")},
-  {id: "Folds-Stair", url: requireImage("Folds-Stair")},
-  {id: "Tabs-Stair", url: requireImage("Tabs-Stair")},
-  {id: "Folds-Fence", url: requireImage("Folds-Fence")},
-  {id: "Tabs-Fence", url: requireImage("Tabs-Fence")},
+  {id: "Background", url: Generator.requireImage("./images/Background.png")},
+  {id: "Title", url: Generator.requireImage("./images/Title.png")},
+  {id: "Folds-Block", url: Generator.requireImage("./images/Folds-Block.png")},
+  {id: "Tabs-Block", url: Generator.requireImage("./images/Tabs-Block.png")},
+  {id: "Folds-Slab", url: Generator.requireImage("./images/Folds-Slab.png")},
+  {id: "Tabs-Slab", url: Generator.requireImage("./images/Tabs-Slab.png")},
+  {id: "Folds-Stair", url: Generator.requireImage("./images/Folds-Stair.png")},
+  {id: "Tabs-Stair", url: Generator.requireImage("./images/Tabs-Stair.png")},
+  {id: "Folds-Fence", url: Generator.requireImage("./images/Folds-Fence.png")},
+  {id: "Tabs-Fence", url: Generator.requireImage("./images/Tabs-Fence.png")},
+  {id: "Folds-Door", url: Generator.requireImage("./images/Folds-Door.png")},
+  {id: "Tabs-Door", url: Generator.requireImage("./images/Tabs-Door.png")},
+  {id: "Folds-Trapdoor", url: Generator.requireImage("./images/Folds-Trapdoor.png")},
+  {id: "Tabs-Trapdoor", url: Generator.requireImage("./images/Tabs-Trapdoor.png")},
+  {id: "Folds-Snow-Top", url: Generator.requireImage("./images/Folds-Snow-Top.png")},
+  {id: "Folds-Snow-Bottom", url: Generator.requireImage("./images/Folds-Snow-Bottom.png")},
+  {id: "Tabs-Snow-Top", url: Generator.requireImage("./images/Tabs-Snow-Top.png")},
+  {id: "Tabs-Snow-Middle", url: Generator.requireImage("./images/Tabs-Snow-Middle.png")},
+  {id: "Tabs-Snow-Bottom", url: Generator.requireImage("./images/Tabs-Snow-Bottom.png")},
 ]
 
 let textures: array<Generator.textureDef> = Textures.textures
@@ -369,7 +580,10 @@ let script = () => {
     let blockId = Js.Int.toString(i)
 
     let typeName = "Block " ++ blockId ++ " Type"
-    Generator.defineSelectInput(typeName, ["Block", "Slab", "Stair", "Fence"])
+    Generator.defineSelectInput(
+      typeName,
+      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers"],
+    )
     let blockType = Generator.getSelectInputValue(typeName)
 
     switch blockType {
@@ -392,6 +606,21 @@ let script = () => {
         let ox = 57
         let oy = 16 + 400 * (i - 1)
         Fence.draw(blockId, ox, oy)
+      }
+    | "Door" => {
+        let ox = 57
+        let oy = 16 + 400 * (i - 1)
+        Door.draw(blockId, ox, oy)
+      }
+    | "Trapdoor" => {
+        let ox = 57
+        let oy = 16 + 400 * (i - 1)
+        Trapdoor.draw(blockId, ox, oy)
+      }
+    | "Snow Layers" => {
+        let ox = 57
+        let oy = 16 + 400 * (i - 1)
+        Snow.draw(blockId, ox, oy)
       }
     | _ => ()
     }

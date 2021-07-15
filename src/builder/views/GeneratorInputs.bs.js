@@ -10,7 +10,7 @@ var FormInput = require("./FormInput.bs.js");
 var Caml_array = require("rescript/lib/js/caml_array.js");
 var Caml_option = require("rescript/lib/js/caml_option.js");
 
-function Inputs$TextureInput(Props) {
+function GeneratorInputs$TextureInput(Props) {
   var id = Props.id;
   var textures = Props.textures;
   var choices = Props.choices;
@@ -89,10 +89,10 @@ function Inputs$TextureInput(Props) {
 }
 
 var TextureInput = {
-  make: Inputs$TextureInput
+  make: GeneratorInputs$TextureInput
 };
 
-function Inputs$BooleanInput(Props) {
+function GeneratorInputs$BooleanInput(Props) {
   var id = Props.id;
   var checked = Props.checked;
   var onChange = Props.onChange;
@@ -135,10 +135,10 @@ function Inputs$BooleanInput(Props) {
 }
 
 var BooleanInput = {
-  make: Inputs$BooleanInput
+  make: GeneratorInputs$BooleanInput
 };
 
-function Inputs$SelectInput(Props) {
+function GeneratorInputs$SelectInput(Props) {
   var id = Props.id;
   var options = Props.options;
   var value = Props.value;
@@ -169,10 +169,10 @@ function Inputs$SelectInput(Props) {
 }
 
 var SelectInput = {
-  make: Inputs$SelectInput
+  make: GeneratorInputs$SelectInput
 };
 
-function Inputs$Text(Props) {
+function GeneratorInputs$Text(Props) {
   var text = Props.text;
   return React.createElement("div", {
               className: "mb-4"
@@ -180,10 +180,10 @@ function Inputs$Text(Props) {
 }
 
 var $$Text = {
-  make: Inputs$Text
+  make: GeneratorInputs$Text
 };
 
-function Inputs(Props) {
+function GeneratorInputs(Props) {
   var model = Props.model;
   var onChange = Props.onChange;
   if (model.inputs.length > 0) {
@@ -192,7 +192,7 @@ function Inputs(Props) {
               }, model.inputs.map(function (input) {
                     switch (input.TAG | 0) {
                       case /* Text */0 :
-                          return React.createElement(Inputs$Text, {
+                          return React.createElement(GeneratorInputs$Text, {
                                       text: input._1,
                                       key: input._0
                                     });
@@ -208,7 +208,7 @@ function Inputs(Props) {
                           var standardHeight = match.standardHeight;
                           var standardWidth = match.standardWidth;
                           var id$1 = input._0;
-                          return React.createElement(Inputs$TextureInput, {
+                          return React.createElement(GeneratorInputs$TextureInput, {
                                       id: id$1,
                                       textures: model.values.textures,
                                       choices: match.choices,
@@ -224,7 +224,7 @@ function Inputs(Props) {
                       case /* BooleanInput */4 :
                           var id$2 = input._0;
                           var checked = Builder.getBooleanInputValue(model, id$2);
-                          return React.createElement(Inputs$BooleanInput, {
+                          return React.createElement(GeneratorInputs$BooleanInput, {
                                       id: id$2,
                                       checked: checked,
                                       onChange: (function (param) {
@@ -235,7 +235,7 @@ function Inputs(Props) {
                       case /* SelectInput */5 :
                           var id$3 = input._0;
                           var value = Builder.getSelectInputValue(model, id$3);
-                          return React.createElement(Inputs$SelectInput, {
+                          return React.createElement(GeneratorInputs$SelectInput, {
                                       id: id$3,
                                       options: input._1,
                                       value: value,
@@ -255,7 +255,7 @@ function Inputs(Props) {
   }
 }
 
-var make = Inputs;
+var make = GeneratorInputs;
 
 exports.TextureInput = TextureInput;
 exports.BooleanInput = BooleanInput;

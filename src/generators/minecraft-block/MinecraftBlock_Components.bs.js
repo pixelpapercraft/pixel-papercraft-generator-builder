@@ -172,7 +172,7 @@ function MinecraftBlock_Components$TexturePicker(Props) {
       versionId: faceTexture_versionId,
       textureId: faceTexture_textureId,
       frame: faceTexture_frame,
-      rotate: rotation$2
+      rot: rotation$2
     };
     return Curry._1(onChange, MinecraftBlock_Face.encodeFaceTexture(faceTexture));
   };
@@ -205,7 +205,7 @@ function MinecraftBlock_Components$TexturePicker(Props) {
                                   versionId: versionId,
                                   textureId: textureId,
                                   frame: frame,
-                                  rotate: 0
+                                  rot: 0
                                 };
                                 return Curry._1(onChange, MinecraftBlock_Face.encodeFaceTexture(faceTexture));
                               };

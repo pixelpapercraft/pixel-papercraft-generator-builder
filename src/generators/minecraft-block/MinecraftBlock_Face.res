@@ -4,7 +4,7 @@ type versionId = string
 type textureId = string
 type frame = int
 type rotation = int // 0 = 0°, 1 = 90°, 2 = 180°, 3 = 270°
-type faceTexture = {versionId: string, textureId: string, frame: int, rotate: int}
+type faceTexture = {versionId: string, textureId: string, frame: int, rot: int}
 type faceTextures = array<faceTexture>
 
 external asJson: 'a => Js.Json.t = "%identity"
@@ -17,7 +17,7 @@ let encodeFaceTexture = (faceTexture: faceTexture): string => {
 
 let decodeFaceTexture = (s: string): faceTexture => {
   if Js.String2.length(s) === 0 {
-    {versionId: "", textureId: "", frame: 0, rotate: 0}
+    {versionId: "", textureId: "", frame: 0, rot: 0}
   } else {
     Js.Json.parseExn(s)->asFaceTexture
   }
@@ -46,8 +46,15 @@ let defineInputRegion = (faceId, region) => {
   })
 }
 
-let drawTexture = (face, (sx, sy, sw, sh), (dx, dy, dw, dh), rotation) => {
-  let {versionId, textureId, frame, rotate} = face
+let drawTexture = (
+  face,
+  (sx, sy, sw, sh),
+  (dx, dy, dw, dh),
+  ~flip: Builder.Texture.flip=#None,
+  ~rotate: float=0.0,
+  (),
+) => {
+  let {versionId, textureId, frame, rot} = face
   switch Textures.findTextureFrameIndex(versionId, textureId, frame) {
   | None => ()
   | Some(index) => {
@@ -63,14 +70,14 @@ let drawTexture = (face, (sx, sy, sw, sh), (dx, dy, dw, dh), rotation) => {
       let i = index
       //let size = 128
       //let source = (sx, index * 16 + sy, sw, sh)
-      let source = switch rotate {
+      let source = switch rot {
       | 0 => (sx, iy, sw, sh)
       | 1 => (sy, i + 16 - (sw + sx), sh, sw)
       | 2 => (16 - (sw + sx), i + 16 - (sh + sy), sw, sh)
       | 3 => (16 - (sh + sy), ix, sh, sw)
       | _ => (sx, iy, sw, sh)
       }
-      let destination = switch rotate {
+      let destination = switch rot {
       | 0 => (dx, dy, dw, dh)
       | 1 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
       | 2 => (dx, dy, dw, dh)
@@ -78,23 +85,23 @@ let drawTexture = (face, (sx, sy, sw, sh), (dx, dy, dw, dh), rotation) => {
       | _ => (dx, dy, dw, dh)
       }
       //let destination = (dx, dy, dw, dh)
-      let rotate = (rotation + rotate * 90)->Js.Int.toFloat
-      Generator.drawTexture(versionId, source, destination, ~rotate={rotate}, ())
+      let rot = (Belt.Float.toInt(rotate) + rot * 90)->Js.Int.toFloat
+      Generator.drawTexture(versionId, source, destination, ~flip, ~rotate={rot}, ())
     }
   }
 }
 
-let draw = (faceId, source, destination) => {
+let draw = (
+  faceId,
+  source,
+  destination,
+  ~flip: Builder.Texture.flip=#None,
+  ~rotate: float=0.0,
+  (),
+) => {
   let faceTexturesString = Generator.getStringInputValue(faceId)
   let faceTextures = decodeFaceTextures(faceTexturesString)
   faceTextures->Js.Array2.forEach(faceTexture => {
-    drawTexture(faceTexture, source, destination, 0)
-  })
-}
-let draw180 = (faceId, source, destination) => {
-  let faceTexturesString = Generator.getStringInputValue(faceId)
-  let faceTextures = decodeFaceTextures(faceTexturesString)
-  faceTextures->Js.Array2.forEach(faceTexture => {
-    drawTexture(faceTexture, source, destination, 180)
+    drawTexture(faceTexture, source, destination, ~flip, ~rotate, ())
   })
 }
