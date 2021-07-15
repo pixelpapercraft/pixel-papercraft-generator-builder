@@ -102,7 +102,7 @@ function Index$App(Props) {
     }
   };
   return React.createElement("div", {
-              className: "p-4 pb-64"
+              className: "p-8 pb-64"
             }, React.createElement("div", {
                   className: "pb-8"
                 }, React.createElement(Index$GeneratorSelect, {
