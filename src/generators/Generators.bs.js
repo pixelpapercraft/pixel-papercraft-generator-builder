@@ -21,6 +21,7 @@ var MinecraftSquidCharacterGenerator = require("./minecraft-squid-character/Mine
 var MinecraftCreeperCharacterGenerator = require("./minecraft-creeper-character/MinecraftCreeperCharacterGenerator.bs.js");
 var MinecraftUltimateBendableGenerator = require("./minecraft-ultimate-bendable/MinecraftUltimateBendableGenerator.bs.js");
 var MinecraftEndermanCharacterGenerator = require("./minecraft-enderman-character/MinecraftEndermanCharacterGenerator.bs.js");
+var MinecraftVillagerCharacterGenerator = require("./minecraft-villager-character/MinecraftVillagerCharacterGenerator.bs.js");
 
 var character = [
   MinecraftCharacterGenerator.generator,
@@ -35,7 +36,8 @@ var mobCharacter = [
   MinecraftEndermanCharacterGenerator.generator,
   MinecraftGolemCharacterGenerator.generator,
   MinecraftPigCharacterGenerator.generator,
-  MinecraftSquidCharacterGenerator.generator
+  MinecraftSquidCharacterGenerator.generator,
+  MinecraftVillagerCharacterGenerator.generator
 ];
 
 var mob = [

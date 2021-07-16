@@ -1,9 +1,21 @@
 open Dom2
 
-type textureDef = {id: string, url: string, standardWidth: int, standardHeight: int}
-type imageDef = {id: string, url: string}
+type textureDef = {
+  id: string,
+  url: string,
+  standardWidth: int,
+  standardHeight: int,
+}
+
+type imageDef = {
+  id: string,
+  url: string,
+}
+
 type thumnbnailDef = {url: string}
+
 type videoDef = {url: string}
+
 type instructionsDef = React.element
 
 type generatorDef = {
@@ -18,7 +30,14 @@ type generatorDef = {
 }
 
 type position = (int, int)
-type rectangleLegacy = {x: int, y: int, w: int, h: int}
+
+type rectangleLegacy = {
+  x: int,
+  y: int,
+  w: int,
+  h: int,
+}
+
 type rectangle = (int, int, int, int)
 
 module CanvasFactory = {
