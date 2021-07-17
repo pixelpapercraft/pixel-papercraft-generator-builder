@@ -17,7 +17,7 @@ var id = "minecraft-golem-character";
 var name = "Minecraft Golem Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [

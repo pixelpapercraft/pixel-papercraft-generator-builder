@@ -6,7 +6,7 @@ let id = "minecraft-golem"
 let name = "Minecraft Golem"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail.jpg"),
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
 let imageIds = ["Background", "Folds", "Labels"]

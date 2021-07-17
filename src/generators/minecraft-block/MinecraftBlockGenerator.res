@@ -7,7 +7,7 @@ let id = "minecraft-block"
 let name = "Minecraft Block"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail.jpg"),
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
 type region = (int, int, int, int)

@@ -16,7 +16,7 @@ var id = "minecraft-enderman";
 var name = "Minecraft Enderman";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var imageIds = [

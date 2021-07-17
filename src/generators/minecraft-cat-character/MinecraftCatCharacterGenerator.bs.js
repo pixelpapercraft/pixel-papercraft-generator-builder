@@ -16,7 +16,7 @@ var id = "minecraft-cat-character";
 var name = "Minecraft Cat Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [

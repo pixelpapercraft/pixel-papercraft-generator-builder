@@ -17,7 +17,7 @@ var id = "minecraft-wolf-character";
 var name = "Minecraft Wolf Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [

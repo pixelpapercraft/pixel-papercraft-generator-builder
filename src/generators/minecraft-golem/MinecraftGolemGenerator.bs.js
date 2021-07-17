@@ -16,7 +16,7 @@ var id = "minecraft-golem";
 var name = "Minecraft Golem";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var imageIds = [

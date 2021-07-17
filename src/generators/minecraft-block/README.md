@@ -1,5 +1,9 @@
 # Minecraft Block Generator
 
+- Created by lostminer
+- NinjolasNJM - Added slab, stair, fence, door, trapdoor and snow
+- 17 Jul 2021 denurls - Updated photo
+
 ## Creating the texture files
 
 Place the texture files into a directory named `textures-original`, such as

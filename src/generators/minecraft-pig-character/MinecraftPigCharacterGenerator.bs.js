@@ -17,7 +17,7 @@ var id = "minecraft-pig-character";
 var name = "Minecraft Pig Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [

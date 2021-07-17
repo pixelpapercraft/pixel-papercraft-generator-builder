@@ -16,7 +16,7 @@ var id = "minecraft-creeper-character";
 var name = "Minecraft Creeper Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [

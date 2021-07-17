@@ -17,7 +17,7 @@ var id = "minecraft-villager-character";
 var name = "Minecraft Villager Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [

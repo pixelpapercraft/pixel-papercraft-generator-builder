@@ -6,7 +6,7 @@ let id = "minecraft-creeper"
 let name = "Minecraft Creeper"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail.jpg"),
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
 let instructions: Generator.instructionsDef = {

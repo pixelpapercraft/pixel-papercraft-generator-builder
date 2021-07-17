@@ -16,7 +16,7 @@ var id = "minecraft-ultimate-bendable";
 var name = "Minecraft Bendable Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpeg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var video = {

@@ -17,7 +17,7 @@ var id = "minecraft-squid-character";
 var name = "Minecraft Squid Character";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var images = [
