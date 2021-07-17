@@ -5,6 +5,7 @@ var Belt_Array = require("rescript/lib/js/belt_Array.js");
 var DemoGenerator = require("./demo/DemoGenerator.bs.js");
 var ExampleGenerator = require("./example/ExampleGenerator.bs.js");
 var MinecraftPigGenerator = require("./minecraft-pig/MinecraftPigGenerator.bs.js");
+var DalekModDalekGenerator = require("./dalekmod-dalek/DalekModDalekGenerator.bs.js");
 var MinecraftBlockGenerator = require("./minecraft-block/MinecraftBlockGenerator.bs.js");
 var MinecraftGolemGenerator = require("./minecraft-golem/MinecraftGolemGenerator.bs.js");
 var MinecraftHorseGenerator = require("./minecraft-horse/MinecraftHorseGenerator.bs.js");
@@ -59,7 +60,7 @@ var utility = [
   MinecraftCharacterHeadsGenerator.generator
 ];
 
-var mod = [];
+var mod = [DalekModDalekGenerator.generator];
 
 var other = [];
 
