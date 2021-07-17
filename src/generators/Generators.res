@@ -25,6 +25,7 @@ let mob: array<Generator.generatorDef> = [
   MinecraftEndermanGenerator.generator,
   MinecraftGolemGenerator.generator,
   MinecraftHorseGenerator.generator,
+  MinecraftPigGenerator.generator,
 ]
 
 // Blocks, Items and Accessories

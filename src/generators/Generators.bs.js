@@ -4,6 +4,7 @@
 var Belt_Array = require("rescript/lib/js/belt_Array.js");
 var DemoGenerator = require("./demo/DemoGenerator.bs.js");
 var ExampleGenerator = require("./example/ExampleGenerator.bs.js");
+var MinecraftPigGenerator = require("./minecraft-pig/MinecraftPigGenerator.bs.js");
 var MinecraftBlockGenerator = require("./minecraft-block/MinecraftBlockGenerator.bs.js");
 var MinecraftGolemGenerator = require("./minecraft-golem/MinecraftGolemGenerator.bs.js");
 var MinecraftHorseGenerator = require("./minecraft-horse/MinecraftHorseGenerator.bs.js");
@@ -48,7 +49,8 @@ var mob = [
   MinecraftCreeperGenerator.generator,
   MinecraftEndermanGenerator.generator,
   MinecraftGolemGenerator.generator,
-  MinecraftHorseGenerator.generator
+  MinecraftHorseGenerator.generator,
+  MinecraftPigGenerator.generator
 ];
 
 var utility = [
