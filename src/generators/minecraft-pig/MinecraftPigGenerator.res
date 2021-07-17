@@ -1,6 +1,3 @@
-// let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
-// let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
-
 let id = "minecraft-pig"
 
 let name = "Minecraft Pig"
@@ -9,23 +6,44 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail1.jpeg"),
 }
 
-let images: array<Generator.imageDef> = [//   {
-//     id: "Background Sprites",
-//     url: Generator.requireImage("./images/background-sprites.png"),
-//   },
-//   {
-//     id: "Fold Sprites",
-//     url: Generator.requireImage("./images/fold-sprites.png"),
-//   },
-//   {
-//     id: "Label Sprites",
-//     url: Generator.requireImage("./images/label-sprites.png"),
-//   },
-//   {
-//     id: "Label Sprites",
-//     url: Generator.requireImage("./images/label-sprites.png"),
-//   },
-]
+let instructions: Generator.instructionsDef = {
+  open Generator.Markup
+  <div>
+    <H2> {"About the Pig Generator"->React.string} </H2>
+    <P>
+      {"This generator creates a pig papercraft with an optional saddle, helmet, and boots that can be removable. "->React.string}
+      {"There are also many customizable options to change the type of head, if the pig is wearing armor or if it is removable, etc. "->React.string}
+    </P>
+    <P>
+      {"There is also a bonus matching ultra mini pig that was inspired by "->React.string}
+      <A href="https://www.pixelpapercraft.com/user/maki"> {"Maki"->React.string} </A>
+      {"."->React.string}
+    </P>
+    <H2> {"Textures"->React.string} </H2>
+    <P> {"The textures provided are:"->React.string} </P>
+    <UL>
+      <LI> {"Vanilla Minecraft"->React.string} </LI>
+      <LI>
+        <A
+          href="http://www.minecraftforum.net/forums/mapping-and-modding/resource-packs/1223254-faithful-32x32-pack-update-red-cat-clay-1-8">
+          {"Faithful 32x"->React.string}
+        </A>
+      </LI>
+      <LI>
+        <A href="http://www.planetminecraft.com/texture_pack/spacepig-space-apocalypse-16x-wip/">
+          {"Space Pig"->React.string}
+        </A>
+      </LI>
+    </UL>
+    <H2> {"Sizing"->React.string} </H2>
+    <P>
+      {"The saddle, helmet, and boots can vary in texture size, so the generator was made to be as general as possible. "->React.string}
+      {"If the helmet is covering the eyes or nose, then either modify the texture file to make it fit better, or if it is separate after you print it you can trim off the parts that cover the eyes or nose."->React.string}
+    </P>
+  </div>
+}
+
+let images: array<Generator.imageDef> = []
 
 let textures: array<Generator.textureDef> = [
   {
@@ -1120,7 +1138,7 @@ let generator: Generator.generatorDef = {
   name: name,
   thumbnail: Some(thumbnail),
   video: None,
-  instructions: None,
+  instructions: Some(instructions),
   images: images,
   textures: textures,
   script: script,

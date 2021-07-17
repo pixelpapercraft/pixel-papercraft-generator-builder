@@ -38,7 +38,7 @@ var LI = {
 function Generator$Markup$UL(Props) {
   var children = Props.children;
   return React.createElement("ul", {
-              className: "mb-4 ml-4 list-bullet"
+              className: "mb-4 ml-4 list-disc"
             }, children);
 }
 

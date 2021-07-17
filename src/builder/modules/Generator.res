@@ -32,7 +32,7 @@ module Markup = {
   module UL = {
     @react.component
     let make = (~children) => {
-      <ul className="mb-4 ml-4 list-bullet"> {children} </ul>
+      <ul className="mb-4 ml-4 list-disc"> {children} </ul>
     }
   }
 
