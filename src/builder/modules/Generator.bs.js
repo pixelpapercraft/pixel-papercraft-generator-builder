@@ -40,8 +40,8 @@ function defineBooleanInput(id, initial) {
   
 }
 
-function defineButtonInput(id) {
-  model.contents = Builder.defineButtonInput(model.contents, id);
+function defineButtonInput(id, toRun) {
+  model.contents = Builder.defineButtonInput(model.contents, id, toRun);
   
 }
 

@@ -251,7 +251,7 @@ module Input = {
     | BooleanInput(id)
     | SelectInput(id, array<string>)
     | RangeInput(id, rangeArgs)
-    | ButtonInput(id)
+    | ButtonInput(id, unit => unit)
 }
 
 module Model = {
@@ -301,7 +301,7 @@ let hasInput = (model: Model.t, idToFind: string) => {
     | BooleanInput(id) => id
     | SelectInput(id, _) => id
     | RangeInput(id, _) => id
-    | ButtonInput(id) => id
+    | ButtonInput(id, _) => id
     }
     id === idToFind
   })
@@ -442,8 +442,8 @@ let defineBooleanInput = (model: Model.t, id: string, initial: bool) => {
   }
 }
 
-let defineButtonInput = (model: Model.t, id: string) => {
-  let inputs = Js.Array2.concat(model.inputs, [Input.ButtonInput(id)])
+let defineButtonInput = (model: Model.t, id: string, toRun) => {
+  let inputs = Js.Array2.concat(model.inputs, [Input.ButtonInput(id, toRun)])
   let newModel = {...model, inputs: inputs}
   newModel
 }
