@@ -250,7 +250,8 @@ function GeneratorInputs(Props) {
                       case /* ButtonInput */7 :
                           var id$4 = input._0;
                           return React.createElement("button", {
-                                      key: id$4
+                                      key: id$4,
+                                      className: "text-white text-center font-semibold rounded text-sm py-2 px-4 bg-blue-600 hover:bg-blue-500"
                                     }, id$4);
                       
                     }

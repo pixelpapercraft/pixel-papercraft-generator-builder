@@ -214,7 +214,7 @@ let make = (~model: Builder.Model.t, ~onChange) => {
             />
           }
         | RangeInput(_, _) => React.null
-        | ButtonInput(id) => <button key={id}>{React.string(id)}</button>
+        | ButtonInput(id) => <button key={id} className = "text-white text-center font-semibold rounded text-sm py-2 px-4 bg-blue-600 hover:bg-blue-500">{React.string(id)}</button>
         }
       })->React.array}
     </div>
