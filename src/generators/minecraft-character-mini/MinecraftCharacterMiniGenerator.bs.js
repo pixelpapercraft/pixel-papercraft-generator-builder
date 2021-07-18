@@ -59,112 +59,62 @@ function drawMini(options) {
       ]);
   var ox = x + 49 | 0;
   var oy = y + 90 | 0;
-  Generator.drawTextureLegacy(skin, {
-        x: 0,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.right, {
         x: ox,
         y: oy,
         w: 64,
         h: 64
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 8,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.front, {
         x: ox + 64 | 0,
         y: oy,
         w: 64,
         h: 64
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 16,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.left, {
         x: ox + 128 | 0,
         y: oy,
         w: 64,
         h: 64
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 24,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.back, {
         x: ox + 192 | 0,
         y: oy,
         w: 64,
         h: 64
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 8,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.top, {
         x: ox + 64 | 0,
         y: oy - 64 | 0,
         w: 64,
         h: 64
       }, undefined, undefined, undefined);
   if (showHeadOverlay) {
-    Generator.drawTextureLegacy(skin, {
-          x: 32,
-          y: 8,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.right, {
           x: ox,
           y: oy,
           w: 64,
           h: 64
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 40,
-          y: 8,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.front, {
           x: ox + 64 | 0,
           y: oy,
           w: 64,
           h: 64
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 48,
-          y: 8,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.left, {
           x: ox + 128 | 0,
           y: oy,
           w: 64,
           h: 64
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 56,
-          y: 8,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.back, {
           x: ox + 192 | 0,
           y: oy,
           w: 64,
           h: 64
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 40,
-          y: 0,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.top, {
           x: ox + 64 | 0,
           y: oy - 64 | 0,
           w: 64,
@@ -173,46 +123,26 @@ function drawMini(options) {
   }
   var ox$1 = x + 49 | 0;
   var oy$1 = y + 26 | 0;
-  Generator.drawTextureLegacy(skin, {
-        x: 0,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.right, {
         x: ox$1 + 64 | 0,
         y: oy$1,
         w: 64,
         h: 64
       }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 16,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.head.left, {
         x: ox$1 + 128 | 0,
         y: oy$1 + 64 | 0,
         w: 64,
         h: 64
       }, undefined, -90.0, undefined);
   if (showHeadOverlay) {
-    Generator.drawTextureLegacy(skin, {
-          x: 32,
-          y: 8,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.right, {
           x: ox$1 + 64 | 0,
           y: oy$1,
           w: 64,
           h: 64
         }, undefined, 90.0, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 48,
-          y: 8,
-          w: 8,
-          h: 8
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.head.left, {
           x: ox$1 + 128 | 0,
           y: oy$1 + 64 | 0,
           w: 64,
@@ -221,90 +151,50 @@ function drawMini(options) {
   }
   var ox$2 = x + 49 | 0;
   var oy$2 = y + 154 | 0;
-  Generator.drawTextureLegacy(skin, {
-        x: 16,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.body.right, {
         x: ox$2,
         y: oy$2,
         w: 64,
         h: bodyHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 20,
-        y: 20,
-        w: 8,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.body.front, {
         x: ox$2 + 64 | 0,
         y: oy$2,
         w: 64,
         h: bodyHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 28,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.body.left, {
         x: ox$2 + 128 | 0,
         y: oy$2,
         w: 64,
         h: bodyHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 32,
-        y: 20,
-        w: 8,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.body.back, {
         x: ox$2 + 192 | 0,
         y: oy$2,
         w: 64,
         h: bodyHeight
       }, undefined, undefined, undefined);
   if (showBodyOverlay) {
-    Generator.drawTextureLegacy(skin, {
-          x: 16,
-          y: 36,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.body.right, {
           x: ox$2,
           y: oy$2,
           w: 64,
           h: bodyHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 20,
-          y: 36,
-          w: 8,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.body.front, {
           x: ox$2 + 64 | 0,
           y: oy$2,
           w: 64,
           h: bodyHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 28,
-          y: 36,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.body.left, {
           x: ox$2 + 128 | 0,
           y: oy$2,
           w: 64,
           h: bodyHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 32,
-          y: 36,
-          w: 8,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.body.back, {
           x: ox$2 + 192 | 0,
           y: oy$2,
           w: 64,
@@ -314,46 +204,26 @@ function drawMini(options) {
   if (alexModel) {
     var ox$3 = x + 49 | 0;
     var oy$3 = y + 10 | 0;
-    Generator.drawTextureLegacy(skin, {
-          x: 47,
-          y: 20,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, alex.base.rightArm.left, {
           x: ox$3,
           y: oy$3,
           w: 32,
           h: 48
         }, undefined, 90.0, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 40,
-          y: 20,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, alex.base.rightArm.right, {
           x: ox$3,
           y: oy$3 + 32 | 0,
           w: 32,
           h: 48
         }, undefined, 90.0, undefined);
     if (showArmOverlay) {
-      Generator.drawTextureLegacy(skin, {
-            x: 47,
-            y: 36,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, alex.overlay.rightArm.left, {
             x: ox$3,
             y: oy$3,
             w: 32,
             h: 48
           }, undefined, 90.0, undefined);
-      Generator.drawTextureLegacy(skin, {
-            x: 40,
-            y: 36,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, alex.overlay.rightArm.right, {
             x: ox$3,
             y: oy$3 + 32 | 0,
             w: 32,
@@ -362,46 +232,26 @@ function drawMini(options) {
     }
     var ox$4 = x + 241 | 0;
     var oy$4 = y + 42 | 0;
-    Generator.drawTextureLegacy(skin, {
-          x: 32,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, alex.base.leftArm.right, {
           x: ox$4,
           y: oy$4,
           w: 32,
           h: 48
         }, undefined, -90.0, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 39,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, alex.base.leftArm.left, {
           x: ox$4,
           y: oy$4 + 32 | 0,
           w: 32,
           h: 48
         }, undefined, -90.0, undefined);
     if (showArmOverlay) {
-      Generator.drawTextureLegacy(skin, {
-            x: 48,
-            y: 52,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, alex.overlay.leftArm.right, {
             x: ox$4,
             y: oy$4,
             w: 32,
             h: 48
           }, undefined, -90.0, undefined);
-      Generator.drawTextureLegacy(skin, {
-            x: 55,
-            y: 52,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, alex.overlay.leftArm.left, {
             x: ox$4,
             y: oy$4 + 32 | 0,
             w: 32,
@@ -412,46 +262,26 @@ function drawMini(options) {
   } else {
     var ox$5 = x + 49 | 0;
     var oy$5 = y + 10 | 0;
-    Generator.drawTextureLegacy(skin, {
-          x: 48,
-          y: 20,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.base.rightArm.left, {
           x: ox$5,
           y: oy$5,
           w: 32,
           h: 48
         }, undefined, 90.0, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 40,
-          y: 20,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.base.rightArm.right, {
           x: ox$5,
           y: oy$5 + 32 | 0,
           w: 32,
           h: 48
         }, undefined, 90.0, undefined);
     if (showArmOverlay) {
-      Generator.drawTextureLegacy(skin, {
-            x: 48,
-            y: 36,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, steve.overlay.rightArm.left, {
             x: ox$5,
             y: oy$5,
             w: 32,
             h: 48
           }, undefined, 90.0, undefined);
-      Generator.drawTextureLegacy(skin, {
-            x: 40,
-            y: 36,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, steve.overlay.rightArm.right, {
             x: ox$5,
             y: oy$5 + 32 | 0,
             w: 32,
@@ -460,46 +290,26 @@ function drawMini(options) {
     }
     var ox$6 = x + 241 | 0;
     var oy$6 = y + 42 | 0;
-    Generator.drawTextureLegacy(skin, {
-          x: 32,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.base.leftArm.right, {
           x: ox$6,
           y: oy$6,
           w: 32,
           h: 48
         }, undefined, -90.0, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 40,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.base.leftArm.left, {
           x: ox$6,
           y: oy$6 + 32 | 0,
           w: 32,
           h: 48
         }, undefined, -90.0, undefined);
     if (showArmOverlay) {
-      Generator.drawTextureLegacy(skin, {
-            x: 48,
-            y: 52,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, steve.overlay.leftArm.right, {
             x: ox$6,
             y: oy$6,
             w: 32,
             h: 48
           }, undefined, -90.0, undefined);
-      Generator.drawTextureLegacy(skin, {
-            x: 56,
-            y: 52,
-            w: 4,
-            h: 12
-          }, {
+      Generator.drawTextureLegacy(skin, steve.overlay.leftArm.left, {
             x: ox$6,
             y: oy$6 + 32 | 0,
             w: 32,
@@ -510,178 +320,98 @@ function drawMini(options) {
   }
   var ox$7 = x + 49 | 0;
   var oy$7 = y + 154 | 0;
-  Generator.drawTextureLegacy(skin, {
-        x: 4,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.rightLeg.front, {
         x: ox$7 + 64 | 0,
         y: oy$7 + bodyHeight | 0,
         w: 32,
         h: legHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 0,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.rightLeg.right, {
         x: ox$7,
         y: oy$7 + bodyHeight | 0,
         w: 64,
         h: legHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 12,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.rightLeg.back, {
         x: ox$7 + 224 | 0,
         y: oy$7 + bodyHeight | 0,
         w: 32,
         h: legHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 8,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.rightLeg.bottom, {
         x: ox$7 + 64 | 0,
         y: oy$7 + 64 | 0,
         w: 32,
         h: 64
       }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 20,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.leftLeg.front, {
         x: ox$7 + 96 | 0,
         y: oy$7 + bodyHeight | 0,
         w: 32,
         h: legHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 24,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.leftLeg.left, {
         x: ox$7 + 128 | 0,
         y: oy$7 + bodyHeight | 0,
         w: 64,
         h: legHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 28,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.leftLeg.back, {
         x: ox$7 + 192 | 0,
         y: oy$7 + bodyHeight | 0,
         w: 32,
         h: legHeight
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy(skin, {
-        x: 24,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
+  Generator.drawTextureLegacy(skin, steve.base.leftLeg.bottom, {
         x: ox$7 + 96 | 0,
         y: oy$7 + 64 | 0,
         w: 32,
         h: 64
       }, "Vertical", undefined, undefined);
   if (showLegOverlay) {
-    Generator.drawTextureLegacy(skin, {
-          x: 4,
-          y: 36,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.rightLeg.front, {
           x: ox$7 + 64 | 0,
           y: oy$7 + bodyHeight | 0,
           w: 32,
           h: legHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 0,
-          y: 36,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.rightLeg.right, {
           x: ox$7,
           y: oy$7 + bodyHeight | 0,
           w: 64,
           h: legHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 12,
-          y: 36,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.rightLeg.back, {
           x: ox$7 + 224 | 0,
           y: oy$7 + bodyHeight | 0,
           w: 32,
           h: legHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 8,
-          y: 32,
-          w: 4,
-          h: 4
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.rightLeg.bottom, {
           x: ox$7 + 64 | 0,
           y: oy$7 + 64 | 0,
           w: 32,
           h: 64
         }, "Vertical", undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 4,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.leftLeg.front, {
           x: ox$7 + 96 | 0,
           y: oy$7 + bodyHeight | 0,
           w: 32,
           h: legHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 8,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.leftLeg.left, {
           x: ox$7 + 128 | 0,
           y: oy$7 + bodyHeight | 0,
           w: 64,
           h: legHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 12,
-          y: 52,
-          w: 4,
-          h: 12
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.leftLeg.back, {
           x: ox$7 + 192 | 0,
           y: oy$7 + bodyHeight | 0,
           w: 32,
           h: legHeight
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(skin, {
-          x: 8,
-          y: 48,
-          w: 4,
-          h: 4
-        }, {
+    Generator.drawTextureLegacy(skin, steve.overlay.leftLeg.bottom, {
           x: ox$7 + 96 | 0,
           y: oy$7 + 64 | 0,
           w: 32,
@@ -791,632 +521,6 @@ var generator = {
   script: script
 };
 
-var $$char = {
-  head: {
-    right: {
-      x: 0,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    front: {
-      x: 8,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    left: {
-      x: 16,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    back: {
-      x: 24,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    top: {
-      x: 8,
-      y: 0,
-      w: 8,
-      h: 8
-    },
-    bottom: {
-      x: 16,
-      y: 0,
-      w: 8,
-      h: 8
-    }
-  },
-  body: {
-    right: {
-      x: 16,
-      y: 20,
-      w: 4,
-      h: 12
-    },
-    front: {
-      x: 20,
-      y: 20,
-      w: 8,
-      h: 12
-    },
-    left: {
-      x: 28,
-      y: 20,
-      w: 4,
-      h: 12
-    },
-    back: {
-      x: 32,
-      y: 20,
-      w: 8,
-      h: 12
-    },
-    top: {
-      x: 20,
-      y: 16,
-      w: 8,
-      h: 4
-    },
-    bottom: {
-      x: 28,
-      y: 16,
-      w: 8,
-      h: 4
-    }
-  },
-  leg: {
-    right: {
-      right: {
-        x: 0,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 4,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 8,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 12,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 4,
-        y: 16,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 8,
-        y: 16,
-        w: 4,
-        h: 4
-      }
-    },
-    left: {
-      right: {
-        x: 16,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 20,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 24,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 28,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 20,
-        y: 48,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 24,
-        y: 48,
-        w: 4,
-        h: 4
-      }
-    }
-  },
-  arm: {
-    right: {
-      right: {
-        x: 40,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 44,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 48,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 52,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 44,
-        y: 16,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 48,
-        y: 16,
-        w: 4,
-        h: 4
-      }
-    },
-    left: {
-      right: {
-        x: 32,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 36,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 40,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 44,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 36,
-        y: 48,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 40,
-        y: 48,
-        w: 4,
-        h: 4
-      }
-    }
-  },
-  alex: {
-    right: {
-      right: {
-        x: 40,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 44,
-        y: 20,
-        w: 3,
-        h: 12
-      },
-      left: {
-        x: 47,
-        y: 20,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 51,
-        y: 20,
-        w: 3,
-        h: 12
-      },
-      top: {
-        x: 44,
-        y: 16,
-        w: 3,
-        h: 4
-      },
-      bottom: {
-        x: 47,
-        y: 16,
-        w: 3,
-        h: 4
-      }
-    },
-    left: {
-      right: {
-        x: 32,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 36,
-        y: 52,
-        w: 3,
-        h: 12
-      },
-      left: {
-        x: 39,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 43,
-        y: 52,
-        w: 3,
-        h: 12
-      },
-      top: {
-        x: 36,
-        y: 48,
-        w: 3,
-        h: 4
-      },
-      bottom: {
-        x: 39,
-        y: 48,
-        w: 3,
-        h: 4
-      }
-    }
-  }
-};
-
-var overlay = {
-  head: {
-    right: {
-      x: 32,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    front: {
-      x: 40,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    left: {
-      x: 48,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    back: {
-      x: 56,
-      y: 8,
-      w: 8,
-      h: 8
-    },
-    top: {
-      x: 40,
-      y: 0,
-      w: 8,
-      h: 8
-    },
-    bottom: {
-      x: 48,
-      y: 0,
-      w: 8,
-      h: 8
-    }
-  },
-  body: {
-    right: {
-      x: 16,
-      y: 36,
-      w: 4,
-      h: 12
-    },
-    front: {
-      x: 20,
-      y: 36,
-      w: 8,
-      h: 12
-    },
-    left: {
-      x: 28,
-      y: 36,
-      w: 4,
-      h: 12
-    },
-    back: {
-      x: 32,
-      y: 36,
-      w: 8,
-      h: 12
-    },
-    top: {
-      x: 20,
-      y: 32,
-      w: 8,
-      h: 4
-    },
-    bottom: {
-      x: 28,
-      y: 32,
-      w: 8,
-      h: 4
-    }
-  },
-  leg: {
-    right: {
-      right: {
-        x: 0,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 4,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 8,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 12,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 4,
-        y: 32,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 8,
-        y: 32,
-        w: 4,
-        h: 4
-      }
-    },
-    left: {
-      right: {
-        x: 0,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 4,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 8,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 12,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 4,
-        y: 48,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 8,
-        y: 48,
-        w: 4,
-        h: 4
-      }
-    }
-  },
-  arm: {
-    right: {
-      right: {
-        x: 40,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 44,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 48,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 52,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 44,
-        y: 32,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 48,
-        y: 32,
-        w: 4,
-        h: 4
-      }
-    },
-    left: {
-      right: {
-        x: 48,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 52,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      left: {
-        x: 56,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 60,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      top: {
-        x: 52,
-        y: 48,
-        w: 4,
-        h: 4
-      },
-      bottom: {
-        x: 56,
-        y: 48,
-        w: 4,
-        h: 4
-      }
-    }
-  },
-  alex: {
-    right: {
-      right: {
-        x: 40,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 44,
-        y: 36,
-        w: 3,
-        h: 12
-      },
-      left: {
-        x: 47,
-        y: 36,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 51,
-        y: 36,
-        w: 3,
-        h: 12
-      },
-      top: {
-        x: 44,
-        y: 32,
-        w: 3,
-        h: 4
-      },
-      bottom: {
-        x: 47,
-        y: 32,
-        w: 3,
-        h: 4
-      }
-    },
-    left: {
-      right: {
-        x: 48,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      front: {
-        x: 52,
-        y: 52,
-        w: 3,
-        h: 12
-      },
-      left: {
-        x: 55,
-        y: 52,
-        w: 4,
-        h: 12
-      },
-      back: {
-        x: 59,
-        y: 52,
-        w: 3,
-        h: 12
-      },
-      top: {
-        x: 52,
-        y: 48,
-        w: 3,
-        h: 4
-      },
-      bottom: {
-        x: 55,
-        y: 48,
-        w: 3,
-        h: 4
-      }
-    }
-  }
-};
-
 exports.requireImage = requireImage;
 exports.requireTexture = requireTexture;
 exports.id = id;
@@ -1426,8 +530,6 @@ exports.images = images;
 exports.textures = textures;
 exports.steve = steve;
 exports.alex = alex;
-exports.$$char = $$char;
-exports.overlay = overlay;
 exports.drawMini = drawMini;
 exports.script = script;
 exports.generator = generator;
