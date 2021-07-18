@@ -75,13 +75,25 @@ var textures = [
   },
   {
     id: "Pig (Vanilla)",
+    url: require("./textures/vanilla/pig2.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Pig (Vanilla) (Original)",
     url: require("./textures/vanilla/pig.png"),
     standardWidth: 64,
     standardHeight: 32
   },
   {
     id: "Saddle (Vanilla)",
-    url: require("./textures/vanilla/saddle.png"),
+    url: require("./textures/vanilla/pig_saddle2.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Saddle (Vanilla) (Original)",
+    url: require("./textures/vanilla/pig_saddle.png"),
     standardWidth: 64,
     standardHeight: 32
   },
@@ -188,11 +200,13 @@ function script(param) {
   };
   makeTextureInput(pigTexture, 64, 32, [
         "Pig (Vanilla)",
+        "Pig (Vanilla) (Original)",
         "Pig (Faithful)",
         "Pig (Space Pig)"
       ]);
   makeTextureInput(saddleTexture, 64, 32, [
         "Saddle (Vanilla)",
+        "Saddle (Vanilla) (Original)",
         "Saddle (Faithful)",
         "Saddle (Space Pig)"
       ]);
