@@ -15,6 +15,10 @@ var id = "minecraft-cape-and-elytra";
 
 var name = "Minecraft Cape And Elytra";
 
+var thumbnail = {
+  url: require("./thumbnail/thumbnail.jpeg")
+};
+
 var imageIds = [
   "Foreground",
   "Folds",
@@ -369,10 +373,12 @@ function script(param) {
   
 }
 
+var generator_thumbnail = thumbnail;
+
 var generator = {
   id: id,
   name: name,
-  thumbnail: undefined,
+  thumbnail: generator_thumbnail,
   video: undefined,
   instructions: undefined,
   images: images,
@@ -384,10 +390,11 @@ exports.requireImage = requireImage;
 exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
+exports.thumbnail = thumbnail;
 exports.imageIds = imageIds;
 exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.script = script;
 exports.generator = generator;
-/* images Not a pure module */
+/* thumbnail Not a pure module */
