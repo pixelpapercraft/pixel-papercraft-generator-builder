@@ -29,10 +29,17 @@ module Markup = {
     }
   }
 
+  module UL = {
+    @react.component
+    let make = (~children) => {
+      <ul className="mb-4 ml-4 list-disc"> {children} </ul>
+    }
+  }
+
   module OL = {
     @react.component
     let make = (~children) => {
-      <ul className="mb-4 ml-4 list-decimal"> {children} </ul>
+      <ol className="mb-4 ml-4 list-decimal"> {children} </ol>
     }
   }
 
@@ -40,6 +47,13 @@ module Markup = {
     @react.component
     let make = (~children) => {
       <p className="mb-4"> {children} </p>
+    }
+  }
+
+  module A = {
+    @react.component
+    let make = (~href, ~children) => {
+      <a className="text-green-600 font-medium hover:underline" href={href}> {children} </a>
     }
   }
 }
@@ -130,7 +144,6 @@ let drawTextureLegacy = (
   dest: Builder.rectangleLegacy,
   ~flip: Builder.Texture.flip=#None,
   ~rotateLegacy: float=0.0,
-  ~rotate: float=0.0,
   (),
 ) => {
   drawTexture(
@@ -139,7 +152,6 @@ let drawTextureLegacy = (
     (dest.x, dest.y, dest.w, dest.h),
     ~flip,
     ~rotateLegacy,
-    ~rotate,
     (),
   )
 }

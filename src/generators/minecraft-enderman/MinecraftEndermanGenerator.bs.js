@@ -16,7 +16,7 @@ var id = "minecraft-enderman";
 var name = "Minecraft Enderman";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var imageIds = [
@@ -78,7 +78,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 8,
         y: 24,
@@ -89,7 +89,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 16,
         y: 24,
@@ -100,7 +100,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 24,
         y: 24,
@@ -111,7 +111,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 8,
         y: 16,
@@ -122,7 +122,7 @@ function script(param) {
         y: 25,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 16,
         y: 16,
@@ -133,7 +133,7 @@ function script(param) {
         y: 153,
         w: 64,
         h: 64
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 0,
         y: 8,
@@ -144,7 +144,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 8,
         y: 8,
@@ -155,7 +155,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 16,
         y: 8,
@@ -166,7 +166,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 24,
         y: 8,
@@ -177,7 +177,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 8,
         y: 0,
@@ -188,7 +188,7 @@ function script(param) {
         y: 25,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 16,
         y: 0,
@@ -199,7 +199,7 @@ function script(param) {
         y: 153,
         w: 64,
         h: 64
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 32,
         y: 20,
@@ -210,7 +210,7 @@ function script(param) {
         y: 233,
         w: 32,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 36,
         y: 20,
@@ -221,7 +221,7 @@ function script(param) {
         y: 233,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 44,
         y: 20,
@@ -232,7 +232,7 @@ function script(param) {
         y: 233,
         w: 32,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 48,
         y: 20,
@@ -243,7 +243,7 @@ function script(param) {
         y: 233,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 36,
         y: 16,
@@ -254,7 +254,7 @@ function script(param) {
         y: 201,
         w: 64,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 44,
         y: 16,
@@ -265,7 +265,7 @@ function script(param) {
         y: 329,
         w: 64,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 56,
         y: 2,
@@ -276,7 +276,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 2,
@@ -287,7 +287,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 2,
@@ -298,7 +298,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 62,
         y: 2,
@@ -309,7 +309,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 0,
@@ -320,7 +320,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 0,
@@ -331,7 +331,7 @@ function script(param) {
         y: 639,
         w: 16,
         h: 16
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 56,
         y: 2,
@@ -342,7 +342,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 2,
@@ -353,7 +353,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 2,
@@ -364,7 +364,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 62,
         y: 2,
@@ -375,7 +375,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 0,
@@ -386,7 +386,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 0,
@@ -397,7 +397,7 @@ function script(param) {
         y: 655,
         w: 16,
         h: 16
-      }, undefined, 180.0, undefined, undefined);
+      }, undefined, 180.0, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 56,
         y: 2,
@@ -408,7 +408,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 2,
@@ -419,7 +419,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 2,
@@ -430,7 +430,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 62,
         y: 2,
@@ -441,7 +441,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 0,
@@ -452,7 +452,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 0,
@@ -463,7 +463,7 @@ function script(param) {
         y: 639,
         w: 16,
         h: 16
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 56,
         y: 2,
@@ -474,7 +474,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 2,
@@ -485,7 +485,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 2,
@@ -496,7 +496,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 62,
         y: 2,
@@ -507,7 +507,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 58,
         y: 0,
@@ -518,7 +518,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman", {
         x: 60,
         y: 0,
@@ -529,7 +529,7 @@ function script(param) {
         y: 655,
         w: 16,
         h: 16
-      }, undefined, 180.0, undefined, undefined);
+      }, undefined, 180.0, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 0,
         y: 24,
@@ -540,7 +540,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 8,
         y: 24,
@@ -551,7 +551,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 16,
         y: 24,
@@ -562,7 +562,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 24,
         y: 24,
@@ -573,7 +573,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 8,
         y: 16,
@@ -584,7 +584,7 @@ function script(param) {
         y: 25,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 16,
         y: 16,
@@ -595,7 +595,7 @@ function script(param) {
         y: 153,
         w: 64,
         h: 64
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 0,
         y: 8,
@@ -606,7 +606,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 8,
         y: 8,
@@ -617,7 +617,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 16,
         y: 8,
@@ -628,7 +628,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 24,
         y: 8,
@@ -639,7 +639,7 @@ function script(param) {
         y: 89,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 8,
         y: 0,
@@ -650,7 +650,7 @@ function script(param) {
         y: 25,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 16,
         y: 0,
@@ -661,7 +661,7 @@ function script(param) {
         y: 153,
         w: 64,
         h: 64
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 32,
         y: 20,
@@ -672,7 +672,7 @@ function script(param) {
         y: 233,
         w: 32,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 36,
         y: 20,
@@ -683,7 +683,7 @@ function script(param) {
         y: 233,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 44,
         y: 20,
@@ -694,7 +694,7 @@ function script(param) {
         y: 233,
         w: 32,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 48,
         y: 20,
@@ -705,7 +705,7 @@ function script(param) {
         y: 233,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 36,
         y: 16,
@@ -716,7 +716,7 @@ function script(param) {
         y: 201,
         w: 64,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 44,
         y: 16,
@@ -727,7 +727,7 @@ function script(param) {
         y: 329,
         w: 64,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 56,
         y: 2,
@@ -738,7 +738,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 2,
@@ -749,7 +749,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 2,
@@ -760,7 +760,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 62,
         y: 2,
@@ -771,7 +771,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 0,
@@ -782,7 +782,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 0,
@@ -793,7 +793,7 @@ function script(param) {
         y: 639,
         w: 16,
         h: 16
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 56,
         y: 2,
@@ -804,7 +804,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 2,
@@ -815,7 +815,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 2,
@@ -826,7 +826,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 62,
         y: 2,
@@ -837,7 +837,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 0,
@@ -848,7 +848,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 0,
@@ -859,7 +859,7 @@ function script(param) {
         y: 655,
         w: 16,
         h: 16
-      }, undefined, 180.0, undefined, undefined);
+      }, undefined, 180.0, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 56,
         y: 2,
@@ -870,7 +870,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 2,
@@ -881,7 +881,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 2,
@@ -892,7 +892,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 62,
         y: 2,
@@ -903,7 +903,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 0,
@@ -914,7 +914,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 0,
@@ -925,7 +925,7 @@ function script(param) {
         y: 639,
         w: 16,
         h: 16
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 56,
         y: 2,
@@ -936,7 +936,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 2,
@@ -947,7 +947,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 2,
@@ -958,7 +958,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 62,
         y: 2,
@@ -969,7 +969,7 @@ function script(param) {
         y: 399,
         w: 16,
         h: 240
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 58,
         y: 0,
@@ -980,7 +980,7 @@ function script(param) {
         y: 383,
         w: 16,
         h: 16
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Enderman Eyes", {
         x: 60,
         y: 0,
@@ -991,7 +991,7 @@ function script(param) {
         y: 655,
         w: 16,
         h: 16
-      }, undefined, 180.0, undefined, undefined);
+      }, undefined, 180.0, undefined);
   if (showFolds) {
     Generator.drawImage("Folds", [
           0,

@@ -1,8 +1,6 @@
 # Minecraft Golem Generator
-# Originally Developed by Wajy
 
-## History
-
+- Originally Developed by Wajy
 - 06 Feb 2015 lostminer - Add user variables
 - 13 Feb 2015 lostminer - Update to use new version of generator
 - 20 Feb 2015 lostminer - Make the nose optional

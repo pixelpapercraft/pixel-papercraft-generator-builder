@@ -35,9 +35,20 @@ var LI = {
   make: Generator$Markup$LI
 };
 
-function Generator$Markup$OL(Props) {
+function Generator$Markup$UL(Props) {
   var children = Props.children;
   return React.createElement("ul", {
+              className: "mb-4 ml-4 list-disc"
+            }, children);
+}
+
+var UL = {
+  make: Generator$Markup$UL
+};
+
+function Generator$Markup$OL(Props) {
+  var children = Props.children;
+  return React.createElement("ol", {
               className: "mb-4 ml-4 list-decimal"
             }, children);
 }
@@ -57,12 +68,27 @@ var P = {
   make: Generator$Markup$P
 };
 
+function Generator$Markup$A(Props) {
+  var href = Props.href;
+  var children = Props.children;
+  return React.createElement("a", {
+              className: "text-green-600 font-medium hover:underline",
+              href: href
+            }, children);
+}
+
+var A = {
+  make: Generator$Markup$A
+};
+
 var Markup = {
   H2: H2,
   H3: H3,
   LI: LI,
+  UL: UL,
   OL: OL,
-  P: P
+  P: P,
+  A: A
 };
 
 var model = {
@@ -157,10 +183,9 @@ function drawTexture(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, para
   
 }
 
-function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, param) {
+function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, param) {
   var flip = flipOpt !== undefined ? flipOpt : "None";
   var rotateLegacy = rotateLegacyOpt !== undefined ? rotateLegacyOpt : 0.0;
-  var rotate = rotateOpt !== undefined ? rotateOpt : 0.0;
   return drawTexture(id, [
               source.x,
               source.y,
@@ -171,7 +196,7 @@ function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt
               dest.y,
               dest.w,
               dest.h
-            ], flip, rotateLegacy, rotate, undefined);
+            ], flip, rotateLegacy, undefined, undefined);
 }
 
 function drawImage(id, position) {

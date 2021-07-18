@@ -6,7 +6,7 @@ let id = "minecraft-horse"
 let name = "Minecraft Horse"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail.jpg"),
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
 let imageIds = ["Foreground-Horse", "Foreground-Mule", "Folds-Horse", "Folds-Mule", "Labels"]

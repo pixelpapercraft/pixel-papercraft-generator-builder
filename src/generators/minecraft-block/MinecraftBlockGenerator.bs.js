@@ -14,7 +14,7 @@ var id = "minecraft-block";
 var name = "Minecraft Block";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 function make(ox, oy) {
