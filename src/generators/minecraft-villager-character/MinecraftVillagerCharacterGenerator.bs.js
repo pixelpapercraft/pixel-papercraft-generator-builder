@@ -66,7 +66,7 @@ function script(param) {
         y: 74,
         w: 256,
         h: 80
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 8,
         y: 0,
@@ -77,7 +77,7 @@ function script(param) {
         y: 10,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 0,
@@ -88,7 +88,7 @@ function script(param) {
         y: 154,
         w: 64,
         h: 64
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 8,
@@ -99,7 +99,7 @@ function script(param) {
         y: 74,
         w: 256,
         h: 80
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 40,
         y: 0,
@@ -110,7 +110,7 @@ function script(param) {
         y: 10,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 48,
         y: 0,
@@ -121,7 +121,7 @@ function script(param) {
         y: 154,
         w: 64,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 16,
@@ -132,7 +132,7 @@ function script(param) {
         y: 26,
         w: 64,
         h: 48
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 16,
@@ -143,7 +143,7 @@ function script(param) {
         y: 170,
         w: 64,
         h: 48
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 20,
@@ -154,7 +154,7 @@ function script(param) {
         y: 74,
         w: 48,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 20,
@@ -165,7 +165,7 @@ function script(param) {
         y: 74,
         w: 48,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 20,
@@ -176,7 +176,7 @@ function script(param) {
         y: 74,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 20,
@@ -187,7 +187,7 @@ function script(param) {
         y: 74,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 32,
@@ -198,7 +198,7 @@ function script(param) {
         y: 26,
         w: 64,
         h: 48
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 32,
@@ -209,7 +209,7 @@ function script(param) {
         y: 170,
         w: 64,
         h: 48
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 36,
@@ -220,7 +220,7 @@ function script(param) {
         y: 74,
         w: 48,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 36,
@@ -231,7 +231,7 @@ function script(param) {
         y: 74,
         w: 48,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 36,
@@ -242,7 +242,7 @@ function script(param) {
         y: 74,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 36,
@@ -253,7 +253,7 @@ function script(param) {
         y: 74,
         w: 64,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 0,
         y: 20,
@@ -264,7 +264,7 @@ function script(param) {
         y: 272,
         w: 96,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 20,
@@ -275,7 +275,7 @@ function script(param) {
         y: 272,
         w: 32,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 4,
         y: 16,
@@ -286,7 +286,7 @@ function script(param) {
         y: 240,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 8,
         y: 16,
@@ -297,7 +297,7 @@ function script(param) {
         y: 368,
         w: 32,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 0,
         y: 36,
@@ -308,7 +308,7 @@ function script(param) {
         y: 272,
         w: 96,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 36,
@@ -319,7 +319,7 @@ function script(param) {
         y: 272,
         w: 32,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 4,
         y: 32,
@@ -330,7 +330,7 @@ function script(param) {
         y: 240,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 8,
         y: 32,
@@ -341,7 +341,7 @@ function script(param) {
         y: 368,
         w: 32,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 52,
@@ -352,7 +352,7 @@ function script(param) {
         y: 272,
         w: 128,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 48,
@@ -363,7 +363,7 @@ function script(param) {
         y: 240,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 24,
         y: 48,
@@ -374,7 +374,7 @@ function script(param) {
         y: 368,
         w: 32,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 0,
         y: 52,
@@ -385,7 +385,7 @@ function script(param) {
         y: 272,
         w: 128,
         h: 96
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 4,
         y: 48,
@@ -396,7 +396,7 @@ function script(param) {
         y: 240,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 8,
         y: 48,
@@ -407,7 +407,7 @@ function script(param) {
         y: 368,
         w: 32,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 40,
         y: 20,
@@ -418,7 +418,7 @@ function script(param) {
         y: 451,
         w: 128,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 16,
@@ -429,7 +429,7 @@ function script(param) {
         y: 419,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 24,
@@ -440,7 +440,7 @@ function script(param) {
         y: 547,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 40,
         y: 36,
@@ -451,7 +451,7 @@ function script(param) {
         y: 451,
         w: 128,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 32,
@@ -462,7 +462,7 @@ function script(param) {
         y: 419,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 40,
@@ -473,7 +473,7 @@ function script(param) {
         y: 547,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 52,
@@ -484,7 +484,7 @@ function script(param) {
         y: 451,
         w: 96,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 52,
@@ -495,7 +495,7 @@ function script(param) {
         y: 451,
         w: 32,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 36,
         y: 48,
@@ -506,7 +506,7 @@ function script(param) {
         y: 419,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 36,
         y: 56,
@@ -517,7 +517,7 @@ function script(param) {
         y: 515,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 48,
         y: 52,
@@ -528,7 +528,7 @@ function script(param) {
         y: 451,
         w: 96,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 60,
         y: 52,
@@ -539,7 +539,7 @@ function script(param) {
         y: 451,
         w: 32,
         h: 64
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 52,
         y: 48,
@@ -550,7 +550,7 @@ function script(param) {
         y: 419,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 52,
         y: 56,
@@ -561,7 +561,7 @@ function script(param) {
         y: 515,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 28,
@@ -572,7 +572,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 36,
         y: 60,
@@ -583,7 +583,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 24,
@@ -594,7 +594,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 36,
         y: 56,
@@ -605,7 +605,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 48,
         y: 28,
@@ -616,7 +616,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 60,
@@ -627,7 +627,7 @@ function script(param) {
         y: 268,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 40,
         y: 28,
@@ -638,7 +638,7 @@ function script(param) {
         y: 364,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 40,
         y: 60,
@@ -649,7 +649,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 60,
@@ -660,7 +660,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 52,
         y: 28,
@@ -671,7 +671,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 44,
@@ -682,7 +682,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 52,
         y: 60,
@@ -693,7 +693,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 44,
         y: 40,
@@ -704,7 +704,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 52,
         y: 56,
@@ -715,7 +715,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 48,
         y: 44,
@@ -726,7 +726,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 48,
         y: 60,
@@ -737,7 +737,7 @@ function script(param) {
         y: 268,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 40,
         y: 44,
@@ -748,7 +748,7 @@ function script(param) {
         y: 364,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 56,
         y: 60,
@@ -759,7 +759,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 60,
         y: 60,
@@ -770,7 +770,7 @@ function script(param) {
         y: 332,
         w: 32,
         h: 32
-      }, undefined, 270.0, undefined, undefined);
+      }, undefined, 270.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 52,
         y: 44,
@@ -781,7 +781,7 @@ function script(param) {
         y: 300,
         w: 32,
         h: 32
-      }, undefined, 90.0, undefined, undefined);
+      }, undefined, 90.0, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 11,
         y: 13,
@@ -792,7 +792,7 @@ function script(param) {
         y: 446,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 11,
         y: 13,
@@ -803,7 +803,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 11,
         y: 13,
@@ -814,7 +814,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 13,
@@ -825,7 +825,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 13,
@@ -836,7 +836,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 13,
@@ -847,7 +847,7 @@ function script(param) {
         y: 494,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 11,
         y: 14,
@@ -858,7 +858,7 @@ function script(param) {
         y: 446,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 11,
         y: 14,
@@ -869,7 +869,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 11,
         y: 14,
@@ -880,7 +880,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 14,
@@ -891,7 +891,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 14,
@@ -902,7 +902,7 @@ function script(param) {
         y: 462,
         w: 16,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 12,
         y: 14,
@@ -913,7 +913,7 @@ function script(param) {
         y: 494,
         w: 16,
         h: 16
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 20,
@@ -924,7 +924,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 20,
@@ -935,7 +935,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 20,
@@ -946,7 +946,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 20,
@@ -957,7 +957,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 36,
@@ -968,7 +968,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 36,
@@ -979,7 +979,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 36,
@@ -990,7 +990,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 36,
@@ -1001,7 +1001,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 20,
@@ -1012,7 +1012,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 20,
@@ -1023,7 +1023,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 20,
@@ -1034,7 +1034,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 20,
@@ -1045,7 +1045,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 28,
         y: 36,
@@ -1056,7 +1056,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 16,
         y: 36,
@@ -1067,7 +1067,7 @@ function script(param) {
         y: 583,
         w: 48,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 20,
         y: 36,
@@ -1078,7 +1078,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Skin", {
         x: 32,
         y: 36,
@@ -1089,7 +1089,7 @@ function script(param) {
         y: 583,
         w: 64,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawImage("RobeCover", [
         0,
         0

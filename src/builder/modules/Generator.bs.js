@@ -183,10 +183,9 @@ function drawTexture(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, para
   
 }
 
-function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, param) {
+function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, param) {
   var flip = flipOpt !== undefined ? flipOpt : "None";
   var rotateLegacy = rotateLegacyOpt !== undefined ? rotateLegacyOpt : 0.0;
-  var rotate = rotateOpt !== undefined ? rotateOpt : 0.0;
   return drawTexture(id, [
               source.x,
               source.y,
@@ -197,7 +196,7 @@ function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt
               dest.y,
               dest.w,
               dest.h
-            ], flip, rotateLegacy, rotate, undefined);
+            ], flip, rotateLegacy, undefined, undefined);
 }
 
 function drawImage(id, position) {

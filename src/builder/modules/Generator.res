@@ -144,7 +144,6 @@ let drawTextureLegacy = (
   dest: Builder.rectangleLegacy,
   ~flip: Builder.Texture.flip=#None,
   ~rotateLegacy: float=0.0,
-  ~rotate: float=0.0,
   (),
 ) => {
   drawTexture(
@@ -153,7 +152,6 @@ let drawTextureLegacy = (
     (dest.x, dest.y, dest.w, dest.h),
     ~flip,
     ~rotateLegacy,
-    ~rotate,
     (),
   )
 }

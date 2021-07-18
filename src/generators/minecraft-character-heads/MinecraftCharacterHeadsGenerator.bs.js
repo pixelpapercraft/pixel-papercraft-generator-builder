@@ -69,7 +69,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 8,
           y: 8,
@@ -80,7 +80,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 16,
           y: 8,
@@ -91,7 +91,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 24,
           y: 8,
@@ -102,7 +102,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 8,
           y: 0,
@@ -113,7 +113,7 @@ function script(param) {
           y: y - 64 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 16,
           y: 0,
@@ -124,7 +124,7 @@ function script(param) {
           y: y + 64 | 0,
           w: 64,
           h: 64
-        }, "Vertical", undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 32,
           y: 8,
@@ -135,7 +135,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 40,
           y: 8,
@@ -146,7 +146,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 48,
           y: 8,
@@ -157,7 +157,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 56,
           y: 8,
@@ -168,7 +168,7 @@ function script(param) {
           y: y + 0 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 40,
           y: 0,
@@ -179,7 +179,7 @@ function script(param) {
           y: y - 64 | 0,
           w: 64,
           h: 64
-        }, undefined, undefined, undefined, undefined);
+        }, undefined, undefined, undefined);
     Generator.drawTextureLegacy(name, {
           x: 48,
           y: 0,
@@ -190,7 +190,7 @@ function script(param) {
           y: y + 64 | 0,
           w: 64,
           h: 64
-        }, "Vertical", undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     if (showFolds) {
       return Generator.drawImage("Folds", [
                   x - 90 | 0,
