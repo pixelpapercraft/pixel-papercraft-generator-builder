@@ -6,6 +6,7 @@ var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var Builder = require("../modules/Builder.bs.js");
 var Js_dict = require("rescript/lib/js/js_dict.js");
+var Belt_Int = require("rescript/lib/js/belt_Int.js");
 var FormInput = require("./FormInput.bs.js");
 var Caml_array = require("rescript/lib/js/caml_array.js");
 var Caml_option = require("rescript/lib/js/caml_option.js");
@@ -172,6 +173,43 @@ var SelectInput = {
   make: GeneratorInputs$SelectInput
 };
 
+function GeneratorInputs$RangeInput(Props) {
+  var id = Props.id;
+  var min = Props.min;
+  var max = Props.max;
+  var step = Props.step;
+  var value = Props.value;
+  var onChange = Props.onChange;
+  var onRangeChange = function (e) {
+    var target = e.target;
+    var value = target.value;
+    if (value === undefined) {
+      return ;
+    }
+    var value$1 = Belt_Int.fromString(value);
+    if (value$1 !== undefined) {
+      return Curry._1(onChange, value$1);
+    }
+    
+  };
+  return React.createElement("div", {
+              className: "mb-4"
+            }, React.createElement("div", {
+                  className: "font-bold"
+                }, id), React.createElement("input", {
+                  max: max.toString(),
+                  min: min.toString(),
+                  step: step,
+                  type: "range",
+                  value: value.toString(),
+                  onChange: onRangeChange
+                }));
+}
+
+var RangeInput = {
+  make: GeneratorInputs$RangeInput
+};
+
 function GeneratorInputs$Text(Props) {
   var text = Props.text;
   return React.createElement("div", {
@@ -203,6 +241,8 @@ function GeneratorInputs(Props) {
                                     }, Curry._1(input._1, (function (param) {
                                             return Curry._1(onChange, Builder.setStringInputValue(model, id, param));
                                           })));
+                      case /* RegionInput */2 :
+                          return null;
                       case /* TextureInput */3 :
                           var match = input._1;
                           var standardHeight = match.standardHeight;
@@ -244,9 +284,21 @@ function GeneratorInputs(Props) {
                                         }),
                                       key: id$3
                                     });
-                      case /* RegionInput */2 :
                       case /* RangeInput */6 :
-                          return null;
+                          var options = input._1;
+                          var id$4 = input._0;
+                          var value$1 = Builder.getRangeInputValue(model, id$4);
+                          return React.createElement(GeneratorInputs$RangeInput, {
+                                      id: id$4,
+                                      min: options.min,
+                                      max: options.max,
+                                      step: options.step,
+                                      value: value$1,
+                                      onChange: (function (param) {
+                                          return Curry._1(onChange, Builder.setRangeInputValue(model, id$4, param));
+                                        }),
+                                      key: id$4
+                                    });
                       
                     }
                   }));
@@ -260,6 +312,7 @@ var make = GeneratorInputs;
 exports.TextureInput = TextureInput;
 exports.BooleanInput = BooleanInput;
 exports.SelectInput = SelectInput;
+exports.RangeInput = RangeInput;
 exports.$$Text = $$Text;
 exports.make = make;
 /* Icon Not a pure module */

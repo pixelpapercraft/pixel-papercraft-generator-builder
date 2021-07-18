@@ -151,6 +151,15 @@ function getSelectInputValue(id) {
   return Builder.getSelectInputValue(model.contents, id);
 }
 
+function defineRangeInput(id, options) {
+  model.contents = Builder.defineRangeInput(model.contents, id, options);
+  
+}
+
+function getRangeInputValue(id) {
+  return Builder.getRangeInputValue(model.contents, id);
+}
+
 function defineTextureInput(id, options) {
   model.contents = Builder.defineTextureInput(model.contents, id, options);
   
@@ -226,6 +235,8 @@ exports.getBooleanInputValue = getBooleanInputValue;
 exports.defineSelectInput = defineSelectInput;
 exports.setSelectInputValue = setSelectInputValue;
 exports.getSelectInputValue = getSelectInputValue;
+exports.defineRangeInput = defineRangeInput;
+exports.getRangeInputValue = getRangeInputValue;
 exports.defineTextureInput = defineTextureInput;
 exports.defineText = defineText;
 exports.usePage = usePage;

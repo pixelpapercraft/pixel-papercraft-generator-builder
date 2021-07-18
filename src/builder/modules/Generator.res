@@ -106,6 +106,14 @@ let getSelectInputValue = (id: string) => {
   Builder.getSelectInputValue(model.contents, id)
 }
 
+let defineRangeInput = (id: string, options) => {
+  model := Builder.defineRangeInput(model.contents, id, options)
+}
+
+let getRangeInputValue = (id: string) => {
+  Builder.getRangeInputValue(model.contents, id)
+}
+
 let defineTextureInput = (id: string, options) => {
   model := Builder.defineTextureInput(model.contents, id, options)
 }
