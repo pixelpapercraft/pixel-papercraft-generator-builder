@@ -406,42 +406,9 @@ function script(param) {
           16,
           16,
           16
-        ], undefined, undefined, undefined, undefined);
-    Generator.drawTexture(texture, [
-          60,
-          36,
-          2,
-          2
-        ], [
-          337,
-          160,
-          16,
-          16
-        ], "Vertical", undefined, undefined, undefined);
+        ], undefined, undefined, 180.0, undefined);
     Generator.drawTexture(texture, [
           56,
-          38,
-          2,
-          16
-        ], [
-          321,
-          32,
-          16,
-          128
-        ], undefined, undefined, undefined, undefined);
-    Generator.drawTexture(texture, [
-          58,
-          38,
-          2,
-          16
-        ], [
-          337,
-          32,
-          16,
-          128
-        ], undefined, undefined, undefined, undefined);
-    Generator.drawTexture(texture, [
-          60,
           38,
           2,
           16
@@ -452,12 +419,34 @@ function script(param) {
           128
         ], undefined, undefined, undefined, undefined);
     Generator.drawTexture(texture, [
-          62,
+          58,
           38,
           2,
           16
         ], [
           369,
+          32,
+          16,
+          128
+        ], undefined, undefined, undefined, undefined);
+    Generator.drawTexture(texture, [
+          60,
+          38,
+          2,
+          16
+        ], [
+          321,
+          32,
+          16,
+          128
+        ], undefined, undefined, undefined, undefined);
+    Generator.drawTexture(texture, [
+          62,
+          38,
+          2,
+          16
+        ], [
+          337,
           32,
           16,
           128

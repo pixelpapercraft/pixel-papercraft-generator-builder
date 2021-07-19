@@ -219,12 +219,12 @@ let script = () => {
     let ox = 321
     let oy = 16
 
-    Generator.drawTexture(texture, (58, 36, 2, 2), (ox + 16, oy + 0, 16, 16), ()) // Top
-    Generator.drawTexture(texture, (60, 36, 2, 2), (ox + 16, oy + 144, 16, 16), ~flip=#Vertical, ()) // Bottom
-    Generator.drawTexture(texture, (56, 38, 2, 16), (ox + 0, oy + 16, 16, 128), ()) // Right
-    Generator.drawTexture(texture, (58, 38, 2, 16), (ox + 16, oy + 16, 16, 128), ()) // Front
-    Generator.drawTexture(texture, (60, 38, 2, 16), (ox + 32, oy + 16, 16, 128), ()) // Left
-    Generator.drawTexture(texture, (62, 38, 2, 16), (ox + 48, oy + 16, 16, 128), ()) // Back
+    Generator.drawTexture(texture, (58, 36, 2, 2), (ox + 16, oy + 0, 16, 16), ~rotate=180.0, ()) // Top
+    //Generator.drawTexture(texture, (60, 36, 2, 2), (ox + 16, oy + 144, 16, 16), ~rotate=180.0, ~flip=#Vertical, ()) // Bottom
+    Generator.drawTexture(texture, (56, 38, 2, 16), (ox + 32, oy + 16, 16, 128), ()) // Right
+    Generator.drawTexture(texture, (58, 38, 2, 16), (ox + 48, oy + 16, 16, 128), ()) // Front
+    Generator.drawTexture(texture, (60, 38, 2, 16), (ox + 0, oy + 16, 16, 128), ()) // Left
+    Generator.drawTexture(texture, (62, 38, 2, 16), (ox + 16, oy + 16, 16, 128), ()) // Back
 
     // Tail
     let ox = 224
