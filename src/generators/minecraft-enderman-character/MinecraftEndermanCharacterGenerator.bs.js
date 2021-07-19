@@ -59,8 +59,8 @@ function script(param) {
   Generator.defineBooleanInput("Show Folds", true);
   Generator.defineBooleanInput("Show Labels", true);
   var alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex";
-  var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showFolds = Generator.getBooleanInputValue("Show Folds");
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
   var hideHelmet = Generator.getBooleanInputValue("Hide Helmet");
   var hideJacket = Generator.getBooleanInputValue("Hide Jacket");
   var hideRightPant = Generator.getBooleanInputValue("Hide Right Pant");
