@@ -19,16 +19,20 @@ var thumbnail = {
   url: require("./thumbnail/thumbnail.jpeg")
 };
 
-var images = [
-  {
-    id: "Background",
-    url: requireImage("Background")
-  },
-  {
-    id: "Folds",
-    url: requireImage("Folds")
-  }
+var imageIds = [
+  "Background",
+  "Folds",
+  "Labels"
 ];
+
+function toImageDef(id) {
+  return {
+          id: id,
+          url: requireImage(id)
+        };
+}
+
+var images = imageIds.map(toImageDef);
 
 var textures = [{
     id: "Skin",
@@ -44,9 +48,63 @@ function script(param) {
         choices: []
       });
   Generator.defineBooleanInput("Show Folds", true);
-  Generator.defineBooleanInput("Show Overlay", true);
+  Generator.defineBooleanInput("Show Labels", true);
   var showFolds = Generator.getBooleanInputValue("Show Folds");
-  var showOverlay = Generator.getBooleanInputValue("Show Overlay");
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
+  var hideHelmet = Generator.getBooleanInputValue("Hide Helmet");
+  var hideJacket = Generator.getBooleanInputValue("Hide Jacket");
+  var hideFrontRightPant = Generator.getBooleanInputValue("Hide Front Right Pant");
+  var hideFrontLeftPant = Generator.getBooleanInputValue("Hide Front Left Pant");
+  var hideBackRightPant = Generator.getBooleanInputValue("Hide Back Right Pant");
+  var hideBackLeftPant = Generator.getBooleanInputValue("Hide Back Left Pant");
+  Generator.defineRegionInput([
+        164,
+        110,
+        256,
+        192
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Helmet", !hideHelmet);
+        }));
+  Generator.defineRegionInput([
+        196,
+        340,
+        192,
+        192
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Jacket", !hideJacket);
+        }));
+  Generator.defineRegionInput([
+        62,
+        471,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Front Right Pant", !hideFrontRightPant);
+        }));
+  Generator.defineRegionInput([
+        121,
+        589,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Front Left Pant", !hideFrontLeftPant);
+        }));
+  Generator.defineRegionInput([
+        419,
+        471,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Back Right Pant", !hideBackRightPant);
+        }));
+  Generator.defineRegionInput([
+        367,
+        589,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Back Left Pant", !hideBackLeftPant);
+        }));
   Generator.drawImage("Background", [
         0,
         0
@@ -447,7 +505,7 @@ function script(param) {
         w: 32,
         h: 32
       }, "Vertical", 180.0, undefined);
-  if (showOverlay) {
+  if (!hideHelmet) {
     Generator.drawTextureLegacy("Skin", {
           x: 32,
           y: 8,
@@ -514,6 +572,8 @@ function script(param) {
           w: 64,
           h: 64
         }, "Vertical", undefined, undefined);
+  }
+  if (!hideJacket) {
     Generator.drawTextureLegacy("Skin", {
           x: 16,
           y: 36,
@@ -580,6 +640,8 @@ function script(param) {
           w: 64,
           h: 32
         }, "Vertical", 90.0, undefined);
+  }
+  if (!hideFrontRightPant) {
     Generator.drawTextureLegacy("Skin", {
           x: 12,
           y: 36,
@@ -646,6 +708,8 @@ function script(param) {
           w: 32,
           h: 32
         }, "Vertical", undefined, undefined);
+  }
+  if (!hideFrontLeftPant) {
     Generator.drawTextureLegacy("Skin", {
           x: 12,
           y: 52,
@@ -712,6 +776,8 @@ function script(param) {
           w: 32,
           h: 32
         }, "Vertical", undefined, undefined);
+  }
+  if (!hideBackRightPant) {
     Generator.drawTextureLegacy("Skin", {
           x: 0,
           y: 36,
@@ -778,6 +844,8 @@ function script(param) {
           w: 32,
           h: 32
         }, "Vertical", 180.0, undefined);
+  }
+  if (!hideBackLeftPant) {
     Generator.drawTextureLegacy("Skin", {
           x: 8,
           y: 52,
@@ -846,7 +914,13 @@ function script(param) {
         }, "Vertical", 180.0, undefined);
   }
   if (showFolds) {
-    return Generator.drawImage("Folds", [
+    Generator.drawImage("Folds", [
+          0,
+          0
+        ]);
+  }
+  if (showLabels) {
+    return Generator.drawImage("Labels", [
                 0,
                 0
               ]);
@@ -872,6 +946,8 @@ exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.thumbnail = thumbnail;
+exports.imageIds = imageIds;
+exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.script = script;

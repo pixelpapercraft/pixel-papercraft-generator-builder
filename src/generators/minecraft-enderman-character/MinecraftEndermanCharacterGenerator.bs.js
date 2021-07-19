@@ -87,7 +87,7 @@ function script(param) {
         276,
         384,
         64,
-        278
+        270
       ], (function (param) {
           return Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant);
         }));

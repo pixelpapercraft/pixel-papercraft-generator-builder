@@ -58,7 +58,8 @@ var instructions = React.createElement("div", undefined, React.createElement(Gen
 
 var imageIds = [
   "Background",
-  "Folds"
+  "Folds",
+  "Labels"
 ];
 
 function toImageDef(id) {
@@ -84,7 +85,9 @@ function script(param) {
         choices: []
       });
   Generator.defineBooleanInput("Show Folds", true);
+  Generator.defineBooleanInput("Show Labels", true);
   var showFolds = Generator.getBooleanInputValue("Show Folds");
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
   Generator.drawImage("Background", [
         0,
         0
@@ -486,7 +489,13 @@ function script(param) {
         h: 32
       }, "Vertical", 180.0, undefined);
   if (showFolds) {
-    return Generator.drawImage("Folds", [
+    Generator.drawImage("Folds", [
+          0,
+          0
+        ]);
+  }
+  if (showLabels) {
+    return Generator.drawImage("Labels", [
                 0,
                 0
               ]);

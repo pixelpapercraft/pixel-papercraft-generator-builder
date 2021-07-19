@@ -34,7 +34,7 @@ let instructions: Generator.instructionsDef = {
   </div>
 }
 
-let imageIds = ["Background", "Folds"]
+let imageIds = ["Background", "Folds", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -53,9 +53,11 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variables
   let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Background
   Generator.drawImage("Background", (0, 0))
@@ -314,6 +316,11 @@ let script = () => {
   // Folds
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
   }
 }
 

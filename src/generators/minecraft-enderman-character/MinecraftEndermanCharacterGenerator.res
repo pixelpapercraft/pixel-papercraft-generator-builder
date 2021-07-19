@@ -53,7 +53,7 @@ let script = () => {
   Generator.defineRegionInput((268, 201, 192, 160), () => {
     Generator.setBooleanInputValue("Hide Jacket", !hideJacket)
   })
-  Generator.defineRegionInput((276, 384, 64, 278), () => {
+  Generator.defineRegionInput((276, 384, 64, 270), () => {
     Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant)
   })
   Generator.defineRegionInput((353, 384, 64, 270), () => {
