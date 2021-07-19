@@ -22,7 +22,10 @@ var thumbnail = {
 var imageIds = [
   "Background",
   "Folds",
-  "Labels"
+  "Labels",
+  "Action-Figure",
+  "Action-Figure-Folds",
+  "Action-Figure-Labels"
 ];
 
 function toImageDef(id) {
@@ -49,8 +52,10 @@ function script(param) {
       });
   Generator.defineBooleanInput("Show Folds", true);
   Generator.defineBooleanInput("Show Labels", true);
+  Generator.defineBooleanInput("Action Figure", false);
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
+  var actionFigure = Generator.getBooleanInputValue("Action Figure");
   var hideHelmet = Generator.getBooleanInputValue("Hide Helmet");
   var hideJacket = Generator.getBooleanInputValue("Hide Jacket");
   var hideFrontRightPant = Generator.getBooleanInputValue("Hide Front Right Pant");
@@ -912,6 +917,49 @@ function script(param) {
           w: 32,
           h: 32
         }, "Vertical", 180.0, undefined);
+  }
+  if (actionFigure) {
+    Generator.drawTextureLegacy("Skin", {
+          x: 16,
+          y: 0,
+          w: 8,
+          h: 8
+        }, {
+          x: 44,
+          y: 254,
+          w: 64,
+          h: 96
+        }, undefined, undefined, undefined);
+    if (!hideHelmet) {
+      Generator.drawTextureLegacy("Skin", {
+            x: 48,
+            y: 0,
+            w: 8,
+            h: 8
+          }, {
+            x: 44,
+            y: 254,
+            w: 64,
+            h: 96
+          }, undefined, undefined, undefined);
+    }
+    Generator.drawImage("Action-Figure", [
+          0,
+          0
+        ]);
+    if (showFolds) {
+      Generator.drawImage("Action-Figure-Folds", [
+            0,
+            0
+          ]);
+    }
+    if (showLabels) {
+      Generator.drawImage("Action-Figure-Labels", [
+            0,
+            0
+          ]);
+    }
+    
   }
   if (showFolds) {
     Generator.drawImage("Folds", [

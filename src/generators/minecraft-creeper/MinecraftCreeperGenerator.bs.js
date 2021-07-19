@@ -59,7 +59,10 @@ var instructions = React.createElement("div", undefined, React.createElement(Gen
 var imageIds = [
   "Background",
   "Folds",
-  "Labels"
+  "Labels",
+  "Action-Figure",
+  "Action-Figure-Folds",
+  "Action-Figure-Labels"
 ];
 
 function toImageDef(id) {
@@ -86,8 +89,10 @@ function script(param) {
       });
   Generator.defineBooleanInput("Show Folds", true);
   Generator.defineBooleanInput("Show Labels", true);
+  Generator.defineBooleanInput("Action Figure", false);
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
+  var actionFigure = Generator.getBooleanInputValue("Action Figure");
   Generator.drawImage("Background", [
         0,
         0
@@ -488,6 +493,36 @@ function script(param) {
         w: 32,
         h: 32
       }, "Vertical", 180.0, undefined);
+  if (actionFigure) {
+    Generator.drawTextureLegacy("Skin", {
+          x: 16,
+          y: 0,
+          w: 8,
+          h: 8
+        }, {
+          x: 44,
+          y: 254,
+          w: 64,
+          h: 96
+        }, undefined, undefined, undefined);
+    Generator.drawImage("Action-Figure", [
+          0,
+          0
+        ]);
+    if (showFolds) {
+      Generator.drawImage("Action-Figure-Folds", [
+            0,
+            0
+          ]);
+    }
+    if (showLabels) {
+      Generator.drawImage("Action-Figure-Labels", [
+            0,
+            0
+          ]);
+    }
+    
+  }
   if (showFolds) {
     Generator.drawImage("Folds", [
           0,
