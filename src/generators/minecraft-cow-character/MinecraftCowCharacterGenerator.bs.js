@@ -20,10 +20,20 @@ var thumbnail = {
   url: require("./thumbnail/thumbnail.jpeg")
 };
 
-var images = [{
-    id: "Background",
-    url: requireImage("Background")
-  }];
+var imageIds = [
+  "Background",
+  "Folds",
+  "Labels"
+];
+
+function toImageDef(id) {
+  return {
+          id: id,
+          url: requireImage(id)
+        };
+}
+
+var images = imageIds.map(toImageDef);
 
 var textures = [{
     id: "Skin",
@@ -46,7 +56,11 @@ function script(param) {
         standardHeight: 64,
         choices: []
       });
+  Generator.defineBooleanInput("Show Folds", true);
+  Generator.defineBooleanInput("Show Labels", true);
   var alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex";
+  var showFolds = Generator.getBooleanInputValue("Show Folds");
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
   var hideHelmet = Generator.getBooleanInputValue("Hide Helmet");
   var hideJacket = Generator.getBooleanInputValue("Hide Jacket");
   var hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve");
@@ -698,12 +712,24 @@ function script(param) {
           w: 32,
           h: 32
         }, undefined, undefined, undefined);
-    return Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.bottom, {
-                x: 485,
-                y: 714,
-                w: 32,
-                h: 32
-              }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy("Skin", steve.overlay.leftLeg.bottom, {
+          x: 485,
+          y: 714,
+          w: 32,
+          h: 32
+        }, "Vertical", undefined, undefined);
+  }
+  if (showFolds) {
+    Generator.drawImage("Folds", [
+          0,
+          0
+        ]);
+  }
+  if (showLabels) {
+    return Generator.drawImage("Labels", [
+                0,
+                0
+              ]);
   }
   
 }
@@ -726,6 +752,8 @@ exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.thumbnail = thumbnail;
+exports.imageIds = imageIds;
+exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.steve = steve;

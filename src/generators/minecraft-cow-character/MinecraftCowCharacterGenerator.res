@@ -9,12 +9,9 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let images: array<Generator.imageDef> = [
-  {
-    id: "Background",
-    url: requireImage("Background"),
-  },
-]
+let imageIds = ["Background", "Folds", "Labels"]
+let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
@@ -33,8 +30,14 @@ let script = () => {
   Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
+  // Define user variables
+  Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Show Labels", true)
+
   // Get user variable values
   let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Overlay region variables
   let hideHelmet = Generator.getBooleanInputValue("Hide Helmet")
@@ -651,6 +654,16 @@ let script = () => {
       (),
     )
   } // Bottom
+
+  // Folds
+  if showFolds {
+    Generator.drawImage("Folds", (0, 0))
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
+  }
 }
 
 let generator: Generator.generatorDef = {
