@@ -141,7 +141,7 @@ module MinecraftCharacterLegacy = {
         front: {x: 36, y: 52, w: 3, h: 12},
         left: {x: 39, y: 52, w: 4, h: 12},
         back: {x: 43, y: 52, w: 3, h: 12},
-        top: {x: 43, y: 52, w: 3, h: 12},
+        top: {x: 36, y: 48, w: 3, h: 4},
         bottom: {x: 39, y: 48, w: 3, h: 4},
       },
       body: steve.base.body,

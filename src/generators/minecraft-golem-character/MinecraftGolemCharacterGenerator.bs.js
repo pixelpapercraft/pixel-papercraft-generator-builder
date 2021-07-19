@@ -38,7 +38,7 @@ var images = imageIds.map(toImageDef);
 var textures = [
   {
     id: "Skin",
-    url: requireTexture("SkinS"),
+    url: requireTexture("Steve"),
     standardWidth: 64,
     standardHeight: 64
   },
