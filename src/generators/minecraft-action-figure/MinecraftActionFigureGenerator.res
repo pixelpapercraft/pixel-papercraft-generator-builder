@@ -5,6 +5,10 @@ let id = "minecraft-action-figure"
 
 let name = "Minecraft Action Figure"
 
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+}
+
 let imageIds = ["Backgroundalex", "Backgroundsteve", "Foldsalex", "Foldssteve", "Labels", "Notch"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
@@ -649,7 +653,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,

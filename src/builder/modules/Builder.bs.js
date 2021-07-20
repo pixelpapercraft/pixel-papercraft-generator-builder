@@ -135,6 +135,9 @@ function drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, opti
 }
 
 function draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, flip, rotate, param) {
+  if (!(sh > 0 && dh > 0 && sw > 0 && dw > 0)) {
+    return ;
+  }
   var sourceScaleX = texture.width / texture.standardWidth;
   var sourceScaleY = texture.height / texture.standardHeight;
   var sx$1 = Js_math.floor(sx * sourceScaleX);
@@ -278,12 +281,44 @@ function getSelectInputValue(model, id) {
   }
 }
 
+function setRangeInputValue(model, id, value) {
+  var ranges = Js_dict.fromArray(Js_dict.entries(model.values.ranges));
+  ranges[id] = value;
+  var init = model.values;
+  return {
+          inputs: model.inputs,
+          pages: model.pages,
+          currentPage: model.currentPage,
+          values: {
+            images: init.images,
+            textures: init.textures,
+            booleans: init.booleans,
+            selects: init.selects,
+            ranges: ranges,
+            strings: init.strings
+          }
+        };
+}
+
+function getRangeInputValue(model, id) {
+  var value = Js_dict.get(model.values.ranges, id);
+  if (value !== undefined) {
+    return value;
+  } else {
+    return 0;
+  }
+}
+
 function hasBooleanValue(model, id) {
   return Js_dict.get(model.values.booleans, id) !== undefined;
 }
 
 function hasSelectValue(model, id) {
   return Js_dict.get(model.values.selects, id) !== undefined;
+}
+
+function hasRangeValue(model, id) {
+  return Js_dict.get(model.values.ranges, id) !== undefined;
 }
 
 function findPage(model, id) {
@@ -414,6 +449,28 @@ function defineSelectInput(model, id, options) {
   }
   var value = options.length > 0 ? Caml_array.get(options, 0) : "";
   return setSelectInputValue(newModel, id, value);
+}
+
+function defineRangeInput(model, id, rangeArgs) {
+  var inputs = model.inputs.concat([{
+          TAG: /* RangeInput */6,
+          _0: id,
+          _1: rangeArgs
+        }]);
+  var newModel_pages = model.pages;
+  var newModel_currentPage = model.currentPage;
+  var newModel_values = model.values;
+  var newModel = {
+    inputs: inputs,
+    pages: newModel_pages,
+    currentPage: newModel_currentPage,
+    values: newModel_values
+  };
+  if (hasRangeValue(model, id)) {
+    return newModel;
+  } else {
+    return setRangeInputValue(newModel, id, rangeArgs.value);
+  }
 }
 
 function defineTextureInput(model, id, options) {
@@ -556,8 +613,11 @@ exports.setBooleanInputValue = setBooleanInputValue;
 exports.getBooleanInputValue = getBooleanInputValue;
 exports.setSelectInputValue = setSelectInputValue;
 exports.getSelectInputValue = getSelectInputValue;
+exports.setRangeInputValue = setRangeInputValue;
+exports.getRangeInputValue = getRangeInputValue;
 exports.hasBooleanValue = hasBooleanValue;
 exports.hasSelectValue = hasSelectValue;
+exports.hasRangeValue = hasRangeValue;
 exports.findPage = findPage;
 exports.usePage = usePage;
 exports.getDefaultPageId = getDefaultPageId;
@@ -568,6 +628,7 @@ exports.defineCustomStringInput = defineCustomStringInput;
 exports.defineBooleanInput = defineBooleanInput;
 exports.defineButtonInput = defineButtonInput;
 exports.defineSelectInput = defineSelectInput;
+exports.defineRangeInput = defineRangeInput;
 exports.defineTextureInput = defineTextureInput;
 exports.defineText = defineText;
 exports.drawImage = drawImage;

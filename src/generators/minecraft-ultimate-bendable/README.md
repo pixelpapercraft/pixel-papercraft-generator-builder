@@ -1,8 +1,6 @@
 # Minecraft Ultimate Bendable Character Generator
-# Originally Developed by rooterbuster
 
-## History
-
+- Originally Developed by rooterbuster
 - 06 Feb 2015 lostminer - Add user variables
 - 13 Feb 2015 lostminer - Update to use new version of generator
 - 22 Nov 2018 NinjolasNJM - Fixed rotations of tops and bottoms and the placement of arm textures, and made compatible with 1.8+ skins

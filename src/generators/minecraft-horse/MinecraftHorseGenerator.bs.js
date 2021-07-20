@@ -16,7 +16,7 @@ var id = "minecraft-horse";
 var name = "Minecraft Horse";
 
 var thumbnail = {
-  url: require("./thumbnail.jpg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var imageIds = [

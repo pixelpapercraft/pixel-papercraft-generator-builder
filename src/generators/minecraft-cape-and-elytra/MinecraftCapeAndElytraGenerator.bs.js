@@ -15,6 +15,10 @@ var id = "minecraft-cape-and-elytra";
 
 var name = "Minecraft Cape And Elytra";
 
+var thumbnail = {
+  url: require("./thumbnail/thumbnail.jpeg")
+};
+
 var imageIds = [
   "Foreground",
   "Folds",
@@ -52,7 +56,7 @@ function script(param) {
         y: 116,
         w: 8,
         h: 128
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 1,
         y: 1,
@@ -63,7 +67,7 @@ function script(param) {
         y: 116,
         w: 80,
         h: 128
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 11,
         y: 1,
@@ -74,7 +78,7 @@ function script(param) {
         y: 116,
         w: 8,
         h: 128
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 12,
         y: 1,
@@ -85,7 +89,7 @@ function script(param) {
         y: 116,
         w: 80,
         h: 128
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 1,
         y: 0,
@@ -96,7 +100,7 @@ function script(param) {
         y: 108,
         w: 80,
         h: 8
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 11,
         y: 0,
@@ -107,7 +111,7 @@ function script(param) {
         y: 244,
         w: 80,
         h: 8
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -118,7 +122,7 @@ function script(param) {
         y: 180,
         w: 48,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -129,7 +133,7 @@ function script(param) {
         y: 140,
         w: 32,
         h: 40
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -140,7 +144,7 @@ function script(param) {
         y: 180,
         w: 48,
         h: 32
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -151,7 +155,7 @@ function script(param) {
         y: 140,
         w: 32,
         h: 40
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -162,7 +166,7 @@ function script(param) {
         y: 336,
         w: 80,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 24,
         y: 0,
@@ -173,7 +177,7 @@ function script(param) {
         y: 336,
         w: 80,
         h: 32
-      }, undefined, 180.0, undefined, undefined);
+      }, undefined, 180.0, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 34,
         y: 2,
@@ -184,7 +188,7 @@ function script(param) {
         y: 336,
         w: 32,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -195,7 +199,7 @@ function script(param) {
         y: 336,
         w: 80,
         h: 160
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 24,
         y: 0,
@@ -206,7 +210,7 @@ function script(param) {
         y: 304,
         w: 80,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 34,
         y: 2,
@@ -217,7 +221,7 @@ function script(param) {
         y: 336,
         w: 32,
         h: 160
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 34,
         y: 2,
@@ -228,7 +232,7 @@ function script(param) {
         y: 352,
         w: 32,
         h: 112
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -239,7 +243,7 @@ function script(param) {
         y: 375,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -250,7 +254,7 @@ function script(param) {
         y: 409,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -261,7 +265,7 @@ function script(param) {
         y: 592,
         w: 80,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 24,
         y: 0,
@@ -272,7 +276,7 @@ function script(param) {
         y: 592,
         w: 80,
         h: 32
-      }, undefined, 180.0, undefined, undefined);
+      }, undefined, 180.0, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 34,
         y: 2,
@@ -283,7 +287,7 @@ function script(param) {
         y: 592,
         w: 32,
         h: 160
-      }, undefined, undefined, undefined, undefined);
+      }, undefined, undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -294,7 +298,7 @@ function script(param) {
         y: 592,
         w: 80,
         h: 160
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 24,
         y: 0,
@@ -305,7 +309,7 @@ function script(param) {
         y: 560,
         w: 80,
         h: 32
-      }, "Vertical", undefined, undefined, undefined);
+      }, "Vertical", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 34,
         y: 2,
@@ -316,7 +320,7 @@ function script(param) {
         y: 592,
         w: 32,
         h: 160
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 34,
         y: 2,
@@ -327,7 +331,7 @@ function script(param) {
         y: 608,
         w: 32,
         h: 112
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -338,7 +342,7 @@ function script(param) {
         y: 631,
         w: 32,
         h: 32
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawTextureLegacy("Cape", {
         x: 36,
         y: 2,
@@ -349,7 +353,7 @@ function script(param) {
         y: 665,
         w: 32,
         h: 32
-      }, "Horizontal", undefined, undefined, undefined);
+      }, "Horizontal", undefined, undefined);
   Generator.drawImage("Foreground", [
         0,
         0
@@ -369,10 +373,12 @@ function script(param) {
   
 }
 
+var generator_thumbnail = thumbnail;
+
 var generator = {
   id: id,
   name: name,
-  thumbnail: undefined,
+  thumbnail: generator_thumbnail,
   video: undefined,
   instructions: undefined,
   images: images,
@@ -384,10 +390,11 @@ exports.requireImage = requireImage;
 exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
+exports.thumbnail = thumbnail;
 exports.imageIds = imageIds;
 exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.script = script;
 exports.generator = generator;
-/* images Not a pure module */
+/* thumbnail Not a pure module */

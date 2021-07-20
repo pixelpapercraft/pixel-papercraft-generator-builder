@@ -1,7 +1,4 @@
 # Minecraft Action Figure Generator
-# Made By NinjolasNJM
-
-## History
 
 - 16 Aug 2020 NinjolasNJM - Initial script finished by NinjolasNJM
 - 03 Oct 2020 NinjolasNJM - Added Alex support and Hand Notches

@@ -1,8 +1,6 @@
 # Minecraft Creeper Generator
-# Originally developed by gootube2000
 
-## History
-
+- Originally developed by gootube2000
 - 19 Jun 2014 lostminer - Fix glitch in body, Make back legs face forward rather than backward.
 - 06 Feb 2015 lostminer - Add user variables
 - 13 Feb 2015 lostminer - Update to use new version of generator

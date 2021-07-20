@@ -2,6 +2,14 @@ module Components = MinecraftBlock_Components
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 
+let id = "minecraft-block"
+
+let name = "Minecraft Block"
+
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+}
+
 type region = (int, int, int, int)
 
 module Block = {
@@ -530,10 +538,6 @@ module Snow = {
   }
 }
 
-let id = "minecraft-block"
-
-let name = "Minecraft Block"
-
 let images: array<Generator.imageDef> = [
   {id: "Background", url: Generator.requireImage("./images/Background.png")},
   {id: "Title", url: Generator.requireImage("./images/Title.png")},
@@ -632,7 +636,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,
