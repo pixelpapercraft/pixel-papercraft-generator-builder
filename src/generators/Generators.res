@@ -6,6 +6,7 @@ let character: array<Generator.generatorDef> = [
   MinecraftCharacterGenerator.generator,
   MinecraftActionFigureGenerator.generator,
   MinecraftUltimateBendableGenerator.generator,
+  MinecraftCharacterMiniGenerator.generator,
 ]
 
 let mobCharacter: array<Generator.generatorDef> = [

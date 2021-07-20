@@ -224,15 +224,30 @@ module Texture = {
     ~rotate: rotate,
     (),
   ) => {
-    let sourceScaleX = Belt.Int.toFloat(texture.width) /. Belt.Int.toFloat(texture.standardWidth)
-    let sourceScaleY = Belt.Int.toFloat(texture.height) /. Belt.Int.toFloat(texture.standardHeight)
+    if sh > 0 && dh > 0 && sw > 0 && dw > 0 {
+      let sourceScaleX = Belt.Int.toFloat(texture.width) /. Belt.Int.toFloat(texture.standardWidth)
+      let sourceScaleY =
+        Belt.Int.toFloat(texture.height) /. Belt.Int.toFloat(texture.standardHeight)
 
-    let sx = Js.Math.floor(Belt.Int.toFloat(sx) *. sourceScaleX)
-    let sy = Js.Math.floor(Belt.Int.toFloat(sy) *. sourceScaleY)
-    let sw = Js.Math.floor(Belt.Int.toFloat(sw) *. sourceScaleX)
-    let sh = Js.Math.floor(Belt.Int.toFloat(sh) *. sourceScaleY)
+      let sx = Js.Math.floor(Belt.Int.toFloat(sx) *. sourceScaleX)
+      let sy = Js.Math.floor(Belt.Int.toFloat(sy) *. sourceScaleY)
+      let sw = Js.Math.floor(Belt.Int.toFloat(sw) *. sourceScaleX)
+      let sh = Js.Math.floor(Belt.Int.toFloat(sh) *. sourceScaleY)
 
-    drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, {rotate: rotate, flip: flip})
+      drawNearestNeighbor(
+        texture,
+        page,
+        sx,
+        sy,
+        sw,
+        sh,
+        dx,
+        dy,
+        dw,
+        dh,
+        {rotate: rotate, flip: flip},
+      )
+    }
   }
 }
 
@@ -384,6 +399,26 @@ let getSelectInputValue = (model: Model.t, id: string) => {
   }
 }
 
+let setRangeInputValue = (model: Model.t, id: string, value: int) => {
+  let ranges = Js.Dict.fromArray(Js.Dict.entries(model.values.ranges))
+  Js.Dict.set(ranges, id, value)
+  {
+    ...model,
+    values: {
+      ...model.values,
+      ranges: ranges,
+    },
+  }
+}
+
+let getRangeInputValue = (model: Model.t, id: string): int => {
+  let value = Js.Dict.get(model.values.ranges, id)
+  switch value {
+  | None => 0
+  | Some(value) => value
+  }
+}
+
 let hasBooleanValue = (model: Model.t, id: string) => {
   switch Js.Dict.get(model.values.booleans, id) {
   | None => false
@@ -393,6 +428,13 @@ let hasBooleanValue = (model: Model.t, id: string) => {
 
 let hasSelectValue = (model: Model.t, id: string) => {
   switch Js.Dict.get(model.values.selects, id) {
+  | None => false
+  | Some(_) => true
+  }
+}
+
+let hasRangeValue = (model: Model.t, id: string) => {
+  switch Js.Dict.get(model.values.ranges, id) {
   | None => false
   | Some(_) => true
   }
@@ -465,6 +507,16 @@ let defineSelectInput = (model: Model.t, id: string, options: array<string>) => 
   if !hasSelectValue(model, id) {
     let value = Js.Array2.length(options) > 0 ? options[0] : ""
     setSelectInputValue(newModel, id, value)
+  } else {
+    newModel
+  }
+}
+
+let defineRangeInput = (model: Model.t, id: string, rangeArgs: Input.rangeArgs) => {
+  let inputs = Js.Array2.concat(model.inputs, [Input.RangeInput(id, rangeArgs)])
+  let newModel = {...model, inputs: inputs}
+  if !hasRangeValue(model, id) {
+    setRangeInputValue(newModel, id, rangeArgs.value)
   } else {
     newModel
   }

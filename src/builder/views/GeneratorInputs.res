@@ -145,6 +145,37 @@ module SelectInput = {
   }
 }
 
+module RangeInput = {
+  @react.component
+  let make = (~id, ~min, ~max, ~step, ~value, ~onChange) => {
+    let onRangeChange = (e: ReactEvent.Form.t) => {
+      let target = ReactEvent.Form.target(e)
+      let value: option<string> = target["value"]
+      switch value {
+      | None => ()
+      | Some(value) => {
+          let value = Belt.Int.fromString(value)
+          switch value {
+          | None => ()
+          | Some(value) => onChange(value)
+          }
+        }
+      }
+    }
+    <div className="mb-4">
+      <div className="font-bold"> {React.string(id)} </div>
+      <input
+        type_="range"
+        min={min->Js.Int.toString}
+        max={max->Js.Int.toString}
+        value={value->Js.Int.toString}
+        step={step->Js.Int.toFloat}
+        onChange={onRangeChange}
+      />
+    </div>
+  }
+}
+
 module Text = {
   @react.component
   let make = (~text) => {
@@ -188,6 +219,11 @@ let make = (~model: Builder.Model.t, ~onChange) => {
     onChange(model)
   }
 
+  let onRangeInputChange = (id: string, value) => {
+    let model = Builder.setRangeInputValue(model, id, value)
+    onChange(model)
+  }
+
   if Js.Array2.length(model.inputs) > 0 {
     <div className="bg-gray-100 p-4 mb-8 rounded">
       {Js.Array2.map(model.inputs, input => {
@@ -213,7 +249,18 @@ let make = (~model: Builder.Model.t, ~onChange) => {
               key={id} id={id} options={options} value onChange={onSelectInputChange(id)}
             />
           }
-        | RangeInput(_, _) => React.null
+        | RangeInput(id, options) => {
+            let value = Builder.getRangeInputValue(model, id)
+            <RangeInput
+              key={id}
+              id={id}
+              min={options.min}
+              max={options.max}
+              step={options.step}
+              value
+              onChange={onRangeInputChange(id)}
+            />
+          }
         }
       })->React.array}
     </div>

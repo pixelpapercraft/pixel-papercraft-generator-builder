@@ -72,13 +72,25 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Pig (Vanilla)",
+    url: Generator.requireImage("./textures/vanilla/pig2.png"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Pig (Vanilla) (Original)",
     url: Generator.requireImage("./textures/vanilla/pig.png"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Saddle (Vanilla)",
-    url: Generator.requireImage("./textures/vanilla/saddle.png"),
+    url: Generator.requireImage("./textures/vanilla/pig_saddle2.png"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Saddle (Vanilla) (Original)",
+    url: Generator.requireImage("./textures/vanilla/pig_saddle.png"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -301,12 +313,17 @@ let script = () => {
   }
 
   // Define user inputs
-  makeTextureInput(pigTexture, 64, 32, ["Pig (Vanilla)", "Pig (Faithful)", "Pig (Space Pig)"])
+  makeTextureInput(
+    pigTexture,
+    64,
+    32,
+    ["Pig (Vanilla)", "Pig (Vanilla) (Original)", "Pig (Faithful)", "Pig (Space Pig)"],
+  )
   makeTextureInput(
     saddleTexture,
     64,
     32,
-    ["Saddle (Vanilla)", "Saddle (Faithful)", "Saddle (Space Pig)"],
+    ["Saddle (Vanilla)", "Saddle (Vanilla) (Original)", "Saddle (Faithful)", "Saddle (Space Pig)"],
   )
   makeTextureInput(
     armorTexture,
