@@ -99,7 +99,6 @@ let drawPage = (texture, src) => {
 let script = () => {
   Generator.defineText("Demonstration of some generator features.")
 
-  //Generator.defineButtonInput("Hello")
   Generator.defineButtonInput("Hello", () => {
     Js.log("Hello")
   })

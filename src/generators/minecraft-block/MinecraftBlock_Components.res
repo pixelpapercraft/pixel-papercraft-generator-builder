@@ -106,6 +106,7 @@ module TexturePicker = {
 
     let textureFrames = Textures.findTextureFrames(versionId)
     let textureDef = Textures.findTextureDef(versionId)
+    // Js.log(textureFrames)
 
     let textureIsSelected = (textureId, frame) => {
       switch selectedTextureFrame {
@@ -152,6 +153,7 @@ module TexturePicker = {
                 frame: frame,
                 rot: rotation,
               }
+              Js.log(faceTexture)
               onChange(Face.encodeFaceTexture(faceTexture))
             }
           }

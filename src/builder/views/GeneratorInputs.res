@@ -249,7 +249,7 @@ let make = (~model: Builder.Model.t, ~onChange) => {
               key={id} id={id} options={options} value onChange={onSelectInputChange(id)}
             />
           }
-        | ButtonInput(id, toRun) => <button key={id} onClick={(_) => toRun()} className = "text-white text-center font-semibold rounded text-sm py-2 px-4 bg-blue-600 hover:bg-blue-500">{React.string(id)}</button>
+        | ButtonInput(id, onClick) => <Buttons.Button key={id} onClick={(_) => onClick()} state=#Ready size=#Small color=#Blue>{React.string(id)}</Buttons.Button>
         | RangeInput(id, options) => {
             let value = Builder.getRangeInputValue(model, id)
             <RangeInput

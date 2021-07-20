@@ -86,8 +86,8 @@ let defineBooleanInput = (id, initial) => {
   model := Builder.defineBooleanInput(model.contents, id, initial)
 }
 
-let defineButtonInput = (id, toRun) => {
-  model := Builder.defineButtonInput(model.contents, id, toRun)
+let defineButtonInput = (id, onClick) => {
+  model := Builder.defineButtonInput(model.contents, id, onClick)
 }
 
 let setBooleanInputValue = (id, value) => {

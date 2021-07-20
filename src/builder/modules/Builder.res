@@ -503,8 +503,8 @@ let defineBooleanInput = (model: Model.t, id: string, initial: bool) => {
   }
 }
 
-let defineButtonInput = (model: Model.t, id: string, toRun) => {
-  let inputs = Js.Array2.concat(model.inputs, [Input.ButtonInput(id, toRun)])
+let defineButtonInput = (model: Model.t, id: string, onClick) => {
+  let inputs = Js.Array2.concat(model.inputs, [Input.ButtonInput(id, onClick)])
   let newModel = {...model, inputs: inputs}
   newModel
 }

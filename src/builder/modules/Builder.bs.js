@@ -415,11 +415,11 @@ function defineBooleanInput(model, id, initial) {
   }
 }
 
-function defineButtonInput(model, id, toRun) {
+function defineButtonInput(model, id, onClick) {
   var inputs = model.inputs.concat([{
           TAG: /* ButtonInput */7,
           _0: id,
-          _1: toRun
+          _1: onClick
         }]);
   return {
           inputs: inputs,
