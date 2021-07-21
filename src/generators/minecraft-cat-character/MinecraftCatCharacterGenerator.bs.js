@@ -36,12 +36,16 @@ var images = imageIds.map(toImageDef);
 
 var textures = [{
     id: "Skin",
-    url: requireTexture("Skin"),
+    url: requireTexture("Steve"),
     standardWidth: 64,
     standardHeight: 64
   }];
 
 function script(param) {
+  Generator.defineSelectInput("Skin Model Type", [
+        "Steve",
+        "Alex"
+      ]);
   Generator.defineTextureInput("Skin", {
         standardWidth: 64,
         standardHeight: 64,
@@ -49,6 +53,7 @@ function script(param) {
       });
   Generator.defineBooleanInput("Show Folds", true);
   Generator.defineBooleanInput("Show Labels", true);
+  var alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex";
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
   Generator.drawTextureLegacy("Skin", {
@@ -183,138 +188,414 @@ function script(param) {
         w: 40,
         h: 32
       }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 20,
-        w: 16,
-        h: 12
-      }, {
-        x: 251,
-        y: 248,
-        w: 64,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
-        x: 267,
-        y: 232,
-        w: 16,
-        h: 16
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
-        x: 267,
-        y: 280,
-        w: 16,
-        h: 16
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 36,
-        w: 16,
-        h: 12
-      }, {
-        x: 251,
-        y: 248,
-        w: 64,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
-        x: 267,
-        y: 232,
-        w: 16,
-        h: 16
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
-        x: 267,
-        y: 280,
-        w: 16,
-        h: 16
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 52,
-        w: 16,
-        h: 12
-      }, {
-        x: 340,
-        y: 248,
-        w: 64,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 36,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 356,
-        y: 232,
-        w: 16,
-        h: 16
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 356,
-        y: 280,
-        w: 16,
-        h: 16
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 52,
-        w: 16,
-        h: 12
-      }, {
-        x: 340,
-        y: 248,
-        w: 64,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 356,
-        y: 232,
-        w: 16,
-        h: 16
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 356,
-        y: 280,
-        w: 16,
-        h: 16
-      }, "Vertical", undefined, undefined);
+  if (alexModel) {
+    Generator.drawTextureLegacy("Skin", {
+          x: 40,
+          y: 20,
+          w: 4,
+          h: 12
+        }, {
+          x: 251,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 44,
+          y: 20,
+          w: 3,
+          h: 12
+        }, {
+          x: 267,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 47,
+          y: 20,
+          w: 4,
+          h: 12
+        }, {
+          x: 283,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 51,
+          y: 20,
+          w: 3,
+          h: 12
+        }, {
+          x: 299,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 44,
+          y: 16,
+          w: 3,
+          h: 4
+        }, {
+          x: 267,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 47,
+          y: 16,
+          w: 3,
+          h: 4
+        }, {
+          x: 267,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  } else {
+    Generator.drawTextureLegacy("Skin", {
+          x: 40,
+          y: 20,
+          w: 16,
+          h: 12
+        }, {
+          x: 251,
+          y: 248,
+          w: 64,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 44,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: 267,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 48,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: 267,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  }
+  if (alexModel) {
+    Generator.drawTextureLegacy("Skin", {
+          x: 40,
+          y: 36,
+          w: 4,
+          h: 12
+        }, {
+          x: 251,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 44,
+          y: 36,
+          w: 3,
+          h: 12
+        }, {
+          x: 267,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 47,
+          y: 36,
+          w: 4,
+          h: 12
+        }, {
+          x: 283,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 51,
+          y: 36,
+          w: 3,
+          h: 12
+        }, {
+          x: 299,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 44,
+          y: 32,
+          w: 3,
+          h: 4
+        }, {
+          x: 267,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 47,
+          y: 32,
+          w: 3,
+          h: 4
+        }, {
+          x: 267,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  } else {
+    Generator.drawTextureLegacy("Skin", {
+          x: 40,
+          y: 36,
+          w: 16,
+          h: 12
+        }, {
+          x: 251,
+          y: 248,
+          w: 64,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 44,
+          y: 32,
+          w: 4,
+          h: 4
+        }, {
+          x: 267,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 48,
+          y: 32,
+          w: 4,
+          h: 4
+        }, {
+          x: 267,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  }
+  if (alexModel) {
+    Generator.drawTextureLegacy("Skin", {
+          x: 32,
+          y: 52,
+          w: 4,
+          h: 12
+        }, {
+          x: 340,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 36,
+          y: 52,
+          w: 3,
+          h: 12
+        }, {
+          x: 356,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 39,
+          y: 52,
+          w: 4,
+          h: 12
+        }, {
+          x: 372,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 43,
+          y: 52,
+          w: 3,
+          h: 12
+        }, {
+          x: 388,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 36,
+          y: 48,
+          w: 3,
+          h: 4
+        }, {
+          x: 356,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 39,
+          y: 48,
+          w: 3,
+          h: 4
+        }, {
+          x: 356,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  } else {
+    Generator.drawTextureLegacy("Skin", {
+          x: 32,
+          y: 52,
+          w: 16,
+          h: 12
+        }, {
+          x: 340,
+          y: 248,
+          w: 64,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 36,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: 356,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 40,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: 356,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  }
+  if (alexModel) {
+    Generator.drawTextureLegacy("Skin", {
+          x: 48,
+          y: 52,
+          w: 4,
+          h: 12
+        }, {
+          x: 340,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 52,
+          y: 52,
+          w: 3,
+          h: 12
+        }, {
+          x: 356,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 55,
+          y: 52,
+          w: 4,
+          h: 12
+        }, {
+          x: 372,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 59,
+          y: 52,
+          w: 3,
+          h: 12
+        }, {
+          x: 388,
+          y: 248,
+          w: 16,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 52,
+          y: 48,
+          w: 3,
+          h: 4
+        }, {
+          x: 356,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 55,
+          y: 48,
+          w: 3,
+          h: 4
+        }, {
+          x: 356,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  } else {
+    Generator.drawTextureLegacy("Skin", {
+          x: 48,
+          y: 52,
+          w: 16,
+          h: 12
+        }, {
+          x: 340,
+          y: 248,
+          w: 64,
+          h: 32
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 52,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: 356,
+          y: 232,
+          w: 16,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy("Skin", {
+          x: 56,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: 356,
+          y: 280,
+          w: 16,
+          h: 16
+        }, "Vertical", undefined, undefined);
+  }
   var ob = 88;
   Generator.drawTextureLegacy("Skin", {
         x: 0,
