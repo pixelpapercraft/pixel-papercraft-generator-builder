@@ -9,16 +9,9 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let images: array<Generator.imageDef> = [
-  {
-    id: "Background",
-    url: requireImage("Background"),
-  },
-  {
-    id: "Folds",
-    url: requireImage("Folds"),
-  },
-]
+let imageIds = ["Background", "Folds", "Labels"]
+let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
@@ -35,9 +28,12 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
+  //let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Script Variables
   let ox = 15 // ox means 'origin x'
@@ -50,9 +46,6 @@ let script = () => {
   let om = 0
   let oi = 0
   let oo = 0
-
-  // Background
-  Generator.drawImage("Background", (0, 0))
 
   // Head
   Generator.drawTextureLegacy(
@@ -552,6 +545,11 @@ let script = () => {
   //Fold Lines
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
   }
 }
 
