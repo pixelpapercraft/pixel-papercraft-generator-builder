@@ -5,6 +5,7 @@ var Icon = require("./Icon.bs.js");
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var Builder = require("../modules/Builder.bs.js");
+var Buttons = require("./Buttons.bs.js");
 var Js_dict = require("rescript/lib/js/js_dict.js");
 var Belt_Int = require("rescript/lib/js/belt_Int.js");
 var FormInput = require("./FormInput.bs.js");
@@ -298,6 +299,19 @@ function GeneratorInputs(Props) {
                                           return Curry._1(onChange, Builder.setRangeInputValue(model, id$4, param));
                                         }),
                                       key: id$4
+                                    });
+                      case /* ButtonInput */7 :
+                          var onClick = input._1;
+                          var id$5 = input._0;
+                          return React.createElement(Buttons.Button.make, {
+                                      state: "Ready",
+                                      onClick: (function (param) {
+                                          return Curry._1(onClick, undefined);
+                                        }),
+                                      color: "Blue",
+                                      size: "Small",
+                                      children: id$5,
+                                      key: id$5
                                     });
                       
                     }

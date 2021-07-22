@@ -128,6 +128,11 @@ function defineBooleanInput(id, initial) {
   
 }
 
+function defineButtonInput(id, onClick) {
+  model.contents = Builder.defineButtonInput(model.contents, id, onClick);
+  
+}
+
 function setBooleanInputValue(id, value) {
   model.contents = Builder.setBooleanInputValue(model.contents, id, value);
   
@@ -231,6 +236,7 @@ exports.defineCustomStringInput = defineCustomStringInput;
 exports.getStringInputValue = getStringInputValue;
 exports.setStringInputValue = setStringInputValue;
 exports.defineBooleanInput = defineBooleanInput;
+exports.defineButtonInput = defineButtonInput;
 exports.setBooleanInputValue = setBooleanInputValue;
 exports.getBooleanInputValue = getBooleanInputValue;
 exports.defineSelectInput = defineSelectInput;
