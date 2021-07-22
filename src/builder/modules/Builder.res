@@ -122,8 +122,52 @@ module Texture = {
 
   type flip = [#None | #Horizontal | #Vertical]
   type rotate = [#None | #Corner(float) | #Center(float)]
+  type blend = [#None | #MultiplyHex(string) | #MultiplyRGB(int, int, int)]
 
-  type drawNearestNeighborOptions = {rotate: rotate, flip: flip}
+  type drawNearestNeighborOptions = {rotate: rotate, flip: flip, blend: blend}
+
+  @val external parseInt: (string, int) => float = "parseInt"
+
+  let parseHex = (hex: string) => {
+    let hex = if Js.String2.startsWith(hex, "#") {
+      Js.String2.substr(hex, ~from=1)
+    } else {
+      hex
+    }
+    let f = parseInt(hex, 16)
+    if Js.Float.isNaN(f) {
+      None
+    } else {
+      let i = Belt.Float.toInt(f)
+      Some(i)
+    }
+  }
+
+  let shift: (int, int) => int = %raw(`
+    function shift(value, shift) {
+      return value >> shift & 255
+    }
+  `)
+
+  let hexToRGB = (hex: string) => {
+    switch parseHex(hex) {
+    | None => None
+    | Some(value) => {
+        let r = shift(value, 16)
+        let g = shift(value, 8)
+        let b = shift(value, 0)
+        Some((r, g, b))
+      }
+    }
+  }
+
+  let blendColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => {
+    (
+      (Belt.Int.toFloat(r1) /. 255.0 *. Belt.Int.toFloat(r2) /. 255.0 *. 255.0)->Belt.Float.toInt,
+      (Belt.Int.toFloat(g1) /. 255.0 *. Belt.Int.toFloat(g2) /. 255.0 *. 255.0)->Belt.Float.toInt,
+      (Belt.Int.toFloat(b1) /. 255.0 *. Belt.Int.toFloat(b2) /. 255.0 *. 255.0)->Belt.Float.toInt,
+    )
+  }
 
   let drawNearestNeighbor = (
     texture: t,
@@ -153,6 +197,12 @@ module Texture = {
     let pixw = Belt.Int.toFloat(pixw) < deltax ? pixw + 1 : pixw
     let pixh = Belt.Int.toFloat(pixh) < deltay ? pixh + 1 : pixh
 
+    let blend = switch options.blend {
+    | #None => None
+    | #MultiplyHex(hex) => hexToRGB(hex)
+    | #MultiplyRGB(r, g, b) => Some(r, g, b)
+    }
+
     for y in 0 to sh - 1 {
       for x in 0 to sw - 1 {
         let tx = Belt.Int.toFloat(x) *. deltax
@@ -164,6 +214,11 @@ module Texture = {
         let g = pix[i + 1]
         let b = pix[i + 2]
         let a = Belt.Int.toFloat(pix[i + 3]) /. 255.0
+
+        let (r, g, b) = switch blend {
+        | None => (r, g, b)
+        | Some((r2, g2, b2)) => blendColors(r, g, b, r2, g2, b2)
+        }
 
         Context2d.setFillStyleRGBA(tempContext, r, g, b, a)
         Context2d.fillRect(tempContext, Js.Math.floor(tx), Js.Math.floor(ty), pixw, pixh)
@@ -222,6 +277,7 @@ module Texture = {
     dh,
     ~flip: flip,
     ~rotate: rotate,
+    ~blend: blend,
     (),
   ) => {
     if sh > 0 && dh > 0 && sw > 0 && dw > 0 {
@@ -245,7 +301,7 @@ module Texture = {
         dy,
         dw,
         dh,
-        {rotate: rotate, flip: flip},
+        {rotate: rotate, flip: flip, blend: blend},
       )
     }
   }
@@ -285,6 +341,7 @@ module Input = {
     | BooleanInput(id)
     | SelectInput(id, array<string>)
     | RangeInput(id, rangeArgs)
+    | ButtonInput(id, unit => unit)
 }
 
 module Model = {
@@ -334,6 +391,7 @@ let hasInput = (model: Model.t, idToFind: string) => {
     | BooleanInput(id) => id
     | SelectInput(id, _) => id
     | RangeInput(id, _) => id
+    | ButtonInput(id, _) => id
     }
     id === idToFind
   })
@@ -501,6 +559,12 @@ let defineBooleanInput = (model: Model.t, id: string, initial: bool) => {
   }
 }
 
+let defineButtonInput = (model: Model.t, id: string, onClick) => {
+  let inputs = Js.Array2.concat(model.inputs, [Input.ButtonInput(id, onClick)])
+  let newModel = {...model, inputs: inputs}
+  newModel
+}
+
 let defineSelectInput = (model: Model.t, id: string, options: array<string>) => {
   let inputs = Js.Array2.concat(model.inputs, [Input.SelectInput(id, options)])
   let newModel = {...model, inputs: inputs}
@@ -602,6 +666,7 @@ let drawTexture = (
   (dx, dy, dw, dh): rectangle,
   ~flip: Texture.flip,
   ~rotate: Texture.rotate,
+  ~blend: Texture.blend,
   (),
 ) => {
   let model = ensureCurrentPage(model)
@@ -609,7 +674,7 @@ let drawTexture = (
   let texture = Js.Dict.get(model.values.textures, id)
   switch (currentPage, texture) {
   | (Some(page), Some(texture)) =>
-    Texture.draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, ~flip, ~rotate, ())
+    Texture.draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, ~flip, ~rotate, ~blend, ())
   | _ => ()
   }
   model

@@ -307,15 +307,11 @@ Generator.drawTexture(
 );
 ```
 
-### Rotating and flipping textures
+### Rotating textures
 
-When using `Generator.drawTexture()` you can rotate and flip textures using the `~rotate` and `~flip` arguments.
+When using `Generator.drawTexture()` you can rotate textures using the `~rotate` argument.
 
 The `~rotate` argument can be any `float` value.
-
-The `~flip` argument can be either `~flip=#Horizontal` or `~flip=#Vertical`.
-
-You can use just one, or both of these.
 
 ```res
 Generator.drawTexture(
@@ -323,7 +319,44 @@ Generator.drawTexture(
   (8, 8, 8, 8),
   (138, 89, 64, 64),
   ~rotate=90.0,
+  (),
+);
+```
+
+### Flipping textures
+
+When using `Generator.drawTexture()` you can flip textures using the `~flip` argument.
+
+The `~flip` argument can be either `~flip=#Horizontal` or `~flip=#Vertical`.
+
+```res
+Generator.drawTexture(
+  "Skin",
+  (8, 8, 8, 8),
+  (138, 89, 64, 64),
   ~flip=#Vertical,
+  (),
+);
+```
+
+### Blending colors
+
+When using `Generator.drawTexture()` you can blend textures with a color using the `~blend` argument.
+
+This is useful when adding a tint to certain blocks in Minecraft corresponding to a biome.
+
+The `~blend` argument can be either:
+
+- `#None` meaning no blend.
+- `#MultiplyHex(string)` for a hex string, such as `#MultiplyHex("#90814D")`.
+- `#MultiplyRGB(int, int, int)` for red, green and blue values from 0 to 255, such as `#MultiplyRGB(144, 129, 77)`.
+
+```res
+Generator.drawTexture(
+  "Skin",
+  (8, 8, 8, 8),
+  (138, 89, 64, 64),
+  ~blend=#MultiplyHex("#90814D"),
   (),
 );
 ```

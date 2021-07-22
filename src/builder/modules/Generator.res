@@ -86,6 +86,10 @@ let defineBooleanInput = (id, initial) => {
   model := Builder.defineBooleanInput(model.contents, id, initial)
 }
 
+let defineButtonInput = (id, onClick) => {
+  model := Builder.defineButtonInput(model.contents, id, onClick)
+}
+
 let setBooleanInputValue = (id, value) => {
   model := Builder.setBooleanInputValue(model.contents, id, value)
 }
@@ -131,6 +135,7 @@ let drawTexture = (
   source: Builder.rectangle,
   dest: Builder.rectangle,
   ~flip: Builder.Texture.flip=#None,
+  ~blend: Builder.Texture.blend=#None,
   ~rotateLegacy: float=0.0,
   ~rotate: float=0.0,
   (),
@@ -142,7 +147,7 @@ let drawTexture = (
   } else {
     #None
   }
-  model := Builder.drawTexture(model.contents, id, source, dest, ~flip, ~rotate, ())
+  model := Builder.drawTexture(model.contents, id, source, dest, ~flip, ~rotate, ~blend, ())
 }
 
 @deprecated("Use Generator.drawTexture")
