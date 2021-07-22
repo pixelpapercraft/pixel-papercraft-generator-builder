@@ -175,8 +175,9 @@ function usePage(id) {
   
 }
 
-function drawTexture(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, param) {
+function drawTexture(id, source, dest, flipOpt, blendOpt, rotateLegacyOpt, rotateOpt, param) {
   var flip = flipOpt !== undefined ? flipOpt : "None";
+  var blend = blendOpt !== undefined ? blendOpt : "None";
   var rotateLegacy = rotateLegacyOpt !== undefined ? rotateLegacyOpt : 0.0;
   var rotate = rotateOpt !== undefined ? rotateOpt : 0.0;
   var rotate$1 = rotateLegacy !== 0.0 ? ({
@@ -188,7 +189,7 @@ function drawTexture(id, source, dest, flipOpt, rotateLegacyOpt, rotateOpt, para
             VAL: rotate
           }) : "None"
     );
-  model.contents = Builder.drawTexture(model.contents, id, source, dest, flip, rotate$1, undefined);
+  model.contents = Builder.drawTexture(model.contents, id, source, dest, flip, rotate$1, blend, undefined);
   
 }
 
@@ -205,7 +206,7 @@ function drawTextureLegacy(id, source, dest, flipOpt, rotateLegacyOpt, param) {
               dest.y,
               dest.w,
               dest.h
-            ], flip, rotateLegacy, undefined, undefined);
+            ], flip, undefined, rotateLegacy, undefined, undefined);
 }
 
 function drawImage(id, position) {

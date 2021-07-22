@@ -31,6 +31,18 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 256,
     standardHeight: 256,
   },
+  {
+    id: "GrassTop",
+    url: requireTexture("GrassTop.png"),
+    standardWidth: 16,
+    standardHeight: 16,
+  },
+  {
+    id: "GrassSide",
+    url: requireTexture("GrassSide.png"),
+    standardWidth: 16,
+    standardHeight: 16,
+  },
 ]
 
 module Config = {
@@ -49,6 +61,66 @@ let drawGrid = () => {
       let xpos = Config.offsetX + x * Config.gridCellSize
       let ypos = Config.offsetY + y * Config.gridCellSize
       Generator.drawImage("Grid", (xpos, ypos))
+    }
+  }
+}
+
+let drawPage4 = () => {
+  Generator.usePage("Page 4")
+
+  drawGrid()
+
+  let padding = 32
+  let size = Config.gridCellSize - padding
+  let indent = padding / 2
+
+  let tints = [
+    "#90814D",
+    "#BFB755",
+    "#59C93C",
+    "#64C73F",
+    "#79C05A",
+    "#88BB67",
+    "#507A32",
+    "#6A7039",
+    "#4C763C",
+    "#91BD59",
+    "#8EB971",
+    "#55C93F",
+    "#8AB689",
+    "#83B593",
+    "#86B87F",
+    "#86B783",
+    "#80B497",
+  ]
+
+  let getTint = index => Belt.Array.get(tints, index)
+
+  for row in 1 to Config.rowCount {
+    for col in 1 to Config.colCount {
+      let x = Config.offsetX + Config.gridCellSize * (col - 1) + indent
+      let y = Config.offsetY + Config.gridCellSize * (row - 1) + indent
+      let index = col - 1 + (row - 1) * Config.colCount
+      switch getTint(index) {
+      | None => {
+          Generator.drawTexture("Steve", (8, 8, 8, 8), (x, y, size, size), ())
+          Generator.drawTexture(
+            "GrassSide",
+            (0, 0, 16, 16),
+            (x, y, size, size),
+            ~blend=#MultiplyHex("#59C93C"),
+            (),
+          )
+        }
+      | Some(tint) =>
+        Generator.drawTexture(
+          "GrassTop",
+          (0, 0, 16, 16),
+          (x, y, size, size),
+          ~blend=#MultiplyHex(tint),
+          (),
+        )
+      }
     }
   }
 }
@@ -134,6 +206,8 @@ let script = () => {
       Generator.drawTexture("Steve", src, dst(col, row), ~rotate, ())
     }
   }
+
+  drawPage4()
 }
 
 let generator: Generator.generatorDef = {

@@ -3,6 +3,7 @@
 
 var PageSize = require("../../builder/modules/PageSize.bs.js");
 var Generator = require("../../builder/modules/Generator.bs.js");
+var Belt_Array = require("rescript/lib/js/belt_Array.js");
 
 function requireImage(fileName) {
   return require("./images/" + fileName);
@@ -39,6 +40,18 @@ var textures = [
     url: require("./textures/Steve256.png"),
     standardWidth: 256,
     standardHeight: 256
+  },
+  {
+    id: "GrassTop",
+    url: require("./textures/GrassTop.png"),
+    standardWidth: 16,
+    standardHeight: 16
+  },
+  {
+    id: "GrassSide",
+    url: require("./textures/GrassSide.png"),
+    standardWidth: 16,
+    standardHeight: 16
   }
 ];
 
@@ -74,6 +87,83 @@ function drawGrid(param) {
   
 }
 
+function drawPage4(param) {
+  Generator.usePage("Page 4");
+  drawGrid(undefined);
+  var size = 96;
+  var indent = 16;
+  var tints = [
+    "#90814D",
+    "#BFB755",
+    "#59C93C",
+    "#64C73F",
+    "#79C05A",
+    "#88BB67",
+    "#507A32",
+    "#6A7039",
+    "#4C763C",
+    "#91BD59",
+    "#8EB971",
+    "#55C93F",
+    "#8AB689",
+    "#83B593",
+    "#86B87F",
+    "#86B783",
+    "#80B497"
+  ];
+  for(var row = 1; row <= 6; ++row){
+    for(var col = 1; col <= 4; ++col){
+      var x = (offsetX + ((col - 1 | 0) << 7) | 0) + indent | 0;
+      var y = (offsetY + ((row - 1 | 0) << 7) | 0) + indent | 0;
+      var index = (col - 1 | 0) + ((row - 1 | 0) << 2) | 0;
+      var tint = Belt_Array.get(tints, index);
+      if (tint !== undefined) {
+        Generator.drawTexture("GrassTop", [
+              0,
+              0,
+              16,
+              16
+            ], [
+              x,
+              y,
+              size,
+              size
+            ], undefined, {
+              NAME: "MultiplyHex",
+              VAL: tint
+            }, undefined, undefined, undefined);
+      } else {
+        Generator.drawTexture("Steve", [
+              8,
+              8,
+              8,
+              8
+            ], [
+              x,
+              y,
+              size,
+              size
+            ], undefined, undefined, undefined, undefined, undefined);
+        Generator.drawTexture("GrassSide", [
+              0,
+              0,
+              16,
+              16
+            ], [
+              x,
+              y,
+              size,
+              size
+            ], undefined, {
+              NAME: "MultiplyHex",
+              VAL: "#59C93C"
+            }, undefined, undefined, undefined);
+      }
+    }
+  }
+  
+}
+
 function drawPage(texture, src) {
   drawGrid(undefined);
   var dst = function (gridx, gridy) {
@@ -84,30 +174,30 @@ function drawPage(texture, src) {
             64
           ];
   };
-  Generator.drawTexture(texture, src, dst(0, 0), undefined, undefined, 0.0, undefined);
-  Generator.drawTexture(texture, src, dst(1, 0), undefined, undefined, 90.0, undefined);
-  Generator.drawTexture(texture, src, dst(2, 0), undefined, undefined, 180.0, undefined);
-  Generator.drawTexture(texture, src, dst(3, 0), undefined, undefined, 270.0, undefined);
-  Generator.drawTexture(texture, src, dst(0, 1), "Horizontal", undefined, 0.0, undefined);
-  Generator.drawTexture(texture, src, dst(1, 1), "Horizontal", undefined, 90.0, undefined);
-  Generator.drawTexture(texture, src, dst(2, 1), "Horizontal", undefined, 180.0, undefined);
-  Generator.drawTexture(texture, src, dst(3, 1), "Horizontal", undefined, 270.0, undefined);
-  Generator.drawTexture(texture, src, dst(0, 2), "Vertical", undefined, 0.0, undefined);
-  Generator.drawTexture(texture, src, dst(1, 2), "Vertical", undefined, 90.0, undefined);
-  Generator.drawTexture(texture, src, dst(2, 2), "Vertical", undefined, 180.0, undefined);
-  Generator.drawTexture(texture, src, dst(3, 2), "Vertical", undefined, 270.0, undefined);
-  Generator.drawTexture(texture, src, dst(0, 3), undefined, undefined, 45.0, undefined);
-  Generator.drawTexture(texture, src, dst(1, 3), undefined, undefined, 90.0, undefined);
-  Generator.drawTexture(texture, src, dst(2, 3), undefined, undefined, 135.0, undefined);
-  Generator.drawTexture(texture, src, dst(3, 3), undefined, undefined, 180.0, undefined);
-  Generator.drawTexture(texture, src, dst(0, 4), "Horizontal", undefined, 45.0, undefined);
-  Generator.drawTexture(texture, src, dst(1, 4), "Horizontal", undefined, 90.0, undefined);
-  Generator.drawTexture(texture, src, dst(2, 4), "Horizontal", undefined, 135.0, undefined);
-  Generator.drawTexture(texture, src, dst(3, 4), "Horizontal", undefined, 180.0, undefined);
-  Generator.drawTexture(texture, src, dst(0, 5), "Vertical", undefined, 45.0, undefined);
-  Generator.drawTexture(texture, src, dst(1, 5), "Vertical", undefined, 90.0, undefined);
-  Generator.drawTexture(texture, src, dst(2, 5), "Vertical", undefined, 135.0, undefined);
-  return Generator.drawTexture(texture, src, dst(3, 5), "Vertical", undefined, 180.0, undefined);
+  Generator.drawTexture(texture, src, dst(0, 0), undefined, undefined, undefined, 0.0, undefined);
+  Generator.drawTexture(texture, src, dst(1, 0), undefined, undefined, undefined, 90.0, undefined);
+  Generator.drawTexture(texture, src, dst(2, 0), undefined, undefined, undefined, 180.0, undefined);
+  Generator.drawTexture(texture, src, dst(3, 0), undefined, undefined, undefined, 270.0, undefined);
+  Generator.drawTexture(texture, src, dst(0, 1), "Horizontal", undefined, undefined, 0.0, undefined);
+  Generator.drawTexture(texture, src, dst(1, 1), "Horizontal", undefined, undefined, 90.0, undefined);
+  Generator.drawTexture(texture, src, dst(2, 1), "Horizontal", undefined, undefined, 180.0, undefined);
+  Generator.drawTexture(texture, src, dst(3, 1), "Horizontal", undefined, undefined, 270.0, undefined);
+  Generator.drawTexture(texture, src, dst(0, 2), "Vertical", undefined, undefined, 0.0, undefined);
+  Generator.drawTexture(texture, src, dst(1, 2), "Vertical", undefined, undefined, 90.0, undefined);
+  Generator.drawTexture(texture, src, dst(2, 2), "Vertical", undefined, undefined, 180.0, undefined);
+  Generator.drawTexture(texture, src, dst(3, 2), "Vertical", undefined, undefined, 270.0, undefined);
+  Generator.drawTexture(texture, src, dst(0, 3), undefined, undefined, undefined, 45.0, undefined);
+  Generator.drawTexture(texture, src, dst(1, 3), undefined, undefined, undefined, 90.0, undefined);
+  Generator.drawTexture(texture, src, dst(2, 3), undefined, undefined, undefined, 135.0, undefined);
+  Generator.drawTexture(texture, src, dst(3, 3), undefined, undefined, undefined, 180.0, undefined);
+  Generator.drawTexture(texture, src, dst(0, 4), "Horizontal", undefined, undefined, 45.0, undefined);
+  Generator.drawTexture(texture, src, dst(1, 4), "Horizontal", undefined, undefined, 90.0, undefined);
+  Generator.drawTexture(texture, src, dst(2, 4), "Horizontal", undefined, undefined, 135.0, undefined);
+  Generator.drawTexture(texture, src, dst(3, 4), "Horizontal", undefined, undefined, 180.0, undefined);
+  Generator.drawTexture(texture, src, dst(0, 5), "Vertical", undefined, undefined, 45.0, undefined);
+  Generator.drawTexture(texture, src, dst(1, 5), "Vertical", undefined, undefined, 90.0, undefined);
+  Generator.drawTexture(texture, src, dst(2, 5), "Vertical", undefined, undefined, 135.0, undefined);
+  return Generator.drawTexture(texture, src, dst(3, 5), "Vertical", undefined, undefined, 180.0, undefined);
 }
 
 function script(param) {
@@ -149,10 +239,10 @@ function script(param) {
     for(var col = 0; col <= 3; ++col){
       var factor = (row << 2) + col | 0;
       var rotate = deg * factor;
-      Generator.drawTexture("Steve", src, dst(col, row), undefined, undefined, rotate, undefined);
+      Generator.drawTexture("Steve", src, dst(col, row), undefined, undefined, undefined, rotate, undefined);
     }
   }
-  
+  return drawPage4(undefined);
 }
 
 var generator = {
@@ -174,6 +264,7 @@ exports.images = images;
 exports.textures = textures;
 exports.Config = Config;
 exports.drawGrid = drawGrid;
+exports.drawPage4 = drawPage4;
 exports.drawPage = drawPage;
 exports.script = script;
 exports.generator = generator;

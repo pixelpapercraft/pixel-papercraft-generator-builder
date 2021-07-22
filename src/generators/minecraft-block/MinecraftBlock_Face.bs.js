@@ -137,7 +137,7 @@ function drawTexture(face, param, param$1, $staropt$star, $staropt$star$1, param
     ];
   }
   var rot$1 = (rotate | 0) + Math.imul(rot, 90) | 0;
-  return Generator.drawTexture(versionId, source, destination, flip, undefined, rot$1, undefined);
+  return Generator.drawTexture(versionId, source, destination, flip, undefined, undefined, rot$1, undefined);
 }
 
 function draw(faceId, source, destination, flipOpt, rotateOpt, param) {

@@ -44,7 +44,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         8,
         8,
@@ -55,7 +55,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         16,
         8,
@@ -66,7 +66,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         24,
         8,
@@ -77,7 +77,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         8,
         0,
@@ -88,7 +88,7 @@ function drawHead(name, x, y) {
         y - 64 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         16,
         0,
@@ -99,7 +99,7 @@ function drawHead(name, x, y) {
         y + 64 | 0,
         64,
         64
-      ], "Vertical", undefined, undefined, undefined);
+      ], "Vertical", undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         32,
         8,
@@ -110,7 +110,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         40,
         8,
@@ -121,7 +121,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         48,
         8,
@@ -132,7 +132,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         56,
         8,
@@ -143,7 +143,7 @@ function drawHead(name, x, y) {
         y + 0 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   Generator.drawTexture(name, [
         40,
         0,
@@ -154,7 +154,7 @@ function drawHead(name, x, y) {
         y - 64 | 0,
         64,
         64
-      ], undefined, undefined, undefined, undefined);
+      ], undefined, undefined, undefined, undefined, undefined);
   return Generator.drawTexture(name, [
               48,
               0,
@@ -165,7 +165,7 @@ function drawHead(name, x, y) {
               y + 64 | 0,
               64,
               64
-            ], "Vertical", undefined, undefined, undefined);
+            ], "Vertical", undefined, undefined, undefined, undefined);
 }
 
 function script(param) {

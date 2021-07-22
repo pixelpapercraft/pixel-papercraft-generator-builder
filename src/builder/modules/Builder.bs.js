@@ -80,6 +80,43 @@ function makeFromUrl$1(url, standardWidth, standardHeight) {
             });
 }
 
+function parseHex(hex) {
+  var hex$1 = hex.startsWith("#") ? hex.substr(1) : hex;
+  var f = parseInt(hex$1, 16);
+  if (Number.isNaN(f)) {
+    return ;
+  } else {
+    return f | 0;
+  }
+}
+
+var shift = (function shift(value, shift) {
+      return value >> shift & 255
+    });
+
+function hexToRGB(hex) {
+  var value = parseHex(hex);
+  if (value === undefined) {
+    return ;
+  }
+  var r = shift(value, 16);
+  var g = shift(value, 8);
+  var b = shift(value, 0);
+  return [
+          r,
+          g,
+          b
+        ];
+}
+
+function blendColors(r1, g1, b1, r2, g2, b2) {
+  return [
+          r1 / 255.0 * r2 / 255.0 * 255.0 | 0,
+          g1 / 255.0 * g2 / 255.0 * 255.0 | 0,
+          b1 / 255.0 * b2 / 255.0 * 255.0 | 0
+        ];
+}
+
 function drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, options) {
   var imageData = texture.context.getImageData(sx, sy, sw, sh);
   var pix = imageData.data;
@@ -91,6 +128,22 @@ function drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, opti
   var pixh = Js_math.floor(deltay);
   var pixw$1 = pixw < deltax ? pixw + 1 | 0 : pixw;
   var pixh$1 = pixh < deltay ? pixh + 1 | 0 : pixh;
+  var match = options.blend;
+  var blend;
+  if (typeof match === "object") {
+    if (match.NAME === "MultiplyRGB") {
+      var match$1 = match.VAL;
+      blend = [
+        match$1[0],
+        match$1[1],
+        match$1[2]
+      ];
+    } else {
+      blend = hexToRGB(match.VAL);
+    }
+  } else {
+    blend = undefined;
+  }
   for(var y = 0; y < sh; ++y){
     for(var x = 0; x < sw; ++x){
       var tx = x * deltax;
@@ -100,30 +153,35 @@ function drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, opti
       var g = Caml_array.get(pix, i + 1 | 0);
       var b = Caml_array.get(pix, i + 2 | 0);
       var a = Caml_array.get(pix, i + 3 | 0) / 255.0;
-      Dom2.Context2d.setFillStyleRGBA(tempContext, r, g, b, a);
+      var match$2 = blend !== undefined ? blendColors(r, g, b, blend[0], blend[1], blend[2]) : [
+          r,
+          g,
+          b
+        ];
+      Dom2.Context2d.setFillStyleRGBA(tempContext, match$2[0], match$2[1], match$2[2], a);
       tempContext.fillRect(Js_math.floor(tx), Js_math.floor(ty), pixw$1, pixh$1);
     }
   }
   var context = page.context;
   context.save();
   context.translate(dx, dy);
-  var match = options.rotate;
-  if (typeof match === "object") {
-    if (match.NAME === "Center") {
-      var radians = match.VAL * Math.PI / 180.0;
+  var match$3 = options.rotate;
+  if (typeof match$3 === "object") {
+    if (match$3.NAME === "Center") {
+      var radians = match$3.VAL * Math.PI / 180.0;
       context.translate(dw / 2 | 0, dh / 2 | 0);
       context.rotate(radians);
       context.translate((-dw | 0) / 2 | 0, (-dh | 0) / 2 | 0);
     } else {
-      var radians$1 = match.VAL * Math.PI / 180.0;
+      var radians$1 = match$3.VAL * Math.PI / 180.0;
       context.rotate(radians$1);
     }
   }
-  var match$1 = options.flip;
-  if (match$1 === "Horizontal") {
+  var match$4 = options.flip;
+  if (match$4 === "Horizontal") {
     context.translate(dw, 0);
     context.scale(-1, 1);
-  } else if (match$1 === "None") {
+  } else if (match$4 === "None") {
     
   } else {
     context.translate(0, dh);
@@ -134,7 +192,7 @@ function drawNearestNeighbor(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, opti
   
 }
 
-function draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, flip, rotate, param) {
+function draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, flip, rotate, blend, param) {
   if (!(sh > 0 && dh > 0 && sw > 0 && dw > 0)) {
     return ;
   }
@@ -146,13 +204,18 @@ function draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, flip, rotate, param
   var sh$1 = Js_math.floor(sh * sourceScaleY);
   return drawNearestNeighbor(texture, page, sx$1, sy$1, sw$1, sh$1, dx, dy, dw, dh, {
               rotate: rotate,
-              flip: flip
+              flip: flip,
+              blend: blend
             });
 }
 
 var Texture = {
   make: make$2,
   makeFromUrl: makeFromUrl$1,
+  parseHex: parseHex,
+  shift: shift,
+  hexToRGB: hexToRGB,
+  blendColors: blendColors,
   drawNearestNeighbor: drawNearestNeighbor,
   draw: draw
 };
@@ -567,12 +630,12 @@ function clearTexture(model, id) {
         };
 }
 
-function drawTexture(model, id, param, param$1, flip, rotate, param$2) {
+function drawTexture(model, id, param, param$1, flip, rotate, blend, param$2) {
   var model$1 = ensureCurrentPage(model);
   var currentPage = model$1.currentPage;
   var texture = Js_dict.get(model$1.values.textures, id);
   if (currentPage !== undefined && texture !== undefined) {
-    draw(texture, currentPage, param[0], param[1], param[2], param[3], param$1[0], param$1[1], param$1[2], param$1[3], flip, rotate, undefined);
+    draw(texture, currentPage, param[0], param[1], param[2], param[3], param$1[0], param$1[1], param$1[2], param$1[3], flip, rotate, blend, undefined);
   }
   return model$1;
 }
