@@ -174,7 +174,6 @@ function MinecraftBlock_Components$TexturePicker(Props) {
       frame: faceTexture_frame,
       rot: rotation$2
     };
-    console.log(faceTexture);
     return Curry._1(onChange, MinecraftBlock_Face.encodeFaceTexture(faceTexture));
   };
   return React.createElement("div", {
