@@ -5,6 +5,7 @@ type textureFrame = {
   textureId: string,
   frame: int,
   frameIndex: int,
+  blend: Builder.Texture.blend,
 }
 
 let textureSize = 16
@@ -51,6 +52,7 @@ let findTextureFrames = (versionId): option<array<textureFrame>> => {
               textureId: textureId,
               frame: frame,
               frameIndex: frameIndex,
+              blend: #None,
             }
             textureFrame
           })

@@ -134,12 +134,16 @@ module Texture = {
     } else {
       hex
     }
-    let f = parseInt(hex, 16)
-    if Js.Float.isNaN(f) {
-      None
+    if Js.String2.length(hex) == 6 {
+      let f = parseInt(hex, 16)
+      if Js.Float.isNaN(f) {
+        None
+      } else {
+        let i = Belt.Float.toInt(f)
+        Some(i)
+      }
     } else {
-      let i = Belt.Float.toInt(f)
-      Some(i)
+      None
     }
   }
 

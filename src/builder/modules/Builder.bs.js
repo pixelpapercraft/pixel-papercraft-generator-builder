@@ -82,6 +82,9 @@ function makeFromUrl$1(url, standardWidth, standardHeight) {
 
 function parseHex(hex) {
   var hex$1 = hex.startsWith("#") ? hex.substr(1) : hex;
+  if (hex$1.length !== 6) {
+    return ;
+  }
   var f = parseInt(hex$1, 16);
   if (Number.isNaN(f)) {
     return ;

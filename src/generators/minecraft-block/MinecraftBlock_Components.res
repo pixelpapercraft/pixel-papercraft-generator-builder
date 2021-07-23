@@ -1,7 +1,124 @@
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
+module Tints = MinecraftBlock_Tints
 
 type useState<'a> = ('a, ('a => 'a) => unit)
+
+module TintSelector = {
+  type selectedTint = NoTint | CustomTint | HexTint(string)
+
+  let makeOptions = tints => {
+    tints
+    ->Belt.Array.mapWithIndex((index1, {biomes, color}: Tints.tint) => {
+      biomes->Belt.Array.mapWithIndex((index2, biome) => {
+        let key = Js.Int.toString(index1) ++ "-" ++ Js.Int.toString(index2)
+        <option key={key} value={color}> {biome->React.string} </option>
+      })
+    })
+    ->Belt.Array.concatMany
+    ->React.array
+  }
+
+  let isValidTint = tint => {
+    switch Builder.Texture.hexToRGB(tint) {
+    | None => false
+    | Some(_) => true
+    }
+  }
+
+  let normalizeTint = tint => {
+    let tint = Js.String2.trim(tint)
+    if Js.String2.length(tint) === 0 {
+      None
+    } else {
+      let tint = if Js.String2.startsWith(tint, "#") {
+        tint
+      } else {
+        "#" ++ tint
+      }
+      if isValidTint(tint) {
+        Some(tint)
+      } else {
+        None
+      }
+    }
+  }
+
+  @react.component
+  let make = (~onChange) => {
+    let (selectedTint, setSelectedTint) = React.useState(() => NoTint)
+    let (customTint, setCustomTint) = React.useState(() => None)
+
+    let onSelectChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let tint = switch target["value"] {
+      | None => NoTint
+      | Some(value) =>
+        switch value {
+        | "None" => NoTint
+        | "Custom" => CustomTint
+        | _ => HexTint(value)
+        }
+      }
+      setSelectedTint(_ => tint)
+      switch tint {
+      | NoTint => onChange(None)
+      | CustomTint => onChange(None)
+      | HexTint(value) => onChange(Some(value))
+      }
+    }
+
+    let onInputChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let tint = switch target["value"] {
+      | None => None
+      | Some(tint) => normalizeTint(tint)
+      }
+      setCustomTint(_ => tint)
+      switch tint {
+      | None => ()
+      | Some(value) => onChange(Some(value))
+      }
+    }
+
+    let color = switch selectedTint {
+    | NoTint => None
+    | CustomTint => customTint
+    | HexTint(color) => Some(color)
+    }
+
+    <div className="flex">
+      <select
+        placeholder="Tint"
+        onChange={onSelectChange}
+        className="border border-gray-300 rounded text-gray-600 h-8 pl-5 pr-10 mr-4 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+        <option value="None"> {"No tint"->React.string} </option>
+        <option value="Custom"> {"Custom tint"->React.string} </option>
+        <optgroup key="grass" label="Grass"> {makeOptions(Tints.tints.grass)} </optgroup>
+        <optgroup key="foliage" label="Foliage"> {makeOptions(Tints.tints.foliage)} </optgroup>
+        <optgroup key="water" label="Water"> {makeOptions(Tints.tints.water)} </optgroup>
+      </select>
+      {switch selectedTint {
+      | CustomTint =>
+        <div>
+          <span> {"#"->React.string} </span>
+          <input
+            className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-4 bg-white"
+            onChange={onInputChange}
+          />
+        </div>
+      | _ => React.null
+      }}
+      {switch color {
+      | None => React.null
+      | Some(color) =>
+        <div>
+          <div className="border w-8 h-8" style={ReactDOM.Style.make(~backgroundColor=color, ())} />
+        </div>
+      }}
+    </div>
+  }
+}
 
 module TexturePicker = {
   let px = n => `${Js.Int.toString(n)}px`
@@ -103,6 +220,8 @@ module TexturePicker = {
       option<Textures.textureFrame>,
     > = React.useState(() => None)
     let (rotation, setRotation) = React.useState(() => 0)
+    let (search, setSearch) = React.useState(() => None)
+    let (tint, setTint) = React.useState(() => None)
 
     let textureFrames = Textures.findTextureFrames(versionId)
     let textureDef = Textures.findTextureDef(versionId)
@@ -115,9 +234,15 @@ module TexturePicker = {
       }
     }
 
+    let getBlend = tint => {
+      switch tint {
+      | None => #None
+      | Some(tint) => #MultiplyHex(tint)
+      }
+    }
+
     switch (textureDef, textureFrames) {
     | (Some(textureDef), Some(textureFrames)) => {
-        let (search, setSearch) = React.useState(() => None)
         let onSearchChange = e => {
           let target = ReactEvent.Form.target(e)
           let value = switch target["value"] {
@@ -151,6 +276,24 @@ module TexturePicker = {
                 textureId: textureId,
                 frame: frame,
                 rot: rotation,
+                blend: getBlend(tint),
+              }
+              onChange(Face.encodeFaceTexture(faceTexture))
+            }
+          }
+        }
+
+        let onTintChange = tint => {
+          setTint(_ => tint)
+          switch selectedTextureFrame {
+          | None => ()
+          | Some({versionId, textureId, frame}) => {
+              let faceTexture: Face.faceTexture = {
+                versionId: versionId,
+                textureId: textureId,
+                frame: frame,
+                rot: rotation,
+                blend: getBlend(tint),
               }
               onChange(Face.encodeFaceTexture(faceTexture))
             }
@@ -179,6 +322,7 @@ module TexturePicker = {
                       textureId: textureId,
                       frame: frame,
                       rot: 0,
+                      blend: getBlend(tint),
                     }
                     onChange(Face.encodeFaceTexture(faceTexture))
                   }
@@ -207,6 +351,7 @@ module TexturePicker = {
               </div>
             </div>
           </div>
+          <div className="mb-2"> <TintSelector onChange={onTintChange} /> </div>
         </div>
       }
     | _ => React.null

@@ -48,7 +48,8 @@ function findTextureFrames(versionId) {
                                           versionId: versionId,
                                           textureId: textureId,
                                           frame: frame,
-                                          frameIndex: frameIndex
+                                          frameIndex: frameIndex,
+                                          blend: "None"
                                         };
                                 }));
                   }));
