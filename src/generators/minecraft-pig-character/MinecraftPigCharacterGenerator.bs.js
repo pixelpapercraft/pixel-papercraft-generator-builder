@@ -159,7 +159,7 @@ var textures = [
   },
   {
     id: "Skin",
-    url: require("./textures/SteveTest.png"),
+    url: require("./textures/Steve.png"),
     standardWidth: 64,
     standardHeight: 64
   }
@@ -181,6 +181,10 @@ function script(param) {
                 choices: choices
               });
   };
+  Generator.defineSelectInput("Skin Model Type", [
+        "Steve",
+        "Alex"
+      ]);
   makeTextureInput(skinTexture, 64, 64, []);
   makeTextureInput(saddleTexture, 64, 32, [
         "Saddle (Vanilla)",
@@ -216,6 +220,7 @@ function script(param) {
   Generator.defineBooleanInput("Show Labels", true);
   Generator.defineBooleanInput("Show Titles", true);
   Generator.defineBooleanInput("Transparent Background", false);
+  var alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex";
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showTitles = Generator.getBooleanInputValue("Show Titles");
@@ -905,84 +910,153 @@ function script(param) {
     }
     
   };
-  var drawLeg = function (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer) {
+  var drawLeg = function (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer, alexModel) {
     drawSprite(bgSprite, {
           x: 440,
           y: 392,
           w: 152,
           h: 160
         }, dx, dy);
-    var drawLayer = function (texture, sx, sy, dx, dy) {
-      Generator.drawTextureLegacy(texture, {
-            x: sx,
-            y: sy + 4 | 0,
-            w: 4,
-            h: 12
-          }, {
-            x: dx,
-            y: dy + 56 | 0,
-            w: 32,
-            h: 48
-          }, undefined, undefined, undefined);
-      Generator.drawTextureLegacy(texture, {
-            x: sx + 4 | 0,
-            y: sy + 4 | 0,
-            w: 4,
-            h: 12
-          }, {
-            x: dx + 32 | 0,
-            y: dy + 56 | 0,
-            w: 32,
-            h: 48
-          }, undefined, undefined, undefined);
-      Generator.drawTextureLegacy(texture, {
-            x: sx + 8 | 0,
-            y: sy + 4 | 0,
-            w: 4,
-            h: 12
-          }, {
-            x: dx + 64 | 0,
-            y: dy + 56 | 0,
-            w: 32,
-            h: 48
-          }, undefined, undefined, undefined);
-      Generator.drawTextureLegacy(texture, {
-            x: sx + 12 | 0,
-            y: sy + 4 | 0,
-            w: 4,
-            h: 12
-          }, {
-            x: dx + 96 | 0,
-            y: dy + 56 | 0,
-            w: 32,
-            h: 48
-          }, undefined, undefined, undefined);
-      Generator.drawTextureLegacy(texture, {
-            x: sx + 4 | 0,
-            y: sy,
-            w: 4,
-            h: 4
-          }, {
-            x: dx + 32 | 0,
-            y: dy + 24 | 0,
-            w: 32,
-            h: 32
-          }, undefined, undefined, undefined);
-      return Generator.drawTextureLegacy(texture, {
-                  x: sx + 8 | 0,
-                  y: sy,
-                  w: 4,
-                  h: 4
-                }, {
-                  x: dx + 32 | 0,
-                  y: dy + 104 | 0,
-                  w: 32,
-                  h: 32
-                }, "Vertical", undefined, undefined);
+    var drawLayer = function (texture, sx, sy, dx, dy, alexModel) {
+      if (alexModel) {
+        Generator.drawTextureLegacy(texture, {
+              x: sx,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy + 4 | 0,
+              w: 3,
+              h: 12
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 7 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 64 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 11 | 0,
+              y: sy + 4 | 0,
+              w: 3,
+              h: 12
+            }, {
+              x: dx + 96 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy,
+              w: 3,
+              h: 4
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 24 | 0,
+              w: 32,
+              h: 32
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: sx + 7 | 0,
+                    y: sy,
+                    w: 3,
+                    h: 4
+                  }, {
+                    x: dx + 32 | 0,
+                    y: dy + 104 | 0,
+                    w: 32,
+                    h: 32
+                  }, "Vertical", undefined, undefined);
+      } else {
+        Generator.drawTextureLegacy(texture, {
+              x: sx,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 8 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 64 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 12 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 96 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy,
+              w: 4,
+              h: 4
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 24 | 0,
+              w: 32,
+              h: 32
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: sx + 8 | 0,
+                    y: sy,
+                    w: 4,
+                    h: 4
+                  }, {
+                    x: dx + 32 | 0,
+                    y: dy + 104 | 0,
+                    w: 32,
+                    h: 32
+                  }, "Vertical", undefined, undefined);
+      }
     };
-    drawLayer(texture, sx, sy, dx, dy);
+    drawLayer(texture, sx, sy, dx, dy, alexModel);
     if (showSecondLayer) {
-      drawLayer(texture, ox, oy, dx, dy);
+      drawLayer(texture, ox, oy, dx, dy, alexModel);
     }
     if (showFolds) {
       drawSprite(foldSprite, {
@@ -1647,10 +1721,10 @@ function script(param) {
     drawHeadAdvanced(skinTexture, 48, 96, false, !useHelmet || separateHelmet, !hideHelmet);
   }
   drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle, !hideJacket);
-  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve);
-  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve);
-  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant);
-  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant);
+  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve, alexModel);
+  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve, alexModel);
+  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant, false);
+  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant, false);
   if (flatNose) {
     drawNoseFlat(pigTexture, 64, 104);
   } else {

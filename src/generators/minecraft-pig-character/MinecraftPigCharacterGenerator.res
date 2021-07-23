@@ -156,7 +156,7 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Skin",
-    url: Generator.requireImage("./textures/SteveTest.png"),
+    url: Generator.requireImage("./textures/Steve.png"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -298,6 +298,7 @@ let script = () => {
   }
 
   // Define user inputs
+  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   makeTextureInput(skinTexture, 64, 64, [])
   makeTextureInput(
     saddleTexture,
@@ -353,6 +354,7 @@ let script = () => {
   Generator.defineBooleanInput("Show Titles", true)
   Generator.defineBooleanInput("Transparent Background", false)
 
+  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showTitles = Generator.getBooleanInputValue("Show Titles")
@@ -744,53 +746,93 @@ let script = () => {
   }
 
   // Leg Function
-  let drawLeg = (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer) => {
+  let drawLeg = (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer, alexModel) => {
     //HEY NICKY remember, add  source texture variables, and fit it to be like the original's mapping, not just use thei one's mapping. Also, Jesus loves ou ==]]]]]]]]]]]]]]]]]]]]
     drawSprite(bgSprite, bgSprites.leg, dx, dy)
 
-    let drawLayer = (texture, sx, sy, dx, dy) => {
-      Generator.drawTextureLegacy(
-        texture,
-        {x: sx, y: sy + 4, w: 4, h: 12},
-        {x: dx, y: dy + 56, w: 32, h: 48},
-        (),
-      ) // Right
-      Generator.drawTextureLegacy(
-        texture,
-        {x: sx + 4, y: sy + 4, w: 4, h: 12},
-        {x: dx + 32, y: dy + 56, w: 32, h: 48},
-        (),
-      ) // Front
-      Generator.drawTextureLegacy(
-        texture,
-        {x: sx + 8, y: sy + 4, w: 4, h: 12},
-        {x: dx + 64, y: dy + 56, w: 32, h: 48},
-        (),
-      ) // Left
-      Generator.drawTextureLegacy(
-        texture,
-        {x: sx + 12, y: sy + 4, w: 4, h: 12},
-        {x: dx + 96, y: dy + 56, w: 32, h: 48},
-        (),
-      ) // Back
-      Generator.drawTextureLegacy(
-        texture,
-        {x: sx + 4, y: sy, w: 4, h: 4},
-        {x: dx + 32, y: dy + 24, w: 32, h: 32},
-        (),
-      ) // Top
-      Generator.drawTextureLegacy(
-        texture,
-        {x: sx + 8, y: sy, w: 4, h: 4},
-        {x: dx + 32, y: dy + 104, w: 32, h: 32},
-        ~flip=#Vertical,
-        (),
-      ) // Bottom
+    let drawLayer = (texture, sx, sy, dx, dy, alexModel) => {
+      if alexModel {
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx, y: sy + 4, w: 4, h: 12},
+          {x: dx, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Right
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 4, y: sy + 4, w: 3, h: 12},
+          {x: dx + 32, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Front
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 7, y: sy + 4, w: 4, h: 12},
+          {x: dx + 64, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Left
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 11, y: sy + 4, w: 3, h: 12},
+          {x: dx + 96, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Back
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 4, y: sy, w: 3, h: 4},
+          {x: dx + 32, y: dy + 24, w: 32, h: 32},
+          (),
+        ) // Top
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 7, y: sy, w: 3, h: 4},
+          {x: dx + 32, y: dy + 104, w: 32, h: 32},
+          ~flip=#Vertical,
+          (),
+        ) // Bottom
+      } else {
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx, y: sy + 4, w: 4, h: 12},
+          {x: dx, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Right
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 4, y: sy + 4, w: 4, h: 12},
+          {x: dx + 32, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Front
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 8, y: sy + 4, w: 4, h: 12},
+          {x: dx + 64, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Left
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 12, y: sy + 4, w: 4, h: 12},
+          {x: dx + 96, y: dy + 56, w: 32, h: 48},
+          (),
+        ) // Back
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 4, y: sy, w: 4, h: 4},
+          {x: dx + 32, y: dy + 24, w: 32, h: 32},
+          (),
+        ) // Top
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 8, y: sy, w: 4, h: 4},
+          {x: dx + 32, y: dy + 104, w: 32, h: 32},
+          ~flip=#Vertical,
+          (),
+        ) // Bottom
+      }
     }
 
-    drawLayer(texture, sx, sy, dx, dy) // First Layer
+    drawLayer(texture, sx, sy, dx, dy, alexModel) // First Layer
     if showSecondLayer {
-      drawLayer(texture, ox, oy, dx, dy) // Second Layer
+      drawLayer(texture, ox, oy, dx, dy, alexModel) // Second Layer
     }
 
     if showFolds {
@@ -1176,10 +1218,10 @@ let script = () => {
 
   drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle, !hideJacket) // Body
 
-  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve) // Right Arm
-  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve) // Left Arm
-  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant) // Right Leg
-  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant) // Left Leg
+  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve, alexModel) // Right Arm
+  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve, alexModel) // Left Arm
+  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant, false) // Right Leg
+  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant, false) // Left Leg
 
   if flatNose {
     drawNoseFlat(pigTexture, 64, 104)
