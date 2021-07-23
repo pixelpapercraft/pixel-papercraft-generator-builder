@@ -1056,6 +1056,68 @@ let script = () => {
   let drawUltraMiniBody = (texture, x, y) => {
     Generator.drawTextureLegacy(
       texture,
+      {x: 16, y: 20, w: 4, h: 12},
+      {x: x + 8, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
+      (),
+    ) // Right
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 20, y: 20, w: 8, h: 12},
+      {x: x + 32, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
+      (),
+    ) // Top
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 28, y: 20, w: 4, h: 12},
+      {x: x + 24, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
+      (),
+    ) // Left
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 32, y: 20, w: 8, h: 12},
+      {x: x + 16, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
+      (),
+    ) // Bottom
+
+    if !hideJacket {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 16, y: 36, w: 4, h: 12},
+        {x: x + 8, y: y + 20, w: 8, h: 12},
+        ~rotateLegacy=180.0,
+        (),
+      ) // Right Overlay
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 20, y: 36, w: 8, h: 12},
+        {x: x + 32, y: y + 20, w: 8, h: 12},
+        ~rotateLegacy=180.0,
+        (),
+      ) // Top Overlay
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 28, y: 36, w: 4, h: 12},
+        {x: x + 24, y: y + 20, w: 8, h: 12},
+        ~rotateLegacy=180.0,
+        (),
+      ) // Left Overlay
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 32, y: 36, w: 8, h: 12},
+        {x: x + 16, y: y + 20, w: 8, h: 12},
+        ~rotateLegacy=180.0,
+        (),
+      ) // Bottom Overlay
+    }
+  }
+
+  let drawUltraMiniSaddle = (texture, x, y) => {
+    Generator.drawTextureLegacy(
+      texture,
       {x: 28, y: 16, w: 8, h: 16},
       {x: x + 8, y: y + 20, w: 8, h: 12},
       ~rotateLegacy=180.0,
@@ -1087,30 +1149,99 @@ let script = () => {
   let drawUltraMiniLegs = (texture, x, y) => {
     Generator.drawTextureLegacy(
       texture,
-      {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 27, y: y + 11, w: 3, h: 3},
-      ~rotateLegacy=180.0,
+      {x: 24, y: 48, w: 4, h: 4},
+      {x: x + 24, y: y + 8, w: 3, h: 3},
+      ~flip=#Vertical,
       (),
     ) // Foot 4
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 32, y: y + 11, w: 3, h: 3},
-      ~rotateLegacy=180.0,
+      {x: x + 29, y: y + 8, w: 3, h: 3},
+      ~flip=#Vertical,
+      (),
+    ) // Foot 3
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 40, y: 48, w: 4, h: 4},
+      {x: x + 24, y: y + 17, w: 3, h: 3},
+      ~flip=#Vertical,
+      (),
+    ) // Foot 2
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 48, y: 16, w: 4, h: 4},
+      {x: x + 29, y: y + 17, w: 3, h: 3},
+      ~flip=#Vertical,
+      (),
+    ) // Foot 1
+
+    // Overlays
+    if !hideLeftPant {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 8, y: 48, w: 4, h: 4},
+        {x: x + 24, y: y + 8, w: 3, h: 3},
+        ~flip=#Vertical,
+        (),
+      ) // Foot 4 Overlay
+    }
+    if !hideRightPant {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 8, y: 32, w: 4, h: 4},
+        {x: x + 29, y: y + 8, w: 3, h: 3},
+        ~flip=#Vertical,
+        (),
+      ) // Foot 3 Overlay
+    }
+    if !hideLeftSleeve {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 56, y: 48, w: 4, h: 4},
+        {x: x + 24, y: y + 17, w: 3, h: 3},
+        ~flip=#Vertical,
+        (),
+      ) // Foot 2 Overlay
+    }
+    if !hideRightSleeve {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 48, y: 32, w: 4, h: 4},
+        {x: x + 29, y: y + 17, w: 3, h: 3},
+        ~flip=#Vertical,
+        (),
+      ) // Foot 1 Overlay
+    }
+  }
+
+  let drawUltraMiniBoots = (texture, x, y) => {
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 8, y: 16, w: 4, h: 4},
+      {x: x + 24, y: y + 8, w: 3, h: 3},
+      ~flip=#Vertical,
+      (),
+    ) // Foot 4
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 8, y: 16, w: 4, h: 4},
+      {x: x + 29, y: y + 8, w: 3, h: 3},
+      ~flip=#Vertical,
       (),
     ) // Foot 3
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 27, y: y + 19, w: 3, h: 3},
-      ~rotateLegacy=180.0,
+      {x: x + 24, y: y + 17, w: 3, h: 3},
+      ~flip=#Vertical,
       (),
     ) // Foot 2
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 32, y: y + 19, w: 3, h: 3},
-      ~rotateLegacy=180.0,
+      {x: x + 29, y: y + 17, w: 3, h: 3},
+      ~flip=#Vertical,
       (),
     ) // Foot 1
   }
@@ -1122,35 +1253,54 @@ let script = () => {
       {x: x + 8, y: y + 20, w: 8, h: 8},
       (),
     ) // Face
+    if !hideHelmet {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 40, y: 8, w: 8, h: 8},
+        {x: x + 8, y: y + 20, w: 8, h: 8},
+        (),
+      ) // Face Overlay
+    }
     Generator.drawTextureLegacy(
-      texture,
+      pigTexture,
       {x: 17, y: 17, w: 4, h: 3},
-      {x: x + 10, y: y + 24, w: 4, h: 3},
+      {x: x + 10, y: y + 25, w: 4, h: 3},
       (),
     ) // Nose
     Generator.drawTextureLegacy(
       texture,
-      {x: 46, y: 8, w: 10, h: 8},
+      {x: 28, y: 16, w: 8, h: 4},
       {x: x + 8, y: y, w: 8, h: 8},
       ~flip=#Vertical,
       (),
     ) // Back
+    if !hideJacket {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 28, y: 32, w: 8, h: 4},
+        {x: x + 8, y: y, w: 8, h: 8},
+        ~flip=#Vertical,
+        (),
+      ) // Back Overlay
+    }
   }
 
   let drawUltraMiniHelmet = (texture, x, y) => {
     //Generator.drawTextureLegacy(texture, {x:8,  y:0,  w:8, h:2}, {x:x+8,  y:y+18, w:8, h:2}); // Top
     Generator.drawTextureLegacy(
       texture,
-      {x: 8, y: 8, w: 8, h: 3},
-      {x: x + 8, y: y + 20, w: 8, h: 3},
+      {x: 8, y: 8, w: 8, h: 8},
+      {x: x + 8, y: y + 20, w: 8, h: 8},
       (),
-    ) // Front 1
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 10, y: 11, w: 4, h: 1},
-      {x: x + 10, y: y + 23, w: 4, h: 1},
-      (),
-    ) // Front 2
+    ) // Front
+    if !hideHelmetOverlay {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: 40, y: 8, w: 8, h: 8},
+        {x: x + 8, y: y + 20, w: 8, h: 8},
+        (),
+      ) // Front Overlay
+    }
     //Generator.drawTextureLegacy(texture, {x:8, y:8, w:8, h:8}, {x:x+8, y:y+20, w:8, h:8}); // Full Helmet
   }
 
@@ -1162,13 +1312,13 @@ let script = () => {
     drawUltraMiniLegs(skinTexture, x, y)
     drawUltraMiniEnds(skinTexture, x, y)
     if useSaddle {
-      drawUltraMiniBody(saddleTexture, x, y)
+      drawUltraMiniSaddle(saddleTexture, x, y)
     }
     if useHelmet {
       drawUltraMiniHelmet(armorTexture, x, y)
     }
     if useBoots {
-      drawUltraMiniLegs(armorTexture, x, y)
+      drawUltraMiniBoots(armorTexture, x, y)
     }
     if showTitles {
       drawSprite(titleSprite, titleSprites.ultraMini, x - 8, y - 15)

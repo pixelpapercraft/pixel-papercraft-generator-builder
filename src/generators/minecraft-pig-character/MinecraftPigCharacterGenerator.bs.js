@@ -1446,6 +1446,99 @@ function script(param) {
   };
   var drawUltraMiniBody = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
+          x: 16,
+          y: 20,
+          w: 4,
+          h: 12
+        }, {
+          x: x + 8 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 20,
+          y: 20,
+          w: 8,
+          h: 12
+        }, {
+          x: x + 32 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 20,
+          w: 4,
+          h: 12
+        }, {
+          x: x + 24 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 32,
+          y: 20,
+          w: 8,
+          h: 12
+        }, {
+          x: x + 16 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    if (!hideJacket) {
+      Generator.drawTextureLegacy(texture, {
+            x: 16,
+            y: 36,
+            w: 4,
+            h: 12
+          }, {
+            x: x + 8 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 12
+          }, undefined, 180.0, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: 20,
+            y: 36,
+            w: 8,
+            h: 12
+          }, {
+            x: x + 32 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 12
+          }, undefined, 180.0, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: 28,
+            y: 36,
+            w: 4,
+            h: 12
+          }, {
+            x: x + 24 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 12
+          }, undefined, 180.0, undefined);
+      return Generator.drawTextureLegacy(texture, {
+                  x: 32,
+                  y: 36,
+                  w: 8,
+                  h: 12
+                }, {
+                  x: x + 16 | 0,
+                  y: y + 20 | 0,
+                  w: 8,
+                  h: 12
+                }, undefined, 180.0, undefined);
+    }
+    
+  };
+  var drawUltraMiniSaddle = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
           x: 28,
           y: 16,
           w: 8,
@@ -1492,49 +1585,148 @@ function script(param) {
   };
   var drawUltraMiniLegs = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
-          x: 8,
-          y: 16,
+          x: 24,
+          y: 48,
           w: 4,
           h: 4
         }, {
-          x: x + 27 | 0,
-          y: y + 11 | 0,
+          x: x + 24 | 0,
+          y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, 180.0, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 16,
           w: 4,
           h: 4
         }, {
-          x: x + 32 | 0,
-          y: y + 11 | 0,
+          x: x + 29 | 0,
+          y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, 180.0, undefined);
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 40,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 24 | 0,
+          y: y + 17 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 48,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 29 | 0,
+          y: y + 17 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    if (!hideLeftPant) {
+      Generator.drawTextureLegacy(texture, {
+            x: 8,
+            y: 48,
+            w: 4,
+            h: 4
+          }, {
+            x: x + 24 | 0,
+            y: y + 8 | 0,
+            w: 3,
+            h: 3
+          }, "Vertical", undefined, undefined);
+    }
+    if (!hideRightPant) {
+      Generator.drawTextureLegacy(texture, {
+            x: 8,
+            y: 32,
+            w: 4,
+            h: 4
+          }, {
+            x: x + 29 | 0,
+            y: y + 8 | 0,
+            w: 3,
+            h: 3
+          }, "Vertical", undefined, undefined);
+    }
+    if (!hideLeftSleeve) {
+      Generator.drawTextureLegacy(texture, {
+            x: 56,
+            y: 48,
+            w: 4,
+            h: 4
+          }, {
+            x: x + 24 | 0,
+            y: y + 17 | 0,
+            w: 3,
+            h: 3
+          }, "Vertical", undefined, undefined);
+    }
+    if (!hideRightSleeve) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 48,
+                  y: 32,
+                  w: 4,
+                  h: 4
+                }, {
+                  x: x + 29 | 0,
+                  y: y + 17 | 0,
+                  w: 3,
+                  h: 3
+                }, "Vertical", undefined, undefined);
+    }
+    
+  };
+  var drawUltraMiniBoots = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 16,
           w: 4,
           h: 4
         }, {
-          x: x + 27 | 0,
-          y: y + 19 | 0,
+          x: x + 24 | 0,
+          y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, 180.0, undefined);
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 29 | 0,
+          y: y + 8 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 24 | 0,
+          y: y + 17 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
     return Generator.drawTextureLegacy(texture, {
                 x: 8,
                 y: 16,
                 w: 4,
                 h: 4
               }, {
-                x: x + 32 | 0,
-                y: y + 19 | 0,
+                x: x + 29 | 0,
+                y: y + 17 | 0,
                 w: 3,
                 h: 3
-              }, undefined, 180.0, undefined);
+              }, "Vertical", undefined, undefined);
   };
   var drawUltraMiniEnds = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
@@ -1548,52 +1740,82 @@ function script(param) {
           w: 8,
           h: 8
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
+    if (!hideHelmet) {
+      Generator.drawTextureLegacy(texture, {
+            x: 40,
+            y: 8,
+            w: 8,
+            h: 8
+          }, {
+            x: x + 8 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 8
+          }, undefined, undefined, undefined);
+    }
+    Generator.drawTextureLegacy(pigTexture, {
           x: 17,
           y: 17,
           w: 4,
           h: 3
         }, {
           x: x + 10 | 0,
-          y: y + 24 | 0,
+          y: y + 25 | 0,
           w: 4,
           h: 3
         }, undefined, undefined, undefined);
-    return Generator.drawTextureLegacy(texture, {
-                x: 46,
-                y: 8,
-                w: 10,
-                h: 8
-              }, {
-                x: x + 8 | 0,
-                y: y,
-                w: 8,
-                h: 8
-              }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 16,
+          w: 8,
+          h: 4
+        }, {
+          x: x + 8 | 0,
+          y: y,
+          w: 8,
+          h: 8
+        }, "Vertical", undefined, undefined);
+    if (!hideJacket) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 28,
+                  y: 32,
+                  w: 8,
+                  h: 4
+                }, {
+                  x: x + 8 | 0,
+                  y: y,
+                  w: 8,
+                  h: 8
+                }, "Vertical", undefined, undefined);
+    }
+    
   };
   var drawUltraMiniHelmet = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 8,
           w: 8,
-          h: 3
+          h: 8
         }, {
           x: x + 8 | 0,
           y: y + 20 | 0,
           w: 8,
-          h: 3
+          h: 8
         }, undefined, undefined, undefined);
-    return Generator.drawTextureLegacy(texture, {
-                x: 10,
-                y: 11,
-                w: 4,
-                h: 1
-              }, {
-                x: x + 10 | 0,
-                y: y + 23 | 0,
-                w: 4,
-                h: 1
-              }, undefined, undefined, undefined);
+    if (!hideHelmetOverlay) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 40,
+                  y: 8,
+                  w: 8,
+                  h: 8
+                }, {
+                  x: x + 8 | 0,
+                  y: y + 20 | 0,
+                  w: 8,
+                  h: 8
+                }, undefined, undefined, undefined);
+    }
+    
   };
   var drawUltraMini = function (x, y) {
     drawSprite(bgSprite, {
@@ -1606,13 +1828,13 @@ function script(param) {
     drawUltraMiniLegs(skinTexture, x, y);
     drawUltraMiniEnds(skinTexture, x, y);
     if (useSaddle) {
-      drawUltraMiniBody(saddleTexture, x, y);
+      drawUltraMiniSaddle(saddleTexture, x, y);
     }
     if (useHelmet) {
       drawUltraMiniHelmet(armorTexture, x, y);
     }
     if (useBoots) {
-      drawUltraMiniLegs(armorTexture, x, y);
+      drawUltraMiniBoots(armorTexture, x, y);
     }
     if (showTitles) {
       return drawSprite(titleSprite, {

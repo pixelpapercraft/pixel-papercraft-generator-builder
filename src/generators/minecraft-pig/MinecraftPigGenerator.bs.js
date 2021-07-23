@@ -1353,44 +1353,44 @@ function script(param) {
           w: 4,
           h: 4
         }, {
-          x: x + 27 | 0,
-          y: y + 11 | 0,
+          x: x + 24 | 0,
+          y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, 180.0, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 16,
           w: 4,
           h: 4
         }, {
-          x: x + 32 | 0,
-          y: y + 11 | 0,
+          x: x + 29 | 0,
+          y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, 180.0, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 16,
           w: 4,
           h: 4
         }, {
-          x: x + 27 | 0,
-          y: y + 19 | 0,
+          x: x + 24 | 0,
+          y: y + 17 | 0,
           w: 3,
           h: 3
-        }, undefined, 180.0, undefined);
+        }, "Vertical", undefined, undefined);
     return Generator.drawTextureLegacy(texture, {
                 x: 8,
                 y: 16,
                 w: 4,
                 h: 4
               }, {
-                x: x + 32 | 0,
-                y: y + 19 | 0,
+                x: x + 29 | 0,
+                y: y + 17 | 0,
                 w: 3,
                 h: 3
-              }, undefined, 180.0, undefined);
+              }, "Vertical", undefined, undefined);
   };
   var drawUltraMiniEnds = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
@@ -1432,24 +1432,27 @@ function script(param) {
           x: 8,
           y: 8,
           w: 8,
-          h: 3
+          h: 8
         }, {
           x: x + 8 | 0,
           y: y + 20 | 0,
           w: 8,
-          h: 3
+          h: 8
         }, undefined, undefined, undefined);
-    return Generator.drawTextureLegacy(texture, {
-                x: 10,
-                y: 11,
-                w: 4,
-                h: 1
-              }, {
-                x: x + 10 | 0,
-                y: y + 23 | 0,
-                w: 4,
-                h: 1
-              }, undefined, undefined, undefined);
+    if (!hideHelmetOverlay) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 40,
+                  y: 8,
+                  w: 8,
+                  h: 8
+                }, {
+                  x: x + 8 | 0,
+                  y: y + 20 | 0,
+                  w: 8,
+                  h: 8
+                }, undefined, undefined, undefined);
+    }
+    
   };
   var drawUltraMini = function (x, y) {
     drawSprite(bgSprite, {
