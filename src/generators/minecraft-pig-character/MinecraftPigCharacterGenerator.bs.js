@@ -74,6 +74,12 @@ var textures = [
     standardHeight: 48
   },
   {
+    id: "Pig Texture",
+    url: require("./textures/vanilla/pig2.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
     id: "Saddle (Vanilla)",
     url: require("./textures/vanilla/pig_saddle2.png"),
     standardWidth: 64,
@@ -161,6 +167,7 @@ var textures = [
 
 function script(param) {
   var skinTexture = "Skin";
+  var pigTexture = "Pig Texture";
   var saddleTexture = "Saddle";
   var armorTexture = "Armor (Layer 1)";
   var bgSprite = "Background Sprites";
@@ -214,17 +221,14 @@ function script(param) {
   var showTitles = Generator.getBooleanInputValue("Show Titles");
   var hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay");
   var isTransparent = Generator.getBooleanInputValue("Transparent Background");
-  Generator.defineSelectInput("Nose Style", [
-        "Flat",
-        "3D"
-      ]);
   Generator.defineSelectInput("Head Style", [
         "Simple",
         "Advanced",
         "Advanced (Standard)"
       ]);
-  var noseStyle = Generator.getSelectInputValue("Nose Style");
+  Generator.defineBooleanInput("Separate Snout", true);
   var headStyle = Generator.getSelectInputValue("Head Style");
+  var noseStyle = Generator.getBooleanInputValue("Separate Snout");
   Generator.defineSelectInput("Saddle Style", [
         "Attached",
         "Separate"
@@ -246,8 +250,8 @@ function script(param) {
   var useSaddle = saddleStyle !== "None";
   var useHelmet = helmetStyle !== "None";
   var useBoots = bootsStyle !== "None";
-  var flatNose = noseStyle === "Flat";
   var simpleHead = headStyle === "Simple";
+  var flatNose = !noseStyle;
   var standardAdvancedHead = headStyle === "Advanced (Standard)";
   var separateSaddle = saddleStyle === "Separate";
   var separateHelmet = helmetStyle === "Separate";
@@ -444,7 +448,7 @@ function script(param) {
               y: 56,
               w: 32,
               h: 24
-            }, x + 96 | 0, y + 96 | 0);
+            }, x + 96 | 0, y + 104 | 0);
       }
       if (showTitles) {
         return drawSprite(titleSprite, {
@@ -562,7 +566,7 @@ function script(param) {
                 y: 56,
                 w: 32,
                 h: 24
-              }, x + 80 | 0, y + 96 | 0);
+              }, x + 80 | 0, y + 104 | 0);
         }
         
       }
@@ -579,14 +583,14 @@ function script(param) {
     }
     
   };
-  var drawNose3D = function (texture, x, y) {
+  var drawNose3D = function (pig, x, y) {
     drawSprite(bgSprite, {
           x: 296,
           y: 392,
           w: 80,
           h: 80
         }, x, y);
-    Generator.drawTextureLegacy(texture, {
+    Generator.drawTextureLegacy(pig, {
           x: 16,
           y: 17,
           w: 1,
@@ -597,7 +601,7 @@ function script(param) {
           w: 8,
           h: 24
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
+    Generator.drawTextureLegacy(pig, {
           x: 17,
           y: 17,
           w: 4,
@@ -608,7 +612,7 @@ function script(param) {
           w: 32,
           h: 24
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
+    Generator.drawTextureLegacy(pig, {
           x: 21,
           y: 17,
           w: 1,
@@ -619,7 +623,7 @@ function script(param) {
           w: 8,
           h: 24
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
+    Generator.drawTextureLegacy(pig, {
           x: 10,
           y: 12,
           w: 4,
@@ -629,8 +633,8 @@ function script(param) {
           y: y,
           w: 32,
           h: 24
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(pig, {
           x: 17,
           y: 16,
           w: 4,
@@ -641,7 +645,7 @@ function script(param) {
           w: 32,
           h: 8
         }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
+    Generator.drawTextureLegacy(pig, {
           x: 21,
           y: 16,
           w: 4,
@@ -677,6 +681,19 @@ function script(param) {
                 }, x + 68 | 0, y + 6 | 0);
     }
     
+  };
+  var drawNoseFlat = function (texture, x, y) {
+    return Generator.drawTextureLegacy(texture, {
+                x: 17,
+                y: 17,
+                w: 4,
+                h: 3
+              }, {
+                x: x + 80 | 0,
+                y: y + 96 | 0,
+                w: 32,
+                h: 24
+              }, undefined, undefined, undefined);
   };
   var drawBody = function (texture, x, y, isSaddle, drawLabels) {
     if (!isSaddle) {
@@ -1491,8 +1508,10 @@ function script(param) {
   drawLeg(skinTexture, 32, 48, 392, 288, 2);
   drawLeg(skinTexture, 0, 16, 392, 472, 3);
   drawLeg(skinTexture, 16, 48, 240, 584, 4);
-  if (!flatNose) {
-    drawNose3D(skinTexture, 248, 272);
+  if (flatNose) {
+    drawNoseFlat(pigTexture, 64, 104);
+  } else {
+    drawNose3D(pigTexture, 248, 272);
   }
   if (useHelmet && !separateHelmet) {
     Generator.defineRegionInput([

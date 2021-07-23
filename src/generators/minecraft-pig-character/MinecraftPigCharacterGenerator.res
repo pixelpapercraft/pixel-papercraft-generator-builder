@@ -71,6 +71,12 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 48,
   },
   {
+    id: "Pig Texture",
+    url: Generator.requireImage("./textures/vanilla/pig2.png"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
     id: "Saddle (Vanilla)",
     url: Generator.requireImage("./textures/vanilla/pig_saddle2.png"),
     standardWidth: 64,
@@ -214,6 +220,7 @@ type titleSprites = {
 let script = () => {
   // Input names
   let skinTexture = "Skin"
+  let pigTexture = "Pig Texture"
   let saddleTexture = "Saddle"
   let armorTexture = "Armor (Layer 1)"
   let bgSprite = "Background Sprites"
@@ -351,11 +358,12 @@ let script = () => {
   let isTransparent = Generator.getBooleanInputValue("Transparent Background")
 
   // Define Texture variables
-  Generator.defineSelectInput("Nose Style", ["Flat", "3D"])
-  Generator.defineSelectInput("Head Style", ["Simple", "Advanced", "Advanced (Standard)"])
 
-  let noseStyle = Generator.getSelectInputValue("Nose Style")
+  Generator.defineSelectInput("Head Style", ["Simple", "Advanced", "Advanced (Standard)"])
+  Generator.defineBooleanInput("Separate Snout", true)
+
   let headStyle = Generator.getSelectInputValue("Head Style")
+  let noseStyle = Generator.getBooleanInputValue("Separate Snout")
 
   Generator.defineSelectInput("Saddle Style", ["Attached", "Separate"])
   Generator.defineSelectInput("Helmet Style", ["Attached", "Separate"])
@@ -375,8 +383,8 @@ let script = () => {
   let useHelmet = helmetStyle !== "None"
   let useBoots = bootsStyle !== "None"
 
-  let flatNose = noseStyle === "Flat"
   let simpleHead = headStyle === "Simple"
+  let flatNose = !noseStyle
   let standardAdvancedHead = headStyle === "Advanced (Standard)"
   let separateSaddle = saddleStyle === "Separate"
   let separateHelmet = helmetStyle === "Separate"
@@ -481,7 +489,7 @@ let script = () => {
         drawSprite(labelSprite, labelSprites.headStandardAdvanced, x + 192, y + 80)
       }
       if !flatNose {
-        drawSprite(labelSprite, labelSprites.headNose3D, x + 96, y + 96)
+        drawSprite(labelSprite, labelSprites.headNose3D, x + 96, y + 104)
       }
       if showTitles {
         drawSprite(titleSprite, titleSprites.head, x + 22, y + 12)
@@ -545,7 +553,7 @@ let script = () => {
       if showLabels {
         drawSprite(labelSprite, labelSprites.head, x + 192, y + 88)
         if !flatNose {
-          drawSprite(labelSprite, labelSprites.headNose3D, x + 80, y + 96)
+          drawSprite(labelSprite, labelSprites.headNose3D, x + 80, y + 104)
         }
       }
       if showTitles {
@@ -555,42 +563,42 @@ let script = () => {
   }
 
   //Nose Functions
-  let drawNose3D = (texture, x, y) => {
+  let drawNose3D = (pig, x, y) => {
     drawSprite(bgSprite, bgSprites.nose3D, x, y)
 
     Generator.drawTextureLegacy(
-      texture,
+      pig,
       {x: 16, y: 17, w: 1, h: 3},
       {x: x + 16, y: y + 32, w: 8, h: 24},
       (),
     ) // Right
     Generator.drawTextureLegacy(
-      texture,
+      pig,
       {x: 17, y: 17, w: 4, h: 3},
       {x: x + 24, y: y + 32, w: 32, h: 24},
       (),
     ) // Center
     Generator.drawTextureLegacy(
-      texture,
+      pig,
       {x: 21, y: 17, w: 1, h: 3},
       {x: x + 56, y: y + 32, w: 8, h: 24},
       (),
     ) // Left
     Generator.drawTextureLegacy(
-      texture,
+      pig,
       {x: 10, y: 12, w: 4, h: 3},
       {x: x + 24, y: y, w: 32, h: 24},
-      // {rotate: "vertical"},
+      ~flip=#Vertical,
       (),
     ) // Back
     Generator.drawTextureLegacy(
-      texture,
+      pig,
       {x: 17, y: 16, w: 4, h: 1},
       {x: x + 24, y: y + 24, w: 32, h: 8},
       (),
     ) // Top
     Generator.drawTextureLegacy(
-      texture,
+      pig,
       {x: 21, y: 16, w: 4, h: 1},
       {x: x + 24, y: y + 56, w: 32, h: 8},
       ~flip=#Vertical,
@@ -606,6 +614,15 @@ let script = () => {
     if showTitles {
       drawSprite(titleSprite, titleSprites.nose3D, x + 68, y + 6)
     }
+  }
+
+  let drawNoseFlat = (texture, x, y) => {
+    Generator.drawTextureLegacy(
+      texture,
+      {x: 17, y: 17, w: 4, h: 3},
+      {x: x + 80, y: y + 96, w: 32, h: 24},
+      (),
+    )
   }
 
   // Body Function
@@ -1077,8 +1094,10 @@ let script = () => {
   drawLeg(skinTexture, 0, 16, 392, 472, 3) // Right Leg
   drawLeg(skinTexture, 16, 48, 240, 584, 4) // Left Leg
 
-  if !flatNose {
-    drawNose3D(skinTexture, 248, 272)
+  if flatNose {
+    drawNoseFlat(pigTexture, 64, 104)
+  } else {
+    drawNose3D(pigTexture, 248, 272)
   }
 
   // Draw the accessories on the pig

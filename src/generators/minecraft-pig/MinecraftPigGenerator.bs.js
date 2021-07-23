@@ -658,7 +658,7 @@ function script(param) {
           y: y,
           w: 32,
           h: 24
-        }, undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 17,
           y: 16,

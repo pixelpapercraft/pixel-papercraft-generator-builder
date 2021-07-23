@@ -607,7 +607,7 @@ let script = () => {
       texture,
       {x: 10, y: 12, w: 4, h: 3},
       {x: x + 24, y: y, w: 32, h: 24},
-      // {rotate: "vertical"},
+      ~flip=#Vertical,
       (),
     ) // Back
     Generator.drawTextureLegacy(
