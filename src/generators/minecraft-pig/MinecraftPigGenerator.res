@@ -77,7 +77,7 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
-    id: "Pig (Vanilla) (Original)",
+    id: "Pig (Vanilla) (Programmer Art)",
     url: Generator.requireImage("./textures/vanilla/pig.png"),
     standardWidth: 64,
     standardHeight: 32,
@@ -89,7 +89,7 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
-    id: "Saddle (Vanilla) (Original)",
+    id: "Saddle (Vanilla) (Programmer Art)",
     url: Generator.requireImage("./textures/vanilla/pig_saddle.png"),
     standardWidth: 64,
     standardHeight: 32,
@@ -317,13 +317,18 @@ let script = () => {
     pigTexture,
     64,
     32,
-    ["Pig (Vanilla)", "Pig (Vanilla) (Original)", "Pig (Faithful)", "Pig (Space Pig)"],
+    ["Pig (Vanilla)", "Pig (Vanilla) (Programmer Art)", "Pig (Faithful)", "Pig (Space Pig)"],
   )
   makeTextureInput(
     saddleTexture,
     64,
     32,
-    ["Saddle (Vanilla)", "Saddle (Vanilla) (Original)", "Saddle (Faithful)", "Saddle (Space Pig)"],
+    [
+      "Saddle (Vanilla)",
+      "Saddle (Vanilla) (Programmer Art)",
+      "Saddle (Faithful)",
+      "Saddle (Space Pig)",
+    ],
   )
   makeTextureInput(
     armorTexture,
@@ -366,13 +371,12 @@ let script = () => {
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
   Generator.defineBooleanInput("Show Titles", true)
-  Generator.defineBooleanInput("Show Helmet Overlay", true)
-  Generator.defineBooleanInput("Transparent Background", true)
+  Generator.defineBooleanInput("Transparent Background", false)
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showTitles = Generator.getBooleanInputValue("Show Titles")
-  let showHelmetOverlay = Generator.getBooleanInputValue("Show Helmet Overlay")
+  let hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay")
   let isTransparent = Generator.getBooleanInputValue("Transparent Background")
 
   // Define Texture variables
@@ -382,13 +386,17 @@ let script = () => {
   let noseStyle = Generator.getSelectInputValue("Nose Style")
   let headStyle = Generator.getSelectInputValue("Head Style")
 
-  Generator.defineSelectInput("Saddle Style", ["Attached", "Seperate"])
-  Generator.defineSelectInput("Helmet Style", ["Attached", "Seperate"])
-  Generator.defineSelectInput("Boots Style", ["Attached", "Seperate"])
+  Generator.defineSelectInput("Saddle Style", ["Attached", "Separate"])
+  Generator.defineSelectInput("Helmet Style", ["Attached", "Separate"])
+  Generator.defineSelectInput("Boots Style", ["Attached", "Separate"])
 
   let saddleStyle = Generator.getSelectInputValue("Saddle Style")
   let helmetStyle = Generator.getSelectInputValue("Helmet Style")
   let bootsStyle = Generator.getSelectInputValue("Boots Style")
+
+  Generator.defineBooleanInput("Show Ultra Mini", true)
+
+  let showUltraMini = Generator.getBooleanInputValue("Show Ultra Mini")
 
   Js.log(saddleStyle)
 
@@ -399,9 +407,9 @@ let script = () => {
   let flatNose = noseStyle === "Flat"
   let simpleHead = headStyle === "Simple"
   let standardAdvancedHead = headStyle === "Advanced (Standard)"
-  let seperateSaddle = saddleStyle === "Seperate"
-  let seperateHelmet = helmetStyle === "Seperate"
-  let seperateBoots = bootsStyle === "Seperate"
+  let separateSaddle = saddleStyle === "Separate"
+  let separateHelmet = helmetStyle === "Separate"
+  let separateBoots = bootsStyle === "Separate"
 
   // Head Functions
   let drawHeadAdvancedShape = (texture, x, y, tx, ty) => {
@@ -480,7 +488,7 @@ let script = () => {
     }
 
     drawHeadAdvancedShape(texture, x + 16, y, 0, 0)
-    if isHelmet && showHelmetOverlay {
+    if isHelmet && !hideHelmetOverlay {
       drawHeadAdvancedShape(texture, x + 16, y, 32, 0)
     }
 
@@ -553,7 +561,7 @@ let script = () => {
     }
 
     drawHeadSimpleShape(texture, x, y, 0)
-    if isHelmet && showHelmetOverlay {
+    if isHelmet && !hideHelmetOverlay {
       drawHeadSimpleShape(texture, x, y, 32)
     }
 
@@ -769,8 +777,8 @@ let script = () => {
     }
   }
 
-  // Saddle Function (only for seperate saddle)
-  let drawSaddleSeperate = (texture, x, y) => {
+  // Saddle Function (only for separate saddle)
+  let drawSaddleSeparate = (texture, x, y) => {
     // Top
     Generator.drawTextureLegacy(
       texture,
@@ -847,7 +855,7 @@ let script = () => {
     }
   }
 
-  let drawHelmetSeperateShape = (texture, x, y, tx, ty) => {
+  let drawHelmetSeparateShape = (texture, x, y, tx, ty) => {
     Generator.drawTextureLegacy(
       texture,
       {x: tx, y: ty + 8, w: 8, h: 3},
@@ -892,13 +900,13 @@ let script = () => {
     ) // Top
   }
 
-  // Helmet Functions (only for seperate helmet)
-  let drawHelmetSeperate = (texture, x, y) => {
+  // Helmet Functions (only for separate helmet)
+  let drawHelmetSeparate = (texture, x, y) => {
     drawSprite(bgSprite, bgSprites.helmet, x, y)
 
-    drawHelmetSeperateShape(texture, x, y, 0, 0)
-    if showHelmetOverlay {
-      drawHelmetSeperateShape(texture, x, y, 32, 0)
+    drawHelmetSeparateShape(texture, x, y, 0, 0)
+    if !hideHelmetOverlay {
+      drawHelmetSeparateShape(texture, x, y, 32, 0)
     }
 
     if showFolds {
@@ -910,8 +918,8 @@ let script = () => {
   }
 
   // Boot Function
-  let drawBoot = (texture, x, y, seperate) => {
-    if seperate {
+  let drawBoot = (texture, x, y, separate) => {
+    if separate {
       drawSprite(bgSprite, bgSprites.boot, x, y)
     }
 
@@ -949,7 +957,7 @@ let script = () => {
     if showFolds {
       drawSprite(foldSprite, foldSprites.boot, x, y)
     }
-    if seperate && showTitles {
+    if separate && showTitles {
       drawSprite(titleSprite, titleSprites.boot, x, y - 26)
     }
   }
@@ -1091,12 +1099,12 @@ let script = () => {
   drawCredits()
 
   if simpleHead {
-    drawHeadSimple(pigTexture, 64, 96, false, !useHelmet || seperateHelmet)
+    drawHeadSimple(pigTexture, 64, 96, false, !useHelmet || separateHelmet)
   } else {
-    drawHeadAdvanced(pigTexture, 48, 96, false, !useHelmet || seperateHelmet)
+    drawHeadAdvanced(pigTexture, 48, 96, false, !useHelmet || separateHelmet)
   }
 
-  drawBody(pigTexture, 56, 304, false, !useSaddle || seperateSaddle)
+  drawBody(pigTexture, 56, 304, false, !useSaddle || separateSaddle)
   drawLeg(pigTexture, 392, 104, 1)
   drawLeg(pigTexture, 392, 288, 2)
   drawLeg(pigTexture, 392, 472, 3)
@@ -1109,39 +1117,47 @@ let script = () => {
   }
 
   // Draw the accessories on the pig
-  if useHelmet && !seperateHelmet {
+  if useHelmet && !separateHelmet {
+    Generator.defineRegionInput((64, 96, 256, 192), () => {
+      Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay)
+    })
     if simpleHead {
       drawHeadSimple(armorTexture, 64, 96, true, true)
     } else {
       drawHeadAdvanced(armorTexture, 48, 96, true, true)
     }
   }
-  if useSaddle && !seperateSaddle {
+  if useSaddle && !separateSaddle {
     drawBody(saddleTexture, 56, 304, true, true)
   }
-  if useBoots && !seperateBoots {
+  if useBoots && !separateBoots {
     drawBoot(armorTexture, 392, 160, false)
     drawBoot(armorTexture, 392, 344, false)
     drawBoot(armorTexture, 392, 528, false)
     drawBoot(armorTexture, 240, 640, false)
   }
 
-  drawUltraMini(120, 650)
+  if showUltraMini {
+    drawUltraMini(120, 650)
+  }
 
   ///// PAGE 2 - Accessories /////
-  if (useSaddle && seperateSaddle) || useHelmet && seperateHelmet || (useBoots && seperateBoots) {
+  if (useSaddle && separateSaddle) || useHelmet && separateHelmet || (useBoots && separateBoots) {
     // Only use if needed
     Generator.usePage("Accessories")
     drawOpaque()
     drawCredits()
 
-    if useSaddle && seperateSaddle {
-      drawSaddleSeperate(saddleTexture, 56, 328)
+    if useSaddle && separateSaddle {
+      drawSaddleSeparate(saddleTexture, 56, 328)
     }
-    if useHelmet && seperateHelmet {
-      drawHelmetSeperate(armorTexture, 64, 96)
+    if useHelmet && separateHelmet {
+      Generator.defineRegionInput((64, 96, 256, 192), () => {
+        Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay)
+      })
+      drawHelmetSeparate(armorTexture, 64, 96)
     }
-    if useBoots && seperateBoots {
+    if useBoots && separateBoots {
       drawBoot(armorTexture, 392, 160, true)
       drawBoot(armorTexture, 392, 344, true)
       drawBoot(armorTexture, 392, 528, true)
