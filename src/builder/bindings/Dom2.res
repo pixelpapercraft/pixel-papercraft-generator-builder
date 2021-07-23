@@ -46,6 +46,11 @@ module Context2d = {
   @send external getTransform: context2d => domMatrix = "getTransform"
   @set external fillStyle: (context2d, string) => unit = "fillStyle"
 
+  @set
+  external setWebkitImageSmoothingEnabled: (context2d, bool) => unit = "webkitImageSmoothingEnabled"
+  @set external setMozImageSmoothingEnabled: (context2d, bool) => unit = "mozImageSmoothingEnabled"
+  @set external setImageSmoothingEnabled: (context2d, bool) => unit = "imageSmoothingEnabled"
+
   let setFillStyleRGBA = (context, r, g, b, a) => {
     let value =
       "rgba(" ++
