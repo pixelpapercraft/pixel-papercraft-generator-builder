@@ -965,30 +965,30 @@ let script = () => {
   let drawUltraMiniBody = (texture, x, y) => {
     Generator.drawTextureLegacy(
       texture,
-      {x: 46, y: 16, w: 8, h: 16},
-      {x: x, y: y + 8, w: 8, h: 12},
-      ~flip=#Vertical,
+      {x: 28, y: 16, w: 8, h: 16},
+      {x: x + 8, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
       (),
     ) // Right
     Generator.drawTextureLegacy(
       texture,
       {x: 36, y: 16, w: 10, h: 16},
-      {x: x + 24, y: y + 8, w: 8, h: 12},
-      ~flip=#Vertical,
+      {x: x + 32, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
       (),
     ) // Top
     Generator.drawTextureLegacy(
       texture,
-      {x: 28, y: 16, w: 8, h: 16},
-      {x: x + 16, y: y + 8, w: 8, h: 12},
-      ~flip=#Vertical,
+      {x: 46, y: 16, w: 8, h: 16},
+      {x: x + 24, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
       (),
     ) // Left
     Generator.drawTextureLegacy(
       texture,
       {x: 54, y: 16, w: 10, h: 16},
-      {x: x + 8, y: y + 8, w: 8, h: 12},
-      ~flip=#Vertical,
+      {x: x + 16, y: y + 20, w: 8, h: 12},
+      ~rotateLegacy=180.0,
       (),
     ) // Bottom
   }
@@ -997,25 +997,29 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 24, y: y + 8, w: 3, h: 3},
+      {x: x + 27, y: y + 11, w: 3, h: 3},
+      ~rotateLegacy=180.0,
       (),
     ) // Foot 4
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 29, y: y + 8, w: 3, h: 3},
+      {x: x + 32, y: y + 11, w: 3, h: 3},
+      ~rotateLegacy=180.0,
       (),
     ) // Foot 3
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 24, y: y + 16, w: 3, h: 3},
+      {x: x + 27, y: y + 19, w: 3, h: 3},
+      ~rotateLegacy=180.0,
       (),
     ) // Foot 2
     Generator.drawTextureLegacy(
       texture,
       {x: 8, y: 16, w: 4, h: 4},
-      {x: x + 29, y: y + 16, w: 3, h: 3},
+      {x: x + 32, y: y + 19, w: 3, h: 3},
+      ~rotateLegacy=180.0,
       (),
     ) // Foot 1
   }
