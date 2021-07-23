@@ -40,7 +40,7 @@ function normalizeTint(tint) {
   
 }
 
-function MinecraftBlock_Components$TintSelector(Props) {
+function MinecraftBlock_TexturePicker$TintSelector(Props) {
   var onChange = Props.onChange;
   var match = React.useState(function () {
         return /* NoTint */0;
@@ -130,7 +130,7 @@ var TintSelector = {
   makeOptions: makeOptions,
   isValidTint: isValidTint,
   normalizeTint: normalizeTint,
-  make: MinecraftBlock_Components$TintSelector
+  make: MinecraftBlock_TexturePicker$TintSelector
 };
 
 function px(n) {
@@ -190,7 +190,7 @@ function makeGridTileClassName(isSelected) {
   }
 }
 
-function MinecraftBlock_Components$TexturePicker$GridTile(Props) {
+function MinecraftBlock_TexturePicker$GridTile(Props) {
   var textureDef = Props.textureDef;
   var textureFrame = Props.textureFrame;
   var isSelected = Props.isSelected;
@@ -214,10 +214,10 @@ function MinecraftBlock_Components$TexturePicker$GridTile(Props) {
 }
 
 var GridTile = {
-  make: MinecraftBlock_Components$TexturePicker$GridTile
+  make: MinecraftBlock_TexturePicker$GridTile
 };
 
-function MinecraftBlock_Components$TexturePicker$PreviewTile(Props) {
+function MinecraftBlock_TexturePicker$PreviewTile(Props) {
   var textureDef = Props.textureDef;
   var textureFrame = Props.textureFrame;
   var rotation = Props.rotation;
@@ -228,10 +228,10 @@ function MinecraftBlock_Components$TexturePicker$PreviewTile(Props) {
 }
 
 var PreviewTile = {
-  make: MinecraftBlock_Components$TexturePicker$PreviewTile
+  make: MinecraftBlock_TexturePicker$PreviewTile
 };
 
-function MinecraftBlock_Components$TexturePicker(Props) {
+function MinecraftBlock_TexturePicker(Props) {
   var versionId = Props.versionId;
   var onChange = Props.onChange;
   var match = React.useState(function () {
@@ -373,7 +373,7 @@ function MinecraftBlock_Components$TexturePicker(Props) {
                                 };
                                 return Curry._1(onChange, MinecraftBlock_Face.encodeFaceTexture(faceTexture));
                               };
-                              return React.createElement(MinecraftBlock_Components$TexturePicker$GridTile, {
+                              return React.createElement(MinecraftBlock_TexturePicker$GridTile, {
                                           textureDef: textureDef,
                                           textureFrame: textureFrame,
                                           isSelected: textureIsSelected(textureId, frame),
@@ -382,7 +382,7 @@ function MinecraftBlock_Components$TexturePicker(Props) {
                                         });
                             }))), React.createElement("div", {
                       className: "flex flex-col w-40 items-center px-8"
-                    }, React.createElement(MinecraftBlock_Components$TexturePicker$PreviewTile, {
+                    }, React.createElement(MinecraftBlock_TexturePicker$PreviewTile, {
                           textureDef: textureDef,
                           textureFrame: selectedTextureFrame,
                           rotation: rotation
@@ -391,22 +391,10 @@ function MinecraftBlock_Components$TexturePicker(Props) {
                               onClick: onRotate
                             }, "Rotate")))), React.createElement("div", {
                   className: "mb-2"
-                }, React.createElement(MinecraftBlock_Components$TintSelector, {
+                }, React.createElement(MinecraftBlock_TexturePicker$TintSelector, {
                       onChange: onTintChange
                     })));
 }
-
-var TexturePicker = {
-  px: px,
-  deg: deg,
-  makeTileStyle: makeTileStyle,
-  makePreviewTileStyle: makePreviewTileStyle,
-  makeGridTileStyle: makeGridTileStyle,
-  makeGridTileClassName: makeGridTileClassName,
-  GridTile: GridTile,
-  PreviewTile: PreviewTile,
-  make: MinecraftBlock_Components$TexturePicker
-};
 
 var Textures;
 
@@ -414,9 +402,19 @@ var Face;
 
 var Tints;
 
+var make = MinecraftBlock_TexturePicker;
+
 exports.Textures = Textures;
 exports.Face = Face;
 exports.Tints = Tints;
 exports.TintSelector = TintSelector;
-exports.TexturePicker = TexturePicker;
+exports.px = px;
+exports.deg = deg;
+exports.makeTileStyle = makeTileStyle;
+exports.makePreviewTileStyle = makePreviewTileStyle;
+exports.makeGridTileStyle = makeGridTileStyle;
+exports.makeGridTileClassName = makeGridTileClassName;
+exports.GridTile = GridTile;
+exports.PreviewTile = PreviewTile;
+exports.make = make;
 /* react Not a pure module */

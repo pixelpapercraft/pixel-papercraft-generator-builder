@@ -1,4 +1,4 @@
-module Components = MinecraftBlock_Components
+module TexturePicker = MinecraftBlock_TexturePicker
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 
@@ -567,7 +567,7 @@ let script = () => {
   let versionId = Generator.getSelectInputValue("Version")
 
   Generator.defineCustomStringInput("BlockTexture", onChange => {
-    <Components.TexturePicker versionId={versionId} onChange={onChange} />
+    <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
   Generator.defineSelectInput("Number of Blocks", ["1", "2"])
