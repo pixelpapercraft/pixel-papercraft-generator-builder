@@ -159,7 +159,7 @@ var textures = [
   },
   {
     id: "Skin",
-    url: require("./textures/Steve.png"),
+    url: require("./textures/SteveTest.png"),
     standardWidth: 64,
     standardHeight: 64
   }
@@ -219,8 +219,14 @@ function script(param) {
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showTitles = Generator.getBooleanInputValue("Show Titles");
-  var hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay");
   var isTransparent = Generator.getBooleanInputValue("Transparent Background");
+  var hideHelmet = Generator.getBooleanInputValue("Hide Helmet");
+  var hideJacket = Generator.getBooleanInputValue("Hide Jacket");
+  var hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve");
+  var hideRightSleeve = Generator.getBooleanInputValue("Hide Right Sleeve");
+  var hideLeftPant = Generator.getBooleanInputValue("Hide Left Pant");
+  var hideRightPant = Generator.getBooleanInputValue("Hide Right Pant");
+  var hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay");
   Generator.defineSelectInput("Head Style", [
         "Simple",
         "Advanced",
@@ -371,7 +377,7 @@ function script(param) {
     }
     
   };
-  var drawHeadAdvanced = function (texture, x, y, isHelmet, drawLabels) {
+  var drawHeadAdvanced = function (texture, x, y, isHelmet, drawLabels, showSecondLayer) {
     if (!isHelmet) {
       if (standardAdvancedHead) {
         drawSprite(bgSprite, {
@@ -390,7 +396,7 @@ function script(param) {
       }
     }
     drawHeadAdvancedShape(texture, x + 16 | 0, y, 0, 0);
-    if (isHelmet && !hideHelmetOverlay) {
+    if (showSecondLayer) {
       drawHeadAdvancedShape(texture, x + 16 | 0, y, 32, 0);
     }
     if (standardAdvancedHead) {
@@ -531,7 +537,7 @@ function script(param) {
                 h: 64
               }, "Vertical", undefined, undefined);
   };
-  var drawHeadSimple = function (texture, x, y, isHelmet, drawLabels) {
+  var drawHeadSimple = function (texture, x, y, isHelmet, drawLabels, showSecondLayer) {
     if (!isHelmet) {
       drawSprite(bgSprite, {
             x: 312,
@@ -541,7 +547,7 @@ function script(param) {
           }, x, y);
     }
     drawHeadSimpleShape(texture, x, y, 0);
-    if (isHelmet && !hideHelmetOverlay) {
+    if (showSecondLayer) {
       drawHeadSimpleShape(texture, x, y, 32);
     }
     if (showFolds) {
@@ -695,81 +701,156 @@ function script(param) {
                 h: 24
               }, undefined, undefined, undefined);
   };
-  var drawBody = function (texture, x, y, isSaddle, drawLabels) {
-    if (!isSaddle) {
-      drawSprite(bgSprite, {
-            x: 0,
-            y: 0,
-            w: 312,
-            h: 304
-          }, x, y);
+  var drawBody = function (texture, x, y, isSaddle, drawLabels, showSecondLayer) {
+    var drawLayer = function (texture, sx, sy, x, y, isSaddle, isFirstLayer) {
+      if (isSaddle) {
+        Generator.drawTextureLegacy(texture, {
+              x: 28,
+              y: 16,
+              w: 8,
+              h: 16
+            }, {
+              x: x,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 36,
+              y: 16,
+              w: 10,
+              h: 16
+            }, {
+              x: x + 64 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 46,
+              y: 16,
+              w: 8,
+              h: 16
+            }, {
+              x: x + 144 | 0,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 54,
+              y: 16,
+              w: 10,
+              h: 16
+            }, {
+              x: x + 208 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 36,
+              y: 8,
+              w: 10,
+              h: 8
+            }, {
+              x: x + 64 | 0,
+              y: y + 24 | 0,
+              w: 80,
+              h: 64
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: 46,
+                    y: 8,
+                    w: 10,
+                    h: 8
+                  }, {
+                    x: x + 64 | 0,
+                    y: y + 216 | 0,
+                    w: 80,
+                    h: 64
+                  }, "Vertical", undefined, undefined);
+      } else {
+        if (isFirstLayer) {
+          drawSprite(bgSprite, {
+                x: 0,
+                y: 0,
+                w: 312,
+                h: 304
+              }, x, y);
+        }
+        Generator.drawTextureLegacy(texture, {
+              x: sx,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: x,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy + 4 | 0,
+              w: 8,
+              h: 12
+            }, {
+              x: x + 64 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 12 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: x + 144 | 0,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 16 | 0,
+              y: sy + 4 | 0,
+              w: 8,
+              h: 12
+            }, {
+              x: x + 208 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy,
+              w: 8,
+              h: 4
+            }, {
+              x: x + 64 | 0,
+              y: y + 24 | 0,
+              w: 80,
+              h: 64
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: sx + 12 | 0,
+                    y: sy,
+                    w: 8,
+                    h: 4
+                  }, {
+                    x: x + 64 | 0,
+                    y: y + 216 | 0,
+                    w: 80,
+                    h: 64
+                  }, "Vertical", undefined, undefined);
+      }
+    };
+    drawLayer(texture, 16, 16, x, y, isSaddle, true);
+    if (showSecondLayer) {
+      drawLayer(texture, 16, 32, x, y, isSaddle, false);
     }
-    Generator.drawTextureLegacy(texture, {
-          x: 16,
-          y: 20,
-          w: 4,
-          h: 12
-        }, {
-          x: x,
-          y: y + 88 | 0,
-          w: 64,
-          h: 128
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: 20,
-          y: 20,
-          w: 8,
-          h: 12
-        }, {
-          x: x + 64 | 0,
-          y: y + 88 | 0,
-          w: 80,
-          h: 128
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: 28,
-          y: 20,
-          w: 4,
-          h: 12
-        }, {
-          x: x + 144 | 0,
-          y: y + 88 | 0,
-          w: 64,
-          h: 128
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: 32,
-          y: 20,
-          w: 8,
-          h: 12
-        }, {
-          x: x + 208 | 0,
-          y: y + 88 | 0,
-          w: 80,
-          h: 128
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: 20,
-          y: 16,
-          w: 8,
-          h: 4
-        }, {
-          x: x + 64 | 0,
-          y: y + 24 | 0,
-          w: 80,
-          h: 64
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: 28,
-          y: 16,
-          w: 8,
-          h: 4
-        }, {
-          x: x + 64 | 0,
-          y: y + 216 | 0,
-          w: 80,
-          h: 64
-        }, "Vertical", undefined, undefined);
     if (showFolds) {
       drawSprite(foldSprite, {
             x: 0,
@@ -824,79 +905,85 @@ function script(param) {
     }
     
   };
-  var drawLeg = function (texture, sx, sy, dx, dy, labelID) {
+  var drawLeg = function (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer) {
     drawSprite(bgSprite, {
           x: 440,
           y: 392,
           w: 152,
           h: 160
         }, dx, dy);
-    Generator.drawTextureLegacy(texture, {
-          x: sx,
-          y: sy + 4 | 0,
-          w: 4,
-          h: 12
-        }, {
-          x: dx,
-          y: dy + 56 | 0,
-          w: 32,
-          h: 48
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: sx + 4 | 0,
-          y: sy + 4 | 0,
-          w: 4,
-          h: 12
-        }, {
-          x: dx + 32 | 0,
-          y: dy + 56 | 0,
-          w: 32,
-          h: 48
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: sx + 8 | 0,
-          y: sy + 4 | 0,
-          w: 4,
-          h: 12
-        }, {
-          x: dx + 64 | 0,
-          y: dy + 56 | 0,
-          w: 32,
-          h: 48
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: sx + 12 | 0,
-          y: sy + 4 | 0,
-          w: 4,
-          h: 12
-        }, {
-          x: dx + 96 | 0,
-          y: dy + 56 | 0,
-          w: 32,
-          h: 48
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: sx + 4 | 0,
-          y: sy,
-          w: 4,
-          h: 4
-        }, {
-          x: dx + 32 | 0,
-          y: dy + 24 | 0,
-          w: 32,
-          h: 32
-        }, undefined, undefined, undefined);
-    Generator.drawTextureLegacy(texture, {
-          x: sx + 8 | 0,
-          y: sy,
-          w: 4,
-          h: 4
-        }, {
-          x: dx + 32 | 0,
-          y: dy + 104 | 0,
-          w: 32,
-          h: 32
-        }, "Vertical", undefined, undefined);
+    var drawLayer = function (texture, sx, sy, dx, dy) {
+      Generator.drawTextureLegacy(texture, {
+            x: sx,
+            y: sy + 4 | 0,
+            w: 4,
+            h: 12
+          }, {
+            x: dx,
+            y: dy + 56 | 0,
+            w: 32,
+            h: 48
+          }, undefined, undefined, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: sx + 4 | 0,
+            y: sy + 4 | 0,
+            w: 4,
+            h: 12
+          }, {
+            x: dx + 32 | 0,
+            y: dy + 56 | 0,
+            w: 32,
+            h: 48
+          }, undefined, undefined, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: sx + 8 | 0,
+            y: sy + 4 | 0,
+            w: 4,
+            h: 12
+          }, {
+            x: dx + 64 | 0,
+            y: dy + 56 | 0,
+            w: 32,
+            h: 48
+          }, undefined, undefined, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: sx + 12 | 0,
+            y: sy + 4 | 0,
+            w: 4,
+            h: 12
+          }, {
+            x: dx + 96 | 0,
+            y: dy + 56 | 0,
+            w: 32,
+            h: 48
+          }, undefined, undefined, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: sx + 4 | 0,
+            y: sy,
+            w: 4,
+            h: 4
+          }, {
+            x: dx + 32 | 0,
+            y: dy + 24 | 0,
+            w: 32,
+            h: 32
+          }, undefined, undefined, undefined);
+      return Generator.drawTextureLegacy(texture, {
+                  x: sx + 8 | 0,
+                  y: sy,
+                  w: 4,
+                  h: 4
+                }, {
+                  x: dx + 32 | 0,
+                  y: dy + 104 | 0,
+                  w: 32,
+                  h: 32
+                }, "Vertical", undefined, undefined);
+    };
+    drawLayer(texture, sx, sy, dx, dy);
+    if (showSecondLayer) {
+      drawLayer(texture, ox, oy, dx, dy);
+    }
     if (showFolds) {
       drawSprite(foldSprite, {
             x: 280,
@@ -911,6 +998,14 @@ function script(param) {
       w: 0,
       h: 0
     };
+    if (labelID === 0) {
+      sprite = {
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0
+      };
+    }
     if (labelID === 1) {
       sprite = {
         x: 0,
@@ -1498,16 +1593,64 @@ function script(param) {
   Generator.usePage("Pig");
   drawOpaque(undefined);
   drawCredits(undefined);
+  Generator.defineRegionInput([
+        64,
+        96,
+        256,
+        192
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Helmet", !hideHelmet);
+        }));
+  Generator.defineRegionInput([
+        56,
+        328,
+        288,
+        256
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Jacket", !hideJacket);
+        }));
+  Generator.defineRegionInput([
+        392,
+        312,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Left Sleeve", !hideLeftSleeve);
+        }));
+  Generator.defineRegionInput([
+        392,
+        128,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Right Sleeve", !hideRightSleeve);
+        }));
+  Generator.defineRegionInput([
+        240,
+        608,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Left Pant", !hideLeftPant);
+        }));
+  Generator.defineRegionInput([
+        392,
+        496,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant);
+        }));
   if (simpleHead) {
-    drawHeadSimple(skinTexture, 64, 96, false, !useHelmet || separateHelmet);
+    drawHeadSimple(skinTexture, 64, 96, false, !useHelmet || separateHelmet, !hideHelmet);
   } else {
-    drawHeadAdvanced(skinTexture, 48, 96, false, !useHelmet || separateHelmet);
+    drawHeadAdvanced(skinTexture, 48, 96, false, !useHelmet || separateHelmet, !hideHelmet);
   }
-  drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle);
-  drawLeg(skinTexture, 40, 16, 392, 104, 1);
-  drawLeg(skinTexture, 32, 48, 392, 288, 2);
-  drawLeg(skinTexture, 0, 16, 392, 472, 3);
-  drawLeg(skinTexture, 16, 48, 240, 584, 4);
+  drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle, !hideJacket);
+  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve);
+  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve);
+  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant);
+  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant);
   if (flatNose) {
     drawNoseFlat(pigTexture, 64, 104);
   } else {
@@ -1515,21 +1658,21 @@ function script(param) {
   }
   if (useHelmet && !separateHelmet) {
     Generator.defineRegionInput([
+          128,
+          32,
           64,
-          96,
-          256,
-          192
+          64
         ], (function (param) {
             return Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay);
           }));
     if (simpleHead) {
-      drawHeadSimple(armorTexture, 64, 96, true, true);
+      drawHeadSimple(armorTexture, 64, 96, true, true, !hideHelmetOverlay);
     } else {
-      drawHeadAdvanced(armorTexture, 48, 96, true, true);
+      drawHeadAdvanced(armorTexture, 48, 96, true, true, !hideHelmetOverlay);
     }
   }
   if (useSaddle && !separateSaddle) {
-    drawBody(saddleTexture, 56, 304, true, true);
+    drawBody(saddleTexture, 56, 304, true, true, false);
   }
   if (useBoots && !separateBoots) {
     drawBoot(armorTexture, 392, 160, false);

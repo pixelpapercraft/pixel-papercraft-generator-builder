@@ -156,7 +156,7 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Skin",
-    url: Generator.requireImage("./textures/Steve.png"),
+    url: Generator.requireImage("./textures/SteveTest.png"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -197,6 +197,7 @@ type labelSprites = {
   head: Builder.rectangleLegacy,
   headNose3D: Builder.rectangleLegacy,
   headStandardAdvanced: Builder.rectangleLegacy,
+  leg0: Builder.rectangleLegacy,
   leg1: Builder.rectangleLegacy,
   leg2: Builder.rectangleLegacy,
   leg3: Builder.rectangleLegacy,
@@ -263,6 +264,7 @@ let script = () => {
     head: {w: 64, h: 48, x: 64, y: 0},
     headNose3D: {w: 32, h: 24, x: 128, y: 56},
     headStandardAdvanced: {w: 16, h: 48, x: 192, y: 0},
+    leg0: {w: 0, h: 0, x: 0, y: 0},
     leg1: {w: 32, h: 32, x: 0, y: 48},
     leg2: {w: 32, h: 32, x: 32, y: 48},
     leg3: {w: 32, h: 32, x: 64, y: 48},
@@ -354,8 +356,16 @@ let script = () => {
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showTitles = Generator.getBooleanInputValue("Show Titles")
-  let hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay")
   let isTransparent = Generator.getBooleanInputValue("Transparent Background")
+
+  // Define Region Inputs
+  let hideHelmet = Generator.getBooleanInputValue("Hide Helmet")
+  let hideJacket = Generator.getBooleanInputValue("Hide Jacket")
+  let hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve")
+  let hideRightSleeve = Generator.getBooleanInputValue("Hide Right Sleeve")
+  let hideLeftPant = Generator.getBooleanInputValue("Hide Left Pant")
+  let hideRightPant = Generator.getBooleanInputValue("Hide Right Pant")
+  let hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay")
 
   // Define Texture variables
 
@@ -458,7 +468,7 @@ let script = () => {
     }
   }
 
-  let drawHeadAdvanced = (texture, x, y, isHelmet, drawLabels) => {
+  let drawHeadAdvanced = (texture, x, y, isHelmet, drawLabels, showSecondLayer) => {
     if !isHelmet {
       if !standardAdvancedHead {
         drawSprite(bgSprite, bgSprites.headAdvanced, x, y)
@@ -468,7 +478,7 @@ let script = () => {
     }
 
     drawHeadAdvancedShape(texture, x + 16, y, 0, 0)
-    if isHelmet && !hideHelmetOverlay {
+    if showSecondLayer {
       drawHeadAdvancedShape(texture, x + 16, y, 32, 0)
     }
 
@@ -536,13 +546,13 @@ let script = () => {
       (),
     ) // Bottom
   }
-  let drawHeadSimple = (texture, x, y, isHelmet, drawLabels) => {
+  let drawHeadSimple = (texture, x, y, isHelmet, drawLabels, showSecondLayer) => {
     if !isHelmet {
       drawSprite(bgSprite, bgSprites.headSimple, x, y)
     }
 
     drawHeadSimpleShape(texture, x, y, 0)
-    if isHelmet && !hideHelmetOverlay {
+    if showSecondLayer {
       drawHeadSimpleShape(texture, x, y, 32)
     }
 
@@ -626,48 +636,94 @@ let script = () => {
   }
 
   // Body Function
-  let drawBody = (texture, x, y, isSaddle, drawLabels) => {
-    if !isSaddle {
-      drawSprite(bgSprite, bgSprites.body, x, y)
+  let drawBody = (texture, x, y, isSaddle, drawLabels, showSecondLayer) => {
+    let drawLayer = (texture, sx, sy, x, y, isSaddle, isFirstLayer) => {
+      if !isSaddle {
+        if isFirstLayer {
+          drawSprite(bgSprite, bgSprites.body, x, y)
+        }
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx, y: sy + 4, w: 4, h: 12},
+          {x: x, y: y + 88, w: 64, h: 128},
+          (),
+        ) // Right
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 4, y: sy + 4, w: 8, h: 12},
+          {x: x + 64, y: y + 88, w: 80, h: 128},
+          (),
+        ) // Bottom
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 12, y: sy + 4, w: 4, h: 12},
+          {x: x + 144, y: y + 88, w: 64, h: 128},
+          (),
+        ) // Left
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 16, y: sy + 4, w: 8, h: 12},
+          {x: x + 208, y: y + 88, w: 80, h: 128},
+          (),
+        ) // Top
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 4, y: sy, w: 8, h: 4},
+          {x: x + 64, y: y + 24, w: 80, h: 64},
+          (),
+        ) // Front
+        Generator.drawTextureLegacy(
+          texture,
+          {x: sx + 12, y: sy, w: 8, h: 4},
+          {x: x + 64, y: y + 216, w: 80, h: 64},
+          ~flip=#Vertical,
+          (),
+        ) // Back
+      } else {
+        Generator.drawTextureLegacy(
+          texture,
+          {x: 28, y: 16, w: 8, h: 16},
+          {x: x, y: y + 88, w: 64, h: 128},
+          (),
+        ) // Right
+        Generator.drawTextureLegacy(
+          texture,
+          {x: 36, y: 16, w: 10, h: 16},
+          {x: x + 64, y: y + 88, w: 80, h: 128},
+          (),
+        ) // Bottom
+        Generator.drawTextureLegacy(
+          texture,
+          {x: 46, y: 16, w: 8, h: 16},
+          {x: x + 144, y: y + 88, w: 64, h: 128},
+          (),
+        ) // Left
+        Generator.drawTextureLegacy(
+          texture,
+          {x: 54, y: 16, w: 10, h: 16},
+          {x: x + 208, y: y + 88, w: 80, h: 128},
+          (),
+        ) // Top
+        Generator.drawTextureLegacy(
+          texture,
+          {x: 36, y: 8, w: 10, h: 8},
+          {x: x + 64, y: y + 24, w: 80, h: 64},
+          (),
+        ) // Front
+        Generator.drawTextureLegacy(
+          texture,
+          {x: 46, y: 8, w: 10, h: 8},
+          {x: x + 64, y: y + 216, w: 80, h: 64},
+          ~flip=#Vertical,
+          (),
+        ) // Back
+      }
     }
 
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 16, y: 20, w: 4, h: 12},
-      {x: x, y: y + 88, w: 64, h: 128},
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 20, y: 20, w: 8, h: 12},
-      {x: x + 64, y: y + 88, w: 80, h: 128},
-      (),
-    ) // Bottom
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 28, y: 20, w: 4, h: 12},
-      {x: x + 144, y: y + 88, w: 64, h: 128},
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 32, y: 20, w: 8, h: 12},
-      {x: x + 208, y: y + 88, w: 80, h: 128},
-      (),
-    ) // Top
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 20, y: 16, w: 8, h: 4},
-      {x: x + 64, y: y + 24, w: 80, h: 64},
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 28, y: 16, w: 8, h: 4},
-      {x: x + 64, y: y + 216, w: 80, h: 64},
-      ~flip=#Vertical,
-      (),
-    ) // Back
+    drawLayer(texture, 16, 16, x, y, isSaddle, true) // First Layer
+    if showSecondLayer {
+      drawLayer(texture, 16, 32, x, y, isSaddle, false) // Second Layer
+    }
 
     if showFolds {
       drawSprite(foldSprite, foldSprites.body, x, y)
@@ -688,47 +744,54 @@ let script = () => {
   }
 
   // Leg Function
-  let drawLeg = (texture, sx, sy, dx, dy, labelID) => {
+  let drawLeg = (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer) => {
     //HEY NICKY remember, add  source texture variables, and fit it to be like the original's mapping, not just use thei one's mapping. Also, Jesus loves ou ==]]]]]]]]]]]]]]]]]]]]
     drawSprite(bgSprite, bgSprites.leg, dx, dy)
 
-    Generator.drawTextureLegacy(
-      texture,
-      {x: sx, y: sy + 4, w: 4, h: 12},
-      {x: dx, y: dy + 56, w: 32, h: 48},
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      texture,
-      {x: sx + 4, y: sy + 4, w: 4, h: 12},
-      {x: dx + 32, y: dy + 56, w: 32, h: 48},
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      texture,
-      {x: sx + 8, y: sy + 4, w: 4, h: 12},
-      {x: dx + 64, y: dy + 56, w: 32, h: 48},
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      texture,
-      {x: sx + 12, y: sy + 4, w: 4, h: 12},
-      {x: dx + 96, y: dy + 56, w: 32, h: 48},
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      texture,
-      {x: sx + 4, y: sy, w: 4, h: 4},
-      {x: dx + 32, y: dy + 24, w: 32, h: 32},
-      (),
-    ) // Top
-    Generator.drawTextureLegacy(
-      texture,
-      {x: sx + 8, y: sy, w: 4, h: 4},
-      {x: dx + 32, y: dy + 104, w: 32, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) // Bottom
+    let drawLayer = (texture, sx, sy, dx, dy) => {
+      Generator.drawTextureLegacy(
+        texture,
+        {x: sx, y: sy + 4, w: 4, h: 12},
+        {x: dx, y: dy + 56, w: 32, h: 48},
+        (),
+      ) // Right
+      Generator.drawTextureLegacy(
+        texture,
+        {x: sx + 4, y: sy + 4, w: 4, h: 12},
+        {x: dx + 32, y: dy + 56, w: 32, h: 48},
+        (),
+      ) // Front
+      Generator.drawTextureLegacy(
+        texture,
+        {x: sx + 8, y: sy + 4, w: 4, h: 12},
+        {x: dx + 64, y: dy + 56, w: 32, h: 48},
+        (),
+      ) // Left
+      Generator.drawTextureLegacy(
+        texture,
+        {x: sx + 12, y: sy + 4, w: 4, h: 12},
+        {x: dx + 96, y: dy + 56, w: 32, h: 48},
+        (),
+      ) // Back
+      Generator.drawTextureLegacy(
+        texture,
+        {x: sx + 4, y: sy, w: 4, h: 4},
+        {x: dx + 32, y: dy + 24, w: 32, h: 32},
+        (),
+      ) // Top
+      Generator.drawTextureLegacy(
+        texture,
+        {x: sx + 8, y: sy, w: 4, h: 4},
+        {x: dx + 32, y: dy + 104, w: 32, h: 32},
+        ~flip=#Vertical,
+        (),
+      ) // Bottom
+    }
+
+    drawLayer(texture, sx, sy, dx, dy) // First Layer
+    if showSecondLayer {
+      drawLayer(texture, ox, oy, dx, dy) // Second Layer
+    }
 
     if showFolds {
       drawSprite(foldSprite, foldSprites.leg, dx, dy)
@@ -740,6 +803,9 @@ let script = () => {
       h: 0,
     }
     let sprite = ref(init)
+    if labelID == 0 {
+      sprite := labelSprites.leg0
+    }
     if labelID == 1 {
       sprite := labelSprites.leg1
     }
@@ -1082,17 +1148,38 @@ let script = () => {
   drawOpaque()
   drawCredits()
 
+  // Define Region Inputs
+  Generator.defineRegionInput((64, 96, 256, 192), () => {
+    Generator.setBooleanInputValue("Hide Helmet", !hideHelmet)
+  })
+  Generator.defineRegionInput((56, 328, 288, 256), () => {
+    Generator.setBooleanInputValue("Hide Jacket", !hideJacket)
+  })
+  Generator.defineRegionInput((392, 312, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Left Sleeve", !hideLeftSleeve)
+  })
+  Generator.defineRegionInput((392, 128, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Right Sleeve", !hideRightSleeve)
+  })
+  Generator.defineRegionInput((240, 608, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Left Pant", !hideLeftPant)
+  })
+  Generator.defineRegionInput((392, 496, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant)
+  })
+
   if simpleHead {
-    drawHeadSimple(skinTexture, 64, 96, false, !useHelmet || separateHelmet)
+    drawHeadSimple(skinTexture, 64, 96, false, !useHelmet || separateHelmet, !hideHelmet) // Head
   } else {
-    drawHeadAdvanced(skinTexture, 48, 96, false, !useHelmet || separateHelmet)
+    drawHeadAdvanced(skinTexture, 48, 96, false, !useHelmet || separateHelmet, !hideHelmet) // Head
   }
 
-  drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle)
-  drawLeg(skinTexture, 40, 16, 392, 104, 1) // Right Arm
-  drawLeg(skinTexture, 32, 48, 392, 288, 2) // Left Arm
-  drawLeg(skinTexture, 0, 16, 392, 472, 3) // Right Leg
-  drawLeg(skinTexture, 16, 48, 240, 584, 4) // Left Leg
+  drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle, !hideJacket) // Body
+
+  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve) // Right Arm
+  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve) // Left Arm
+  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant) // Right Leg
+  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant) // Left Leg
 
   if flatNose {
     drawNoseFlat(pigTexture, 64, 104)
@@ -1102,17 +1189,17 @@ let script = () => {
 
   // Draw the accessories on the pig
   if useHelmet && !separateHelmet {
-    Generator.defineRegionInput((64, 96, 256, 192), () => {
+    Generator.defineRegionInput((128, 32, 64, 64), () => {
       Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay)
     })
     if simpleHead {
-      drawHeadSimple(armorTexture, 64, 96, true, true)
+      drawHeadSimple(armorTexture, 64, 96, true, true, !hideHelmetOverlay)
     } else {
-      drawHeadAdvanced(armorTexture, 48, 96, true, true)
+      drawHeadAdvanced(armorTexture, 48, 96, true, true, !hideHelmetOverlay)
     }
   }
   if useSaddle && !separateSaddle {
-    drawBody(saddleTexture, 56, 304, true, true)
+    drawBody(saddleTexture, 56, 304, true, true, false)
   }
   if useBoots && !separateBoots {
     drawBoot(armorTexture, 392, 160, false)
