@@ -24,10 +24,10 @@ let textures: array<Generator.textureDef> = [
 
 let script = () => {
   // Define user inputs
+  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
   // Define user variables
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   Generator.defineBooleanInput("Hand Notches", false)
   //Generator.defineBooleanInput("Show Overlay", true)
   Generator.defineBooleanInput("Show Folds", true)
@@ -385,20 +385,6 @@ let script = () => {
   } // Bot
 
   if !hideJacket {
-    //Pelvis
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 4, y: 48, w: 4, h: 4},
-      {x: 163, y: 380, w: 32, h: 130},
-      (),
-    ) // Left Pelvis
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 4, y: 32, w: 4, h: 4},
-      {x: 131, y: 380, w: 32, h: 130},
-      (),
-    ) // Right Pelvis
-
     //Jacket
     Generator.drawTextureLegacy(
       "Skin",
@@ -406,18 +392,6 @@ let script = () => {
       {x: 35, y: 50, w: 192, h: 128},
       (),
     ) // Jacket
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 0, y: 36, w: 4, h: 4},
-      {x: 35, y: 178, w: 32, h: 32},
-      (),
-    ) // Right Hip Pant
-    Generator.drawTextureLegacy(
-      "Skin",
-      {x: 8, y: 52, w: 4, h: 4},
-      {x: 131, y: 178, w: 32, h: 32},
-      (),
-    ) // Left Hip Pant
     Generator.drawTextureLegacy(
       "Skin",
       {x: 28, y: 32, w: 8, h: 4},
@@ -561,6 +535,13 @@ let script = () => {
   // Pants
 
   if !hideLeftPant {
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 4, y: 48, w: 4, h: 4},
+      {x: 163, y: 380, w: 32, h: 130},
+      (),
+    ) // Left Pelvis
+
     //Left Leg Pant
     Generator.drawTextureLegacy(
       "Skin",
@@ -587,10 +568,24 @@ let script = () => {
       {x: 489, y: 338, w: 32, h: 32},
       ~flip=#Vertical,
       (),
-    )
-  } //Left foot Shoe
+    ) //Left foot Shoe
+
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 8, y: 52, w: 4, h: 4},
+      {x: 131, y: 178, w: 32, h: 32},
+      (),
+    ) // Left Hip Pant
+  }
 
   if !hideRightPant {
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 4, y: 32, w: 4, h: 4},
+      {x: 131, y: 380, w: 32, h: 130},
+      (),
+    ) // Right Pelvis
+
     //Right Leg Pant
     Generator.drawTextureLegacy(
       "Skin",
@@ -611,8 +606,15 @@ let script = () => {
       {x: 297, y: 714, w: 32, h: 32},
       ~flip=#Vertical,
       (),
-    )
-  } //Right foot
+    ) //Right foot
+
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 0, y: 36, w: 4, h: 4},
+      {x: 35, y: 178, w: 32, h: 32},
+      (),
+    ) // Right Hip Pant
+  }
 
   // Background
   if alexModel {

@@ -81,10 +81,10 @@ var alex_base = {
   },
   leftArm: {
     top: {
-      x: 43,
-      y: 52,
+      x: 36,
+      y: 48,
       w: 3,
-      h: 12
+      h: 4
     },
     bottom: {
       x: 39,

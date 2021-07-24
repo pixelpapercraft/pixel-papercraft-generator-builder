@@ -9,16 +9,16 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let images: array<Generator.imageDef> = [
-  {
-    id: "Background",
-    url: requireImage("Background"),
-  },
-  {
-    id: "Folds",
-    url: requireImage("Folds"),
-  },
+let imageIds = [
+  "Background",
+  "Folds",
+  "Labels",
+  "Action-Figure",
+  "Action-Figure-Folds",
+  "Action-Figure-Labels",
 ]
+let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
@@ -35,11 +35,40 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Overlay", true)
+  Generator.defineBooleanInput("Show Labels", true)
+  Generator.defineBooleanInput("Action Figure", false)
 
   // Get user variables
   let showFolds = Generator.getBooleanInputValue("Show Folds")
-  let showOverlay = Generator.getBooleanInputValue("Show Overlay")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
+  let actionFigure = Generator.getBooleanInputValue("Action Figure")
+
+  // Overlay Region variables
+  let hideHelmet = Generator.getBooleanInputValue("Hide Helmet")
+  let hideJacket = Generator.getBooleanInputValue("Hide Jacket")
+  let hideFrontRightPant = Generator.getBooleanInputValue("Hide Front Right Pant")
+  let hideFrontLeftPant = Generator.getBooleanInputValue("Hide Front Left Pant")
+  let hideBackRightPant = Generator.getBooleanInputValue("Hide Back Right Pant")
+  let hideBackLeftPant = Generator.getBooleanInputValue("Hide Back Left Pant")
+
+  Generator.defineRegionInput((164, 110, 256, 192), () => {
+    Generator.setBooleanInputValue("Hide Helmet", !hideHelmet)
+  })
+  Generator.defineRegionInput((196, 340, 192, 192), () => {
+    Generator.setBooleanInputValue("Hide Jacket", !hideJacket)
+  })
+  Generator.defineRegionInput((62, 471, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Front Right Pant", !hideFrontRightPant)
+  })
+  Generator.defineRegionInput((121, 589, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Front Left Pant", !hideFrontLeftPant)
+  })
+  Generator.defineRegionInput((419, 471, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Back Right Pant", !hideBackRightPant)
+  })
+  Generator.defineRegionInput((367, 589, 128, 112), () => {
+    Generator.setBooleanInputValue("Hide Back Left Pant", !hideBackLeftPant)
+  })
 
   // Background
   Generator.drawImage("Background", (0, 0))
@@ -295,7 +324,8 @@ let script = () => {
     (),
   ) // Bottom
 
-  if showOverlay {
+  // Overlays
+  if !hideHelmet {
     // Helmet
     let ox = 164
     let oy = 110
@@ -336,7 +366,9 @@ let script = () => {
       ~flip=#Vertical,
       (),
     ) // Bottom
+  }
 
+  if !hideJacket {
     // Jacket
     let ox = 196
     let oy = 340
@@ -378,7 +410,9 @@ let script = () => {
       ~rotateLegacy=90.0,
       (),
     ) // Bottom
+  }
 
+  if !hideFrontRightPant {
     // Front Right Pant
     let ox = 62
     let oy = 471
@@ -419,7 +453,9 @@ let script = () => {
       ~flip=#Vertical,
       (),
     ) // Bottom
+  }
 
+  if !hideFrontLeftPant {
     // Front Left Pant
     let ox = 121
     let oy = 589
@@ -460,7 +496,9 @@ let script = () => {
       ~flip=#Vertical,
       (),
     ) // Bottom
+  }
 
+  if !hideBackRightPant {
     // Back Right Pant
     let ox = 419
     let oy = 471
@@ -503,7 +541,9 @@ let script = () => {
       ~rotateLegacy=180.0,
       (),
     ) // Bottom
+  }
 
+  if !hideBackLeftPant {
     // Back Left Pant
     let ox = 367
     let oy = 589
@@ -548,9 +588,46 @@ let script = () => {
     ) // Bottom
   }
 
+  // Action Figure
+  if actionFigure {
+    //Neck
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 16, y: 0, w: 8, h: 8},
+      {x: 44, y: 254, w: 64, h: 96},
+      (),
+    )
+    // Neck Overlay
+    if !hideHelmet {
+      Generator.drawTextureLegacy(
+        "Skin",
+        {x: 48, y: 0, w: 8, h: 8},
+        {x: 44, y: 254, w: 64, h: 96},
+        (),
+      )
+    }
+
+    // Foreground
+    Generator.drawImage("Action-Figure", (0, 0))
+
+    // Folds
+    if showFolds {
+      Generator.drawImage("Action-Figure-Folds", (0, 0))
+    }
+
+    // Labels
+    if showLabels {
+      Generator.drawImage("Action-Figure-Labels", (0, 0))
+    }
+  }
   // Folds
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
   }
 }
 

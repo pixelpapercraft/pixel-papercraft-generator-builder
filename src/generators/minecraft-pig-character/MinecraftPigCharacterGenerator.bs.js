@@ -2,15 +2,6 @@
 'use strict';
 
 var Generator = require("../../builder/modules/Generator.bs.js");
-var TextureMap = require("../TextureMap.bs.js");
-
-function requireImage(id) {
-  return require("./images/" + id + ".png");
-}
-
-function requireTexture(id) {
-  return require("./textures/" + id + ".png");
-}
 
 var id = "minecraft-pig-character";
 
@@ -20,835 +11,1965 @@ var thumbnail = {
   url: require("./thumbnail/thumbnail.jpeg")
 };
 
-var images = [
+var images = [];
+
+var textures = [
   {
-    id: "Background",
-    url: requireImage("Background")
+    id: "Background Sprites",
+    url: require("./images/background-sprites.png"),
+    standardWidth: 592,
+    standardHeight: 608
   },
   {
-    id: "Folds",
-    url: requireImage("Folds")
+    id: "Fold Sprites",
+    url: require("./images/fold-sprites.png"),
+    standardWidth: 600,
+    standardHeight: 808
+  },
+  {
+    id: "Label Sprites",
+    url: require("./images/label-sprites.png"),
+    standardWidth: 208,
+    standardHeight: 80
+  },
+  {
+    id: "Title Sprites",
+    url: require("./images/title-sprites.png"),
+    standardWidth: 294,
+    standardHeight: 48
+  },
+  {
+    id: "Pig Texture",
+    url: require("./textures/vanilla/pig2.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Saddle (Vanilla)",
+    url: require("./textures/vanilla/pig_saddle2.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Saddle (Vanilla) (Programmer Art)",
+    url: require("./textures/vanilla/pig_saddle.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Diamond Armor (Vanilla)",
+    url: require("./textures/vanilla/diamond-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Gold Armor (Vanilla)",
+    url: require("./textures/vanilla/gold-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Chainmail Armor (Vanilla)",
+    url: require("./textures/vanilla/chainmail-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Iron Armor (Vanilla)",
+    url: require("./textures/vanilla/iron-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Saddle (Faithful)",
+    url: require("./textures/faithful/saddle.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Diamond Armor (Faithful)",
+    url: require("./textures/faithful/diamond-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Gold Armor (Faithful)",
+    url: require("./textures/faithful/gold-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Chainmail Armor (Faithful)",
+    url: require("./textures/faithful/chainmail-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Iron Armor (Faithful)",
+    url: require("./textures/faithful/iron-armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Saddle (Space Pig)",
+    url: require("./textures/space-pig/saddle.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Armor (Space Pig)",
+    url: require("./textures/space-pig/armor.png"),
+    standardWidth: 64,
+    standardHeight: 32
+  },
+  {
+    id: "Skin",
+    url: require("./textures/Steve.png"),
+    standardWidth: 64,
+    standardHeight: 64
   }
 ];
 
-var textures = [{
-    id: "Skin",
-    url: requireTexture("Skin"),
-    standardWidth: 64,
-    standardHeight: 64
-  }];
-
-var steve = TextureMap.MinecraftCharacterLegacy.steve;
-
 function script(param) {
-  Generator.defineTextureInput("Skin", {
-        standardWidth: 64,
-        standardHeight: 64,
-        choices: []
-      });
-  Generator.defineBooleanInput("Show Folds", true);
-  var showFolds = Generator.getBooleanInputValue("Show Folds");
-  Generator.drawImage("Background", [
-        0,
-        0
+  var skinTexture = "Skin";
+  var pigTexture = "Pig Texture";
+  var saddleTexture = "Saddle";
+  var armorTexture = "Armor (Layer 1)";
+  var bgSprite = "Background Sprites";
+  var foldSprite = "Fold Sprites";
+  var labelSprite = "Label Sprites";
+  var titleSprite = "Title Sprites";
+  var makeTextureInput = function (texture, width, height, choices) {
+    return Generator.defineTextureInput(texture, {
+                standardWidth: width,
+                standardHeight: height,
+                choices: choices
+              });
+  };
+  Generator.defineSelectInput("Skin Model Type", [
+        "Steve",
+        "Alex"
       ]);
-  Generator.drawTextureLegacy("Skin", {
+  makeTextureInput(skinTexture, 64, 64, []);
+  makeTextureInput(saddleTexture, 64, 32, [
+        "Saddle (Vanilla)",
+        "Saddle (Vanilla) (Programmer Art)",
+        "Saddle (Faithful)",
+        "Saddle (Space Pig)"
+      ]);
+  makeTextureInput(armorTexture, 64, 32, [
+        "Diamond Armor (Vanilla)",
+        "Gold Armor (Vanilla)",
+        "Chainmail Armor (Vanilla)",
+        "Iron Armor (Vanilla)",
+        "Diamond Armor (Faithful)",
+        "Gold Armor (Faithful)",
+        "Chainmail Armor (Faithful)",
+        "Iron Armor (Faithful)",
+        "Armor (Space Pig)"
+      ]);
+  var drawSprite = function (sprite, spriteJson, x, y) {
+    return Generator.drawTextureLegacy(sprite, {
+                x: spriteJson.x,
+                y: spriteJson.y,
+                w: spriteJson.w,
+                h: spriteJson.h
+              }, {
+                x: x,
+                y: y,
+                w: spriteJson.w,
+                h: spriteJson.h
+              }, undefined, undefined, undefined);
+  };
+  Generator.defineBooleanInput("Show Folds", true);
+  Generator.defineBooleanInput("Show Labels", true);
+  Generator.defineBooleanInput("Show Titles", true);
+  Generator.defineBooleanInput("Transparent Background", false);
+  var alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex";
+  var showFolds = Generator.getBooleanInputValue("Show Folds");
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
+  var showTitles = Generator.getBooleanInputValue("Show Titles");
+  var isTransparent = Generator.getBooleanInputValue("Transparent Background");
+  var hideHelmet = Generator.getBooleanInputValue("Hide Helmet");
+  var hideJacket = Generator.getBooleanInputValue("Hide Jacket");
+  var hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve");
+  var hideRightSleeve = Generator.getBooleanInputValue("Hide Right Sleeve");
+  var hideLeftPant = Generator.getBooleanInputValue("Hide Left Pant");
+  var hideRightPant = Generator.getBooleanInputValue("Hide Right Pant");
+  var hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay");
+  Generator.defineSelectInput("Head Style", [
+        "Simple",
+        "Advanced",
+        "Advanced (Standard)"
+      ]);
+  Generator.defineBooleanInput("Separate Snout", true);
+  var headStyle = Generator.getSelectInputValue("Head Style");
+  var noseStyle = Generator.getBooleanInputValue("Separate Snout");
+  Generator.defineSelectInput("Saddle Style", [
+        "Attached",
+        "Separate"
+      ]);
+  Generator.defineSelectInput("Helmet Style", [
+        "Attached",
+        "Separate"
+      ]);
+  Generator.defineSelectInput("Boots Style", [
+        "Attached",
+        "Separate"
+      ]);
+  var saddleStyle = Generator.getSelectInputValue("Saddle Style");
+  var helmetStyle = Generator.getSelectInputValue("Helmet Style");
+  var bootsStyle = Generator.getSelectInputValue("Boots Style");
+  Generator.defineBooleanInput("Show Ultra Mini", true);
+  var showUltraMini = Generator.getBooleanInputValue("Show Ultra Mini");
+  console.log(saddleStyle);
+  var useSaddle = saddleStyle !== "None";
+  var useHelmet = helmetStyle !== "None";
+  var useBoots = bootsStyle !== "None";
+  var simpleHead = headStyle === "Simple";
+  var flatNose = !noseStyle;
+  var standardAdvancedHead = headStyle === "Advanced (Standard)";
+  var separateSaddle = saddleStyle === "Separate";
+  var separateHelmet = helmetStyle === "Separate";
+  var separateBoots = bootsStyle === "Separate";
+  var drawHeadAdvancedShape = function (texture, x, y, tx, ty) {
+    Generator.drawTextureLegacy(texture, {
+          x: tx,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 2
+        }, {
+          x: x,
+          y: y + 64 | 0,
+          w: 64,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 2 | 0,
+          y: ty + 10 | 0,
+          w: 6,
+          h: 6
+        }, {
+          x: x + 16 | 0,
+          y: y + 80 | 0,
+          w: 48,
+          h: 48
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 8 | 0,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 64 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 16 | 0,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 2
+        }, {
+          x: x + 128 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 16
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 16 | 0,
+          y: ty + 10 | 0,
+          w: 6,
+          h: 6
+        }, {
+          x: x + 128 | 0,
+          y: y + 80 | 0,
+          w: 48,
+          h: 48
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 8 | 0,
+          y: ty,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 64 | 0,
+          y: y,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 16 | 0,
+          y: ty + 2 | 0,
+          w: 8,
+          h: 6
+        }, {
+          x: x + 64 | 0,
+          y: y + 128 | 0,
+          w: 64,
+          h: 48
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 24 | 0,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 2
+        }, {
+          x: x + 192 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 16
+        }, undefined, undefined, undefined);
+    if (!standardAdvancedHead) {
+      Generator.drawTextureLegacy(texture, {
+            x: tx + 24 | 0,
+            y: ty + 10 | 0,
+            w: 8,
+            h: 6
+          }, {
+            x: x + 176 | 0,
+            y: y + 80 | 0,
+            w: 64,
+            h: 48
+          }, undefined, undefined, undefined);
+      return Generator.drawTextureLegacy(texture, {
+                  x: tx + 24 | 0,
+                  y: ty + 10 | 0,
+                  w: 8,
+                  h: 2
+                }, {
+                  x: x,
+                  y: y + 144 | 0,
+                  w: 64,
+                  h: 16
+                }, undefined, 270.0, undefined);
+    }
+    
+  };
+  var drawHeadAdvanced = function (texture, x, y, isHelmet, drawLabels, showSecondLayer) {
+    if (!isHelmet) {
+      if (standardAdvancedHead) {
+        drawSprite(bgSprite, {
+              x: 312,
+              y: 0,
+              w: 280,
+              h: 200
+            }, x + 16 | 0, y);
+      } else {
+        drawSprite(bgSprite, {
+              x: 0,
+              y: 304,
+              w: 296,
+              h: 176
+            }, x, y);
+      }
+    }
+    drawHeadAdvancedShape(texture, x + 16 | 0, y, 0, 0);
+    if (showSecondLayer) {
+      drawHeadAdvancedShape(texture, x + 16 | 0, y, 32, 0);
+    }
+    if (standardAdvancedHead) {
+      if (showFolds) {
+        drawSprite(foldSprite, {
+              x: 0,
+              y: 304,
+              w: 280,
+              h: 200
+            }, x + 16 | 0, y);
+      }
+      
+    } else {
+      drawSprite(foldSprite, {
+            x: 304,
+            y: 632,
+            w: 296,
+            h: 176
+          }, x, y);
+      if (showFolds) {
+        drawSprite(foldSprite, {
+              x: 0,
+              y: 632,
+              w: 296,
+              h: 176
+            }, x, y);
+      }
+      
+    }
+    if (drawLabels && showLabels) {
+      if (standardAdvancedHead) {
+        drawSprite(labelSprite, {
+              x: 192,
+              y: 0,
+              w: 16,
+              h: 48
+            }, x + 16 | 0, y + 80 | 0);
+        drawSprite(labelSprite, {
+              x: 192,
+              y: 0,
+              w: 16,
+              h: 48
+            }, x + 192 | 0, y + 80 | 0);
+      } else {
+        drawSprite(labelSprite, {
+              x: 64,
+              y: 0,
+              w: 64,
+              h: 48
+            }, x + 192 | 0, y + 80 | 0);
+      }
+      if (!flatNose) {
+        drawSprite(labelSprite, {
+              x: 128,
+              y: 56,
+              w: 32,
+              h: 24
+            }, x + 96 | 0, y + 104 | 0);
+      }
+      if (showTitles) {
+        return drawSprite(titleSprite, {
+                    x: 138,
+                    y: 0,
+                    w: 46,
+                    h: 14
+                  }, x + 22 | 0, y + 12 | 0);
+      } else {
+        return ;
+      }
+    }
+    
+  };
+  var drawHeadSimpleShape = function (texture, x, y, textureOffsetX) {
+    Generator.drawTextureLegacy(texture, {
+          x: textureOffsetX,
+          y: 8,
+          w: 8,
+          h: 8
+        }, {
+          x: x,
+          y: y + 64 | 0,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: textureOffsetX + 8 | 0,
+          y: 8,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 64 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: textureOffsetX + 16 | 0,
+          y: 8,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 128 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: textureOffsetX + 24 | 0,
+          y: 8,
+          w: 8,
+          h: 8
+        }, {
+          x: 256,
+          y: y + 64 | 0,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: textureOffsetX + 8 | 0,
+          y: 0,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 64 | 0,
+          y: y,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    return Generator.drawTextureLegacy(texture, {
+                x: textureOffsetX + 16 | 0,
+                y: 0,
+                w: 8,
+                h: 8
+              }, {
+                x: x + 64 | 0,
+                y: y + 128 | 0,
+                w: 64,
+                h: 64
+              }, "Vertical", undefined, undefined);
+  };
+  var drawHeadSimple = function (texture, x, y, isHelmet, drawLabels, showSecondLayer) {
+    if (!isHelmet) {
+      drawSprite(bgSprite, {
+            x: 312,
+            y: 200,
+            w: 280,
+            h: 192
+          }, x, y);
+    }
+    drawHeadSimpleShape(texture, x, y, 0);
+    if (showSecondLayer) {
+      drawHeadSimpleShape(texture, x, y, 32);
+    }
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 320,
+            y: 256,
+            w: 280,
+            h: 192
+          }, x, y);
+    }
+    if (drawLabels) {
+      if (showLabels) {
+        drawSprite(labelSprite, {
+              x: 64,
+              y: 0,
+              w: 64,
+              h: 48
+            }, x + 192 | 0, y + 88 | 0);
+        if (!flatNose) {
+          drawSprite(labelSprite, {
+                x: 128,
+                y: 56,
+                w: 32,
+                h: 24
+              }, x + 80 | 0, y + 104 | 0);
+        }
+        
+      }
+      if (showTitles) {
+        return drawSprite(titleSprite, {
+                    x: 138,
+                    y: 0,
+                    w: 46,
+                    h: 14
+                  }, x + 6 | 0, y + 12 | 0);
+      } else {
+        return ;
+      }
+    }
+    
+  };
+  var drawNose3D = function (pig, x, y) {
+    drawSprite(bgSprite, {
+          x: 296,
+          y: 392,
+          w: 80,
+          h: 80
+        }, x, y);
+    Generator.drawTextureLegacy(pig, {
+          x: 16,
+          y: 17,
+          w: 1,
+          h: 3
+        }, {
+          x: x + 16 | 0,
+          y: y + 32 | 0,
+          w: 8,
+          h: 24
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(pig, {
+          x: 17,
+          y: 17,
+          w: 4,
+          h: 3
+        }, {
+          x: x + 24 | 0,
+          y: y + 32 | 0,
+          w: 32,
+          h: 24
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(pig, {
+          x: 21,
+          y: 17,
+          w: 1,
+          h: 3
+        }, {
+          x: x + 56 | 0,
+          y: y + 32 | 0,
+          w: 8,
+          h: 24
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(pig, {
+          x: 10,
+          y: 12,
+          w: 4,
+          h: 3
+        }, {
+          x: x + 24 | 0,
+          y: y,
+          w: 32,
+          h: 24
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(pig, {
+          x: 17,
+          y: 16,
+          w: 4,
+          h: 1
+        }, {
+          x: x + 24 | 0,
+          y: y + 24 | 0,
+          w: 32,
+          h: 8
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(pig, {
+          x: 21,
+          y: 16,
+          w: 4,
+          h: 1
+        }, {
+          x: x + 24 | 0,
+          y: y + 56 | 0,
+          w: 32,
+          h: 8
+        }, "Vertical", undefined, undefined);
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 432,
+            y: 552,
+            w: 80,
+            h: 80
+          }, x, y);
+    }
+    if (showLabels) {
+      drawSprite(labelSprite, {
+            x: 160,
+            y: 56,
+            w: 32,
+            h: 24
+          }, x + 24 | 0, y);
+    }
+    if (showTitles) {
+      return drawSprite(titleSprite, {
+                  x: 244,
+                  y: 0,
+                  w: 46,
+                  h: 14
+                }, x + 68 | 0, y + 6 | 0);
+    }
+    
+  };
+  var drawNoseFlat = function (texture, x, y) {
+    return Generator.drawTextureLegacy(texture, {
+                x: 17,
+                y: 17,
+                w: 4,
+                h: 3
+              }, {
+                x: x + 80 | 0,
+                y: y + 96 | 0,
+                w: 32,
+                h: 24
+              }, undefined, undefined, undefined);
+  };
+  var drawBody = function (texture, x, y, isSaddle, drawLabels, showSecondLayer) {
+    var drawLayer = function (texture, sx, sy, x, y, isSaddle, isFirstLayer) {
+      if (isSaddle) {
+        Generator.drawTextureLegacy(texture, {
+              x: 28,
+              y: 16,
+              w: 8,
+              h: 16
+            }, {
+              x: x,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 36,
+              y: 16,
+              w: 10,
+              h: 16
+            }, {
+              x: x + 64 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 46,
+              y: 16,
+              w: 8,
+              h: 16
+            }, {
+              x: x + 144 | 0,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 54,
+              y: 16,
+              w: 10,
+              h: 16
+            }, {
+              x: x + 208 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: 36,
+              y: 8,
+              w: 10,
+              h: 8
+            }, {
+              x: x + 64 | 0,
+              y: y + 24 | 0,
+              w: 80,
+              h: 64
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: 46,
+                    y: 8,
+                    w: 10,
+                    h: 8
+                  }, {
+                    x: x + 64 | 0,
+                    y: y + 216 | 0,
+                    w: 80,
+                    h: 64
+                  }, "Vertical", undefined, undefined);
+      } else {
+        if (isFirstLayer) {
+          drawSprite(bgSprite, {
+                x: 0,
+                y: 0,
+                w: 312,
+                h: 304
+              }, x, y);
+        }
+        Generator.drawTextureLegacy(texture, {
+              x: sx,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: x,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy + 4 | 0,
+              w: 8,
+              h: 12
+            }, {
+              x: x + 64 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 12 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: x + 144 | 0,
+              y: y + 88 | 0,
+              w: 64,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 16 | 0,
+              y: sy + 4 | 0,
+              w: 8,
+              h: 12
+            }, {
+              x: x + 208 | 0,
+              y: y + 88 | 0,
+              w: 80,
+              h: 128
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy,
+              w: 8,
+              h: 4
+            }, {
+              x: x + 64 | 0,
+              y: y + 24 | 0,
+              w: 80,
+              h: 64
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: sx + 12 | 0,
+                    y: sy,
+                    w: 8,
+                    h: 4
+                  }, {
+                    x: x + 64 | 0,
+                    y: y + 216 | 0,
+                    w: 80,
+                    h: 64
+                  }, "Vertical", undefined, undefined);
+      }
+    };
+    drawLayer(texture, 16, 16, x, y, isSaddle, true);
+    if (showSecondLayer) {
+      drawLayer(texture, 16, 32, x, y, isSaddle, false);
+    }
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 0,
+            y: 0,
+            w: 312,
+            h: 304
+          }, x, y);
+    }
+    if (drawLabels) {
+      if (showLabels) {
+        drawSprite(labelSprite, {
+              x: 0,
+              y: 0,
+              w: 64,
+              h: 48
+            }, x + 72 | 0, y + 24 | 0);
+        drawSprite(labelSprite, {
+              x: 128,
+              y: 0,
+              w: 32,
+              h: 32
+            }, x + 64 | 0, y + 96 | 0);
+        drawSprite(labelSprite, {
+              x: 160,
+              y: 0,
+              w: 32,
+              h: 32
+            }, x + 112 | 0, y + 96 | 0);
+        drawSprite(labelSprite, {
+              x: 128,
+              y: 32,
+              w: 32,
+              h: 24
+            }, x + 64 | 0, y + 192 | 0);
+        drawSprite(labelSprite, {
+              x: 160,
+              y: 32,
+              w: 32,
+              h: 24
+            }, x + 112 | 0, y + 192 | 0);
+      }
+      if (showTitles) {
+        return drawSprite(titleSprite, {
+                    x: 34,
+                    y: 30,
+                    w: 46,
+                    h: 16
+                  }, x + 6 | 0, y + 36 | 0);
+      } else {
+        return ;
+      }
+    }
+    
+  };
+  var drawLeg = function (texture, sx, sy, ox, oy, dx, dy, labelID, showSecondLayer, alexModel) {
+    drawSprite(bgSprite, {
+          x: 440,
+          y: 392,
+          w: 152,
+          h: 160
+        }, dx, dy);
+    var drawLayer = function (texture, sx, sy, dx, dy, alexModel) {
+      if (alexModel) {
+        Generator.drawTextureLegacy(texture, {
+              x: sx,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy + 4 | 0,
+              w: 3,
+              h: 12
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 7 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 64 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 11 | 0,
+              y: sy + 4 | 0,
+              w: 3,
+              h: 12
+            }, {
+              x: dx + 96 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy,
+              w: 3,
+              h: 4
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 24 | 0,
+              w: 32,
+              h: 32
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: sx + 7 | 0,
+                    y: sy,
+                    w: 3,
+                    h: 4
+                  }, {
+                    x: dx + 32 | 0,
+                    y: dy + 104 | 0,
+                    w: 32,
+                    h: 32
+                  }, "Vertical", undefined, undefined);
+      } else {
+        Generator.drawTextureLegacy(texture, {
+              x: sx,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 8 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 64 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 12 | 0,
+              y: sy + 4 | 0,
+              w: 4,
+              h: 12
+            }, {
+              x: dx + 96 | 0,
+              y: dy + 56 | 0,
+              w: 32,
+              h: 48
+            }, undefined, undefined, undefined);
+        Generator.drawTextureLegacy(texture, {
+              x: sx + 4 | 0,
+              y: sy,
+              w: 4,
+              h: 4
+            }, {
+              x: dx + 32 | 0,
+              y: dy + 24 | 0,
+              w: 32,
+              h: 32
+            }, undefined, undefined, undefined);
+        return Generator.drawTextureLegacy(texture, {
+                    x: sx + 8 | 0,
+                    y: sy,
+                    w: 4,
+                    h: 4
+                  }, {
+                    x: dx + 32 | 0,
+                    y: dy + 104 | 0,
+                    w: 32,
+                    h: 32
+                  }, "Vertical", undefined, undefined);
+      }
+    };
+    drawLayer(texture, sx, sy, dx, dy, alexModel);
+    if (showSecondLayer) {
+      drawLayer(texture, ox, oy, dx, dy, alexModel);
+    }
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 280,
+            y: 448,
+            w: 152,
+            h: 160
+          }, dx, dy);
+    }
+    var sprite = {
+      x: 0,
+      y: 0,
+      w: 0,
+      h: 0
+    };
+    if (labelID === 0) {
+      sprite = {
         x: 0,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 90,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 154,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 218,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 24,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 282,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
         y: 0,
-        w: 8,
-        h: 8
-      }, {
-        x: 154,
-        y: 142,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
-        x: 154,
-        y: 270,
-        w: 64,
-        h: 64
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 295,
-        y: 531,
-        w: 65,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 16,
-        w: 8,
-        h: 4
-      }, {
-        x: 359,
-        y: 451,
-        w: 80,
-        h: 64
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 295,
-        y: 387,
-        w: 64,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 16,
-        w: 8,
-        h: 4
-      }, {
-        x: 167,
-        y: 451,
-        w: 80,
-        h: 64
-      }, "Horizontal", 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 20,
-        w: 8,
-        h: 12
-      }, {
-        x: 295,
-        y: 451,
-        w: 80,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 20,
-        w: 8,
-        h: 12
-      }, {
-        x: 295,
-        y: 596,
-        w: 80,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 36,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 36,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 117,
-        w: 32,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 197,
-        w: 32,
-        h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 263,
-        w: 32,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 343,
-        w: 32,
-        h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 24,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 410,
-        w: 32,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 24,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 490,
-        w: 32,
-        h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 12,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
+        w: 0,
+        h: 0
+      };
+    }
+    if (labelID === 1) {
+      sprite = {
         x: 0,
-        y: 20,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 555,
+        y: 48,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 16,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 635,
-        w: 32,
-        h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
+      };
+    }
+    if (labelID === 2) {
+      sprite = {
         x: 32,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 90,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 154,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 218,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
-        y: 8,
-        w: 8,
-        h: 8
-      }, {
-        x: 282,
-        y: 206,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
-        x: 154,
-        y: 142,
-        w: 64,
-        h: 64
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 0,
-        w: 8,
-        h: 8
-      }, {
-        x: 154,
-        y: 270,
-        w: 64,
-        h: 64
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 16,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 295,
-        y: 531,
-        w: 65,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 32,
-        w: 8,
-        h: 4
-      }, {
-        x: 359,
-        y: 451,
-        w: 80,
-        h: 64
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 295,
-        y: 387,
-        w: 64,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 28,
-        y: 32,
-        w: 8,
-        h: 4
-      }, {
-        x: 167,
-        y: 451,
-        w: 80,
-        h: 64
-      }, "Horizontal", 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 32,
-        y: 36,
-        w: 8,
-        h: 12
-      }, {
-        x: 295,
-        y: 451,
-        w: 80,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 20,
-        y: 36,
-        w: 8,
-        h: 12
-      }, {
-        x: 295,
-        y: 596,
-        w: 80,
-        h: 128
-      }, undefined, 90.0, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 60,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 149,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
         y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 117,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 56,
+      };
+    }
+    if (labelID === 3) {
+      sprite = {
+        x: 64,
         y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 197,
         w: 32,
         h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 52,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 40,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 295,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 44,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 263,
-        w: 32,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 48,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 343,
-        w: 32,
-        h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 12,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 0,
-        y: 52,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 442,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
+      };
+    }
+    if (labelID === 4) {
+      sprite = {
+        x: 96,
         y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 410,
         w: 32,
         h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 48,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 490,
+      };
+    }
+    if (showLabels) {
+      drawSprite(labelSprite, sprite, dx + 32 | 0, dy + 24 | 0);
+    }
+    if (showTitles) {
+      return drawSprite(titleSprite, {
+                  x: 0,
+                  y: 23,
+                  w: 34,
+                  h: 16
+                }, dx + 76 | 0, dy + 4 | 0);
+    }
+    
+  };
+  var drawSaddleSeparate = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 41,
+          y: 16,
+          w: 5,
+          h: 16
+        }, {
+          x: x,
+          y: y,
+          w: 40,
+          h: 128
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 46,
+          y: 16,
+          w: 8,
+          h: 16
+        }, {
+          x: x + 40 | 0,
+          y: y,
+          w: 64,
+          h: 128
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 54,
+          y: 16,
+          w: 10,
+          h: 16
+        }, {
+          x: x + 104 | 0,
+          y: y,
+          w: 80,
+          h: 128
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 16,
+          w: 8,
+          h: 16
+        }, {
+          x: x + 184 | 0,
+          y: y,
+          w: 64,
+          h: 128
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 41,
+          y: 16,
+          w: 5,
+          h: 16
+        }, {
+          x: x + 248 | 0,
+          y: y,
+          w: 40,
+          h: 128
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 41,
+          y: 16,
+          w: 5,
+          h: 16
+        }, {
+          x: x,
+          y: y + 128 | 0,
+          w: 40,
+          h: 128
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 46,
+          y: 16,
+          w: 8,
+          h: 16
+        }, {
+          x: x + 40 | 0,
+          y: y + 128 | 0,
+          w: 64,
+          h: 128
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 54,
+          y: 16,
+          w: 10,
+          h: 16
+        }, {
+          x: x + 104 | 0,
+          y: y + 128 | 0,
+          w: 80,
+          h: 128
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 16,
+          w: 8,
+          h: 16
+        }, {
+          x: x + 184 | 0,
+          y: y + 128 | 0,
+          w: 64,
+          h: 128
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 41,
+          y: 16,
+          w: 5,
+          h: 16
+        }, {
+          x: x + 248 | 0,
+          y: y + 128 | 0,
+          w: 40,
+          h: 128
+        }, "Vertical", undefined, undefined);
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 312,
+            y: 0,
+            w: 288,
+            h: 256
+          }, x, y);
+    }
+    if (showTitles) {
+      return drawSprite(titleSprite, {
+                  x: 74,
+                  y: 0,
+                  w: 64,
+                  h: 14
+                }, x, y - 26 | 0);
+    }
+    
+  };
+  var drawHelmetSeparateShape = function (texture, x, y, tx, ty) {
+    Generator.drawTextureLegacy(texture, {
+          x: tx,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 3
+        }, {
+          x: x,
+          y: y + 64 | 0,
+          w: 64,
+          h: 24
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 2 | 0,
+          y: ty + 11 | 0,
+          w: 6,
+          h: 5
+        }, {
+          x: x + 16 | 0,
+          y: y + 88 | 0,
+          w: 48,
+          h: 40
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 8 | 0,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 64 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 64
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 16 | 0,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 3
+        }, {
+          x: x + 128 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 24
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 16 | 0,
+          y: ty + 11 | 0,
+          w: 6,
+          h: 5
+        }, {
+          x: x + 128 | 0,
+          y: y + 88 | 0,
+          w: 48,
+          h: 40
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: tx + 24 | 0,
+          y: ty + 8 | 0,
+          w: 8,
+          h: 3
+        }, {
+          x: x + 192 | 0,
+          y: y + 64 | 0,
+          w: 64,
+          h: 24
+        }, undefined, undefined, undefined);
+    return Generator.drawTextureLegacy(texture, {
+                x: tx + 8 | 0,
+                y: ty,
+                w: 8,
+                h: 8
+              }, {
+                x: x + 64 | 0,
+                y: y,
+                w: 64,
+                h: 64
+              }, undefined, undefined, undefined);
+  };
+  var drawHelmetSeparate = function (texture, x, y) {
+    drawSprite(bgSprite, {
+          x: 0,
+          y: 480,
+          w: 280,
+          h: 128
+        }, x, y);
+    drawHelmetSeparateShape(texture, x, y, 0, 0);
+    if (!hideHelmetOverlay) {
+      drawHelmetSeparateShape(texture, x, y, 32, 0);
+    }
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 0,
+            y: 504,
+            w: 280,
+            h: 128
+          }, x, y);
+    }
+    if (showTitles) {
+      return drawSprite(titleSprite, {
+                  x: 184,
+                  y: 0,
+                  w: 60,
+                  h: 14
+                }, x - 8 | 0, y + 12 | 0);
+    }
+    
+  };
+  var drawBoot = function (texture, x, y, separate) {
+    if (separate) {
+      drawSprite(bgSprite, {
+            x: 280,
+            y: 504,
+            w: 152,
+            h: 104
+          }, x, y);
+    }
+    Generator.drawTextureLegacy(texture, {
+          x: 0,
+          y: 26,
+          w: 4,
+          h: 6
+        }, {
+          x: x,
+          y: y + 0 | 0,
+          w: 32,
+          h: 48
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 4,
+          y: 26,
+          w: 4,
+          h: 6
+        }, {
+          x: x + 32 | 0,
+          y: y + 0 | 0,
+          w: 32,
+          h: 48
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 26,
+          w: 4,
+          h: 6
+        }, {
+          x: x + 64 | 0,
+          y: y + 0 | 0,
+          w: 32,
+          h: 48
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 12,
+          y: 26,
+          w: 4,
+          h: 6
+        }, {
+          x: x + 96 | 0,
+          y: y + 0 | 0,
+          w: 32,
+          h: 48
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 32 | 0,
+          y: y + 48 | 0,
+          w: 32,
+          h: 32
+        }, "Vertical", undefined, undefined);
+    if (showFolds) {
+      drawSprite(foldSprite, {
+            x: 448,
+            y: 448,
+            w: 152,
+            h: 104
+          }, x, y);
+    }
+    if (separate && showTitles) {
+      return drawSprite(titleSprite, {
+                  x: 44,
+                  y: 16,
+                  w: 42,
+                  h: 14
+                }, x, y - 26 | 0);
+    }
+    
+  };
+  var drawUltraMiniBody = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 16,
+          y: 20,
+          w: 4,
+          h: 12
+        }, {
+          x: x + 8 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 20,
+          y: 20,
+          w: 8,
+          h: 12
+        }, {
+          x: x + 32 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 20,
+          w: 4,
+          h: 12
+        }, {
+          x: x + 24 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 32,
+          y: 20,
+          w: 8,
+          h: 12
+        }, {
+          x: x + 16 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    if (!hideJacket) {
+      Generator.drawTextureLegacy(texture, {
+            x: 16,
+            y: 36,
+            w: 4,
+            h: 12
+          }, {
+            x: x + 8 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 12
+          }, undefined, 180.0, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: 20,
+            y: 36,
+            w: 8,
+            h: 12
+          }, {
+            x: x + 32 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 12
+          }, undefined, 180.0, undefined);
+      Generator.drawTextureLegacy(texture, {
+            x: 28,
+            y: 36,
+            w: 4,
+            h: 12
+          }, {
+            x: x + 24 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 12
+          }, undefined, 180.0, undefined);
+      return Generator.drawTextureLegacy(texture, {
+                  x: 32,
+                  y: 36,
+                  w: 8,
+                  h: 12
+                }, {
+                  x: x + 16 | 0,
+                  y: y + 20 | 0,
+                  w: 8,
+                  h: 12
+                }, undefined, 180.0, undefined);
+    }
+    
+  };
+  var drawUltraMiniSaddle = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 16,
+          w: 8,
+          h: 16
+        }, {
+          x: x + 8 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 36,
+          y: 16,
+          w: 10,
+          h: 16
+        }, {
+          x: x + 32 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 46,
+          y: 16,
+          w: 8,
+          h: 16
+        }, {
+          x: x + 24 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 12
+        }, undefined, 180.0, undefined);
+    return Generator.drawTextureLegacy(texture, {
+                x: 54,
+                y: 16,
+                w: 10,
+                h: 16
+              }, {
+                x: x + 16 | 0,
+                y: y + 20 | 0,
+                w: 8,
+                h: 12
+              }, undefined, 180.0, undefined);
+  };
+  var drawUltraMiniLegs = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 24,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 24 | 0,
+          y: y + 8 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 29 | 0,
+          y: y + 8 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 40,
+          y: 48,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 24 | 0,
+          y: y + 17 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 48,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 29 | 0,
+          y: y + 17 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    if (!hideLeftPant) {
+      Generator.drawTextureLegacy(texture, {
+            x: 8,
+            y: 48,
+            w: 4,
+            h: 4
+          }, {
+            x: x + 24 | 0,
+            y: y + 8 | 0,
+            w: 3,
+            h: 3
+          }, "Vertical", undefined, undefined);
+    }
+    if (!hideRightPant) {
+      Generator.drawTextureLegacy(texture, {
+            x: 8,
+            y: 32,
+            w: 4,
+            h: 4
+          }, {
+            x: x + 29 | 0,
+            y: y + 8 | 0,
+            w: 3,
+            h: 3
+          }, "Vertical", undefined, undefined);
+    }
+    if (!hideLeftSleeve) {
+      Generator.drawTextureLegacy(texture, {
+            x: 56,
+            y: 48,
+            w: 4,
+            h: 4
+          }, {
+            x: x + 24 | 0,
+            y: y + 17 | 0,
+            w: 3,
+            h: 3
+          }, "Vertical", undefined, undefined);
+    }
+    if (!hideRightSleeve) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 48,
+                  y: 32,
+                  w: 4,
+                  h: 4
+                }, {
+                  x: x + 29 | 0,
+                  y: y + 17 | 0,
+                  w: 3,
+                  h: 3
+                }, "Vertical", undefined, undefined);
+    }
+    
+  };
+  var drawUltraMiniBoots = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 24 | 0,
+          y: y + 8 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 29 | 0,
+          y: y + 8 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 16,
+          w: 4,
+          h: 4
+        }, {
+          x: x + 24 | 0,
+          y: y + 17 | 0,
+          w: 3,
+          h: 3
+        }, "Vertical", undefined, undefined);
+    return Generator.drawTextureLegacy(texture, {
+                x: 8,
+                y: 16,
+                w: 4,
+                h: 4
+              }, {
+                x: x + 29 | 0,
+                y: y + 17 | 0,
+                w: 3,
+                h: 3
+              }, "Vertical", undefined, undefined);
+  };
+  var drawUltraMiniEnds = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 8,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 8 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 8
+        }, undefined, undefined, undefined);
+    if (!hideHelmet) {
+      Generator.drawTextureLegacy(texture, {
+            x: 40,
+            y: 8,
+            w: 8,
+            h: 8
+          }, {
+            x: x + 8 | 0,
+            y: y + 20 | 0,
+            w: 8,
+            h: 8
+          }, undefined, undefined, undefined);
+    }
+    Generator.drawTextureLegacy(pigTexture, {
+          x: 17,
+          y: 17,
+          w: 4,
+          h: 3
+        }, {
+          x: x + 10 | 0,
+          y: y + 25 | 0,
+          w: 4,
+          h: 3
+        }, undefined, undefined, undefined);
+    Generator.drawTextureLegacy(texture, {
+          x: 28,
+          y: 16,
+          w: 8,
+          h: 4
+        }, {
+          x: x + 8 | 0,
+          y: y,
+          w: 8,
+          h: 8
+        }, "Vertical", undefined, undefined);
+    if (!hideJacket) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 28,
+                  y: 32,
+                  w: 8,
+                  h: 4
+                }, {
+                  x: x + 8 | 0,
+                  y: y,
+                  w: 8,
+                  h: 8
+                }, "Vertical", undefined, undefined);
+    }
+    
+  };
+  var drawUltraMiniHelmet = function (texture, x, y) {
+    Generator.drawTextureLegacy(texture, {
+          x: 8,
+          y: 8,
+          w: 8,
+          h: 8
+        }, {
+          x: x + 8 | 0,
+          y: y + 20 | 0,
+          w: 8,
+          h: 8
+        }, undefined, undefined, undefined);
+    if (!hideHelmetOverlay) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 40,
+                  y: 8,
+                  w: 8,
+                  h: 8
+                }, {
+                  x: x + 8 | 0,
+                  y: y + 20 | 0,
+                  w: 8,
+                  h: 8
+                }, undefined, undefined, undefined);
+    }
+    
+  };
+  var drawUltraMini = function (x, y) {
+    drawSprite(bgSprite, {
+          x: 328,
+          y: 472,
+          w: 36,
+          h: 28
+        }, x, y);
+    drawUltraMiniBody(skinTexture, x, y);
+    drawUltraMiniLegs(skinTexture, x, y);
+    drawUltraMiniEnds(skinTexture, x, y);
+    if (useSaddle) {
+      drawUltraMiniSaddle(saddleTexture, x, y);
+    }
+    if (useHelmet) {
+      drawUltraMiniHelmet(armorTexture, x, y);
+    }
+    if (useBoots) {
+      drawUltraMiniBoots(armorTexture, x, y);
+    }
+    if (showTitles) {
+      return drawSprite(titleSprite, {
+                  x: 0,
+                  y: 16,
+                  w: 44,
+                  h: 7
+                }, x - 8 | 0, y - 15 | 0);
+    }
+    
+  };
+  var drawCredits = function (param) {
+    drawSprite(titleSprite, {
+          x: 0,
+          y: 0,
+          w: 74,
+          h: 16
+        }, 19, 805);
+    return drawSprite(titleSprite, {
+                x: 86,
+                y: 14,
+                w: 208,
+                h: 34
+              }, 368, 788);
+  };
+  var drawOpaque = function (param) {
+    if (!isTransparent) {
+      var spriteJson = {
+        x: 296,
+        y: 472,
         w: 32,
         h: 32
-      }, "Vertical", undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 444,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 12,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 380,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 476,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 0,
-        y: 36,
-        w: 4,
-        h: 12
-      }, {
-        x: 412,
-        y: 587,
-        w: 32,
-        h: 48
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 4,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 555,
-        w: 32,
-        h: 32
-      }, undefined, undefined, undefined);
-  Generator.drawTextureLegacy("Skin", {
-        x: 8,
-        y: 32,
-        w: 4,
-        h: 4
-      }, {
-        x: 444,
-        y: 635,
-        w: 32,
-        h: 32
-      }, "Vertical", undefined, undefined);
-  if (showFolds) {
-    return Generator.drawImage("Folds", [
-                0,
-                0
-              ]);
+      };
+      var x = 0;
+      var y = 0;
+      var width = 595;
+      var height = 842;
+      return Generator.drawTextureLegacy(bgSprite, {
+                  x: spriteJson.x,
+                  y: spriteJson.y,
+                  w: spriteJson.w,
+                  h: spriteJson.h
+                }, {
+                  x: x,
+                  y: y,
+                  w: width,
+                  h: height
+                }, undefined, undefined, undefined);
+    }
+    
+  };
+  Generator.usePage("Pig");
+  drawOpaque(undefined);
+  drawCredits(undefined);
+  Generator.defineRegionInput([
+        64,
+        96,
+        256,
+        192
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Helmet", !hideHelmet);
+        }));
+  Generator.defineRegionInput([
+        56,
+        328,
+        288,
+        256
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Jacket", !hideJacket);
+        }));
+  Generator.defineRegionInput([
+        392,
+        312,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Left Sleeve", !hideLeftSleeve);
+        }));
+  Generator.defineRegionInput([
+        392,
+        128,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Right Sleeve", !hideRightSleeve);
+        }));
+  Generator.defineRegionInput([
+        240,
+        608,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Left Pant", !hideLeftPant);
+        }));
+  Generator.defineRegionInput([
+        392,
+        496,
+        128,
+        112
+      ], (function (param) {
+          return Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant);
+        }));
+  if (simpleHead) {
+    drawHeadSimple(skinTexture, 64, 96, false, !useHelmet || separateHelmet, !hideHelmet);
+  } else {
+    drawHeadAdvanced(skinTexture, 48, 96, false, !useHelmet || separateHelmet, !hideHelmet);
+  }
+  drawBody(skinTexture, 56, 304, false, !useSaddle || separateSaddle, !hideJacket);
+  drawLeg(skinTexture, 40, 16, 40, 32, 392, 104, 1, !hideRightSleeve, alexModel);
+  drawLeg(skinTexture, 32, 48, 48, 48, 392, 288, 2, !hideLeftSleeve, alexModel);
+  drawLeg(skinTexture, 0, 16, 0, 32, 392, 472, 3, !hideRightPant, false);
+  drawLeg(skinTexture, 16, 48, 0, 48, 240, 584, 4, !hideLeftPant, false);
+  if (flatNose) {
+    drawNoseFlat(pigTexture, 64, 104);
+  } else {
+    drawNose3D(pigTexture, 248, 272);
+  }
+  if (useHelmet && !separateHelmet) {
+    Generator.defineRegionInput([
+          128,
+          32,
+          64,
+          64
+        ], (function (param) {
+            return Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay);
+          }));
+    if (simpleHead) {
+      drawHeadSimple(armorTexture, 64, 96, true, true, !hideHelmetOverlay);
+    } else {
+      drawHeadAdvanced(armorTexture, 48, 96, true, true, !hideHelmetOverlay);
+    }
+  }
+  if (useSaddle && !separateSaddle) {
+    drawBody(saddleTexture, 56, 304, true, true, false);
+  }
+  if (useBoots && !separateBoots) {
+    drawBoot(armorTexture, 392, 160, false);
+    drawBoot(armorTexture, 392, 344, false);
+    drawBoot(armorTexture, 392, 528, false);
+    drawBoot(armorTexture, 240, 640, false);
+  }
+  if (showUltraMini) {
+    drawUltraMini(120, 650);
+  }
+  if (useSaddle && separateSaddle || useHelmet && separateHelmet || useBoots && separateBoots) {
+    Generator.usePage("Accessories");
+    drawOpaque(undefined);
+    drawCredits(undefined);
+    if (useSaddle && separateSaddle) {
+      drawSaddleSeparate(saddleTexture, 56, 328);
+    }
+    if (useHelmet && separateHelmet) {
+      Generator.defineRegionInput([
+            64,
+            96,
+            256,
+            192
+          ], (function (param) {
+              return Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay);
+            }));
+      drawHelmetSeparate(armorTexture, 64, 96);
+    }
+    if (useBoots && separateBoots) {
+      drawBoot(armorTexture, 392, 160, true);
+      drawBoot(armorTexture, 392, 344, true);
+      drawBoot(armorTexture, 392, 528, true);
+      return drawBoot(armorTexture, 240, 640, true);
+    } else {
+      return ;
+    }
   }
   
 }
@@ -866,14 +1987,11 @@ var generator = {
   script: script
 };
 
-exports.requireImage = requireImage;
-exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.thumbnail = thumbnail;
 exports.images = images;
 exports.textures = textures;
-exports.steve = steve;
 exports.script = script;
 exports.generator = generator;
 /* thumbnail Not a pure module */

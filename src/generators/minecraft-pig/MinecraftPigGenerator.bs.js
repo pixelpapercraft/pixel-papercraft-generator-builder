@@ -80,7 +80,7 @@ var textures = [
     standardHeight: 32
   },
   {
-    id: "Pig (Vanilla) (Original)",
+    id: "Pig (Vanilla) (Programmer Art)",
     url: require("./textures/vanilla/pig.png"),
     standardWidth: 64,
     standardHeight: 32
@@ -92,7 +92,7 @@ var textures = [
     standardHeight: 32
   },
   {
-    id: "Saddle (Vanilla) (Original)",
+    id: "Saddle (Vanilla) (Programmer Art)",
     url: require("./textures/vanilla/pig_saddle.png"),
     standardWidth: 64,
     standardHeight: 32
@@ -200,13 +200,13 @@ function script(param) {
   };
   makeTextureInput(pigTexture, 64, 32, [
         "Pig (Vanilla)",
-        "Pig (Vanilla) (Original)",
+        "Pig (Vanilla) (Programmer Art)",
         "Pig (Faithful)",
         "Pig (Space Pig)"
       ]);
   makeTextureInput(saddleTexture, 64, 32, [
         "Saddle (Vanilla)",
-        "Saddle (Vanilla) (Original)",
+        "Saddle (Vanilla) (Programmer Art)",
         "Saddle (Faithful)",
         "Saddle (Space Pig)"
       ]);
@@ -237,12 +237,11 @@ function script(param) {
   Generator.defineBooleanInput("Show Folds", true);
   Generator.defineBooleanInput("Show Labels", true);
   Generator.defineBooleanInput("Show Titles", true);
-  Generator.defineBooleanInput("Show Helmet Overlay", true);
-  Generator.defineBooleanInput("Transparent Background", true);
+  Generator.defineBooleanInput("Transparent Background", false);
   var showFolds = Generator.getBooleanInputValue("Show Folds");
   var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showTitles = Generator.getBooleanInputValue("Show Titles");
-  var showHelmetOverlay = Generator.getBooleanInputValue("Show Helmet Overlay");
+  var hideHelmetOverlay = Generator.getBooleanInputValue("Hide Helmet Overlay");
   var isTransparent = Generator.getBooleanInputValue("Transparent Background");
   Generator.defineSelectInput("Nose Style", [
         "Flat",
@@ -257,19 +256,21 @@ function script(param) {
   var headStyle = Generator.getSelectInputValue("Head Style");
   Generator.defineSelectInput("Saddle Style", [
         "Attached",
-        "Seperate"
+        "Separate"
       ]);
   Generator.defineSelectInput("Helmet Style", [
         "Attached",
-        "Seperate"
+        "Separate"
       ]);
   Generator.defineSelectInput("Boots Style", [
         "Attached",
-        "Seperate"
+        "Separate"
       ]);
   var saddleStyle = Generator.getSelectInputValue("Saddle Style");
   var helmetStyle = Generator.getSelectInputValue("Helmet Style");
   var bootsStyle = Generator.getSelectInputValue("Boots Style");
+  Generator.defineBooleanInput("Show Ultra Mini", true);
+  var showUltraMini = Generator.getBooleanInputValue("Show Ultra Mini");
   console.log(saddleStyle);
   var useSaddle = saddleStyle !== "None";
   var useHelmet = helmetStyle !== "None";
@@ -277,9 +278,9 @@ function script(param) {
   var flatNose = noseStyle === "Flat";
   var simpleHead = headStyle === "Simple";
   var standardAdvancedHead = headStyle === "Advanced (Standard)";
-  var seperateSaddle = saddleStyle === "Seperate";
-  var seperateHelmet = helmetStyle === "Seperate";
-  var seperateBoots = bootsStyle === "Seperate";
+  var separateSaddle = saddleStyle === "Separate";
+  var separateHelmet = helmetStyle === "Separate";
+  var separateBoots = bootsStyle === "Separate";
   var drawHeadAdvancedShape = function (texture, x, y, tx, ty) {
     Generator.drawTextureLegacy(texture, {
           x: tx,
@@ -414,7 +415,7 @@ function script(param) {
       }
     }
     drawHeadAdvancedShape(texture, x + 16 | 0, y, 0, 0);
-    if (isHelmet && showHelmetOverlay) {
+    if (isHelmet && !hideHelmetOverlay) {
       drawHeadAdvancedShape(texture, x + 16 | 0, y, 32, 0);
     }
     if (standardAdvancedHead) {
@@ -565,7 +566,7 @@ function script(param) {
           }, x, y);
     }
     drawHeadSimpleShape(texture, x, y, 0);
-    if (isHelmet && showHelmetOverlay) {
+    if (isHelmet && !hideHelmetOverlay) {
       drawHeadSimpleShape(texture, x, y, 32);
     }
     if (showFolds) {
@@ -657,7 +658,7 @@ function script(param) {
           y: y,
           w: 32,
           h: 24
-        }, undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 17,
           y: 16,
@@ -980,7 +981,7 @@ function script(param) {
     }
     
   };
-  var drawSaddleSeperate = function (texture, x, y) {
+  var drawSaddleSeparate = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
           x: 41,
           y: 16,
@@ -1109,7 +1110,7 @@ function script(param) {
     }
     
   };
-  var drawHelmetSeperateShape = function (texture, x, y, tx, ty) {
+  var drawHelmetSeparateShape = function (texture, x, y, tx, ty) {
     Generator.drawTextureLegacy(texture, {
           x: tx,
           y: ty + 8 | 0,
@@ -1188,16 +1189,16 @@ function script(param) {
                 h: 64
               }, undefined, undefined, undefined);
   };
-  var drawHelmetSeperate = function (texture, x, y) {
+  var drawHelmetSeparate = function (texture, x, y) {
     drawSprite(bgSprite, {
           x: 0,
           y: 480,
           w: 280,
           h: 128
         }, x, y);
-    drawHelmetSeperateShape(texture, x, y, 0, 0);
-    if (showHelmetOverlay) {
-      drawHelmetSeperateShape(texture, x, y, 32, 0);
+    drawHelmetSeparateShape(texture, x, y, 0, 0);
+    if (!hideHelmetOverlay) {
+      drawHelmetSeparateShape(texture, x, y, 32, 0);
     }
     if (showFolds) {
       drawSprite(foldSprite, {
@@ -1217,8 +1218,8 @@ function script(param) {
     }
     
   };
-  var drawBoot = function (texture, x, y, seperate) {
-    if (seperate) {
+  var drawBoot = function (texture, x, y, separate) {
+    if (separate) {
       drawSprite(bgSprite, {
             x: 280,
             y: 504,
@@ -1289,7 +1290,7 @@ function script(param) {
             h: 104
           }, x, y);
     }
-    if (seperate && showTitles) {
+    if (separate && showTitles) {
       return drawSprite(titleSprite, {
                   x: 44,
                   y: 16,
@@ -1301,49 +1302,49 @@ function script(param) {
   };
   var drawUltraMiniBody = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
-          x: 46,
+          x: 28,
           y: 16,
           w: 8,
           h: 16
         }, {
-          x: x,
-          y: y + 8 | 0,
+          x: x + 8 | 0,
+          y: y + 20 | 0,
           w: 8,
           h: 12
-        }, "Vertical", undefined, undefined);
+        }, undefined, 180.0, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 36,
           y: 16,
           w: 10,
           h: 16
         }, {
-          x: x + 24 | 0,
-          y: y + 8 | 0,
+          x: x + 32 | 0,
+          y: y + 20 | 0,
           w: 8,
           h: 12
-        }, "Vertical", undefined, undefined);
+        }, undefined, 180.0, undefined);
     Generator.drawTextureLegacy(texture, {
-          x: 28,
+          x: 46,
           y: 16,
           w: 8,
           h: 16
         }, {
-          x: x + 16 | 0,
-          y: y + 8 | 0,
+          x: x + 24 | 0,
+          y: y + 20 | 0,
           w: 8,
           h: 12
-        }, "Vertical", undefined, undefined);
+        }, undefined, 180.0, undefined);
     return Generator.drawTextureLegacy(texture, {
                 x: 54,
                 y: 16,
                 w: 10,
                 h: 16
               }, {
-                x: x + 8 | 0,
-                y: y + 8 | 0,
+                x: x + 16 | 0,
+                y: y + 20 | 0,
                 w: 8,
                 h: 12
-              }, "Vertical", undefined, undefined);
+              }, undefined, 180.0, undefined);
   };
   var drawUltraMiniLegs = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
@@ -1356,7 +1357,7 @@ function script(param) {
           y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 16,
@@ -1367,7 +1368,7 @@ function script(param) {
           y: y + 8 | 0,
           w: 3,
           h: 3
-        }, undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     Generator.drawTextureLegacy(texture, {
           x: 8,
           y: 16,
@@ -1375,10 +1376,10 @@ function script(param) {
           h: 4
         }, {
           x: x + 24 | 0,
-          y: y + 16 | 0,
+          y: y + 17 | 0,
           w: 3,
           h: 3
-        }, undefined, undefined, undefined);
+        }, "Vertical", undefined, undefined);
     return Generator.drawTextureLegacy(texture, {
                 x: 8,
                 y: 16,
@@ -1386,10 +1387,10 @@ function script(param) {
                 h: 4
               }, {
                 x: x + 29 | 0,
-                y: y + 16 | 0,
+                y: y + 17 | 0,
                 w: 3,
                 h: 3
-              }, undefined, undefined, undefined);
+              }, "Vertical", undefined, undefined);
   };
   var drawUltraMiniEnds = function (texture, x, y) {
     Generator.drawTextureLegacy(texture, {
@@ -1431,24 +1432,27 @@ function script(param) {
           x: 8,
           y: 8,
           w: 8,
-          h: 3
+          h: 8
         }, {
           x: x + 8 | 0,
           y: y + 20 | 0,
           w: 8,
-          h: 3
+          h: 8
         }, undefined, undefined, undefined);
-    return Generator.drawTextureLegacy(texture, {
-                x: 10,
-                y: 11,
-                w: 4,
-                h: 1
-              }, {
-                x: x + 10 | 0,
-                y: y + 23 | 0,
-                w: 4,
-                h: 1
-              }, undefined, undefined, undefined);
+    if (!hideHelmetOverlay) {
+      return Generator.drawTextureLegacy(texture, {
+                  x: 40,
+                  y: 8,
+                  w: 8,
+                  h: 8
+                }, {
+                  x: x + 8 | 0,
+                  y: y + 20 | 0,
+                  w: 8,
+                  h: 8
+                }, undefined, undefined, undefined);
+    }
+    
   };
   var drawUltraMini = function (x, y) {
     drawSprite(bgSprite, {
@@ -1523,11 +1527,11 @@ function script(param) {
   drawOpaque(undefined);
   drawCredits(undefined);
   if (simpleHead) {
-    drawHeadSimple(pigTexture, 64, 96, false, !useHelmet || seperateHelmet);
+    drawHeadSimple(pigTexture, 64, 96, false, !useHelmet || separateHelmet);
   } else {
-    drawHeadAdvanced(pigTexture, 48, 96, false, !useHelmet || seperateHelmet);
+    drawHeadAdvanced(pigTexture, 48, 96, false, !useHelmet || separateHelmet);
   }
-  drawBody(pigTexture, 56, 304, false, !useSaddle || seperateSaddle);
+  drawBody(pigTexture, 56, 304, false, !useSaddle || separateSaddle);
   drawLeg(pigTexture, 392, 104, 1);
   drawLeg(pigTexture, 392, 288, 2);
   drawLeg(pigTexture, 392, 472, 3);
@@ -1537,34 +1541,52 @@ function script(param) {
   } else {
     drawNose3D(pigTexture, 248, 272);
   }
-  if (useHelmet && !seperateHelmet) {
+  if (useHelmet && !separateHelmet) {
+    Generator.defineRegionInput([
+          64,
+          96,
+          256,
+          192
+        ], (function (param) {
+            return Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay);
+          }));
     if (simpleHead) {
       drawHeadSimple(armorTexture, 64, 96, true, true);
     } else {
       drawHeadAdvanced(armorTexture, 48, 96, true, true);
     }
   }
-  if (useSaddle && !seperateSaddle) {
+  if (useSaddle && !separateSaddle) {
     drawBody(saddleTexture, 56, 304, true, true);
   }
-  if (useBoots && !seperateBoots) {
+  if (useBoots && !separateBoots) {
     drawBoot(armorTexture, 392, 160, false);
     drawBoot(armorTexture, 392, 344, false);
     drawBoot(armorTexture, 392, 528, false);
     drawBoot(armorTexture, 240, 640, false);
   }
-  drawUltraMini(120, 650);
-  if (useSaddle && seperateSaddle || useHelmet && seperateHelmet || useBoots && seperateBoots) {
+  if (showUltraMini) {
+    drawUltraMini(120, 650);
+  }
+  if (useSaddle && separateSaddle || useHelmet && separateHelmet || useBoots && separateBoots) {
     Generator.usePage("Accessories");
     drawOpaque(undefined);
     drawCredits(undefined);
-    if (useSaddle && seperateSaddle) {
-      drawSaddleSeperate(saddleTexture, 56, 328);
+    if (useSaddle && separateSaddle) {
+      drawSaddleSeparate(saddleTexture, 56, 328);
     }
-    if (useHelmet && seperateHelmet) {
-      drawHelmetSeperate(armorTexture, 64, 96);
+    if (useHelmet && separateHelmet) {
+      Generator.defineRegionInput([
+            64,
+            96,
+            256,
+            192
+          ], (function (param) {
+              return Generator.setBooleanInputValue("Hide Helmet Overlay", !hideHelmetOverlay);
+            }));
+      drawHelmetSeparate(armorTexture, 64, 96);
     }
-    if (useBoots && seperateBoots) {
+    if (useBoots && separateBoots) {
       drawBoot(armorTexture, 392, 160, true);
       drawBoot(armorTexture, 392, 344, true);
       drawBoot(armorTexture, 392, 528, true);

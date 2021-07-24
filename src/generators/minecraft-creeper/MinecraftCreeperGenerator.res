@@ -34,7 +34,14 @@ let instructions: Generator.instructionsDef = {
   </div>
 }
 
-let imageIds = ["Background", "Folds"]
+let imageIds = [
+  "Background",
+  "Folds",
+  "Labels",
+  "Action-Figure",
+  "Action-Figure-Folds",
+  "Action-Figure-Labels",
+]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -53,9 +60,13 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Show Labels", true)
+  Generator.defineBooleanInput("Action Figure", false)
 
   // Get user variables
   let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
+  let actionFigure = Generator.getBooleanInputValue("Action Figure")
 
   // Background
   Generator.drawImage("Background", (0, 0))
@@ -311,9 +322,38 @@ let script = () => {
     (),
   ) // Bottom
 
+  // Action Figure
+  if actionFigure {
+    //Neck
+    Generator.drawTextureLegacy(
+      "Skin",
+      {x: 16, y: 0, w: 8, h: 8},
+      {x: 44, y: 254, w: 64, h: 96},
+      (),
+    )
+
+    // Foreground
+    Generator.drawImage("Action-Figure", (0, 0))
+
+    // Folds
+    if showFolds {
+      Generator.drawImage("Action-Figure-Folds", (0, 0))
+    }
+
+    // Labels
+    if showLabels {
+      Generator.drawImage("Action-Figure-Labels", (0, 0))
+    }
+  }
+
   // Folds
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
   }
 }
 
