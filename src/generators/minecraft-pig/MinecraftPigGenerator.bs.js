@@ -10,7 +10,7 @@ var id = "minecraft-pig";
 var name = "Minecraft Pig";
 
 var thumbnail = {
-  url: require("./thumbnail/thumbnail1.jpeg")
+  url: require("./thumbnail/thumbnail.jpeg")
 };
 
 var instructions = React.createElement("div", undefined, React.createElement(Generator.Markup.H2.make, {
@@ -271,7 +271,6 @@ function script(param) {
   var bootsStyle = Generator.getSelectInputValue("Boots Style");
   Generator.defineBooleanInput("Show Ultra Mini", true);
   var showUltraMini = Generator.getBooleanInputValue("Show Ultra Mini");
-  console.log(saddleStyle);
   var useSaddle = saddleStyle !== "None";
   var useHelmet = helmetStyle !== "None";
   var useBoots = bootsStyle !== "None";

@@ -3,7 +3,7 @@ let id = "minecraft-pig"
 let name = "Minecraft Pig"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail1.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
 let instructions: Generator.instructionsDef = {
@@ -397,8 +397,6 @@ let script = () => {
   Generator.defineBooleanInput("Show Ultra Mini", true)
 
   let showUltraMini = Generator.getBooleanInputValue("Show Ultra Mini")
-
-  Js.log(saddleStyle)
 
   let useSaddle = saddleStyle !== "None"
   let useHelmet = helmetStyle !== "None"
