@@ -401,6 +401,16 @@ let hasInput = (model: Model.t, idToFind: string) => {
   })
 }
 
+let clearStrings = (model: Model.t) => {
+  {
+    ...model,
+    values: {
+      ...model.values,
+      strings: Js.Dict.empty(),
+    },
+  }
+}
+
 let setStringInputValue = (model: Model.t, id: string, value: string) => {
   let strings = Js.Dict.fromArray(Js.Dict.entries(model.values.strings))
   Js.Dict.set(strings, id, value)

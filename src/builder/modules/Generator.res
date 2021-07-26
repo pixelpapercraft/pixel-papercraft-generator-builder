@@ -66,6 +66,10 @@ let setModel = newModel => {
 
 let getModel = () => model.contents
 
+let clearStrings = () => {
+  model := Builder.clearStrings(model.contents)
+}
+
 let defineRegionInput = (region, callback) => {
   model := Builder.defineRegionInput(model.contents, region, callback)
 }
