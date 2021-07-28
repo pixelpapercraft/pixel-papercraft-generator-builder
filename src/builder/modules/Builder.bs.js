@@ -263,7 +263,7 @@ function hasInput(model, idToFind) {
                 }));
 }
 
-function clearStrings(model) {
+function clearStringInputValues(model) {
   var init = model.values;
   return {
           inputs: model.inputs,
@@ -690,7 +690,7 @@ exports.$$Image = $$Image$1;
 exports.Input = Input;
 exports.Model = Model;
 exports.hasInput = hasInput;
-exports.clearStrings = clearStrings;
+exports.clearStringInputValues = clearStringInputValues;
 exports.setStringInputValue = setStringInputValue;
 exports.getStringInputValue = getStringInputValue;
 exports.setBooleanInputValue = setBooleanInputValue;

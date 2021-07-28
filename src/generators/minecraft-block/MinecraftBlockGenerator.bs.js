@@ -1357,9 +1357,6 @@ function script(param) {
       ]);
   var numberOfBlocks = Belt_Option.getWithDefault(Belt_Int.fromString(Generator.getSelectInputValue("Number of Blocks")), 1);
   Generator.defineBooleanInput("Show Folds", true);
-  Generator.defineButtonInput("Clear", (function (param) {
-          return Generator.clearStrings(undefined);
-        }));
   Generator.drawImage("Background", [
         0,
         0
@@ -1410,6 +1407,9 @@ function script(param) {
         
     }
   }
+  Generator.defineButtonInput("Clear", (function (param) {
+          return Generator.clearStringInputValues(undefined);
+        }));
   return Generator.drawImage("Title", [
               0,
               0

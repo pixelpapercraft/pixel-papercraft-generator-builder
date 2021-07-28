@@ -401,7 +401,7 @@ let hasInput = (model: Model.t, idToFind: string) => {
   })
 }
 
-let clearStrings = (model: Model.t) => {
+let clearStringInputValues = (model: Model.t) => {
   {
     ...model,
     values: {

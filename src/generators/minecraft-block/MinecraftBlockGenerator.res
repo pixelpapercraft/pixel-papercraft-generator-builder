@@ -578,10 +578,6 @@ let script = () => {
 
   Generator.defineBooleanInput("Show Folds", true)
 
-  Generator.defineButtonInput("Clear", () => {
-    Generator.clearStrings()
-    })
-
   Generator.drawImage("Background", (0, 0))
 
   for i in 1 to numberOfBlocks {
@@ -633,6 +629,10 @@ let script = () => {
     | _ => ()
     }
   }
+
+  Generator.defineButtonInput("Clear", () => {
+    Generator.clearStringInputValues()
+  })
 
   Generator.drawImage("Title", (0, 0))
 }
