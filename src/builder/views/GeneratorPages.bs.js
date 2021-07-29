@@ -88,27 +88,28 @@ function GeneratorPages(Props) {
                     })), model.pages.map(function (page) {
                   var dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas);
                   return React.createElement("div", {
-                              key: page.id,
-                              className: "relative"
+                              key: page.id
                             }, showPageIds ? React.createElement("h1", {
                                     className: "font-bold text-2xl mb-4"
-                                  }, page.id) : null, React.createElement("img", {
-                                  className: "border shadow-xl mb-8",
-                                  style: Object.assign({}, {
-                                        height: "842px",
-                                        width: "595px"
-                                      }, {
-                                        imageRendering: "pixelated"
-                                      }),
-                                  src: dataUrl
-                                }), React.createElement(GeneratorPages$RegionInputs, {
-                                  model: model,
-                                  currentPageId: page.id,
-                                  onClick: (function (callback) {
-                                      Curry._1(callback, undefined);
-                                      return Curry._1(onChange, undefined);
-                                    })
-                                }));
+                                  }, page.id) : null, React.createElement("div", {
+                                  className: "relative"
+                                }, React.createElement("img", {
+                                      className: "border shadow-xl mb-8",
+                                      style: Object.assign({}, {
+                                            height: "842px",
+                                            width: "595px"
+                                          }, {
+                                            imageRendering: "pixelated"
+                                          }),
+                                      src: dataUrl
+                                    }), React.createElement(GeneratorPages$RegionInputs, {
+                                      model: model,
+                                      currentPageId: page.id,
+                                      onClick: (function (callback) {
+                                          Curry._1(callback, undefined);
+                                          return Curry._1(onChange, undefined);
+                                        })
+                                    })));
                 }));
 }
 
