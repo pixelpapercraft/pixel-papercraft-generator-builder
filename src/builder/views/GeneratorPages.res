@@ -73,27 +73,29 @@ let make = (
     {model.pages
     ->Js.Array2.map(page => {
       let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
-      <div key={page.id} className="relative">
+      <div key={page.id}>
         {showPageIds
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}
-        <img
-          className="border shadow-xl mb-8"
-          style={ReactDOM.Style.make(
-            ~width="595px",
-            ~height="842px",
-            (),
-          )->ReactDOM.Style.unsafeAddStyle({"imageRendering": "pixelated"})}
-          src={dataUrl}
-        />
-        <RegionInputs
-          model={model}
-          currentPageId={page.id}
-          onClick={callback => {
-            callback()
-            onChange()
-          }}
-        />
+        <div className="relative">
+          <img
+            className="border shadow-xl mb-8"
+            style={ReactDOM.Style.make(
+              ~width="595px",
+              ~height="842px",
+              (),
+            )->ReactDOM.Style.unsafeAddStyle({"imageRendering": "pixelated"})}
+            src={dataUrl}
+          />
+          <RegionInputs
+            model={model}
+            currentPageId={page.id}
+            onClick={callback => {
+              callback()
+              onChange()
+            }}
+          />
+        </div>
       </div>
     })
     ->React.array}
