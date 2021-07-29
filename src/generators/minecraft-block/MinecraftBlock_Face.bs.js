@@ -3,6 +3,7 @@
 
 var Generator = require("../../builder/modules/Generator.bs.js");
 var MinecraftBlock_Textures = require("./MinecraftBlock_Textures.bs.js");
+var MinecraftBlock_Constants = require("./MinecraftBlock_Constants.bs.js");
 
 function encodeFaceTexture(faceTexture) {
   return JSON.stringify(faceTexture);
@@ -36,7 +37,7 @@ function decodeFaceTextures(s) {
 
 function defineInputRegion(faceId, region) {
   return Generator.defineRegionInput(region, (function (param) {
-                var faceTextureString = Generator.getStringInputValue("BlockTexture");
+                var faceTextureString = Generator.getStringInputValue(MinecraftBlock_Constants.currentBlockTextureId);
                 var faceTexture = decodeFaceTexture(faceTextureString);
                 var curentFaceTextures = decodeFaceTextures(Generator.getStringInputValue(faceId));
                 var newFaceTextures = curentFaceTextures.concat([faceTexture]);

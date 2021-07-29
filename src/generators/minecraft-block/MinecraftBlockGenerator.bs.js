@@ -7,6 +7,7 @@ var Generator = require("../../builder/modules/Generator.bs.js");
 var Belt_Option = require("rescript/lib/js/belt_Option.js");
 var MinecraftBlock_Face = require("./MinecraftBlock_Face.bs.js");
 var MinecraftBlock_Textures = require("./MinecraftBlock_Textures.bs.js");
+var MinecraftBlock_Constants = require("./MinecraftBlock_Constants.bs.js");
 var MinecraftBlock_TexturePicker = require("./MinecraftBlock_TexturePicker.bs.js");
 
 var id = "minecraft-block";
@@ -1345,7 +1346,7 @@ var images = [
 function script(param) {
   Generator.defineSelectInput("Version", MinecraftBlock_Textures.versionIds);
   var versionId = Generator.getSelectInputValue("Version");
-  Generator.defineCustomStringInput("BlockTexture", (function (onChange) {
+  Generator.defineCustomStringInput(MinecraftBlock_Constants.currentBlockTextureId, (function (onChange) {
           return React.createElement(MinecraftBlock_TexturePicker.make, {
                       versionId: versionId,
                       onChange: onChange
@@ -1408,9 +1409,9 @@ function script(param) {
     }
   }
   Generator.defineButtonInput("Clear", (function (param) {
-          var currentTextureChoice = Generator.getStringInputValue("BlockTexture");
+          var currentTextureChoice = Generator.getStringInputValue(MinecraftBlock_Constants.currentBlockTextureId);
           Generator.clearStringInputValues(undefined);
-          return Generator.setStringInputValue("BlockTexture", currentTextureChoice);
+          return Generator.setStringInputValue(MinecraftBlock_Constants.currentBlockTextureId, currentTextureChoice);
         }));
   return Generator.drawImage("Title", [
               0,

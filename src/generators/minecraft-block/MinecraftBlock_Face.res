@@ -43,7 +43,9 @@ let decodeFaceTextures = (s: string): faceTextures => {
 
 let defineInputRegion = (faceId, region) => {
   Generator.defineRegionInput(region, () => {
-    let faceTextureString = Generator.getStringInputValue("BlockTexture")
+    let faceTextureString = Generator.getStringInputValue(
+      MinecraftBlock_Constants.currentBlockTextureId,
+    )
     let faceTexture = faceTextureString->decodeFaceTexture
     let curentFaceTextures = Generator.getStringInputValue(faceId)->decodeFaceTextures
     let newFaceTextures = Js.Array2.concat(curentFaceTextures, [faceTexture])

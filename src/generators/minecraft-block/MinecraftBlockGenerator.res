@@ -566,7 +566,7 @@ let script = () => {
   Generator.defineSelectInput("Version", Textures.versionIds)
   let versionId = Generator.getSelectInputValue("Version")
 
-  Generator.defineCustomStringInput("BlockTexture", onChange => {
+  Generator.defineCustomStringInput(MinecraftBlock_Constants.currentBlockTextureId, onChange => {
     <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
@@ -631,9 +631,14 @@ let script = () => {
   }
 
   Generator.defineButtonInput("Clear", () => {
-    let currentTextureChoice = Generator.getStringInputValue("BlockTexture")
+    let currentTextureChoice = Generator.getStringInputValue(
+      MinecraftBlock_Constants.currentBlockTextureId,
+    )
     Generator.clearStringInputValues()
-    Generator.setStringInputValue("BlockTexture", currentTextureChoice)
+    Generator.setStringInputValue(
+      MinecraftBlock_Constants.currentBlockTextureId,
+      currentTextureChoice,
+    )
   })
 
   Generator.drawImage("Title", (0, 0))
