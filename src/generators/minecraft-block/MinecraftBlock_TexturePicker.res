@@ -91,7 +91,7 @@ module TintSelector = {
       <select
         placeholder="Tint"
         onChange={onSelectChange}
-        className="border border-gray-300 rounded text-gray-600 h-8 pl-5 pr-10 mr-4 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+        className="border border-gray-300 rounded text-gray-600 h-8 pl-5 pr-10 mr-4 bg-white hover:border-gray-400 focus:outline-none">
         <option value="None"> {"No tint"->React.string} </option>
         <option value="Custom"> {"Custom tint"->React.string} </option>
         <optgroup key="grass" label="Grass"> {makeOptions(Tints.tints.grass)} </optgroup>
