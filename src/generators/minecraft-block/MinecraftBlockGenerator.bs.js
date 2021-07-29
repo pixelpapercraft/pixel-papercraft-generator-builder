@@ -1407,6 +1407,9 @@ function script(param) {
         
     }
   }
+  Generator.defineButtonInput("Clear", (function (param) {
+          return Generator.clearStringInputValues(undefined);
+        }));
   return Generator.drawImage("Title", [
               0,
               0

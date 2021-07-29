@@ -104,6 +104,11 @@ function getModel(param) {
   return model.contents;
 }
 
+function clearStringInputValues(param) {
+  model.contents = Builder.clearStringInputValues(model.contents);
+  
+}
+
 function defineRegionInput(region, callback) {
   model.contents = Builder.defineRegionInput(model.contents, region, callback);
   
@@ -231,6 +236,7 @@ exports.Markup = Markup;
 exports.model = model;
 exports.setModel = setModel;
 exports.getModel = getModel;
+exports.clearStringInputValues = clearStringInputValues;
 exports.defineRegionInput = defineRegionInput;
 exports.defineCustomStringInput = defineCustomStringInput;
 exports.getStringInputValue = getStringInputValue;

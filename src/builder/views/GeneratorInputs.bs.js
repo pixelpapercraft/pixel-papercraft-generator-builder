@@ -9,6 +9,7 @@ var Buttons = require("./Buttons.bs.js");
 var Js_dict = require("rescript/lib/js/js_dict.js");
 var Belt_Int = require("rescript/lib/js/belt_Int.js");
 var FormInput = require("./FormInput.bs.js");
+var Generator = require("../modules/Generator.bs.js");
 var Caml_array = require("rescript/lib/js/caml_array.js");
 var Caml_option = require("rescript/lib/js/caml_option.js");
 
@@ -211,6 +212,27 @@ var RangeInput = {
   make: GeneratorInputs$RangeInput
 };
 
+function GeneratorInputs$ButtonInput(Props) {
+  var onClick = Props.onClick;
+  var id = Props.id;
+  return React.createElement("div", {
+              className: "mb-4"
+            }, React.createElement(Buttons.Button.make, {
+                  state: "Ready",
+                  onClick: (function (param) {
+                      return Curry._1(onClick, undefined);
+                    }),
+                  color: "Blue",
+                  size: "Small",
+                  children: id,
+                  key: id
+                }));
+}
+
+var ButtonInput = {
+  make: GeneratorInputs$ButtonInput
+};
+
 function GeneratorInputs$Text(Props) {
   var text = Props.text;
   return React.createElement("div", {
@@ -303,14 +325,12 @@ function GeneratorInputs(Props) {
                       case /* ButtonInput */7 :
                           var onClick = input._1;
                           var id$5 = input._0;
-                          return React.createElement(Buttons.Button.make, {
-                                      state: "Ready",
+                          return React.createElement(GeneratorInputs$ButtonInput, {
                                       onClick: (function (param) {
-                                          return Curry._1(onClick, undefined);
+                                          Curry._1(onClick, undefined);
+                                          return Curry._1(onChange, Generator.getModel(undefined));
                                         }),
-                                      color: "Blue",
-                                      size: "Small",
-                                      children: id$5,
+                                      id: id$5,
                                       key: id$5
                                     });
                       
@@ -327,6 +347,7 @@ exports.TextureInput = TextureInput;
 exports.BooleanInput = BooleanInput;
 exports.SelectInput = SelectInput;
 exports.RangeInput = RangeInput;
+exports.ButtonInput = ButtonInput;
 exports.$$Text = $$Text;
 exports.make = make;
 /* Icon Not a pure module */
