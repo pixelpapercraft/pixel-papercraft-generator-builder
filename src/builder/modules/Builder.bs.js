@@ -264,6 +264,15 @@ function hasInput(model, idToFind) {
 }
 
 function clearStringInputValues(model) {
+  var strings = model.values.strings;
+  var currentTextureChoice = strings["BlockTexture"];
+  var newStrings = Js_dict.fromList({
+        hd: [
+          "BlockTexture",
+          currentTextureChoice
+        ],
+        tl: /* [] */0
+      });
   var init = model.values;
   return {
           inputs: model.inputs,
@@ -275,7 +284,7 @@ function clearStringInputValues(model) {
             booleans: init.booleans,
             selects: init.selects,
             ranges: init.ranges,
-            strings: {}
+            strings: newStrings
           }
         };
 }
