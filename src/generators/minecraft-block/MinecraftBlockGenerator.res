@@ -630,6 +630,10 @@ let script = () => {
     }
   }
 
+  Generator.defineButtonInput("Clear", () => {
+    Generator.clearStringInputValues()
+  })
+
   Generator.drawImage("Title", (0, 0))
 }
 

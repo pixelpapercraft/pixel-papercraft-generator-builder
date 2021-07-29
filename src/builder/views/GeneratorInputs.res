@@ -176,6 +176,17 @@ module RangeInput = {
   }
 }
 
+module ButtonInput = {
+  @react.component
+  let make = (~onClick, ~id) => {
+    <div className="mb-4">
+      <Buttons.Button key={id} onClick={_ => onClick()} state=#Ready size=#Small color=#Blue>
+        {React.string(id)}
+      </Buttons.Button>
+    </div>
+  }
+}
+
 module Text = {
   @react.component
   let make = (~text) => {
@@ -224,6 +235,10 @@ let make = (~model: Builder.Model.t, ~onChange) => {
     onChange(model)
   }
 
+  let onButtonInputClick = () => {
+    onChange(Generator.getModel())
+  }
+
   if Js.Array2.length(model.inputs) > 0 {
     <div className="bg-gray-100 p-4 mb-8 rounded">
       {Js.Array2.map(model.inputs, input => {
@@ -249,7 +264,15 @@ let make = (~model: Builder.Model.t, ~onChange) => {
               key={id} id={id} options={options} value onChange={onSelectInputChange(id)}
             />
           }
-        | ButtonInput(id, onClick) => <Buttons.Button key={id} onClick={(_) => onClick()} state=#Ready size=#Small color=#Blue>{React.string(id)}</Buttons.Button>
+        | ButtonInput(id, onClick) =>
+          <ButtonInput
+            key={id}
+            id={id}
+            onClick={() => {
+              onClick()
+              onButtonInputClick()
+            }}
+          />
         | RangeInput(id, options) => {
             let value = Builder.getRangeInputValue(model, id)
             <RangeInput

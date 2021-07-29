@@ -263,6 +263,23 @@ function hasInput(model, idToFind) {
                 }));
 }
 
+function clearStringInputValues(model) {
+  var init = model.values;
+  return {
+          inputs: model.inputs,
+          pages: model.pages,
+          currentPage: model.currentPage,
+          values: {
+            images: init.images,
+            textures: init.textures,
+            booleans: init.booleans,
+            selects: init.selects,
+            ranges: init.ranges,
+            strings: {}
+          }
+        };
+}
+
 function setStringInputValue(model, id, value) {
   var strings = Js_dict.fromArray(Js_dict.entries(model.values.strings));
   strings[id] = value;
@@ -673,6 +690,7 @@ exports.$$Image = $$Image$1;
 exports.Input = Input;
 exports.Model = Model;
 exports.hasInput = hasInput;
+exports.clearStringInputValues = clearStringInputValues;
 exports.setStringInputValue = setStringInputValue;
 exports.getStringInputValue = getStringInputValue;
 exports.setBooleanInputValue = setBooleanInputValue;
