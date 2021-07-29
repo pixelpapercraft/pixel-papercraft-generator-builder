@@ -402,14 +402,11 @@ let hasInput = (model: Model.t, idToFind: string) => {
 }
 
 let clearStringInputValues = (model: Model.t) => {
-  let strings = model.values.strings
-  let currentTextureChoice = Js.Dict.unsafeGet(strings, "BlockTexture")
-  let newStrings = Js.Dict.fromList(list{("BlockTexture", currentTextureChoice)})
   {
     ...model,
     values: {
       ...model.values,
-      strings: newStrings,
+      strings: Js.Dict.empty(),
     },
   }
 }

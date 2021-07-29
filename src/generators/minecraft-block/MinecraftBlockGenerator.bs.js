@@ -1408,7 +1408,9 @@ function script(param) {
     }
   }
   Generator.defineButtonInput("Clear", (function (param) {
-          return Generator.clearStringInputValues(undefined);
+          var currentTextureChoice = Generator.getStringInputValue("BlockTexture");
+          Generator.clearStringInputValues(undefined);
+          return Generator.setStringInputValue("BlockTexture", currentTextureChoice);
         }));
   return Generator.drawImage("Title", [
               0,

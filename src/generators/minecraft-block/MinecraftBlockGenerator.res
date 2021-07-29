@@ -631,7 +631,9 @@ let script = () => {
   }
 
   Generator.defineButtonInput("Clear", () => {
+    let currentTextureChoice = Generator.getStringInputValue("BlockTexture")
     Generator.clearStringInputValues()
+    Generator.setStringInputValue("BlockTexture", currentTextureChoice)
   })
 
   Generator.drawImage("Title", (0, 0))
