@@ -99,7 +99,7 @@ function MinecraftBlock_TexturePicker$TintSelector(Props) {
   return React.createElement("div", {
               className: "flex"
             }, React.createElement("select", {
-                  className: "border border-gray-300 rounded text-gray-600 h-8 pl-5 pr-10 mr-4 bg-white hover:border-gray-400 focus:outline-none",
+                  className: "border border-gray-300 rounded text-gray-600 h-8 pl-5 pr-10 mr-4 bg-white hover:border-gray-400 focus:outline-none appearance-none",
                   placeholder: "Tint",
                   onChange: onSelectChange
                 }, React.createElement("option", {
