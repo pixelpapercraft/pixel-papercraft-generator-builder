@@ -148,13 +148,11 @@ let makePreviewTileStyle = (
   ~rotation,
 ) => {
   let size = 128
-  let borderSize = 1
-  let width = size + borderSize * 2
-  let height = size + borderSize * 2
+  let width = size
+  let height = size
   let base = ReactDOM.Style.make(
     ~width=px(width),
     ~height=px(height),
-    ~border=`${px(borderSize)} solid white`,
     ~backgroundColor="white",
     ~transform=`rotate(${deg(rotation * 90)})`,
     (),

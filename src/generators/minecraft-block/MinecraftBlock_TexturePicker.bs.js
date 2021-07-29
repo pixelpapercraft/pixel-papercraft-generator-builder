@@ -156,17 +156,14 @@ function makeTileStyle(textureDef, frameIndex, size, width, height) {
 }
 
 function makePreviewTileStyle(textureDef, textureFrame, rotation) {
-  var width = 130;
-  var height = 130;
   var base = {
     backgroundColor: "white",
-    border: (1).toString() + "px" + " solid white",
-    height: height.toString() + "px",
-    width: width.toString() + "px",
+    height: (128).toString() + "px",
+    width: (128).toString() + "px",
     transform: "rotate(" + (Math.imul(rotation, 90).toString() + "deg") + ")"
   };
   if (textureFrame !== undefined) {
-    return Object.assign({}, base, makeTileStyle(textureDef, textureFrame.frameIndex, 128, width, height));
+    return Object.assign({}, base, makeTileStyle(textureDef, textureFrame.frameIndex, 128, 128, 128));
   } else {
     return base;
   }
