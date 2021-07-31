@@ -9,6 +9,7 @@ var DalekModDalekGenerator = require("./dalekmod-dalek/DalekModDalekGenerator.bs
 var MinecraftBlockGenerator = require("./minecraft-block/MinecraftBlockGenerator.bs.js");
 var MinecraftGolemGenerator = require("./minecraft-golem/MinecraftGolemGenerator.bs.js");
 var MinecraftHorseGenerator = require("./minecraft-horse/MinecraftHorseGenerator.bs.js");
+var MinecraftWitherGenerator = require("./minecraft-wither/MinecraftWitherGenerator.bs.js");
 var MinecraftCreeperGenerator = require("./minecraft-creeper/MinecraftCreeperGenerator.bs.js");
 var MinecraftEndermanGenerator = require("./minecraft-enderman/MinecraftEndermanGenerator.bs.js");
 var MinecraftCharacterGenerator = require("./minecraft-character/MinecraftCharacterGenerator.bs.js");
@@ -45,7 +46,8 @@ var mobCharacter = [
   MinecraftPigCharacterGenerator.generator,
   MinecraftSquidCharacterGenerator.generator,
   MinecraftVillagerCharacterGenerator.generator,
-  MinecraftWolfCharacterGenerator.generator
+  MinecraftWolfCharacterGenerator.generator,
+  MinecraftWitherGenerator.generator
 ];
 
 var mob = [
