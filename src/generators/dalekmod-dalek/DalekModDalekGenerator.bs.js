@@ -36,27 +36,23 @@ var instructions = React.createElement("div", undefined, React.createElement(Gen
           children: "What is a Dalek?"
         }), React.createElement(Generator.Markup.P.make, {
           children: null
-        }, React.createElement(Generator.Markup.P.make, {
-              children: null
-            }, React.createElement("img", {
-                  className: "float-right w-16 mx-8",
-                  src: dalek
-                }), "Daleks are a main enemy of a character called The Doctor in the TV show Doctor Who. ", "Daleks are armoured, mutant creatures who are intensely xenophobic and bent on universal domination. ", "Daleks are hated and feared throughout time and space. They are the oldest and most frequent foes of The Doctor. "), React.createElement(Generator.Markup.P.make, {
-              children: React.createElement(Generator.Markup.A.make, {
-                    href: "http://tardis.wikia.com/wiki/Dalek",
-                    children: "More about Daleks"
-                  })
-            }), React.createElement(Generator.Markup.P.make, {
-              children: React.createElement(Generator.Markup.A.make, {
-                    href: "http://www.thedoctorwhosite.co.uk/doctorwho/information-about-doctor-who/",
-                    children: "More about Doctor Who"
-                  })
-            })), React.createElement(Generator.Markup.H2.make, {
+        }, React.createElement("img", {
+              className: "float-right w-16 mx-8",
+              src: dalek
+            }), "Daleks are a main enemy of a character called The Doctor in the TV show Doctor Who. ", "Daleks are armoured, mutant creatures who are intensely xenophobic and bent on universal domination. ", "Daleks are hated and feared throughout time and space. They are the oldest and most frequent foes of The Doctor. "), React.createElement(Generator.Markup.P.make, {
+          children: React.createElement(Generator.Markup.A.make, {
+                href: "http://tardis.wikia.com/wiki/Dalek",
+                children: "More about Daleks"
+              })
+        }), React.createElement(Generator.Markup.P.make, {
+          children: React.createElement(Generator.Markup.A.make, {
+                href: "http://www.thedoctorwhosite.co.uk/doctorwho/information-about-doctor-who/",
+                children: "More about Doctor Who"
+              })
+        }), React.createElement(Generator.Markup.H2.make, {
           children: "How to use the Dalek generator"
         }), React.createElement(Generator.Markup.H3.make, {
           children: "Option 1: Use an existing Dalek skin"
-        }), React.createElement(Generator.Markup.P.make, {
-          children: "Just select one of the Dalek skins from the generator."
         }), React.createElement(Generator.Markup.OL.make, {
           children: null
         }, React.createElement(Generator.Markup.LI.make, {

@@ -9,6 +9,7 @@ var DalekModDalekGenerator = require("./dalekmod-dalek/DalekModDalekGenerator.bs
 var MinecraftBlockGenerator = require("./minecraft-block/MinecraftBlockGenerator.bs.js");
 var MinecraftGolemGenerator = require("./minecraft-golem/MinecraftGolemGenerator.bs.js");
 var MinecraftHorseGenerator = require("./minecraft-horse/MinecraftHorseGenerator.bs.js");
+var MinecraftWitherGenerator = require("./minecraft-wither/MinecraftWitherGenerator.bs.js");
 var MinecraftCreeperGenerator = require("./minecraft-creeper/MinecraftCreeperGenerator.bs.js");
 var MinecraftEndermanGenerator = require("./minecraft-enderman/MinecraftEndermanGenerator.bs.js");
 var MinecraftCharacterGenerator = require("./minecraft-character/MinecraftCharacterGenerator.bs.js");
@@ -27,7 +28,7 @@ var MinecraftUltimateBendableGenerator = require("./minecraft-ultimate-bendable/
 var MinecraftEndermanCharacterGenerator = require("./minecraft-enderman-character/MinecraftEndermanCharacterGenerator.bs.js");
 var MinecraftVillagerCharacterGenerator = require("./minecraft-villager-character/MinecraftVillagerCharacterGenerator.bs.js");
 
-var isDev = process.env.NODE_ENV === "development";
+var isDevEnvironment = process.env.NODE_ENV === "development";
 
 var character = [
   MinecraftCharacterGenerator.generator,
@@ -66,7 +67,9 @@ var mod = [DalekModDalekGenerator.generator];
 
 var other = [];
 
-var dev = isDev ? [
+var dev = isDevEnvironment ? [MinecraftWitherGenerator.generator] : [];
+
+var test = isDevEnvironment ? [
     ExampleGenerator.generator,
     DemoGenerator.generator
   ] : [];
@@ -78,10 +81,11 @@ var all = Belt_Array.concatMany([
       utility,
       mod,
       other,
-      dev
+      dev,
+      test
     ]);
 
-exports.isDev = isDev;
+exports.isDevEnvironment = isDevEnvironment;
 exports.character = character;
 exports.mobCharacter = mobCharacter;
 exports.mob = mob;
@@ -89,5 +93,6 @@ exports.utility = utility;
 exports.mod = mod;
 exports.other = other;
 exports.dev = dev;
+exports.test = test;
 exports.all = all;
-/* isDev Not a pure module */
+/* isDevEnvironment Not a pure module */
