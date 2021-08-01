@@ -40,7 +40,8 @@ module GeneratorSelect = {
       <GeneratorOptGroup label="Blocks, Items and Accessories" generators={Generators.utility} />
       <GeneratorOptGroup label="Mod" generators={Generators.mod} />
       <GeneratorOptGroup label="Other" generators={Generators.other} />
-      <GeneratorOptGroup label="Dev" generators={Generators.dev} />
+      <GeneratorOptGroup label="In Development" generators={Generators.dev} />
+      <GeneratorOptGroup label="Testing" generators={Generators.test} />
     </Select>
   }
 }

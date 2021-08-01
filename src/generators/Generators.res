@@ -1,6 +1,6 @@
 @val external process: 'a = "process"
 
-let isDev: bool = process["env"]["NODE_ENV"] == "development"
+let isDevEnvironment: bool = process["env"]["NODE_ENV"] == "development"
 
 let character: array<Generator.generatorDef> = [
   MinecraftCharacterGenerator.generator,
@@ -19,7 +19,6 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftSquidCharacterGenerator.generator,
   MinecraftVillagerCharacterGenerator.generator,
   MinecraftWolfCharacterGenerator.generator,
-  MinecraftWitherGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
@@ -41,8 +40,12 @@ let mod: array<Generator.generatorDef> = [DalekModDalekGenerator.generator]
 
 let other: array<Generator.generatorDef> = []
 
-let dev: array<Generator.generatorDef> = isDev
+let dev: array<Generator.generatorDef> = isDevEnvironment
+  ? [MinecraftWitherGenerator.generator]
+  : []
+
+let test: array<Generator.generatorDef> = isDevEnvironment
   ? [ExampleGenerator.generator, DemoGenerator.generator]
   : []
 
-let all = Belt.Array.concatMany([character, mobCharacter, mob, utility, mod, other, dev])
+let all = Belt.Array.concatMany([character, mobCharacter, mob, utility, mod, other, dev, test])

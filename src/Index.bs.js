@@ -68,8 +68,11 @@ function Index$GeneratorSelect(Props) {
                   label: "Other",
                   generators: Generators.other
                 }), React.createElement(Index$GeneratorOptGroup, {
-                  label: "Dev",
+                  label: "In Development",
                   generators: Generators.dev
+                }), React.createElement(Index$GeneratorOptGroup, {
+                  label: "Testing",
+                  generators: Generators.test
                 }));
 }
 

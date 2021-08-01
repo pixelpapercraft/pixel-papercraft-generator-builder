@@ -28,7 +28,7 @@ var MinecraftUltimateBendableGenerator = require("./minecraft-ultimate-bendable/
 var MinecraftEndermanCharacterGenerator = require("./minecraft-enderman-character/MinecraftEndermanCharacterGenerator.bs.js");
 var MinecraftVillagerCharacterGenerator = require("./minecraft-villager-character/MinecraftVillagerCharacterGenerator.bs.js");
 
-var isDev = process.env.NODE_ENV === "development";
+var isDevEnvironment = process.env.NODE_ENV === "development";
 
 var character = [
   MinecraftCharacterGenerator.generator,
@@ -46,8 +46,7 @@ var mobCharacter = [
   MinecraftPigCharacterGenerator.generator,
   MinecraftSquidCharacterGenerator.generator,
   MinecraftVillagerCharacterGenerator.generator,
-  MinecraftWolfCharacterGenerator.generator,
-  MinecraftWitherGenerator.generator
+  MinecraftWolfCharacterGenerator.generator
 ];
 
 var mob = [
@@ -68,7 +67,9 @@ var mod = [DalekModDalekGenerator.generator];
 
 var other = [];
 
-var dev = isDev ? [
+var dev = isDevEnvironment ? [MinecraftWitherGenerator.generator] : [];
+
+var test = isDevEnvironment ? [
     ExampleGenerator.generator,
     DemoGenerator.generator
   ] : [];
@@ -80,10 +81,11 @@ var all = Belt_Array.concatMany([
       utility,
       mod,
       other,
-      dev
+      dev,
+      test
     ]);
 
-exports.isDev = isDev;
+exports.isDevEnvironment = isDevEnvironment;
 exports.character = character;
 exports.mobCharacter = mobCharacter;
 exports.mob = mob;
@@ -91,5 +93,6 @@ exports.utility = utility;
 exports.mod = mod;
 exports.other = other;
 exports.dev = dev;
+exports.test = test;
 exports.all = all;
-/* isDev Not a pure module */
+/* isDevEnvironment Not a pure module */
