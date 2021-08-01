@@ -36,7 +36,7 @@ var instructions = React.createElement("div", undefined, React.createElement(Gen
         }, React.createElement(Generator.Markup.LI.make, {
               children: "Select one of the Wither skins from the generator."
             }), React.createElement(Generator.Markup.LI.make, {
-              children: "Download and print your Dalek papercraft."
+              children: "Download and print your Wither papercraft."
             })), React.createElement(Generator.Markup.H3.make, {
           children: "Option 2: Create your own texture"
         }), React.createElement(Generator.Markup.OL.make, {

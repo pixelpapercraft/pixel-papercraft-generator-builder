@@ -18,7 +18,7 @@ let instructions: Generator.instructionsDef = {
     <H3> {"Option 1: Use an existing Wither skin"->React.string} </H3>
     <OL>
       <LI> {"Select one of the Wither skins from the generator."->React.string} </LI>
-      <LI> {"Download and print your Dalek papercraft."->React.string} </LI>
+      <LI> {"Download and print your Wither papercraft."->React.string} </LI>
     </OL>
     <H3> {"Option 2: Create your own texture"->React.string} </H3>
     <OL>
