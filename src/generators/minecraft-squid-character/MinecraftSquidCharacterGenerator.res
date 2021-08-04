@@ -9,16 +9,9 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let images: array<Generator.imageDef> = [
-  {
-    id: "Background",
-    url: requireImage("Background"),
-  },
-  {
-    id: "Mouth",
-    url: requireImage("Mouth"),
-  },
-]
+let imageIds = ["Background"]
+let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
@@ -26,6 +19,12 @@ let textures: array<Generator.textureDef> = [
     url: requireTexture("Skin"),
     standardWidth: 64,
     standardHeight: 64,
+  },
+  {
+    id: "Squid",
+    url: requireTexture("Squid"),
+    standardWidth: 64,
+    standardHeight: 32,
   },
 ]
 
@@ -355,27 +354,28 @@ let script = () => {
   drawTentacle(471, 215, tent2)
 
   // Tentacle 3
-  drawTentacle(470, 412, tent3)
+  drawTentacle(470, 416, tent3)
 
   // Tentacle 4
-  drawTentacle(376, 412, tent4)
+  drawTentacle(376, 416, tent4)
 
   // Tentacle 5
-  drawTentacle(280, 415, tent5)
+  drawTentacle(280, 416, tent5)
 
   // Tentacle 6
-  drawTentacle(196, 415, tent6)
+  drawTentacle(196, 416, tent6)
 
   // Tentacle 7
-  drawTentacle(109, 415, tent7)
+  drawTentacle(109, 416, tent7)
 
   // Tentacle 8
   drawTentacle(15, 416, tent8)
 
   //Remember to add back the overlay here
 
-  // Draw a special overlay
-  Generator.drawImage("Mouth", (179, 289))
+  // Mouth
+  Generator.drawTexture("Squid", (27, 2, 6, 8), (187, 289, 48, 64), ()) // Mouth 1
+  Generator.drawTexture("Squid", (26, 3, 8, 6), (179, 297, 64, 48), ()) // Mouth 2
 }
 
 let generator: Generator.generatorDef = {

@@ -20,23 +20,31 @@ var thumbnail = {
   url: require("./thumbnail/thumbnail.jpeg")
 };
 
-var images = [
-  {
-    id: "Background",
-    url: requireImage("Background")
-  },
-  {
-    id: "Mouth",
-    url: requireImage("Mouth")
-  }
-];
+var imageIds = ["Background"];
 
-var textures = [{
+function toImageDef(id) {
+  return {
+          id: id,
+          url: requireImage(id)
+        };
+}
+
+var images = imageIds.map(toImageDef);
+
+var textures = [
+  {
     id: "Skin",
     url: requireTexture("Skin"),
     standardWidth: 64,
     standardHeight: 64
-  }];
+  },
+  {
+    id: "Squid",
+    url: requireTexture("Squid"),
+    standardWidth: 64,
+    standardHeight: 32
+  }
+];
 
 var steve = TextureMap.MinecraftCharacterLegacy.steve;
 
@@ -646,16 +654,34 @@ function script(param) {
       }, "Vertical", undefined, undefined);
   drawTentacle(471, 16, tent1);
   drawTentacle(471, 215, tent2);
-  drawTentacle(470, 412, tent3);
-  drawTentacle(376, 412, tent4);
-  drawTentacle(280, 415, tent5);
-  drawTentacle(196, 415, tent6);
-  drawTentacle(109, 415, tent7);
+  drawTentacle(470, 416, tent3);
+  drawTentacle(376, 416, tent4);
+  drawTentacle(280, 416, tent5);
+  drawTentacle(196, 416, tent6);
+  drawTentacle(109, 416, tent7);
   drawTentacle(15, 416, tent8);
-  return Generator.drawImage("Mouth", [
+  Generator.drawTexture("Squid", [
+        27,
+        2,
+        6,
+        8
+      ], [
+        187,
+        289,
+        48,
+        64
+      ], undefined, undefined, undefined, undefined, undefined);
+  return Generator.drawTexture("Squid", [
+              26,
+              3,
+              8,
+              6
+            ], [
               179,
-              289
-            ]);
+              297,
+              64,
+              48
+            ], undefined, undefined, undefined, undefined, undefined);
 }
 
 var generator_thumbnail = thumbnail;
@@ -676,6 +702,8 @@ exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.thumbnail = thumbnail;
+exports.imageIds = imageIds;
+exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.steve = steve;
