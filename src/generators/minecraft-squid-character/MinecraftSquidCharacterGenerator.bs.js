@@ -20,7 +20,10 @@ var thumbnail = {
   url: require("./thumbnail/thumbnail.jpeg")
 };
 
-var imageIds = ["Background"];
+var imageIds = [
+  "Background",
+  "Folds"
+];
 
 function toImageDef(id) {
   return {
@@ -110,6 +113,8 @@ function script(param) {
   var tent6 = Generator.getSelectInputValue("Tentacle 6");
   var tent7 = Generator.getSelectInputValue("Tentacle 7");
   var tent8 = Generator.getSelectInputValue("Tentacle 8");
+  Generator.defineBooleanInput("Show Folds", true);
+  var showFolds = Generator.getBooleanInputValue("Show Folds");
   var drawTentacle = function (nx, ny, tentType) {
     switch (tentType) {
       case "Left Arm" :
@@ -671,17 +676,24 @@ function script(param) {
         48,
         64
       ], undefined, undefined, undefined, undefined, undefined);
-  return Generator.drawTexture("Squid", [
-              26,
-              3,
-              8,
-              6
-            ], [
-              179,
-              297,
-              64,
-              48
-            ], undefined, undefined, undefined, undefined, undefined);
+  Generator.drawTexture("Squid", [
+        26,
+        3,
+        8,
+        6
+      ], [
+        179,
+        297,
+        64,
+        48
+      ], undefined, undefined, undefined, undefined, undefined);
+  if (showFolds) {
+    return Generator.drawImage("Folds", [
+                0,
+                0
+              ]);
+  }
+  
 }
 
 var generator_thumbnail = thumbnail;

@@ -9,7 +9,7 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let imageIds = ["Background"]
+let imageIds = ["Background", "Folds"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -51,6 +51,14 @@ let script = () => {
   let tent6 = Generator.getSelectInputValue("Tentacle 6")
   let tent7 = Generator.getSelectInputValue("Tentacle 7")
   let tent8 = Generator.getSelectInputValue("Tentacle 8")
+
+  // Define user variables
+  Generator.defineBooleanInput("Show Folds", true)
+  //Generator.defineBooleanInput("Show Labels", true)
+
+  // Get user variable values
+  let showFolds = Generator.getBooleanInputValue("Show Folds")
+  //let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Tentacle Types
 
@@ -376,6 +384,11 @@ let script = () => {
   // Mouth
   Generator.drawTexture("Squid", (27, 2, 6, 8), (187, 289, 48, 64), ()) // Mouth 1
   Generator.drawTexture("Squid", (26, 3, 8, 6), (179, 297, 64, 48), ()) // Mouth 2
+
+  // Folds
+  if showFolds {
+    Generator.drawImage("Folds", (0, 0))
+  }
 }
 
 let generator: Generator.generatorDef = {
