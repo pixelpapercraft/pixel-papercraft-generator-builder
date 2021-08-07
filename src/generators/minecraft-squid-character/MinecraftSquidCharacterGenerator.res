@@ -34,23 +34,40 @@ let script = () => {
   // Define user inputs
   Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
-  Generator.defineSelectInput("Tentacle 1", ["Right Arm", "Left Arm", "Right Leg", "Left Leg"])
-  Generator.defineSelectInput("Tentacle 2", ["Left Arm", "Right Arm", "Left Leg", "Right Leg"])
-  Generator.defineSelectInput("Tentacle 3", ["Left Leg", "Right Leg", "Left Arm", "Right Arm"])
-  Generator.defineSelectInput("Tentacle 4", ["Left Leg", "Right Leg", "Left Arm", "Right Arm"])
-  Generator.defineSelectInput("Tentacle 5", ["Left Leg", "Right Leg", "Left Arm", "Right Arm"])
-  Generator.defineSelectInput("Tentacle 6", ["Right Leg", "Left Leg", "Right Arm", "Left Arm"])
-  Generator.defineSelectInput("Tentacle 7", ["Right Leg", "Left Leg", "Right Arm", "Left Arm"])
-  Generator.defineSelectInput("Tentacle 8", ["Right Leg", "Left Leg", "Right Arm", "Left Arm"])
+  Generator.defineSelectInput("Tentacle 1", ["3", "4", "1", "2"])
+  Generator.defineSelectInput("Tentacle 2", ["4", "3", "2", "1"])
+  Generator.defineSelectInput("Tentacle 3", ["2", "1", "4", "3"])
+  Generator.defineSelectInput("Tentacle 4", ["2", "1", "4", "3"])
+  Generator.defineSelectInput("Tentacle 5", ["2", "1", "4", "3"])
+  Generator.defineSelectInput("Tentacle 6", ["1", "2", "3", "4"])
+  Generator.defineSelectInput("Tentacle 7", ["1", "2", "3", "4"])
+  Generator.defineSelectInput("Tentacle 8", ["1", "2", "3", "4"])
 
-  let tent1 = Generator.getSelectInputValue("Tentacle 1")
-  let tent2 = Generator.getSelectInputValue("Tentacle 2")
-  let tent3 = Generator.getSelectInputValue("Tentacle 3")
-  let tent4 = Generator.getSelectInputValue("Tentacle 4")
-  let tent5 = Generator.getSelectInputValue("Tentacle 5")
-  let tent6 = Generator.getSelectInputValue("Tentacle 6")
-  let tent7 = Generator.getSelectInputValue("Tentacle 7")
-  let tent8 = Generator.getSelectInputValue("Tentacle 8")
+  let tent1 =
+    Generator.getSelectInputValue("Tentacle 1")->Belt.Int.fromString->Belt.Option.getWithDefault(3)
+  let tent2 =
+    Generator.getSelectInputValue("Tentacle 2")->Belt.Int.fromString->Belt.Option.getWithDefault(4)
+  let tent3 =
+    Generator.getSelectInputValue("Tentacle 3")->Belt.Int.fromString->Belt.Option.getWithDefault(2)
+  let tent4 =
+    Generator.getSelectInputValue("Tentacle 4")->Belt.Int.fromString->Belt.Option.getWithDefault(2)
+  let tent5 =
+    Generator.getSelectInputValue("Tentacle 5")->Belt.Int.fromString->Belt.Option.getWithDefault(2)
+  let tent6 =
+    Generator.getSelectInputValue("Tentacle 6")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
+  let tent7 =
+    Generator.getSelectInputValue("Tentacle 7")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
+  let tent8 =
+    Generator.getSelectInputValue("Tentacle 8")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
+
+  let cycleTentacleTypes = t => {
+    let t = if t === 4 {
+      1
+    } else {
+      t + 1
+    }
+    Belt.Int.toString(t)
+  }
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
@@ -262,10 +279,10 @@ let script = () => {
 
   let drawTentacle = (nx, ny, tentType) => {
     switch tentType {
-    | "Right Arm" => rightArm(nx, ny)
-    | "Left Arm" => leftArm(nx, ny)
-    | "Right Leg" => rightLeg(nx, ny)
-    | "Left Leg" => leftLeg(nx, ny)
+    | 3 => rightArm(nx, ny)
+    | 4 => leftArm(nx, ny)
+    | 1 => rightLeg(nx, ny)
+    | 2 => leftLeg(nx, ny)
     | _ => ()
     }
   }
@@ -356,27 +373,51 @@ let script = () => {
   //Tentacles
 
   // Tentacle 1
+  Generator.defineRegionInput((471, 16, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 1", cycleTentacleTypes(tent1))
+  })
   drawTentacle(471, 16, tent1)
 
   // Tentacle 2
+  Generator.defineRegionInput((471, 215, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 2", cycleTentacleTypes(tent2))
+  })
   drawTentacle(471, 215, tent2)
 
   // Tentacle 3
+  Generator.defineRegionInput((470, 416, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 3", cycleTentacleTypes(tent3))
+  })
   drawTentacle(470, 416, tent3)
 
   // Tentacle 4
+  Generator.defineRegionInput((376, 416, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 4", cycleTentacleTypes(tent4))
+  })
   drawTentacle(376, 416, tent4)
 
   // Tentacle 5
+  Generator.defineRegionInput((280, 416, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 5", cycleTentacleTypes(tent5))
+  })
   drawTentacle(280, 416, tent5)
 
   // Tentacle 6
+  Generator.defineRegionInput((196, 416, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 6", cycleTentacleTypes(tent6))
+  })
   drawTentacle(196, 416, tent6)
 
   // Tentacle 7
+  Generator.defineRegionInput((109, 416, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 7", cycleTentacleTypes(tent7))
+  })
   drawTentacle(109, 416, tent7)
 
   // Tentacle 8
+  Generator.defineRegionInput((15, 16, 64, 176), () => {
+    Generator.setSelectInputValue("Tentacle 8", cycleTentacleTypes(tent8))
+  })
   drawTentacle(15, 416, tent8)
 
   //Remember to add back the overlay here
