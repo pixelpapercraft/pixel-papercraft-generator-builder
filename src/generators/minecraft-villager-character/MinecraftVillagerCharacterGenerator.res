@@ -9,25 +9,14 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let images: array<Generator.imageDef> = [
-  {
-    id: "Background",
-    url: requireImage("Background"),
-  },
-  {
-    id: "RobeCover",
-    url: requireImage("RobeCover"),
-  },
-  {
-    id: "Labels",
-    url: requireImage("Labels"),
-  },
-]
+let imageIds = ["Background", "Folds", "Labels"]
+let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
     id: "Skin",
-    url: requireTexture("Skin"),
+    url: requireTexture("Steve"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -40,13 +29,12 @@ let script = () => {
   Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
   // Define user variables
+  Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
+  let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
-
-  // Background
-  Generator.drawImage("Background", (0, 0))
 
   // Head
   Generator.drawTextureLegacy("Skin", {x: 0, y: 8, w: 32, h: 8}, {x: 22, y: 74, w: 256, h: 80}, ()) // HeadSides
@@ -623,8 +611,13 @@ let script = () => {
     (),
   ) //RobeBack
 
-  // RobeCoverNEEDED
-  Generator.drawImage("RobeCover", (0, 0))
+  // Background
+  Generator.drawImage("Background", (0, 0))
+
+  // Folds
+  if showFolds {
+    Generator.drawImage("Folds", (0, 0))
+  }
 
   //Labels
   if showLabels {
