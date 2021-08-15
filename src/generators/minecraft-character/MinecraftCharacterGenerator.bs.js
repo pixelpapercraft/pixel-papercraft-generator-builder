@@ -19,7 +19,7 @@ var id = "minecraft-character";
 var name = "Minecraft Character";
 
 var thumbnail = {
-  url: require("./thumbnail/thumbnail.jpeg")
+  url: require("./thumbnail/v2-thumbnail-256.jpeg")
 };
 
 var instructions = React.createElement("div", undefined, React.createElement(Generator.Markup.H2.make, {

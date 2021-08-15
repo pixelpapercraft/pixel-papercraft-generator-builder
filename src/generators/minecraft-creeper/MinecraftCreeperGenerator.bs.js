@@ -18,7 +18,7 @@ var id = "minecraft-creeper";
 var name = "Minecraft Creeper";
 
 var thumbnail = {
-  url: require("./thumbnail/thumbnail.jpeg")
+  url: require("./thumbnail/v2-thumbnail-256.jpeg")
 };
 
 var creeperTexture = requireTexture("creeper");

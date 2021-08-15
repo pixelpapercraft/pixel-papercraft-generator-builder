@@ -16,7 +16,7 @@ var id = "minecraft-character-heads";
 var name = "Minecraft Character Heads";
 
 var thumbnail = {
-  url: require("./thumbnail/thumbnail.jpeg")
+  url: require("./thumbnail/v2-thumbnail-256.jpeg")
 };
 
 var images = [
