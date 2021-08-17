@@ -20,27 +20,35 @@ var thumbnail = {
   url: require("./thumbnail/thumbnail.jpeg")
 };
 
-var images = [
-  {
-    id: "Background",
-    url: requireImage("Background")
-  },
-  {
-    id: "Folds",
-    url: requireImage("Folds")
-  },
-  {
-    id: "Red Eyes",
-    url: requireImage("RedEye2")
-  }
+var imageIds = [
+  "Background",
+  "Folds",
+  "Labels"
 ];
 
-var textures = [{
+function toImageDef(id) {
+  return {
+          id: id,
+          url: requireImage(id)
+        };
+}
+
+var images = imageIds.map(toImageDef);
+
+var textures = [
+  {
     id: "Skin",
-    url: requireTexture("Skin"),
+    url: requireTexture("Steve"),
     standardWidth: 64,
     standardHeight: 64
-  }];
+  },
+  {
+    id: "Angry Wolf",
+    url: requireTexture("wolf_angry"),
+    standardWidth: 64,
+    standardHeight: 32
+  }
+];
 
 var steve = TextureMap.MinecraftCharacterLegacy.steve;
 
@@ -51,8 +59,10 @@ function script(param) {
         choices: []
       });
   Generator.defineBooleanInput("Show Folds", true);
+  Generator.defineBooleanInput("Show Labels", true);
   Generator.defineBooleanInput("Show Red Eyes", false);
   var showFolds = Generator.getBooleanInputValue("Show Folds");
+  var showLabels = Generator.getBooleanInputValue("Show Labels");
   var showRedEyes = Generator.getBooleanInputValue("Show Red Eyes");
   Generator.drawImage("Background", [
         0,
@@ -1242,11 +1252,57 @@ function script(param) {
           0
         ]);
   }
+  if (showLabels) {
+    Generator.drawImage("Labels", [
+          0,
+          0
+        ]);
+  }
   if (showRedEyes) {
-    return Generator.drawImage("Red Eyes", [
-                373,
-                344
-              ]);
+    Generator.drawTexture("Angry Wolf", [
+          4,
+          5,
+          2,
+          2
+        ], [
+          379,
+          362,
+          12,
+          12
+        ], undefined, undefined, undefined, undefined, undefined);
+    Generator.drawTexture("Angry Wolf", [
+          4,
+          4,
+          1,
+          1
+        ], [
+          379,
+          356,
+          6,
+          6
+        ], undefined, undefined, undefined, undefined, undefined);
+    Generator.drawTexture("Angry Wolf", [
+          8,
+          5,
+          2,
+          2
+        ], [
+          403,
+          362,
+          12,
+          12
+        ], undefined, undefined, undefined, undefined, undefined);
+    return Generator.drawTexture("Angry Wolf", [
+                9,
+                4,
+                1,
+                1
+              ], [
+                409,
+                356,
+                6,
+                6
+              ], undefined, undefined, undefined, undefined, undefined);
   }
   
 }
@@ -1269,6 +1325,8 @@ exports.requireTexture = requireTexture;
 exports.id = id;
 exports.name = name;
 exports.thumbnail = thumbnail;
+exports.imageIds = imageIds;
+exports.toImageDef = toImageDef;
 exports.images = images;
 exports.textures = textures;
 exports.steve = steve;
