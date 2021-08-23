@@ -57,9 +57,6 @@ let script = () => {
   let ol = 0
   let om = 0
 
-  // Background
-  Generator.drawImage("Background", (0, 0))
-
   // Head
   Generator.drawTextureLegacy(
     "Skin",
@@ -186,7 +183,7 @@ let script = () => {
   Generator.drawTextureLegacy(
     "Skin",
     {x: 8, y: 16, w: 4, h: 4},
-    {x: od + 479, y: oe + 549, w: 16, h: 16},
+    {x: od + 479, y: oe + 550, w: 16, h: 16},
     ~rotateLegacy=270.0,
     (),
   ) // end
@@ -251,6 +248,13 @@ let script = () => {
     {x: og + 440, y: oh + 232, w: 24, h: 24},
     (),
   ) // right
+  Generator.drawTextureLegacy(
+    "Skin",
+    {x: 10, y: 13, w: 4, h: 3},
+    {x: og + 464, y: oh + 232, w: 24, h: 24},
+    ~flip=#Horizontal,
+    (),
+  ) // back
 
   // body
   Generator.drawTextureLegacy(
@@ -272,54 +276,19 @@ let script = () => {
     {x: 261, y: 254, w: 64, h: 48},
     (),
   ) // top
-
-  // body (front)
-  Generator.drawTextureLegacy("Skin", {x: 20, y: 20, w: 8, h: 1}, {x: 141, y: 246, w: 64, h: 8}, ()) // front bottom
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 16, y: 20, w: 4, h: 1},
-    {x: 141, y: 254, w: 56, h: 8},
-    ~rotateLegacy=270.0,
+    {x: 20, y: 16, w: 8, h: 4},
+    {x: 141, y: 198, w: 64, h: 56},
     (),
-  ) // front left
+  ) // front
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 28, y: 20, w: 4, h: 1},
-    {x: 197, y: 254, w: 56, h: 8},
-    ~rotateLegacy=270.0,
+    {x: 28, y: 16, w: 8, h: 4},
+    {x: 141, y: 302, w: 64, h: 56},
+    ~flip=#Vertical,
     (),
-  ) // front right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 32, y: 20, w: 8, h: 1},
-    {x: 141, y: 198, w: 64, h: 8},
-    ~flip=#Horizontal,
-    (),
-  ) // front top
-
-  // body (back)
-  Generator.drawTextureLegacy("Skin", {x: 20, y: 25, w: 8, h: 1}, {x: 141, y: 302, w: 64, h: 8}, ()) // back top
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 16, y: 25, w: 4, h: 1},
-    {x: 141, y: 357, w: 56, h: 8},
-    ~rotateLegacy=270.0,
-    (),
-  ) // back left
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 28, y: 25, w: 4, h: 1},
-    {x: 197, y: 357, w: 56, h: 8},
-    ~rotateLegacy=270.0,
-    (),
-  ) // back right
-  Generator.drawTextureLegacy(
-    "Skin",
-    {x: 32, y: 25, w: 8, h: 1},
-    {x: 141, y: 349, w: 64, h: 8},
-    ~flip=#Horizontal,
-    (),
-  ) // back bottom
+  ) // back
 
   // body2
   Generator.drawTextureLegacy(
@@ -346,14 +315,19 @@ let script = () => {
     {x: 259, y: 427, w: 48, h: 72},
     (),
   ) // top
-
-  // body2 end
+  Generator.drawTextureLegacy(
+    "Skin",
+    {x: 20, y: 16, w: 8, h: 4},
+    {x: 163, y: 379, w: 48, h: 48},
+    (),
+  ) // front
   Generator.drawTextureLegacy(
     "Skin",
     {x: 28, y: 16, w: 8, h: 4},
     {x: 163, y: 499, w: 48, h: 48},
+    ~flip=#Vertical,
     (),
-  ) // end
+  ) // back
 
   // Ears
 
@@ -366,7 +340,7 @@ let script = () => {
   ) //front
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 24, y: 17, w: 2, h: 2},
+    {x: 25, y: 17, w: 2, h: 2},
     {x: ol + 395, y: om + 459, w: 16, h: 16},
     (),
   ) //back
@@ -378,7 +352,7 @@ let script = () => {
   ) //left
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 26, y: 17, w: 1, h: 2},
+    {x: 24, y: 17, w: 1, h: 2},
     {x: ol + 387, y: om + 459, w: 8, h: 16},
     (),
   ) //right
@@ -388,6 +362,13 @@ let script = () => {
     {x: ol + 371, y: om + 451, w: 16, h: 8},
     (),
   ) //top
+  Generator.drawTextureLegacy(
+    "Skin",
+    {x: 24, y: 16, w: 2, h: 1},
+    {x: ol + 371, y: om + 475, w: 16, h: 8},
+    ~flip=#Vertical,
+    (),
+  ) //bottom
 
   // right
   Generator.drawTextureLegacy(
@@ -398,7 +379,7 @@ let script = () => {
   ) //front
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 24, y: 17, w: 2, h: 2},
+    {x: 25, y: 17, w: 2, h: 2},
     {x: ol + 468, y: om + 459, w: 16, h: 16},
     (),
   ) //back
@@ -410,16 +391,23 @@ let script = () => {
   ) //left
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 26, y: 17, w: 1, h: 2},
+    {x: 24, y: 17, w: 1, h: 2},
     {x: ol + 460, y: om + 459, w: 8, h: 16},
     (),
   ) //right
   Generator.drawTextureLegacy(
     "Skin",
-    {x: 24, y: 16, w: 2, h: 1},
+    {x: 22, y: 16, w: 2, h: 1},
     {x: ol + 444, y: om + 451, w: 16, h: 8},
     (),
   ) //top
+  Generator.drawTextureLegacy(
+    "Skin",
+    {x: 24, y: 16, w: 2, h: 1},
+    {x: ol + 444, y: om + 475, w: 16, h: 8},
+    ~flip=#Vertical,
+    (),
+  ) //bottom
 
   //Overlay
 
@@ -626,6 +614,13 @@ let script = () => {
     {x: og + 440, y: oh + 232, w: 24, h: 24},
     (),
   ) // right
+  Generator.drawTextureLegacy(
+    "Skin",
+    {x: 42, y: 13, w: 4, h: 3},
+    {x: og + 464, y: oh + 232, w: 24, h: 24},
+    ~flip=#Horizontal,
+    (),
+  ) // back
 
   // body
   Generator.drawTextureLegacy(
@@ -796,6 +791,9 @@ let script = () => {
     (),
   ) //top
 
+  // Background
+  Generator.drawImage("Background", (0, 0))
+
   // Fold Lines
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
@@ -807,7 +805,6 @@ let script = () => {
 
   // Red Eye
   if showRedEyes {
-    //Generator.drawImage("Red Eyes", (ox + 373, oy + 344))
     Generator.drawTexture("Angry Wolf", (4, 5, 2, 2), (379, 362, 12, 12), ()) // Right Eye 1
     Generator.drawTexture("Angry Wolf", (4, 4, 1, 1), (379, 356, 6, 6), ()) // Right Eye 2
     Generator.drawTexture("Angry Wolf", (8, 5, 2, 2), (403, 362, 12, 12), ()) // Left Eye 1
