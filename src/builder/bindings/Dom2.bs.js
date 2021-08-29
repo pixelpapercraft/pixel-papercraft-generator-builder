@@ -2,6 +2,10 @@
 'use strict';
 
 
+var $$Window = {};
+
+var $$Element = {};
+
 var $$Image = {};
 
 function setFillStyleRGBA(context, r, g, b, a) {
@@ -54,6 +58,8 @@ var $$File = {};
 
 var $$FileReader = {};
 
+exports.$$Window = $$Window;
+exports.$$Element = $$Element;
 exports.$$Image = $$Image;
 exports.Context2d = Context2d;
 exports.$$Document = $$Document;

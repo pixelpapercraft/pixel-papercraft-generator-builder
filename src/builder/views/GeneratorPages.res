@@ -1,10 +1,18 @@
+let px = n => `${Js.Int.toString(n)}px`
+
 module RegionInputs = {
-  let px = n => `${Js.Int.toString(n)}px`
+  let scaleInt = (value, scale) => Belt.Float.toInt(Belt.Int.toFloat(value) *. scale)
+
+  let scaleRegion = ((x, y, w, h), actualWidth) => {
+    let scale = Js.Int.toFloat(actualWidth) /. Js.Int.toFloat(PageSize.A4.px.width)
+    (scaleInt(x, scale), scaleInt(y, scale), scaleInt(w, scale), scaleInt(h, scale))
+  }
 
   @react.component
   let make = (
     ~model: Builder.Model.t,
     ~currentPageId: string,
+    ~containerWidth: int,
     ~onClick: (unit => unit) => unit,
   ) => {
     let regions = model.inputs->Js.Array2.reduce((acc, input) => {
@@ -23,7 +31,7 @@ module RegionInputs = {
       <div>
         {regions
         ->Js.Array2.mapi(((region, callback), i) => {
-          let (x, y, w, h) = region
+          let (x, y, w, h) = scaleRegion(region, containerWidth)
           let style = ReactDOM.Style.make(~top=px(y), ~left=px(x), ~width=px(w), ~height=px(h), ())
           <div
             key={Js.Int.toString(i)}
@@ -40,12 +48,47 @@ module RegionInputs = {
   }
 }
 
+let useElementWidthListener = (elRef: React.ref<Js.Nullable.t<Dom.element>>) => {
+  let (width, setWidth) = React.useState(() => None)
+
+  React.useEffect0(() => {
+    let updateWidth = () => {
+      switch elRef.current->Js.Nullable.toOption {
+      | None => ()
+      | Some(el) => {
+          let width = el->Dom2.Element.width
+          setWidth(_ => Some(width))
+        }
+      }
+    }
+
+    let onResize = _ => {
+      updateWidth()
+    }
+
+    Dom2.Window.instance->Dom2.Window.addEventListener("resize", onResize)
+
+    updateWidth()
+
+    Some(
+      () => {
+        Dom2.Window.instance->Dom2.Window.removeEventListener("resize", onResize)
+      },
+    )
+  })
+
+  width
+}
+
 @react.component
 let make = (
   ~generatorDef: Builder.generatorDef,
   ~model: Builder.Model.t,
   ~onChange: unit => unit,
 ) => {
+  let containerElRef: React.ref<Js.Nullable.t<Dom.element>> = React.useRef(Js.Nullable.null)
+  let containerWidth = useElementWidthListener(containerElRef)
+
   let onDownload = _ => {
     let doc = JsPdf.make({
       orientation: #portrait,
@@ -77,24 +120,30 @@ let make = (
         {showPageIds
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}
-        <div className="relative">
+        <div
+          className="relative"
+          style={ReactDOM.Style.make(~maxWidth={px(PageSize.A4.px.width)}, ())}>
           <img
+            ref={ReactDOM.Ref.domRef(containerElRef)}
             className="border shadow-xl mb-8"
-            style={ReactDOM.Style.make(
-              ~width="595px",
-              ~height="842px",
-              (),
-            )->ReactDOM.Style.unsafeAddStyle({"imageRendering": "pixelated"})}
+            style={ReactDOM.Style.make()->ReactDOM.Style.unsafeAddStyle({
+              "imageRendering": "pixelated",
+            })}
             src={dataUrl}
           />
-          <RegionInputs
-            model={model}
-            currentPageId={page.id}
-            onClick={callback => {
-              callback()
-              onChange()
-            }}
-          />
+          {switch containerWidth {
+          | None => React.null
+          | Some(containerWidth) =>
+            <RegionInputs
+              containerWidth={containerWidth}
+              model={model}
+              currentPageId={page.id}
+              onClick={callback => {
+                callback()
+                onChange()
+              }}
+            />
+          }}
         </div>
       </div>
     })

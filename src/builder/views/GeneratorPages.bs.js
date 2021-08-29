@@ -12,9 +12,24 @@ function px(n) {
   return n.toString() + "px";
 }
 
+function scaleInt(value, scale) {
+  return value * scale | 0;
+}
+
+function scaleRegion(param, actualWidth) {
+  var scale = actualWidth / PageSize.A4.px.width;
+  return [
+          param[0] * scale | 0,
+          param[1] * scale | 0,
+          param[2] * scale | 0,
+          param[3] * scale | 0
+        ];
+}
+
 function GeneratorPages$RegionInputs(Props) {
   var model = Props.model;
   var currentPageId = Props.currentPageId;
+  var containerWidth = Props.containerWidth;
   var onClick = Props.onClick;
   var regions = model.inputs.reduce((function (acc, input) {
           if (input.TAG === /* RegionInput */2 && input._0 === currentPageId) {
@@ -28,13 +43,13 @@ function GeneratorPages$RegionInputs(Props) {
         }), []);
   if (regions.length > 0) {
     return React.createElement("div", undefined, regions.map(function (param, i) {
-                    var region = param[0];
                     var callback = param[1];
+                    var match = scaleRegion(param[0], containerWidth);
                     var style = {
-                      height: region[3].toString() + "px",
-                      left: region[0].toString() + "px",
-                      top: region[1].toString() + "px",
-                      width: region[2].toString() + "px"
+                      height: match[3].toString() + "px",
+                      left: match[0].toString() + "px",
+                      top: match[1].toString() + "px",
+                      width: match[2].toString() + "px"
                     };
                     return React.createElement("div", {
                                 key: i.toString(),
@@ -51,14 +66,46 @@ function GeneratorPages$RegionInputs(Props) {
 }
 
 var RegionInputs = {
-  px: px,
+  scaleInt: scaleInt,
+  scaleRegion: scaleRegion,
   make: GeneratorPages$RegionInputs
 };
+
+function useElementWidthListener(elRef) {
+  var match = React.useState(function () {
+        
+      });
+  var setWidth = match[1];
+  React.useEffect((function () {
+          var updateWidth = function (param) {
+            var el = elRef.current;
+            if (el == null) {
+              return ;
+            }
+            var width = el.width;
+            return Curry._1(setWidth, (function (param) {
+                          return width;
+                        }));
+          };
+          var onResize = function (param) {
+            return updateWidth(undefined);
+          };
+          window.addEventListener("resize", onResize);
+          updateWidth(undefined);
+          return (function (param) {
+                    window.removeEventListener("resize", onResize);
+                    
+                  });
+        }), []);
+  return match[0];
+}
 
 function GeneratorPages(Props) {
   var generatorDef = Props.generatorDef;
   var model = Props.model;
   var onChange = Props.onChange;
+  var containerElRef = React.useRef(null);
+  var containerWidth = useElementWidthListener(containerElRef);
   var onDownload = function (param) {
     var doc = new Jspdf.jsPDF({
           orientation: "portrait",
@@ -92,29 +139,33 @@ function GeneratorPages(Props) {
                             }, showPageIds ? React.createElement("h1", {
                                     className: "font-bold text-2xl mb-4"
                                   }, page.id) : null, React.createElement("div", {
-                                  className: "relative"
+                                  className: "relative",
+                                  style: {
+                                    maxWidth: PageSize.A4.px.width.toString() + "px"
+                                  }
                                 }, React.createElement("img", {
+                                      ref: containerElRef,
                                       className: "border shadow-xl mb-8",
-                                      style: Object.assign({}, {
-                                            height: "842px",
-                                            width: "595px"
-                                          }, {
+                                      style: Object.assign({}, {}, {
                                             imageRendering: "pixelated"
                                           }),
                                       src: dataUrl
-                                    }), React.createElement(GeneratorPages$RegionInputs, {
-                                      model: model,
-                                      currentPageId: page.id,
-                                      onClick: (function (callback) {
-                                          Curry._1(callback, undefined);
-                                          return Curry._1(onChange, undefined);
-                                        })
-                                    })));
+                                    }), containerWidth !== undefined ? React.createElement(GeneratorPages$RegionInputs, {
+                                        model: model,
+                                        currentPageId: page.id,
+                                        containerWidth: containerWidth,
+                                        onClick: (function (callback) {
+                                            Curry._1(callback, undefined);
+                                            return Curry._1(onChange, undefined);
+                                          })
+                                      }) : null));
                 }));
 }
 
 var make = GeneratorPages;
 
+exports.px = px;
 exports.RegionInputs = RegionInputs;
+exports.useElementWidthListener = useElementWidthListener;
 exports.make = make;
 /* jspdf Not a pure module */

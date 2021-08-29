@@ -1,6 +1,24 @@
 type context2d
 type domMatrix
 
+module Window = {
+  type eventListener = Dom.event => unit
+
+  @val
+  external instance: Dom.window = "window"
+
+  @send
+  external addEventListener: (Dom.window, string, eventListener) => unit = "addEventListener"
+
+  @send
+  external removeEventListener: (Dom.window, string, eventListener) => unit = "removeEventListener"
+}
+
+module Element = {
+  @get external width: Dom.element => int = "width"
+  @get external height: Dom.element => int = "height"
+}
+
 module Image = {
   type t = Dom.htmlImageElement
 
