@@ -107,7 +107,19 @@ module PrintImageButton = {
         // onLoad is called twice for some reason, so clear it here
         image->Dom2.Image.onLoadOption(None)
         let imageEl = image->Dom2.Image.asElement
-        PrintElement.print(imageEl)
+        // We subtract 1mm from the width and height to prevent
+        // Chrome trying to print onto two pages.
+        let styles = `
+          @media print {
+            html, body, img {
+              margin: 0;
+              padding: 0;
+              width: ${Js.Int.toString(PageSize.A4.mm.width - 1)}mm;
+              height: ${Js.Int.toString(PageSize.A4.mm.height - 1)}mm;
+            }
+          }
+        `
+        PrintHtmlElement.printElement(imageEl, {styles: styles})
       }
       image->Dom2.Image.onLoadOption(Some(onLoad))
       image->Dom2.Image.src(dataUrl)
