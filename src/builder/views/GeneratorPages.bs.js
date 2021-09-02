@@ -107,6 +107,60 @@ var SaveAsImageButton = {
   make: GeneratorPages$SaveAsImageButton
 };
 
+function GeneratorPages$PrintImageButton(Props) {
+  var dataUrl = Props.dataUrl;
+  var colorOpt = Props.color;
+  var sizeOpt = Props.size;
+  var fullOpt = Props.full;
+  var titleOpt = Props.title;
+  var children = Props.children;
+  var color = colorOpt !== undefined ? colorOpt : "Gray";
+  var size = sizeOpt !== undefined ? sizeOpt : "Base";
+  var full = fullOpt !== undefined ? fullOpt : false;
+  var title = titleOpt !== undefined ? titleOpt : "";
+  var onClick = function ($$event) {
+    $$event.preventDefault();
+    var docBodyEl = document.body;
+    var iframe = Dom2.$$Document.createIframeElement(document);
+    var iframeStyle = iframe.style;
+    iframeStyle.height = 0;
+    iframeStyle.width = 0;
+    iframeStyle.visibility = "hidden";
+    Dom2.Iframe.setSrcDocAttribute(iframe, "<html><body style=\"margin:0;padding:0\"></body></html>");
+    docBodyEl.appendChild(iframe);
+    iframe.addEventListener("afterprint", (function (param) {
+            iframe.parentNode.removeChild(iframe);
+            
+          }));
+    iframe.addEventListener("load", (function (param) {
+            var image = new Image();
+            var onLoad = function (param) {
+              image.onload = undefined;
+              var bodyEl = iframe.contentDocument.body;
+              bodyEl.style.textAlign = "center";
+              bodyEl.appendChild(image);
+              iframe.contentWindow.print();
+              
+            };
+            image.onload = onLoad;
+            image.src = dataUrl;
+            
+          }));
+    
+  };
+  var className = ButtonStyles.makeClassName("Ready", color, size, full);
+  return React.createElement("a", {
+              className: className,
+              title: title,
+              href: "#",
+              onClick: onClick
+            }, Buttons.getContent("Ready", children));
+}
+
+var PrintImageButton = {
+  make: GeneratorPages$PrintImageButton
+};
+
 function useElementWidthListener(elRef) {
   var match = React.useState(function () {
         
@@ -178,12 +232,19 @@ function GeneratorPages(Props) {
                                             color: "Green",
                                             size: "Small",
                                             children: "Save as PDF"
-                                          }) : null), React.createElement("div", undefined, React.createElement(GeneratorPages$SaveAsImageButton, {
+                                          }) : null), React.createElement("div", undefined, React.createElement("span", {
+                                          className: "mr-4"
+                                        }, React.createElement(GeneratorPages$SaveAsImageButton, {
+                                              dataUrl: dataUrl,
+                                              download: fileName,
+                                              color: "Blue",
+                                              size: "Small",
+                                              children: "Save as PNG"
+                                            })), React.createElement(GeneratorPages$PrintImageButton, {
                                           dataUrl: dataUrl,
-                                          download: fileName,
                                           color: "Blue",
                                           size: "Small",
-                                          children: "Save as PNG"
+                                          children: "Print"
                                         }))), React.createElement("div", {
                                   className: "relative",
                                   style: {
@@ -213,6 +274,7 @@ var make = GeneratorPages;
 exports.px = px;
 exports.RegionInputs = RegionInputs;
 exports.SaveAsImageButton = SaveAsImageButton;
+exports.PrintImageButton = PrintImageButton;
 exports.useElementWidthListener = useElementWidthListener;
 exports.make = make;
 /* jspdf Not a pure module */

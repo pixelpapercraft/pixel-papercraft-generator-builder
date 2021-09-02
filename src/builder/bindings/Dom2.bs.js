@@ -2,9 +2,20 @@
 'use strict';
 
 
-var $$Window = {};
+var Style = {};
 
 var $$Element = {};
+
+var $$Window = {};
+
+function setSrcDocAttribute(iframe, value) {
+  iframe.setAttribute("srcdoc", value);
+  
+}
+
+var Iframe = {
+  setSrcDocAttribute: setSrcDocAttribute
+};
 
 var $$Image = {};
 
@@ -18,12 +29,19 @@ var Context2d = {
   setFillStyleRGBA: setFillStyleRGBA
 };
 
+var Body = {};
+
 function createCanvasElement($$document) {
   return $$document.createElement("canvas");
 }
 
+function createIframeElement($$document) {
+  return $$document.createElement("iframe");
+}
+
 var $$Document = {
-  createCanvasElement: createCanvasElement
+  createCanvasElement: createCanvasElement,
+  createIframeElement: createIframeElement
 };
 
 function make(width, height) {
@@ -58,10 +76,13 @@ var $$File = {};
 
 var $$FileReader = {};
 
-exports.$$Window = $$Window;
+exports.Style = Style;
 exports.$$Element = $$Element;
+exports.$$Window = $$Window;
+exports.Iframe = Iframe;
 exports.$$Image = $$Image;
 exports.Context2d = Context2d;
+exports.Body = Body;
 exports.$$Document = $$Document;
 exports.Canvas = Canvas;
 exports.$$File = $$File;

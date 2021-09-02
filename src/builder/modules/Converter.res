@@ -43,8 +43,8 @@ let copy = (
 }
 
 let convertCallback = (source: Image.t, onSuccess: Image.t => unit, onError: exn => unit) => {
-  let sw = Image.getWidth(source)
-  let sh = Image.getHeight(source)
+  let sw = Image.width(source)
+  let sh = Image.height(source)
 
   // Ensure the source has a 2:1 ratio for width:height
   if !hasValidSourceDimensions(sw, sh) {
@@ -102,9 +102,9 @@ let convertCallback = (source: Image.t, onSuccess: Image.t => unit, onError: exn
   let dataUrl = Canvas.toDataUrlAsPng(dCanvas)
   let image = makeImage()
   let onLoad = () => onSuccess(image)
-  Image.setOnLoad(image, onLoad)
-  Image.setOnError(image, onError)
-  Image.setSrc(image, dataUrl)
+  image->Image.onLoad(onLoad)
+  image->Image.onError(onError)
+  image->Image.src(dataUrl)
 }
 
 let convert = (source: Image.t): Promise.t<Image.t> => {

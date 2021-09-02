@@ -70,7 +70,62 @@ module SaveAsImageButton = {
   }
 }
 
-let useElementWidthListener = (elRef: React.ref<Js.Nullable.t<Dom.element>>) => {
+module PrintImageButton = {
+  @react.component
+  let make = (
+    ~dataUrl: string,
+    ~color: Buttons.buttonColor=#Gray,
+    ~size: Buttons.buttonSize=#Base,
+    ~full: bool=false,
+    ~title: string="",
+    ~children: React.element,
+  ) => {
+    let onClick = event => {
+      open Dom2
+
+      ReactEvent.Synthetic.preventDefault(event)
+      // https://htmldom.dev/print-an-image/
+      let docBodyEl = Document.document->Document.body->Body.asElement
+
+      let iframe = Document.document->Document.createIframeElement
+      let iframeEl = iframe->Iframe.asElement
+
+      let iframeStyle = iframeEl->Element.style
+      iframeStyle->Style.height(0)
+      iframeStyle->Style.width(0)
+      iframeStyle->Style.visibility(#hidden)
+
+      iframe->Iframe.setSrcDocAttribute("<html><body style=\"margin:0;padding:0\"></body></html>")
+
+      docBodyEl->Element.appendChild(iframeEl)
+
+      iframeEl->Element.addEventListener("afterprint", _ => {
+        iframe->Iframe.parentNode->Element.removeChild(iframeEl)
+      })
+
+      iframeEl->Element.addEventListener("load", _ => {
+        let image = Image.make()
+        let onLoad = () => {
+          // onLoad is called twice for some reason, so clear it here
+          image->Image.onLoadOption(None)
+          let imageEl = image->Image.asElement
+          let bodyEl = iframe->Iframe.contentDocument->Document.body->Body.asElement
+          bodyEl->Element.style->Style.textAlign(#center)
+          bodyEl->Element.appendChild(imageEl)
+          iframe->Iframe.contentWindow->Window.print
+        }
+        image->Image.onLoadOption(Some(onLoad))
+        image->Image.src(dataUrl)
+      })
+    }
+    let className = ButtonStyles.makeClassName(~state=#Ready, ~color, ~size, ~full)
+    <a href="#" title className={className} onClick={onClick}>
+      {Buttons.getContent(#Ready, children)}
+    </a>
+  }
+}
+
+let useElementWidthListener = (elRef: React.ref<Js.Nullable.t<Dom2.Element.t>>) => {
   let (width, setWidth) = React.useState(() => None)
 
   React.useEffect0(() => {
@@ -88,13 +143,15 @@ let useElementWidthListener = (elRef: React.ref<Js.Nullable.t<Dom.element>>) => 
       updateWidth()
     }
 
-    Dom2.Window.instance->Dom2.Window.addEventListener("resize", onResize)
+    Dom2.Window.instance->Dom2.Window.asElement->Dom2.Element.addEventListener("resize", onResize)
 
     updateWidth()
 
     Some(
       () => {
-        Dom2.Window.instance->Dom2.Window.removeEventListener("resize", onResize)
+        Dom2.Window.instance
+        ->Dom2.Window.asElement
+        ->Dom2.Element.removeEventListener("resize", onResize)
       },
     )
   })
@@ -108,7 +165,7 @@ let make = (
   ~model: Builder.Model.t,
   ~onChange: unit => unit,
 ) => {
-  let containerElRef: React.ref<Js.Nullable.t<Dom.element>> = React.useRef(Js.Nullable.null)
+  let containerElRef: React.ref<Js.Nullable.t<Dom2.Element.t>> = React.useRef(Js.Nullable.null)
   let containerWidth = useElementWidthListener(containerElRef)
 
   let onSavePDF = _ => {
@@ -154,9 +211,14 @@ let make = (
               : React.null}
           </div>
           <div>
-            <SaveAsImageButton size=#Small color=#Blue dataUrl={dataUrl} download={fileName}>
-              {React.string("Save as PNG")}
-            </SaveAsImageButton>
+            <span className="mr-4">
+              <SaveAsImageButton size=#Small color=#Blue dataUrl={dataUrl} download={fileName}>
+                {React.string("Save as PNG")}
+              </SaveAsImageButton>
+            </span>
+            <PrintImageButton size=#Small color=#Blue dataUrl={dataUrl}>
+              {React.string("Print")}
+            </PrintImageButton>
           </div>
         </div>
         // Important: The following div uses absolute positioning for the regions.

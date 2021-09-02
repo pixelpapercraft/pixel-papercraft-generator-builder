@@ -53,9 +53,9 @@ module ImageFactory = {
   let makeFromUrl = url => {
     Promise.make((resolve, reject) => {
       let image = Image.make()
-      Image.setOnLoad(image, () => resolve(. image))
-      Image.setOnError(image, error => reject(. error))
-      Image.setSrc(image, url)
+      image->Image.onLoad(() => resolve(. image))
+      image->Image.onError(error => reject(. error))
+      image->Image.src(url)
     })
   }
 }
@@ -96,8 +96,8 @@ module Texture = {
   }
 
   let make = (image, standardWidth, standardHeight): t => {
-    let width = Image.getWidth(image)
-    let height = Image.getHeight(image)
+    let width = Image.width(image)
+    let height = Image.height(image)
     let canvas = Document.createCanvasElement(Document.document)
     let context = Canvas.getContext2d(canvas)
     Canvas.setWidth(canvas, width)
@@ -105,8 +105,8 @@ module Texture = {
     Context2d.drawImageXY(context, image, 0, 0)
     let texture = {
       image: image,
-      width: Image.getWidth(image),
-      height: Image.getHeight(image),
+      width: Image.width(image),
+      height: Image.height(image),
       standardWidth: standardWidth,
       standardHeight: standardHeight,
       canvas: canvas,
