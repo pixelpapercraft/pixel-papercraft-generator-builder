@@ -7,6 +7,7 @@ var Jspdf = require("jspdf");
 var React = require("react");
 var Buttons = require("./Buttons.bs.js");
 var PageSize = require("../modules/PageSize.bs.js");
+var ButtonStyles = require("./ButtonStyles.bs.js");
 
 function px(n) {
   return n.toString() + "px";
@@ -71,6 +72,41 @@ var RegionInputs = {
   make: GeneratorPages$RegionInputs
 };
 
+function GeneratorPages$SaveAsImageButton(Props) {
+  var dataUrl = Props.dataUrl;
+  var download = Props.download;
+  var colorOpt = Props.color;
+  var sizeOpt = Props.size;
+  var fullOpt = Props.full;
+  var titleOpt = Props.title;
+  var children = Props.children;
+  var color = colorOpt !== undefined ? colorOpt : "Gray";
+  var size = sizeOpt !== undefined ? sizeOpt : "Base";
+  var full = fullOpt !== undefined ? fullOpt : false;
+  var title = titleOpt !== undefined ? titleOpt : "";
+  var match = React.useState(function () {
+        return "#";
+      });
+  var setHref = match[1];
+  var onClick = function (param) {
+    return Curry._1(setHref, (function (param) {
+                  return dataUrl;
+                }));
+  };
+  var className = ButtonStyles.makeClassName("Ready", color, size, full);
+  return React.createElement("a", {
+              className: className,
+              title: title,
+              download: download,
+              href: match[0],
+              onClick: onClick
+            }, Buttons.getContent("Ready", children));
+}
+
+var SaveAsImageButton = {
+  make: GeneratorPages$SaveAsImageButton
+};
+
 function useElementWidthListener(elRef) {
   var match = React.useState(function () {
         
@@ -106,7 +142,7 @@ function GeneratorPages(Props) {
   var onChange = Props.onChange;
   var containerElRef = React.useRef(null);
   var containerWidth = useElementWidthListener(containerElRef);
-  var onDownload = function (param) {
+  var onSavePDF = function (param) {
     var doc = new Jspdf.jsPDF({
           orientation: "portrait",
           unit: "mm",
@@ -124,21 +160,31 @@ function GeneratorPages(Props) {
     
   };
   var showPageIds = model.pages.length > 1;
-  return React.createElement("div", undefined, React.createElement("div", {
-                  className: "mb-4"
-                }, React.createElement(Buttons.Button.make, {
-                      state: "Ready",
-                      onClick: onDownload,
-                      color: "Green",
-                      size: "Small",
-                      children: "Download as PDF"
-                    })), model.pages.map(function (page) {
+  return React.createElement("div", undefined, model.pages.map(function (page, index) {
                   var dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas);
+                  var fileName = model.pages.length > 1 ? generatorDef.name + " - " + page.id : generatorDef.name;
                   return React.createElement("div", {
                               key: page.id
                             }, showPageIds ? React.createElement("h1", {
                                     className: "font-bold text-2xl mb-4"
                                   }, page.id) : null, React.createElement("div", {
+                                  className: "mb-4 flex justify-between items-center",
+                                  style: {
+                                    maxWidth: PageSize.A4.px.width.toString() + "px"
+                                  }
+                                }, React.createElement("div", undefined, index === 0 ? React.createElement(Buttons.Button.make, {
+                                            state: "Ready",
+                                            onClick: onSavePDF,
+                                            color: "Green",
+                                            size: "Small",
+                                            children: "Save as PDF"
+                                          }) : null), React.createElement("div", undefined, React.createElement(GeneratorPages$SaveAsImageButton, {
+                                          dataUrl: dataUrl,
+                                          download: fileName,
+                                          color: "Blue",
+                                          size: "Small",
+                                          children: "Save as PNG"
+                                        }))), React.createElement("div", {
                                   className: "relative",
                                   style: {
                                     maxWidth: PageSize.A4.px.width.toString() + "px"
@@ -166,6 +212,7 @@ var make = GeneratorPages;
 
 exports.px = px;
 exports.RegionInputs = RegionInputs;
+exports.SaveAsImageButton = SaveAsImageButton;
 exports.useElementWidthListener = useElementWidthListener;
 exports.make = make;
 /* jspdf Not a pure module */

@@ -48,6 +48,28 @@ module RegionInputs = {
   }
 }
 
+module SaveAsImageButton = {
+  @react.component
+  let make = (
+    ~dataUrl: string,
+    ~download: string,
+    ~color: Buttons.buttonColor=#Gray,
+    ~size: Buttons.buttonSize=#Base,
+    ~full: bool=false,
+    ~title: string="",
+    ~children: React.element,
+  ) => {
+    // Setting the `href` to a `data:` value triggers the download.
+    // The `download` attribute is used as the filename.
+    let (href, setHref) = React.useState(_ => "#")
+    let onClick = _ => setHref(_ => dataUrl)
+    let className = ButtonStyles.makeClassName(~state=#Ready, ~color, ~size, ~full)
+    <a href={href} title className={className} onClick={onClick} download={download}>
+      {Buttons.getContent(#Ready, children)}
+    </a>
+  }
+}
+
 let useElementWidthListener = (elRef: React.ref<Js.Nullable.t<Dom.element>>) => {
   let (width, setWidth) = React.useState(() => None)
 
@@ -89,7 +111,7 @@ let make = (
   let containerElRef: React.ref<Js.Nullable.t<Dom.element>> = React.useRef(Js.Nullable.null)
   let containerWidth = useElementWidthListener(containerElRef)
 
-  let onDownload = _ => {
+  let onSavePDF = _ => {
     let doc = JsPdf.make({
       orientation: #portrait,
       unit: #mm,
@@ -108,18 +130,36 @@ let make = (
   let showPageIds = Js.Array2.length(model.pages) > 1
 
   <div>
-    <div className="mb-4">
-      <Buttons.Button state=#Ready size=#Small color=#Green onClick={onDownload}>
-        {React.string("Download as PDF")}
-      </Buttons.Button>
-    </div>
     {model.pages
-    ->Js.Array2.map(page => {
+    ->Js.Array2.mapi((page, index) => {
       let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
+
+      let fileName =
+        Belt.Array.length(model.pages) > 1
+          ? generatorDef.name ++ " - " ++ page.id
+          : generatorDef.name
+
       <div key={page.id}>
         {showPageIds
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}
+        <div
+          className="mb-4 flex justify-between items-center"
+          style={ReactDOM.Style.make(~maxWidth={px(PageSize.A4.px.width)}, ())}>
+          <div>
+            {index == 0
+              ? <Buttons.Button state=#Ready size=#Small color=#Green onClick={onSavePDF}>
+                  {React.string("Save as PDF")}
+                </Buttons.Button>
+              : React.null}
+          </div>
+          <div>
+            <SaveAsImageButton size=#Small color=#Blue dataUrl={dataUrl} download={fileName}>
+              {React.string("Save as PNG")}
+            </SaveAsImageButton>
+          </div>
+        </div>
+        // Important: The following div uses absolute positioning for the regions.
         <div
           className="relative"
           style={ReactDOM.Style.make(~maxWidth={px(PageSize.A4.px.width)}, ())}>
