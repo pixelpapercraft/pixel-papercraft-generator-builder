@@ -48,80 +48,72 @@ module RegionInputs = {
   }
 }
 
+module SaveAsPDFButton = {
+  @react.component
+  let make = (
+    ~size: Buttons.buttonSize,
+    ~color: Buttons.buttonColor,
+    ~generatorDef: Builder.generatorDef,
+    ~model: Builder.Model.t,
+  ) => {
+    let onSavePDF = _ => {
+      let doc = JsPdf.make({
+        orientation: #portrait,
+        unit: #mm,
+        format: #a4,
+      })
+      model.pages->Js.Array2.forEachi((page, index) => {
+        let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
+        if index > 0 {
+          JsPdf.addPage(doc, #a4, #portrait)
+        }
+        doc->JsPdf.addImage(dataUrl, #PNG, 0, 0, PageSize.A4.mm.width, PageSize.A4.mm.height)
+      })
+      doc->JsPdf.save(generatorDef.name)
+    }
+
+    <Buttons.Button state=#Ready size color onClick={onSavePDF}>
+      {React.string("Save as PDF")}
+    </Buttons.Button>
+  }
+}
+
 module SaveAsImageButton = {
   @react.component
   let make = (
+    ~size: Buttons.buttonSize,
+    ~color: Buttons.buttonColor,
     ~dataUrl: string,
     ~download: string,
-    ~color: Buttons.buttonColor=#Gray,
-    ~size: Buttons.buttonSize=#Base,
-    ~full: bool=false,
-    ~title: string="",
-    ~children: React.element,
   ) => {
     // Setting the `href` to a `data:` value triggers the download.
     // The `download` attribute is used as the filename.
     let (href, setHref) = React.useState(_ => "#")
     let onClick = _ => setHref(_ => dataUrl)
-    let className = ButtonStyles.makeClassName(~state=#Ready, ~color, ~size, ~full)
-    <a href={href} title className={className} onClick={onClick} download={download}>
-      {Buttons.getContent(#Ready, children)}
+    let className = ButtonStyles.makeClassName(~state=#Ready, ~color, ~size, ~full=false)
+    <a href={href} className={className} onClick={onClick} download={download}>
+      {"Save as PNG"->React.string}
     </a>
   }
 }
 
 module PrintImageButton = {
   @react.component
-  let make = (
-    ~dataUrl: string,
-    ~color: Buttons.buttonColor=#Gray,
-    ~size: Buttons.buttonSize=#Base,
-    ~full: bool=false,
-    ~title: string="",
-    ~children: React.element,
-  ) => {
+  let make = (~size: Buttons.buttonSize, ~color: Buttons.buttonColor, ~dataUrl: string) => {
     let onClick = event => {
-      open Dom2
-
       ReactEvent.Synthetic.preventDefault(event)
-      // https://htmldom.dev/print-an-image/
-      let docBodyEl = Document.document->Document.body->Body.asElement
-
-      let iframe = Document.document->Document.createIframeElement
-      let iframeEl = iframe->Iframe.asElement
-
-      let iframeStyle = iframeEl->Element.style
-      iframeStyle->Style.height(0)
-      iframeStyle->Style.width(0)
-      iframeStyle->Style.visibility(#hidden)
-
-      iframe->Iframe.setSrcDocAttribute("<html><body style=\"margin:0;padding:0\"></body></html>")
-
-      docBodyEl->Element.appendChild(iframeEl)
-
-      iframeEl->Element.addEventListener("afterprint", _ => {
-        iframe->Iframe.parentNode->Element.removeChild(iframeEl)
-      })
-
-      iframeEl->Element.addEventListener("load", _ => {
-        let image = Image.make()
-        let onLoad = () => {
-          // onLoad is called twice for some reason, so clear it here
-          image->Image.onLoadOption(None)
-          let imageEl = image->Image.asElement
-          let bodyEl = iframe->Iframe.contentDocument->Document.body->Body.asElement
-          bodyEl->Element.style->Style.textAlign(#center)
-          bodyEl->Element.appendChild(imageEl)
-          iframe->Iframe.contentWindow->Window.print
-        }
-        image->Image.onLoadOption(Some(onLoad))
-        image->Image.src(dataUrl)
-      })
+      let image = Dom2.Image.make()
+      let onLoad = () => {
+        // onLoad is called twice for some reason, so clear it here
+        image->Dom2.Image.onLoadOption(None)
+        let imageEl = image->Dom2.Image.asElement
+        PrintElement.print(imageEl)
+      }
+      image->Dom2.Image.onLoadOption(Some(onLoad))
+      image->Dom2.Image.src(dataUrl)
     }
-    let className = ButtonStyles.makeClassName(~state=#Ready, ~color, ~size, ~full)
-    <a href="#" title className={className} onClick={onClick}>
-      {Buttons.getContent(#Ready, children)}
-    </a>
+    let className = ButtonStyles.makeClassName(~state=#Ready, ~color, ~size, ~full=false)
+    <a href="#" className={className} onClick={onClick}> {"Print"->React.string} </a>
   }
 }
 
@@ -168,22 +160,6 @@ let make = (
   let containerElRef: React.ref<Js.Nullable.t<Dom2.Element.t>> = React.useRef(Js.Nullable.null)
   let containerWidth = useElementWidthListener(containerElRef)
 
-  let onSavePDF = _ => {
-    let doc = JsPdf.make({
-      orientation: #portrait,
-      unit: #mm,
-      format: #a4,
-    })
-    model.pages->Js.Array2.forEachi((page, index) => {
-      let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
-      if index > 0 {
-        JsPdf.addPage(doc, #a4, #portrait)
-      }
-      doc->JsPdf.addImage(dataUrl, #PNG, 0, 0, PageSize.A4.mm.width, PageSize.A4.mm.height)
-    })
-    doc->JsPdf.save(generatorDef.name)
-  }
-
   let showPageIds = Js.Array2.length(model.pages) > 1
 
   <div>
@@ -204,21 +180,17 @@ let make = (
           className="mb-4 flex justify-between items-center"
           style={ReactDOM.Style.make(~maxWidth={px(PageSize.A4.px.width)}, ())}>
           <div>
-            {index == 0
-              ? <Buttons.Button state=#Ready size=#Small color=#Green onClick={onSavePDF}>
-                  {React.string("Save as PDF")}
-                </Buttons.Button>
-              : React.null}
+            <span className="mr-4">
+              <PrintImageButton size=#Small color=#Blue dataUrl={dataUrl} />
+            </span>
+            <SaveAsImageButton size=#Small color=#Blue dataUrl={dataUrl} download={fileName} />
           </div>
           <div>
-            <span className="mr-4">
-              <SaveAsImageButton size=#Small color=#Blue dataUrl={dataUrl} download={fileName}>
-                {React.string("Save as PNG")}
-              </SaveAsImageButton>
-            </span>
-            <PrintImageButton size=#Small color=#Blue dataUrl={dataUrl}>
-              {React.string("Print")}
-            </PrintImageButton>
+            {index == 0
+              ? <SaveAsPDFButton
+                  size=#Small color=#Green generatorDef={generatorDef} model={model}
+                />
+              : React.null}
           </div>
         </div>
         // Important: The following div uses absolute positioning for the regions.

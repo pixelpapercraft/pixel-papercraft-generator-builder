@@ -8,6 +8,7 @@ var React = require("react");
 var Buttons = require("./Buttons.bs.js");
 var PageSize = require("../modules/PageSize.bs.js");
 var ButtonStyles = require("./ButtonStyles.bs.js");
+var PrintElement = require("../modules/PrintElement.bs.js");
 
 function px(n) {
   return n.toString() + "px";
@@ -72,18 +73,46 @@ var RegionInputs = {
   make: GeneratorPages$RegionInputs
 };
 
+function GeneratorPages$SaveAsPDFButton(Props) {
+  var size = Props.size;
+  var color = Props.color;
+  var generatorDef = Props.generatorDef;
+  var model = Props.model;
+  var onSavePDF = function (param) {
+    var doc = new Jspdf.jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: "a4"
+        });
+    model.pages.forEach(function (page, index) {
+          var dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas);
+          if (index > 0) {
+            doc.addPage("a4", "portrait");
+          }
+          doc.addImage(dataUrl, "PNG", 0, 0, PageSize.A4.mm.width, PageSize.A4.mm.height);
+          
+        });
+    doc.save(generatorDef.name);
+    
+  };
+  return React.createElement(Buttons.Button.make, {
+              state: "Ready",
+              onClick: onSavePDF,
+              color: color,
+              size: size,
+              children: "Save as PDF"
+            });
+}
+
+var SaveAsPDFButton = {
+  make: GeneratorPages$SaveAsPDFButton
+};
+
 function GeneratorPages$SaveAsImageButton(Props) {
+  var size = Props.size;
+  var color = Props.color;
   var dataUrl = Props.dataUrl;
   var download = Props.download;
-  var colorOpt = Props.color;
-  var sizeOpt = Props.size;
-  var fullOpt = Props.full;
-  var titleOpt = Props.title;
-  var children = Props.children;
-  var color = colorOpt !== undefined ? colorOpt : "Gray";
-  var size = sizeOpt !== undefined ? sizeOpt : "Base";
-  var full = fullOpt !== undefined ? fullOpt : false;
-  var title = titleOpt !== undefined ? titleOpt : "";
   var match = React.useState(function () {
         return "#";
       });
@@ -93,14 +122,13 @@ function GeneratorPages$SaveAsImageButton(Props) {
                   return dataUrl;
                 }));
   };
-  var className = ButtonStyles.makeClassName("Ready", color, size, full);
+  var className = ButtonStyles.makeClassName("Ready", color, size, false);
   return React.createElement("a", {
               className: className,
-              title: title,
               download: download,
               href: match[0],
               onClick: onClick
-            }, Buttons.getContent("Ready", children));
+            }, "Save as PNG");
 }
 
 var SaveAsImageButton = {
@@ -108,53 +136,26 @@ var SaveAsImageButton = {
 };
 
 function GeneratorPages$PrintImageButton(Props) {
+  var size = Props.size;
+  var color = Props.color;
   var dataUrl = Props.dataUrl;
-  var colorOpt = Props.color;
-  var sizeOpt = Props.size;
-  var fullOpt = Props.full;
-  var titleOpt = Props.title;
-  var children = Props.children;
-  var color = colorOpt !== undefined ? colorOpt : "Gray";
-  var size = sizeOpt !== undefined ? sizeOpt : "Base";
-  var full = fullOpt !== undefined ? fullOpt : false;
-  var title = titleOpt !== undefined ? titleOpt : "";
   var onClick = function ($$event) {
     $$event.preventDefault();
-    var docBodyEl = document.body;
-    var iframe = Dom2.$$Document.createIframeElement(document);
-    var iframeStyle = iframe.style;
-    iframeStyle.height = 0;
-    iframeStyle.width = 0;
-    iframeStyle.visibility = "hidden";
-    Dom2.Iframe.setSrcDocAttribute(iframe, "<html><body style=\"margin:0;padding:0\"></body></html>");
-    docBodyEl.appendChild(iframe);
-    iframe.addEventListener("afterprint", (function (param) {
-            iframe.parentNode.removeChild(iframe);
-            
-          }));
-    iframe.addEventListener("load", (function (param) {
-            var image = new Image();
-            var onLoad = function (param) {
-              image.onload = undefined;
-              var bodyEl = iframe.contentDocument.body;
-              bodyEl.style.textAlign = "center";
-              bodyEl.appendChild(image);
-              iframe.contentWindow.print();
-              
-            };
-            image.onload = onLoad;
-            image.src = dataUrl;
-            
-          }));
+    var image = new Image();
+    var onLoad = function (param) {
+      image.onload = undefined;
+      return PrintElement.print(image);
+    };
+    image.onload = onLoad;
+    image.src = dataUrl;
     
   };
-  var className = ButtonStyles.makeClassName("Ready", color, size, full);
+  var className = ButtonStyles.makeClassName("Ready", color, size, false);
   return React.createElement("a", {
               className: className,
-              title: title,
               href: "#",
               onClick: onClick
-            }, Buttons.getContent("Ready", children));
+            }, "Print");
 }
 
 var PrintImageButton = {
@@ -196,23 +197,6 @@ function GeneratorPages(Props) {
   var onChange = Props.onChange;
   var containerElRef = React.useRef(null);
   var containerWidth = useElementWidthListener(containerElRef);
-  var onSavePDF = function (param) {
-    var doc = new Jspdf.jsPDF({
-          orientation: "portrait",
-          unit: "mm",
-          format: "a4"
-        });
-    model.pages.forEach(function (page, index) {
-          var dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas);
-          if (index > 0) {
-            doc.addPage("a4", "portrait");
-          }
-          doc.addImage(dataUrl, "PNG", 0, 0, PageSize.A4.mm.width, PageSize.A4.mm.height);
-          
-        });
-    doc.save(generatorDef.name);
-    
-  };
   var showPageIds = model.pages.length > 1;
   return React.createElement("div", undefined, model.pages.map(function (page, index) {
                   var dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas);
@@ -226,26 +210,23 @@ function GeneratorPages(Props) {
                                   style: {
                                     maxWidth: PageSize.A4.px.width.toString() + "px"
                                   }
-                                }, React.createElement("div", undefined, index === 0 ? React.createElement(Buttons.Button.make, {
-                                            state: "Ready",
-                                            onClick: onSavePDF,
-                                            color: "Green",
-                                            size: "Small",
-                                            children: "Save as PDF"
-                                          }) : null), React.createElement("div", undefined, React.createElement("span", {
+                                }, React.createElement("div", undefined, React.createElement("span", {
                                           className: "mr-4"
-                                        }, React.createElement(GeneratorPages$SaveAsImageButton, {
-                                              dataUrl: dataUrl,
-                                              download: fileName,
-                                              color: "Blue",
+                                        }, React.createElement(GeneratorPages$PrintImageButton, {
                                               size: "Small",
-                                              children: "Save as PNG"
-                                            })), React.createElement(GeneratorPages$PrintImageButton, {
-                                          dataUrl: dataUrl,
-                                          color: "Blue",
+                                              color: "Blue",
+                                              dataUrl: dataUrl
+                                            })), React.createElement(GeneratorPages$SaveAsImageButton, {
                                           size: "Small",
-                                          children: "Print"
-                                        }))), React.createElement("div", {
+                                          color: "Blue",
+                                          dataUrl: dataUrl,
+                                          download: fileName
+                                        })), React.createElement("div", undefined, index === 0 ? React.createElement(GeneratorPages$SaveAsPDFButton, {
+                                            size: "Small",
+                                            color: "Green",
+                                            generatorDef: generatorDef,
+                                            model: model
+                                          }) : null)), React.createElement("div", {
                                   className: "relative",
                                   style: {
                                     maxWidth: PageSize.A4.px.width.toString() + "px"
@@ -273,6 +254,7 @@ var make = GeneratorPages;
 
 exports.px = px;
 exports.RegionInputs = RegionInputs;
+exports.SaveAsPDFButton = SaveAsPDFButton;
 exports.SaveAsImageButton = SaveAsImageButton;
 exports.PrintImageButton = PrintImageButton;
 exports.useElementWidthListener = useElementWidthListener;
