@@ -1,7 +1,9 @@
 {
-  "name": "pixel-papercraft-generator",
+  "name": "pixel-papercraft-generator-builder",
   "version": "1.0.0",
-  "description": "Papercraft generator for Pixel Papercraft",
+  "description": "Papercraft generator builder for Pixel Papercraft",
+  "author": "Pixel Papercraft",
+  "license": "ISC",
   "type": "commonjs",
   "scripts": {
     "start": "webpack serve",
@@ -9,8 +11,6 @@
     "res:build": "rescript build",
     "res:watch": "rescript build -w"
   },
-  "author": "Pixel Papercraft",
-  "license": "ISC",
   "devDependencies": {
     "@babel/core": "7.15.0",
     "@babel/preset-env": "7.15.0",
