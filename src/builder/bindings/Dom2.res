@@ -1,18 +1,67 @@
 type context2d
 type domMatrix
 
+module Style = {
+  type t = Dom.htmlStyleElement
+
+  @set external height: (t, int) => unit = "height"
+  @set external width: (t, int) => unit = "width"
+  @set external maxWidth: (t, string) => unit = "maxWidth"
+  @set external visibility: (t, [#hidden]) => unit = "visibility"
+  @set external textAlign: (t, [#center]) => unit = "textAlign"
+}
+
+module Element = {
+  type t = Dom.element
+  type eventListener = Dom.event => unit
+
+  @get external width: t => int = "width"
+  @get external height: t => int = "height"
+  @get external style: t => Style.t = "style"
+  @send external appendChild: (t, t) => unit = "appendChild"
+  @send external removeChild: (t, t) => unit = "removeChild"
+  @val external cloneNode: t => unit = "cloneNode"
+  @send external addEventListener: (t, string, eventListener) => unit = "addEventListener"
+  @send external removeEventListener: (t, string, eventListener) => unit = "removeEventListener"
+}
+
+module Window = {
+  type t = Dom.window
+
+  external asElement: t => Element.t = "%identity"
+
+  @val external instance: t = "window"
+  @send external print: t => unit = "print"
+}
+
+module Iframe = {
+  type t = Dom.htmlIframeElement
+
+  external asElement: t => Element.t = "%identity"
+
+  @get external parentNode: t => Dom.element = "parentNode"
+  @get external contentDocument: t => Dom.document = "contentDocument"
+  @get external contentWindow: t => Dom.window = "contentWindow"
+  @send external setAttribute: (t, string, string) => unit = "setAttribute"
+
+  let setSrcDocAttribute = (iframe: t, value: string) => setAttribute(iframe, "srcdoc", value)
+}
+
 module Image = {
   type t = Dom.htmlImageElement
 
   type onLoadCallback = unit => unit
   type onErrorCallback = exn => unit
 
+  external asElement: t => Element.t = "%identity"
+
   @new external make: unit => t = "Image"
-  @set external setSrc: (t, string) => unit = "src"
-  @set external setOnLoad: (t, onLoadCallback) => unit = "onload"
-  @set external setOnError: (t, onErrorCallback) => unit = "onerror"
-  @get external getWidth: t => int = "width"
-  @get external getHeight: t => int = "height"
+  @set external src: (t, string) => unit = "src"
+  @set external onLoad: (t, onLoadCallback) => unit = "onload"
+  @set external onLoadOption: (t, option<onLoadCallback>) => unit = "onload"
+  @set external onError: (t, onErrorCallback) => unit = "onerror"
+  @get external width: t => int = "width"
+  @get external height: t => int = "height"
 }
 
 module Context2d = {
@@ -65,16 +114,25 @@ module Context2d = {
   }
 }
 
+module Body = {
+  type t = Dom.htmlBodyElement
+
+  external asElement: t => Element.t = "%identity"
+}
+
 module Document = {
   type t = Dom.document
 
   @val external document: t = "document"
+  @get external body: t => Dom.htmlBodyElement = "body"
   @send external getElementById: (t, string) => Js.Nullable.t<Dom.element> = "getElementById"
   @send external getElementById_UNSAFE: (t, string) => Dom.element = "getElementById"
   @send external createElement: (t, string) => 'a = "createElement"
 
   let createCanvasElement = (document: t): Dom.htmlCanvasElement =>
     createElement(document, "canvas")
+
+  let createIframeElement = (document: t): Iframe.t => createElement(document, "iframe")
 }
 
 module Canvas = {

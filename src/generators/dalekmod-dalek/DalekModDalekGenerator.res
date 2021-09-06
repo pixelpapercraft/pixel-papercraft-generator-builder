@@ -22,24 +22,19 @@ let instructions: Generator.instructionsDef = {
     </P>
     <H2> {"What is a Dalek?"->React.string} </H2>
     <P>
-      <P>
-        <img src={dalek} className="float-right w-16 mx-8" />
-        {"Daleks are a main enemy of a character called The Doctor in the TV show Doctor Who. "->React.string}
-        {"Daleks are armoured, mutant creatures who are intensely xenophobic and bent on universal domination. "->React.string}
-        {"Daleks are hated and feared throughout time and space. They are the oldest and most frequent foes of The Doctor. "->React.string}
-      </P>
-      <P>
-        <A href="http://tardis.wikia.com/wiki/Dalek"> {"More about Daleks"->React.string} </A>
-      </P>
-      <P>
-        <A href="http://www.thedoctorwhosite.co.uk/doctorwho/information-about-doctor-who/">
-          {"More about Doctor Who"->React.string}
-        </A>
-      </P>
+      <img src={dalek} className="float-right w-16 mx-8" />
+      {"Daleks are a main enemy of a character called The Doctor in the TV show Doctor Who. "->React.string}
+      {"Daleks are armoured, mutant creatures who are intensely xenophobic and bent on universal domination. "->React.string}
+      {"Daleks are hated and feared throughout time and space. They are the oldest and most frequent foes of The Doctor. "->React.string}
+    </P>
+    <P> <A href="http://tardis.wikia.com/wiki/Dalek"> {"More about Daleks"->React.string} </A> </P>
+    <P>
+      <A href="http://www.thedoctorwhosite.co.uk/doctorwho/information-about-doctor-who/">
+        {"More about Doctor Who"->React.string}
+      </A>
     </P>
     <H2> {"How to use the Dalek generator"->React.string} </H2>
     <H3> {"Option 1: Use an existing Dalek skin"->React.string} </H3>
-    <P> {"Just select one of the Dalek skins from the generator."->React.string} </P>
     <OL>
       <LI> {"Select one of the Dalek skins from the generator."->React.string} </LI>
       <LI> {"Download and print your Dalek papercraft."->React.string} </LI>

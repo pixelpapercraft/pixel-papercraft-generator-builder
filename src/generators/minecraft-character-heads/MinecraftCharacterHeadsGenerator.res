@@ -6,7 +6,7 @@ let id = "minecraft-character-heads"
 let name = "Minecraft Character Heads"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
 let images: array<Generator.imageDef> = [
