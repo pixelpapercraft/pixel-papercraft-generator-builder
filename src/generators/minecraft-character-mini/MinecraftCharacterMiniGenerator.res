@@ -307,7 +307,6 @@ let drawMini = (options: options) => {
 
   // Arms
   if alexModel {
-    // right arm
     let ox = x + 49
     let oy = y + 10
     Generator.drawTextureLegacy(
@@ -315,15 +314,17 @@ let drawMini = (options: options) => {
       alex.base.rightArm.left,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=90.0,
+      ~pixelate=true,
       (),
-    ) // Back
+    )
     Generator.drawTextureLegacy(
       skin,
       alex.base.rightArm.right,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=90.0,
+      ~pixelate=true,
       (),
-    ) // front
+    )
 
     if showArmOverlay {
       Generator.drawTextureLegacy(
@@ -331,18 +332,19 @@ let drawMini = (options: options) => {
         alex.overlay.rightArm.left,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=90.0,
+        ~pixelate=true,
         (),
-      ) // Back
+      )
       Generator.drawTextureLegacy(
         skin,
         alex.overlay.rightArm.right,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=90.0,
+        ~pixelate=true,
         (),
       )
     }
 
-    //left arm
     let ox = x + 241
     let oy = y + 42
     Generator.drawTextureLegacy(
@@ -350,15 +352,17 @@ let drawMini = (options: options) => {
       alex.base.leftArm.right,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=-90.0,
+      ~pixelate=true,
       (),
-    ) // Back
+    )
     Generator.drawTextureLegacy(
       skin,
       alex.base.leftArm.left,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=-90.0,
+      ~pixelate=true,
       (),
-    ) // front
+    )
 
     if showArmOverlay {
       Generator.drawTextureLegacy(
@@ -366,18 +370,19 @@ let drawMini = (options: options) => {
         alex.overlay.leftArm.right,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=-90.0,
+        ~pixelate=true,
         (),
-      ) // Back
+      )
       Generator.drawTextureLegacy(
         skin,
         alex.overlay.leftArm.left,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=-90.0,
+        ~pixelate=true,
         (),
       )
     }
   } else {
-    // right arm
     let ox = x + 49
     let oy = y + 10
     Generator.drawTextureLegacy(
@@ -385,15 +390,17 @@ let drawMini = (options: options) => {
       steve.base.rightArm.left,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=90.0,
+      ~pixelate=true,
       (),
-    ) // Back
+    )
     Generator.drawTextureLegacy(
       skin,
       steve.base.rightArm.right,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=90.0,
+      ~pixelate=true,
       (),
-    ) // front
+    )
 
     if showArmOverlay {
       Generator.drawTextureLegacy(
@@ -401,18 +408,19 @@ let drawMini = (options: options) => {
         steve.overlay.rightArm.left,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=90.0,
+        ~pixelate=true,
         (),
-      ) // Back
+      )
       Generator.drawTextureLegacy(
         skin,
         steve.overlay.rightArm.right,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=90.0,
+        ~pixelate=true,
         (),
       )
     }
 
-    //left arm
     let ox = x + 241
     let oy = y + 42
     Generator.drawTextureLegacy(
@@ -420,15 +428,17 @@ let drawMini = (options: options) => {
       steve.base.leftArm.right,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=-90.0,
+      ~pixelate=true,
       (),
-    ) // Back
+    )
     Generator.drawTextureLegacy(
       skin,
       steve.base.leftArm.left,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=-90.0,
+      ~pixelate=true,
       (),
-    ) // front
+    )
 
     if showArmOverlay {
       Generator.drawTextureLegacy(
@@ -436,13 +446,15 @@ let drawMini = (options: options) => {
         steve.overlay.leftArm.right,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=-90.0,
+        ~pixelate=true,
         (),
-      ) // Back
+      )
       Generator.drawTextureLegacy(
         skin,
         steve.overlay.leftArm.left,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=-90.0,
+        ~pixelate=true,
         (),
       )
     }
