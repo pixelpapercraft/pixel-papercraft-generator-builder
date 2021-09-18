@@ -1,9 +1,9 @@
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
 let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
-let id = "demo"
+let id = "testing"
 
-let name = "Demo"
+let name = "Testing"
 
 let images: array<Generator.imageDef> = [
   {
@@ -125,6 +125,55 @@ let drawPage4 = () => {
   }
 }
 
+let drawPage5 = () => {
+  Generator.usePage("Page 5")
+
+  let padding = 32
+  let size = Config.gridCellSize - padding
+  let indent = padding / 2
+
+  let tests = [
+    (8, 8, 8, 8, size, size, false),
+    (8, 8, 8, 8, size, size, true),
+    (8, 8, 8, 8, size / 2, size, false),
+    (8, 8, 8, 8, size / 2, size, true),
+    (8, 8, 8, 8, size / 4, size, false),
+    (8, 8, 8, 8, size / 4, size, true),
+    (8, 8, 8, 8, size / 8, size, false),
+    (8, 8, 8, 8, size / 8, size, true),
+    (8, 8, 8, 8, size, size / 2, false),
+    (8, 8, 8, 8, size, size / 2, true),
+    (8, 8, 8, 8, size, size / 4, false),
+    (8, 8, 8, 8, size, size / 4, true),
+    (8, 8, 8, 8, size, size / 8, false),
+    (8, 8, 8, 8, size, size / 8, true),
+    (8, 8, 8, 8, size / 2, size / 2, false),
+    (8, 8, 8, 8, size / 2, size / 2, true),
+    (8, 8, 8, 8, size / 4, size / 4, false),
+    (8, 8, 8, 8, size / 4, size / 4, true),
+    (8, 8, 8, 8, size / 8, size / 8, false),
+    (8, 8, 8, 8, size / 8, size / 8, true),
+    (8, 8, 8, 8, 8, 8, true),
+    (8, 8, 8, 8, 4, 4, true),
+    (8, 8, 8, 8, 2, 2, true),
+    (8, 8, 8, 8, 1, 1, true),
+  ]
+
+  drawGrid()
+
+  for row in 1 to Config.rowCount {
+    for col in 1 to Config.colCount {
+      let x = Config.offsetX + Config.gridCellSize * (col - 1) + indent
+      let y = Config.offsetY + Config.gridCellSize * (row - 1) + indent
+      let index = col - 1 + (row - 1) * Config.colCount
+      if index < Js.Array2.length(tests) {
+        let (sx, sy, sw, sh, dw, dh, pixelate) = tests[index]
+        Generator.drawTexture("Steve", (sx, sy, sw, sh), (x, y, dw, dh), ~pixelate, ())
+      }
+    }
+  }
+}
+
 let drawPage = (texture, src) => {
   drawGrid()
 
@@ -169,9 +218,9 @@ let drawPage = (texture, src) => {
 }
 
 let script = () => {
-  Generator.defineText("Demonstration of some generator features.")
+  Generator.defineText("Test page for some generator features.")
 
-  Generator.defineButtonInput("Hello", () => {
+  Generator.defineButtonInput("Example Button Input", () => {
     Js.log("Hello")
   })
 
@@ -212,6 +261,8 @@ let script = () => {
   }
 
   drawPage4()
+
+  drawPage5()
 }
 
 let generator: Generator.generatorDef = {

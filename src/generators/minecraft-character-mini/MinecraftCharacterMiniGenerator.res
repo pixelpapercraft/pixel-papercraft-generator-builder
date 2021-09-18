@@ -32,175 +32,6 @@ let textures: array<Generator.textureDef> = [
 let steve = TextureMap.MinecraftCharacterLegacy.steve
 let alex = TextureMap.MinecraftCharacterLegacy.alex
 
-// type cuboid = {
-//   right: Builder.rectangleLegacy,
-//   front: Builder.rectangleLegacy,
-//   left: Builder.rectangleLegacy,
-//   back: Builder.rectangleLegacy,
-//   top: Builder.rectangleLegacy,
-//   bottom: Builder.rectangleLegacy,
-// }
-
-// type rightLeftCuboid = {
-//   right: cuboid,
-//   left: cuboid,
-// }
-
-// type skin = {
-//   head: cuboid,
-//   body: cuboid,
-//   leg: rightLeftCuboid,
-//   arm: rightLeftCuboid,
-//   alex: rightLeftCuboid,
-// }
-
-// // Define the texture regions
-// let char = {
-//   head: {
-//     right: {x: 0, y: 8, w: 8, h: 8},
-//     front: {x: 8, y: 8, w: 8, h: 8},
-//     left: {x: 16, y: 8, w: 8, h: 8},
-//     back: {x: 24, y: 8, w: 8, h: 8},
-//     top: {x: 8, y: 0, w: 8, h: 8},
-//     bottom: {x: 16, y: 0, w: 8, h: 8},
-//   },
-//   body: {
-//     right: {x: 16, y: 20, w: 4, h: 12},
-//     front: {x: 20, y: 20, w: 8, h: 12},
-//     left: {x: 28, y: 20, w: 4, h: 12},
-//     back: {x: 32, y: 20, w: 8, h: 12},
-//     top: {x: 20, y: 16, w: 8, h: 4},
-//     bottom: {x: 28, y: 16, w: 8, h: 4},
-//   },
-//   leg: {
-//     right: {
-//       right: {x: 0, y: 20, w: 4, h: 12},
-//       front: {x: 4, y: 20, w: 4, h: 12},
-//       left: {x: 8, y: 20, w: 4, h: 12},
-//       back: {x: 12, y: 20, w: 4, h: 12},
-//       top: {x: 4, y: 16, w: 4, h: 4},
-//       bottom: {x: 8, y: 16, w: 4, h: 4},
-//     },
-//     left: {
-//       right: {x: 16, y: 52, w: 4, h: 12},
-//       front: {x: 20, y: 52, w: 4, h: 12},
-//       left: {x: 24, y: 52, w: 4, h: 12},
-//       back: {x: 28, y: 52, w: 4, h: 12},
-//       top: {x: 20, y: 48, w: 4, h: 4},
-//       bottom: {x: 24, y: 48, w: 4, h: 4},
-//     },
-//   },
-//   arm: {
-//     right: {
-//       right: {x: 40, y: 20, w: 4, h: 12},
-//       front: {x: 44, y: 20, w: 4, h: 12},
-//       left: {x: 48, y: 20, w: 4, h: 12},
-//       back: {x: 52, y: 20, w: 4, h: 12},
-//       top: {x: 44, y: 16, w: 4, h: 4},
-//       bottom: {x: 48, y: 16, w: 4, h: 4},
-//     },
-//     left: {
-//       right: {x: 32, y: 52, w: 4, h: 12},
-//       front: {x: 36, y: 52, w: 4, h: 12},
-//       left: {x: 40, y: 52, w: 4, h: 12},
-//       back: {x: 44, y: 52, w: 4, h: 12},
-//       top: {x: 36, y: 48, w: 4, h: 4},
-//       bottom: {x: 40, y: 48, w: 4, h: 4},
-//     },
-//   },
-//   alex: {
-//     right: {
-//       right: {x: 40, y: 20, w: 4, h: 12},
-//       front: {x: 44, y: 20, w: 3, h: 12},
-//       left: {x: 47, y: 20, w: 4, h: 12},
-//       back: {x: 51, y: 20, w: 3, h: 12},
-//       top: {x: 44, y: 16, w: 3, h: 4},
-//       bottom: {x: 47, y: 16, w: 3, h: 4},
-//     },
-//     left: {
-//       right: {x: 32, y: 52, w: 4, h: 12},
-//       front: {x: 36, y: 52, w: 3, h: 12},
-//       left: {x: 39, y: 52, w: 4, h: 12},
-//       back: {x: 43, y: 52, w: 3, h: 12},
-//       top: {x: 36, y: 48, w: 3, h: 4},
-//       bottom: {x: 39, y: 48, w: 3, h: 4},
-//     },
-//   },
-// }
-
-// let overlay = {
-//   head: {
-//     right: {x: 32, y: 8, w: 8, h: 8},
-//     front: {x: 40, y: 8, w: 8, h: 8},
-//     left: {x: 48, y: 8, w: 8, h: 8},
-//     back: {x: 56, y: 8, w: 8, h: 8},
-//     top: {x: 40, y: 0, w: 8, h: 8},
-//     bottom: {x: 48, y: 0, w: 8, h: 8},
-//   },
-//   body: {
-//     right: {x: 16, y: 36, w: 4, h: 12},
-//     front: {x: 20, y: 36, w: 8, h: 12},
-//     left: {x: 28, y: 36, w: 4, h: 12},
-//     back: {x: 32, y: 36, w: 8, h: 12},
-//     top: {x: 20, y: 32, w: 8, h: 4},
-//     bottom: {x: 28, y: 32, w: 8, h: 4},
-//   },
-//   leg: {
-//     right: {
-//       right: {x: 0, y: 36, w: 4, h: 12},
-//       front: {x: 4, y: 36, w: 4, h: 12},
-//       left: {x: 8, y: 36, w: 4, h: 12},
-//       back: {x: 12, y: 36, w: 4, h: 12},
-//       top: {x: 4, y: 32, w: 4, h: 4},
-//       bottom: {x: 8, y: 32, w: 4, h: 4},
-//     },
-//     left: {
-//       right: {x: 0, y: 52, w: 4, h: 12},
-//       front: {x: 4, y: 52, w: 4, h: 12},
-//       left: {x: 8, y: 52, w: 4, h: 12},
-//       back: {x: 12, y: 52, w: 4, h: 12},
-//       top: {x: 4, y: 48, w: 4, h: 4},
-//       bottom: {x: 8, y: 48, w: 4, h: 4},
-//     },
-//   },
-//   arm: {
-//     right: {
-//       right: {x: 40, y: 36, w: 4, h: 12},
-//       front: {x: 44, y: 36, w: 4, h: 12},
-//       left: {x: 48, y: 36, w: 4, h: 12},
-//       back: {x: 52, y: 36, w: 4, h: 12},
-//       top: {x: 44, y: 32, w: 4, h: 4},
-//       bottom: {x: 48, y: 32, w: 4, h: 4},
-//     },
-//     left: {
-//       right: {x: 48, y: 52, w: 4, h: 12},
-//       front: {x: 52, y: 52, w: 4, h: 12},
-//       left: {x: 56, y: 52, w: 4, h: 12},
-//       back: {x: 60, y: 52, w: 4, h: 12},
-//       top: {x: 52, y: 48, w: 4, h: 4},
-//       bottom: {x: 56, y: 48, w: 4, h: 4},
-//     },
-//   },
-//   alex: {
-//     right: {
-//       right: {x: 40, y: 36, w: 4, h: 12},
-//       front: {x: 44, y: 36, w: 3, h: 12},
-//       left: {x: 47, y: 36, w: 4, h: 12},
-//       back: {x: 51, y: 36, w: 3, h: 12},
-//       top: {x: 44, y: 32, w: 3, h: 4},
-//       bottom: {x: 47, y: 32, w: 3, h: 4},
-//     },
-//     left: {
-//       right: {x: 48, y: 52, w: 4, h: 12},
-//       front: {x: 52, y: 52, w: 3, h: 12},
-//       left: {x: 55, y: 52, w: 4, h: 12},
-//       back: {x: 59, y: 52, w: 3, h: 12},
-//       top: {x: 52, y: 48, w: 3, h: 4},
-//       bottom: {x: 55, y: 48, w: 3, h: 4},
-//     },
-//   },
-// }
-
 type options = {
   skin: string,
   x: int,
@@ -225,23 +56,16 @@ let drawMini = (options: options) => {
   let bodyHeight = options.bodyHeight
   let legHeight = 64 - bodyHeight
 
-  //skn background
+  // Skin background
   Generator.drawImage("Skin Background", (x, y))
 
-  // head
+  // Head
   let ox = x + 49
   let oy = y + 90
-  Generator.drawTextureLegacy(
-    skin,
-    // char.head.right,
-    steve.base.head.right,
-    {x: ox, y: oy, w: 64, h: 64},
-    (),
-  ) // Right
+  Generator.drawTextureLegacy(skin, steve.base.head.right, {x: ox, y: oy, w: 64, h: 64}, ()) // Right
   Generator.drawTextureLegacy(
     skin,
     steve.base.head.front,
-    // char.head.front,
     {
       x: ox + 64,
       y: oy,
@@ -252,7 +76,6 @@ let drawMini = (options: options) => {
   ) // Face
   Generator.drawTextureLegacy(
     skin,
-    // char.head.left,
     steve.base.head.left,
     {
       x: ox + 128,
@@ -264,7 +87,6 @@ let drawMini = (options: options) => {
   ) // Left
   Generator.drawTextureLegacy(
     skin,
-    // char.head.back,
     steve.base.head.back,
     {
       x: ox + 192,
@@ -276,7 +98,6 @@ let drawMini = (options: options) => {
   ) // Back
   Generator.drawTextureLegacy(
     skin,
-    // char.head.top,
     steve.base.head.top,
     {
       x: ox + 64,
@@ -291,7 +112,6 @@ let drawMini = (options: options) => {
   if showHeadOverlay {
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.right,
       steve.overlay.head.right,
       {
         x: ox,
@@ -303,7 +123,6 @@ let drawMini = (options: options) => {
     ) // Right
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.front,
       steve.overlay.head.front,
       {
         x: ox + 64,
@@ -315,7 +134,6 @@ let drawMini = (options: options) => {
     ) // Face
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.left,
       steve.overlay.head.left,
       {
         x: ox + 128,
@@ -327,7 +145,6 @@ let drawMini = (options: options) => {
     ) // Left
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.back,
       steve.overlay.head.back,
       {
         x: ox + 192,
@@ -339,7 +156,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.top,
       steve.overlay.head.top,
       {
         x: ox + 64,
@@ -356,7 +172,6 @@ let drawMini = (options: options) => {
   let oy = y + 26
   Generator.drawTextureLegacy(
     skin,
-    // char.head.right,
     steve.base.head.right,
     {x: ox + 64, y: oy, w: 64, h: 64},
     ~rotateLegacy=90.0,
@@ -364,7 +179,6 @@ let drawMini = (options: options) => {
   ) // Right
   Generator.drawTextureLegacy(
     skin,
-    // char.head.left,
     steve.base.head.left,
     {x: ox + 128, y: oy + 64, w: 64, h: 64},
     ~rotateLegacy=-90.0,
@@ -373,7 +187,6 @@ let drawMini = (options: options) => {
   if showHeadOverlay {
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.right,
       steve.overlay.head.right,
       {x: ox + 64, y: oy, w: 64, h: 64},
       ~rotateLegacy=90.0,
@@ -381,7 +194,6 @@ let drawMini = (options: options) => {
     ) // Right
     Generator.drawTextureLegacy(
       skin,
-      // overlay.head.left,
       steve.overlay.head.left,
       {x: ox + 128, y: oy + 64, w: 64, h: 64},
       ~rotateLegacy=-90.0,
@@ -389,12 +201,11 @@ let drawMini = (options: options) => {
     )
   }
 
-  // body
+  // Body
   let ox = x + 49
   let oy = y + 154
   Generator.drawTextureLegacy(
     skin,
-    // char.body.right,
     steve.base.body.right,
     {
       x: ox,
@@ -402,11 +213,11 @@ let drawMini = (options: options) => {
       w: 64,
       h: bodyHeight,
     },
+    ~pixelate=true,
     (),
-  ) // rght
+  ) // Right
   Generator.drawTextureLegacy(
     skin,
-    // char.body.front,
     steve.base.body.front,
     {
       x: ox + 64,
@@ -414,11 +225,11 @@ let drawMini = (options: options) => {
       w: 64,
       h: bodyHeight,
     },
+    ~pixelate=true,
     (),
-  ) // front
+  ) // Front
   Generator.drawTextureLegacy(
     skin,
-    // char.body.left,
     steve.base.body.left,
     {
       x: ox + 128,
@@ -426,11 +237,11 @@ let drawMini = (options: options) => {
       w: 64,
       h: bodyHeight,
     },
+    ~pixelate=true,
     (),
   ) // Left
   Generator.drawTextureLegacy(
     skin,
-    // char.body.back,
     steve.base.body.back,
     {
       x: ox + 192,
@@ -438,14 +249,14 @@ let drawMini = (options: options) => {
       w: 64,
       h: bodyHeight,
     },
+    ~pixelate=true,
     (),
   ) // Back
 
-  // body
+  // Body Overlay
   if showBodyOverlay {
     Generator.drawTextureLegacy(
       skin,
-      // overlay.body.right,
       steve.overlay.body.right,
       {
         x: ox,
@@ -453,11 +264,11 @@ let drawMini = (options: options) => {
         w: 64,
         h: bodyHeight,
       },
+      ~pixelate=true,
       (),
-    ) // rght
+    ) // Right
     Generator.drawTextureLegacy(
       skin,
-      // overlay.body.front,
       steve.overlay.body.front,
       {
         x: ox + 64,
@@ -465,11 +276,11 @@ let drawMini = (options: options) => {
         w: 64,
         h: bodyHeight,
       },
+      ~pixelate=true,
       (),
-    ) // front
+    ) // Front
     Generator.drawTextureLegacy(
       skin,
-      // overlay.body.left,
       steve.overlay.body.left,
       {
         x: ox + 128,
@@ -477,11 +288,11 @@ let drawMini = (options: options) => {
         w: 64,
         h: bodyHeight,
       },
+      ~pixelate=true,
       (),
     ) // Left
     Generator.drawTextureLegacy(
       skin,
-      // overlay.body.back,
       steve.overlay.body.back,
       {
         x: ox + 192,
@@ -489,18 +300,18 @@ let drawMini = (options: options) => {
         w: 64,
         h: bodyHeight,
       },
+      ~pixelate=true,
       (),
     )
   }
 
-  //Arms
+  // Arms
   if alexModel {
     // right arm
     let ox = x + 49
     let oy = y + 10
     Generator.drawTextureLegacy(
       skin,
-      // char.alex.right.left,
       alex.base.rightArm.left,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=90.0,
@@ -508,7 +319,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // char.alex.right.right,
       alex.base.rightArm.right,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=90.0,
@@ -518,7 +328,6 @@ let drawMini = (options: options) => {
     if showArmOverlay {
       Generator.drawTextureLegacy(
         skin,
-        // overlay.alex.right.left,
         alex.overlay.rightArm.left,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=90.0,
@@ -526,7 +335,6 @@ let drawMini = (options: options) => {
       ) // Back
       Generator.drawTextureLegacy(
         skin,
-        // overlay.alex.right.right,
         alex.overlay.rightArm.right,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=90.0,
@@ -539,7 +347,6 @@ let drawMini = (options: options) => {
     let oy = y + 42
     Generator.drawTextureLegacy(
       skin,
-      // char.alex.left.right,
       alex.base.leftArm.right,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=-90.0,
@@ -547,7 +354,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // char.alex.left.left,
       alex.base.leftArm.left,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=-90.0,
@@ -557,7 +363,6 @@ let drawMini = (options: options) => {
     if showArmOverlay {
       Generator.drawTextureLegacy(
         skin,
-        // overlay.alex.left.right,
         alex.overlay.leftArm.right,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=-90.0,
@@ -565,7 +370,6 @@ let drawMini = (options: options) => {
       ) // Back
       Generator.drawTextureLegacy(
         skin,
-        // overlay.alex.left.left,
         alex.overlay.leftArm.left,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=-90.0,
@@ -578,7 +382,6 @@ let drawMini = (options: options) => {
     let oy = y + 10
     Generator.drawTextureLegacy(
       skin,
-      // char.arm.right.left,
       steve.base.rightArm.left,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=90.0,
@@ -586,7 +389,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // char.arm.right.right,
       steve.base.rightArm.right,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=90.0,
@@ -596,7 +398,6 @@ let drawMini = (options: options) => {
     if showArmOverlay {
       Generator.drawTextureLegacy(
         skin,
-        // overlay.arm.right.left,
         steve.overlay.rightArm.left,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=90.0,
@@ -604,7 +405,6 @@ let drawMini = (options: options) => {
       ) // Back
       Generator.drawTextureLegacy(
         skin,
-        // overlay.arm.right.right,
         steve.overlay.rightArm.right,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=90.0,
@@ -617,7 +417,6 @@ let drawMini = (options: options) => {
     let oy = y + 42
     Generator.drawTextureLegacy(
       skin,
-      // char.arm.left.right,
       steve.base.leftArm.right,
       {x: ox, y: oy, w: 32, h: 48},
       ~rotateLegacy=-90.0,
@@ -625,7 +424,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // char.arm.left.left,
       steve.base.leftArm.left,
       {x: ox, y: oy + 32, w: 32, h: 48},
       ~rotateLegacy=-90.0,
@@ -635,7 +433,6 @@ let drawMini = (options: options) => {
     if showArmOverlay {
       Generator.drawTextureLegacy(
         skin,
-        // overlay.arm.left.right,
         steve.overlay.leftArm.right,
         {x: ox, y: oy, w: 32, h: 48},
         ~rotateLegacy=-90.0,
@@ -643,7 +440,6 @@ let drawMini = (options: options) => {
       ) // Back
       Generator.drawTextureLegacy(
         skin,
-        // overlay.arm.left.left,
         steve.overlay.leftArm.left,
         {x: ox, y: oy + 32, w: 32, h: 48},
         ~rotateLegacy=-90.0,
@@ -659,7 +455,6 @@ let drawMini = (options: options) => {
   //right
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.right.front,
     steve.base.rightLeg.front,
     {
       x: ox + 64,
@@ -671,7 +466,6 @@ let drawMini = (options: options) => {
   ) // front
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.right.right,
     steve.base.rightLeg.right,
     {
       x: ox,
@@ -683,7 +477,6 @@ let drawMini = (options: options) => {
   ) // right
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.right.back,
     steve.base.rightLeg.back,
     {
       x: ox + 224,
@@ -695,7 +488,6 @@ let drawMini = (options: options) => {
   ) // Back
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.right.bottom,
     steve.base.rightLeg.bottom,
     {x: ox + 64, y: oy + 64, w: 32, h: 64},
     ~flip=#Vertical,
@@ -705,7 +497,6 @@ let drawMini = (options: options) => {
   //left
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.left.front,
     steve.base.leftLeg.front,
     {
       x: ox + 96,
@@ -717,7 +508,6 @@ let drawMini = (options: options) => {
   ) // front
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.left.left,
     steve.base.leftLeg.left,
     {
       x: ox + 128,
@@ -729,7 +519,6 @@ let drawMini = (options: options) => {
   ) // Left
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.left.back,
     steve.base.leftLeg.back,
     {
       x: ox + 192,
@@ -741,7 +530,6 @@ let drawMini = (options: options) => {
   ) // Back
   Generator.drawTextureLegacy(
     skin,
-    // char.leg.left.bottom,
     steve.base.leftLeg.bottom,
     {x: ox + 96, y: oy + 64, w: 32, h: 64},
     ~flip=#Vertical,
@@ -752,7 +540,6 @@ let drawMini = (options: options) => {
     //right
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.right.front,
       steve.overlay.rightLeg.front,
       {
         x: ox + 64,
@@ -764,7 +551,6 @@ let drawMini = (options: options) => {
     ) // front
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.right.right,
       steve.overlay.rightLeg.right,
       {
         x: ox,
@@ -776,7 +562,6 @@ let drawMini = (options: options) => {
     ) // right
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.right.back,
       steve.overlay.rightLeg.back,
       {
         x: ox + 224,
@@ -788,7 +573,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.right.bottom,
       steve.overlay.rightLeg.bottom,
       {x: ox + 64, y: oy + 64, w: 32, h: 64},
       ~flip=#Vertical,
@@ -798,7 +582,6 @@ let drawMini = (options: options) => {
     //left
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.left.front,
       steve.overlay.leftLeg.front,
       {
         x: ox + 96,
@@ -810,7 +593,6 @@ let drawMini = (options: options) => {
     ) // front
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.left.left,
       steve.overlay.leftLeg.left,
       {
         x: ox + 128,
@@ -822,7 +604,6 @@ let drawMini = (options: options) => {
     ) // Left
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.left.back,
       steve.overlay.leftLeg.back,
       {
         x: ox + 192,
@@ -834,7 +615,6 @@ let drawMini = (options: options) => {
     ) // Back
     Generator.drawTextureLegacy(
       skin,
-      // overlay.leg.left.bottom,
       steve.overlay.leftLeg.bottom,
       {x: ox + 96, y: oy + 64, w: 32, h: 64},
       ~flip=#Vertical,
