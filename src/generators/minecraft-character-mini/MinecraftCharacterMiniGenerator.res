@@ -450,9 +450,9 @@ let drawMini = (options: options) => {
 
   //legs
   let ox = x + 49
-  let oy = y + 154 //287;
+  let oy = y + 154
 
-  //right
+  // Right Leg
   Generator.drawTextureLegacy(
     skin,
     steve.base.rightLeg.front,
@@ -462,8 +462,9 @@ let drawMini = (options: options) => {
       w: 32,
       h: legHeight,
     },
+    ~pixelate=true,
     (),
-  ) // front
+  ) // Front
   Generator.drawTextureLegacy(
     skin,
     steve.base.rightLeg.right,
@@ -473,8 +474,9 @@ let drawMini = (options: options) => {
       w: 64,
       h: legHeight,
     },
+    ~pixelate=true,
     (),
-  ) // right
+  ) // Right
   Generator.drawTextureLegacy(
     skin,
     steve.base.rightLeg.back,
@@ -484,6 +486,7 @@ let drawMini = (options: options) => {
       w: 32,
       h: legHeight,
     },
+    ~pixelate=true,
     (),
   ) // Back
   Generator.drawTextureLegacy(
@@ -491,10 +494,11 @@ let drawMini = (options: options) => {
     steve.base.rightLeg.bottom,
     {x: ox + 64, y: oy + 64, w: 32, h: 64},
     ~flip=#Vertical,
+    ~pixelate=true,
     (),
   ) // Bottom
 
-  //left
+  // Left Leg
   Generator.drawTextureLegacy(
     skin,
     steve.base.leftLeg.front,
@@ -504,8 +508,9 @@ let drawMini = (options: options) => {
       w: 32,
       h: legHeight,
     },
+    ~pixelate=true,
     (),
-  ) // front
+  ) // Front
   Generator.drawTextureLegacy(
     skin,
     steve.base.leftLeg.left,
@@ -515,6 +520,7 @@ let drawMini = (options: options) => {
       w: 64,
       h: legHeight,
     },
+    ~pixelate=true,
     (),
   ) // Left
   Generator.drawTextureLegacy(
@@ -526,6 +532,7 @@ let drawMini = (options: options) => {
       w: 32,
       h: legHeight,
     },
+    ~pixelate=true,
     (),
   ) // Back
   Generator.drawTextureLegacy(
@@ -533,11 +540,12 @@ let drawMini = (options: options) => {
     steve.base.leftLeg.bottom,
     {x: ox + 96, y: oy + 64, w: 32, h: 64},
     ~flip=#Vertical,
+    ~pixelate=true,
     (),
   ) // Bottom
 
   if showLegOverlay {
-    //right
+    // Right Leg
     Generator.drawTextureLegacy(
       skin,
       steve.overlay.rightLeg.front,
@@ -547,8 +555,9 @@ let drawMini = (options: options) => {
         w: 32,
         h: legHeight,
       },
+      ~pixelate=true,
       (),
-    ) // front
+    ) // Front
     Generator.drawTextureLegacy(
       skin,
       steve.overlay.rightLeg.right,
@@ -558,8 +567,9 @@ let drawMini = (options: options) => {
         w: 64,
         h: legHeight,
       },
+      ~pixelate=true,
       (),
-    ) // right
+    ) // Right
     Generator.drawTextureLegacy(
       skin,
       steve.overlay.rightLeg.back,
@@ -569,6 +579,7 @@ let drawMini = (options: options) => {
         w: 32,
         h: legHeight,
       },
+      ~pixelate=true,
       (),
     ) // Back
     Generator.drawTextureLegacy(
@@ -576,10 +587,11 @@ let drawMini = (options: options) => {
       steve.overlay.rightLeg.bottom,
       {x: ox + 64, y: oy + 64, w: 32, h: 64},
       ~flip=#Vertical,
+      ~pixelate=true,
       (),
     ) // Bottom
 
-    //left
+    // Left
     Generator.drawTextureLegacy(
       skin,
       steve.overlay.leftLeg.front,
@@ -589,8 +601,9 @@ let drawMini = (options: options) => {
         w: 32,
         h: legHeight,
       },
+      ~pixelate=true,
       (),
-    ) // front
+    ) // Front
     Generator.drawTextureLegacy(
       skin,
       steve.overlay.leftLeg.left,
@@ -600,6 +613,7 @@ let drawMini = (options: options) => {
         w: 64,
         h: legHeight,
       },
+      ~pixelate=true,
       (),
     ) // Left
     Generator.drawTextureLegacy(
@@ -611,6 +625,7 @@ let drawMini = (options: options) => {
         w: 32,
         h: legHeight,
       },
+      ~pixelate=true,
       (),
     ) // Back
     Generator.drawTextureLegacy(
@@ -618,11 +633,12 @@ let drawMini = (options: options) => {
       steve.overlay.leftLeg.bottom,
       {x: ox + 96, y: oy + 64, w: 32, h: 64},
       ~flip=#Vertical,
+      ~pixelate=true,
       (),
     )
   }
 
-  //draw the fold and cut lines
+  // Draw the fold and cut lines
   Generator.drawImage("Skin Overlay", (x, y))
 }
 

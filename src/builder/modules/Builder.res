@@ -173,33 +173,24 @@ module Texture = {
     )
   }
 
-  let preparePixelationCanvas = (canvas, sx, sy, sw, sh, dw, dh) => {
-    let (sw2, sh2, _dRatio) = if dw > dh {
-      let dRatio = Belt.Int.toFloat(dw) /. Belt.Int.toFloat(dh)
-      if sw > sh {
-        let sh2 = sh
-        let sw2 = Js.Math.ceil_int(Belt.Int.toFloat(sh) *. dRatio)
-        (sw2, sh2, dRatio)
-      } else {
-        let sw2 = sw
-        let sh2 = Js.Math.ceil_int(Belt.Int.toFloat(sw) /. dRatio)
-        (sw2, sh2, dRatio)
-      }
+  // Scale (dw, dh) so it fits inside (sw, sh)
+  let fit = (sw, sh, dw, dh) => {
+    let wScale = Belt.Int.toFloat(sw) /. Belt.Int.toFloat(dw)
+    let hScale = Belt.Int.toFloat(sh) /. Belt.Int.toFloat(dh)
+    let scale = Js.Math.min_float(wScale, hScale)
+    let (w, h) = if scale < 1.0 {
+      (Belt.Int.toFloat(dw) *. scale, Belt.Int.toFloat(dh) *. scale)
     } else {
-      let dRatio = Belt.Int.toFloat(dh) /. Belt.Int.toFloat(dw)
-      if sw > sh {
-        let sw2 = sw
-        let sh2 = Js.Math.ceil_int(Belt.Int.toFloat(sw) *. dRatio)
-        (sw2, sh2, dRatio)
-      } else {
-        let sh2 = sh
-        let sw2 = Js.Math.ceil_int(Belt.Int.toFloat(sh) /. dRatio)
-        (sw2, sh2, dRatio)
-      }
+      (Belt.Int.toFloat(dw), Belt.Int.toFloat(dh))
     }
+    (Js.Math.ceil_int(w), Js.Math.ceil_int(h))
+  }
+
+  let preparePixelationCanvas = (canvas, sx, sy, sw, sh, dw, dh) => {
+    let (sw2, sh2) = fit(sw, sh, dw, dh)
 
     // Js.log(
-    //   `${sw->Belt.Int.toString}, ${sh->Belt.Int.toString}, ${dw->Belt.Int.toString}, ${dh->Belt.Int.toString}, ${dRatio->Belt.Float.toString}, ${sw2->Belt.Int.toString}, ${sh2->Belt.Int.toString}`,
+    //   `${sw->Belt.Int.toString}, ${sh->Belt.Int.toString}, ${dw->Belt.Int.toString}, ${dh->Belt.Int.toString}, ${sw2->Belt.Int.toString}, ${sh2->Belt.Int.toString}`,
     // )
 
     let tempSourceCanvas = CanvasFactory.make(sw2, sh2)
