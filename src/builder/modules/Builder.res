@@ -186,18 +186,13 @@ module Texture = {
     (Js.Math.ceil_int(w), Js.Math.ceil_int(h))
   }
 
-  let preparePixelationCanvas = (canvas, sx, sy, sw, sh, dw, dh) => {
+  let preparePixelationCanvas = (sourceCanvas, sx, sy, sw, sh, dw, dh) => {
     let (sw2, sh2) = fit(sw, sh, dw, dh)
-
-    // Js.log(
-    //   `${sw->Belt.Int.toString}, ${sh->Belt.Int.toString}, ${dw->Belt.Int.toString}, ${dh->Belt.Int.toString}, ${sw2->Belt.Int.toString}, ${sh2->Belt.Int.toString}`,
-    // )
-
-    let tempSourceCanvas = CanvasFactory.make(sw2, sh2)
-    let tempSourceContext = Canvas.getContext2d(tempSourceCanvas)
-    tempSourceContext->Context2d.setImageSmoothingEnabled(false)
-    tempSourceContext->Context2d.drawCanvas(canvas, sx, sy, sw, sh, 0, 0, sw2, sh2)
-    tempSourceCanvas
+    let canvas = CanvasFactory.make(sw2, sh2)
+    let context = Canvas.getContext2d(canvas)
+    context->Context2d.setImageSmoothingEnabled(false)
+    context->Context2d.drawCanvas(sourceCanvas, sx, sy, sw, sh, 0, 0, sw2, sh2)
+    canvas
   }
 
   let drawNearestNeighbor = (
