@@ -142,6 +142,7 @@ let drawTexture = (
   ~blend: Builder.Texture.blend=#None,
   ~rotateLegacy: float=0.0,
   ~rotate: float=0.0,
+  ~pixelate: bool=false,
   (),
 ) => {
   let rotate = if rotateLegacy !== 0.0 {
@@ -151,7 +152,8 @@ let drawTexture = (
   } else {
     #None
   }
-  model := Builder.drawTexture(model.contents, id, source, dest, ~flip, ~rotate, ~blend, ())
+  model :=
+    Builder.drawTexture(model.contents, id, source, dest, ~flip, ~rotate, ~blend, ~pixelate, ())
 }
 
 @deprecated("Use Generator.drawTexture")
@@ -161,6 +163,7 @@ let drawTextureLegacy = (
   dest: Builder.rectangleLegacy,
   ~flip: Builder.Texture.flip=#None,
   ~rotateLegacy: float=0.0,
+  ~pixelate: bool=false,
   (),
 ) => {
   drawTexture(
@@ -169,6 +172,7 @@ let drawTextureLegacy = (
     (dest.x, dest.y, dest.w, dest.h),
     ~flip,
     ~rotateLegacy,
+    ~pixelate,
     (),
   )
 }

@@ -124,7 +124,7 @@ module Texture = {
   type rotate = [#None | #Corner(float) | #Center(float)]
   type blend = [#None | #MultiplyHex(string) | #MultiplyRGB(int, int, int)]
 
-  type drawNearestNeighborOptions = {rotate: rotate, flip: flip, blend: blend}
+  type drawNearestNeighborOptions = {rotate: rotate, flip: flip, blend: blend, pixelate: bool}
 
   @val external parseInt: (string, int) => float = "parseInt"
 
@@ -173,6 +173,28 @@ module Texture = {
     )
   }
 
+  // Scale (dw, dh) so it fits inside (sw, sh)
+  let fit = (sw, sh, dw, dh) => {
+    let wScale = Belt.Int.toFloat(sw) /. Belt.Int.toFloat(dw)
+    let hScale = Belt.Int.toFloat(sh) /. Belt.Int.toFloat(dh)
+    let scale = Js.Math.min_float(wScale, hScale)
+    let (w, h) = if scale < 1.0 {
+      (Belt.Int.toFloat(dw) *. scale, Belt.Int.toFloat(dh) *. scale)
+    } else {
+      (Belt.Int.toFloat(dw), Belt.Int.toFloat(dh))
+    }
+    (Js.Math.ceil_int(w), Js.Math.ceil_int(h))
+  }
+
+  let preparePixelationCanvas = (sourceCanvas, sx, sy, sw, sh, dw, dh) => {
+    let (sw2, sh2) = fit(sw, sh, dw, dh)
+    let canvas = CanvasFactory.make(sw2, sh2)
+    let context = Canvas.getContext2d(canvas)
+    context->Context2d.setImageSmoothingEnabled(false)
+    context->Context2d.drawCanvas(sourceCanvas, sx, sy, sw, sh, 0, 0, sw2, sh2)
+    canvas
+  }
+
   let drawNearestNeighbor = (
     texture: t,
     page: Page.t,
@@ -186,86 +208,95 @@ module Texture = {
     dh,
     options: drawNearestNeighborOptions,
   ) => {
-    let imageData = Context2d.getImageData(texture.context, sx, sy, sw, sh)
-    let pix = imageData.data
-
-    let tempCanvas = CanvasFactory.make(dw, dh)
-    let tempContext = Canvas.getContext2d(tempCanvas)
-
-    let deltax = Belt.Int.toFloat(dw) /. Belt.Int.toFloat(sw)
-    let deltay = Belt.Int.toFloat(dh) /. Belt.Int.toFloat(sh)
-
-    let pixw = Js.Math.floor(deltax)
-    let pixh = Js.Math.floor(deltay)
-
-    let pixw = Belt.Int.toFloat(pixw) < deltax ? pixw + 1 : pixw
-    let pixh = Belt.Int.toFloat(pixh) < deltay ? pixh + 1 : pixh
-
-    let blend = switch options.blend {
-    | #None => None
-    | #MultiplyHex(hex) => hexToRGB(hex)
-    | #MultiplyRGB(r, g, b) => Some(r, g, b)
+    let (canvas, sx, sy, sw, sh, dx, dy, dw, dh) = if options.pixelate {
+      let canvas = preparePixelationCanvas(texture.canvas, sx, sy, sw, sh, dw, dh)
+      (canvas, 0, 0, Canvas.getWidth(canvas), Canvas.getHeight(canvas), dx, dy, dw, dh)
+    } else {
+      (texture.canvas, sx, sy, sw, sh, dx, dy, dw, dh)
     }
 
-    for y in 0 to sh - 1 {
-      for x in 0 to sw - 1 {
-        let tx = Belt.Int.toFloat(x) *. deltax
-        let ty = Belt.Int.toFloat(y) *. deltay
+    if sw > 0 && sh > 0 && dw > 0 && dh > 0 {
+      let imageData = Context2d.getImageData(Canvas.getContext2d(canvas), sx, sy, sw, sh)
+      let pix = imageData.data
 
-        // Source pixel
-        let i = (y * sw + x) * 4
-        let r = pix[i + 0]
-        let g = pix[i + 1]
-        let b = pix[i + 2]
-        let a = Belt.Int.toFloat(pix[i + 3]) /. 255.0
+      let tempCanvas = CanvasFactory.make(dw, dh)
+      let tempContext = Canvas.getContext2d(tempCanvas)
 
-        let (r, g, b) = switch blend {
-        | None => (r, g, b)
-        | Some((r2, g2, b2)) => blendColors(r, g, b, r2, g2, b2)
+      let deltax = Belt.Int.toFloat(dw) /. Belt.Int.toFloat(sw)
+      let deltay = Belt.Int.toFloat(dh) /. Belt.Int.toFloat(sh)
+
+      let pixw = Js.Math.floor(deltax)
+      let pixh = Js.Math.floor(deltay)
+
+      let pixw = Belt.Int.toFloat(pixw) < deltax ? pixw + 1 : pixw
+      let pixh = Belt.Int.toFloat(pixh) < deltay ? pixh + 1 : pixh
+
+      let blend = switch options.blend {
+      | #None => None
+      | #MultiplyHex(hex) => hexToRGB(hex)
+      | #MultiplyRGB(r, g, b) => Some(r, g, b)
+      }
+
+      for y in 0 to sh - 1 {
+        for x in 0 to sw - 1 {
+          let tx = Belt.Int.toFloat(x) *. deltax
+          let ty = Belt.Int.toFloat(y) *. deltay
+
+          // Source pixel
+          let i = (y * sw + x) * 4
+          let r = pix[i + 0]
+          let g = pix[i + 1]
+          let b = pix[i + 2]
+          let a = Belt.Int.toFloat(pix[i + 3]) /. 255.0
+
+          let (r, g, b) = switch blend {
+          | None => (r, g, b)
+          | Some((r2, g2, b2)) => blendColors(r, g, b, r2, g2, b2)
+          }
+
+          Context2d.setFillStyleRGBA(tempContext, r, g, b, a)
+          Context2d.fillRect(tempContext, Js.Math.floor(tx), Js.Math.floor(ty), pixw, pixh)
         }
-
-        Context2d.setFillStyleRGBA(tempContext, r, g, b, a)
-        Context2d.fillRect(tempContext, Js.Math.floor(tx), Js.Math.floor(ty), pixw, pixh)
       }
+
+      let context = page.context
+
+      // Save the current state of the page
+      Context2d.save(context)
+
+      // Move to the destination coordinate
+      Context2d.translate(context, dx, dy)
+
+      switch options.rotate {
+      | #None => ()
+      | #Corner(degrees) => {
+          let radians = degrees *. Js.Math._PI /. 180.0
+          Context2d.rotate(context, radians)
+        }
+      | #Center(degrees) => {
+          let radians = degrees *. Js.Math._PI /. 180.0
+          Context2d.translate(context, dw / 2, dh / 2)
+          Context2d.rotate(context, radians)
+          Context2d.translate(context, -dw / 2, -dh / 2)
+        }
+      }
+
+      switch options.flip {
+      | #None => ()
+      | #Horizontal => {
+          Context2d.translate(context, dw, 0)
+          Context2d.scale(context, -1, 1)
+        }
+      | #Vertical => {
+          Context2d.translate(context, 0, dh)
+          Context2d.scale(context, 1, -1)
+        }
+      }
+
+      Context2d.drawCanvasXY(context, tempCanvas, 0, 0)
+
+      Context2d.restore(context)
     }
-
-    let context = page.context
-
-    // Save the current state of the page
-    Context2d.save(context)
-
-    // Move to the destination coordinate
-    Context2d.translate(context, dx, dy)
-
-    switch options.rotate {
-    | #None => ()
-    | #Corner(degrees) => {
-        let radians = degrees *. Js.Math._PI /. 180.0
-        Context2d.rotate(context, radians)
-      }
-    | #Center(degrees) => {
-        let radians = degrees *. Js.Math._PI /. 180.0
-        Context2d.translate(context, dw / 2, dh / 2)
-        Context2d.rotate(context, radians)
-        Context2d.translate(context, -dw / 2, -dh / 2)
-      }
-    }
-
-    switch options.flip {
-    | #None => ()
-    | #Horizontal => {
-        Context2d.translate(context, dw, 0)
-        Context2d.scale(context, -1, 1)
-      }
-    | #Vertical => {
-        Context2d.translate(context, 0, dh)
-        Context2d.scale(context, 1, -1)
-      }
-    }
-
-    Context2d.drawCanvasXY(context, tempCanvas, 0, 0)
-
-    Context2d.restore(context)
   }
 
   let draw = (
@@ -282,6 +313,7 @@ module Texture = {
     ~flip: flip,
     ~rotate: rotate,
     ~blend: blend,
+    ~pixelate: bool,
     (),
   ) => {
     if sh > 0 && dh > 0 && sw > 0 && dw > 0 {
@@ -305,7 +337,7 @@ module Texture = {
         dy,
         dw,
         dh,
-        {rotate: rotate, flip: flip, blend: blend},
+        {rotate: rotate, flip: flip, blend: blend, pixelate: pixelate},
       )
     }
   }
@@ -681,6 +713,7 @@ let drawTexture = (
   ~flip: Texture.flip,
   ~rotate: Texture.rotate,
   ~blend: Texture.blend,
+  ~pixelate: bool,
   (),
 ) => {
   let model = ensureCurrentPage(model)
@@ -688,7 +721,23 @@ let drawTexture = (
   let texture = Js.Dict.get(model.values.textures, id)
   switch (currentPage, texture) {
   | (Some(page), Some(texture)) =>
-    Texture.draw(texture, page, sx, sy, sw, sh, dx, dy, dw, dh, ~flip, ~rotate, ~blend, ())
+    Texture.draw(
+      texture,
+      page,
+      sx,
+      sy,
+      sw,
+      sh,
+      dx,
+      dy,
+      dw,
+      dh,
+      ~flip,
+      ~rotate,
+      ~blend,
+      ~pixelate,
+      (),
+    )
   | _ => ()
   }
   model
