@@ -339,6 +339,20 @@ Generator.drawTexture(
 );
 ```
 
+### Pixelating textures
+
+When drawing textures and the destination shape is different to the source shape it can cause the texture to sometimes appear squashed, which makes the texture look messy. In these cases you can apply a `pixelate` option to keep the result looking pixelated.
+
+```res
+Generator.drawTexture(
+  "Skin",
+  (8, 8, 8, 8), // Square shape
+  (150, 150, 64, 256), // Rectangle shape
+  ~pixelate=true,
+  (),
+);
+```
+
 ### Blending colors
 
 When using `Generator.drawTexture()` you can blend textures with a color using the `~blend` argument.
