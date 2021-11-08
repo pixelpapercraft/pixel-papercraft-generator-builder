@@ -165,13 +165,11 @@ module Texture = {
     }
   }
 
-  let blendColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => {
-    (
-      (Belt.Int.toFloat(r1) /. 255.0 *. Belt.Int.toFloat(r2) /. 255.0 *. 255.0)->Belt.Float.toInt,
-      (Belt.Int.toFloat(g1) /. 255.0 *. Belt.Int.toFloat(g2) /. 255.0 *. 255.0)->Belt.Float.toInt,
-      (Belt.Int.toFloat(b1) /. 255.0 *. Belt.Int.toFloat(b2) /. 255.0 *. 255.0)->Belt.Float.toInt,
-    )
-  }
+  let blendColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
+    (Belt.Int.toFloat(r1) *. Belt.Int.toFloat(r2) /. 255.0)->Belt.Float.toInt,
+    (Belt.Int.toFloat(g1) *. Belt.Int.toFloat(g2) /. 255.0)->Belt.Float.toInt,
+    (Belt.Int.toFloat(b1) *. Belt.Int.toFloat(b2) /. 255.0)->Belt.Float.toInt,
+  )
 
   // Scale (dw, dh) so it fits inside (sw, sh)
   let fit = (sw, sh, dw, dh) => {
