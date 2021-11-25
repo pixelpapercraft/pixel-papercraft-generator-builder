@@ -1,0 +1,226 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// Minecraft Character Bendable Generator
+//
+// Originally developed by jojesper
+//
+// 06 Feb 2015 lostminer: Add user variables
+// 13 Feb 2015 lostminer: Update to use new version of generator
+// 02 Oct 2020 NinjolasNJM: Updated to use 1.8+ skins, and cleaned up the design
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// Disable solid colour transparency
+Generator.setImageOption('Skin', 'solidColorIsTransparent', false);
+
+// Define user inputs
+Generator.defineInput('Skin', {
+  type:'minecraft-character-texture',
+  standardWidth: 64,
+  standardHeight: 64
+});
+
+// Define user variables
+Generator.defineBooleanVariable('Show Folds', true);
+
+// Get user variable values
+var showFolds = Generator.getVariable('Show Folds');
+
+// Declare the variables we're going to use
+var ox;
+var oy;
+ 
+// Head
+ox = 41;
+oy = 16;
+Generator.drawImage( 'Skin', {x:0,  y:8, w:8, h:8}, {x:0+ox,  y:64+oy,  w:64, h:64} ); // Right
+Generator.drawImage( 'Skin', {x:8,  y:8, w:8, h:8}, {x:64+ox, y:64+oy,  w:64, h:64} ); // Face
+Generator.drawImage( 'Skin', {x:16, y:8, w:8, h:8}, {x:128+ox, y:64+oy,  w:64, h:64} ); // Left
+Generator.drawImage( 'Skin', {x:24, y:8, w:8, h:8}, {x:192+ox, y:64+oy,  w:64, h:64} ); // Back
+Generator.drawImage( 'Skin', {x:8,  y:0, w:8, h:8}, {x:64+ox, y:0+oy,  w:64, h:64} ); // Top
+Generator.drawImage( 'Skin', {x:16, y:0, w:8, h:8}, {x:64+ox, y:128+oy, w:64, h:64}, {flip:'vertical'} ); // Bottom
+ 
+// Upper Body
+ox = 340;
+oy = 40;
+Generator.drawImage( 'Skin', {x:16, y:20, w:4, h:8}, {x:0+ox, y:32+oy, w:32, h:64} ); //upper body
+Generator.drawImage( 'Skin', {x:20, y:20, w:8, h:8}, {x:32+ox, y:32+oy, w:64, h:64} ); //upper body 2
+Generator.drawImage( 'Skin', {x:28, y:20, w:4, h:8}, {x:96+ox, y:32+oy, w:32, h:64} ); //upper body-
+Generator.drawImage( 'Skin', {x:32, y:20, w:8, h:6}, {x:128+ox, y:32+oy, w:64, h:48} ); //upper body 2-
+Generator.drawImage( 'Skin', {x:32, y:24, w:8, h:4}, {x:32+ox, y:96+oy, w:64, h:32} ); //upper body 2--
+Generator.drawImage( 'Skin', {x:20, y:16, w:8, h:4}, {x:32+ox, y:0+oy, w:64, h:32} ); //upper body 3
+ 
+// Bottom Body
+ox = 342;
+oy = 186;
+Generator.drawImage( 'Skin', {x:16, y:25, w:4, h:7}, {x:0+ox,  y:0+oy, w:32, h:56} ); //Bottom body
+Generator.drawImage( 'Skin', {x:20, y:27, w:8, h:5}, {x:32+ox,  y:17+oy, w:64, h:39} ); //Bottom body 2
+Generator.drawImage( 'Skin', {x:28, y:25, w:4, h:7}, {x:96+ox, y:0+oy, w:32, h:56} ); //Bottom body-
+Generator.drawImage( 'Skin', {x:32, y:27, w:8, h:5}, {x:128+ox, y:16+oy, w:64, h:40} ); //Bottom body 3
+ 
+// Upper Right Hand
+ox = 109;
+oy = 265;
+Generator.drawImage( 'Skin', {x:40, y:16, w:16, h:12}, {x:0+ox,  y:0+oy, w:128, h:96} ); //upper right hand
+Generator.drawImage( 'Skin', {x:44, y:26, w:4,  h:2 }, {x:128+ox, y:128+oy, w:32,  h:32 }, {rotate: 180} ); //upper right hand 2
+ 
+// Bottom Right Hand
+ox = 52;
+oy = 362;
+Generator.drawImage( 'Skin', {x:40, y:25, w:16, h:7}, {x:0+ox, y:0+oy, w:128, h:56} ); //bottom right hand
+Generator.drawImage( 'Skin', {x:48, y:16, w:4,  h:4}, {x:32+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //bottom right hand 2
+ 
+// Upper Left Hand
+ox = 361;
+oy = 265;
+Generator.drawImage( 'Skin', {x:32, y:48, w:12, h:12}, {x:32+ox, y:0+oy, w:96, h:96} ); //upper left hand
+Generator.drawImage( 'Skin', {x:44, y:52, w:4, h:8}, {x:0+ox, y:32+oy, w:32, h:64} ); //upper left hand 2
+Generator.drawImage( 'Skin', {x:36, y:58, w:4,  h:2 }, {x:32+ox, y:128+oy, w:32,  h:32}, {rotate:180} ); //upper left hand 3
+ 
+// Bottom Left Hand
+ox = 418;
+oy = 362;
+Generator.drawImage( 'Skin', {x:32, y:57, w:12, h:7}, {x:32+ox, y:0+oy, w:96, h:56} ); //bottom left hand
+Generator.drawImage( 'Skin', {x:44, y:57, w:4, h:7}, {x:0+ox, y:0+oy, w:32, h:56} ); //bottom left hand 2
+Generator.drawImage( 'Skin', {x:40, y:48, w:4,  h:4}, {x:64+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //bottom left hand 3
+ 
+// Upper Right Leg
+ox = 93;
+oy = 467;
+Generator.drawImage( 'Skin', {x:12, y:20, w:4, h:4}, {x:64+ox,  y:19+oy, w:32, h:32}, {rotate:180} ); //upper right leg
+Generator.drawImage( 'Skin', {x:4, y:16, w:4, h:4}, {x:32+ox,  y:19+oy, w:32, h:32} ); //upper right leg
+Generator.drawImage( 'Skin', {x:0, y:20, w:16, h:9}, {x:0+ox,  y:51+oy, w:128, h:72} ); //upper right leg
+Generator.drawImage( 'Skin', {x:12, y:25, w:4, h:4}, {x:64+ox, y:155+oy, w:32,  h:32}, {rotate:180} ); //upper right leg
+Generator.drawImage( 'Skin', {x:16, y:30, w:4, h:2}, {x:0+ox, y:35+oy, w:32, h:16} ); //upper left leg
+Generator.drawImage( 'Skin', {x:16, y:30, w:4, h:2}, {x:64+ox, y:35+oy, w:32, h:16}, {flip:'horizontal'} ); //upper left leg
+ 
+// Lower Right Leg
+ox = 93;
+oy = 640;
+Generator.drawImage( 'Skin', {x:0, y:25, w:16, h:7}, {x:0+ox,  y:0+oy, w:128, h:56} ); //lower right leg
+Generator.drawImage( 'Skin', {x:8, y:16, w:4,  h:4},  {x:32+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //lower right leg
+ 
+ 
+// Upper Left Leg
+ox = 377;
+oy = 467;
+Generator.drawImage( 'Skin', {x:20, y:48, w:4, h:4}, {x:64+ox, y:19+oy, w:32, h:32} ); //upper left leg
+Generator.drawImage( 'Skin', {x:28, y:52, w:4, h:4}, {x:96+ox, y:19+oy, w:32, h:32}, {rotate:180} ); //upper left leg
+Generator.drawImage( 'Skin', {x:16, y:52, w:12, h:9}, {x:32+ox, y:51+oy, w:96, h:72} ); //upper left leg
+Generator.drawImage( 'Skin', {x:28, y:52, w:4, h:9}, {x:0+ox, y:51+oy, w:32, h:72} ); //upper left leg
+Generator.drawImage( 'Skin', {x:28, y:57, w:4, h:4}, {x:96+ox, y:155+oy, w:32,h:32}, {rotate:180} ); //upper right leg
+Generator.drawImage( 'Skin', {x:28, y:30, w:4, h:2}, {x:32+ox, y:35+oy, w:32, h:16}, {flip:'horizontal'} ); //upper left leg
+Generator.drawImage( 'Skin', {x:28, y:30, w:4, h:2}, {x:96+ox, y:35+oy, w:32, h:16} ); //upper left leg
+ 
+// Lower Left Leg
+ox = 377;
+oy = 640;
+Generator.drawImage( 'Skin', {x:16, y:57, w:12, h:7}, {x:32+ox, y:0+oy, w:96, h:56} ); //lower left leg
+Generator.drawImage( 'Skin', {x:28, y:57, w:4, h:7}, {x:0+ox, y:0+oy, w:32, h:56} ); //lower left leg
+Generator.drawImage( 'Skin', {x:24, y:48, w:4,  h:4},  {x:64+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //lower left leg
+
+ 
+//Overlays
+
+
+
+
+
+
+// Head
+ox = 41;
+oy = 16;
+Generator.drawImage( 'Skin', {x:32,  y:8, w:8, h:8}, {x:0+ox,  y:64+oy,  w:64, h:64} ); // Right
+Generator.drawImage( 'Skin', {x:40,  y:8, w:8, h:8}, {x:64+ox, y:64+oy,  w:64, h:64} ); // Face
+Generator.drawImage( 'Skin', {x:48, y:8, w:8, h:8}, {x:128+ox, y:64+oy,  w:64, h:64} ); // Left
+Generator.drawImage( 'Skin', {x:56, y:8, w:8, h:8}, {x:192+ox, y:64+oy,  w:64, h:64} ); // Back
+Generator.drawImage( 'Skin', {x:40,  y:0, w:8, h:8}, {x:64+ox, y:0+oy,  w:64, h:64} ); // Top
+Generator.drawImage( 'Skin', {x:48, y:0, w:8, h:8}, {x:64+ox, y:128+oy, w:64, h:64}, {flip:'vertical'} ); // Bottom
+ 
+// Upper Body
+ox = 340;
+oy = 40;
+Generator.drawImage( 'Skin', {x:16, y:36, w:4, h:8}, {x:0+ox, y:32+oy, w:32, h:64} ); //upper body
+Generator.drawImage( 'Skin', {x:20, y:36, w:8, h:8}, {x:32+ox, y:32+oy, w:64, h:64} ); //upper body 2
+Generator.drawImage( 'Skin', {x:28, y:36, w:4, h:8}, {x:96+ox, y:32+oy, w:32, h:64} ); //upper body-
+Generator.drawImage( 'Skin', {x:32, y:36, w:8, h:6}, {x:128+ox, y:32+oy, w:64, h:48} ); //upper body 2-
+Generator.drawImage( 'Skin', {x:32, y:40, w:8, h:4}, {x:32+ox, y:96+oy, w:64, h:32} ); //upper body 2--
+Generator.drawImage( 'Skin', {x:20, y:32, w:8, h:4}, {x:32+ox, y:0+oy, w:64, h:32} ); //upper body 3
+ 
+// Bottom Body
+ox = 342;
+oy = 186;
+Generator.drawImage( 'Skin', {x:16, y:41, w:4, h:7}, {x:0+ox,  y:0+oy, w:32, h:56} ); //Bottom body
+Generator.drawImage( 'Skin', {x:20, y:43, w:8, h:5}, {x:32+ox,  y:17+oy, w:64, h:39} ); //Bottom body 2
+Generator.drawImage( 'Skin', {x:28, y:41, w:4, h:7}, {x:96+ox, y:0+oy, w:32, h:56} ); //Bottom body-
+Generator.drawImage( 'Skin', {x:32, y:43, w:8, h:5}, {x:128+ox, y:16+oy, w:64, h:40} ); //Bottom body 3
+ 
+// Upper Right Hand
+ox = 109;
+oy = 265;
+Generator.drawImage( 'Skin', {x:40, y:32, w:16, h:12}, {x:0+ox,  y:0+oy, w:128, h:96} ); //upper right hand
+Generator.drawImage( 'Skin', {x:44, y:42, w:4,  h:2 }, {x:128+ox, y:128+oy, w:32,  h:32 }, {rotate: 180} ); //upper right hand 2
+ 
+// Bottom Right Hand
+ox = 52;
+oy = 362;
+Generator.drawImage( 'Skin', {x:40, y:41, w:16, h:7}, {x:0+ox, y:0+oy, w:128, h:56} ); //bottom right hand
+Generator.drawImage( 'Skin', {x:48, y:32, w:4,  h:4}, {x:32+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //bottom right hand 2
+ 
+// Upper Left Hand
+ox = 361;
+oy = 265;
+Generator.drawImage( 'Skin', {x:48, y:48, w:12, h:12}, {x:32+ox, y:0+oy, w:96, h:96} ); //upper left hand
+Generator.drawImage( 'Skin', {x:60, y:52, w:4, h:8}, {x:0+ox, y:32+oy, w:32, h:64} ); //upper left hand 2
+Generator.drawImage( 'Skin', {x:52, y:58, w:4,  h:2 }, {x:32+ox, y:128+oy, w:32,  h:32}, {rotate:180} ); //upper left hand 3
+ 
+// Bottom Left Hand
+ox = 418;
+oy = 362;
+Generator.drawImage( 'Skin', {x:48, y:57, w:12, h:7}, {x:32+ox, y:0+oy, w:96, h:56} ); //bottom left hand
+Generator.drawImage( 'Skin', {x:60, y:57, w:4, h:7}, {x:0+ox, y:0+oy, w:32, h:56} ); //bottom left hand 2
+Generator.drawImage( 'Skin', {x:52, y:48, w:4,  h:4}, {x:64+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //bottom left hand 3
+ 
+// Upper Right Leg
+ox = 93;
+oy = 467;
+Generator.drawImage( 'Skin', {x:12, y:36, w:4, h:4}, {x:64+ox,  y:19+oy, w:32, h:32}, {rotate:180} ); //upper right leg
+Generator.drawImage( 'Skin', {x:4, y:32, w:4, h:4}, {x:32+ox,  y:19+oy, w:32, h:32} ); //upper right leg
+Generator.drawImage( 'Skin', {x:0, y:36, w:16, h:9}, {x:0+ox,  y:51+oy, w:128, h:72} ); //upper right leg
+Generator.drawImage( 'Skin', {x:12, y:41, w:4, h:4}, {x:64+ox, y:155+oy, w:32,  h:32}, {rotate:180} ); //upper right leg
+Generator.drawImage( 'Skin', {x:16, y:46, w:4, h:2}, {x:0+ox, y:35+oy, w:32, h:16} ); //upper left leg
+Generator.drawImage( 'Skin', {x:16, y:46, w:4, h:2}, {x:64+ox, y:35+oy, w:32, h:16}, {flip:'horizontal'} ); //upper left leg
+ 
+// Lower Right Leg
+ox = 93;
+oy = 640;
+Generator.drawImage( 'Skin', {x:0, y:41, w:16, h:7}, {x:0+ox,  y:0+oy, w:128, h:56} ); //lower right leg
+Generator.drawImage( 'Skin', {x:8, y:32, w:4,  h:4},  {x:32+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //lower right leg
+ 
+ 
+// Upper Left Leg
+ox = 377;
+oy = 467;
+Generator.drawImage( 'Skin', {x:4, y:48, w:4, h:4}, {x:64+ox, y:19+oy, w:32, h:32} ); //upper left leg
+Generator.drawImage( 'Skin', {x:12, y:52, w:4, h:4}, {x:96+ox, y:19+oy, w:32, h:32}, {rotate:180} ); //upper left leg
+Generator.drawImage( 'Skin', {x:0, y:52, w:12, h:9}, {x:32+ox, y:51+oy, w:96, h:72} ); //upper left leg
+Generator.drawImage( 'Skin', {x:12, y:52, w:4, h:9}, {x:0+ox, y:51+oy, w:32, h:72} ); //upper left leg
+Generator.drawImage( 'Skin', {x:12, y:57, w:4, h:4}, {x:96+ox, y:155+oy, w:32,h:32}, {rotate:180} ); //upper right leg
+Generator.drawImage( 'Skin', {x:28, y:46, w:4, h:2}, {x:32+ox, y:35+oy, w:32, h:16}, {flip:'horizontal'} ); //upper left leg
+Generator.drawImage( 'Skin', {x:28, y:46, w:4, h:2}, {x:96+ox, y:35+oy, w:32, h:16} ); //upper left leg
+ 
+// Lower Left Leg
+ox = 377;
+oy = 640;
+Generator.drawImage( 'Skin', {x:0, y:57, w:12, h:7}, {x:32+ox, y:0+oy, w:96, h:56} ); //lower left leg
+Generator.drawImage( 'Skin', {x:12, y:57, w:4, h:7}, {x:0+ox, y:0+oy, w:32, h:56} ); //lower left leg
+Generator.drawImage( 'Skin', {x:8, y:48, w:4,  h:4},  {x:64+ox, y:56+oy, w:32,  h:32}, {flip: 'vertical'} ); //lower left leg
+
+
+// Foreground
+Generator.drawImage('Foreground');
+ 
+// Fold Lines
+if (showFolds) {
+  Generator.drawImage('Folds');
+}
