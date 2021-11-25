@@ -1,0 +1,23 @@
+// Define the user inputs
+// In this case, we just have one input to ask the user for a Minecraft
+character texture.
+Generator.defineInput('Skin', {type:'minecraft-character-texture'});
+
+// Draw the Background image
+Generator.drawImage('Background 3');
+
+// Draw the Head parts from the skin selected by the user
+
+Generator.drawImage( 'Skin', {x:8,  y:8, w:8, h:8}, {x:138, y:89, w:64,
+h:64} ); // Face
+
+// Draw the fold lines on top
+Generator.drawImage('Folds 2 And 3');
+
+Generator.drawText('Mask Generator',10,240,
+{fontSize:'10px',fontFamily:'Minecraft',fontStyle:'bold'} );
+Generator.drawText('Created By',10,260,
+{fontSize:'20px',fontFamily:'Minecraft',fontStyle:'italic'} );
+Generator.drawText('Adwolfsf',10,280,
+{fontSize:'30px',fontFamily:'Minecraft',fontStyle:'italic'} );
+
