@@ -36,7 +36,8 @@ let utility: array<Generator.generatorDef> = [
   MinecraftCharacterHeadsGenerator.generator,
 ]
 
-let mod: array<Generator.generatorDef> = [DalekModDalekGenerator.generator]
+let mod: array<Generator.generatorDef> = [DalekModDalekGenerator.generator,
+MutantCharacter.generator]
 
 let other: array<Generator.generatorDef> = [BendableAmogus.generator]
 
