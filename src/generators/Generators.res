@@ -37,9 +37,9 @@ let utility: array<Generator.generatorDef> = [
 ]
 
 let mod: array<Generator.generatorDef> = [DalekModDalekGenerator.generator,
-MutantCharacter.generator]
+MinecraftMutantCharacterGenerator.generator]
 
-let other: array<Generator.generatorDef> = [BendableAmogus.generator]
+let other: array<Generator.generatorDef> = [AmongUsBendableGenerator.generator,BiomeGenerator.generator]
 
 let dev: array<Generator.generatorDef> = isDevEnvironment
   ? [MinecraftWitherGenerator.generator]
