@@ -4,7 +4,9 @@ let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileNam
 let id = "bendableamogusgenerator"
 
 let name = "Bendable Amogus generator"
-
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnails/thumbnail.jpeg"),
+}
 let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background.png")},
   {id: "Folds", url: requireImage("Folds.png")},
@@ -230,7 +232,7 @@ Generator.drawTextureLegacy(
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,
