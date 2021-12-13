@@ -220,11 +220,30 @@ let drawPage = (texture, src) => {
 let script = () => {
   Generator.defineText("Test page for some generator features.")
 
-  Generator.defineButtonInput("Example Button Input", () => {
-    Js.log("Hello")
+  // Define a counter variable, with a default value of 1
+  let counter =
+    Generator.getSelectInputValue("Counter")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
+
+  // Show the counter
+  Generator.defineText("Counter is " ++ Belt.Int.toString(counter))
+
+  // Define a button that increments the counter
+  Generator.defineButtonInput("Increment Counter", () => {
+    let nextCounter = counter >= 6 ? 1 : counter + 1
+    let nextCounterString = Belt.Int.toString(nextCounter)
+    Generator.setSelectInputValue("Counter", nextCounterString)
   })
 
+  // Use a page (this is needed for region inputs to work)
   Generator.usePage("Page 1")
+
+  // Define a region that increments the counter
+  Generator.defineRegionInput((0, 0, 100, 100), () => {
+    let nextCounter = counter >= 6 ? 1 : counter + 1
+    let nextCounterString = Belt.Int.toString(nextCounter)
+    Generator.setSelectInputValue("Counter", nextCounterString)
+  })
+
   drawPage("Steve", (8, 8, 8, 8))
 
   Generator.usePage("Page 2")
