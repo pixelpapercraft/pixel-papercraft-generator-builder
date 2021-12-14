@@ -6,7 +6,7 @@ let id = "minecraft-squid-character"
 let name = "Minecraft Squid Character"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/v3-thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Background", "Folds"]
