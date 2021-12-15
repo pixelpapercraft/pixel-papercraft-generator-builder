@@ -3,7 +3,7 @@ let id = "minecraft-pig-character"
 let name = "Minecraft Pig Character"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
 let images: array<Generator.imageDef> = []
