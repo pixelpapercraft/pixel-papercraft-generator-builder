@@ -21,7 +21,7 @@ let instructions: Generator.instructionsDef = {
   </div>
 }
 
-let imageIds = ["Background-Alex", "Background-Steve", "Folds-Alex", "Folds-Steve", "Labels"]
+let imageIds = ["Background-Alex", "Background-Steve", "Folds-Alex", "Folds-Steve", "Labels", "1bkghead1", "1fldhead1", "2bkghead2", "2fldhead2", "3bkgbody1", "3fldbody1", "4bkgbody2", "4fldbody2", "5bkgarm1", "5fldarm1", "6bkgarm2", "6fldarm2", "7bkgleg1", "7fldleg1", "7lblleg1", "8bkgleg2", "8fldleg2", "8lblleg2"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
