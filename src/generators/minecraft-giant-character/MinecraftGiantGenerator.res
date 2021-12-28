@@ -436,6 +436,10 @@ let script = () => {
   if showFolds {
     Generator.drawImage("7fldleg1", (0, 0))
   }
+  // Labels
+  if showLabels {
+    Generator.drawImage("7lblleg1", (0, 0))
+  }
 
   // Right Leg
            
@@ -486,6 +490,10 @@ let script = () => {
   // Folds
   if showFolds {
     Generator.drawImage("8fldleg2", (0, 0))
+  }
+    // Labels
+  if showLabels {
+    Generator.drawImage("8lblleg2", (0, 0))
   }
 
   // Overlays
@@ -834,13 +842,6 @@ let script = () => {
       (),
     )
   } // Bottom
-
-
-
-  // Labels
-  if showLabels {
-    Generator.drawImage("Labels", (0, 0))
-  }
 }
 
 let generator: Generator.generatorDef = {
