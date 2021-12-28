@@ -38,7 +38,7 @@ let script = () => {
   )
 
   Generator.defineSelectInput("Skin style", ["Steve", "Alex"])
-  let alexModel = Generator.getSelectInputValue("Color") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin style") === "Alex"
 
   Generator.usePage("Page 1")
   Generator.drawImage("Page1", (0, 0))
