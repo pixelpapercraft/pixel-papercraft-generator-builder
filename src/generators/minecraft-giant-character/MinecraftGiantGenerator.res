@@ -80,9 +80,9 @@ let script = () => {
   })
 
   // Head
-  Generator.usePage("Head Page 1")
+    Generator.usePage("Head Page 1")
 
-  Generator.drawImage("1bkghead1", (0,0)) // defining page and drawing background
+    Generator.drawImage("1bkghead1", (0,0)) // defining page and drawing background
 
   let ox = 74
   let oy = 25
@@ -101,6 +101,11 @@ let script = () => {
     ~flip=#Vertical,
     (),
   ) // Bottom
+  
+  // Folds
+  if showFolds {
+    Generator.drawImage("1fldhead1", (0, 0))
+  }
 
     Generator.usePage("Head Page 2")
 
@@ -118,6 +123,11 @@ let script = () => {
     {x: ox + 192, y: oy + 64, w: 64, h: 64},
     (),
   ) // Back
+
+  // Folds
+  if showFolds {
+    Generator.drawImage("2fldhead2", (0, 0))
+  }
 
   // Torso
     
@@ -143,6 +153,11 @@ let script = () => {
     (),
   ) // Bottom
       
+  // Folds
+  if showFolds {
+    Generator.drawImage("3fldbody1", (0, 0))
+  }
+
     Generator.usePage("Body Page 2")
 
     Generator.drawImage("4bkgbody2", (0,0)) // defining page and drawing background
@@ -159,8 +174,13 @@ let script = () => {
     {x: ox + 128, y: oy + 32, w: 64, h: 96},
     (),
   ) // Back
-  // Arms
 
+  // Folds
+  if showFolds {
+    Generator.drawImage("4fldbody2", (0, 0))
+  }
+
+  // Arms
   if alexModel {
  // Left Arm
      
@@ -208,6 +228,11 @@ let script = () => {
       (),
     ) // Bottom  
 
+  // Folds
+  if showFolds {
+    Generator.drawImage("5fldarm1", (0, 0))
+  }
+
     // Right Arm
          
     Generator.usePage("Right Arm")
@@ -254,6 +279,11 @@ let script = () => {
       (),
     ) // Bottom
    
+  // Folds
+  if showFolds {
+    Generator.drawImage("6fldarm2", (0, 0))
+  }
+
   } else {
 
 
@@ -303,6 +333,11 @@ let script = () => {
       (),
     ) // Bottom    
 
+  // Folds
+  if showFolds {
+    Generator.drawImage("5fldarm1", (0, 0))
+  }
+
     // Right Arm
              
     Generator.usePage("Right Arm")
@@ -348,6 +383,12 @@ let script = () => {
       ~flip=#Vertical,
       (),
     ) // Bottom
+
+  // Folds
+  if showFolds {
+    Generator.drawImage("6fldarm2", (0, 0))
+  }
+
   }
 
   // Left Leg
@@ -391,6 +432,11 @@ let script = () => {
     (),
   ) // Bottom  
   
+  // Folds
+  if showFolds {
+    Generator.drawImage("7fldleg1", (0, 0))
+  }
+
   // Right Leg
            
     Generator.usePage("Right Leg")
@@ -436,6 +482,11 @@ let script = () => {
     ~flip=#Vertical,
     (),
   ) // Bottom
+
+  // Folds
+  if showFolds {
+    Generator.drawImage("8fldleg2", (0, 0))
+  }
 
   // Overlays
   if !hideHelmet {
@@ -784,14 +835,7 @@ let script = () => {
     )
   } // Bottom
 
-  // Fold Lines
-  if showFolds {
-    if alexModel {
-      Generator.drawImage("Folds-Alex", (0, 0))
-    } else {
-      Generator.drawImage("Folds-Steve", (0, 0))
-    }
-  }
+
 
   // Labels
   if showLabels {
