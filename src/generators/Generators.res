@@ -36,9 +36,12 @@ let utility: array<Generator.generatorDef> = [
   MinecraftCharacterHeadsGenerator.generator,
 ]
 
-let mod: array<Generator.generatorDef> = [DalekModDalekGenerator.generator]
+let mod: array<Generator.generatorDef> = [
+  DalekModDalekGenerator.generator,
+  MinecraftMutantCharacterGenerator.generator,
+]
 
-let other: array<Generator.generatorDef> = []
+let other: array<Generator.generatorDef> = [AmongUsBendableGenerator.generator]
 
 let dev: array<Generator.generatorDef> = isDevEnvironment
   ? [MinecraftWitherGenerator.generator]
