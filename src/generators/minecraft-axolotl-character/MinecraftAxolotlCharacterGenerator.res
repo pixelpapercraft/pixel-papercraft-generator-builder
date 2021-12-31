@@ -880,7 +880,7 @@ let script = () => {
       //Left Side lower
       "Tail Fin Texture",
       (2, 31, 12, 5),
-      (258, 700, 96, 40),
+      (258, 701, 96, 40),
       ~rotateLegacy=-90.00,
       (),
     )
@@ -888,7 +888,7 @@ let script = () => {
       //right Side lower
       "Tail Fin Texture",
       (2, 31, 12, 5),
-      (298, 700, 96, 40),
+      (298, 701, 96, 40),
       ~rotateLegacy=-90.00,
       ~flip=#Vertical,
       (),
@@ -989,7 +989,7 @@ let script = () => {
   }
 
   // Background
-Generator.drawImage("Background", (0, 0))
+//Generator.drawImage("Background", (0, 0))
 
   // Folds
   if showFolds {
