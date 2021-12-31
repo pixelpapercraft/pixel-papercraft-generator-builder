@@ -6,7 +6,7 @@ let id = "minecraft-axolotl-character"
 let name = "Minecraft Axolotl Character"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
+  url: Generator.requireImage("./thumbnail/v2thumbnail_256.jpg"),
 }
 
 let imageIds = ["Background", "Folds", "Labels"]
