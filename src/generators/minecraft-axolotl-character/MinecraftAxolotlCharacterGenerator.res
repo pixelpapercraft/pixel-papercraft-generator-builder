@@ -989,7 +989,7 @@ let script = () => {
   }
 
   // Background
-//Generator.drawImage("Background", (0, 0))
+  Generator.drawImage("Background", (0, 0))
 
   // Folds
   if showFolds {
