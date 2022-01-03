@@ -9,13 +9,14 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let instructions = {
-  let amogus = Generator.requireImage("./instructions/amogus-100.png")
-  `
-  "Amogus" is a corrupted version of the Among Us game name. In January 2021, the word gained popularity as a catchphrase used in ironic memes, often used to replace dialogue in various cartoons. Additionally, Amogus refers to a even more simplified like drawing of a crewmate from Among Us used in these type of memes.
-  ![Amogus](${amogus})
-  `
-}
+let amogusImage = Generator.requireImage("./instructions/amogus-100.png")
+let instructions = `
+"Amogus" is a corrupted version of the Among Us game name. In January 2021,
+the word gained popularity as a catchphrase used in ironic memes, often used
+to replace dialogue in various cartoons. Additionally, Amogus refers to a even
+more simplified like drawing of a crewmate from Among Us used in these type of memes.
+![Amogus](${amogusImage})
+`
 
 let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background.png")},
