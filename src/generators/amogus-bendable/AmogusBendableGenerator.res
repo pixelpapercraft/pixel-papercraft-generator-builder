@@ -14,7 +14,7 @@ let instructions = {
   `
   "Amogus" is a corrupted version of the Among Us game name. In January 2021, the word gained popularity as a catchphrase used in ironic memes, often used to replace dialogue in various cartoons. Additionally, Amogus refers to a even more simplified like drawing of a crewmate from Among Us used in these type of memes.
   ![Amogus](${amogus})
-`
+  `
 }
 
 let images: array<Generator.imageDef> = [
