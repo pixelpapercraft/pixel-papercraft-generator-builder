@@ -162,52 +162,121 @@ let makeMergedTextureImages = (versions: array<version>) => {
 
 external toJson: 'a => Js.Json.t = "%identity"
 
-let makeDataFile = (versions: array<version>) => {
-  let versionsData = versions->Js.Array2.map(({id, textures}) => {
-    let textures =
-      textures->Js.Array2.map(({id, frames, index}) => {"id": id, "frames": frames, "index": index})
-    {"id": id, "textures": textures}
-  })
+// let makeDataFile = (versions: array<version>) => {
+//   let versionsData = versions->Js.Array2.map(({id, textures}) => {
+//     let textures =
+//       textures->Js.Array2.map(({id, frames, index}) => {"id": id, "frames": frames, "index": index})
+//     {"id": id, "textures": textures}
+//   })
 
-  let texturesData =
-    versionsData
-    ->Js.Array2.map(versionData => {
-      let standardWidth = 16
-      let standardHeight = versionData["textures"]->Js.Array2.reduce((acc, texture) => {
-        acc + texture["frames"] * 16
-      }, 0)
-      {
-        "id": versionData["id"],
-        "url": versionData["id"] ++ ".png",
-        "standardWidth": standardWidth,
-        "standardHeight": standardHeight,
-      }
-    })
-    ->Js.Array2.map(textureData => {
-      `
+//   let texturesData =
+//     versionsData
+//     ->Js.Array2.map(versionData => {
+//       let standardWidth = 16
+//       let standardHeight = versionData["textures"]->Js.Array2.reduce((acc, texture) => {
+//         acc + texture["frames"] * 16
+//       }, 0)
+//       {
+//         "id": versionData["id"],
+//         "url": versionData["id"] ++ ".png",
+//         "standardWidth": standardWidth,
+//         "standardHeight": standardHeight,
+//       }
+//     })
+//     ->Js.Array2.map(textureData => {
+//       `
+//     {
+//       id: "${textureData["id"]}",
+//       url: Generator.requireImage("./${textureData["url"]}"),
+//       standardWidth: ${textureData["standardWidth"]->Js.Int.toString},
+//       standardHeight: ${textureData["standardHeight"]->Js.Int.toString},
+//     }
+//     `
+//     })
+//     ->Js.Array2.joinWith(",")
+
+//   let texturesCode = `
+//     let textures: array<Generator.textureDef> = [
+//       ${texturesData}
+//     ]
+//   `
+
+//   let code = `
+//     // This is a generated file
+
+//     ${texturesCode}
+
+//     let versions = ${versionsData->toJson->Js.Json.stringify}
+//   `
+//   Fs.writeFileSync(dataFile, code)
+//   Promise.make((resolve, reject) => {
+//     ChildProcess.exec("npx rescript format " ++ dataFile, (. exn, stdout, stderr) => {
+//       switch Js.Nullable.toOption(exn) {
+//       | Some(exn) => reject(. exn)
+//       | None => {
+//           switch Js.Nullable.toOption(stdout) {
+//           | Some(stdout) => Js.log(stdout)
+//           | None => ()
+//           }
+//           switch Js.Nullable.toOption(stderr) {
+//           | Some(stderr) => Js.log(stderr)
+//           | None => ()
+//           }
+//           resolve(. ignore())
+//         }
+//       }
+//     })
+//     resolve(. ignore())
+//   })
+// }
+
+let makeVersionFileName = (version: version) => {
+  version.id->Js.String2.replaceByRe(%re(`/[-\.]/g`), "_")
+}
+
+let makeDataFile = (version: version) => {
+  let {id, textures} = version
+  let textures =
+    textures->Js.Array2.map(({id, frames, index}) => {"id": id, "frames": frames, "index": index})
+  let versionData = {"id": id, "textures": textures}
+
+  let standardWidth = 16
+  let standardHeight = versionData["textures"]->Js.Array2.reduce((acc, texture) => {
+    acc + texture["frames"] * 16
+  }, 0)
+
+  let textureData = {
+    "id": versionData["id"],
+    "url": versionData["id"] ++ ".png",
+    "standardWidth": standardWidth,
+    "standardHeight": standardHeight,
+  }
+
+  let textureData = `
     {
       id: "${textureData["id"]}",
       url: Generator.requireImage("./${textureData["url"]}"),
       standardWidth: ${textureData["standardWidth"]->Js.Int.toString},
       standardHeight: ${textureData["standardHeight"]->Js.Int.toString},
     }
-    `
-    })
-    ->Js.Array2.joinWith(",")
-
-  let texturesCode = `
-    let textures: array<Generator.textureDef> = [
-      ${texturesData}
-    ]
   `
 
   let code = `
     // This is a generated file
 
-    ${texturesCode}
+    let texture: Generator.textureDef = ${textureData}
 
-    let versions = ${versionsData->toJson->Js.Json.stringify}
+    let version = ${versionData->toJson->Js.Json.stringify}
+
+    let data = (texture, version)
   `
+
+  let versionFileName = makeVersionFileName(version)
+  Js.log(makeVersionFileName(version))
+  let fileName = `MinecraftBlock_Texture_${versionFileName}.res`
+
+  let dataFile = Path.resolve(Node.__dirname, texturesDir ++ `/${fileName}`)
+
   Fs.writeFileSync(dataFile, code)
   Promise.make((resolve, reject) => {
     ChildProcess.exec("npx rescript format " ++ dataFile, (. exn, stdout, stderr) => {
@@ -230,6 +299,10 @@ let makeDataFile = (versions: array<version>) => {
   })
 }
 
+let makeDataFiles = (versions: array<version>) => {
+  versions->Belt.Array.map(makeDataFile)->Promise.all->Promise.then(_ => Promise.resolve())
+}
+
 // We're currently not keeping the original files,
 // so don't delete the generated output
 // cleanOutput()
@@ -237,7 +310,7 @@ let makeDataFile = (versions: array<version>) => {
 let versions = makeVersions()
 
 makeMergedTextureImages(versions)
-->Promise.then(_ => makeDataFile(versions))
+->Promise.then(_ => makeDataFiles(versions))
 ->Promise.catch(exn => {
   Js.log(exn)
   Promise.resolve()

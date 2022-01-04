@@ -9,7 +9,8 @@
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
     "res:build": "rescript build",
-    "res:watch": "rescript build -w"
+    "res:watch": "rescript build -w",
+    "make-block-textures": "node ./src/generators/minecraft-block/MinecraftBlockMakeTextures.bs.js"
   },
   "devDependencies": {
     "@babel/core": "7.16.0",

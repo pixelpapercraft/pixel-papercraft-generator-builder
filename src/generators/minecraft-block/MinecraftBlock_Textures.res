@@ -1,4 +1,13 @@
-module TextureData = MinecraftBlock_TextureData
+module TextureData = {
+  // Order from oldest to newest
+  let definitions: array<(Generator.textureDef, {..})> = [
+    MinecraftBlock_Texture_minecraft_1_13_2.data,
+    MinecraftBlock_Texture_minecraft_1_18_1.data,
+  ]
+
+  let versions = definitions->Belt.Array.map(((_, version)) => version)
+  let textures = definitions->Belt.Array.map(((texture, _)) => texture)
+}
 
 type textureFrame = {
   versionId: string,

@@ -6,20 +6,32 @@
 
 ## Creating the texture files
 
-Place the texture files into a directory named `textures-original`, such as
+Minecraft asset files can be obtained from https://mcasset.cloud/
+
+Recent versions of Minecraft block textures are in asset folder `assets\minecraft\textures\block`
+
+Copy the directory containing the block textures into a the `textures-original` and rename it, such as
 
 ```
-textures-original/minecraft-1.16.5
+textures-original/minecraft-1.17.2
 ```
 
 Then run the command:
 
 ```
-npm run blocks:makeTextures
+npm run make-block-textures
 ```
 
 This will generate files in the `textures` directory.
 
-Commit these files to the repo.
+## Enabling the new textures in the Block Generator
 
-**Do not commit the original texture files to the repo, only commit the generated merged texture file**
+Open the `MinecraftBlock_Textures.res` file.
+
+Add the new texture data to the top of the file.
+
+## Commit the changes
+
+Commit the changes to the repo.
+
+**IMPORTANT: Do not commit the original texture files to the repo, only commit the generated merged texture file**
