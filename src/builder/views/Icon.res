@@ -26,6 +26,7 @@ module Upload = {
 
 let sizeClass = size => {
   switch size {
+  | #Small => "w-3 h-3"
   | #Medium => "w-5 h-5"
   }
 }
@@ -34,6 +35,7 @@ let colorClass = color => {
   switch color {
   | #Black => "text-black"
   | #White => "text-white"
+  | #Gray500 => "text-gray-500"
   }
 }
 
@@ -63,6 +65,34 @@ module ChevronDown = {
       viewBox="0 0 24 24"
       stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  }
+}
+
+module ChevronRight = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+    </svg>
+  }
+}
+
+module ChevronLeft = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
     </svg>
   }
 }
@@ -102,6 +132,40 @@ module ChevronDoubleDown = {
   }
 }
 
+module ChevronDoubleRight = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path
+        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"
+      />
+    </svg>
+  }
+}
+
+module ChevronDoubleLeft = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+      />
+    </svg>
+  }
+}
 module Eye = {
   @react.component
   let make = (~size=#Medium, ~color=#Black) => {
