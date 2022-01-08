@@ -15,6 +15,9 @@ module Element = {
   type t = Dom.element
   type eventListener = Dom.event => unit
 
+  @set external value: (t, string) => unit = "value"
+  @send external focus: t => unit = "focus"
+
   @get external width: t => int = "width"
   @get external height: t => int = "height"
   @get external style: t => Style.t = "style"
@@ -23,6 +26,15 @@ module Element = {
   @val external cloneNode: t => unit = "cloneNode"
   @send external addEventListener: (t, string, eventListener) => unit = "addEventListener"
   @send external removeEventListener: (t, string, eventListener) => unit = "removeEventListener"
+  @send
+  external addReactKeyboardEventListener: (t, [#keydown], ReactEvent.Keyboard.t => unit) => unit =
+    "addEventListener"
+  @send
+  external removeReactKeyboardEventListener: (
+    t,
+    [#keydown],
+    ReactEvent.Keyboard.t => unit,
+  ) => unit = "removeEventListener"
 }
 
 module Window = {
@@ -31,6 +43,7 @@ module Window = {
   external asElement: t => Element.t = "%identity"
 
   @val external instance: t = "window"
+  @val external document: Dom.document = "document"
   @send external print: t => unit = "print"
 }
 
@@ -53,7 +66,8 @@ module Image = {
   type onLoadCallback = unit => unit
   type onErrorCallback = exn => unit
 
-  external asElement: t => Element.t = "%identity"
+  external asElement: t => Dom.element = "%identity"
+  external fromDomElement: Dom.element => Dom.htmlImageElement = "%identity"
 
   @new external make: unit => t = "Image"
   @set external src: (t, string) => unit = "src"
@@ -62,6 +76,12 @@ module Image = {
   @set external onError: (t, onErrorCallback) => unit = "onerror"
   @get external width: t => int = "width"
   @get external height: t => int = "height"
+  @get external offsetWidth: t => int = "offsetWidth"
+  @get external offsetHeight: t => int = "offsetHeight"
+  @get external naturalWidth: t => int = "naturalWidth"
+  @get external naturalHeight: t => int = "naturalHeight"
+  @send
+  external addEventListener: (t, [#load | #error], Dom.event => unit) => unit = "addEventListener"
 }
 
 module Context2d = {
@@ -123,7 +143,7 @@ module Body = {
 module Document = {
   type t = Dom.document
 
-  @val external document: t = "document"
+  // @val external document: t = "document"
   @get external body: t => Dom.htmlBodyElement = "body"
   @send external getElementById: (t, string) => Js.Nullable.t<Dom.element> = "getElementById"
   @send external getElementById_UNSAFE: (t, string) => Dom.element = "getElementById"
@@ -148,7 +168,7 @@ module Canvas = {
   @send external toDataUrl: (t, string) => string = "toDataURL"
 
   let make = (width, height) => {
-    let canvas: t = Document.createElement(Document.document, "canvas")
+    let canvas: t = Document.createElement(Window.document, "canvas")
     setWidth(canvas, width)
     setHeight(canvas, height)
     canvas
@@ -162,14 +182,53 @@ module Canvas = {
 
 module File = {
   type t = {name: string}
+
+  @get external name: t => string = "name"
+  @get external size: t => int = "size" // bytes
+  @get external type_: t => string = "type"
+  @get external lastModified: t => int = "lastModified"
+  @get external lastModifiedDate: t => Js.Date.t = "lastModifiedDate"
 }
 
 module FileReader = {
   type t
+  type dataUrl = string
+  type listenEvent = [#load]
 
   type onLoadCallback = ReactEvent.Form.t => unit
 
   @new external make: unit => t = "FileReader"
   @set external setOnLoad: (t, onLoadCallback) => unit = "onload"
   @send external readAsDataUrl: (t, File.t) => unit = "readAsDataURL"
+  @get external result: t => dataUrl = "result"
+  @send
+  external addEventListener: (t, listenEvent, unit => unit, bool) => unit = "addEventListener"
+}
+
+module FileList = {
+  type t
+
+  @get
+  external length: t => int = "length"
+
+  @send
+  external item: (t, int) => File.t = "item"
+}
+
+module Event = {
+  type t = ReactEvent.Form.t
+
+  let currentTarget = ReactEvent.Form.currentTarget
+
+  let currentTargetFiles = (event: t): FileList.t => ReactEvent.Form.currentTarget(event)["files"]
+}
+
+module FormData = {
+  type t
+
+  @new external make: unit => t = "FormData"
+  @send external appendString: (t, string, string) => unit = "append"
+  @send external appendBool: (t, string, bool) => unit = "append"
+  @send external appendFile: (t, string, File.t) => unit = "append"
+  @send external appendStringArray: (t, string, array<string>) => unit = "append"
 }

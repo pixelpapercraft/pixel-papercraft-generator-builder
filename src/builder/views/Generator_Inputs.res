@@ -1,6 +1,5 @@
 module FormInput = Generator_FormInput
 module Builder = Generator_Builder
-module Dom2 = Generator_Dom2
 module Icon = Generator_Icon
 module Buttons = Generator_Buttons
 

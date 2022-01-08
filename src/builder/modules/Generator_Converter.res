@@ -1,4 +1,4 @@
-open Generator_Dom2
+open Dom2
 
 let hasValidSourceDimensions = (width: int, height: int) => {
   mod(width, 64) === 0 && width === height * 2
@@ -9,7 +9,7 @@ let makeImage = () => {
 }
 
 let makeCanvas = (width: int, height: int) => {
-  let canvas = Document.createCanvasElement(Document.document)
+  let canvas = Document.createCanvasElement(Window.document)
   Canvas.setWidth(canvas, width)
   Canvas.setHeight(canvas, height)
   canvas

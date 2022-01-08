@@ -1,6 +1,6 @@
 module PageSize = Generator_PageSize
 
-open Generator_Dom2
+open Dom2
 
 type textureDef = {
   id: string,
@@ -44,7 +44,7 @@ type rectangle = (int, int, int, int)
 
 module CanvasFactory = {
   let make = (width, height) => {
-    let canvas = Document.createCanvasElement(Document.document)
+    let canvas = Document.createCanvasElement(Window.document)
     Canvas.setWidth(canvas, width)
     Canvas.setHeight(canvas, height)
     canvas
@@ -72,7 +72,7 @@ module Page = {
   }
 
   let make = (id: string) => {
-    let canvas = Document.createCanvasElement(Document.document)
+    let canvas = Document.createCanvasElement(Window.document)
     Canvas.setWidth(canvas, PageSize.A4.px.width)
     Canvas.setHeight(canvas, PageSize.A4.px.height)
     let context = Canvas.getContext2d(canvas)
@@ -100,7 +100,7 @@ module Texture = {
   let make = (image, standardWidth, standardHeight): t => {
     let width = Image.width(image)
     let height = Image.height(image)
-    let canvas = Document.createCanvasElement(Document.document)
+    let canvas = Document.createCanvasElement(Window.document)
     let context = Canvas.getContext2d(canvas)
     Canvas.setWidth(canvas, width)
     Canvas.setHeight(canvas, height)

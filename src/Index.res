@@ -1,5 +1,3 @@
-open Generator_Dom2.Document
-
 %%raw(`
 require('tailwindcss/tailwind.css');
 `)
@@ -82,5 +80,5 @@ module App = {
   let default = make
 }
 
-let root = getElementById_UNSAFE(document, "root")
+let root = Dom2.Document.getElementById_UNSAFE(Dom2.Window.document, "root")
 ReactDOM.render(<App />, root)

@@ -1,10 +1,7 @@
 module PageSize = Generator_PageSize
 module Builder = Generator_Builder
 module Buttons = Generator_Buttons
-module JsPdf = Generator_JsPdf
-module Dom2 = Generator_Dom2
 module ButtonStyles = Generator_ButtonStyles
-module PrintHtmlElement = Generator_PrintHtmlElement
 
 let px = n => `${Js.Int.toString(n)}px`
 
