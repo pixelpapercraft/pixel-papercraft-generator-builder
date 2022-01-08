@@ -1,3 +1,5 @@
+module Icon = Generator_Icon
+
 module Option = {
   @react.component
   let make = (~value, ~children) => {

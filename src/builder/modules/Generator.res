@@ -1,3 +1,7 @@
+module Builder = Generator_Builder
+module PageSize = Generator_PageSize
+module Markdown = Generator_Markdown
+
 @val external requireImage: string => string = "require"
 
 type imageDef = Builder.imageDef
@@ -7,6 +11,7 @@ type thumnbnailDef = Builder.thumnbnailDef
 type videoDef = Builder.videoDef
 type instructionsDef = Builder.instructionsDef
 
+// @deprecated Use Markdown instead
 module Markup = {
   module H2 = {
     @react.component

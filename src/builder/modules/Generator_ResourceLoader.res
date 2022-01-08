@@ -1,3 +1,5 @@
+module Builder = Generator_Builder
+
 type imageTuple = (string, Builder.Image.t)
 type textureTuple = (string, Builder.Texture.t)
 

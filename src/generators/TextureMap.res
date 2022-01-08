@@ -1,3 +1,5 @@
+module Builder = Generator.Builder
+
 type cuboidLegacy = {
   top: Builder.rectangleLegacy,
   bottom: Builder.rectangleLegacy,

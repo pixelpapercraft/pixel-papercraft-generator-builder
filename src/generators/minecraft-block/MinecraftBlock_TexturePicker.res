@@ -1,3 +1,6 @@
+module Builder = Generator.Builder
+
+module Icon = Generator_Icon
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 module Tints = MinecraftBlock_Tints

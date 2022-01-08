@@ -1,3 +1,5 @@
+module Builder = Generator.Builder
+
 let id = "minecraft-pig-character"
 
 let name = "Minecraft Pig Character"

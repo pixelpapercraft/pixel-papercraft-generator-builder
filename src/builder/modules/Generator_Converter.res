@@ -1,4 +1,4 @@
-open Dom2
+open Generator_Dom2
 
 let hasValidSourceDimensions = (width: int, height: int) => {
   mod(width, 64) === 0 && width === height * 2

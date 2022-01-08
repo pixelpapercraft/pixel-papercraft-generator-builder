@@ -1,11 +1,11 @@
-open Dom2.Document
+open Generator_Dom2.Document
 
 %%raw(`
 require('tailwindcss/tailwind.css');
 `)
 
 module GeneratorOptGroup = {
-  open FormInput
+  open Generator_FormInput
   @react.component
   let make = (~label, ~generators) => {
     <OptGroup label={label}>
@@ -19,7 +19,7 @@ module GeneratorOptGroup = {
 }
 
 module GeneratorSelect = {
-  open FormInput
+  open Generator_FormInput
 
   @react.component
   let make = (~onChange, ~value) => {
@@ -74,7 +74,7 @@ module App = {
       </div>
       {switch generatorDef {
       | None => React.null
-      | Some(generatorDef) => <GeneratorView generatorDef={generatorDef} />
+      | Some(generatorDef) => <Generator_View generatorDef={generatorDef} />
       }}
     </div>
   }

@@ -1,4 +1,5 @@
-open Icon
+module Icon = Generator_Icon
+module ButtonStyles = Generator_ButtonStyles
 
 type buttonState = [#Ready | #Disabled | #Processing]
 type buttonColor = [#None | #LightGray | #Gray | #Green | #Blue | #Red]
@@ -16,7 +17,7 @@ let getContent = (state, children) => {
   switch state {
   | #Ready => children
   | #Disabled => children
-  | #Processing => <ProgressSpin color=#White />
+  | #Processing => <Icon.ProgressSpin color=#White />
   }
 }
 

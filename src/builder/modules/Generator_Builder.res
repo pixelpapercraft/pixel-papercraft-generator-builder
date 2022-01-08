@@ -1,4 +1,6 @@
-open Dom2
+module PageSize = Generator_PageSize
+
+open Generator_Dom2
 
 type textureDef = {
   id: string,

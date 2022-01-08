@@ -1,3 +1,5 @@
+module Markdown = Generator.Markdown
+
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
 let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 

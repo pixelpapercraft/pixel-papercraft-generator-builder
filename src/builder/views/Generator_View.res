@@ -1,3 +1,9 @@
+module Builder = Generator_Builder
+module ResourceLoader = Generator_ResourceLoader
+module ScriptRunner = Generator_ScriptRunner
+module GeneratorInputs = Generator_Inputs
+module GeneratorPages = Generator_Pages
+
 module Thumbnail = {
   @react.component
   let make = (~thumbnail: Generator.thumnbnailDef) => {

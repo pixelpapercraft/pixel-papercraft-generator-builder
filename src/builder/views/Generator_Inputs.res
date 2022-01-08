@@ -1,4 +1,8 @@
-open FormInput
+module FormInput = Generator_FormInput
+module Builder = Generator_Builder
+module Dom2 = Generator_Dom2
+module Icon = Generator_Icon
+module Buttons = Generator_Buttons
 
 module TextureInput = {
   @react.component
@@ -136,11 +140,11 @@ module SelectInput = {
     }
     <div className="mb-4">
       <div className="font-bold"> {React.string(id)} </div>
-      <Select value={value} onChange={onSelectChange}>
+      <FormInput.Select value={value} onChange={onSelectChange}>
         {Js.Array2.map(options, option => {
-          <Option key={option} value={option}> {React.string(option)} </Option>
+          <FormInput.Option key={option} value={option}> {React.string(option)} </FormInput.Option>
         })->React.array}
-      </Select>
+      </FormInput.Select>
     </div>
   }
 }

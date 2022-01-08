@@ -1,3 +1,5 @@
+module Builder = Generator.Builder
+
 module TextureData = {
   // Order from oldest to newest
   let definitions: array<(Generator.textureDef, {..})> = [

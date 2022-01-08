@@ -1,3 +1,5 @@
+module Builder = Generator_Builder
+
 let run = (generatorDef: Builder.generatorDef, model: Builder.Model.t) => {
   Promise.make((resolve, _reject) => {
     Js.Global.setTimeout(() => {

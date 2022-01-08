@@ -1,3 +1,5 @@
+module Marked = Generator_Marked
+
 @react.component
 let make = (~children: string) => {
   let html = Marked.parse(children)

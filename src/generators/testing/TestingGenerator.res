@@ -1,3 +1,5 @@
+module PageSize = Generator.PageSize
+
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
 let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
