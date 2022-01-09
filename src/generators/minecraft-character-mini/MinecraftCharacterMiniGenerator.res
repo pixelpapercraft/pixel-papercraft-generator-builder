@@ -24,24 +24,21 @@ let steveSkin = requireTexture("SkinSteve64x64")
 let alexSkin = requireTexture("SkinAlex64x64")
 
 let textures: array<Generator.textureDef> = [
+  // Default texture for "Skin 1"
   {
     id: "Skin 1",
     url: steveSkin,
     standardWidth: 64,
     standardHeight: 64,
   },
-  {
-    id: "Skin",
-    url: steveSkin,
-    standardWidth: 64,
-    standardHeight: 64,
-  },
+  // Steve texture choice
   {
     id: "Steve",
     url: steveSkin,
     standardWidth: 64,
     standardHeight: 64,
   },
+  // Alex texture choice
   {
     id: "Alex",
     url: alexSkin,
