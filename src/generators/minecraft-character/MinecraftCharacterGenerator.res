@@ -9,17 +9,13 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
-let instructions: Generator.instructionsDef = {
-  open Generator.Markup
-  <div>
-    <H2> {"How to use the Minecraft Character Generator?"->React.string} </H2>
-    <OL>
-      <LI> {"Choose the your texture file model type"->React.string} </LI>
-      <LI> {"Select your Minecraft skin file"->React.string} </LI>
-      <LI> {"Download and print your character papercraft"->React.string} </LI>
-    </OL>
-  </div>
-}
+let instructions = `
+## How to use the Minecraft Character Generator?
+
+1. Choose the your texture file model type.
+2. Select your Minecraft skin file.
+3. Download and print your character papercraft.
+`
 
 let imageIds = ["Background-Alex", "Background-Steve", "Folds-Alex", "Folds-Steve", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
@@ -374,7 +370,7 @@ let generator: Generator.generatorDef = {
   name: name,
   thumbnail: Some(thumbnail),
   video: None,
-  instructions: Some(instructions),
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
