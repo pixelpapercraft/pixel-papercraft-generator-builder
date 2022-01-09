@@ -60,22 +60,22 @@ let script = () => {
   let hideLeftPant = Generator.getBooleanInputValue("Hide Left Pant")
   let hideRightPant = Generator.getBooleanInputValue("Hide Right Pant")
 
-  Generator.defineRegionInput((74, 25, 256, 192), () => {
+  Generator.defineRegionInput((72, 24, 264, 198), () => {
     Generator.setBooleanInputValue("Hide Helmet", !hideHelmet)
   })
-  Generator.defineRegionInput((268, 201, 192, 160), () => {
+  Generator.defineRegionInput((266, 198, 198, 166), () => {
     Generator.setBooleanInputValue("Hide Jacket", !hideJacket)
   })
-  Generator.defineRegionInput((383, 373, 128, 160), () => {
+  Generator.defineRegionInput((382, 372, 134, 166), () => {
     Generator.setBooleanInputValue("Hide Left Sleeve", !hideLeftSleeve)
   })
-  Generator.defineRegionInput((99, 373, 128, 160), () => {
+  Generator.defineRegionInput((99, 372, 134, 166), () => {
     Generator.setBooleanInputValue("Hide Right Sleeve", !hideRightSleeve)
   })
-  Generator.defineRegionInput((383, 587, 128, 160), () => {
+  Generator.defineRegionInput((383, 584, 134, 166), () => {
     Generator.setBooleanInputValue("Hide Left Pant", !hideLeftPant)
   })
-  Generator.defineRegionInput((99, 587, 128, 160), () => {
+  Generator.defineRegionInput((99, 584, 134, 166), () => {
     Generator.setBooleanInputValue("Hide Right Pant", !hideRightPant)
   })
 
