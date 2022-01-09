@@ -12,19 +12,35 @@ let thumbnail: Generator.thumnbnailDef = {
 let instructions = `
 ## How to use the Minecraft Character Generator?
 
-1. Choose the your texture file model type.
 2. Select your Minecraft skin file.
+1. Choose the your texture file model type.
 3. Download and print your character papercraft.
 `
 
-let imageIds = ["Background-Alex", "Background-Steve", "Folds-Alex", "Folds-Steve", "Labels"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
-let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
+let images: array<Generator.imageDef> = [
+  {id: "SteveBackground", url: requireImage("SteveBackground")},
+  {id: "SteveFolds", url: requireImage("SteveFolds")},
+  {id: "AlexBackground", url: requireImage("AlexBackground")},
+  {id: "AlexFolds", url: requireImage("AlexFolds")},
+  {id: "Labels", url: requireImage("Labels")},
+]
 
 let textures: array<Generator.textureDef> = [
   {
     id: "Skin",
-    url: requireTexture("Skin64x64Steve"),
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve",
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Alex",
+    url: requireTexture("SkinAlex64x64"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -35,20 +51,25 @@ let alex = TextureMap.MinecraftCharacter.alex
 
 let script = () => {
   // Inputs
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
 
+  Generator.defineTextureInput(
+    "Skin",
+    {standardWidth: 64, standardHeight: 64, choices: ["Steve", "Alex"]},
+  )
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
-
   Generator.defineText(
     "Click in the papercraft template to turn on and off the overlay for each part.",
   )
 
   // Draw
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+
+  let isAlexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
+
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
+
   let hideHelmet = Generator.getBooleanInputValue("Hide Helmet")
   let hideJacket = Generator.getBooleanInputValue("Hide Jacket")
   let hideLeftSleeve = Generator.getBooleanInputValue("Hide Left Sleeve")
@@ -76,13 +97,15 @@ let script = () => {
   })
 
   // Background
-  if alexModel {
-    Generator.drawImage("Background-Alex", (0, 0))
+
+  if isAlexModel {
+    Generator.drawImage("AlexBackground", (0, 0))
   } else {
-    Generator.drawImage("Background-Steve", (0, 0))
+    Generator.drawImage("SteveBackground", (0, 0))
   }
 
   // Head
+
   let ox = 74
   let oy = 25
   Generator.drawTexture("Skin", steve.base.head.right, (ox, oy + 64, 64, 64), ())
@@ -99,6 +122,7 @@ let script = () => {
   )
 
   // Torso
+
   let ox = 268
   let oy = 201
   Generator.drawTexture("Skin", steve.base.body.right, (ox, oy + 32, 32, 96), ())
@@ -115,7 +139,8 @@ let script = () => {
   )
 
   // Arms
-  if alexModel {
+
+  if isAlexModel {
     // Right Arm
     let ox = 107
     let oy = 373
@@ -182,6 +207,7 @@ let script = () => {
   }
 
   // Right Leg
+
   let ox = 99
   let oy = 587
   Generator.drawTexture("Skin", steve.base.rightLeg.right, (ox, oy + 32, 32, 96), ())
@@ -198,6 +224,7 @@ let script = () => {
   )
 
   // Left Leg
+
   let ox = 415
   let oy = 587
   Generator.drawTexture("Skin", steve.base.leftLeg.right, (ox, oy + 32, 32, 96), ())
@@ -214,8 +241,9 @@ let script = () => {
   )
 
   // Overlays
+
   if !hideHelmet {
-    // Head2
+    // Head Overlay
     let ox = 74
     let oy = 25
     Generator.drawTexture("Skin", steve.overlay.head.right, (ox, oy + 64, 64, 64), ())
@@ -233,7 +261,7 @@ let script = () => {
   }
 
   if !hideJacket {
-    // Torso2
+    // Torso Overlay
     let ox = 268
     let oy = 201
     Generator.drawTexture("Skin", steve.overlay.body.right, (ox, oy + 32, 32, 96), ())
@@ -250,11 +278,11 @@ let script = () => {
     )
   }
 
-  // Arms2
+  // Arms Overlay
 
-  if alexModel {
+  if isAlexModel {
     if !hideRightSleeve {
-      // Right Arm2
+      // Right Arm Overlay
       let ox = 107
       let oy = 373
       Generator.drawTexture("Skin", alex.overlay.rightArm.right, (ox, oy + 32, 32, 96), ())
@@ -266,7 +294,7 @@ let script = () => {
     }
 
     if !hideLeftSleeve {
-      // Left Arm2
+      // Left Arm Overlay
       let ox = 415
       let oy = 373
       Generator.drawTexture("Skin", alex.overlay.leftArm.right, (ox, oy + 32, 32, 96), ())
@@ -278,7 +306,7 @@ let script = () => {
     }
   } else {
     if !hideRightSleeve {
-      // Right Arm2
+      // Right Arm Overlay
       let ox = 99
       let oy = 373
       Generator.drawTexture("Skin", steve.overlay.rightArm.right, (ox, oy + 32, 32, 96), ())
@@ -296,7 +324,7 @@ let script = () => {
     }
 
     if !hideLeftSleeve {
-      // Left Arm2
+      // Left Arm Overlay
       let ox = 415
       let oy = 373
       Generator.drawTexture("Skin", steve.overlay.leftArm.right, (ox, oy + 32, 32, 96), ())
@@ -315,7 +343,7 @@ let script = () => {
   }
 
   if !hideRightPant {
-    // Right Leg2
+    // Right Leg Overlay
     let ox = 99
     let oy = 587
     Generator.drawTexture("Skin", steve.overlay.rightLeg.right, (ox, oy + 32, 32, 96), ())
@@ -333,7 +361,7 @@ let script = () => {
   }
 
   if !hideLeftPant {
-    // Left Leg2
+    // Left Leg Overlay
     let ox = 415
     let oy = 587
     Generator.drawTexture("Skin", steve.overlay.leftLeg.right, (ox, oy + 32, 32, 96), ())
@@ -350,16 +378,18 @@ let script = () => {
     )
   }
 
-  // Fold Lines
+  // Folds
+
   if showFolds {
-    if alexModel {
-      Generator.drawImage("Folds-Alex", (0, 0))
+    if isAlexModel {
+      Generator.drawImage("AlexFolds", (0, 0))
     } else {
-      Generator.drawImage("Folds-Steve", (0, 0))
+      Generator.drawImage("SteveFolds", (0, 0))
     }
   }
 
   // Labels
+
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
