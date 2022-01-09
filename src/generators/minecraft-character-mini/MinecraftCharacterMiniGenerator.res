@@ -29,9 +29,7 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-let steveLegacy = TextureMap.MinecraftCharacterLegacy.steve
 let steve = TextureMap.MinecraftCharacter.steve
-let alexLegacy = TextureMap.MinecraftCharacterLegacy.alex
 let alex = TextureMap.MinecraftCharacter.alex
 
 type options = {
