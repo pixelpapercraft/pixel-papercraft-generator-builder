@@ -20,10 +20,31 @@ let images: array<Generator.imageDef> = [
   },
 ]
 
+let steveSkin = requireTexture("SkinSteve64x64")
+let alexSkin = requireTexture("SkinAlex64x64")
+
 let textures: array<Generator.textureDef> = [
   {
+    id: "Skin 1",
+    url: steveSkin,
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Skin",
-    url: requireTexture("Steve"),
+    url: steveSkin,
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve",
+    url: steveSkin,
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Alex",
+    url: alexSkin,
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -147,8 +168,8 @@ let drawMini = (options: options) => {
 
   // Arms
   if alexModel {
-    let ox = x + 49
-    let oy = y + 10
+    let ox = x + 9
+    let oy = y + 2
     Generator.drawTexture(
       skin,
       alex.base.rightArm.left,
@@ -185,8 +206,8 @@ let drawMini = (options: options) => {
       )
     }
 
-    let ox = x + 241
-    let oy = y + 42
+    let ox = x + 249
+    let oy = y + 2
     Generator.drawTexture(
       skin,
       alex.base.leftArm.right,
@@ -436,8 +457,14 @@ let drawMini = (options: options) => {
 
 let script = () => {
   // Define the user inputs
-  Generator.defineTextureInput("Skin 1", {standardWidth: 64, standardHeight: 64, choices: []})
-  Generator.defineTextureInput("Skin 2", {standardWidth: 64, standardHeight: 64, choices: []})
+  Generator.defineTextureInput(
+    "Skin 1",
+    {standardWidth: 64, standardHeight: 64, choices: ["Steve", "Alex"]},
+  )
+  Generator.defineTextureInput(
+    "Skin 2",
+    {standardWidth: 64, standardHeight: 64, choices: ["Steve", "Alex"]},
+  )
 
   let showSkin1 = Generator.hasTexture("Skin 1")
   let showSkin2 = Generator.hasTexture("Skin 2")
