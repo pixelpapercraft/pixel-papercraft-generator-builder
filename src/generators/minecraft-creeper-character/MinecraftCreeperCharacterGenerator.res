@@ -11,6 +11,7 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let imageIds = [
   "Background",
+  "Tabs",
   "Folds",
   "Labels",
   "Action-Figure",
@@ -74,6 +75,7 @@ let script = () => {
 
   // Background
   Generator.drawImage("Background", (0, 0))
+  Generator.drawImage("Tabs", (0, 0))
 
   // Head
   let ox = 164
