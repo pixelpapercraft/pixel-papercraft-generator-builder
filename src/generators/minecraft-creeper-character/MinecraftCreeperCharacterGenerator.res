@@ -203,7 +203,7 @@ let script = () => {
     Generator.drawTexture("Skin", steve.overlay.body.front, (32 + ox, 32 + oy, 64, 96), ())
     Generator.drawTexture("Skin", steve.overlay.body.left, (96 + ox, 32 + oy, 32, 96), ())
     Generator.drawTexture("Skin", steve.overlay.body.back, (128 + ox, 32 + oy, 64, 96), ())
-    Generator.drawTexture("Skin", steve.overlay.body.back, (32 + ox, oy, 64, 32), ())
+    Generator.drawTexture("Skin", steve.overlay.body.top, (32 + ox, oy, 64, 32), ())
     Generator.drawTexture(
       "Skin",
       steve.overlay.body.bottom,
