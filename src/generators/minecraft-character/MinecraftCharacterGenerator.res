@@ -18,9 +18,10 @@ let instructions = `
 `
 
 let images: array<Generator.imageDef> = [
-  {id: "SteveBackground", url: requireImage("SteveBackground")},
+  {id: "Background", url: requireImage("Background")},
+  {id: "SteveTabs", url: requireImage("SteveTabs")},
   {id: "SteveFolds", url: requireImage("SteveFolds")},
-  {id: "AlexBackground", url: requireImage("AlexBackground")},
+  {id: "AlexTabs", url: requireImage("AlexTabs")},
   {id: "AlexFolds", url: requireImage("AlexFolds")},
   {id: "Labels", url: requireImage("Labels")},
 ]
@@ -98,10 +99,12 @@ let script = () => {
 
   // Background
 
+  Generator.drawImage("Background", (0, 0))
+
   if isAlexModel {
-    Generator.drawImage("AlexBackground", (0, 0))
+    Generator.drawImage("AlexTabs", (0, 0))
   } else {
-    Generator.drawImage("SteveBackground", (0, 0))
+    Generator.drawImage("SteveTabs", (0, 0))
   }
 
   // Head
