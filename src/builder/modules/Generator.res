@@ -107,6 +107,10 @@ let getBooleanInputValue = (id: string) => {
   Builder.getBooleanInputValue(model.contents, id)
 }
 
+let getBooleanInputValueWithDefault = (id: string, default: bool) => {
+  Builder.getBooleanInputValueWithDefault(model.contents, id, default)
+}
+
 let defineSelectInput = (id, options) => {
   model := Builder.defineSelectInput(model.contents, id, options)
 }

@@ -483,6 +483,14 @@ let getBooleanInputValue = (model: Model.t, id: string) => {
   }
 }
 
+let getBooleanInputValueWithDefault = (model: Model.t, id: string, default: bool) => {
+  let value = Js.Dict.get(model.values.booleans, id)
+  switch value {
+  | None => default
+  | Some(value) => value
+  }
+}
+
 let setSelectInputValue = (model: Model.t, id: string, value: string) => {
   let selects = Js.Dict.fromArray(Js.Dict.entries(model.values.selects))
   Js.Dict.set(selects, id, value)
