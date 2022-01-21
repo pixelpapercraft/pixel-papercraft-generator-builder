@@ -12,8 +12,8 @@ let thumbnail: Generator.thumnbnailDef = {
 let instructions = `
 ## How to use the Minecraft Character Generator?
 
-2. Select your Minecraft skin file.
-1. Choose the your Minecraft skin file model type.
+1. Select your Minecraft skin file.
+2. Choose the your Minecraft skin file model type.
 3. Download and print your character papercraft.
 `
 
