@@ -529,3 +529,70 @@ module Snow = {
     }
   }
 }
+
+module Cake = {
+  module Regions = {
+    type faces = {
+      top: region,
+      bottom: region,
+      right: region,
+      front: region,
+      left: region,
+      back: region,
+    }
+
+    let size = 128
+    let dif = 16
+    let sizec = size - dif
+
+    let make = (ox, oy, bites): faces => {
+      top: (ox + size, oy + size / 2 + dif, sizec, sizec),
+      bottom: (ox + size, oy + size * 2, sizec, sizec),
+      right: (ox + dif, oy + size * 3 / 2, sizec, size / 2),
+      front: (ox + size, oy + size * 3 / 2, sizec, size / 2),
+      left: (ox + sizec * 2 + dif, oy + size * 3 / 2, sizec, size / 2),
+      back: (ox + sizec * 3 + dif, oy + size * 3 / 2, sizec, size / 2),
+    }
+  }
+
+  let draw = (blockId: string, ox: int, oy: int) => {
+    Generator.defineSelectInput(
+      "Block " ++ blockId ++ " Bites",
+      ["0", "1", "2", "3", "4", "5", "6"],
+    )
+
+    let bites =
+      Generator.getSelectInputValue("Block " ++ blockId ++ " Bites")
+      ->Belt.Int.fromString
+      ->Belt.Option.getWithDefault(1)
+
+    let regions = Regions.make(ox, oy, bites)
+
+    Face.defineInputRegion("CakeFaceTop" ++ blockId, regions.top)
+    Face.defineInputRegion("CakeFaceBottom" ++ blockId, regions.bottom)
+    Face.defineInputRegion("CakeFaceRight" ++ blockId, regions.right)
+    Face.defineInputRegion("CakeFaceFront" ++ blockId, regions.front)
+    Face.defineInputRegion("CakeFaceLeft" ++ blockId, regions.left)
+    Face.defineInputRegion("CakeFaceBack" ++ blockId, regions.back)
+
+    Face.draw("CakeFaceTop" ++ blockId, (1, 1, 14, 14), regions.top, ())
+    Face.draw("CakeFaceBottom" ++ blockId, (1, 1, 14, 14), regions.bottom, ())
+    Face.draw("CakeFaceRight" ++ blockId, (1, 8, 14, 8), regions.right, ())
+    Face.draw("CakeFaceFront" ++ blockId, (1, 8, 14, 8), regions.front, ())
+    Face.draw("CakeFaceLeft" ++ blockId, (1, 8, 14, 8), regions.left, ())
+    Face.draw("CakeFaceBack" ++ blockId, (1, 8, 14, 8), regions.back, ())
+
+    Generator.drawImage("Tabs-Cake", (ox - 32, oy - 1))
+
+    let showFolds = Generator.getBooleanInputValue("Show Folds")
+    if showFolds {
+      Generator.drawImage("Folds-Cake", (ox - 32, oy - 1))
+    }
+
+    //Generator.drawImage("Tabs-Snow-Top", (ox - 32, oy - 1 + 128 - levels * 16 + offset * 8))
+    //Generator.drawImage("Tabs-Snow-Middle", (ox - 32, oy - 1))
+    //if showFolds {
+    //Generator.drawImage("Folds-Snow-Top", (ox - 32, oy - 1 + 128 - levels * 16 + offset * 8))
+    //}
+  }
+}
