@@ -543,26 +543,32 @@ module Cake = {
 
     let size = 128
     let dif = 16
+    let sizeb = 16
     let sizec = size - dif
 
     let make = (ox, oy, bites): faces => {
-      top: (ox + size, oy + size / 2 + dif, sizec, sizec),
-      bottom: (ox + size, oy + size * 2, sizec, sizec),
+      top: (ox + size, oy + size / 2 + dif, sizec - sizeb * bites, sizec),
+      bottom: (ox + size, oy + size * 2, sizec - sizeb * bites, sizec),
       right: (ox + dif, oy + size * 3 / 2, sizec, size / 2),
-      front: (ox + size, oy + size * 3 / 2, sizec, size / 2),
-      left: (ox + sizec * 2 + dif, oy + size * 3 / 2, sizec, size / 2),
-      back: (ox + sizec * 3 + dif, oy + size * 3 / 2, sizec, size / 2),
+      front: (ox + size, oy + size * 3 / 2, sizec - sizeb * bites, size / 2),
+      left: (ox + sizec * 2 + dif - sizeb * bites, oy + size * 3 / 2, sizec, size / 2),
+      back: (
+        ox + sizec * 3 + dif - sizeb * bites,
+        oy + size * 3 / 2,
+        sizec - sizeb * bites,
+        size / 2,
+      ),
     }
   }
 
   let draw = (blockId: string, ox: int, oy: int) => {
     Generator.defineSelectInput(
-      "Block " ++ blockId ++ " Bites",
+      "Block " ++ blockId ++ " Bites Taken",
       ["0", "1", "2", "3", "4", "5", "6"],
     )
 
     let bites =
-      Generator.getSelectInputValue("Block " ++ blockId ++ " Bites")
+      Generator.getSelectInputValue("Block " ++ blockId ++ " Bites Taken")
       ->Belt.Int.fromString
       ->Belt.Option.getWithDefault(1)
 
@@ -575,24 +581,35 @@ module Cake = {
     Face.defineInputRegion("CakeFaceLeft" ++ blockId, regions.left)
     Face.defineInputRegion("CakeFaceBack" ++ blockId, regions.back)
 
-    Face.draw("CakeFaceTop" ++ blockId, (1, 1, 14, 14), regions.top, ())
-    Face.draw("CakeFaceBottom" ++ blockId, (1, 1, 14, 14), regions.bottom, ())
+    Face.draw("CakeFaceTop" ++ blockId, (1 + bites * 2, 1, 14 - 2 * bites, 14), regions.top, ())
+    Face.draw(
+      "CakeFaceBottom" ++ blockId,
+      (1 + bites * 2, 1, 14 - 2 * bites, 14),
+      regions.bottom,
+      (),
+    )
     Face.draw("CakeFaceRight" ++ blockId, (1, 8, 14, 8), regions.right, ())
-    Face.draw("CakeFaceFront" ++ blockId, (1, 8, 14, 8), regions.front, ())
+    Face.draw("CakeFaceFront" ++ blockId, (1 + bites * 2, 8, 14 - 2 * bites, 8), regions.front, ())
     Face.draw("CakeFaceLeft" ++ blockId, (1, 8, 14, 8), regions.left, ())
-    Face.draw("CakeFaceBack" ++ blockId, (1, 8, 14, 8), regions.back, ())
-
-    Generator.drawImage("Tabs-Cake", (ox - 32, oy - 1))
+    Face.draw("CakeFaceBack" ++ blockId, (1, 8, 14 - 2 * bites, 8), regions.back, ())
 
     let showFolds = Generator.getBooleanInputValue("Show Folds")
+
+    Generator.drawImage("Tabs-Cake-Left", (ox - 32, oy - 1))
     if showFolds {
-      Generator.drawImage("Folds-Cake", (ox - 32, oy - 1))
+      Generator.drawImage("Folds-Cake-Left", (ox - 32, oy - 1))
     }
 
-    //Generator.drawImage("Tabs-Snow-Top", (ox - 32, oy - 1 + 128 - levels * 16 + offset * 8))
-    //Generator.drawImage("Tabs-Snow-Middle", (ox - 32, oy - 1))
-    //if showFolds {
-    //Generator.drawImage("Folds-Snow-Top", (ox - 32, oy - 1 + 128 - levels * 16 + offset * 8))
-    //}
+    Generator.drawImage("Tabs-Cake-Middle", (ox - 32 - bites * 16, oy - 1))
+    if showFolds {
+      Generator.drawImage("Folds-Cake-Middle", (ox - 32 - bites * 16, oy - 1))
+    }
+
+    Generator.drawImage("Tabs-Cake-Right", (ox - 16 - bites * 32, oy - 1))
+    if showFolds {
+      Generator.drawImage("Folds-Cake-Right", (ox - 32 - bites * 32, oy - 1))
+    }
+
+    Generator.drawImage("Tabs-Cake-Corner", (ox - 32 - bites * 16, oy - 1))
   }
 }

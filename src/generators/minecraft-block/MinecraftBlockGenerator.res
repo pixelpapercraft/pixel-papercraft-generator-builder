@@ -31,8 +31,13 @@ let images: array<Generator.imageDef> = [
   {id: "Tabs-Snow-Top", url: Generator.requireImage("./images/Tabs-Snow-Top.png")},
   {id: "Tabs-Snow-Middle", url: Generator.requireImage("./images/Tabs-Snow-Middle.png")},
   {id: "Tabs-Snow-Bottom", url: Generator.requireImage("./images/Tabs-Snow-Bottom.png")},
-  {id: "Folds-Cake", url: Generator.requireImage("./images/Folds-Cake.png")},
-  {id: "Tabs-Cake", url: Generator.requireImage("./images/Tabs-Cake.png")},
+  {id: "Folds-Cake-Left", url: Generator.requireImage("./images/Folds-Cake-Left.png")},
+  {id: "Folds-Cake-Middle", url: Generator.requireImage("./images/Folds-Cake-Middle.png")},
+  {id: "Folds-Cake-Right", url: Generator.requireImage("./images/Folds-Cake-Right.png")},
+  {id: "Tabs-Cake-Left", url: Generator.requireImage("./images/Tabs-Cake-Left.png")},
+  {id: "Tabs-Cake-Middle", url: Generator.requireImage("./images/Tabs-Cake-Middle.png")},
+  {id: "Tabs-Cake-Corner", url: Generator.requireImage("./images/Tabs-Cake-Corner.png")},
+  {id: "Tabs-Cake-Right", url: Generator.requireImage("./images/Tabs-Cake-Right.png")},
 ]
 
 let textures: array<Generator.textureDef> = Textures.textures
