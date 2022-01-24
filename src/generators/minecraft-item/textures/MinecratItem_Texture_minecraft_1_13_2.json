@@ -1,0 +1,3775 @@
+[
+  {
+    "name": "acacia_door_bottom",
+    "x": 0,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_door_top",
+    "x": 16,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_leaves",
+    "x": 32,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_log",
+    "x": 48,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_log_top",
+    "x": 64,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_planks",
+    "x": 80,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_sapling",
+    "x": 96,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "acacia_trapdoor",
+    "x": 112,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "activator_rail",
+    "x": 128,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "activator_rail_on",
+    "x": 144,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "allium",
+    "x": 160,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "andesite",
+    "x": 176,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "anvil",
+    "x": 192,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "anvil_top",
+    "x": 208,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "attached_melon_stem",
+    "x": 224,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "attached_pumpkin_stem",
+    "x": 240,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "azure_bluet",
+    "x": 256,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "beacon",
+    "x": 272,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bedrock",
+    "x": 288,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "beetroots_stage0",
+    "x": 304,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "beetroots_stage1",
+    "x": 320,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "beetroots_stage2",
+    "x": 336,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "beetroots_stage3",
+    "x": 352,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_door_bottom",
+    "x": 368,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_door_top",
+    "x": 384,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_leaves",
+    "x": 400,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_log",
+    "x": 416,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_log_top",
+    "x": 432,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_planks",
+    "x": 448,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_sapling",
+    "x": 464,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "birch_trapdoor",
+    "x": 480,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_concrete",
+    "x": 496,
+    "y": 0,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_concrete_powder",
+    "x": 0,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_glazed_terracotta",
+    "x": 16,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_shulker_box",
+    "x": 32,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_stained_glass",
+    "x": 48,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_stained_glass_pane_top",
+    "x": 64,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_terracotta",
+    "x": 80,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "black_wool",
+    "x": 96,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_concrete",
+    "x": 112,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_concrete_powder",
+    "x": 128,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_glazed_terracotta",
+    "x": 144,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_ice",
+    "x": 160,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_orchid",
+    "x": 176,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_shulker_box",
+    "x": 192,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_stained_glass",
+    "x": 208,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_stained_glass_pane_top",
+    "x": 224,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_terracotta",
+    "x": 240,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "blue_wool",
+    "x": 256,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bone_block_side",
+    "x": 272,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bone_block_top",
+    "x": 288,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bookshelf",
+    "x": 304,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brain_coral",
+    "x": 320,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brain_coral_block",
+    "x": 336,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brain_coral_fan",
+    "x": 352,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brewing_stand",
+    "x": 368,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brewing_stand_base",
+    "x": 384,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bricks",
+    "x": 400,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_concrete",
+    "x": 416,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_concrete_powder",
+    "x": 432,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_glazed_terracotta",
+    "x": 448,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_mushroom",
+    "x": 464,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_mushroom_block",
+    "x": 480,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_shulker_box",
+    "x": 496,
+    "y": 16,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_stained_glass",
+    "x": 0,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_stained_glass_pane_top",
+    "x": 16,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_terracotta",
+    "x": 32,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "brown_wool",
+    "x": 48,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bubble_coral",
+    "x": 64,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bubble_coral_block",
+    "x": 80,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "bubble_coral_fan",
+    "x": 96,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cactus_bottom",
+    "x": 112,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cactus_side",
+    "x": 128,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cactus_top",
+    "x": 144,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cake_bottom",
+    "x": 160,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cake_inner",
+    "x": 176,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cake_side",
+    "x": 192,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cake_top",
+    "x": 208,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "carrots_stage0",
+    "x": 224,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "carrots_stage1",
+    "x": 240,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "carrots_stage2",
+    "x": 256,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "carrots_stage3",
+    "x": 272,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "carved_pumpkin",
+    "x": 288,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cauldron_bottom",
+    "x": 304,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cauldron_inner",
+    "x": 320,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cauldron_side",
+    "x": 336,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cauldron_top",
+    "x": 352,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chain_command_block_back",
+    "x": 16,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "chain_command_block_conditional",
+    "x": 32,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "chain_command_block_front",
+    "x": 48,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "chain_command_block_side",
+    "x": 64,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "chipped_anvil_top",
+    "x": 368,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chiseled_quartz_block",
+    "x": 384,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chiseled_quartz_block_top",
+    "x": 400,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chiseled_red_sandstone",
+    "x": 416,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chiseled_sandstone",
+    "x": 432,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chiseled_stone_bricks",
+    "x": 448,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chorus_flower",
+    "x": 464,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chorus_flower_dead",
+    "x": 480,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "chorus_plant",
+    "x": 496,
+    "y": 32,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "clay",
+    "x": 0,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "coal_block",
+    "x": 16,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "coal_ore",
+    "x": 32,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "coarse_dirt",
+    "x": 48,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cobblestone",
+    "x": 64,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cobweb",
+    "x": 80,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cocoa_stage0",
+    "x": 96,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cocoa_stage1",
+    "x": 112,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cocoa_stage2",
+    "x": 128,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "command_block_back",
+    "x": 80,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "command_block_conditional",
+    "x": 96,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "command_block_front",
+    "x": 112,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "command_block_side",
+    "x": 128,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "comparator",
+    "x": 144,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "comparator_on",
+    "x": 160,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "conduit",
+    "x": 176,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cracked_stone_bricks",
+    "x": 192,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "crafting_table_front",
+    "x": 208,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "crafting_table_side",
+    "x": 224,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "crafting_table_top",
+    "x": 240,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cut_red_sandstone",
+    "x": 256,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cut_sandstone",
+    "x": 272,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_concrete",
+    "x": 288,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_concrete_powder",
+    "x": 304,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_glazed_terracotta",
+    "x": 320,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_shulker_box",
+    "x": 336,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_stained_glass",
+    "x": 352,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_stained_glass_pane_top",
+    "x": 368,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_terracotta",
+    "x": 384,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "cyan_wool",
+    "x": 400,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "damaged_anvil_top",
+    "x": 416,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dandelion",
+    "x": 432,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_door_bottom",
+    "x": 448,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_door_top",
+    "x": 464,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_leaves",
+    "x": 480,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_log",
+    "x": 496,
+    "y": 48,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_log_top",
+    "x": 0,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_planks",
+    "x": 16,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_sapling",
+    "x": 32,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_oak_trapdoor",
+    "x": 48,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dark_prismarine",
+    "x": 64,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "daylight_detector_inverted_top",
+    "x": 80,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "daylight_detector_side",
+    "x": 96,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "daylight_detector_top",
+    "x": 112,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_brain_coral",
+    "x": 128,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_brain_coral_block",
+    "x": 144,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_brain_coral_fan",
+    "x": 160,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_bubble_coral",
+    "x": 176,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_bubble_coral_block",
+    "x": 192,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_bubble_coral_fan",
+    "x": 208,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_bush",
+    "x": 224,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_fire_coral",
+    "x": 240,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_fire_coral_block",
+    "x": 256,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_fire_coral_fan",
+    "x": 272,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_horn_coral",
+    "x": 288,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_horn_coral_block",
+    "x": 304,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_horn_coral_fan",
+    "x": 320,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_tube_coral",
+    "x": 336,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_tube_coral_block",
+    "x": 352,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dead_tube_coral_fan",
+    "x": 368,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "debug",
+    "x": 384,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "debug2",
+    "x": 400,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_0",
+    "x": 416,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_1",
+    "x": 432,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_2",
+    "x": 448,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_3",
+    "x": 464,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_4",
+    "x": 480,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_5",
+    "x": 496,
+    "y": 64,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_6",
+    "x": 0,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_7",
+    "x": 16,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_8",
+    "x": 32,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "destroy_stage_9",
+    "x": 48,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "detector_rail",
+    "x": 64,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "detector_rail_on",
+    "x": 80,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "diamond_block",
+    "x": 96,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "diamond_ore",
+    "x": 112,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "diorite",
+    "x": 128,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dirt",
+    "x": 144,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dispenser_front",
+    "x": 160,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dispenser_front_vertical",
+    "x": 176,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dragon_egg",
+    "x": 192,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dried_kelp_bottom",
+    "x": 208,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dried_kelp_side",
+    "x": 224,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dried_kelp_top",
+    "x": 240,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dropper_front",
+    "x": 256,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "dropper_front_vertical",
+    "x": 272,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "emerald_block",
+    "x": 288,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "emerald_ore",
+    "x": 304,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "enchanting_table_bottom",
+    "x": 320,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "enchanting_table_side",
+    "x": 336,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "enchanting_table_top",
+    "x": 352,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "end_portal_frame_eye",
+    "x": 368,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "end_portal_frame_side",
+    "x": 384,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "end_portal_frame_top",
+    "x": 400,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "end_rod",
+    "x": 416,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "end_stone",
+    "x": 432,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "end_stone_bricks",
+    "x": 448,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "farmland",
+    "x": 464,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "farmland_moist",
+    "x": 480,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "fern",
+    "x": 496,
+    "y": 80,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "fire_0",
+    "x": 336,
+    "y": 256,
+    "width": 16,
+    "height": 512
+  },
+  {
+    "name": "fire_1",
+    "x": 352,
+    "y": 256,
+    "width": 16,
+    "height": 512
+  },
+  {
+    "name": "fire_coral",
+    "x": 0,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "fire_coral_block",
+    "x": 16,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "fire_coral_fan",
+    "x": 32,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "flower_pot",
+    "x": 48,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "frosted_ice_0",
+    "x": 64,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "frosted_ice_1",
+    "x": 80,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "frosted_ice_2",
+    "x": 96,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "frosted_ice_3",
+    "x": 112,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "furnace_front",
+    "x": 128,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "furnace_front_on",
+    "x": 144,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "furnace_side",
+    "x": 160,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "furnace_top",
+    "x": 176,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "glass",
+    "x": 192,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "glass_pane_top",
+    "x": 208,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "glowstone",
+    "x": 224,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gold_block",
+    "x": 240,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gold_ore",
+    "x": 256,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "granite",
+    "x": 272,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass",
+    "x": 288,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass_block_side",
+    "x": 304,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass_block_side_overlay",
+    "x": 320,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass_block_snow",
+    "x": 336,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass_block_top",
+    "x": 352,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass_path_side",
+    "x": 368,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "grass_path_top",
+    "x": 384,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gravel",
+    "x": 400,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_concrete",
+    "x": 416,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_concrete_powder",
+    "x": 432,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_glazed_terracotta",
+    "x": 448,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_shulker_box",
+    "x": 464,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_stained_glass",
+    "x": 480,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_stained_glass_pane_top",
+    "x": 496,
+    "y": 96,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_terracotta",
+    "x": 0,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "gray_wool",
+    "x": 16,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_concrete",
+    "x": 32,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_concrete_powder",
+    "x": 48,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_glazed_terracotta",
+    "x": 64,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_shulker_box",
+    "x": 80,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_stained_glass",
+    "x": 96,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_stained_glass_pane_top",
+    "x": 112,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_terracotta",
+    "x": 128,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "green_wool",
+    "x": 144,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "hay_block_side",
+    "x": 160,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "hay_block_top",
+    "x": 176,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "hopper_inside",
+    "x": 192,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "hopper_outside",
+    "x": 208,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "hopper_top",
+    "x": 224,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "horn_coral",
+    "x": 240,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "horn_coral_block",
+    "x": 256,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "horn_coral_fan",
+    "x": 272,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "ice",
+    "x": 288,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "iron_bars",
+    "x": 304,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "iron_block",
+    "x": 320,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "iron_door_bottom",
+    "x": 336,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "iron_door_top",
+    "x": 352,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "iron_ore",
+    "x": 368,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "iron_trapdoor",
+    "x": 384,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "item_frame",
+    "x": 400,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jack_o_lantern",
+    "x": 416,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jukebox_side",
+    "x": 432,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jukebox_top",
+    "x": 448,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_door_bottom",
+    "x": 464,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_door_top",
+    "x": 480,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_leaves",
+    "x": 496,
+    "y": 112,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_log",
+    "x": 0,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_log_top",
+    "x": 16,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_planks",
+    "x": 32,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_sapling",
+    "x": 48,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "jungle_trapdoor",
+    "x": 64,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "kelp",
+    "x": 288,
+    "y": 256,
+    "width": 16,
+    "height": 320
+  },
+  {
+    "name": "kelp_plant",
+    "x": 304,
+    "y": 256,
+    "width": 16,
+    "height": 320
+  },
+  {
+    "name": "ladder",
+    "x": 80,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lapis_block",
+    "x": 96,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lapis_ore",
+    "x": 112,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "large_fern_bottom",
+    "x": 128,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "large_fern_top",
+    "x": 144,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lava_flow",
+    "x": 368,
+    "y": 256,
+    "width": 32,
+    "height": 512
+  },
+  {
+    "name": "lava_still",
+    "x": 320,
+    "y": 256,
+    "width": 16,
+    "height": 320
+  },
+  {
+    "name": "lever",
+    "x": 160,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_concrete",
+    "x": 176,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_concrete_powder",
+    "x": 192,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_glazed_terracotta",
+    "x": 208,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_shulker_box",
+    "x": 224,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_stained_glass",
+    "x": 240,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_stained_glass_pane_top",
+    "x": 256,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_terracotta",
+    "x": 272,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_blue_wool",
+    "x": 288,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_concrete",
+    "x": 304,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_concrete_powder",
+    "x": 320,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_glazed_terracotta",
+    "x": 336,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_shulker_box",
+    "x": 352,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_stained_glass",
+    "x": 368,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_stained_glass_pane_top",
+    "x": 384,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_terracotta",
+    "x": 400,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "light_gray_wool",
+    "x": 416,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lilac_bottom",
+    "x": 432,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lilac_top",
+    "x": 448,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lily_pad",
+    "x": 464,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_concrete",
+    "x": 480,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_concrete_powder",
+    "x": 496,
+    "y": 128,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_glazed_terracotta",
+    "x": 0,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_shulker_box",
+    "x": 16,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_stained_glass",
+    "x": 32,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_stained_glass_pane_top",
+    "x": 48,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_terracotta",
+    "x": 64,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "lime_wool",
+    "x": 80,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_concrete",
+    "x": 96,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_concrete_powder",
+    "x": 112,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_glazed_terracotta",
+    "x": 128,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_shulker_box",
+    "x": 144,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_stained_glass",
+    "x": 160,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_stained_glass_pane_top",
+    "x": 176,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_terracotta",
+    "x": 192,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magenta_wool",
+    "x": 208,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "magma",
+    "x": 0,
+    "y": 256,
+    "width": 16,
+    "height": 48
+  },
+  {
+    "name": "melon_side",
+    "x": 224,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "melon_stem",
+    "x": 240,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "melon_top",
+    "x": 256,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "mossy_cobblestone",
+    "x": 272,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "mossy_stone_bricks",
+    "x": 288,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "mushroom_block_inside",
+    "x": 304,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "mushroom_stem",
+    "x": 320,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "mycelium_side",
+    "x": 336,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "mycelium_top",
+    "x": 352,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "nether_bricks",
+    "x": 368,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "nether_portal",
+    "x": 400,
+    "y": 256,
+    "width": 16,
+    "height": 512
+  },
+  {
+    "name": "nether_quartz_ore",
+    "x": 384,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "nether_wart_block",
+    "x": 400,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "nether_wart_stage0",
+    "x": 416,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "nether_wart_stage1",
+    "x": 432,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "nether_wart_stage2",
+    "x": 448,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "netherrack",
+    "x": 464,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "note_block",
+    "x": 480,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_door_bottom",
+    "x": 496,
+    "y": 144,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_door_top",
+    "x": 0,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_leaves",
+    "x": 16,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_log",
+    "x": 32,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_log_top",
+    "x": 48,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_planks",
+    "x": 64,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_sapling",
+    "x": 80,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oak_trapdoor",
+    "x": 96,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "observer_back",
+    "x": 112,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "observer_back_on",
+    "x": 128,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "observer_front",
+    "x": 144,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "observer_side",
+    "x": 160,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "observer_top",
+    "x": 176,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "obsidian",
+    "x": 192,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_concrete",
+    "x": 208,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_concrete_powder",
+    "x": 224,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_glazed_terracotta",
+    "x": 240,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_shulker_box",
+    "x": 256,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_stained_glass",
+    "x": 272,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_stained_glass_pane_top",
+    "x": 288,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_terracotta",
+    "x": 304,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_tulip",
+    "x": 320,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "orange_wool",
+    "x": 336,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "oxeye_daisy",
+    "x": 352,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "packed_ice",
+    "x": 368,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "peony_bottom",
+    "x": 384,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "peony_top",
+    "x": 400,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_concrete",
+    "x": 416,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_concrete_powder",
+    "x": 432,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_glazed_terracotta",
+    "x": 448,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_shulker_box",
+    "x": 464,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_stained_glass",
+    "x": 480,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_stained_glass_pane_top",
+    "x": 496,
+    "y": 160,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_terracotta",
+    "x": 0,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_tulip",
+    "x": 16,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pink_wool",
+    "x": 32,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "piston_bottom",
+    "x": 48,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "piston_inner",
+    "x": 64,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "piston_side",
+    "x": 80,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "piston_top",
+    "x": 96,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "piston_top_sticky",
+    "x": 112,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "podzol_side",
+    "x": 128,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "podzol_top",
+    "x": 144,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "polished_andesite",
+    "x": 160,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "polished_diorite",
+    "x": 176,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "polished_granite",
+    "x": 192,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "poppy",
+    "x": 208,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "potatoes_stage0",
+    "x": 224,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "potatoes_stage1",
+    "x": 240,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "potatoes_stage2",
+    "x": 256,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "potatoes_stage3",
+    "x": 272,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "powered_rail",
+    "x": 288,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "powered_rail_on",
+    "x": 304,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "prismarine",
+    "x": 144,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "prismarine_bricks",
+    "x": 320,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pumpkin_side",
+    "x": 336,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pumpkin_stem",
+    "x": 352,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "pumpkin_top",
+    "x": 368,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_concrete",
+    "x": 384,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_concrete_powder",
+    "x": 400,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_glazed_terracotta",
+    "x": 416,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_shulker_box",
+    "x": 432,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_stained_glass",
+    "x": 448,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_stained_glass_pane_top",
+    "x": 464,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_terracotta",
+    "x": 480,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purple_wool",
+    "x": 496,
+    "y": 176,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purpur_block",
+    "x": 0,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purpur_pillar",
+    "x": 16,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "purpur_pillar_top",
+    "x": 32,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "quartz_block_bottom",
+    "x": 48,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "quartz_block_side",
+    "x": 64,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "quartz_block_top",
+    "x": 80,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "quartz_pillar",
+    "x": 96,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "quartz_pillar_top",
+    "x": 112,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "rail",
+    "x": 128,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "rail_corner",
+    "x": 144,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_concrete",
+    "x": 160,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_concrete_powder",
+    "x": 176,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_glazed_terracotta",
+    "x": 192,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_mushroom",
+    "x": 208,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_mushroom_block",
+    "x": 224,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_nether_bricks",
+    "x": 240,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_sand",
+    "x": 256,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_sandstone",
+    "x": 272,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_sandstone_bottom",
+    "x": 288,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_sandstone_top",
+    "x": 304,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_shulker_box",
+    "x": 320,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_stained_glass",
+    "x": 336,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_stained_glass_pane_top",
+    "x": 352,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_terracotta",
+    "x": 368,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_tulip",
+    "x": 384,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "red_wool",
+    "x": 400,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_block",
+    "x": 416,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_dust_dot",
+    "x": 432,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_dust_line0",
+    "x": 448,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_dust_line1",
+    "x": 464,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_dust_overlay",
+    "x": 480,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_lamp",
+    "x": 496,
+    "y": 192,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_lamp_on",
+    "x": 0,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_ore",
+    "x": 16,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_torch",
+    "x": 32,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "redstone_torch_off",
+    "x": 48,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "repeater",
+    "x": 64,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "repeater_on",
+    "x": 80,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "repeating_command_block_back",
+    "x": 160,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "repeating_command_block_conditional",
+    "x": 176,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "repeating_command_block_front",
+    "x": 192,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "repeating_command_block_side",
+    "x": 208,
+    "y": 256,
+    "width": 16,
+    "height": 64
+  },
+  {
+    "name": "rose_bush_bottom",
+    "x": 96,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "rose_bush_top",
+    "x": 112,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sand",
+    "x": 128,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sandstone",
+    "x": 144,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sandstone_bottom",
+    "x": 160,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sandstone_top",
+    "x": 176,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sea_lantern",
+    "x": 224,
+    "y": 256,
+    "width": 16,
+    "height": 80
+  },
+  {
+    "name": "sea_pickle",
+    "x": 192,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "seagrass",
+    "x": 240,
+    "y": 256,
+    "width": 16,
+    "height": 288
+  },
+  {
+    "name": "shulker_box",
+    "x": 208,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "slime_block",
+    "x": 224,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "snow",
+    "x": 240,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "soul_sand",
+    "x": 256,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spawner",
+    "x": 272,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sponge",
+    "x": 288,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_door_bottom",
+    "x": 304,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_door_top",
+    "x": 320,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_leaves",
+    "x": 336,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_log",
+    "x": 352,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_log_top",
+    "x": 368,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_planks",
+    "x": 384,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_sapling",
+    "x": 400,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "spruce_trapdoor",
+    "x": 416,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stone",
+    "x": 432,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stone_bricks",
+    "x": 448,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stone_slab_side",
+    "x": 464,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stone_slab_top",
+    "x": 480,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_acacia_log",
+    "x": 496,
+    "y": 208,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_acacia_log_top",
+    "x": 0,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_birch_log",
+    "x": 16,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_birch_log_top",
+    "x": 32,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_dark_oak_log",
+    "x": 48,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_dark_oak_log_top",
+    "x": 64,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_jungle_log",
+    "x": 80,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_jungle_log_top",
+    "x": 96,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_oak_log",
+    "x": 112,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_oak_log_top",
+    "x": 128,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_spruce_log",
+    "x": 144,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "stripped_spruce_log_top",
+    "x": 160,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "structure_block",
+    "x": 176,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "structure_block_corner",
+    "x": 192,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "structure_block_data",
+    "x": 208,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "structure_block_load",
+    "x": 224,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "structure_block_save",
+    "x": 240,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sugar_cane",
+    "x": 256,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sunflower_back",
+    "x": 272,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sunflower_bottom",
+    "x": 288,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sunflower_front",
+    "x": 304,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "sunflower_top",
+    "x": 320,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tall_grass_bottom",
+    "x": 336,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tall_grass_top",
+    "x": 352,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tall_seagrass_bottom",
+    "x": 256,
+    "y": 256,
+    "width": 16,
+    "height": 304
+  },
+  {
+    "name": "tall_seagrass_top",
+    "x": 272,
+    "y": 256,
+    "width": 16,
+    "height": 304
+  },
+  {
+    "name": "terracotta",
+    "x": 368,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tnt_bottom",
+    "x": 384,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tnt_side",
+    "x": 400,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tnt_top",
+    "x": 416,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "torch",
+    "x": 432,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tripwire",
+    "x": 448,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tripwire_hook",
+    "x": 464,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tube_coral",
+    "x": 480,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tube_coral_block",
+    "x": 496,
+    "y": 224,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "tube_coral_fan",
+    "x": 0,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "turtle_egg",
+    "x": 16,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "turtle_egg_slightly_cracked",
+    "x": 32,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "turtle_egg_very_cracked",
+    "x": 48,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "vine",
+    "x": 64,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "water_flow",
+    "x": 432,
+    "y": 256,
+    "width": 32,
+    "height": 1024
+  },
+  {
+    "name": "water_overlay",
+    "x": 80,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "water_still",
+    "x": 416,
+    "y": 256,
+    "width": 16,
+    "height": 512
+  },
+  {
+    "name": "wet_sponge",
+    "x": 96,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage0",
+    "x": 112,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage1",
+    "x": 128,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage2",
+    "x": 144,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage3",
+    "x": 160,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage4",
+    "x": 176,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage5",
+    "x": 192,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage6",
+    "x": 208,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "wheat_stage7",
+    "x": 224,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_concrete",
+    "x": 240,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_concrete_powder",
+    "x": 256,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_glazed_terracotta",
+    "x": 272,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_shulker_box",
+    "x": 288,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_stained_glass",
+    "x": 304,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_stained_glass_pane_top",
+    "x": 320,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_terracotta",
+    "x": 336,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_tulip",
+    "x": 352,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "white_wool",
+    "x": 368,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_concrete",
+    "x": 384,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_concrete_powder",
+    "x": 400,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_glazed_terracotta",
+    "x": 416,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_shulker_box",
+    "x": 432,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_stained_glass",
+    "x": 448,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_stained_glass_pane_top",
+    "x": 464,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_terracotta",
+    "x": 480,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  },
+  {
+    "name": "yellow_wool",
+    "x": 496,
+    "y": 240,
+    "width": 16,
+    "height": 16
+  }
+]

@@ -17,6 +17,14 @@ type tileInfo = {
   height: int,
 }
 
+external asJson: 'a => Js.Json.t = "%identity"
+
+let makeError: string => exn = %raw(`(reason) => new Error(reason)`)
+
+let makeSafeFileName = (prefix: string, version: string) => {
+  prefix ++ "_" ++ version->Js.String2.replaceByRe(%re(`/[-\.]/g`), "_")
+}
+
 let hasImageExtension = (path: string) => {
   path->Js.String2.endsWith(".png")
 }
@@ -117,8 +125,6 @@ let calculateImagesWithCoordinates = (images: array<imageWithInfo>, canvasWidth:
   (imagesWithCoordinates, canvasWidth, canvasHeight.contents)
 }
 
-let makeError: string => exn = %raw(`(reason) => new Error(reason)`)
-
 let makeCanvas = (width: int, height: int) => {
   Promise.make((resolve, reject) => {
     Jimp.make(width, height, (error, canvas) => {
@@ -155,15 +161,13 @@ let makeTiledImagesCanvas = (images: array<imageWithInfo>, canvasWidth: int) => 
     })
   })
   ->Promise.then(canvas => {
-    Promise.resolve((imagesWithCoordinates, canvas))
+    Promise.resolve((imagesWithCoordinates, canvas, canvasWidth, canvasHeight))
   })
 }
 
 let writeTileImage = (canvas: Jimp.t, tileImageOutputPath: string) => {
   Jimp.writeAsync(canvas, tileImageOutputPath)
 }
-
-external asJson: 'a => Js.Json.t = "%identity"
 
 let writeTileData = (
   imagesWithCoordinates: array<imageWithCoordinates>,
@@ -188,26 +192,10 @@ let makeTiledImages = (
 ) => {
   let images = readImagesInDirectory(sourceDirectory)
   makeTiledImagesCanvas(images, canvasWidth)->Promise.then(results => {
-    let (imagesWithCoordinates, canvas) = results
+    let (imagesWithCoordinates, canvas, canvasWidth, canvasHeight) = results
     writeTileImage(canvas, tileImageOutputPath)->Promise.then(() => {
       writeTileData(imagesWithCoordinates, tileDataOutputPath)
-      Promise.resolve()
+      Promise.resolve((canvasWidth, canvasHeight))
     })
   })
 }
-
-/*
-
-let sourceDirectory = Path.resolve(Node2.__dirname, "./item")
-let tileImageOutputPath = Path.resolve(Node2.__dirname, "./items.png")
-let tileDataOutputPath = Path.resolve(Node2.__dirname, "./items.json")
-let canvasWidth = 512
-
-makeTiledImages(~canvasWidth, ~sourceDirectory, ~tileImageOutputPath, ~tileDataOutputPath)
-->Promise.catch(exn => {
-  Js.log(exn)
-  Promise.resolve()
-})
-->ignore
-
-*/
