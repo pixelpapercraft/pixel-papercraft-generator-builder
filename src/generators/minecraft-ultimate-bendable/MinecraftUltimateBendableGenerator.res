@@ -9,7 +9,7 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let video: Generator.videoDef = {url: "https://www.youtube.com/embed/CyYn66Zm5n0"}
+let video: Generator.videoDef = {url: "https://www.youtube.com/embed/CyYn66Zm5n0?rel=0"}
 
 let imageIds = [
   "Background-Steve",

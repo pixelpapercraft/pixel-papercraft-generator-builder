@@ -11,7 +11,10 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
+let video: Generator.videoDef = {url: "https://www.youtube.com/embed/0v8_l7J4qWg?rel=0"}
+
 let amogusImage = Generator.requireImage("./instructions/amogus-100.png")
+
 let instructions = `
 "Amogus" is a corrupted version of the Among Us game name. In January 2021,
 the word gained popularity as a catchphrase used in ironic memes, often used
@@ -259,7 +262,7 @@ let generator: Generator.generatorDef = {
   id: id,
   name: name,
   thumbnail: Some(thumbnail),
-  video: None,
+  video: Some(video),
   instructions: Some(<Markdown> {instructions} </Markdown>),
   images: images,
   textures: textures,
