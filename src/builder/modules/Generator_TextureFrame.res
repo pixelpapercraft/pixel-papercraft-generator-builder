@@ -7,6 +7,7 @@ type texture = {
 }
 
 type frame = {
+  id: string,
   name: string,
   rectangle: Generator_Builder.rectangle,
   x: int,
@@ -44,7 +45,10 @@ let textureToFrames = (texture: texture, frameSize: int) => {
     let frames = ref([])
     for col in 0 to cols - 1 {
       for row in 0 to rows - 1 {
+        let frameIndex = col * rows + row
+        let id = texture.name ++ "-" ++ Belt.Int.toString(frameIndex)
         let frame: frame = {
+          id: id,
           name: texture.name,
           rectangle: (
             texture.x + col * frameSize,
@@ -56,7 +60,7 @@ let textureToFrames = (texture: texture, frameSize: int) => {
           y: texture.y + row * frameSize,
           width: frameSize,
           height: frameSize,
-          frameIndex: col * rows + row,
+          frameIndex: frameIndex,
           frameCount: rows * cols,
         }
         Js.Array2.push(frames.contents, frame)->ignore
