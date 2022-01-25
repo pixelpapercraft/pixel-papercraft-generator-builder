@@ -15,23 +15,32 @@ let bgGray200 = "rgb(229 231 235)"
 let bgGray300 = "rgb(209 213 219)"
 let bgGray400 = "rgb(156 163 175)"
 
-let makeTileStyle = (
-  textureDef: Generator.textureDef,
-  x,
-  y,
-  width,
-  height,
-  isSelected,
-  isHover,
-) => {
+let makeTileBaseStyle = (isSelected, tileSize) => {
   let borderSize = 4
-  let tileSize = 32
-  let widthScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(width)
-  let heightScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(height)
-  let borderColor = isSelected || isHover ? bgGray400 : bgGray200
+  let borderColor = isSelected ? bgGray400 : bgGray200
   ReactDOM.Style.make(
     ~border=makeBorder(borderSize, "solid", borderColor),
     ~margin=makeMargin(0, borderSize, borderSize, 0),
+    ~width={px(tileSize + borderSize * 2)},
+    ~height={px(tileSize + borderSize * 2)},
+    (),
+  )
+}
+
+let makeTileStyle = (
+  textureDef: Generator.textureDef,
+  frame: TextureFrame.frame,
+  isSelected,
+  isHover,
+  tileSize,
+) => {
+  let {x, y, width, height} = frame
+  let widthScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(width)
+  let heightScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(height)
+
+  let baseStyle = makeTileBaseStyle(isSelected || isHover, tileSize)
+
+  let backgroundStyle = ReactDOM.Style.make(
     ~backgroundImage=makeBackgroundImage(textureDef.url),
     ~backgroundPosition=makeBackgroundPosition(
       -Belt.Float.toInt(Belt.Int.toFloat(x) *. widthScale),
@@ -42,21 +51,25 @@ let makeTileStyle = (
       Belt.Float.toInt(Belt.Int.toFloat(textureDef.standardWidth) *. widthScale),
       Belt.Float.toInt(Belt.Int.toFloat(textureDef.standardHeight) *. heightScale),
     ),
-    ~width={px(tileSize + borderSize * 2)},
-    ~height={px(tileSize + borderSize * 2)},
     (),
   )->ReactDOMStyle.unsafeAddStyle({
     "imageRendering": "pixelated",
   })
+
+  ReactDOM.Style.combine(baseStyle, backgroundStyle)
 }
 
 module TileButton = {
   @react.component
-  let make = (~title, ~textureDef, ~x, ~y, ~width, ~height, ~isSelected, ~onClick) => {
+  let make = (~textureDef, ~frame: TextureFrame.frame, ~isSelected, ~onClick) => {
     let (isHover, setIsHover) = React.useState(_ => false)
+    let title =
+      frame.frameCount > 1
+        ? frame.name ++ "(Frame " ++ Belt.Int.toString(frame.frameIndex + 1) ++ ")"
+        : frame.name
     <button
       title
-      style={makeTileStyle(textureDef, x, y, width, height, isSelected, isHover)}
+      style={makeTileStyle(textureDef, frame, isSelected, isHover, 32)}
       onClick
       onMouseEnter={_ => setIsHover(_ => true)}
       onMouseLeave={_ => setIsHover(_ => false)}
@@ -90,6 +103,19 @@ module Search = {
   }
 }
 
+module Preview = {
+  @react.component
+  let make = (~textureDef: Generator.textureDef, ~frame: option<TextureFrame.frame>) => {
+    switch frame {
+    | None => <div style={makeTileBaseStyle(false, 128)} />
+    | Some(frame) => <>
+        <div style={makeTileStyle(textureDef, frame, false, false, 128)} />
+        <div className="text-center text-gray-500"> {frame.name->React.string} </div>
+      </>
+    }
+  }
+}
+
 @react.component
 let make = (
   ~textureDef: Generator.textureDef,
@@ -115,27 +141,25 @@ let make = (
         setSearch(_ => None)
       }}
     />
-    <div className="overflow-y-auto h-60">
-      {Belt.Array.map(framesFiltered, frame => {
-        let {id, name, x, y, width, height} = frame
-        let isSelected = Belt.Option.mapWithDefault(selectedFrame, false, (
-          selectedFrame: TextureFrame.frame,
-        ) => id === selectedFrame.id)
-        <TileButton
-          key=id
-          title=name
-          textureDef
-          x
-          y
-          width
-          height
-          isSelected
-          onClick={_ => {
-            setSelectedFrame(_ => Some(frame))
-            onSelect(frame)
-          }}
-        />
-      })->React.array}
+    <div className="flex items-center">
+      <div className="overflow-y-auto h-60">
+        {Belt.Array.map(framesFiltered, frame => {
+          let isSelected = Belt.Option.mapWithDefault(selectedFrame, false, (
+            selectedFrame: TextureFrame.frame,
+          ) => frame.id === selectedFrame.id)
+          <TileButton
+            key=frame.id
+            textureDef
+            frame
+            isSelected
+            onClick={_ => {
+              setSelectedFrame(_ => Some(frame))
+              onSelect(frame)
+            }}
+          />
+        })->React.array}
+      </div>
+      <div className="hidden sm:block"> <Preview textureDef frame=selectedFrame /> </div>
     </div>
   </div>
 }
