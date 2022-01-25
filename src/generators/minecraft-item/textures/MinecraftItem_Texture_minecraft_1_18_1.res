@@ -2,7 +2,7 @@
 
 let texture: Generator.textureDef = {
   id: "minecraft-1.18.1",
-  url: Generator.requireImage("./MinecratItem_Texture_minecraft_1_18_1.png"),
+  url: Generator.requireImage("./MinecraftItem_Texture_minecraft_1_18_1.png"),
   standardWidth: 512,
   standardHeight: 240,
 }

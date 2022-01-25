@@ -2,8 +2,9 @@ module Builder = Generator.Builder
 
 module TextureData = {
   let definitions: array<(Generator.textureDef, array<{..}>)> = [
-    MinecratItem_Texture_minecraft_1_7_10.data,
-    MinecratItem_Texture_minecraft_1_18_1.data,
+    MinecraftItem_Texture_minecraft_1_7_10.data,
+    MinecraftItem_Texture_minecraft_1_13_2.data,
+    MinecraftItem_Texture_minecraft_1_18_1.data,
   ]
 
   let tiles = definitions->Belt.Array.map(((_, tile)) => tile)

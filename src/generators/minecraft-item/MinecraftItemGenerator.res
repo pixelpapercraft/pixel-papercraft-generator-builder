@@ -11,9 +11,9 @@ let textures: array<Generator.textureDef> = MinecraftItem_Textures.TextureData.t
 let script = () => {
   Generator.defineCustomStringInput("CurrentTexture", (onChange: string => unit) => {
     <TexturePicker
-      texture=MinecratItem_Texture_minecraft_1_7_10.texture
+      texture=MinecraftItem_Texture_minecraft_1_7_10.texture
       frames={Generator_TextureFrame.texturesToFrames(
-        MinecratItem_Texture_minecraft_1_7_10.tiles->Generator_TextureFrame.asTextures_UNSAFE,
+        MinecraftItem_Texture_minecraft_1_7_10.tiles->Generator_TextureFrame.asTextures_UNSAFE,
         16,
       )}
       onSelect={frame => {
@@ -31,14 +31,14 @@ let script = () => {
   | None => ()
   | Some(frame) => {
       Generator.drawTexture(
-        MinecratItem_Texture_minecraft_1_7_10.texture.id,
+        MinecraftItem_Texture_minecraft_1_7_10.texture.id,
         frame.rectangle,
         (100, 100, 16 * 8, 16 * 8),
         (),
       )
 
       Generator.drawTexture(
-        MinecratItem_Texture_minecraft_1_7_10.texture.id,
+        MinecraftItem_Texture_minecraft_1_7_10.texture.id,
         frame.rectangle,
         (100 + 16 * 8, 100, 16 * 8, 16 * 8),
         ~flip=#Horizontal,
