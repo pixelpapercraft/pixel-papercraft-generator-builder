@@ -75,3 +75,7 @@ let texturesToFrames = (textures: array<texture>, frameSize: int) => {
     }
   })
 }
+
+let tilesToFrames = (tiles: array<{..}>, frameSize: int) => {
+  tiles->asTextures_UNSAFE->texturesToFrames(frameSize)
+}
