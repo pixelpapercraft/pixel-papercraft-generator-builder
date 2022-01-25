@@ -1,32 +1,31 @@
-module Builder = Generator.Builder
-
-type textureWithFrames = {
-  textureDef: Generator.textureDef,
-  frames: array<Generator_TextureFrame.frame>,
-}
-
 let definitions = [
   (MinecraftItem_Texture_minecraft_1_7_10.data, 16),
   (MinecraftItem_Texture_minecraft_1_13_2.data, 16),
   (MinecraftItem_Texture_minecraft_1_18_1.data, 16),
 ]
 
-let textureFrames: array<textureWithFrames> = Belt.Array.map(definitions, definition => {
+type textureVersion = {
+  textureDef: Generator.textureDef,
+  frames: array<Generator_TextureFrame.frame>,
+}
+
+let textureVersions: array<textureVersion> = Belt.Array.map(definitions, definition => {
   let (data, frameSize) = definition
   let (textureDef, tiles) = data
   let frames = tiles->Generator_TextureFrame.tilesToFrames(frameSize)
   {textureDef: textureDef, frames: frames}
 })
 
-let allTextureDefs = Belt.Array.map(textureFrames, ({textureDef}) => textureDef)
+let allTextureDefs = Belt.Array.map(textureVersions, ({textureDef}) => textureDef)
 
-let versionIds = Belt.Array.map(textureFrames, ({textureDef}) => textureDef.id)->Belt.Array.reverse
+let versionIds =
+  Belt.Array.map(textureVersions, ({textureDef}) => textureDef.id)->Belt.Array.reverse
 
 // let versionIds: array<string> =
 //   TextureData.versions->Js.Array2.map(version => version["id"])->Belt.Array.reverse
 
 let findVersion = versionId => {
-  Belt.Array.getBy(textureFrames, ({textureDef}) => textureDef.id === versionId)
+  Belt.Array.getBy(textureVersions, ({textureDef}) => textureDef.id === versionId)
 }
 
 // let findVersion = versionId => {

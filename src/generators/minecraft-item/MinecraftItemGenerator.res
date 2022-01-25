@@ -1,5 +1,5 @@
-module TexturePicker = Generator_TexturePicker
-module Textures = MinecraftItem_Textures
+module TexturePicker = MinecraftItem_TexturePicker
+module TextureVersions = MinecraftItem_TextureVersions
 
 let id = "minecraft-item"
 
@@ -7,41 +7,52 @@ let name = "Minecraft Item"
 
 let images: array<Generator.imageDef> = []
 
-let textures: array<Generator.textureDef> = MinecraftItem_Textures.allTextureDefs
+let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
+
+let drawItem = (id, rectangle, x, y, size) => {
+  Generator.drawTexture(id, rectangle, (x, y, size, size), ())
+  Generator.drawTexture(id, rectangle, (x + size, y, size, size), ~flip=#Horizontal, ())
+}
 
 let script = () => {
-  Generator.defineSelectInput("Version", Textures.versionIds)
+  // Show a drop down of different texture versions
+  Generator.defineSelectInput("Version", TextureVersions.versionIds)
   let versionId = Generator.getSelectInputValue("Version")
-  let textureFrames = Textures.findVersion(versionId)
 
-  Generator.defineCustomStringInput("CurrentTexture", (onChange: string => unit) => {
-    switch textureFrames {
-    | None => React.null
-    | Some({textureDef, frames}) =>
-      <TexturePicker
-        texture=textureDef
-        frames
-        onSelect={frame => {
-          onChange(Generator_TextureFrame.encodeFrame(frame))
-        }}
-      />
-    }
+  // Get the current selected version
+  let textureVersion = TextureVersions.findVersion(versionId)
+
+  // Show the Texture Picker
+  // When a texture is selected, we need to encode it into a string variable
+  Generator.defineCustomStringInput("SelectedTextureFrame", (onChange: string => unit) => {
+    <TexturePicker
+      textureVersion
+      onSelect={frame => {
+        onChange(Generator_TextureFrame.encodeFrame(frame))
+      }}
+    />
   })
 
-  let currentTexture = Generator.getStringInputValue("CurrentTexture")
-  let frame = Generator_TextureFrame.decodeFrame(currentTexture)
+  // Decode the selected texture
+  let selectedTextureFrame = Generator_TextureFrame.decodeFrame(
+    Generator.getStringInputValue("SelectedTextureFrame"),
+  )
 
-  switch (textureFrames, frame) {
-  | (Some({textureDef}), Some(frame)) => {
-      Generator.drawTexture(textureDef.id, frame.rectangle, (100, 100, 16 * 8, 16 * 8), ())
+  // If we have a valid version and selected texture, then draw that texture
+  switch (textureVersion, selectedTextureFrame) {
+  | (Some(textureVersion), Some(selectedTextureFrame)) => {
+      let {textureDef} = textureVersion
 
-      Generator.drawTexture(
-        textureDef.id,
-        frame.rectangle,
-        (100 + 16 * 8, 100, 16 * 8, 16 * 8),
-        ~flip=#Horizontal,
-        (),
-      )
+      let size = 16 * 8 // 800% of the Minecraft default
+      let border = 25
+
+      let ox = border
+      let oy = border
+      drawItem(textureDef.id, selectedTextureFrame.rectangle, ox, oy, size)
+
+      let ox = ox + size * 2 + border
+      let oy = border
+      drawItem(textureDef.id, selectedTextureFrame.rectangle, ox, oy, size)
     }
   | _ => ()
   }

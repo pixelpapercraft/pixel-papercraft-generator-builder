@@ -43,11 +43,11 @@ let makeTileStyle = (textureDef: Generator.textureDef, x, y, width, height, isHo
 
 module TileButton = {
   @react.component
-  let make = (~title, ~texture, ~x, ~y, ~width, ~height, ~onClick) => {
+  let make = (~title, ~textureDef, ~x, ~y, ~width, ~height, ~onClick) => {
     let (isHover, setIsHover) = React.useState(_ => false)
     <button
       title
-      style={makeTileStyle(texture, x, y, width, height, isHover)}
+      style={makeTileStyle(textureDef, x, y, width, height, isHover)}
       onClick
       onMouseEnter={_ => setIsHover(_ => true)}
       onMouseLeave={_ => setIsHover(_ => false)}
@@ -83,7 +83,7 @@ module Search = {
 
 @react.component
 let make = (
-  ~texture: Generator.textureDef,
+  ~textureDef: Generator.textureDef,
   ~frames: array<TextureFrame.frame>,
   ~onSelect: TextureFrame.frame => unit,
 ) => {
@@ -111,7 +111,7 @@ let make = (
         <TileButton
           key={name ++ "_" ++ Belt.Int.toString(frameIndex)}
           title=name
-          texture
+          textureDef
           x
           y
           width
