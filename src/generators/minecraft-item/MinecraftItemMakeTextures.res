@@ -17,14 +17,7 @@ Belt.Array.forEach(dirPaths, ((dirName, dirPath)) => {
   let sourceDirectory = dirPath
   let outputDirectory = texturesDir
   let outputPrefix = "MinecraftItem_Texture"
-  let canvasWidth = 512
-  Generator_Tiles.makeTiledImages2(
-    ~id,
-    ~canvasWidth,
-    ~sourceDirectory,
-    ~outputDirectory,
-    ~outputPrefix,
-  )
+  Generator_Tiles.makeTiledImages2(~id, ~sourceDirectory, ~outputDirectory, ~outputPrefix)
   ->Promise.catch(error => {
     Js.log(error)
     Promise.resolve()

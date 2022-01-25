@@ -248,18 +248,20 @@ let writeTileReScript = (
 
 let makeTiledImages2 = (
   ~id: string,
-  ~canvasWidth: int,
   ~sourceDirectory: string,
   ~outputDirectory: string,
   ~outputPrefix: string,
 ) => {
+  let canvasWidth = 512
+
   let fileName = makeSafeFileName(outputPrefix, id)
-  let outputBasePath = outputDirectory ++ "/" ++ fileName
-  let tileImagePath = outputBasePath ++ ".png"
-  let tileJsonPath = outputBasePath ++ ".json"
-  let tileReScriptPath = outputBasePath ++ ".res"
+  let basePath = outputDirectory ++ "/" ++ fileName
+  let tileImagePath = basePath ++ ".png"
+  let tileJsonPath = basePath ++ ".json"
+  let tileReScriptPath = basePath ++ ".res"
 
   let images = readImagesInDirectory(sourceDirectory)
+
   makeTiledImagesCanvas(images, canvasWidth)->Promise.then(results => {
     let (imagesWithCoordinates, canvas, canvasWidth, canvasHeight) = results
     writeTileImage(~canvas, ~tileImagePath)->Promise.then(() => {
