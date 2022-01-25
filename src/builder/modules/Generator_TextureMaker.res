@@ -246,7 +246,7 @@ let writeTileReScript = (
   formatReScriptFile(tileReScriptPath)
 }
 
-let makeTiledImages2 = (
+let makeTiledImages = (
   ~id: string,
   ~sourceDirectory: string,
   ~outputDirectory: string,

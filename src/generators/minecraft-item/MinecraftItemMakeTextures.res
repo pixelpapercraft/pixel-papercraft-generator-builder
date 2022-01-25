@@ -4,7 +4,7 @@ external toJson: 'a => Js.Json.t = "%identity"
 let getDirectories = dirPath => {
   Fs.readdirSync(dirPath)
   ->Js.Array2.map(dirName => (dirName, dirPath ++ "/" ++ dirName))
-  ->Js.Array2.filter(((_, dirPath)) => Generator_Tiles.isDirectory(dirPath))
+  ->Js.Array2.filter(((_, dirPath)) => Generator_TextureMaker.isDirectory(dirPath))
 }
 
 let texturesOriginalDir = Path.resolve(Node2.__dirname, "./textures-original")
@@ -17,7 +17,7 @@ Belt.Array.forEach(dirPaths, ((dirName, dirPath)) => {
   let sourceDirectory = dirPath
   let outputDirectory = texturesDir
   let outputPrefix = "MinecraftItem_Texture"
-  Generator_Tiles.makeTiledImages2(~id, ~sourceDirectory, ~outputDirectory, ~outputPrefix)
+  Generator_TextureMaker.makeTiledImages(~id, ~sourceDirectory, ~outputDirectory, ~outputPrefix)
   ->Promise.catch(error => {
     Js.log(error)
     Promise.resolve()
