@@ -7,14 +7,9 @@ let getDirectories = dirPath => {
   ->Js.Array2.filter(((_, dirPath)) => Generator_Tiles.isDirectory(dirPath))
 }
 
-let makeTiledImages = (~sourceDirectory, ~tileDataOutputPath, ~tileImageOutputPath) => {
+let makeTiledImages = (~sourceDirectory, ~tileJsonPath, ~tileImagePath) => {
   let canvasWidth = 512
-  Generator_Tiles.makeTiledImages(
-    ~canvasWidth,
-    ~sourceDirectory,
-    ~tileDataOutputPath,
-    ~tileImageOutputPath,
-  )
+  Generator_Tiles.makeTiledImages(~canvasWidth, ~sourceDirectory, ~tileJsonPath, ~tileImagePath)
 }
 
 let readTileData_UNSAFE = (path): array<Generator_Tiles.tileInfo> => {
@@ -87,14 +82,11 @@ Belt.Array.forEach(dirPaths, ((dirName, dirPath)) => {
   let id = dirName
   let fileName = Generator_Tiles.makeSafeFileName("MinecratItem_Texture", id)
   let sourceDirectory = dirPath
-  let tileImagePath = texturesDir ++ "/" ++ fileName ++ ".png"
-  let tileJsonPath = texturesDir ++ "/" ++ fileName ++ ".json"
-  let tileReScriptPath = texturesDir ++ "/" ++ fileName ++ ".res"
-  makeTiledImages(
-    ~sourceDirectory,
-    ~tileDataOutputPath=tileJsonPath,
-    ~tileImageOutputPath=tileImagePath,
-  )
+  let fileBasePath = texturesDir ++ "/" ++ fileName
+  let tileImagePath = fileBasePath ++ ".png"
+  let tileJsonPath = fileBasePath ++ ".json"
+  let tileReScriptPath = fileBasePath ++ ".res"
+  makeTiledImages(~sourceDirectory, ~tileJsonPath, ~tileImagePath)
   ->Promise.then(((canvasWidth, canvasHeight)) => {
     let tileInfos = readTileData_UNSAFE(tileJsonPath)
     writeTileInfoReScriptFile(id, fileName, tileInfos, canvasWidth, canvasHeight, tileReScriptPath)

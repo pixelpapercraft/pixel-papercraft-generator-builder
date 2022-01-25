@@ -77,7 +77,11 @@ let calculateImagesWithCoordinates = (images: array<imageWithInfo>, canvasWidth:
     let {width, height} = info
 
     if width > canvasWidth {
-      Js.log(`WARNING: ${name} has width ${Belt.Int.toString(width)} and was not added`)
+      Js.log(
+        `WARNING: ${name} has width ${Belt.Int.toString(
+            width,
+          )} greater than the canvas width ${Belt.Int.toString(canvasWidth)} and was not added`,
+      )
     } else {
       let (x, y) = if nextx.contents + width > canvasWidth {
         let x = 0
@@ -169,10 +173,7 @@ let writeTileImage = (canvas: Jimp.t, tileImageOutputPath: string) => {
   Jimp.writeAsync(canvas, tileImageOutputPath)
 }
 
-let writeTileData = (
-  imagesWithCoordinates: array<imageWithCoordinates>,
-  tileDataOutputPath: string,
-) => {
+let writeTileJson = (imagesWithCoordinates: array<imageWithCoordinates>, tileJsonPath: string) => {
   let tileInfos = Belt.Array.map(imagesWithCoordinates, imagesWithCoordinates => {
     let {image, coordinates} = imagesWithCoordinates
     let {name, info} = image
@@ -181,20 +182,45 @@ let writeTileData = (
     {name: name, x: x, y: y, width: width, height: height}
   })
   let json = Js.Json.stringifyWithSpace(asJson(tileInfos), 2)
-  Fs.writeFileSync(tileDataOutputPath, json)
+  Fs.writeFileSync(tileJsonPath, json)
 }
+
+// let writeTileReScript = (
+//   id: string,
+//   tileImagePath: string,
+//   tileInfos: array<tileInfo>,
+//   canvasWidth: int,
+//   canvasHeight: int,
+//   tileReScriptPath: string,
+// ) => {
+//   let code = `
+//     // This is a generated file
+
+//     let texture: Generator.textureDef = {
+//       id: "${id}",
+//       url: Generator.requireImage("./${tileImagePath}"),
+//       standardWidth: ${Belt.Int.toString(canvasWidth)},
+//       standardHeight: ${Belt.Int.toString(canvasHeight)},
+//     }
+
+//     let tiles = ${tileInfos->asJson->Js.Json.stringify}
+
+//     let data = (texture, tiles)
+//   `
+//   Fs.writeFileSync(tileReScriptPath, code)
+// }
 
 let makeTiledImages = (
   ~canvasWidth: int,
   ~sourceDirectory: string,
-  ~tileImageOutputPath: string,
-  ~tileDataOutputPath: string,
+  ~tileImagePath: string,
+  ~tileJsonPath: string,
 ) => {
   let images = readImagesInDirectory(sourceDirectory)
   makeTiledImagesCanvas(images, canvasWidth)->Promise.then(results => {
     let (imagesWithCoordinates, canvas, canvasWidth, canvasHeight) = results
-    writeTileImage(canvas, tileImageOutputPath)->Promise.then(() => {
-      writeTileData(imagesWithCoordinates, tileDataOutputPath)
+    writeTileImage(canvas, tileImagePath)->Promise.then(() => {
+      writeTileJson(imagesWithCoordinates, tileJsonPath)
       Promise.resolve((canvasWidth, canvasHeight))
     })
   })

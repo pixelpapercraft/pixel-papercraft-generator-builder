@@ -1,13 +1,13 @@
 module TextureFrame = Generator_TextureFrame
 
-let {
-  px,
-  makeBackgroundImage,
-  makeBackgroundPosition,
-  makeBackgroundSize,
-  makeBorder,
-  makeMargin,
-} = module(Generator_TexturePickerUtils)
+let px = n => Js.Int.toString(n) ++ "px"
+let deg = n => Js.Int.toString(n) ++ "deg"
+let makeBackgroundImage = url => "url(" ++ url ++ ")"
+let makeBackgroundPosition = (x, y) => px(x) ++ " " ++ px(y)
+let makeBackgroundSize = (x, y) => px(x) ++ " " ++ px(y)
+let makeBorder = (size, style, color) => px(size) ++ " " ++ style ++ " " ++ color
+let makeMargin = (t, r, b, l) => px(t) ++ " " ++ px(r) ++ " " ++ px(b) ++ " " ++ px(l)
+let makePadding = (t, r, b, l) => px(t) ++ " " ++ px(r) ++ " " ++ px(b) ++ " " ++ px(l)
 
 // https://tailwindcss.com/docs/background-color
 let bgGray100 = "rgb(243 244 246)"
@@ -15,20 +15,26 @@ let bgGray200 = "rgb(229 231 235)"
 let bgGray300 = "rgb(209 213 219)"
 let bgGray400 = "rgb(156 163 175)"
 
-let makeTileStyle = (textureDef: Generator.textureDef, x, y, width, height, scale, isHover) => {
+let makeTileStyle = (textureDef: Generator.textureDef, x, y, width, height, isHover) => {
   let borderSize = 4
+  let tileSize = 32
+  let widthScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(width)
+  let heightScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(height)
   ReactDOM.Style.make(
     ~border=makeBorder(borderSize, "solid", isHover ? bgGray400 : bgGray200),
     ~margin=makeMargin(0, borderSize, borderSize, 0),
     ~backgroundImage=makeBackgroundImage(textureDef.url),
-    ~backgroundPosition=makeBackgroundPosition(-x * scale, -y * scale),
+    ~backgroundPosition=makeBackgroundPosition(
+      -Belt.Float.toInt(Belt.Int.toFloat(x) *. widthScale),
+      -Belt.Float.toInt(Belt.Int.toFloat(y) *. heightScale),
+    ),
     ~backgroundRepeat="no-repeat",
     ~backgroundSize=makeBackgroundSize(
-      textureDef.standardWidth * scale,
-      textureDef.standardHeight * scale,
+      Belt.Float.toInt(Belt.Int.toFloat(textureDef.standardWidth) *. widthScale),
+      Belt.Float.toInt(Belt.Int.toFloat(textureDef.standardHeight) *. heightScale),
     ),
-    ~width={px(width * scale + borderSize * 2)},
-    ~height={px(height * scale + borderSize * 2)},
+    ~width={px(tileSize + borderSize * 2)},
+    ~height={px(tileSize + borderSize * 2)},
     (),
   )->ReactDOMStyle.unsafeAddStyle({
     "imageRendering": "pixelated",
@@ -37,11 +43,11 @@ let makeTileStyle = (textureDef: Generator.textureDef, x, y, width, height, scal
 
 module TileButton = {
   @react.component
-  let make = (~title, ~texture, ~x, ~y, ~width, ~height, ~scale, ~onClick) => {
+  let make = (~title, ~texture, ~x, ~y, ~width, ~height, ~onClick) => {
     let (isHover, setIsHover) = React.useState(_ => false)
     <button
       title
-      style={makeTileStyle(texture, x, y, width, height, scale, isHover)}
+      style={makeTileStyle(texture, x, y, width, height, isHover)}
       onClick
       onMouseEnter={_ => setIsHover(_ => true)}
       onMouseLeave={_ => setIsHover(_ => false)}
@@ -102,7 +108,6 @@ let make = (
     <div className="overflow-y-auto h-60">
       {Belt.Array.map(framesFiltered, frame => {
         let {name, x, y, width, height, frameIndex} = frame
-        let scale = 2
         <TileButton
           key={name ++ "_" ++ Belt.Int.toString(frameIndex)}
           title=name
@@ -111,7 +116,6 @@ let make = (
           y
           width
           height
-          scale
           onClick={_ => {
             onSelect(frame)
           }}
