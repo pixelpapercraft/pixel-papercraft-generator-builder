@@ -7,8 +7,8 @@ let getDirectories = dirPath => {
   ->Js.Array2.filter(((_, dirPath)) => Generator_TextureMaker.isDirectory(dirPath))
 }
 
-let texturesOriginalDir = Path.resolve(Node2.__dirname, "./textures-original")
-let texturesDir = Path.resolve(Node2.__dirname, "./textures")
+let texturesOriginalDir = Path.resolve(Node2.__dirname, "./item-textures-original")
+let texturesDir = Path.resolve(Node2.__dirname, "./item-textures")
 
 let dirPaths = getDirectories(texturesOriginalDir)
 

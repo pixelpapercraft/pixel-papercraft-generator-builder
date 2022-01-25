@@ -5,5 +5,5 @@
 /.bsb.lock
 /dist
 /src/generators/minecraft-block/textures-original
-/src/generators/minecraft-item/textures-original
+/src/generators/minecraft-item/item-textures-original
 *.bs.js
