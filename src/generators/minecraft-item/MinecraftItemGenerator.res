@@ -181,6 +181,14 @@ let script = () => {
     }
   })
 
+  // Show a button which allows the items to be cleared
+  Generator.defineButtonInput("Clear", () => {
+    Generator.setStringInputValue(
+      "SelectedTextureFrames",
+      TextureVersions.encodeSelectedTextureFrames([]),
+    )
+  })
+
   switch size {
   | "Small" => drawSmall(selectedTextureFrames)
   | "Medium" => drawMedium(selectedTextureFrames)

@@ -15,12 +15,12 @@ let bgGray200 = "rgb(229 231 235)"
 let bgGray300 = "rgb(209 213 219)"
 let bgGray400 = "rgb(156 163 175)"
 
+let borderSize = 4
+
 let makeTileBaseStyle = (isSelected, tileSize) => {
-  let borderSize = 4
   let borderColor = isSelected ? bgGray400 : bgGray200
   ReactDOM.Style.make(
     ~border=makeBorder(borderSize, "solid", borderColor),
-    ~margin=makeMargin(0, borderSize, borderSize, 0),
     ~width={px(tileSize + borderSize * 2)},
     ~height={px(tileSize + borderSize * 2)},
     (),
@@ -41,6 +41,7 @@ let makeTileStyle = (
   let baseStyle = makeTileBaseStyle(isSelected || isHover, tileSize)
 
   let backgroundStyle = ReactDOM.Style.make(
+    ~margin=makeMargin(0, borderSize, borderSize, 0),
     ~backgroundImage=makeBackgroundImage(textureDef.url),
     ~backgroundPosition=makeBackgroundPosition(
       -Belt.Float.toInt(Belt.Int.toFloat(x) *. widthScale),
@@ -106,13 +107,16 @@ module Search = {
 module Preview = {
   @react.component
   let make = (~textureDef: Generator.textureDef, ~frame: option<TextureFrame.frame>) => {
-    switch frame {
-    | None => <div style={makeTileBaseStyle(false, 128)} />
-    | Some(frame) => <>
-        <div style={makeTileStyle(textureDef, frame, false, false, 128)} />
-        <div className="text-center text-gray-500"> {frame.name->React.string} </div>
-      </>
-    }
+    <div className="p-2 flex justify-center">
+      {switch frame {
+      | None => <div style={makeTileBaseStyle(false, 128)} />
+      | Some(frame) =>
+        <div>
+          <div style={makeTileStyle(textureDef, frame, false, false, 128)} />
+          <div className="text-center text-gray-500"> {frame.name->React.string} </div>
+        </div>
+      }}
+    </div>
   }
 }
 
@@ -142,7 +146,7 @@ let make = (
       }}
     />
     <div className="flex items-center">
-      <div className="overflow-y-auto h-60">
+      <div className="overflow-y-auto h-60 w-full">
         {Belt.Array.map(framesFiltered, frame => {
           let isSelected = Belt.Option.mapWithDefault(selectedFrame, false, (
             selectedFrame: TextureFrame.frame,
@@ -159,7 +163,9 @@ let make = (
           />
         })->React.array}
       </div>
-      <div className="hidden sm:block"> <Preview textureDef frame=selectedFrame /> </div>
+      <div className="hidden sm:block  w-[200px] overflow-hidden">
+        <Preview textureDef frame=selectedFrame />
+      </div>
     </div>
   </div>
 }
