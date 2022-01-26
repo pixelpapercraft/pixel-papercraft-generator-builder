@@ -94,8 +94,9 @@ type texture = {
 
 type version = {id: string, textures: array<texture>}
 
-let texturesOriginalDir = Path.resolve(Node.__dirname, "./textures-original")
-let texturesDir = Path.resolve(Node.__dirname, "./textures")
+let texturesOriginalDir = Path.resolve(Node.__dirname, "./block-textures-original")
+let texturesDir = Path.resolve(Node.__dirname, "../../generators/minecraft-block/block-textures")
+
 let dataFile = Path.resolve(Node.__dirname, texturesDir ++ "/MinecraftBlock_TextureData.res")
 
 let dirPaths =

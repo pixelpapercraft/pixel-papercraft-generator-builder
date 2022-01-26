@@ -4,6 +4,6 @@
 /.merlin
 /.bsb.lock
 /dist
-/src/generators/minecraft-block/textures-original
-/src/generators/minecraft-item/item-textures-original
+/src/tools/minecraft-block/block-textures-original
+/src/tools/minecraft-item/item-textures-original
 *.bs.js

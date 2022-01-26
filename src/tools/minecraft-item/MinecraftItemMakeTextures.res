@@ -8,7 +8,7 @@ let getDirectories = dirPath => {
 }
 
 let texturesOriginalDir = Path.resolve(Node2.__dirname, "./item-textures-original")
-let texturesDir = Path.resolve(Node2.__dirname, "./item-textures")
+let texturesDir = Path.resolve(Node2.__dirname, "../../generators/minecraft-item/item-textures")
 
 let dirPaths = getDirectories(texturesOriginalDir)
 

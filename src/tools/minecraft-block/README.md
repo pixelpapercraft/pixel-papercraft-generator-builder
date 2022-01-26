@@ -10,10 +10,10 @@ Minecraft asset files can be obtained from https://mcasset.cloud/
 
 Recent versions of Minecraft block textures are in asset folder `assets\minecraft\textures\block`
 
-Copy the directory containing the block textures into a the `textures-original` and rename it, such as
+Copy the directory containing the block textures into a the `blocks-textures-original` and rename it, such as
 
 ```
-textures-original/minecraft-1.17.2
+block-textures-original/minecraft-1.17.2
 ```
 
 Then run the command:
@@ -22,7 +22,7 @@ Then run the command:
 npm run make-block-textures
 ```
 
-This will generate files in the `textures` directory.
+This will generate new files in the `generators/minecraft-block/block-textures` directory.
 
 ## Enabling the new textures in the Block Generator
 

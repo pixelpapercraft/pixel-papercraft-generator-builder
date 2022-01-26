@@ -18,7 +18,7 @@ Then run the command:
 npm run make-item-textures
 ```
 
-This will generate new files in the `item-textures` directory.
+This will generate new files in the `generators/minecraft-item/item-textures` directory.
 
 ## Enabling the new textures in the Item Generator
 
