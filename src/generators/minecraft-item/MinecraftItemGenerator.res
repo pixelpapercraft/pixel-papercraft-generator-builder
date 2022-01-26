@@ -64,8 +64,8 @@ let drawMedium = (selectedTextureFrames: array<TextureVersions.selectedTextureFr
   let size = 16 * 7 // 700%
 
   let border = 20
-  let maxCols = 1
-  let maxRows = 3
+  let maxCols = 2
+  let maxRows = 6
   let maxItems = maxCols * maxRows
 
   // Draw the page backgrounds

@@ -1,8 +1,8 @@
 // This is a generated file
 
 let texture: Generator.textureDef = {
-  id: "minecraft-1.7.10",
-  url: Generator.requireImage("./MinecraftItem_Texture_minecraft_1_7_10.png"),
+  id: "minecraft-1.7.10-items",
+  url: Generator.requireImage("./MinecraftItem_Texture_minecraft_1_7_10_items.png"),
   standardWidth: 512,
   standardHeight: 1120,
 }
