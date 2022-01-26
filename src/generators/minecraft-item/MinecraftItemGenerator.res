@@ -197,6 +197,12 @@ let script = () => {
     )
   })
 
+  // Show a blank page initially
+  if Belt.Array.length(selectedTextureFrames) === 0 {
+    Generator.usePage("Page 1")
+    Generator.drawImage("Background", (0, 0))
+  }
+
   if size === sizeSmall {
     drawSmall(selectedTextureFrames)
   } else if size === sizeMedium {
