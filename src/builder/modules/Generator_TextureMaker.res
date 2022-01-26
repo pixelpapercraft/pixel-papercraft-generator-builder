@@ -17,6 +17,14 @@ type tileInfo = {
   height: int,
 }
 
+external asJson: 'a => Js.Json.t = "%identity"
+
+let makeError: string => exn = %raw(`(reason) => new Error(reason)`)
+
+let makeSafeFileName = (prefix: string, version: string) => {
+  prefix ++ "_" ++ version->Js.String2.replaceByRe(%re(`/[-\.]/g`), "_")
+}
+
 let hasImageExtension = (path: string) => {
   path->Js.String2.endsWith(".png")
 }
@@ -69,7 +77,11 @@ let calculateImagesWithCoordinates = (images: array<imageWithInfo>, canvasWidth:
     let {width, height} = info
 
     if width > canvasWidth {
-      Js.log(`WARNING: ${name} has width ${Belt.Int.toString(width)} and was not added`)
+      Js.log(
+        `WARNING: ${name} has width ${Belt.Int.toString(
+            width,
+          )} greater than the canvas width ${Belt.Int.toString(canvasWidth)} and was not added`,
+      )
     } else {
       let (x, y) = if nextx.contents + width > canvasWidth {
         let x = 0
@@ -117,8 +129,6 @@ let calculateImagesWithCoordinates = (images: array<imageWithInfo>, canvasWidth:
   (imagesWithCoordinates, canvasWidth, canvasHeight.contents)
 }
 
-let makeError: string => exn = %raw(`(reason) => new Error(reason)`)
-
 let makeCanvas = (width: int, height: int) => {
   Promise.make((resolve, reject) => {
     Jimp.make(width, height, (error, canvas) => {
@@ -155,19 +165,17 @@ let makeTiledImagesCanvas = (images: array<imageWithInfo>, canvasWidth: int) => 
     })
   })
   ->Promise.then(canvas => {
-    Promise.resolve((imagesWithCoordinates, canvas))
+    Promise.resolve((imagesWithCoordinates, canvas, canvasWidth, canvasHeight))
   })
 }
 
-let writeTileImage = (canvas: Jimp.t, tileImageOutputPath: string) => {
-  Jimp.writeAsync(canvas, tileImageOutputPath)
+let writeTileImage = (~canvas: Jimp.t, ~tileImagePath: string) => {
+  Jimp.writeAsync(canvas, tileImagePath)
 }
 
-external asJson: 'a => Js.Json.t = "%identity"
-
-let writeTileData = (
-  imagesWithCoordinates: array<imageWithCoordinates>,
-  tileDataOutputPath: string,
+let writeTileJson = (
+  ~imagesWithCoordinates: array<imageWithCoordinates>,
+  ~tileJsonPath: string,
 ) => {
   let tileInfos = Belt.Array.map(imagesWithCoordinates, imagesWithCoordinates => {
     let {image, coordinates} = imagesWithCoordinates
@@ -177,37 +185,111 @@ let writeTileData = (
     {name: name, x: x, y: y, width: width, height: height}
   })
   let json = Js.Json.stringifyWithSpace(asJson(tileInfos), 2)
-  Fs.writeFileSync(tileDataOutputPath, json)
+  Fs.writeFileSync(tileJsonPath, json)
 }
 
-let makeTiledImages = (
-  ~canvasWidth: int,
-  ~sourceDirectory: string,
-  ~tileImageOutputPath: string,
-  ~tileDataOutputPath: string,
-) => {
-  let images = readImagesInDirectory(sourceDirectory)
-  makeTiledImagesCanvas(images, canvasWidth)->Promise.then(results => {
-    let (imagesWithCoordinates, canvas) = results
-    writeTileImage(canvas, tileImageOutputPath)->Promise.then(() => {
-      writeTileData(imagesWithCoordinates, tileDataOutputPath)
-      Promise.resolve()
+let printStdOutput = (stdout, stderr) => {
+  switch Js.Nullable.toOption(stdout) {
+  | Some(stdout) =>
+    if Js.String2.length(stdout) > 0 {
+      Js.log(stdout)
+    }
+  | None => ()
+  }
+  switch Js.Nullable.toOption(stderr) {
+  | Some(stderr) =>
+    if Js.String2.length(stderr) > 0 {
+      Js.log(stderr)
+    }
+  | None => ()
+  }
+}
+
+let formatReScriptFile = path => {
+  Promise.make((resolve, reject) => {
+    ChildProcess.exec("npx rescript format " ++ path, (. exn, stdout, stderr) => {
+      switch Js.Nullable.toOption(exn) {
+      | Some(exn) => reject(. exn)
+      | None => {
+          printStdOutput(stdout, stderr)
+          resolve(. ignore())
+        }
+      }
     })
   })
 }
 
-/*
+let writeTileReScript = (
+  ~id: string,
+  ~tileImagePath: string,
+  ~tileInfos: array<tileInfo>,
+  ~canvasWidth: int,
+  ~canvasHeight: int,
+  ~tileReScriptPath: string,
+) => {
+  let {base} = Path.parse(tileImagePath)
+  let code = `
+    // This is a generated file
 
-let sourceDirectory = Path.resolve(Node2.__dirname, "./item")
-let tileImageOutputPath = Path.resolve(Node2.__dirname, "./items.png")
-let tileDataOutputPath = Path.resolve(Node2.__dirname, "./items.json")
-let canvasWidth = 512
+    let texture: Generator.textureDef = {
+      id: "${id}",
+      url: Generator.requireImage("./${base}"),
+      standardWidth: ${Belt.Int.toString(canvasWidth)},
+      standardHeight: ${Belt.Int.toString(canvasHeight)},
+    }
 
-makeTiledImages(~canvasWidth, ~sourceDirectory, ~tileImageOutputPath, ~tileDataOutputPath)
-->Promise.catch(exn => {
-  Js.log(exn)
-  Promise.resolve()
-})
-->ignore
+    let tiles = ${tileInfos->asJson->Js.Json.stringify}
 
-*/
+    let data = (texture, tiles)
+  `
+  Fs.writeFileSync(tileReScriptPath, code)
+  formatReScriptFile(tileReScriptPath)
+}
+
+let makeTiledImages = (
+  ~id: string,
+  ~sourceDirectory: string,
+  ~outputDirectory: string,
+  ~outputPrefix: string,
+) => {
+  let canvasWidth = 512
+
+  let fileName = makeSafeFileName(outputPrefix, id)
+  let basePath = outputDirectory ++ "/" ++ fileName
+  let tileImagePath = basePath ++ ".png"
+  let tileJsonPath = basePath ++ ".json"
+  let tileReScriptPath = basePath ++ ".res"
+
+  let images = readImagesInDirectory(sourceDirectory)
+
+  makeTiledImagesCanvas(images, canvasWidth)->Promise.then(results => {
+    let (imagesWithCoordinates, canvas, canvasWidth, canvasHeight) = results
+    writeTileImage(~canvas, ~tileImagePath)->Promise.then(() => {
+      writeTileJson(~imagesWithCoordinates, ~tileJsonPath)
+      let tileInfos: array<tileInfo> = Belt.Array.map(
+        imagesWithCoordinates,
+        imageWithCoordinates => {
+          let {image, coordinates} = imageWithCoordinates
+          let (x, y) = coordinates
+          let {name, info} = image
+          let {width, height} = info
+          {
+            name: name,
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+          }
+        },
+      )
+      writeTileReScript(
+        ~id,
+        ~tileImagePath,
+        ~tileInfos,
+        ~canvasWidth,
+        ~canvasHeight,
+        ~tileReScriptPath,
+      )
+    })
+  })
+}

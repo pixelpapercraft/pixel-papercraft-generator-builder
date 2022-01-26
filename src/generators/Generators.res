@@ -32,6 +32,7 @@ let mob: array<Generator.generatorDef> = [
 // Blocks, Items and Accessories
 let utility: array<Generator.generatorDef> = [
   MinecraftBlockGenerator.generator,
+  MinecraftItemGenerator.generator,
   MinecraftCapeAndElytraGenerator.generator,
   MinecraftCharacterHeadsGenerator.generator,
 ]

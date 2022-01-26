@@ -557,7 +557,10 @@ let findPage = (model: Model.t, id) => model.pages->Js.Array2.find(page => page.
 let usePage = (model: Model.t, id) => {
   let page = findPage(model, id)
   switch page {
-  | Some(_) => model
+  | Some(page) => {
+      ...model,
+      currentPage: Some(page),
+    }
   | None => {
       let page = Page.make(id)
       let pages = Js.Array2.concat(model.pages, [page])
