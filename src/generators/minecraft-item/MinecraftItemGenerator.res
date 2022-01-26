@@ -5,6 +5,10 @@ let id = "minecraft-item"
 
 let name = "Minecraft Item"
 
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
+}
+
 let images: array<Generator.imageDef> = [
   {id: "Background", url: Generator.requireImage("./images/Background.png")},
 ]
@@ -200,7 +204,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,
