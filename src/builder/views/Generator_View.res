@@ -147,11 +147,15 @@ let make = (
         </div>
         <GeneratorInstructions generatorDef />
         <GeneratorInputs model onChange={onInputsChange} />
-        {switch afterInputs {
-        | None => React.null
-        | Some(afterInputs) => <div className="mb-8"> {afterInputs} </div>
-        }}
-        <GeneratorPages generatorDef model onChange={onPagesInputsChange} />
+        <div className="lg:flex lg:justify-between">
+          <div className="mb-16 lg:mb-0">
+            <GeneratorPages generatorDef model onChange={onPagesInputsChange} />
+          </div>
+          {switch afterInputs {
+          | None => React.null
+          | Some(afterInputs) => <div> afterInputs </div>
+          }}
+        </div>
       </div>
     }}
   </div>
