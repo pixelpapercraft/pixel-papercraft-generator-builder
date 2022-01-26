@@ -19,9 +19,14 @@ let drawItem = (id, rectangle, x, y, size) => {
 let drawSmall = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
   let size = 16 * 8
 
+  let border = 25
+  let maxCols = 2
+  let maxRows = 5
+  let maxItems = maxCols * maxRows
+
   // Draw the page backgrounds
   let addedCount = Belt.Array.length(selectedTextureFrames)
-  let pageCount = addedCount > 0 ? (addedCount - 1) / 10 + 1 : 0
+  let pageCount = addedCount > 0 ? (addedCount - 1) / maxItems + 1 : 0
 
   for page in 1 to pageCount {
     Generator.usePage("Page " ++ Belt.Int.toString(page))
@@ -29,12 +34,6 @@ let drawSmall = (selectedTextureFrames: array<TextureVersions.selectedTextureFra
   }
 
   // Draw the added textures
-  let border = 25
-
-  let maxCols = 2
-  let maxRows = 5
-  let maxItems = maxCols * maxRows
-
   Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
     let {textureDefId, frame} = selectedTextureFrame
 
@@ -57,6 +56,80 @@ let drawSmall = (selectedTextureFrames: array<TextureVersions.selectedTextureFra
   })
 }
 
+let drawMedium = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
+  let size = 16 * 8 * 2
+
+  let border = 20
+  let maxCols = 1
+  let maxRows = 3
+  let maxItems = maxCols * maxRows
+
+  // Draw the page backgrounds
+  let addedCount = Belt.Array.length(selectedTextureFrames)
+  let pageCount = addedCount > 0 ? (addedCount - 1) / maxItems + 1 : 0
+
+  for page in 1 to pageCount {
+    Generator.usePage("Page " ++ Belt.Int.toString(page))
+    Generator.drawImage("Background", (0, 0))
+  }
+
+  // Draw the added textures
+  Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
+    let {textureDefId, frame} = selectedTextureFrame
+
+    let page = index / maxItems + 1
+    let pageId = "Page " ++ Belt.Int.toString(page)
+
+    let col = mod(index, maxCols)
+    let row = mod(index / maxCols, maxRows)
+
+    let x = col * size * 2
+    let x = col > 0 ? x + border * col : x
+    let x = border + x
+
+    let y = row * size
+    let y = row > 0 ? y + border * row : y
+    let y = border + y
+
+    Generator.usePage(pageId)
+    drawItem(textureDefId, frame.rectangle, x, y, size)
+  })
+}
+
+let drawLarge = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
+  let size = 16 * 8 * 4
+  let border = 30
+
+  // Draw the page backgrounds
+  let addedCount = Belt.Array.length(selectedTextureFrames)
+  let pageCount = addedCount * 2
+
+  for page in 1 to pageCount {
+    Generator.usePage("Page " ++ Belt.Int.toString(page))
+    Generator.drawImage("Background", (0, 0))
+  }
+
+  // Draw the added textures
+  Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
+    let {textureDefId, frame} = selectedTextureFrame
+
+    let x = border
+    let y = border
+
+    let page1 = index * 2 + 1
+    let page1Id = "Page " ++ Belt.Int.toString(page1)
+
+    let page2 = index * 2 + 2
+    let page2Id = "Page " ++ Belt.Int.toString(page2)
+
+    Generator.usePage(page1Id)
+    Generator.drawTexture(textureDefId, frame.rectangle, (x, y, size, size), ())
+
+    Generator.usePage(page2Id)
+    Generator.drawTexture(textureDefId, frame.rectangle, (x, y, size, size), ~flip=#Horizontal, ())
+  })
+}
+
 let script = () => {
   // Show a drop down of different texture versions
   Generator.defineSelectInput("Version", TextureVersions.versionIds)
@@ -66,15 +139,8 @@ let script = () => {
   let textureVersion = TextureVersions.findVersion(versionId)
 
   // Show a drop down of sizes
-  Generator.defineSelectInput("Size", ["Default", "Medium", "Large"])
+  Generator.defineSelectInput("Size", ["Small", "Medium", "Large"])
   let size = Generator.getSelectInputValue("Size")
-
-  // let size = switch Generator.getSelectInputValue("Size") {
-  // | "Small" => 16 * 8
-  // | "Medium" => 16 * 8 * 2
-  // | "Large" => 16 * 8 * 4
-  // | _ => 16 * 8
-  // }
 
   // Show the Texture Picker
   // When a texture is selected, we need to encode it into a string variable
@@ -117,6 +183,8 @@ let script = () => {
 
   switch size {
   | "Small" => drawSmall(selectedTextureFrames)
+  | "Medium" => drawMedium(selectedTextureFrames)
+  | "Large" => drawLarge(selectedTextureFrames)
   | _ => drawSmall(selectedTextureFrames)
   }
 }
