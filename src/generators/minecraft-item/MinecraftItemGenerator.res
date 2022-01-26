@@ -21,11 +21,11 @@ let drawItem = (id, rectangle, x, y, size) => {
 }
 
 let drawSmall = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
-  let size = 16 * 8
+  let size = 16 * 2 // 200%
 
   let border = 25
-  let maxCols = 2
-  let maxRows = 5
+  let maxCols = 6
+  let maxRows = 13
   let maxItems = maxCols * maxRows
 
   // Draw the page backgrounds
@@ -61,7 +61,7 @@ let drawSmall = (selectedTextureFrames: array<TextureVersions.selectedTextureFra
 }
 
 let drawMedium = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
-  let size = 16 * 8 * 2
+  let size = 16 * 7 // 700%
 
   let border = 20
   let maxCols = 1
@@ -134,6 +134,10 @@ let drawLarge = (selectedTextureFrames: array<TextureVersions.selectedTextureFra
   })
 }
 
+let sizeSmall = "Small (200%)"
+let sizeMedium = "Medium (700%)"
+let sizeLarge = "Full Page"
+
 let script = () => {
   // Show a drop down of different texture versions
   Generator.defineSelectInput("Version", TextureVersions.versionIds)
@@ -143,7 +147,7 @@ let script = () => {
   let textureVersion = TextureVersions.findVersion(versionId)
 
   // Show a drop down of sizes
-  Generator.defineSelectInput("Size", ["Small", "Medium", "Large"])
+  Generator.defineSelectInput("Size", [sizeSmall, sizeMedium, sizeLarge])
   let size = Generator.getSelectInputValue("Size")
 
   // Show the Texture Picker
@@ -193,11 +197,14 @@ let script = () => {
     )
   })
 
-  switch size {
-  | "Small" => drawSmall(selectedTextureFrames)
-  | "Medium" => drawMedium(selectedTextureFrames)
-  | "Large" => drawLarge(selectedTextureFrames)
-  | _ => drawSmall(selectedTextureFrames)
+  if size === sizeSmall {
+    drawSmall(selectedTextureFrames)
+  } else if size === sizeMedium {
+    drawMedium(selectedTextureFrames)
+  } else if size === sizeLarge {
+    drawLarge(selectedTextureFrames)
+  } else {
+    drawSmall(selectedTextureFrames)
   }
 }
 
