@@ -23,6 +23,8 @@ The generator supports four standard sizes:
 
 let images: array<Generator.imageDef> = [
   {id: "Background", url: Generator.requireImage("./images/Background.png")},
+  {id: "Title", url: Generator.requireImage("./images/Title.png")},
+  //{id: "CenterFold", url: Generator.requireImage("./images/CenterFold.png")},
 ]
 
 let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
@@ -202,6 +204,8 @@ let script = () => {
   } else {
     drawMedium(selectedTextureFrames)
   }
+
+  Generator.drawImage("Title", (0, 0))
 }
 
 let generator: Generator.generatorDef = {
