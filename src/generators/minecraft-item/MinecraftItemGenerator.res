@@ -38,11 +38,9 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
   ],
 )
 
-let drawItem = (id, rectangle, x, y, size, showFolds, textureOffset) => {
-  let offset = textureOffset * size / 16
-
-  Generator.drawTexture(id, rectangle, (x + offset, y, size, size), ())
-  Generator.drawTexture(id, rectangle, (x + size - offset, y, size, size), ~flip=#Horizontal, ())
+let drawItem = (id, rectangle, x, y, size, showFolds) => {
+  Generator.drawTexture(id, rectangle, (x, y, size, size), ())
+  Generator.drawTexture(id, rectangle, (x + size, y, size, size), ~flip=#Horizontal, ())
   if showFolds {
     Generator.drawTexture("CenterFold", (0, 0, 2, size), (x + size - 1, y, 2, size), ())
   }
@@ -55,7 +53,6 @@ let drawItems = (
   ~maxCols: int,
   ~maxRows: int,
   ~folds: bool,
-  ~offset: int,
 ) => {
   let maxItems = maxCols * maxRows
 
@@ -87,7 +84,7 @@ let drawItems = (
     let y = border + y
 
     Generator.usePage(pageId)
-    drawItem(textureDefId, frame.rectangle, x, y, size, folds, offset)
+    drawItem(textureDefId, frame.rectangle, x, y, size, folds)
     Generator.drawImage("Title", (0, 0))
   })
 }
@@ -95,7 +92,6 @@ let drawItems = (
 let drawSmall = (
   selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
   showFolds: bool,
-  textureOffset: int,
 ) => {
   drawItems(
     ~selectedTextureFrames,
@@ -104,14 +100,12 @@ let drawSmall = (
     ~maxCols=6,
     ~maxRows=13,
     ~folds=showFolds,
-    ~offset=textureOffset,
   )
 }
 
 let drawMedium = (
   selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
   showFolds: bool,
-  textureOffset: int,
 ) => {
   drawItems(
     ~selectedTextureFrames,
@@ -120,14 +114,12 @@ let drawMedium = (
     ~maxCols=4,
     ~maxRows=10,
     ~folds=showFolds,
-    ~offset=textureOffset,
   )
 }
 
 let drawLarge = (
   selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
   showFolds: bool,
-  textureOffset: int,
 ) => {
   drawItems(
     ~selectedTextureFrames,
@@ -136,7 +128,6 @@ let drawLarge = (
     ~maxCols=2,
     ~maxRows=6,
     ~folds=showFolds,
-    ~offset=textureOffset,
   )
 }
 
@@ -211,19 +202,6 @@ let script = () => {
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
-  // Define the Texture Offset Variable
-  Generator.defineRangeInput(
-    "Texture Offset",
-    {
-      min: 0,
-      max: 16,
-      value: 0,
-      step: 1,
-    },
-  )
-
-  let textureOffset = Generator.getRangeInputValue("Texture Offset")
-
   // Decode the selected texture
   let selectedTextureFrame = Generator_TextureFrame.decodeFrame(
     Generator.getStringInputValue("SelectedTextureFrame"),
@@ -268,15 +246,15 @@ let script = () => {
   }
 
   if size === sizeSmall {
-    drawSmall(selectedTextureFrames, showFolds, textureOffset)
+    drawSmall(selectedTextureFrames, showFolds)
   } else if size === sizeMedium {
-    drawMedium(selectedTextureFrames, showFolds, textureOffset)
+    drawMedium(selectedTextureFrames, showFolds)
   } else if size === sizeLarge {
-    drawLarge(selectedTextureFrames, showFolds, textureOffset)
+    drawLarge(selectedTextureFrames, showFolds)
   } else if size === sizeFullPage {
     drawFullPage(selectedTextureFrames)
   } else {
-    drawMedium(selectedTextureFrames, showFolds, textureOffset)
+    drawMedium(selectedTextureFrames, showFolds)
   }
 }
 
