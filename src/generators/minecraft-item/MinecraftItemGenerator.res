@@ -38,12 +38,10 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
   ],
 )
 
-let drawItem = (id, rectangle, x, y, size, showFolds) => {
-  // Define the Texture Offset Variable
+let drawItem = (id, rectangle, x, y, size, page, showFolds) => {
+  let regionId = Js.Int.toString(x) ++ Js.Int.toString(y) ++ Js.Int.toString(page)
   let textureOffset =
-    Generator.getSelectInputValue("Texture Offset" ++ Js.Int.toString(x) ++ Js.Int.toString(y))
-    ->Belt.Int.fromString
-    ->Belt.Option.getWithDefault(0)
+    Generator.getSelectInputValue(regionId)->Belt.Int.fromString->Belt.Option.getWithDefault(0)
   let cycleTextureOffset = t => {
     let t = if t === 16 {
       0
@@ -53,10 +51,7 @@ let drawItem = (id, rectangle, x, y, size, showFolds) => {
     Belt.Int.toString(t)
   }
   Generator.defineRegionInput((x, y, size, size), () => {
-    Generator.setSelectInputValue(
-      "Texture Offset" ++ Js.Int.toString(x) ++ Js.Int.toString(y),
-      cycleTextureOffset(textureOffset),
-    )
+    Generator.setSelectInputValue(regionId, cycleTextureOffset(textureOffset))
   })
 
   let offset = textureOffset * size / 16
@@ -85,30 +80,30 @@ let drawItems = (
   for page in 1 to pageCount {
     Generator.usePage("Page " ++ Belt.Int.toString(page))
     Generator.drawImage("Background", (0, 0))
+
+    // Draw the added textures
+    Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
+      let {textureDefId, frame} = selectedTextureFrame
+
+      let page = index / maxItems + 1
+      let pageId = "Page " ++ Belt.Int.toString(page)
+
+      let col = mod(index, maxCols)
+      let row = mod(index / maxCols, maxRows)
+
+      let x = col * size * 2
+      let x = col > 0 ? x + border * col : x
+      let x = border + x
+
+      let y = row * size
+      let y = row > 0 ? y + border * row : y
+      let y = border + y
+
+      Generator.usePage(pageId)
+      drawItem(textureDefId, frame.rectangle, x, y, size, page, folds)
+      Generator.drawImage("Title", (0, 0))
+    })
   }
-
-  // Draw the added textures
-  Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
-    let {textureDefId, frame} = selectedTextureFrame
-
-    let page = index / maxItems + 1
-    let pageId = "Page " ++ Belt.Int.toString(page)
-
-    let col = mod(index, maxCols)
-    let row = mod(index / maxCols, maxRows)
-
-    let x = col * size * 2
-    let x = col > 0 ? x + border * col : x
-    let x = border + x
-
-    let y = row * size
-    let y = row > 0 ? y + border * row : y
-    let y = border + y
-
-    Generator.usePage(pageId)
-    drawItem(textureDefId, frame.rectangle, x, y, size, folds)
-    Generator.drawImage("Title", (0, 0))
-  })
 }
 
 let drawSmall = (
