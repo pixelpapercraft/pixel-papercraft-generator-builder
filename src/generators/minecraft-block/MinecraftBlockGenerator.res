@@ -58,6 +58,8 @@ let script = () => {
 
   Generator.defineBooleanInput("Show Folds", true)
 
+  let showFolds = Generator.getBooleanInputValue("Show Folds")
+
   Generator.drawImage("Background", (0, 0))
 
   for i in 1 to numberOfBlocks {
@@ -74,14 +76,14 @@ let script = () => {
     let oy = 16 + 400 * (i - 1)
 
     switch blockType {
-    | "Block" => Types.Block.draw(blockId, ox, oy)
-    | "Slab" => Types.Slab.draw(blockId, ox, oy)
-    | "Stair" => Types.Stair.draw(blockId, ox, oy)
-    | "Fence" => Types.Fence.draw(blockId, ox, oy)
-    | "Door" => Types.Door.draw(blockId, ox, oy)
-    | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy)
-    | "Snow Layers" => Types.Snow.draw(blockId, ox, oy)
-    | "Cake" => Types.Cake.draw(blockId, ox, oy)
+    | "Block" => Types.Block.draw(blockId, ox, oy, showFolds)
+    | "Slab" => Types.Slab.draw(blockId, ox, oy, showFolds)
+    | "Stair" => Types.Stair.draw(blockId, ox, oy, showFolds)
+    | "Fence" => Types.Fence.draw(blockId, ox, oy, showFolds)
+    | "Door" => Types.Door.draw(blockId, ox, oy, showFolds)
+    | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy, showFolds)
+    | "Snow Layers" => Types.Snow.draw(blockId, ox, oy, showFolds)
+    | "Cake" => Types.Cake.draw(blockId, ox, oy, showFolds)
     | _ => ()
     }
   }

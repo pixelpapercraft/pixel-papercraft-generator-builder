@@ -27,7 +27,7 @@ module Block = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     let regions = Regions.make(ox, oy)
 
     Face.defineInputRegion("BlockFaceTop" ++ blockId, regions.top)
@@ -46,7 +46,6 @@ module Block = {
 
     Generator.drawImage("Tabs-Block", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Block", (ox - 32, oy - 1))
     }
@@ -76,7 +75,7 @@ module Slab = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     let regions = Regions.make(ox, oy)
 
     Face.defineInputRegion("SlabFaceTop" ++ blockId, regions.top)
@@ -95,7 +94,6 @@ module Slab = {
 
     Generator.drawImage("Tabs-Slab", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Slab", (ox - 32, oy - 1))
     }
@@ -129,7 +127,7 @@ module Stair = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     let regions = Regions.make(ox, oy)
 
     Face.defineInputRegion("StairFaceTop" ++ blockId, regions.top)
@@ -152,7 +150,6 @@ module Stair = {
 
     Generator.drawImage("Tabs-Stair", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Stair", (ox - 32, oy - 1))
     }
@@ -263,7 +260,7 @@ module Fence = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     let regions = Regions.make(ox, oy)
 
     Face.defineInputRegion("FenceFaceTop" ++ blockId, regions.top)
@@ -318,7 +315,6 @@ module Fence = {
 
     Generator.drawImage("Tabs-Fence", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Fence", (ox - 32, oy - 1))
     }
@@ -357,7 +353,7 @@ module Door = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     let regions = Regions.make(ox, oy)
 
     Face.defineInputRegion("DoorFace1" ++ blockId, regions.front1)
@@ -376,7 +372,6 @@ module Door = {
 
     Generator.drawImage("Tabs-Door", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Door", (ox - 32, oy - 1))
     }
@@ -407,7 +402,7 @@ module Trapdoor = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     let regions = Regions.make(ox, oy)
 
     Face.defineInputRegion("TrapdoorFace" ++ blockId, regions.front)
@@ -421,7 +416,6 @@ module Trapdoor = {
 
     Generator.drawImage("Tabs-Trapdoor", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Trapdoor", (ox - 32, oy - 1))
     }
@@ -461,7 +455,7 @@ module Snow = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     Generator.defineSelectInput(
       "Block " ++ blockId ++ " Level",
       ["1", "2", "3", "4", "5", "6", "7", "8"],
@@ -517,7 +511,6 @@ module Snow = {
 
     Generator.drawImage("Tabs-Snow-Bottom", (ox - 32, oy - 1))
 
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
     if showFolds {
       Generator.drawImage("Folds-Snow-Bottom", (ox - 32, oy - 1))
     }
@@ -561,7 +554,7 @@ module Cake = {
     }
   }
 
-  let draw = (blockId: string, ox: int, oy: int) => {
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
     Generator.defineSelectInput(
       "Block " ++ blockId ++ " Bites Taken",
       ["0", "1", "2", "3", "4", "5", "6"],
@@ -592,8 +585,6 @@ module Cake = {
     Face.draw("CakeFaceFront" ++ blockId, (1 + bites * 2, 8, 14 - 2 * bites, 8), regions.front, ())
     Face.draw("CakeFaceLeft" ++ blockId, (1, 8, 14, 8), regions.left, ())
     Face.draw("CakeFaceBack" ++ blockId, (1, 8, 14 - 2 * bites, 8), regions.back, ())
-
-    let showFolds = Generator.getBooleanInputValue("Show Folds")
 
     Generator.drawImage("Tabs-Cake-Left", (ox - 32, oy - 1))
     if showFolds {

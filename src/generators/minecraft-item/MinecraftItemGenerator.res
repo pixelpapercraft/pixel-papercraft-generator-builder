@@ -24,14 +24,26 @@ The generator supports four standard sizes:
 let images: array<Generator.imageDef> = [
   {id: "Background", url: Generator.requireImage("./images/Background.png")},
   {id: "Title", url: Generator.requireImage("./images/Title.png")},
-  //{id: "CenterFold", url: Generator.requireImage("./images/CenterFold.png")},
 ]
 
-let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
+let textures: array<Generator.textureDef> = Js.Array.concat(
+  TextureVersions.allTextureDefs,
+  [
+    {
+      id: "CenterFold",
+      url: Generator.requireImage("./item-textures/CenterFold.png"),
+      standardWidth: 2,
+      standardHeight: 128,
+    },
+  ],
+)
 
-let drawItem = (id, rectangle, x, y, size) => {
+let drawItem = (id, rectangle, x, y, size, showFolds) => {
   Generator.drawTexture(id, rectangle, (x, y, size, size), ())
   Generator.drawTexture(id, rectangle, (x + size, y, size, size), ~flip=#Horizontal, ())
+  if showFolds {
+    Generator.drawTexture("CenterFold", (0, 0, 2, size), (x + size - 1, y, 2, size), ())
+  }
 }
 
 let drawItems = (
@@ -40,6 +52,7 @@ let drawItems = (
   ~border: int,
   ~maxCols: int,
   ~maxRows: int,
+  ~folds: bool,
 ) => {
   let maxItems = maxCols * maxRows
 
@@ -71,20 +84,50 @@ let drawItems = (
     let y = border + y
 
     Generator.usePage(pageId)
-    drawItem(textureDefId, frame.rectangle, x, y, size)
+    drawItem(textureDefId, frame.rectangle, x, y, size, folds)
   })
 }
 
-let drawSmall = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
-  drawItems(~selectedTextureFrames, ~size=16 * 2, ~border=25, ~maxCols=6, ~maxRows=13)
+let drawSmall = (
+  selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  showFolds: bool,
+) => {
+  drawItems(
+    ~selectedTextureFrames,
+    ~size=16 * 2,
+    ~border=25,
+    ~maxCols=6,
+    ~maxRows=13,
+    ~folds=showFolds,
+  )
 }
 
-let drawMedium = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
-  drawItems(~selectedTextureFrames, ~size=16 * 4, ~border=15, ~maxCols=4, ~maxRows=10)
+let drawMedium = (
+  selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  showFolds: bool,
+) => {
+  drawItems(
+    ~selectedTextureFrames,
+    ~size=16 * 4,
+    ~border=15,
+    ~maxCols=4,
+    ~maxRows=10,
+    ~folds=showFolds,
+  )
 }
 
-let drawLarge = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
-  drawItems(~selectedTextureFrames, ~size=16 * 7, ~border=20, ~maxCols=2, ~maxRows=6)
+let drawLarge = (
+  selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  showFolds: bool,
+) => {
+  drawItems(
+    ~selectedTextureFrames,
+    ~size=16 * 7,
+    ~border=20,
+    ~maxCols=2,
+    ~maxRows=6,
+    ~folds=showFolds,
+  )
 }
 
 let drawFullPage = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
@@ -151,6 +194,11 @@ let script = () => {
     />
   })
 
+  // Define the Show Folds Variable
+  Generator.defineBooleanInput("Show Folds", true)
+
+  let showFolds = Generator.getBooleanInputValue("Show Folds")
+
   // Decode the selected texture
   let selectedTextureFrame = Generator_TextureFrame.decodeFrame(
     Generator.getStringInputValue("SelectedTextureFrame"),
@@ -194,15 +242,15 @@ let script = () => {
   }
 
   if size === sizeSmall {
-    drawSmall(selectedTextureFrames)
+    drawSmall(selectedTextureFrames, showFolds)
   } else if size === sizeMedium {
-    drawMedium(selectedTextureFrames)
+    drawMedium(selectedTextureFrames, showFolds)
   } else if size === sizeLarge {
-    drawLarge(selectedTextureFrames)
+    drawLarge(selectedTextureFrames, showFolds)
   } else if size === sizeFullPage {
     drawFullPage(selectedTextureFrames)
   } else {
-    drawMedium(selectedTextureFrames)
+    drawMedium(selectedTextureFrames, showFolds)
   }
 
   Generator.drawImage("Title", (0, 0))
