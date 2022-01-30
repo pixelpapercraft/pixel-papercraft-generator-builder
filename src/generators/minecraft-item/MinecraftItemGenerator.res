@@ -158,9 +158,11 @@ let drawFullPage = (selectedTextureFrames: array<TextureVersions.selectedTexture
 
     Generator.usePage(page1Id)
     Generator.drawTexture(textureDefId, frame.rectangle, (x, y, size, size), ())
+    Generator.drawImage("Title", (0, 0))
 
     Generator.usePage(page2Id)
     Generator.drawTexture(textureDefId, frame.rectangle, (x, y, size, size), ~flip=#Horizontal, ())
+    Generator.drawImage("Title", (0, 0))
   })
 }
 
