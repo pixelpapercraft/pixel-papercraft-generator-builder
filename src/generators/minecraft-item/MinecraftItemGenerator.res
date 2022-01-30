@@ -39,8 +39,30 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
 )
 
 let drawItem = (id, rectangle, x, y, size, showFolds) => {
-  Generator.drawTexture(id, rectangle, (x, y, size, size), ())
-  Generator.drawTexture(id, rectangle, (x + size, y, size, size), ~flip=#Horizontal, ())
+  // Define the Texture Offset Variable
+  let textureOffset =
+    Generator.getSelectInputValue("Texture Offset" ++ Js.Int.toString(x) ++ Js.Int.toString(y))
+    ->Belt.Int.fromString
+    ->Belt.Option.getWithDefault(0)
+  let cycleTextureOffset = t => {
+    let t = if t === 16 {
+      0
+    } else {
+      t + 1
+    }
+    Belt.Int.toString(t)
+  }
+  Generator.defineRegionInput((x, y, size, size), () => {
+    Generator.setSelectInputValue(
+      "Texture Offset" ++ Js.Int.toString(x) ++ Js.Int.toString(y),
+      cycleTextureOffset(textureOffset),
+    )
+  })
+
+  let offset = textureOffset * size / 16
+
+  Generator.drawTexture(id, rectangle, (x + offset, y, size, size), ())
+  Generator.drawTexture(id, rectangle, (x + size - offset, y, size, size), ~flip=#Horizontal, ())
   if showFolds {
     Generator.drawTexture("CenterFold", (0, 0, 2, size), (x + size - 1, y, 2, size), ())
   }
