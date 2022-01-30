@@ -85,6 +85,7 @@ let drawItems = (
 
     Generator.usePage(pageId)
     drawItem(textureDefId, frame.rectangle, x, y, size, folds)
+    Generator.drawImage("Title", (0, 0))
   })
 }
 
@@ -254,8 +255,6 @@ let script = () => {
   } else {
     drawMedium(selectedTextureFrames, showFolds)
   }
-
-  Generator.drawImage("Title", (0, 0))
 }
 
 let generator: Generator.generatorDef = {
