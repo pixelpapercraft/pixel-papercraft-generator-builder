@@ -5,8 +5,12 @@ module ButtonStyles = Generator_ButtonStyles
 
 let px = n => `${Js.Int.toString(n)}px`
 
+// The page has a border, so include this in calculations.
+let pageBorderWidth = 1
+
 module RegionInputs = {
-  let scaleInt = (value, scale) => Belt.Float.toInt(Belt.Int.toFloat(value) *. scale)
+  let scaleInt = (value, scale) =>
+    (Belt.Int.toFloat(value) *. scale)->Js.Math.round->Belt.Float.toInt
 
   let scaleRegion = ((x, y, w, h), actualWidth) => {
     let scale = Js.Int.toFloat(actualWidth) /. Js.Int.toFloat(PageSize.A4.px.width)
@@ -37,7 +41,13 @@ module RegionInputs = {
         {regions
         ->Js.Array2.mapi(((region, callback), i) => {
           let (x, y, w, h) = scaleRegion(region, containerWidth)
-          let style = ReactDOM.Style.make(~top=px(y), ~left=px(x), ~width=px(w), ~height=px(h), ())
+          let style = ReactDOM.Style.make(
+            ~top=px(y + pageBorderWidth),
+            ~left=px(x + pageBorderWidth),
+            ~width=px(w),
+            ~height=px(h),
+            (),
+          )
           <div
             key={Js.Int.toString(i)}
             className="absolute border-4 border-transparent hover:border-blue-500"
@@ -213,7 +223,10 @@ let make = (
         // Important: The following div uses absolute positioning for the regions.
         <div
           className="relative"
-          style={ReactDOM.Style.make(~maxWidth={px(PageSize.A4.px.width)}, ())}>
+          style={ReactDOM.Style.make(
+            ~maxWidth={px(PageSize.A4.px.width + pageBorderWidth * 2)},
+            (),
+          )}>
           <img
             ref={ReactDOM.Ref.domRef(containerElRef)}
             className="border shadow-xl mb-8"
