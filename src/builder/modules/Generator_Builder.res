@@ -417,6 +417,28 @@ module Model = {
   }
 }
 
+let getTexturePixelColor = (model: Model.t, textureId, x, y) => {
+  let texture = Js.Dict.get(model.values.textures, textureId)
+  switch texture {
+  | None => None
+  | Some(texture) => {
+      let {canvas, width, height} = texture
+      let context2d = Dom2.Canvas.getContext2dWithAlpha(canvas)
+      let data = Dom2.Context2d.getImageData(context2d, 0, 0, width, height).data
+      let pixelIndex = y * width + x
+      let arrayIndex = pixelIndex * 4
+      let r = Belt.Array.get(data, arrayIndex)
+      let g = Belt.Array.get(data, arrayIndex + 1)
+      let b = Belt.Array.get(data, arrayIndex + 2)
+      let a = Belt.Array.get(data, arrayIndex + 3)
+      switch (r, g, b, a) {
+      | (Some(r), Some(g), Some(b), Some(a)) => Some((r, g, b, a))
+      | _ => None
+      }
+    }
+  }
+}
+
 let hasInput = (model: Model.t, idToFind: string) => {
   Js.Array2.find(model.inputs, input => {
     let id = switch input {

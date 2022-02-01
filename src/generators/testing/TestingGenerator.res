@@ -16,6 +16,12 @@ let images: array<Generator.imageDef> = [
 
 let textures: array<Generator.textureDef> = [
   {
+    id: "Colors",
+    url: requireTexture("Colors.png"),
+    standardWidth: 4,
+    standardHeight: 4,
+  },
+  {
     id: "Creeper",
     url: requireTexture("Creeper.png"),
     standardWidth: 64,
@@ -219,6 +225,26 @@ let drawPage = (texture, src) => {
   Generator.drawTexture(texture, src, dst(3, 5), ~rotate=180.0, ~flip=#Vertical, ())
 }
 
+let rgbaToHex: ((int, int, int, int)) => string = %raw(`
+  function rgbaToHex(rgba) {
+    let r = rgba[0].toString(16);
+    let g = rgba[1].toString(16);
+    let b = rgba[2].toString(16);
+    let a = rgba[3].toString(16);
+
+    if (r.length == 1)
+      r = "0" + r;
+    if (g.length == 1)
+      g = "0" + g;
+    if (b.length == 1)
+      b = "0" + b;
+    if (a.length == 1)
+      a = "0" + a;
+
+    return "#" + r + g + b + a;
+  }
+`)
+
 let script = () => {
   Generator.defineText("Test page for some generator features.")
 
@@ -235,6 +261,33 @@ let script = () => {
     let nextCounterString = Belt.Int.toString(nextCounter)
     Generator.setSelectInputValue("Counter", nextCounterString)
   })
+
+  Generator.defineText("Pixel color test")
+
+  let color00 = switch Generator.getTexturePixelColor("Colors", 0, 0) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let color11 = switch Generator.getTexturePixelColor("Colors", 1, 1) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let color22 = switch Generator.getTexturePixelColor("Colors", 2, 2) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let color33 = switch Generator.getTexturePixelColor("Colors", 3, 3) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  Generator.defineText(color00)
+  Generator.defineText(color11)
+  Generator.defineText(color22)
+  Generator.defineText(color33)
 
   // Use a page (this is needed for region inputs to work)
   Generator.usePage("Page 1")
