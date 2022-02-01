@@ -46,13 +46,8 @@ let cycleTextureOffset = (t, tileWidth) => {
   Belt.Int.toString(t)
 }
 
-let makeRegionId = (textureId, rectangle, x, y, page) => {
-  let (tileX, tileY, _, _) = rectangle
+let makeRegionId = (textureId, x, y, page) => {
   textureId ++
-  "-" ++
-  Js.Int.toString(tileX) ++
-  "-" ++
-  Js.Int.toString(tileY) ++
   "-" ++
   Js.Int.toString(x) ++
   "-" ++
@@ -68,7 +63,7 @@ let getTileWidth = rectangle => {
 
 let drawItem = (textureId, rectangle, x, y, size, page, showFolds) => {
   let tileWidth = getTileWidth(rectangle)
-  let regionId = makeRegionId(textureId, rectangle, x, y, page)
+  let regionId = makeRegionId(textureId, x, y, page)
 
   let textureOffset =
     Generator.getSelectInputValue(regionId)->Belt.Int.fromString->Belt.Option.getWithDefault(0)
