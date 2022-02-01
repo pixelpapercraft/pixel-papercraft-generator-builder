@@ -37,27 +37,56 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
     },
   ],
 )
+let cycleTextureOffset = (t, tileWidth) => {
+  let t = if t === tileWidth {
+    0
+  } else {
+    t + 1
+  }
+  Belt.Int.toString(t)
+}
 
-let drawItem = (id, rectangle, x, y, size, page, showFolds) => {
-  let regionId = Js.Int.toString(x) ++ Js.Int.toString(y) ++ Js.Int.toString(page)
+let makeRegionId = (textureId, rectangle, x, y, page) => {
+  let (tileX, tileY, _, _) = rectangle
+  textureId ++
+  "-" ++
+  Js.Int.toString(tileX) ++
+  "-" ++
+  Js.Int.toString(tileY) ++
+  "-" ++
+  Js.Int.toString(x) ++
+  "-" ++
+  Js.Int.toString(y) ++
+  "-" ++
+  Js.Int.toString(page)
+}
+
+let getTileWidth = rectangle => {
+  let (_, _, tileWidth, _) = rectangle
+  tileWidth
+}
+
+let drawItem = (textureId, rectangle, x, y, size, page, showFolds) => {
+  let tileWidth = getTileWidth(rectangle)
+  let regionId = makeRegionId(textureId, rectangle, x, y, page)
+
   let textureOffset =
     Generator.getSelectInputValue(regionId)->Belt.Int.fromString->Belt.Option.getWithDefault(0)
-  let cycleTextureOffset = t => {
-    let t = if t === 16 {
-      0
-    } else {
-      t + 1
-    }
-    Belt.Int.toString(t)
-  }
+
   Generator.defineRegionInput((x, y, size, size), () => {
-    Generator.setSelectInputValue(regionId, cycleTextureOffset(textureOffset))
+    Generator.setSelectInputValue(regionId, cycleTextureOffset(textureOffset, tileWidth))
   })
 
-  let offset = textureOffset * size / 16
+  let offset = textureOffset * size / tileWidth
 
-  Generator.drawTexture(id, rectangle, (x + offset, y, size, size), ())
-  Generator.drawTexture(id, rectangle, (x + size - offset, y, size, size), ~flip=#Horizontal, ())
+  Generator.drawTexture(textureId, rectangle, (x + offset, y, size, size), ())
+  Generator.drawTexture(
+    textureId,
+    rectangle,
+    (x + size - offset, y, size, size),
+    ~flip=#Horizontal,
+    (),
+  )
   if showFolds {
     Generator.drawTexture("CenterFold", (0, 0, 2, size), (x + size - 1, y, 2, size), ())
   }
