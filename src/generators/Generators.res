@@ -22,6 +22,7 @@ let mobCharacter: array<Generator.generatorDef> = [
 ]
 
 let mob: array<Generator.generatorDef> = [
+  MinecraftCatGenerator.generator,
   MinecraftCreeperGenerator.generator,
   MinecraftEndermanGenerator.generator,
   MinecraftGolemGenerator.generator,
