@@ -575,12 +575,10 @@ let usePage = (model: Model.t, id) => {
 
 let getDefaultPageId = () => "Page"
 
-let getCurrentDefinedPageId = (model: Model.t) => {
-  let length = Js.Array2.length(model.pages)
-  if length > 0 {
-    model.pages[length - 1].id
-  } else {
-    getDefaultPageId()
+let getCurrentPageId = (model: Model.t) => {
+  switch model.currentPage {
+  | None => getDefaultPageId()
+  | Some(page) => page.id
   }
 }
 
@@ -592,7 +590,7 @@ let ensureCurrentPage = (model: Model.t) => {
 }
 
 let defineRegionInput = (model: Model.t, region: (int, int, int, int), callback) => {
-  let pageId = getCurrentDefinedPageId(model)
+  let pageId = getCurrentPageId(model)
   let inputs = Js.Array2.concat(model.inputs, [Input.RegionInput(pageId, region, callback)])
   {...model, inputs: inputs}
 }
