@@ -98,7 +98,7 @@ let drawItems = (
   ~border: int,
   ~maxCols: int,
   ~maxRows: int,
-  ~folds: bool,
+  ~showFolds: bool,
 ) => {
   let maxItems = maxCols * maxRows
 
@@ -129,7 +129,7 @@ let drawItems = (
       let y = border + y
 
       Generator.usePage(pageId)
-      drawItem(textureDefId, frame.rectangle, x, y, size, page, folds)
+      drawItem(textureDefId, frame.rectangle, x, y, size, page, showFolds)
       Generator.drawImage("Title", (0, 0))
     })
   }
@@ -139,42 +139,21 @@ let drawSmall = (
   selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
   showFolds: bool,
 ) => {
-  drawItems(
-    ~selectedTextureFrames,
-    ~size=16 * 2,
-    ~border=25,
-    ~maxCols=6,
-    ~maxRows=13,
-    ~folds=showFolds,
-  )
+  drawItems(~selectedTextureFrames, ~size=16 * 2, ~border=25, ~maxCols=6, ~maxRows=13, ~showFolds)
 }
 
 let drawMedium = (
   selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
   showFolds: bool,
 ) => {
-  drawItems(
-    ~selectedTextureFrames,
-    ~size=16 * 4,
-    ~border=15,
-    ~maxCols=4,
-    ~maxRows=10,
-    ~folds=showFolds,
-  )
+  drawItems(~selectedTextureFrames, ~size=16 * 4, ~border=15, ~maxCols=4, ~maxRows=10, ~showFolds)
 }
 
 let drawLarge = (
   selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
   showFolds: bool,
 ) => {
-  drawItems(
-    ~selectedTextureFrames,
-    ~size=16 * 7,
-    ~border=20,
-    ~maxCols=2,
-    ~maxRows=6,
-    ~folds=showFolds,
-  )
+  drawItems(~selectedTextureFrames, ~size=16 * 7, ~border=20, ~maxCols=2, ~maxRows=6, ~showFolds)
 }
 
 let drawFullPage = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
