@@ -31,7 +31,7 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
   [
     {
       id: "CenterFold",
-      url: Generator.requireImage("./item-textures/CenterFold.png"),
+      url: Generator.requireImage("./textures/CenterFold.png"),
       standardWidth: 2,
       standardHeight: 128,
     },
