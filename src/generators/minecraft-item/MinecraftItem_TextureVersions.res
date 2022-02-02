@@ -1,8 +1,8 @@
 let definitions = [
-  (MinecraftItem_Texture_minecraft_1_7_10_items.data, 16),
-  (MinecraftItem_Texture_minecraft_1_13_2_items.data, 16),
-  (MinecraftItem_Texture_minecraft_1_18_1_blocks.data, 16),
-  (MinecraftItem_Texture_minecraft_1_18_1_items.data, 16),
+  (Texture_minecraft_1_7_10_items.data, 16),
+  (Texture_minecraft_1_13_2_items.data, 16),
+  (Texture_minecraft_1_18_1_blocks.data, 16),
+  (Texture_minecraft_1_18_1_items.data, 16),
 ]
 
 type textureVersion = {

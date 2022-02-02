@@ -11,7 +11,7 @@
     "res:build": "rescript build",
     "res:watch": "rescript build -w",
     "make-block-textures": "node ./src/tools/minecraft-block/MinecraftBlockMakeTextures.bs.js",
-    "make-item-textures": "node ./src/tools/minecraft-item/MinecraftItemMakeTextures.bs.js"
+    "make-textures": "node ./src/tools/MakeTextures.bs.js"
   },
   "devDependencies": {
     "@babel/core": "7.16.7",
