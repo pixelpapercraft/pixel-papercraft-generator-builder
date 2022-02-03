@@ -126,7 +126,7 @@ let script = () => {
         "Siamese",
         "Tabby",
         "White",
-        //"Test",
+        "Test",
       ],
     },
   )
@@ -354,7 +354,7 @@ let script = () => {
       texture,
       (6, 12, 2, 1),
       (253, 161, 16, 8),
-      ~rotate=90.0,
+      ~rotateLegacy=90.0,
       ~blend=#MultiplyHex(tint),
       (),
     ) //left
@@ -363,7 +363,7 @@ let script = () => {
       texture,
       (9, 12, 2, 1),
       (261, 177, 16, 8),
-      ~rotate=-90.0,
+      ~rotateLegacy=-90.0,
       ~blend=#MultiplyHex(tint),
       (),
     ) //right
@@ -371,7 +371,7 @@ let script = () => {
       texture,
       (11, 12, 1, 1),
       (261, 161, 8, 8),
-      ~rotate=180.0,
+      ~rotateLegacy=180.0,
       ~blend=#MultiplyHex(tint),
       (),
     ) //back
@@ -390,7 +390,7 @@ let script = () => {
       texture,
       (0, 12, 2, 1),
       (176, 161, 16, 8),
-      ~rotate=90.0,
+      ~rotateLegacy=90.0,
       ~blend=#MultiplyHex(tint),
       (),
     ) //left
@@ -399,7 +399,7 @@ let script = () => {
       texture,
       (3, 12, 2, 1),
       (184, 177, 16, 8),
-      ~rotate=-90.0,
+      ~rotateLegacy=-90.0,
       ~blend=#MultiplyHex(tint),
       (),
     ) //right
@@ -407,7 +407,7 @@ let script = () => {
       texture,
       (5, 12, 1, 1),
       (184, 161, 8, 8),
-      ~rotate=180.0,
+      ~rotateLegacy=180.0,
       ~blend=#MultiplyHex(tint),
       (),
     ) //back
