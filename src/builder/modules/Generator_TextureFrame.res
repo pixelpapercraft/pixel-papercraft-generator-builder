@@ -10,10 +10,6 @@ type frame = {
   id: string,
   name: string,
   rectangle: Generator_Builder.rectangle,
-  x: int,
-  y: int,
-  width: int,
-  height: int,
   frameIndex: int,
   frameCount: int,
 }
@@ -69,10 +65,6 @@ let textureToFrames = (texture: texture, frameSize: int) => {
             frameSize,
             frameSize,
           ),
-          x: texture.x + col * frameSize,
-          y: texture.y + row * frameSize,
-          width: frameSize,
-          height: frameSize,
           frameIndex: frameIndex,
           frameCount: rows * cols,
         }

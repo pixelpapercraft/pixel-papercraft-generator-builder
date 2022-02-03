@@ -34,7 +34,7 @@ let makeTileStyle = (
   isHover,
   tileSize,
 ) => {
-  let {x, y, width, height} = frame
+  let (x, y, width, height) = frame.rectangle
   let widthScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(width)
   let heightScale = Belt.Int.toFloat(tileSize) /. Belt.Int.toFloat(height)
 
