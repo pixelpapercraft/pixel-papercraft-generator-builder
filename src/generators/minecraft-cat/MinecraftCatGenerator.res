@@ -15,20 +15,8 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
-    id: "All Black",
-    url: requireTexture("all_black"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
     id: "Black",
     url: requireTexture("all_black"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "All Black",
-    url: requireTexture("black"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -57,6 +45,12 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
+    id: "Orange Tabby",
+    url: requireTexture("red"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
     id: "Persian",
     url: requireTexture("persian"),
     standardWidth: 64,
@@ -69,12 +63,6 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
-    id: "Red",
-    url: requireTexture("red"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
     id: "Siamese",
     url: requireTexture("siamese"),
     standardWidth: 64,
@@ -83,6 +71,12 @@ let textures: array<Generator.textureDef> = [
   {
     id: "Tabby",
     url: requireTexture("tabby"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Tuxedo",
+    url: requireTexture("black"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -108,17 +102,17 @@ let script = () => {
       standardWidth: 64,
       standardHeight: 32,
       choices: [
-        "All Black",
         "Black",
         "British Shorthair",
         "Calico",
         "Jellie",
         "Ocelot",
+        "Orange Tabby",
         "Persian",
         "Ragdoll",
-        "Red",
         "Siamese",
         "Tabby",
+        "Tuxedo",
         "White",
       ],
     },
