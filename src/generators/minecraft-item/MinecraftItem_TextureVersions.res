@@ -1,33 +1,15 @@
 let definitions = [
-  (MinecraftItem_Texture_minecraft_1_7_10_items.data, 16),
-  (MinecraftItem_Texture_minecraft_1_13_2_items.data, 16),
-  (MinecraftItem_Texture_minecraft_1_18_1_blocks.data, 16),
-  (MinecraftItem_Texture_minecraft_1_18_1_items.data, 16),
+  (Texture_minecraft_1_7_10_blocks.data, 16),
+  (Texture_minecraft_1_7_10_items.data, 16),
+  (Texture_minecraft_1_13_2_blocks.data, 16),
+  (Texture_minecraft_1_13_2_items.data, 16),
+  (Texture_minecraft_1_18_1_blocks.data, 16),
+  (Texture_minecraft_1_18_1_items.data, 16),
 ]
 
 type textureVersion = {
   textureDef: Generator.textureDef,
   frames: array<Generator_TextureFrame.frame>,
-}
-
-type selectedTextureFrame = {
-  textureDefId: string,
-  frame: Generator_TextureFrame.frame,
-}
-
-external asJson: 'a => Js.Json.t = "%identity"
-external aSelectedTextureFrames: Js.Json.t => array<selectedTextureFrame> = "%identity"
-
-let encodeSelectedTextureFrames = (selectedTextureFrames: array<selectedTextureFrame>) => {
-  selectedTextureFrames->asJson->Js.Json.serializeExn
-}
-
-let decodeSelectedTextureFrames = (json: string) => {
-  if Js.String2.length(json) > 0 {
-    json->Js.Json.parseExn->aSelectedTextureFrames
-  } else {
-    []
-  }
 }
 
 let textureVersions: array<textureVersion> = Belt.Array.map(definitions, definition => {

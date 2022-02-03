@@ -71,6 +71,10 @@ let setModel = newModel => {
 
 let getModel = () => model.contents
 
+let getTexturePixelColor = (x, y) => {
+  Builder.getTexturePixelColor(model.contents, x, y)
+}
+
 let clearStringInputValues = () => {
   model := Builder.clearStringInputValues(model.contents)
 }

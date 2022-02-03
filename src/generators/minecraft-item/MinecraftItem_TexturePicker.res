@@ -1,10 +1,13 @@
 module TextureVersions = MinecraftItem_TextureVersions
 module TexturePicker = Generator_TexturePicker
 
+module SelectedTexture = TexturePicker.SelectedTexture
+module Rotation = TexturePicker.Rotation
+
 @react.component
 let make = (
   ~textureVersion: option<TextureVersions.textureVersion>,
-  ~onSelect: TexturePicker.TextureFrame.frame => unit,
+  ~onSelect: TexturePicker.SelectedTexture.t => unit,
 ) => {
   switch textureVersion {
   | None => React.null

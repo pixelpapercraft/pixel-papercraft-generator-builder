@@ -10,40 +10,19 @@ type frame = {
   id: string,
   name: string,
   rectangle: Generator_Builder.rectangle,
-  x: int,
-  y: int,
-  width: int,
-  height: int,
   frameIndex: int,
   frameCount: int,
 }
 
 external asTextures_UNSAFE: array<{..}> => array<texture> = "%identity"
-external asJson: 'a => Js.Json.t = "%identity"
-external asFrame: Js.Json.t => frame = "%identity"
-external asFrames: Js.Json.t => array<frame> = "%identity"
 
-let encodeFrame = (frame: frame) => {
-  frame->asJson->Js.Json.serializeExn
-}
-
-let encodeFrames = (frames: array<frame>) => {
-  frames->asJson->Js.Json.serializeExn
-}
-
-let decodeFrame = (json: string) => {
-  if Js.String2.length(json) > 0 {
-    Some(json->Js.Json.deserializeUnsafe->asFrame)
+let makeFrameLabel = (frame: frame) => {
+  let name = Js.String2.replaceByRe(frame.name, %re(`/_/g`), " ")
+  if frame.frameCount > 1 {
+    let sequence = Belt.Int.toString(frame.frameIndex + 1)
+    name ++ ` (Frame ${sequence})`
   } else {
-    None
-  }
-}
-
-let decodeFrames = (json: string) => {
-  if Js.String2.length(json) > 0 {
-    json->Js.Json.deserializeUnsafe->asFrames
-  } else {
-    []
+    name
   }
 }
 
@@ -69,10 +48,6 @@ let textureToFrames = (texture: texture, frameSize: int) => {
             frameSize,
             frameSize,
           ),
-          x: texture.x + col * frameSize,
-          y: texture.y + row * frameSize,
-          width: frameSize,
-          height: frameSize,
           frameIndex: frameIndex,
           frameCount: rows * cols,
         }

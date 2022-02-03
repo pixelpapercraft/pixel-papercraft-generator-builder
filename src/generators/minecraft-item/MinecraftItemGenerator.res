@@ -83,7 +83,7 @@ let drawItem = (textureId, rectangle, x, y, size, showFolds) => {
 }
 
 let drawItems = (
-  ~selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  ~selectedTextureFrames: array<TexturePicker.SelectedTexture.t>,
   ~size: int,
   ~border: int,
   ~maxCols: int,
@@ -126,27 +126,27 @@ let drawItems = (
 }
 
 let drawSmall = (
-  selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  selectedTextureFrames: array<TexturePicker.SelectedTexture.t>,
   showFolds: bool,
 ) => {
   drawItems(~selectedTextureFrames, ~size=16 * 2, ~border=25, ~maxCols=6, ~maxRows=13, ~showFolds)
 }
 
 let drawMedium = (
-  selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  selectedTextureFrames: array<TexturePicker.SelectedTexture.t>,
   showFolds: bool,
 ) => {
   drawItems(~selectedTextureFrames, ~size=16 * 4, ~border=15, ~maxCols=4, ~maxRows=10, ~showFolds)
 }
 
 let drawLarge = (
-  selectedTextureFrames: array<TextureVersions.selectedTextureFrame>,
+  selectedTextureFrames: array<TexturePicker.SelectedTexture.t>,
   showFolds: bool,
 ) => {
   drawItems(~selectedTextureFrames, ~size=16 * 7, ~border=20, ~maxCols=2, ~maxRows=6, ~showFolds)
 }
 
-let drawFullPage = (selectedTextureFrames: array<TextureVersions.selectedTextureFrame>) => {
+let drawFullPage = (selectedTextureFrames: array<TexturePicker.SelectedTexture.t>) => {
   let size = 16 * 8 * 4
   let border = 30
 
@@ -206,8 +206,8 @@ let script = () => {
   Generator.defineCustomStringInput("SelectedTextureFrame", (onChange: string => unit) => {
     <TexturePicker
       textureVersion
-      onSelect={frame => {
-        onChange(Generator_TextureFrame.encodeFrame(frame))
+      onSelect={selectedTexture => {
+        onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
       }}
     />
   })
@@ -218,30 +218,26 @@ let script = () => {
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
   // Decode the selected texture
-  let selectedTextureFrame = Generator_TextureFrame.decodeFrame(
+  let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
     Generator.getStringInputValue("SelectedTextureFrame"),
   )
 
   // Decode the added textures
-  let selectedTextureFrames = TextureVersions.decodeSelectedTextureFrames(
+  let selectedTextureFrames = TexturePicker.SelectedTexture.decodeArray(
     Generator.getStringInputValue("SelectedTextureFrames"),
   )
 
   // Show a button which adds the selected texture to the page
   Generator.defineButtonInput("Add Item", () => {
-    switch (textureVersion, selectedTextureFrame) {
-    | (Some(textureVersion), Some(selectedTextureFrame)) => {
-        let textureToAdd: TextureVersions.selectedTextureFrame = {
-          textureDefId: textureVersion.textureDef.id,
-          frame: selectedTextureFrame,
-        }
-        let selectedTextureFrames = Belt.Array.concat(selectedTextureFrames, [textureToAdd])
+    switch selectedTextureFrame {
+    | Some(selectedTextureFrame) => {
+        let selectedTextureFrames = Belt.Array.concat(selectedTextureFrames, [selectedTextureFrame])
         Generator.setStringInputValue(
           "SelectedTextureFrames",
-          TextureVersions.encodeSelectedTextureFrames(selectedTextureFrames),
+          TexturePicker.SelectedTexture.encodeArray(selectedTextureFrames),
         )
       }
-    | _ => ()
+    | None => ()
     }
   })
 
@@ -249,7 +245,7 @@ let script = () => {
   Generator.defineButtonInput("Clear", () => {
     Generator.setStringInputValue(
       "SelectedTextureFrames",
-      TextureVersions.encodeSelectedTextureFrames([]),
+      TexturePicker.SelectedTexture.encodeArray([]),
     )
   })
 

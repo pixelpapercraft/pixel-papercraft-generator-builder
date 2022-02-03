@@ -5,5 +5,4 @@
 /.bsb.lock
 /dist
 /src/tools/minecraft-block/block-textures-original
-/src/tools/minecraft-item/item-textures-original
 *.bs.js

@@ -516,3 +516,34 @@ You can provide some text instructions and comments with your inputs using `Gene
 ```res
 Generator.defineText("Click body parts to change the texture.")
 ```
+
+### Getting texture pixel colors (Advanced)
+
+You can get specific pixel colors of textures using `Generator.getTexturePixelColor()`.
+
+For example, if you have a texture named `Colors` and you want to get the pixel color at position `(0, 0)` then you would call:
+
+```res
+let color = Generator.getTexturePixelColor("Colors", 0, 0)
+```
+
+This returns a [ReScript Option](https://rescript-lang.org/docs/manual/latest/api/belt/option) which may contain a tuple `(red, green, blue, alpha)`.
+
+Each value of `red`, `green`, `blue` and `alpha` are integers from 0 to 255.
+
+More complete example:
+
+```res
+let colorOpt = Generator.getTexturePixelColor("Colors", 0, 0)
+let color = switch colorOpt {
+| None => "Unknown"
+| Some(color) => {
+    let (r, g, b, a) = color
+    let r = Belt.Int.toString(r)
+    let g = Belt.Int.toString(g)
+    let b = Belt.Int.toString(b)
+    let a = Belt.Int.toString(a)
+    `(${r}, ${g}, ${b}, ${a})`
+  }
+}
+```
