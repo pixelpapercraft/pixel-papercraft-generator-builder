@@ -101,7 +101,6 @@ let makeTileStyle = (
   let baseStyle = makeTileBaseStyle(isSelected || isHover, tileSize)
 
   let backgroundStyle = ReactDOM.Style.make(
-    ~margin=makeMargin(0, borderSize, borderSize, 0),
     ~backgroundImage=makeBackgroundImage(textureDef.url),
     ~backgroundPosition=makeBackgroundPosition(
       -Belt.Float.toInt(Belt.Int.toFloat(x) *. widthScale),
@@ -124,13 +123,13 @@ module TileButton = {
   @react.component
   let make = (~textureDef, ~frame: TextureFrame.frame, ~isSelected, ~onClick) => {
     let (isHover, setIsHover) = React.useState(_ => false)
-    let title =
-      frame.frameCount > 1
-        ? frame.name ++ "(Frame " ++ Belt.Int.toString(frame.frameIndex + 1) ++ ")"
-        : frame.name
+    let label = TextureFrame.makeFrameLabel(frame)
+    let tileStyle = makeTileStyle(textureDef, frame, isSelected, isHover, 32)
+    let buttonStyle = ReactDOM.Style.make(~margin=makeMargin(0, borderSize, borderSize, 0), ())
+    let style = ReactDOM.Style.combine(tileStyle, buttonStyle)
     <button
-      title
-      style={makeTileStyle(textureDef, frame, isSelected, isHover, 32)}
+      title={label}
+      style
       onClick
       onMouseEnter={_ => setIsHover(_ => true)}
       onMouseLeave={_ => setIsHover(_ => false)}
@@ -171,7 +170,7 @@ module Preview = {
     ~frame: option<TextureFrame.frame>,
     ~rotation: Rotation.t,
   ) => {
-    <div className="p-2 flex justify-center">
+    <div className="flex flex-col items-center" style={ReactDOM.Style.make(~width="148px", ())}>
       {switch frame {
       | None => <div style={makeTileBaseStyle(false, 128)} />
       | Some(frame) => {
@@ -179,10 +178,12 @@ module Preview = {
           let tileStyle = makeTileStyle(textureDef, frame, false, false, 128)
           let rotationStyle = ReactDOM.Style.make(~transform=`rotate(${deg(rotationDegrees)})`, ())
           let style = ReactDOM.Style.combine(tileStyle, rotationStyle)
-          <div>
+          <>
             <div style />
-            <div className="text-center text-gray-500"> {frame.name->React.string} </div>
-          </div>
+            <div className="text-center text-gray-500 p-2 pt-0">
+              {TextureFrame.makeFrameLabel(frame)->React.string}
+            </div>
+          </>
         }
       }}
     </div>
@@ -257,7 +258,7 @@ let make = (
         setSearch(_ => None)
       }}
     />
-    <div className="flex items-center">
+    <div className="flex xitems-center">
       <div className="overflow-y-auto h-60 w-full">
         {Belt.Array.map(framesFiltered, frame => {
           let isSelected = Belt.Option.mapWithDefault(selectedFrame, false, (

@@ -16,6 +16,16 @@ type frame = {
 
 external asTextures_UNSAFE: array<{..}> => array<texture> = "%identity"
 
+let makeFrameLabel = (frame: frame) => {
+  let name = Js.String2.replaceByRe(frame.name, %re(`/_/g`), " ")
+  if frame.frameCount > 1 {
+    let sequence = Belt.Int.toString(frame.frameIndex + 1)
+    name ++ ` (Frame ${sequence})`
+  } else {
+    name
+  }
+}
+
 let textureToFrames = (texture: texture, frameSize: int) => {
   let xMod = mod(texture.width, frameSize)
   let yMod = mod(texture.height, frameSize)
