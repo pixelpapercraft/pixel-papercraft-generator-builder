@@ -15,33 +15,6 @@ type frame = {
 }
 
 external asTextures_UNSAFE: array<{..}> => array<texture> = "%identity"
-external asJson: 'a => Js.Json.t = "%identity"
-external asFrame: Js.Json.t => frame = "%identity"
-external asFrames: Js.Json.t => array<frame> = "%identity"
-
-let encodeFrame = (frame: frame) => {
-  frame->asJson->Js.Json.serializeExn
-}
-
-let encodeFrames = (frames: array<frame>) => {
-  frames->asJson->Js.Json.serializeExn
-}
-
-let decodeFrame = (json: string) => {
-  if Js.String2.length(json) > 0 {
-    Some(json->Js.Json.deserializeUnsafe->asFrame)
-  } else {
-    None
-  }
-}
-
-let decodeFrames = (json: string) => {
-  if Js.String2.length(json) > 0 {
-    json->Js.Json.deserializeUnsafe->asFrames
-  } else {
-    []
-  }
-}
 
 let textureToFrames = (texture: texture, frameSize: int) => {
   let xMod = mod(texture.width, frameSize)
