@@ -12,26 +12,6 @@ type textureVersion = {
   frames: array<Generator_TextureFrame.frame>,
 }
 
-type selectedTextureFrame = {
-  textureDefId: string,
-  frame: Generator_TextureFrame.frame,
-}
-
-external asJson: 'a => Js.Json.t = "%identity"
-external aSelectedTextureFrames: Js.Json.t => array<selectedTextureFrame> = "%identity"
-
-let encodeSelectedTextureFrames = (selectedTextureFrames: array<selectedTextureFrame>) => {
-  selectedTextureFrames->asJson->Js.Json.serializeExn
-}
-
-let decodeSelectedTextureFrames = (json: string) => {
-  if Js.String2.length(json) > 0 {
-    json->Js.Json.parseExn->aSelectedTextureFrames
-  } else {
-    []
-  }
-}
-
 let textureVersions: array<textureVersion> = Belt.Array.map(definitions, definition => {
   let (data, frameSize) = definition
   let (textureDef, tiles) = data

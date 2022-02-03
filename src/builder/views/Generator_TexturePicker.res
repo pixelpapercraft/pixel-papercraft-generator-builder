@@ -1,7 +1,67 @@
 module TextureFrame = Generator_TextureFrame
+module Icon = Generator_Icon
+
+external asJson: 'a => Js.Json.t = "%identity"
+
+module Rotation = {
+  type t = Rot0 | Rot90 | Rot180 | Rot270
+
+  let next = (rotation: t): t => {
+    switch rotation {
+    | Rot0 => Rot90
+    | Rot90 => Rot180
+    | Rot180 => Rot270
+    | Rot270 => Rot0
+    }
+  }
+
+  let toDegrees = (rotation: t) => {
+    switch rotation {
+    | Rot0 => 0.0
+    | Rot90 => 90.0
+    | Rot180 => 180.0
+    | Rot270 => 270.0
+    }
+  }
+}
+
+module SelectedTexture = {
+  type t = {
+    textureDefId: string,
+    frame: TextureFrame.frame,
+    rotation: Rotation.t,
+  }
+
+  external asSelectedTexture: Js.Json.t => t = "%identity"
+  external asSelectedTextureArray: Js.Json.t => array<t> = "%identity"
+
+  let encode = (selectedTexture: t) => {
+    selectedTexture->asJson->Js.Json.serializeExn
+  }
+
+  let decode = (json: string) => {
+    if Js.String2.length(json) > 0 {
+      Some(json->Js.Json.deserializeUnsafe->asSelectedTexture)
+    } else {
+      None
+    }
+  }
+
+  let encodeArray = (selectedTextures: array<t>) => {
+    selectedTextures->asJson->Js.Json.serializeExn
+  }
+
+  let decodeArray = (json: string) => {
+    if Js.String2.length(json) > 0 {
+      json->Js.Json.deserializeUnsafe->asSelectedTextureArray
+    } else {
+      []
+    }
+  }
+}
 
 let px = n => Js.Int.toString(n) ++ "px"
-let deg = n => Js.Int.toString(n) ++ "deg"
+let deg = n => Js.Float.toString(n) ++ "deg"
 let makeBackgroundImage = url => "url(" ++ url ++ ")"
 let makeBackgroundPosition = (x, y) => px(x) ++ " " ++ px(y)
 let makeBackgroundSize = (x, y) => px(x) ++ " " ++ px(y)
@@ -106,17 +166,39 @@ module Search = {
 
 module Preview = {
   @react.component
-  let make = (~textureDef: Generator.textureDef, ~frame: option<TextureFrame.frame>) => {
+  let make = (
+    ~textureDef: Generator.textureDef,
+    ~frame: option<TextureFrame.frame>,
+    ~rotation: Rotation.t,
+  ) => {
     <div className="p-2 flex justify-center">
       {switch frame {
       | None => <div style={makeTileBaseStyle(false, 128)} />
-      | Some(frame) =>
-        <div>
-          <div style={makeTileStyle(textureDef, frame, false, false, 128)} />
-          <div className="text-center text-gray-500"> {frame.name->React.string} </div>
-        </div>
+      | Some(frame) => {
+          let rotationDegrees = Rotation.toDegrees(rotation)
+          let tileStyle = makeTileStyle(textureDef, frame, false, false, 128)
+          let rotationStyle = ReactDOM.Style.make(~transform=`rotate(${deg(rotationDegrees)})`, ())
+          let style = ReactDOM.Style.combine(tileStyle, rotationStyle)
+          <div>
+            <div style />
+            <div className="text-center text-gray-500"> {frame.name->React.string} </div>
+          </div>
+        }
       }}
     </div>
+  }
+}
+
+module RotationButton = {
+  @react.component
+  let make = (~rotation: Rotation.t, ~onClick) => {
+    let icon = switch rotation {
+    | Rot0 => <Icon.ArrowUp color=#White />
+    | Rot90 => <Icon.ArrowRight color=#White />
+    | Rot180 => <Icon.ArrowDown color=#White />
+    | Rot270 => <Icon.ArrowLeft color=#White />
+    }
+    <button className="bg-blue-500 rounded p-2 w-10 h-10" onClick> {icon} </button>
   }
 }
 
@@ -124,10 +206,13 @@ module Preview = {
 let make = (
   ~textureDef: Generator.textureDef,
   ~frames: array<TextureFrame.frame>,
-  ~onSelect: TextureFrame.frame => unit,
+  ~onSelect: SelectedTexture.t => unit,
+  ~enableRotation: bool=false,
 ) => {
   let (search, setSearch) = React.useState(() => None)
   let (selectedFrame, setSelectedFrame) = React.useState(() => None)
+  let (rotation, setRotation) = React.useState(() => Rotation.Rot0)
+
   let framesFiltered = switch search {
   | None => frames
   | Some(search) =>
@@ -135,6 +220,33 @@ let make = (
       Js.String2.indexOf(frame.name, search) >= 0
     })
   }
+
+  let onRotateClick = () => {
+    let nextRotation = Rotation.next(rotation)
+    setRotation(_ => nextRotation)
+    switch selectedFrame {
+    | None => ()
+    | Some(frame) => {
+        let selectedTexture: SelectedTexture.t = {
+          textureDefId: textureDef.id,
+          frame: frame,
+          rotation: nextRotation,
+        }
+        onSelect(selectedTexture)
+      }
+    }
+  }
+
+  let onSelectClick = (frame: TextureFrame.frame) => {
+    setSelectedFrame(_ => Some(frame))
+    let selectedTexture: SelectedTexture.t = {
+      textureDefId: textureDef.id,
+      frame: frame,
+      rotation: rotation,
+    }
+    onSelect(selectedTexture)
+  }
+
   <div>
     <Search
       value=search
@@ -157,14 +269,18 @@ let make = (
             frame
             isSelected
             onClick={_ => {
-              setSelectedFrame(_ => Some(frame))
-              onSelect(frame)
+              onSelectClick(frame)
             }}
           />
         })->React.array}
       </div>
-      <div className="hidden sm:block  w-[200px] overflow-hidden">
-        <Preview textureDef frame=selectedFrame />
+      <div>
+        <Preview textureDef frame=selectedFrame rotation />
+        {enableRotation
+          ? <div className="flex justify-center">
+              <RotationButton rotation onClick={_ => onRotateClick()} />
+            </div>
+          : React.null}
       </div>
     </div>
   </div>
