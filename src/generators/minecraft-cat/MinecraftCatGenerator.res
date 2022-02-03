@@ -92,6 +92,12 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 64,
     standardHeight: 32,
   },
+  {
+    id: "Test",
+    url: requireTexture("tabby-test"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
 ]
 
 let script = () => {
@@ -115,6 +121,7 @@ let script = () => {
         "Siamese",
         "Tabby",
         "White",
+        "Test",
       ],
     },
   )
@@ -124,31 +131,26 @@ let script = () => {
   Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Script Variables
-  let ox = 15 // ox means 'origin x'
-  let oy = 8 // oy means 'origin y'
-  let oa = 0
-  let ob = 0
-  let og = 15
-  let oh = 8
-  let ol = 0
-  let om = 0
-  let oi = 0
-  let oo = 0
 
   // Head
   Generator.drawTextureLegacy("Cat", {x: 0, y: 5, w: 20, h: 4}, {x: 40, y: 73, w: 160, h: 32}, ()) // all sides
 
   Generator.drawTextureLegacy("Cat", {x: 5, y: 0, w: 5, h: 5}, {x: 80, y: 33, w: 40, h: 40}, ()) // Top
-  Generator.drawTextureLegacy("Cat", {x: 10, y: 0, w: 5, h: 4}, {x: 80, y: 105, w: 40, h: 40}, ()) // Bottom
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 10, y: 0, w: 5, h: 5},
+    {x: 80, y: 105, w: 40, h: 40},
+    ~flip=#Vertical,
+    (),
+  ) // Bottom
 
   // Body
   Generator.drawTextureLegacy("Cat", {x: 20, y: 6, w: 6, h: 16}, {x: 40, y: 241, w: 48, h: 128}, ()) // left
-  Generator.drawTextureLegacy("Cat", {x: 26, y: 6, w: 4, h: 16}, {x: 88, y: 241, w: 32, h: 128}, ()) // middle
+  Generator.drawTextureLegacy("Cat", {x: 26, y: 6, w: 4, h: 16}, {x: 88, y: 241, w: 32, h: 128}, ()) // front
   Generator.drawTextureLegacy(
     "Cat",
     {x: 30, y: 6, w: 6, h: 16},
@@ -160,35 +162,59 @@ let script = () => {
     {x: 36, y: 6, w: 4, h: 16},
     {x: 168, y: 241, w: 32, h: 128},
     (),
-  ) // top
-  Generator.drawTextureLegacy("Cat", {x: 26, y: 0, w: 4, h: 6}, {x: 88, y: 193, w: 32, h: 48}, ()) // front
+  ) // back
+  Generator.drawTextureLegacy("Cat", {x: 26, y: 0, w: 4, h: 6}, {x: 88, y: 193, w: 32, h: 48}, ()) // top
   Generator.drawTextureLegacy(
     "Cat",
     {x: 30, y: 0, w: 4, h: 6},
     {x: 88, y: 369, w: 32, h: 48},
-    ~flip=#Horizontal,
+    ~flip=#Vertical,
     (),
-  ) // back
+  ) // bottom
 
   // Back Left Leg
-  Generator.drawTextureLegacy("Cat", {x: 8, y: 16, w: 8, h: 5}, {x: 251, y: 336, w: 64, h: 32}, ()) // leg1
+  Generator.drawTextureLegacy("Cat", {x: 8, y: 17, w: 8, h: 4}, {x: 251, y: 336, w: 64, h: 32}, ()) // leg1
   Generator.drawTextureLegacy("Cat", {x: 10, y: 13, w: 2, h: 2}, {x: 267, y: 320, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy("Cat", {x: 10, y: 13, w: 2, h: 2}, {x: 267, y: 368, w: 16, h: 16}, ()) // bottom
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 10, y: 13, w: 2, h: 2},
+    {x: 267, y: 368, w: 16, h: 16},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
 
   // Back Right Leg
-  Generator.drawTextureLegacy("Cat", {x: 9, y: 16, w: 9, h: 5}, {x: 340, y: 336, w: 90, h: 32}, ()) // leg1
+  Generator.drawTextureLegacy("Cat", {x: 8, y: 17, w: 8, h: 4}, {x: 340, y: 336, w: 64, h: 32}, ()) // leg1
   Generator.drawTextureLegacy("Cat", {x: 10, y: 13, w: 2, h: 2}, {x: 356, y: 320, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy("Cat", {x: 10, y: 13, w: 2, h: 2}, {x: 356, y: 368, w: 16, h: 16}, ()) // bottom
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 10, y: 13, w: 2, h: 2},
+    {x: 356, y: 368, w: 16, h: 16},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
 
   // Front Left Leg
-  Generator.drawTextureLegacy("Cat", {x: 40, y: 7, w: 8, h: 5}, {x: 251, y: 248, w: 64, h: 32}, ()) // leg (all sides)
+  Generator.drawTextureLegacy("Cat", {x: 40, y: 8, w: 8, h: 4}, {x: 251, y: 248, w: 64, h: 32}, ()) // leg (all sides)
   Generator.drawTextureLegacy("Cat", {x: 42, y: 0, w: 2, h: 2}, {x: 267, y: 232, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy("Cat", {x: 44, y: 0, w: 2, h: 2}, {x: 267, y: 280, w: 16, h: 16}, ()) // bottom
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 44, y: 0, w: 2, h: 2},
+    {x: 267, y: 280, w: 16, h: 16},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
 
   // Front Right Leg
-  Generator.drawTextureLegacy("Cat", {x: 40, y: 7, w: 8, h: 5}, {x: 340, y: 248, w: 64, h: 32}, ()) // leg (all sides)
+  Generator.drawTextureLegacy("Cat", {x: 40, y: 8, w: 8, h: 4}, {x: 340, y: 248, w: 64, h: 32}, ()) // leg (all sides)
   Generator.drawTextureLegacy("Cat", {x: 42, y: 0, w: 2, h: 2}, {x: 356, y: 232, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy("Cat", {x: 44, y: 0, w: 2, h: 2}, {x: 356, y: 280, w: 16, h: 16}, ()) // bottom
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 44, y: 0, w: 2, h: 2},
+    {x: 356, y: 280, w: 16, h: 16},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
 
   // Tail
   Generator.drawTextureLegacy("Cat", {x: 0, y: 16, w: 4, h: 8}, {x: 469, y: 294, w: 32, h: 64}, ()) // leg1
@@ -197,21 +223,83 @@ let script = () => {
   Generator.drawTextureLegacy("Cat", {x: 9, y: 17, w: 1, h: 1}, {x: 549, y: 358, w: 8, h: 8}, ()) // end2
 
   // nose
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 26, w: 3, h: 2}, {x: 256, y: 84, w: 24, h: 12}, ()) // front
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 24, w: 3, h: 2}, {x: 256, y: 76, w: 24, h: 8}, ()) // top
-  Generator.drawTextureLegacy("Cat", {x: 5, y: 26, w: 2, h: 2}, {x: 280, y: 84, w: 8, h: 12}, ()) // right
-  Generator.drawTextureLegacy("Cat", {x: 0, y: 26, w: 2, h: 2}, {x: 248, y: 84, w: 8, h: 12}, ()) // left
-  Generator.drawTextureLegacy("Cat", {x: 5, y: 24, w: 3, h: 2}, {x: 256, y: 96, w: 24, h: 8}, ()) // bottom
+  Generator.drawTextureLegacy("Cat", {x: 2, y: 26, w: 3, h: 2}, {x: 256, y: 80, w: 24, h: 16}, ()) // front
+  Generator.drawTextureLegacy("Cat", {x: 2, y: 25, w: 3, h: 1}, {x: 256, y: 72, w: 24, h: 8}, ()) // top
+  Generator.drawTextureLegacy("Cat", {x: 5, y: 26, w: 1, h: 2}, {x: 280, y: 80, w: 8, h: 16}, ()) // right
+  Generator.drawTextureLegacy("Cat", {x: 1, y: 26, w: 1, h: 2}, {x: 248, y: 80, w: 8, h: 16}, ()) // left
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 5, y: 25, w: 3, h: 1},
+    {x: 256, y: 96, w: 24, h: 8},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
 
   // Ears
 
   // left
-  Generator.drawTextureLegacy("Cat", {x: 9, y: 1, w: 1, h: 1}, {x: 168, y: 168, w: 24, h: 16}, ()) //front
-  Generator.drawTextureLegacy("Cat", {x: 9, y: 0, w: 1, h: 1}, {x: 168, y: 152, w: 24, h: 16}, ()) //back
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 6, y: 12, w: 2, h: 1},
+    {x: 253, y: 161, w: 16, h: 8},
+    ~rotateLegacy=90.0,
+    (),
+  ) //left
+  Generator.drawTextureLegacy("Cat", {x: 8, y: 12, w: 1, h: 1}, {x: 253, y: 177, w: 8, h: 8}, ()) //front
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 9, y: 12, w: 2, h: 1},
+    {x: 261, y: 177, w: 16, h: 8},
+    ~rotateLegacy=-90.0,
+    (),
+  ) //right
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 11, y: 12, w: 1, h: 1},
+    {x: 261, y: 161, w: 8, h: 8},
+    ~rotateLegacy=180.0,
+    (),
+  ) //back
+  Generator.drawTextureLegacy("Cat", {x: 8, y: 10, w: 1, h: 2}, {x: 253, y: 161, w: 8, h: 16}, ()) //top
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 9, y: 10, w: 1, h: 2},
+    {x: 269, y: 161, w: 8, h: 16},
+    ~flip=#Horizontal,
+    (),
+  ) //bottom
 
   // right
-  Generator.drawTextureLegacy("Cat", {x: 9, y: 1, w: 1, h: 1}, {x: 245, y: 169, w: 24, h: 16}, ()) //front
-  Generator.drawTextureLegacy("Cat", {x: 9, y: 0, w: 1, h: 1}, {x: 245, y: 153, w: 24, h: 16}, ()) //back
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 0, y: 12, w: 2, h: 1},
+    {x: 176, y: 161, w: 16, h: 8},
+    ~rotateLegacy=90.0,
+    (),
+  ) //left
+  Generator.drawTextureLegacy("Cat", {x: 2, y: 12, w: 1, h: 1}, {x: 176, y: 177, w: 8, h: 8}, ()) //front
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 3, y: 12, w: 2, h: 1},
+    {x: 184, y: 177, w: 16, h: 8},
+    ~rotateLegacy=-90.0,
+    (),
+  ) //right
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 5, y: 12, w: 1, h: 1},
+    {x: 184, y: 161, w: 8, h: 8},
+    ~rotateLegacy=180.0,
+    (),
+  ) //back
+  Generator.drawTextureLegacy("Cat", {x: 2, y: 10, w: 1, h: 2}, {x: 176, y: 161, w: 8, h: 16}, ()) //top
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 3, y: 10, w: 1, h: 2},
+    {x: 192, y: 161, w: 8, h: 16},
+    ~flip=#Horizontal,
+    (),
+  ) //bottom
 
   // Background
   Generator.drawImage("Background", (0, 0))
