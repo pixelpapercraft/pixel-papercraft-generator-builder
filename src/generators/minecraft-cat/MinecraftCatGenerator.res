@@ -217,12 +217,34 @@ let script = () => {
   ) // bottom
 
   // Tail
-  Generator.drawTextureLegacy("Cat", {x: 0, y: 16, w: 4, h: 8}, {x: 469, y: 294, w: 32, h: 64}, ()) // leg1
-  Generator.drawTextureLegacy("Cat", {x: 4, y: 16, w: 4, h: 8}, {x: 541, y: 294, w: 32, h: 64}, ()) // leg2
-  Generator.drawTextureLegacy("Cat", {x: 5, y: 17, w: 1, h: 1}, {x: 477, y: 358, w: 8, h: 8}, ()) // end1
-  Generator.drawTextureLegacy("Cat", {x: 9, y: 17, w: 1, h: 1}, {x: 549, y: 358, w: 8, h: 8}, ()) // end2
 
-  // nose
+  // top
+  Generator.drawTextureLegacy("Cat", {x: 2, y: 16, w: 1, h: 8}, {x: 469, y: 294, w: 8, h: 64}, ()) // right
+  Generator.drawTextureLegacy("Cat", {x: 3, y: 16, w: 1, h: 8}, {x: 477, y: 294, w: 8, h: 64}, ()) // back
+  Generator.drawTextureLegacy("Cat", {x: 0, y: 16, w: 1, h: 8}, {x: 485, y: 294, w: 8, h: 64}, ()) // left
+  Generator.drawTextureLegacy("Cat", {x: 1, y: 16, w: 1, h: 8}, {x: 493, y: 294, w: 8, h: 64}, ()) // front
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 2, y: 15, w: 1, h: 1},
+    {x: 477, y: 358, w: 8, h: 8},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
+
+  // bottom
+  Generator.drawTextureLegacy("Cat", {x: 6, y: 16, w: 1, h: 8}, {x: 541, y: 294, w: 8, h: 64}, ()) // right
+  Generator.drawTextureLegacy("Cat", {x: 7, y: 16, w: 1, h: 8}, {x: 549, y: 294, w: 8, h: 64}, ()) // back
+  Generator.drawTextureLegacy("Cat", {x: 4, y: 16, w: 1, h: 8}, {x: 557, y: 294, w: 8, h: 64}, ()) // left
+  Generator.drawTextureLegacy("Cat", {x: 5, y: 16, w: 1, h: 8}, {x: 565, y: 294, w: 8, h: 64}, ()) // front
+  Generator.drawTextureLegacy(
+    "Cat",
+    {x: 6, y: 15, w: 1, h: 1},
+    {x: 549, y: 358, w: 8, h: 8},
+    ~flip=#Vertical,
+    (),
+  ) // bottom
+
+  // Nose
   Generator.drawTextureLegacy("Cat", {x: 2, y: 26, w: 3, h: 2}, {x: 256, y: 80, w: 24, h: 16}, ()) // front
   Generator.drawTextureLegacy("Cat", {x: 2, y: 25, w: 3, h: 1}, {x: 256, y: 72, w: 24, h: 8}, ()) // top
   Generator.drawTextureLegacy("Cat", {x: 5, y: 26, w: 1, h: 2}, {x: 280, y: 80, w: 8, h: 16}, ()) // right
