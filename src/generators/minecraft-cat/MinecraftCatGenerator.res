@@ -93,13 +93,7 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
-    id: "Test",
-    url: requireTexture("tabby-test"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Vanilla Collar",
+    id: "Cat Collar",
     url: requireTexture("cat_collar"),
     standardWidth: 64,
     standardHeight: 32,
@@ -126,7 +120,6 @@ let script = () => {
         "Siamese",
         "Tabby",
         "White",
-        "Test",
       ],
     },
   )
@@ -135,7 +128,7 @@ let script = () => {
     {
       standardWidth: 64,
       standardHeight: 32,
-      choices: ["Vanilla Collar"],
+      choices: ["Cat Collar"],
     },
   )
 
