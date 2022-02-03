@@ -98,11 +98,16 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 64,
     standardHeight: 32,
   },
+  {
+    id: "Vanilla Collar",
+    url: requireTexture("cat_collar"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
 ]
 
 let script = () => {
   // Define user inputs
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   Generator.defineTextureInput(
     "Cat",
     {
@@ -121,207 +126,304 @@ let script = () => {
         "Siamese",
         "Tabby",
         "White",
-        "Test",
+        //"Test",
       ],
+    },
+  )
+  Generator.defineTextureInput(
+    "Collar",
+    {
+      standardWidth: 64,
+      standardHeight: 32,
+      choices: ["Vanilla Collar"],
     },
   )
 
   // Define user variables
+  Generator.defineSelectInput(
+    "Collar Color",
+    [
+      "Black",
+      "Red",
+      "Green",
+      "Brown",
+      "Blue",
+      "Purple",
+      "Cyan",
+      "Light Gray",
+      "Gray",
+      "Pink",
+      "Lime",
+      "Yellow",
+      "Light Blue",
+      "Magenta",
+      "Orange",
+      "White",
+    ],
+  )
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
+  let collarColor = switch Generator.getSelectInputValue("Collar Color") {
+  | "Black" => "1D1D21"
+  | "Red" => "B02E26"
+  | "Green" => "5E7C16"
+  | "Brown" => "835432"
+  | "Blue" => "3C44AA"
+  | "Purple" => "8932B8"
+  | "Cyan" => "169C9C"
+  | "Light Gray" => "9D9D97"
+  | "Gray" => "474F52"
+  | "Pink" => "F38BAA"
+  | "Lime" => "80C71F"
+  | "Yellow" => "FED83D"
+  | "Light Blue" => "3AB3DA"
+  | "Magenta" => "C74EBD"
+  | "Orange" => "F9801D"
+  | "White" => "F9FFFE"
+  | _ => "B02E26"
+  }
+
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
 
-  // Script Variables
+  // Draw Cat
 
-  // Head
-  Generator.drawTextureLegacy("Cat", {x: 0, y: 5, w: 20, h: 4}, {x: 40, y: 73, w: 160, h: 32}, ()) // all sides
+  let drawCat = (texture: string, tint: string) => {
+    // Head
+    Generator.drawTexture(texture, (0, 5, 20, 4), (40, 73, 160, 32), ~blend=#MultiplyHex(tint), ()) // all sides
 
-  Generator.drawTextureLegacy("Cat", {x: 5, y: 0, w: 5, h: 5}, {x: 80, y: 33, w: 40, h: 40}, ()) // Top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 10, y: 0, w: 5, h: 5},
-    {x: 80, y: 105, w: 40, h: 40},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
+    Generator.drawTexture(texture, (5, 0, 5, 5), (80, 33, 40, 40), ~blend=#MultiplyHex(tint), ()) // Top
+    Generator.drawTexture(
+      texture,
+      (10, 0, 5, 5),
+      (80, 105, 40, 40),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // Bottom
 
-  // Body
-  Generator.drawTextureLegacy("Cat", {x: 20, y: 6, w: 6, h: 16}, {x: 40, y: 241, w: 48, h: 128}, ()) // left
-  Generator.drawTextureLegacy("Cat", {x: 26, y: 6, w: 4, h: 16}, {x: 88, y: 241, w: 32, h: 128}, ()) // front
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 30, y: 6, w: 6, h: 16},
-    {x: 120, y: 241, w: 48, h: 128},
-    (),
-  ) // right
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 36, y: 6, w: 4, h: 16},
-    {x: 168, y: 241, w: 32, h: 128},
-    (),
-  ) // back
-  Generator.drawTextureLegacy("Cat", {x: 26, y: 0, w: 4, h: 6}, {x: 88, y: 193, w: 32, h: 48}, ()) // top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 30, y: 0, w: 4, h: 6},
-    {x: 88, y: 369, w: 32, h: 48},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // Body
+    Generator.drawTexture(
+      texture,
+      (20, 6, 6, 16),
+      (40, 241, 48, 128),
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // left
+    Generator.drawTexture(
+      texture,
+      (26, 6, 4, 16),
+      (88, 241, 32, 128),
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // front
+    Generator.drawTexture(
+      texture,
+      (30, 6, 6, 16),
+      (120, 241, 48, 128),
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // right
+    Generator.drawTexture(
+      texture,
+      (36, 6, 4, 16),
+      (168, 241, 32, 128),
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // back
+    Generator.drawTexture(texture, (26, 0, 4, 6), (88, 193, 32, 48), ~blend=#MultiplyHex(tint), ()) // top
+    Generator.drawTexture(
+      texture,
+      (30, 0, 4, 6),
+      (88, 369, 32, 48),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Back Left Leg
-  Generator.drawTextureLegacy("Cat", {x: 8, y: 17, w: 8, h: 4}, {x: 251, y: 336, w: 64, h: 32}, ()) // leg1
-  Generator.drawTextureLegacy("Cat", {x: 10, y: 13, w: 2, h: 2}, {x: 267, y: 320, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 10, y: 13, w: 2, h: 2},
-    {x: 267, y: 368, w: 16, h: 16},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // Back Left Leg
+    Generator.drawTexture(texture, (8, 17, 8, 4), (251, 336, 64, 32), ~blend=#MultiplyHex(tint), ()) // leg1
+    Generator.drawTexture(
+      texture,
+      (10, 13, 2, 2),
+      (267, 320, 16, 16),
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // top
+    Generator.drawTexture(
+      texture,
+      (10, 13, 2, 2),
+      (267, 368, 16, 16),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Back Right Leg
-  Generator.drawTextureLegacy("Cat", {x: 8, y: 17, w: 8, h: 4}, {x: 340, y: 336, w: 64, h: 32}, ()) // leg1
-  Generator.drawTextureLegacy("Cat", {x: 10, y: 13, w: 2, h: 2}, {x: 356, y: 320, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 10, y: 13, w: 2, h: 2},
-    {x: 356, y: 368, w: 16, h: 16},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // Back Right Leg
+    Generator.drawTexture(texture, (8, 17, 8, 4), (340, 336, 64, 32), ~blend=#MultiplyHex(tint), ()) // leg1
+    Generator.drawTexture(
+      texture,
+      (10, 13, 2, 2),
+      (356, 320, 16, 16),
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // top
+    Generator.drawTexture(
+      texture,
+      (10, 13, 2, 2),
+      (356, 368, 16, 16),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Front Left Leg
-  Generator.drawTextureLegacy("Cat", {x: 40, y: 8, w: 8, h: 4}, {x: 251, y: 248, w: 64, h: 32}, ()) // leg (all sides)
-  Generator.drawTextureLegacy("Cat", {x: 42, y: 0, w: 2, h: 2}, {x: 267, y: 232, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 44, y: 0, w: 2, h: 2},
-    {x: 267, y: 280, w: 16, h: 16},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // Front Left Leg
+    Generator.drawTexture(texture, (40, 8, 8, 4), (251, 248, 64, 32), ~blend=#MultiplyHex(tint), ()) // leg (all sides)
+    Generator.drawTexture(texture, (42, 0, 2, 2), (267, 232, 16, 16), ~blend=#MultiplyHex(tint), ()) // top
+    Generator.drawTexture(
+      texture,
+      (44, 0, 2, 2),
+      (267, 280, 16, 16),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Front Right Leg
-  Generator.drawTextureLegacy("Cat", {x: 40, y: 8, w: 8, h: 4}, {x: 340, y: 248, w: 64, h: 32}, ()) // leg (all sides)
-  Generator.drawTextureLegacy("Cat", {x: 42, y: 0, w: 2, h: 2}, {x: 356, y: 232, w: 16, h: 16}, ()) // top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 44, y: 0, w: 2, h: 2},
-    {x: 356, y: 280, w: 16, h: 16},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // Front Right Leg
+    Generator.drawTexture(texture, (40, 8, 8, 4), (340, 248, 64, 32), ~blend=#MultiplyHex(tint), ()) // leg (all sides)
+    Generator.drawTexture(texture, (42, 0, 2, 2), (356, 232, 16, 16), ~blend=#MultiplyHex(tint), ()) // top
+    Generator.drawTexture(
+      texture,
+      (44, 0, 2, 2),
+      (356, 280, 16, 16),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Tail
+    // Tail
 
-  // top
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 16, w: 1, h: 8}, {x: 469, y: 294, w: 8, h: 64}, ()) // right
-  Generator.drawTextureLegacy("Cat", {x: 3, y: 16, w: 1, h: 8}, {x: 477, y: 294, w: 8, h: 64}, ()) // back
-  Generator.drawTextureLegacy("Cat", {x: 0, y: 16, w: 1, h: 8}, {x: 485, y: 294, w: 8, h: 64}, ()) // left
-  Generator.drawTextureLegacy("Cat", {x: 1, y: 16, w: 1, h: 8}, {x: 493, y: 294, w: 8, h: 64}, ()) // front
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 2, y: 15, w: 1, h: 1},
-    {x: 477, y: 358, w: 8, h: 8},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // top
+    Generator.drawTexture(texture, (2, 16, 1, 8), (469, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // right
+    Generator.drawTexture(texture, (3, 16, 1, 8), (477, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // back
+    Generator.drawTexture(texture, (0, 16, 1, 8), (485, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // left
+    Generator.drawTexture(texture, (1, 16, 1, 8), (493, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // front
+    Generator.drawTexture(
+      texture,
+      (2, 15, 1, 1),
+      (477, 358, 8, 8),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // bottom
-  Generator.drawTextureLegacy("Cat", {x: 6, y: 16, w: 1, h: 8}, {x: 541, y: 294, w: 8, h: 64}, ()) // right
-  Generator.drawTextureLegacy("Cat", {x: 7, y: 16, w: 1, h: 8}, {x: 549, y: 294, w: 8, h: 64}, ()) // back
-  Generator.drawTextureLegacy("Cat", {x: 4, y: 16, w: 1, h: 8}, {x: 557, y: 294, w: 8, h: 64}, ()) // left
-  Generator.drawTextureLegacy("Cat", {x: 5, y: 16, w: 1, h: 8}, {x: 565, y: 294, w: 8, h: 64}, ()) // front
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 6, y: 15, w: 1, h: 1},
-    {x: 549, y: 358, w: 8, h: 8},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // bottom
+    Generator.drawTexture(texture, (6, 16, 1, 8), (541, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // right
+    Generator.drawTexture(texture, (7, 16, 1, 8), (549, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // back
+    Generator.drawTexture(texture, (4, 16, 1, 8), (557, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // left
+    Generator.drawTexture(texture, (5, 16, 1, 8), (565, 294, 8, 64), ~blend=#MultiplyHex(tint), ()) // front
+    Generator.drawTexture(
+      texture,
+      (6, 15, 1, 1),
+      (549, 358, 8, 8),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Nose
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 26, w: 3, h: 2}, {x: 256, y: 80, w: 24, h: 16}, ()) // front
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 25, w: 3, h: 1}, {x: 256, y: 72, w: 24, h: 8}, ()) // top
-  Generator.drawTextureLegacy("Cat", {x: 5, y: 26, w: 1, h: 2}, {x: 280, y: 80, w: 8, h: 16}, ()) // right
-  Generator.drawTextureLegacy("Cat", {x: 1, y: 26, w: 1, h: 2}, {x: 248, y: 80, w: 8, h: 16}, ()) // left
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 5, y: 25, w: 3, h: 1},
-    {x: 256, y: 96, w: 24, h: 8},
-    ~flip=#Vertical,
-    (),
-  ) // bottom
+    // Nose
+    Generator.drawTexture(texture, (2, 26, 3, 2), (256, 80, 24, 16), ~blend=#MultiplyHex(tint), ()) // front
+    Generator.drawTexture(texture, (2, 25, 3, 1), (256, 72, 24, 8), ~blend=#MultiplyHex(tint), ()) // top
+    Generator.drawTexture(texture, (5, 26, 1, 2), (280, 80, 8, 16), ~blend=#MultiplyHex(tint), ()) // right
+    Generator.drawTexture(texture, (1, 26, 1, 2), (248, 80, 8, 16), ~blend=#MultiplyHex(tint), ()) // left
+    Generator.drawTexture(
+      texture,
+      (5, 25, 3, 1),
+      (256, 96, 24, 8),
+      ~flip=#Vertical,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) // bottom
 
-  // Ears
+    // Ears
 
-  // left
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 6, y: 12, w: 2, h: 1},
-    {x: 253, y: 161, w: 16, h: 8},
-    ~rotateLegacy=90.0,
-    (),
-  ) //left
-  Generator.drawTextureLegacy("Cat", {x: 8, y: 12, w: 1, h: 1}, {x: 253, y: 177, w: 8, h: 8}, ()) //front
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 9, y: 12, w: 2, h: 1},
-    {x: 261, y: 177, w: 16, h: 8},
-    ~rotateLegacy=-90.0,
-    (),
-  ) //right
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 11, y: 12, w: 1, h: 1},
-    {x: 261, y: 161, w: 8, h: 8},
-    ~rotateLegacy=180.0,
-    (),
-  ) //back
-  Generator.drawTextureLegacy("Cat", {x: 8, y: 10, w: 1, h: 2}, {x: 253, y: 161, w: 8, h: 16}, ()) //top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 9, y: 10, w: 1, h: 2},
-    {x: 269, y: 161, w: 8, h: 16},
-    ~flip=#Horizontal,
-    (),
-  ) //bottom
+    // left
+    Generator.drawTexture(
+      texture,
+      (6, 12, 2, 1),
+      (253, 161, 16, 8),
+      ~rotate=90.0,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //left
+    Generator.drawTexture(texture, (8, 12, 1, 1), (253, 177, 8, 8), ~blend=#MultiplyHex(tint), ()) //front
+    Generator.drawTexture(
+      texture,
+      (9, 12, 2, 1),
+      (261, 177, 16, 8),
+      ~rotate=-90.0,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //right
+    Generator.drawTexture(
+      texture,
+      (11, 12, 1, 1),
+      (261, 161, 8, 8),
+      ~rotate=180.0,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //back
+    Generator.drawTexture(texture, (8, 10, 1, 2), (253, 161, 8, 16), ~blend=#MultiplyHex(tint), ()) //top
+    Generator.drawTexture(
+      texture,
+      (9, 10, 1, 2),
+      (269, 161, 8, 16),
+      ~flip=#Horizontal,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //bottom
 
-  // right
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 0, y: 12, w: 2, h: 1},
-    {x: 176, y: 161, w: 16, h: 8},
-    ~rotateLegacy=90.0,
-    (),
-  ) //left
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 12, w: 1, h: 1}, {x: 176, y: 177, w: 8, h: 8}, ()) //front
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 3, y: 12, w: 2, h: 1},
-    {x: 184, y: 177, w: 16, h: 8},
-    ~rotateLegacy=-90.0,
-    (),
-  ) //right
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 5, y: 12, w: 1, h: 1},
-    {x: 184, y: 161, w: 8, h: 8},
-    ~rotateLegacy=180.0,
-    (),
-  ) //back
-  Generator.drawTextureLegacy("Cat", {x: 2, y: 10, w: 1, h: 2}, {x: 176, y: 161, w: 8, h: 16}, ()) //top
-  Generator.drawTextureLegacy(
-    "Cat",
-    {x: 3, y: 10, w: 1, h: 2},
-    {x: 192, y: 161, w: 8, h: 16},
-    ~flip=#Horizontal,
-    (),
-  ) //bottom
+    // right
+    Generator.drawTexture(
+      texture,
+      (0, 12, 2, 1),
+      (176, 161, 16, 8),
+      ~rotate=90.0,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //left
+    Generator.drawTexture(texture, (2, 12, 1, 1), (176, 177, 8, 8), ~blend=#MultiplyHex(tint), ()) //front
+    Generator.drawTexture(
+      texture,
+      (3, 12, 2, 1),
+      (184, 177, 16, 8),
+      ~rotate=-90.0,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //right
+    Generator.drawTexture(
+      texture,
+      (5, 12, 1, 1),
+      (184, 161, 8, 8),
+      ~rotate=180.0,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //back
+    Generator.drawTexture(texture, (2, 10, 1, 2), (176, 161, 8, 16), ~blend=#MultiplyHex(tint), ()) //top
+    Generator.drawTexture(
+      texture,
+      (3, 10, 1, 2),
+      (192, 161, 8, 16),
+      ~flip=#Horizontal,
+      ~blend=#MultiplyHex(tint),
+      (),
+    ) //bottom
+  }
+
+  drawCat("Cat", "None") // draw cat
+  drawCat("Collar", collarColor) // draw collar
 
   // Background
   Generator.drawImage("Background", (0, 0))
