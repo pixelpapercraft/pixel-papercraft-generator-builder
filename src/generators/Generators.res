@@ -19,16 +19,15 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftSquidCharacterGenerator.generator,
   MinecraftVillagerCharacterGenerator.generator,
   MinecraftWolfCharacterGenerator.generator,
-  MinecraftAxolotlCharacterGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
-  MinecraftCatGenerator.generator,
   MinecraftCreeperGenerator.generator,
   MinecraftEndermanGenerator.generator,
   MinecraftGolemGenerator.generator,
   MinecraftHorseGenerator.generator,
   MinecraftPigGenerator.generator,
+  MinecraftCatGenerator.generator,
 ]
 
 // Blocks, Items and Accessories
@@ -46,8 +45,9 @@ let mod: array<Generator.generatorDef> = [
 
 let other: array<Generator.generatorDef> = [AmogusBendableGenerator.generator]
 
+// Incomplete and in development
 let dev: array<Generator.generatorDef> = isDevEnvironment
-  ? [MinecraftWitherGenerator.generator]
+  ? [MinecraftWitherGenerator.generator, MinecraftAxolotlCharacterGenerator.generator]
   : []
 
 let test: array<Generator.generatorDef> = isDevEnvironment

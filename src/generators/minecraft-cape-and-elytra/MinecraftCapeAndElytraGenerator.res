@@ -6,7 +6,7 @@ let id = "minecraft-cape-and-elytra"
 let name = "Minecraft Cape And Elytra"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Foreground", "Folds", "Labels"]

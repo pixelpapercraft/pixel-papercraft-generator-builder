@@ -6,7 +6,7 @@ let id = "minecraft-mutant-character"
 let name = "Mutant Character"
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/DVzumgRinjY?rel=0"}
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 let images: array<Generator.imageDef> = [
   {id: "Page1", url: requireImage("Page1.png")},

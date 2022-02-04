@@ -6,7 +6,7 @@ let id = "minecraft-ultimate-bendable"
 let name = "Minecraft Bendable Character"
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/CyYn66Zm5n0?rel=0"}
