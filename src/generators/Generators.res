@@ -19,6 +19,7 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftSquidCharacterGenerator.generator,
   MinecraftVillagerCharacterGenerator.generator,
   MinecraftWolfCharacterGenerator.generator,
+  MinecraftAxolotlCharacterGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
@@ -47,7 +48,7 @@ let other: array<Generator.generatorDef> = [AmogusBendableGenerator.generator]
 
 // Incomplete and in development
 let dev: array<Generator.generatorDef> = isDevEnvironment
-  ? [MinecraftWitherGenerator.generator, MinecraftAxolotlCharacterGenerator.generator]
+  ? [MinecraftWitherGenerator.generator]
   : []
 
 let test: array<Generator.generatorDef> = isDevEnvironment
