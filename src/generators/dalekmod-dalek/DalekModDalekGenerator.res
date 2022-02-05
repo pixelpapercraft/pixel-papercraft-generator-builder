@@ -14,47 +14,44 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
 
-let instructions: Generator.instructionsDef = {
+let instructions = {
   let dalek = Generator.requireImage("./instructions/dalek.jpeg")
   let dalekSkin = Generator.requireImage("./instructions/60sDalek.png")
-  open Generator.Markup
-  <div>
-    <H2> {"About the Dalek generator"->React.string} </H2>
-    <P>
-      {"Create your own Dalek papercraft, thanks to the team who make the "->React.string}
-      <A href="https://swdteam.com/p/dalek-mod"> {"Dalek Mod"->React.string} </A>
-      {"."->React.string}
-    </P>
-    <H2> {"What is a Dalek?"->React.string} </H2>
-    <P>
-      <img src={dalek} className="float-right w-16 mx-8" />
-      {"Daleks are a main enemy of a character called The Doctor in the TV show Doctor Who. "->React.string}
-      {"Daleks are armoured, mutant creatures who are intensely xenophobic and bent on universal domination. "->React.string}
-      {"Daleks are hated and feared throughout time and space. They are the oldest and most frequent foes of The Doctor. "->React.string}
-    </P>
-    <P> <A href="http://tardis.wikia.com/wiki/Dalek"> {"More about Daleks"->React.string} </A> </P>
-    <P>
-      <A href="http://www.thedoctorwhosite.co.uk/doctorwho/information-about-doctor-who/">
-        {"More about Doctor Who"->React.string}
-      </A>
-    </P>
-    <H2> {"How to use the Dalek generator"->React.string} </H2>
-    <H3> {"Option 1: Use an existing Dalek skin"->React.string} </H3>
-    <OL>
-      <LI> {"Select one of the Dalek skins from the generator."->React.string} </LI>
-      <LI> {"Download and print your Dalek papercraft."->React.string} </LI>
-    </OL>
-    <H3> {"Option 2: Create your own texture"->React.string} </H3>
-    <OL>
-      <LI>
-        {"Download a sample Dalek skin."->React.string}
-        <a href={dalekSkin}> <img src={dalekSkin} /> </a>
-      </LI>
-      <LI> {"Edit this skin in your favourite graphics program."->React.string} </LI>
-      <LI> {"Select this file in the generator."->React.string} </LI>
-      <LI> {"Download and print your Dalek papercraft."->React.string} </LI>
-    </OL>
-  </div>
+
+  `
+Create your own Dalek papercraft, thanks to the team who make the [Dalek Mod](https://swdteam.com/p/dalek-mod).
+
+## What is a Dalek?
+
+<div class="not-prose" style="float:right;max-width:150px;">
+  <img src="${dalek}" />
+</div>
+
+Daleks are a main enemy of a character called The Doctor in the TV show Doctor Who.
+
+Daleks are armoured, mutant creatures who are intensely xenophobic and bent on universal domination.
+
+Daleks are hated and feared throughout time and space. They are the oldest and most frequent foes of The Doctor.
+
+[More about Daleks](http://tardis.wikia.com/wiki/Dalek)
+
+[More about Doctor Who](http://www.thedoctorwhosite.co.uk/doctorwho/information-about-doctor-who)
+
+## How to use the Dalek generator
+
+### Option 1: Use an existing Dalek skin
+
+* Select one of the Dalek skins from the generator.
+* Download and print your Dalek papercraft.
+
+### Option 2: Create your own texture
+
+* Download a sample Dalek skin (Right click and save):
+  ![Dalek](${dalekSkin})
+* Edit this skin in your favourite graphics program.
+* Choose this file in the generator.
+* Download and print your Dalek papercraft.
+`
 }
 
 let images: array<Generator.imageDef> = [
@@ -340,7 +337,7 @@ let generator: Generator.generatorDef = {
   history: history,
   thumbnail: Some(thumbnail),
   video: None,
-  instructions: Some(instructions),
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,

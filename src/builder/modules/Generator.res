@@ -11,58 +11,6 @@ type thumnbnailDef = Builder.thumnbnailDef
 type videoDef = Builder.videoDef
 type instructionsDef = Builder.instructionsDef
 
-// @deprecated Use Markdown instead
-module Markup = {
-  module H2 = {
-    @react.component
-    let make = (~children) => {
-      <h2 className="mb-4 text-2xl font-bold"> {children} </h2>
-    }
-  }
-
-  module H3 = {
-    @react.component
-    let make = (~children) => {
-      <h3 className="mb-4 font-bold"> {children} </h3>
-    }
-  }
-
-  module LI = {
-    @react.component
-    let make = (~children) => {
-      <li> {children} </li>
-    }
-  }
-
-  module UL = {
-    @react.component
-    let make = (~children) => {
-      <ul className="mb-4 ml-4 list-disc"> {children} </ul>
-    }
-  }
-
-  module OL = {
-    @react.component
-    let make = (~children) => {
-      <ol className="mb-4 ml-4 list-decimal"> {children} </ol>
-    }
-  }
-
-  module P = {
-    @react.component
-    let make = (~children) => {
-      <p className="mb-4"> {children} </p>
-    }
-  }
-
-  module A = {
-    @react.component
-    let make = (~href, ~children) => {
-      <a className="text-green-600 font-medium hover:underline" href={href}> {children} </a>
-    }
-  }
-}
-
 let model = ref(Builder.Model.make())
 
 let setModel = newModel => {

@@ -15,11 +15,40 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
+let instructions = {
+  let catTexture = requireTexture("white")
+  `
+## How to use the Minecraft Cat Generator?
+
+### Option 1: Use a texture pack or mod Cat skin
+
+* Download your favourite texture pack or mod.
+* Find a cat texture file.
+* Select this file in the generator.
+* Download and print your new Cat papercraft. 
+
+## Option 2: Create your own Cat texture file
+
+* Download a sample Cat texture (right click and save):
+  ![Car Texture](${catTexture})
+* Edit this texture in your favourite graphics program.
+* Select this file in the generator.
+* Download and print your new Cat papercraft.
+`
+}
+
 let imageIds = ["Background", "Folds", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
+  // "Cat" texture is the default texture to show when the generator loads
+  {
+    id: "Cat",
+    url: requireTexture("ocelot"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
   {
     id: "Black",
     url: requireTexture("all_black"),
@@ -438,7 +467,7 @@ let generator: Generator.generatorDef = {
   history: history,
   thumbnail: Some(thumbnail),
   video: None,
-  instructions: None,
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
