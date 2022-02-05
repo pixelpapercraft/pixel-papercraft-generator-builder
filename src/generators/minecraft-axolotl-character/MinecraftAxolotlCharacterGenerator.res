@@ -5,7 +5,7 @@ let id = "minecraft-axolotl-character"
 
 let name = "Minecraft Axolotl Character"
 
-let history = ["Feb 2022 M16 - Initial script developed."]
+let history = ["Feb 2022 M16 - Initial script developed.", "6 Feb 2022 lostminer - Refactoring."]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2thumbnail_256.jpeg"),
@@ -69,6 +69,10 @@ let topOf = ((x, y, w, _), n) => (x, y, w, n)
 // Calculates the bottom "n" pixels of a rectangle
 let bottomOf = ((x, y, w, h), n) => (x, y + h - n, w, n)
 
+// Arms, Legs, Hands, Feet
+let armOrLegPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
+let handOrFootPart = rectangle => bottomOf(rectangle, 1)
+
 // Leg and Foot
 let legPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
 let footPart = rectangle => bottomOf(rectangle, 1)
@@ -77,50 +81,54 @@ let footPart = rectangle => bottomOf(rectangle, 1)
 let armPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
 let handPart = rectangle => bottomOf(rectangle, 1)
 
-let drawHead = (layer: TextureMap.MinecraftCharacter.layer) => {
+let drawHead = (layer: TextureMap.MinecraftCharacter.layer, faceStretch: int) => {
   let {head} = layer
-  Generator.drawTexture("Skin", head.right, (189, 214, 40, 40), ())
-  Generator.drawTexture("Skin", head.front, (229, 214, 64, 40), ())
-  Generator.drawTexture("Skin", head.left, (293, 214, 40, 40), ())
-  Generator.drawTexture("Skin", head.back, (333, 214, 64, 40), ())
-  Generator.drawTexture("Skin", head.top, (229, 174, 64, 40), ())
-  Generator.drawTexture("Skin", head.bottom, (229, 254, 64, 40), ~flip=#Vertical, ())
+  let offset = switch faceStretch {
+  | 0 => 0
+  | 1 => 6
+  | 2 => 12
+  | 3 => 20
+  | 4 => 32
+  | _ => 40
+  }
+  let ox = 229
+  let oy = 214
+  let pixelate = offset > 0
+  Generator.drawTexture("Skin", head.right, (ox - 40, oy, 40 - offset, 40), ~pixelate, ())
+  Generator.drawTexture("Skin", head.front, (ox - offset, oy, 64 + offset * 2, 40), ())
+  Generator.drawTexture("Skin", head.left, (ox + 64 + offset, oy, 40 - offset, 40), ~pixelate, ())
+  Generator.drawTexture("Skin", head.back, (ox + 64 + 40, oy, 64, 40), ())
+  Generator.drawTexture("Skin", head.top, (ox, oy - 40, 64, 40), ())
+  Generator.drawTexture("Skin", head.bottom, (ox, oy + 40, 64, 40), ~flip=#Vertical, ())
 }
 
 let drawBody = (layer: TextureMap.MinecraftCharacter.layer) => {
   let {body} = layer
-  Generator.drawTexture("Skin", body.top, (234, 405, 64, 32), ())
-  Generator.drawTexture("Skin", body.back, (234, 325, 64, 80), ~flip=#Vertical, ())
-  Generator.drawTexture("Skin", body.bottom, (378, 405, 64, 32), ~flip=#Vertical, ())
-  Generator.drawTexture("Skin", body.front, (234, 437, 64, 80), ())
-  Generator.drawTexture("Skin", body.left, (298, 437, 32, 80), ~rotateLegacy=-90.00, ())
-  Generator.drawTexture("Skin", body.right, (234, 405, 32, 80), ~rotateLegacy=90.00, ())
+  let ox = 234
+  let oy = 405
+  Generator.drawTexture("Skin", body.top, (ox, oy, 64, 32), ())
+  Generator.drawTexture("Skin", body.back, (ox, oy - 80, 64, 80), ~flip=#Vertical, ())
+  Generator.drawTexture("Skin", body.bottom, (ox + 80 + 64, oy, 64, 32), ~flip=#Vertical, ())
+  Generator.drawTexture("Skin", body.front, (ox, oy + 32, 64, 80), ())
+  Generator.drawTexture("Skin", body.left, (ox + 64, oy + 32, 32, 80), ~rotateLegacy=-90.00, ())
+  Generator.drawTexture("Skin", body.right, (ox, oy, 32, 80), ~rotateLegacy=90.00, ())
+}
+
+let drawLimb = (leg: TextureMap.cuboid, ox, oy) => {
+  Generator.drawTexture("Skin", armOrLegPart(leg.left), (ox + 8, oy - 24, 8, 24), ())
+  Generator.drawTexture("Skin", handOrFootPart(leg.left), (ox, oy, 24, 16), ())
+  Generator.drawTexture("Skin", armOrLegPart(leg.right), (ox - 16, oy - 24, 8, 24), ())
+  Generator.drawTexture("Skin", handOrFootPart(leg.right), (ox - 24, oy, 24, 16), ())
 }
 
 let drawArms = (layer: TextureMap.MinecraftCharacter.layer) => {
-  // Left Arm
-  Generator.drawTexture("Skin", armPart(layer.leftArm.left), (469, 471, 8, 24), ())
-  Generator.drawTexture("Skin", handPart(layer.leftArm.left), (461, 495, 24, 16), ())
-  Generator.drawTexture("Skin", armPart(layer.leftArm.right), (445, 471, 8, 24), ())
-  Generator.drawTexture("Skin", handPart(layer.leftArm.right), (437, 495, 24, 16), ())
-  // Right Arm
-  Generator.drawTexture("Skin", armPart(layer.rightArm.left), (387, 471, 8, 24), ())
-  Generator.drawTexture("Skin", handPart(layer.rightArm.left), (379, 495, 24, 16), ())
-  Generator.drawTexture("Skin", armPart(layer.rightArm.right), (411, 471, 8, 24), ())
-  Generator.drawTexture("Skin", handPart(layer.rightArm.right), (403, 495, 24, 16), ())
+  drawLimb(layer.leftArm, 461, 495)
+  drawLimb(layer.rightArm, 403, 495)
 }
 
 let drawLegs = (layer: TextureMap.MinecraftCharacter.layer) => {
-  // Right Leg
-  Generator.drawTexture("Skin", legPart(layer.rightLeg.right), (387, 524, 8, 24), ())
-  Generator.drawTexture("Skin", footPart(layer.rightLeg.right), (379, 548, 24, 16), ())
-  Generator.drawTexture("Skin", legPart(layer.rightLeg.left), (411, 524, 8, 24), ())
-  Generator.drawTexture("Skin", footPart(layer.rightLeg.left), (403, 548, 24, 16), ())
-  // Left Leg
-  Generator.drawTexture("Skin", legPart(layer.leftLeg.right), (445, 524, 8, 24), ())
-  Generator.drawTexture("Skin", footPart(layer.leftLeg.right), (437, 548, 24, 16), ())
-  Generator.drawTexture("Skin", legPart(layer.leftLeg.left), (469, 524, 8, 24), ())
-  Generator.drawTexture("Skin", footPart(layer.leftLeg.left), (461, 548, 24, 16), ())
+  drawLimb(layer.rightLeg, 403, 548)
+  drawLimb(layer.leftLeg, 461, 548)
 }
 
 module HeadFins = {
@@ -245,7 +253,7 @@ let drawTailFins = (layer: TextureMap.MinecraftCharacter.layer) => {
 let drawTailFinsTexture = () => {
   Generator.drawTexture(
     // Left Side upper
-    "Tail Fin Texture",
+    "Tail Fins Texture",
     (2, 26, 9, 1),
     (258 - 32, 533 + 32, 72, 8),
     ~rotate=-90.00,
@@ -253,7 +261,7 @@ let drawTailFinsTexture = () => {
   )
   Generator.drawTexture(
     // Right Side upper
-    "Tail Fin Texture",
+    "Tail Fins Texture",
     (2, 26, 9, 1),
     (330 - 32, 533 + 32, 72, 8),
     ~rotate=-90.0,
@@ -262,7 +270,7 @@ let drawTailFinsTexture = () => {
   )
   Generator.drawTexture(
     // Left Side lower
-    "Tail Fin Texture",
+    "Tail Fins Texture",
     (2, 31, 12, 5),
     (258 - 28, 605 + 28, 96, 40),
     ~rotate=-90.0,
@@ -270,7 +278,7 @@ let drawTailFinsTexture = () => {
   )
   Generator.drawTexture(
     // Right Side lower
-    "Tail Fin Texture",
+    "Tail Fins Texture",
     (2, 31, 12, 5),
     (298 - 28, 605 + 28, 96, 40),
     ~rotate=-90.0,
@@ -279,22 +287,12 @@ let drawTailFinsTexture = () => {
   )
 }
 
-let drawEyes = (layer: TextureMap.MinecraftCharacter.layer) => {
-  let {front} = layer.head
-
-  let frontX = xOf(front)
-  let frontY = yOf(front)
-
-  let r = (frontX + 1, frontY + 4, 6, 2)
-  Generator.drawTexture("Skin", r, (221, 229, 80, 16), ())
-}
-
 let script = () => {
   // Define input textures
   Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
   Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
   Generator.defineTextureInput(
-    "Tail Fin Texture",
+    "Head Fins Texture",
     {
       standardWidth: 64,
       standardHeight: 64,
@@ -302,7 +300,7 @@ let script = () => {
     },
   )
   Generator.defineTextureInput(
-    "Head Fins Texture",
+    "Tail Fins Texture",
     {
       standardWidth: 64,
       standardHeight: 64,
@@ -313,17 +311,17 @@ let script = () => {
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
-  Generator.defineBooleanInput("Axolotl Eyes", true)
-  Generator.defineBooleanInput("Show Skin Overlay", true)
+  Generator.defineBooleanInput("Show Overlay", true)
+  Generator.defineRangeInput("Axolotl Face", {min: 0, max: 5, step: 1, value: 0})
 
   // Get user variable values
   let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
-  let showEyes = Generator.getBooleanInputValue("Axolotl Eyes")
-  let showOverlay = Generator.getBooleanInputValue("Show Skin Overlay")
+  let showOverlay = Generator.getBooleanInputValue("Show Overlay")
+  let faceStretch = Generator.getRangeInputValue("Axolotl Face")
 
-  drawHead(steve.base)
+  drawHead(steve.base, faceStretch)
   drawBody(steve.base)
 
   if alexModel {
@@ -337,7 +335,7 @@ let script = () => {
   drawTailFins(steve.base)
 
   if showOverlay {
-    drawHead(steve.overlay)
+    drawHead(steve.overlay, faceStretch)
     drawBody(steve.overlay)
 
     if alexModel {
@@ -351,21 +349,14 @@ let script = () => {
     drawTailFins(steve.overlay)
   }
 
-  if showEyes {
-    drawEyes(steve.base)
-    if showOverlay {
-      drawEyes(steve.overlay)
-    }
-  }
-
-  let showTail = Generator.hasTexture("Tail Fin Texture")
-  if showTail {
-    drawTailFinsTexture()
-  }
-
-  let showFins = Generator.hasTexture("Head Fins Texture")
-  if showFins {
+  let showHeadFinsTexture = Generator.hasTexture("Head Fins Texture")
+  if showHeadFinsTexture {
     drawHeadFinsTexture()
+  }
+
+  let showTailFindTexture = Generator.hasTexture("Tail Fins Texture")
+  if showTailFindTexture {
+    drawTailFinsTexture()
   }
 
   Generator.drawImage("Background", (0, 0))
