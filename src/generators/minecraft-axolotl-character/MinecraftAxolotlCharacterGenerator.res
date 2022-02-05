@@ -54,8 +54,240 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-let steve = TextureMap.MinecraftCharacterLegacy.steve
-let alex = TextureMap.MinecraftCharacterLegacy.alex
+let steve = TextureMap.MinecraftCharacter.steve
+let alex = TextureMap.MinecraftCharacter.alex
+
+// Provides the parts of a rectangle
+let xOf = ((x, _, _, _)) => x
+let yOf = ((_, y, _, _)) => y
+let widthOf = ((_, _, w, _)) => w
+let heightOf = ((_, _, _, h)) => h
+
+// Calculates the top "n" pixels of a rectangle
+let topOf = ((x, y, w, _), n) => (x, y, w, n)
+
+// Calculates the bottom "n" pixels of a rectangle
+let bottomOf = ((x, y, w, h), n) => (x, y + h - n, w, n)
+
+// Leg and Foot
+let legPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
+let footPart = rectangle => bottomOf(rectangle, 1)
+
+// Arm and Hand
+let armPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
+let handPart = rectangle => bottomOf(rectangle, 1)
+
+let drawHead = (layer: TextureMap.MinecraftCharacter.layer) => {
+  let {head} = layer
+  Generator.drawTexture("Skin", head.right, (189, 214, 40, 40), ())
+  Generator.drawTexture("Skin", head.front, (229, 214, 64, 40), ())
+  Generator.drawTexture("Skin", head.left, (293, 214, 40, 40), ())
+  Generator.drawTexture("Skin", head.back, (333, 214, 64, 40), ())
+  Generator.drawTexture("Skin", head.top, (229, 174, 64, 40), ())
+  Generator.drawTexture("Skin", head.bottom, (229, 254, 64, 40), ~flip=#Vertical, ())
+}
+
+let drawBody = (layer: TextureMap.MinecraftCharacter.layer) => {
+  let {body} = layer
+  Generator.drawTexture("Skin", body.top, (234, 405, 64, 32), ())
+  Generator.drawTexture("Skin", body.back, (234, 325, 64, 80), ~flip=#Vertical, ())
+  Generator.drawTexture("Skin", body.bottom, (378, 405, 64, 32), ~flip=#Vertical, ())
+  Generator.drawTexture("Skin", body.front, (234, 437, 64, 80), ())
+  Generator.drawTexture("Skin", body.left, (298, 437, 32, 80), ~rotateLegacy=-90.00, ())
+  Generator.drawTexture("Skin", body.right, (234, 405, 32, 80), ~rotateLegacy=90.00, ())
+}
+
+let drawArms = (layer: TextureMap.MinecraftCharacter.layer) => {
+  // Left Arm
+  Generator.drawTexture("Skin", armPart(layer.leftArm.left), (469, 471, 8, 24), ())
+  Generator.drawTexture("Skin", handPart(layer.leftArm.left), (461, 495, 24, 16), ())
+  Generator.drawTexture("Skin", armPart(layer.leftArm.right), (445, 471, 8, 24), ())
+  Generator.drawTexture("Skin", handPart(layer.leftArm.right), (437, 495, 24, 16), ())
+  // Right Arm
+  Generator.drawTexture("Skin", armPart(layer.rightArm.left), (387, 471, 8, 24), ())
+  Generator.drawTexture("Skin", handPart(layer.rightArm.left), (379, 495, 24, 16), ())
+  Generator.drawTexture("Skin", armPart(layer.rightArm.right), (411, 471, 8, 24), ())
+  Generator.drawTexture("Skin", handPart(layer.rightArm.right), (403, 495, 24, 16), ())
+}
+
+let drawLegs = (layer: TextureMap.MinecraftCharacter.layer) => {
+  // Right Leg
+  Generator.drawTexture("Skin", legPart(layer.rightLeg.right), (387, 524, 8, 24), ())
+  Generator.drawTexture("Skin", footPart(layer.rightLeg.right), (379, 548, 24, 16), ())
+  Generator.drawTexture("Skin", legPart(layer.rightLeg.left), (411, 524, 8, 24), ())
+  Generator.drawTexture("Skin", footPart(layer.rightLeg.left), (403, 548, 24, 16), ())
+  // Left Leg
+  Generator.drawTexture("Skin", legPart(layer.leftLeg.right), (445, 524, 8, 24), ())
+  Generator.drawTexture("Skin", footPart(layer.leftLeg.right), (437, 548, 24, 16), ())
+  Generator.drawTexture("Skin", legPart(layer.leftLeg.left), (469, 524, 8, 24), ())
+  Generator.drawTexture("Skin", footPart(layer.leftLeg.left), (461, 548, 24, 16), ())
+}
+
+module HeadFins = {
+  let topLeftBack = (249, 7, 24, 24)
+  let topLeftFront = (273, 7, 24, 24)
+  let topRightBack = (323, 7, 24, 24)
+  let topRightFront = (299, 7, 24, 24)
+
+  let middleLeftBack = (268, 41, 24, 32)
+  let middleLeftFront = (268, 73, 24, 32)
+  let middleRightBack = (304, 41, 24, 32)
+  let middleRightFront = (304, 73, 24, 32)
+
+  let bottomLeftBack = (268, 110, 24, 24)
+  let bottomLeftFront = (268, 134, 24, 24)
+  let bottomRightBack = (304, 110, 24, 24)
+  let bottomRightFront = (304, 134, 24, 24)
+}
+
+let drawHeadFins = (layer: TextureMap.MinecraftCharacter.layer) => {
+  let {top, right, left} = layer.head
+
+  let topX = xOf(top)
+  let topY = yOf(top)
+
+  let rightX = xOf(right)
+  let rightY = yOf(right)
+
+  let leftX = xOf(left)
+  let leftY = yOf(left)
+
+  let r = (topX + 1, topY + 2, 2, 1)
+  Generator.drawTexture("Skin", r, HeadFins.topLeftBack, ())
+
+  let r = (topX + 1, topY + 1, 2, 1)
+  Generator.drawTexture("Skin", r, HeadFins.topLeftFront, ~flip=#Horizontal, ())
+
+  let r = (topX + 5, topY + 1, 2, 1)
+  Generator.drawTexture("Skin", r, HeadFins.topRightFront, ~flip=#Horizontal, ())
+
+  let r = (topX + 5, topY + 2, 2, 1)
+  Generator.drawTexture("Skin", r, HeadFins.topRightBack, ())
+
+  let r = (rightX + 1, rightY, 1, 3)
+  Generator.drawTexture("Skin", r, HeadFins.middleLeftBack, ())
+
+  let r = (rightX + 2, rightY, 1, 3)
+  Generator.drawTexture("Skin", r, HeadFins.middleLeftFront, ())
+
+  let r = (leftX + 6, leftY, 1, 3)
+  Generator.drawTexture("Skin", r, HeadFins.middleRightBack, ())
+
+  let r = (leftX + 5, leftY, 1, 3)
+  Generator.drawTexture("Skin", r, HeadFins.middleRightFront, ())
+
+  let r = (rightX + 2, rightY + 6, 1, 2)
+  Generator.drawTexture("Skin", r, HeadFins.bottomLeftBack, ())
+
+  let r = (rightX + 1, rightY + 6, 1, 2)
+  Generator.drawTexture("Skin", r, HeadFins.bottomLeftFront, ())
+
+  let r = (leftX + 5, leftY + 6, 1, 2)
+  Generator.drawTexture("Skin", r, HeadFins.bottomRightBack, ())
+
+  let r = (leftX + 6, leftY + 6, 1, 2)
+  Generator.drawTexture("Skin", r, HeadFins.bottomRightFront, ())
+}
+
+let drawHeadFinsTexture = () => {
+  Generator.drawTexture("Head Fins Texture", (3, 37, 3, 3), HeadFins.topLeftBack, ())
+  Generator.drawTexture("Head Fins Texture", (8, 37, 3, 3), HeadFins.topLeftFront, ())
+  Generator.drawTexture("Head Fins Texture", (3, 37, 3, 3), HeadFins.topRightFront, ())
+  Generator.drawTexture("Head Fins Texture", (8, 37, 3, 3), HeadFins.topRightBack, ())
+  Generator.drawTexture("Head Fins Texture", (0, 40, 3, 4), HeadFins.middleLeftBack, ())
+  Generator.drawTexture(
+    "Head Fins Texture",
+    (0, 40, 3, 4),
+    HeadFins.middleLeftFront,
+    ~flip=#Horizontal,
+    (),
+  )
+  Generator.drawTexture("Head Fins Texture", (11, 40, 3, 4), HeadFins.middleRightBack, ())
+  Generator.drawTexture(
+    "Head Fins Texture",
+    (11, 40, 3, 4),
+    HeadFins.middleRightFront,
+    ~flip=#Horizontal,
+    (),
+  )
+  Generator.drawTexture("Head Fins Texture", (0, 44, 3, 3), HeadFins.bottomLeftBack, ())
+  Generator.drawTexture(
+    "Head Fins Texture",
+    (0, 44, 3, 3),
+    HeadFins.bottomLeftFront,
+    ~flip=#Vertical,
+    (),
+  )
+  Generator.drawTexture("Head Fins Texture", (11, 44, 3, 3), HeadFins.bottomRightBack, ())
+  Generator.drawTexture(
+    "Head Fins Texture",
+    (11, 44, 3, 3),
+    HeadFins.bottomRightFront,
+    ~flip=#Vertical,
+    (),
+  )
+}
+
+let drawTailFins = (layer: TextureMap.MinecraftCharacter.layer) => {
+  let {back} = layer.body
+
+  let backX = xOf(back)
+  let backY = yOf(back)
+  let backHeight = heightOf(back)
+
+  let r = (backX + 3, backY, 1, backHeight)
+  Generator.drawTexture("Skin", r, (258, 533, 40, 168), ())
+
+  let r = (backX + 4, backY, 1, backHeight)
+  Generator.drawTexture("Skin", r, (298, 533, 40, 168), ())
+}
+
+let drawTailFinsTexture = () => {
+  Generator.drawTexture(
+    // Left Side upper
+    "Tail Fin Texture",
+    (2, 26, 9, 1),
+    (258 - 32, 533 + 32, 72, 8),
+    ~rotate=-90.00,
+    (),
+  )
+  Generator.drawTexture(
+    // Right Side upper
+    "Tail Fin Texture",
+    (2, 26, 9, 1),
+    (330 - 32, 533 + 32, 72, 8),
+    ~rotate=-90.0,
+    ~flip=#Vertical,
+    (),
+  )
+  Generator.drawTexture(
+    // Left Side lower
+    "Tail Fin Texture",
+    (2, 31, 12, 5),
+    (258 - 28, 605 + 28, 96, 40),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    // Right Side lower
+    "Tail Fin Texture",
+    (2, 31, 12, 5),
+    (298 - 28, 605 + 28, 96, 40),
+    ~rotate=-90.0,
+    ~flip=#Vertical,
+    (),
+  )
+}
+
+let drawEyes = (layer: TextureMap.MinecraftCharacter.layer) => {
+  let {front} = layer.head
+
+  let frontX = xOf(front)
+  let frontY = yOf(front)
+
+  let r = (frontX + 1, frontY + 4, 6, 2)
+  Generator.drawTexture("Skin", r, (221, 229, 80, 16), ())
+}
 
 let script = () => {
   // Define input textures
@@ -77,6 +309,7 @@ let script = () => {
       choices: ["Blue", "Cyan", "Pink", "Gold", "Brown"],
     },
   )
+
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
@@ -90,915 +323,57 @@ let script = () => {
   let showEyes = Generator.getBooleanInputValue("Axolotl Eyes")
   let showOverlay = Generator.getBooleanInputValue("Show Skin Overlay")
 
-  // Head
-  Generator.drawTexture(
-    //Axolotl's right
-    "Skin",
-    (0, 8, 8, 8),
-    (189, 214, 40, 40),
-    (),
-  )
-  Generator.drawTexture(
-    //Front
-    "Skin",
-    (8, 8, 8, 8),
-    (229, 214, 64, 40),
-    (),
-  )
-  Generator.drawTexture(
-    //Axolotl's left
-    "Skin",
-    (16, 8, 8, 8),
-    (293, 214, 40, 40),
-    (),
-  )
-  Generator.drawTexture(
-    //Back
-    "Skin",
-    (24, 8, 8, 8),
-    (333, 214, 64, 40),
-    (),
-  )
-  Generator.drawTexture(
-    //Front
-    "Skin",
-    (8, 0, 8, 8),
-    (229, 174, 64, 40),
-    (),
-  )
-  Generator.drawTexture(
-    //Bottom
-    "Skin",
-    (16, 0, 8, 8),
-    (229, 254, 64, 40),
-    ~flip=#Vertical,
-    (),
-  )
+  drawHead(steve.base)
+  drawBody(steve.base)
 
-  //Body
-  Generator.drawTexture(
-    //Top
-    "Skin",
-    (20, 16, 8, 4),
-    (234, 405, 64, 32),
-    (),
-  )
-  Generator.drawTexture(
-    //Back
-    "Skin",
-    (32, 20, 8, 12),
-    (234, 325, 64, 80),
-    ~flip=#Vertical,
-    (),
-  )
-  Generator.drawTexture(
-    //Bottom
-    "Skin",
-    (28, 16, 8, 4),
-    (378, 405, 64, 32),
-    ~flip=#Vertical,
-    (),
-  )
-  Generator.drawTexture(
-    //Front
-    "Skin",
-    (20, 20, 8, 12),
-    (234, 437, 64, 80),
-    (),
-  )
-  Generator.drawTexture(
-    //Left
-    "Skin",
-    (28, 20, 4, 12),
-    (298, 437, 32, 80),
-    ~rotateLegacy=-90.00,
-    (),
-  )
-  Generator.drawTexture(
-    //Right
-    "Skin",
-    (16, 20, 4, 12),
-    (234, 405, 32, 80),
-    ~rotateLegacy=90.00,
-    (),
-  )
-
-  // Arms
   if alexModel {
-    //Left Arm
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (39, 52, 4, 11),
-      (469, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Front-Hand
-      "Skin",
-      (39, 63, 4, 1),
-      (461, 495, 24, 16),
-      (),
-    )
-    Generator.drawTexture(
-      //Back
-      "Skin",
-      (32, 52, 4, 11),
-      (445, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Back-Hand
-      "Skin",
-      (32, 63, 4, 1),
-      (437, 495, 24, 16),
-      (),
-    )
-
-    //Right Arm
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (47, 20, 4, 11),
-      (387, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Front-Hand
-      "Skin",
-      (47, 31, 4, 1),
-      (379, 495, 24, 16),
-      (),
-    )
-    Generator.drawTexture(
-      //Back
-      "Skin",
-      (40, 20, 4, 11),
-      (411, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Back-Hand
-      "Skin",
-      (40, 31, 4, 1),
-      (403, 495, 24, 16),
-      (),
-    )
+    drawArms(alex.base)
   } else {
-    //Left Arm
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (40, 52, 4, 11),
-      (469, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Front-Hand
-      "Skin",
-      (40, 63, 4, 1),
-      (461, 495, 24, 16),
-      (),
-    )
-    Generator.drawTexture(
-      //Back
-      "Skin",
-      (32, 52, 4, 11),
-      (445, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Back-Hand
-      "Skin",
-      (32, 63, 4, 1),
-      (437, 495, 24, 16),
-      (),
-    )
-
-    //Right Arm
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (48, 20, 4, 11),
-      (387, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Front-Hand
-      "Skin",
-      (48, 31, 4, 1),
-      (379, 495, 24, 16),
-      (),
-    )
-    Generator.drawTexture(
-      //Back
-      "Skin",
-      (40, 20, 4, 11),
-      (411, 471, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Back-Hand
-      "Skin",
-      (40, 31, 4, 1),
-      (403, 495, 24, 16),
-      (),
-    )
+    drawArms(steve.base)
   }
 
-  // Right Leg
-  Generator.drawTexture(
-    //Right Side
-    "Skin",
-    (0, 20, 4, 11),
-    (387, 524, 8, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Right Foot
-    "Skin",
-    (0, 31, 4, 1),
-    (379, 548, 24, 16),
-    (),
-  )
-  Generator.drawTexture(
-    //Left Side
-    "Skin",
-    (8, 20, 4, 11),
-    (411, 524, 8, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Left Foot
-    "Skin",
-    (8, 31, 4, 1),
-    (403, 548, 24, 16),
-    (),
-  )
+  drawLegs(steve.base)
+  drawHeadFins(steve.base)
+  drawTailFins(steve.base)
 
-  // Left Leg
-  Generator.drawTexture(
-    //Right Side
-    "Skin",
-    (16, 52, 4, 11),
-    (445, 524, 8, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Right Foot
-    "Skin",
-    (16, 63, 4, 1),
-    (437, 548, 24, 16),
-    (),
-  )
-  Generator.drawTexture(
-    //Left Side
-    "Skin",
-    (24, 52, 4, 11),
-    (469, 524, 8, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Left Foot
-    "Skin",
-    (24, 63, 4, 1),
-    (461, 548, 24, 16),
-    (),
-  )
-
-  //Fins
-  //Tail
-  Generator.drawTexture(
-    //Left Side
-    "Skin",
-    (35, 20, 1, 12),
-    (258, 533, 40, 168),
-    (),
-  )
-  Generator.drawTexture(
-    //Right Side
-    "Skin",
-    (36, 20, 1, 12),
-    (298, 533, 40, 168),
-    (),
-  )
-  //Head
-  Generator.drawTexture(
-    //Top Left Fin's Backside
-    "Skin",
-    (9, 1, 2, 1),
-    (273, 7, 24, 24),
-    ~flip=#Horizontal,
-    (),
-  )
-  Generator.drawTexture(
-    //Top Left Fin's Frontside
-    "Skin",
-    (9, 2, 2, 1),
-    (249, 7, 24, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Top Right Fin's Backside
-    "Skin",
-    (13, 1, 2, 1),
-    (299, 7, 24, 24),
-    ~flip=#Horizontal,
-    (),
-  )
-  Generator.drawTexture(
-    //Top Right Fin's Frontside
-    "Skin",
-    (13, 2, 2, 1),
-    (323, 7, 24, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Middle Left Fin's Backside
-    "Skin",
-    (1, 8, 1, 3),
-    (268, 41, 24, 32),
-    (),
-  )
-  Generator.drawTexture(
-    //Middle Left Fin's Frontside
-    "Skin",
-    (2, 8, 1, 3),
-    (268, 73, 24, 32),
-    (),
-  )
-  Generator.drawTexture(
-    //Middle Right Fin's Backside
-    "Skin",
-    (22, 8, 1, 3),
-    (304, 41, 24, 32),
-    (),
-  )
-  Generator.drawTexture(
-    //Middle Right Fin's Frontside
-    "Skin",
-    (21, 8, 1, 3),
-    (304, 73, 24, 32),
-    (),
-  )
-  Generator.drawTexture(
-    //Bottom Left Fin's Backside
-    "Skin",
-    (2, 14, 1, 2),
-    (268, 110, 24, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Bottom Left Fin's Frontside
-    "Skin",
-    (1, 14, 1, 2),
-    (268, 134, 24, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Bottom Right Fin's Backside
-    "Skin",
-    (21, 14, 1, 2),
-    (304, 110, 24, 24),
-    (),
-  )
-  Generator.drawTexture(
-    //Bottom Right Fin's Frontside
-    "Skin",
-    (22, 14, 1, 2),
-    (304, 134, 24, 24),
-    (),
-  )
-
-  //Overlay
   if showOverlay {
-    // Head
-    Generator.drawTexture(
-      //Axolotl's right
-      "Skin",
-      (32, 8, 8, 8),
-      (189, 214, 40, 40),
-      (),
-    )
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (40, 8, 8, 8),
-      (229, 214, 64, 40),
-      (),
-    )
-    Generator.drawTexture(
-      //Axolotl's left
-      "Skin",
-      (48, 8, 8, 8),
-      (293, 214, 40, 40),
-      (),
-    )
-    Generator.drawTexture(
-      //Back
-      "Skin",
-      (56, 8, 8, 8),
-      (333, 214, 64, 40),
-      (),
-    )
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (40, 0, 8, 8),
-      (229, 174, 64, 40),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom
-      "Skin",
-      (48, 0, 8, 8),
-      (229, 254, 64, 40),
-      ~flip=#Vertical,
-      (),
-    )
+    drawHead(steve.overlay)
+    drawBody(steve.overlay)
 
-    //Body
-    Generator.drawTexture(
-      //Top
-      "Skin",
-      (20, 32, 8, 4),
-      (234, 405, 64, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Back
-      "Skin",
-      (32, 36, 8, 12),
-      (234, 325, 64, 80),
-      ~flip=#Vertical,
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom
-      "Skin",
-      (28, 32, 8, 4),
-      (378, 405, 64, 32),
-      ~flip=#Vertical,
-      (),
-    )
-    Generator.drawTexture(
-      //Front
-      "Skin",
-      (20, 36, 8, 12),
-      (234, 437, 64, 80),
-      (),
-    )
-    Generator.drawTexture(
-      //Left
-      "Skin",
-      (28, 36, 4, 12),
-      (298, 437, 32, 80),
-      ~rotateLegacy=-90.00,
-      (),
-    )
-    Generator.drawTexture(
-      //Right
-      "Skin",
-      (16, 36, 4, 12),
-      (234, 405, 32, 80),
-      ~rotateLegacy=90.00,
-      (),
-    )
-    // Arms
     if alexModel {
-      //Left Arm
-      Generator.drawTexture(
-        //Front
-        "Skin",
-        (55, 52, 4, 11),
-        (469, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Front-Hand
-        "Skin",
-        (55, 63, 4, 1),
-        (461, 495, 24, 16),
-        (),
-      )
-      Generator.drawTexture(
-        //Back
-        "Skin",
-        (48, 52, 4, 11),
-        (445, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Back-Hand
-        "Skin",
-        (48, 63, 4, 1),
-        (437, 495, 24, 16),
-        (),
-      )
-
-      //Right Arm
-      Generator.drawTexture(
-        //Front
-        "Skin",
-        (47, 36, 4, 11),
-        (387, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Front-Hand
-        "Skin",
-        (47, 47, 4, 1),
-        (379, 495, 24, 16),
-        (),
-      )
-      Generator.drawTexture(
-        //Back
-        "Skin",
-        (40, 36, 4, 11),
-        (411, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Back-Hand
-        "Skin",
-        (40, 47, 4, 1),
-        (403, 495, 24, 16),
-        (),
-      )
+      drawArms(alex.overlay)
     } else {
-      //Left Arm
-      Generator.drawTexture(
-        //Front
-        "Skin",
-        (56, 52, 4, 11),
-        (469, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Front-Hand
-        "Skin",
-        (56, 63, 4, 1),
-        (461, 495, 24, 16),
-        (),
-      )
-      Generator.drawTexture(
-        //Back
-        "Skin",
-        (48, 52, 4, 11),
-        (445, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Back-Hand
-        "Skin",
-        (48, 63, 4, 1),
-        (437, 495, 24, 16),
-        (),
-      )
-
-      //Right Arm
-      Generator.drawTexture(
-        //Front
-        "Skin",
-        (48, 36, 4, 11),
-        (387, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Front-Hand
-        "Skin",
-        (48, 47, 4, 1),
-        (379, 495, 24, 16),
-        (),
-      )
-      Generator.drawTexture(
-        //Back
-        "Skin",
-        (40, 36, 4, 11),
-        (411, 471, 8, 24),
-        (),
-      )
-      Generator.drawTexture(
-        //Back-Hand
-        "Skin",
-        (40, 47, 4, 1),
-        (403, 495, 24, 16),
-        (),
-      )
+      drawArms(steve.overlay)
     }
 
-    // Right Leg
-    Generator.drawTexture(
-      //Right Side
-      "Skin",
-      (0, 36, 4, 11),
-      (387, 524, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Right Foot
-      "Skin",
-      (0, 47, 4, 1),
-      (379, 548, 24, 16),
-      (),
-    )
-    Generator.drawTexture(
-      //Left Side
-      "Skin",
-      (8, 36, 4, 11),
-      (411, 524, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Left Foot
-      "Skin",
-      (8, 47, 4, 1),
-      (403, 548, 24, 16),
-      (),
-    )
-
-    // Left Leg
-    Generator.drawTexture(
-      //Right Side
-      "Skin",
-      (0, 52, 4, 11),
-      (445, 524, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Right Foot
-      "Skin",
-      (0, 63, 4, 1),
-      (437, 548, 24, 16),
-      (),
-    )
-    Generator.drawTexture(
-      //Left Side
-      "Skin",
-      (8, 52, 4, 11),
-      (469, 524, 8, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Left Foot
-      "Skin",
-      (8, 63, 4, 1),
-      (461, 548, 24, 16),
-      (),
-    )
-
-    //Fins
-    //Tail
-    Generator.drawTexture(
-      //Left Side
-      "Skin",
-      (35, 36, 1, 12),
-      (258, 533, 40, 168),
-      (),
-    )
-    Generator.drawTexture(
-      //Left Side
-      "Skin",
-      (36, 36, 1, 12),
-      (298, 533, 40, 168),
-      (),
-    )
-    //Head
-    Generator.drawTexture(
-      //Top Left Fin's Backside
-      "Skin",
-      (41, 1, 2, 1),
-      (273, 7, 24, 24),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      //Top Left Fin's Frontside
-      "Skin",
-      (41, 2, 2, 1),
-      (249, 7, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Top Right Fin's Backside
-      "Skin",
-      (45, 1, 2, 1),
-      (299, 7, 24, 24),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      //Top Right Fin's Frontside
-      "Skin",
-      (45, 2, 2, 1),
-      (323, 7, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Left Fin's Backside
-      "Skin",
-      (33, 8, 1, 3),
-      (268, 41, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Left Fin's Frontside
-      "Skin",
-      (34, 8, 1, 3),
-      (268, 73, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Right Fin's Backside
-      "Skin",
-      (54, 8, 1, 3),
-      (304, 41, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Right Fin's Frontside
-      "Skin",
-      (53, 8, 1, 3),
-      (304, 73, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Left Fin's Backside
-      "Skin",
-      (34, 14, 1, 2),
-      (268, 110, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Left Fin's Frontside
-      "Skin",
-      (33, 14, 1, 2),
-      (268, 134, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Right Fin's Backside
-      "Skin",
-      (53, 14, 1, 2),
-      (304, 110, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Right Fin's Frontside
-      "Skin",
-      (54, 14, 1, 2),
-      (304, 134, 24, 24),
-      (),
-    )
+    drawLegs(steve.overlay)
+    drawHeadFins(steve.overlay)
+    drawTailFins(steve.overlay)
   }
 
-  //Axolotl Eyes
   if showEyes {
-    Generator.drawTexture("Skin", (9, 12, 6, 2), (221, 229, 80, 16), ())
+    drawEyes(steve.base)
     if showOverlay {
-      Generator.drawTexture("Skin", (41, 12, 6, 2), (221, 229, 80, 16), ())
+      drawEyes(steve.overlay)
     }
   }
 
   let showTail = Generator.hasTexture("Tail Fin Texture")
   if showTail {
-    Generator.drawTexture(
-      //Left Side upper
-      "Tail Fin Texture",
-      (2, 26, 9, 1),
-      (258, 605, 72, 8),
-      ~rotateLegacy=-90.00,
-      (),
-    )
-    Generator.drawTexture(
-      //Right Side upper
-      "Tail Fin Texture",
-      (2, 26, 9, 1),
-      (330, 605, 72, 8),
-      ~rotateLegacy=-90.00,
-      (),
-    )
-    Generator.drawTexture(
-      //Left Side lower
-      "Tail Fin Texture",
-      (2, 31, 12, 5),
-      (258, 701, 96, 40),
-      ~rotateLegacy=-90.00,
-      (),
-    )
-    Generator.drawTexture(
-      //right Side lower
-      "Tail Fin Texture",
-      (2, 31, 12, 5),
-      (298, 701, 96, 40),
-      ~rotateLegacy=-90.00,
-      ~flip=#Vertical,
-      (),
-    )
+    drawTailFinsTexture()
   }
 
   let showFins = Generator.hasTexture("Head Fins Texture")
   if showFins {
-    //Head
-    Generator.drawTexture(
-      //Top Left Fin's Backside
-      "Head Fins Texture",
-      (3, 37, 3, 3),
-      (249, 7, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Top Left Fin's Frontside
-      "Head Fins Texture",
-      (8, 37, 3, 3),
-      (273, 7, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Top Right Fin's Backside
-      "Head Fins Texture",
-      (3, 37, 3, 3),
-      (299, 7, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Top Right Fin's Frontside
-      "Head Fins Texture",
-      (8, 37, 3, 3),
-      (323, 7, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Left Fin's Backside
-      "Head Fins Texture",
-      (0, 40, 3, 4),
-      (268, 41, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Right Fin's Backside
-      "Head Fins Texture",
-      (11, 40, 3, 4),
-      (304, 41, 24, 32),
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Right Fin's Frontside
-      "Head Fins Texture",
-      (0, 40, 3, 4),
-      (268, 73, 24, 32),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      //Middle Left Fin's Frontside
-      "Head Fins Texture",
-      (11, 40, 3, 4),
-      (304, 73, 24, 32),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Left Fin's Backside
-      "Head Fins Texture",
-      (0, 44, 3, 3),
-      (268, 110, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Left Fin's Frontside
-      "Head Fins Texture",
-      (11, 44, 3, 3),
-      (304, 110, 24, 24),
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Right Fin's Backside
-      "Head Fins Texture",
-      (0, 44, 3, 3),
-      (268, 134, 24, 24),
-      ~flip=#Vertical,
-      (),
-    )
-    Generator.drawTexture(
-      //Bottom Right Fin's Frontside
-      "Head Fins Texture",
-      (11, 44, 3, 3),
-      (304, 134, 24, 24),
-      ~flip=#Vertical,
-      (),
-    )
+    drawHeadFinsTexture()
   }
 
-  // Background
   Generator.drawImage("Background", (0, 0))
 
-  // Folds
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
   }
 
-  // Labels
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
