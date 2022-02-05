@@ -5,6 +5,8 @@ let id = "minecraft-axolotl-character"
 
 let name = "Minecraft Axolotl Character"
 
+let history = ["Feb 2022 M16 - Initial script developed."]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2thumbnail_256.jpeg"),
 }
@@ -1005,6 +1007,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

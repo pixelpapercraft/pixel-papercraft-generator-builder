@@ -5,6 +5,13 @@ let id = "minecraft-cow-character"
 
 let name = "Minecraft Cow Character"
 
+let history = [
+  "Originally created by Poekoko.",
+  "13 Feb 2015 lostminer - Update to use new version of generator.",
+  "29 Sep 2020 NinjolasNJM - Updated to work with 1.8+ Skins.",
+  "17 Jul 2021 M16 - Updated generator photo.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
@@ -669,6 +676,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

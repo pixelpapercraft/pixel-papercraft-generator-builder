@@ -7,6 +7,8 @@ let id = "amogus-bendable"
 
 let name = "Amogus Bendable"
 
+let history = ["Jan 2022 PaperDogChannel - First release."]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
@@ -261,6 +263,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: Some(<Markdown> {instructions} </Markdown>),

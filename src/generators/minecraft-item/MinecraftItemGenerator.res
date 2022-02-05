@@ -6,6 +6,11 @@ let id = "minecraft-item"
 
 let name = "Minecraft Item"
 
+let history = [
+  "26 Jan 2022 lostminer - First release.",
+  "05 Feb 2022 NinjolasNJM - Added fold lines and gap removal feature.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
@@ -272,6 +277,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Markdown> {instructions} </Markdown>),

@@ -4,10 +4,15 @@ let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileNam
 let id = "minecraft-mutant-character"
 
 let name = "Mutant Character"
+
+let history = ["Created by PaperDogChannel."]
+
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/DVzumgRinjY?rel=0"}
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
+
 let images: array<Generator.imageDef> = [
   {id: "Page1", url: requireImage("Page1.png")},
   {id: "Page2", url: requireImage("Page2.png")},
@@ -984,6 +989,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,

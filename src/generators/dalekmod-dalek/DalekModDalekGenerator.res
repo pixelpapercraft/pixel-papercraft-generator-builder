@@ -5,6 +5,11 @@ let id = "dalek"
 
 let name = "Doctor Who Dalek"
 
+let history = [
+  "gootube2000 - First release.",
+  "13 Feb 2015 lostminer - Update to use new version of generator.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
 }
@@ -332,6 +337,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(instructions),

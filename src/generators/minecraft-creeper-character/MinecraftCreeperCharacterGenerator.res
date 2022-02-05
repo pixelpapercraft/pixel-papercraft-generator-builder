@@ -5,6 +5,12 @@ let id = "minecraft-creeper-character"
 
 let name = "Minecraft Creeper Character"
 
+let history = [
+  "Created by CanadaCraft, template by BrickyBoy99.",
+  "13 Sep 2020 NinjolasNJM - Updated to work with 1.8+ Skins.",
+  "17 Jul 2021 M16 - Updated generator photo.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
@@ -336,6 +342,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

@@ -77,6 +77,24 @@ module GeneratorInstructions = {
   }
 }
 
+module GeneratorHistory = {
+  @react.component
+  let make = (~generatorDef: Generator.generatorDef) => {
+    if Belt.Array.length(generatorDef.history) > 0 {
+      <div className="pt-16 text-gray-500">
+        <h1 className="font-bold text-2xl mb-4"> {React.string("Updates")} </h1>
+        <ul className="list-disc list-outside ml-4">
+          {Belt.Array.mapWithIndex(generatorDef.history, (index, history) => {
+            <li key={Belt.Int.toString(index)} className="mb-2"> {history->React.string} </li>
+          })->React.array}
+        </ul>
+      </div>
+    } else {
+      React.null
+    }
+  }
+}
+
 @react.component
 let make = (
   ~generatorDef: Builder.generatorDef,
@@ -155,6 +173,7 @@ let make = (
           | None => React.null
           | Some(afterInputs) => <div> afterInputs </div>
           }}
+          <GeneratorHistory generatorDef />
         </div>
       </div>
     }}

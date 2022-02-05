@@ -5,6 +5,11 @@ let id = "minecraft-character-mini"
 
 let name = "Minecraft Character Mini"
 
+let history = [
+  "13 Sep 2015 Sandvich - First release using the generator builder.",
+  "17 Sep 2020 NinjolasNJM - Added support for Alex skins and fixed bottom of legs.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
@@ -549,6 +554,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

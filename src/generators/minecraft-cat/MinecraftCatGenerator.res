@@ -5,6 +5,12 @@ let id = "minecraft-cat"
 
 let name = "Minecraft Cat"
 
+let history = [
+  "Originally created by Micaias32.",
+  "15 Mar 2021 Micaias32 - All cats of 1.14.",
+  "03 Feb 2022 NinjolasNJM - Converted to new generator builder, with updated backgrounds, folds and labels, as well as improved texture mappping and collar handling.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
@@ -429,6 +435,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

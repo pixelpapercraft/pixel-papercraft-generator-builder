@@ -5,6 +5,16 @@ let id = "minecraft-character"
 
 let name = "Minecraft Character"
 
+let history = [
+  "01 Feb 2015 gootube2000 - First release.",
+  "05 Feb 2015 gootube2000 - Fixed orientation of the hands, feet and under the head.",
+  "13 Feb 2015 lostminer - Update to use new version of generator.",
+  "20 Feb 2015 lostminer - Make background non-transparent.",
+  "02 Oct 2020 NinjolasNJM - Combined Steve and Alex Generators into one.",
+  "27 May 2021 lostminer - Convert to ReScript generator.",
+  "17 Jul 2021 M16 - Updated generator photo.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
@@ -280,6 +290,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),

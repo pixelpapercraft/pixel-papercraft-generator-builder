@@ -4,6 +4,17 @@ let id = "minecraft-pig"
 
 let name = "Minecraft Pig"
 
+let history = [
+  "Originally created by TepigMC.",
+  "06 Feb 2015 lostminer: Add user variables.",
+  "13 Feb 2015 lostminer: Update to use new version of generator.",
+  "25 Feb 2015 TepigMC: Modified images; Fix drawing errors.",
+  "26 Feb 2015 TepigMC: Removed missing texture checks; Rename files.",
+  "27 Feb 2015 TepigMC: Compacted backgrounds and folds into sprite files.",
+  "28 Feb 2015 TepigMC: Compacted labels and titles into sprite files; Added \"Advanced (Standard)\" head. Added \"Show Helmet Overlay\" option; Added texture options.",
+  "09 Mar 2015 TepigMC: Fixed small bug with ultra mini pig.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
@@ -1175,6 +1186,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(instructions),

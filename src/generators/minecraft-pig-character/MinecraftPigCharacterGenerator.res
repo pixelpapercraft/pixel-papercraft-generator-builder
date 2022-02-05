@@ -4,6 +4,13 @@ let id = "minecraft-pig-character"
 
 let name = "Minecraft Pig Character"
 
+let history = [
+  "Originally developed by aaronhawksley.",
+  "06 Feb 2015 lostminer: Add user variables.",
+  "13 Feb 2015 lostminer: Update to use new version of generator.",
+  "13 Sep 2020 NinjolasNJM: Updated to use 1.8+ Skins.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
@@ -1400,6 +1407,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

@@ -7,6 +7,8 @@ let id = "testing"
 
 let name = "Testing"
 
+let history = []
+
 let images: array<Generator.imageDef> = [
   {
     id: "Grid",
@@ -342,6 +344,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: None,
   video: None,
   instructions: None,

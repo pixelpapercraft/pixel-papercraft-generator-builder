@@ -23,6 +23,7 @@ type instructionsDef = React.element
 type generatorDef = {
   id: string,
   name: string,
+  history: array<string>,
   thumbnail: option<thumnbnailDef>,
   video: option<videoDef>,
   instructions: option<instructionsDef>,

@@ -5,6 +5,8 @@ let id = "minecraft-wither"
 
 let name = "Minecraft Wither"
 
+let history = ["01 Aug 2021 Hannibanni - Created."]
+
 let instructions: Generator.instructionsDef = {
   open Generator.Markup
   let witherTexture = Generator.requireImage("./instructions/wither.png")
@@ -625,6 +627,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: None,
   video: None,
   instructions: Some(instructions),
