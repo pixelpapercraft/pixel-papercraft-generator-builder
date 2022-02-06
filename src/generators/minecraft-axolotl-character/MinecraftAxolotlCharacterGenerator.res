@@ -73,14 +73,6 @@ let bottomOf = ((x, y, w, h), n) => (x, y + h - n, w, n)
 let armOrLegPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
 let handOrFootPart = rectangle => bottomOf(rectangle, 1)
 
-// Leg and Foot
-let legPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
-let footPart = rectangle => bottomOf(rectangle, 1)
-
-// Arm and Hand
-let armPart = rectangle => topOf(rectangle, heightOf(rectangle) - 1)
-let handPart = rectangle => bottomOf(rectangle, 1)
-
 let drawHead = (layer: TextureMap.MinecraftCharacter.layer, faceStretch: int) => {
   let {head} = layer
   let offset = switch faceStretch {
