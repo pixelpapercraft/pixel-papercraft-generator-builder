@@ -224,29 +224,18 @@ let drawMini = (textureId: string, x: int, y: int) => {
     Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
     let modelType = Generator.getSelectInputValue(modelTypeName)
 
-    let headOverlayName = textureId ++ " Head Overlay"
-    Generator.defineBooleanInput(headOverlayName, true)
-    let showHeadOverlay = Generator.getBooleanInputValue(headOverlayName)
-
-    let bodyOverlayName = textureId ++ " Body Overlay"
-    Generator.defineBooleanInput(bodyOverlayName, true)
-    let showBodyOverlay = Generator.getBooleanInputValue(bodyOverlayName)
-
-    let armOverlayName = textureId ++ " Arm Overlay"
-    Generator.defineBooleanInput(armOverlayName, true)
-    let showArmOverlay = Generator.getBooleanInputValue(armOverlayName)
-
-    let legOverlayName = textureId ++ " Leg Overlay"
-    Generator.defineBooleanInput(legOverlayName, true)
-    let showLegOverlay = Generator.getBooleanInputValue(legOverlayName)
-
-    let bodyHeightName = textureId ++ " Body Height"
-    Generator.defineRangeInput(bodyHeightName, {min: 0, max: 64, value: 32, step: 1})
-    let bodyHeight = Generator.getRangeInputValue(bodyHeightName)
-
-    let textureStyleName = textureId ++ " Texture Style"
-    Generator.defineSelectInput(textureStyleName, ["Simple", "Detailed"])
-    let textureStyle = Generator.getSelectInputValue(textureStyleName)
+    let showHeadOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Head Overlay", true)
+    let showBodyOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Body Overlay", true)
+    let showArmOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Arm Overlay", true)
+    let showLegOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Leg Overlay", true)
+    let bodyHeight = Generator.defineAndGetRangeInput(
+      textureId ++ " Body Height",
+      {min: 0, max: 64, value: 32, step: 1},
+    )
+    let textureStyle = Generator.defineAndGetSelectInput(
+      textureId ++ " Texture Style",
+      ["Simple", "Detailed"],
+    )
 
     let isAlexModel = modelType === "Alex"
     let pixelate = textureStyle === "Simple"

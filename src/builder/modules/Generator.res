@@ -27,6 +27,10 @@ let clearStringInputValues = () => {
   model := Builder.clearStringInputValues(model.contents)
 }
 
+let defineButtonInput = (id, onClick) => {
+  model := Builder.defineButtonInput(model.contents, id, onClick)
+}
+
 let defineRegionInput = (region, callback) => {
   model := Builder.defineRegionInput(model.contents, region, callback)
 }
@@ -43,28 +47,25 @@ let setStringInputValue = (id: string, value: string) => {
   model := Builder.setStringInputValue(model.contents, id, value)
 }
 
-let defineBooleanInput = (id, initial) => {
-  model := Builder.defineBooleanInput(model.contents, id, initial)
-}
-
-let defineButtonInput = (id, onClick) => {
-  model := Builder.defineButtonInput(model.contents, id, onClick)
+let getBooleanInputValue = (id: string) => {
+  Builder.getBooleanInputValue(model.contents, id)
 }
 
 let setBooleanInputValue = (id, value) => {
   model := Builder.setBooleanInputValue(model.contents, id, value)
 }
 
-let getBooleanInputValue = (id: string) => {
-  Builder.getBooleanInputValue(model.contents, id)
+let defineBooleanInput = (id, initial) => {
+  model := Builder.defineBooleanInput(model.contents, id, initial)
+}
+
+let defineAndGetBooleanInput = (id, initial) => {
+  defineBooleanInput(id, initial)
+  getBooleanInputValue(id)
 }
 
 let getBooleanInputValueWithDefault = (id: string, default: bool) => {
   Builder.getBooleanInputValueWithDefault(model.contents, id, default)
-}
-
-let defineSelectInput = (id, options) => {
-  model := Builder.defineSelectInput(model.contents, id, options)
 }
 
 let setSelectInputValue = (id, value) => {
@@ -75,12 +76,26 @@ let getSelectInputValue = (id: string) => {
   Builder.getSelectInputValue(model.contents, id)
 }
 
-let defineRangeInput = (id: string, options) => {
-  model := Builder.defineRangeInput(model.contents, id, options)
+let defineSelectInput = (id, options) => {
+  model := Builder.defineSelectInput(model.contents, id, options)
+}
+
+let defineAndGetSelectInput = (id, options) => {
+  defineSelectInput(id, options)
+  getSelectInputValue(id)
 }
 
 let getRangeInputValue = (id: string) => {
   Builder.getRangeInputValue(model.contents, id)
+}
+
+let defineRangeInput = (id: string, options) => {
+  model := Builder.defineRangeInput(model.contents, id, options)
+}
+
+let defineAndGetRangeInput = (id: string, options) => {
+  defineRangeInput(id, options)
+  getRangeInputValue(id)
 }
 
 let defineTextureInput = (id: string, options) => {
