@@ -11,6 +11,8 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
+let video: Generator.videoDef = {url: "https://www.youtube.com/embed/QVRD8Bl_hjA?rel=0"}
+
 let imageIds = ["Background", "Folds", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
@@ -367,7 +369,7 @@ let generator: Generator.generatorDef = {
   name: name,
   history: history,
   thumbnail: Some(thumbnail),
-  video: None,
+  video: Some(video),
   instructions: None,
   images: images,
   textures: textures,
