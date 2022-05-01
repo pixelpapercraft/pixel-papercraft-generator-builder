@@ -1,9 +1,13 @@
+module PageSize = Generator.PageSize
+
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
 let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
 let id = "testing"
 
 let name = "Testing"
+
+let history = []
 
 let images: array<Generator.imageDef> = [
   {
@@ -13,6 +17,12 @@ let images: array<Generator.imageDef> = [
 ]
 
 let textures: array<Generator.textureDef> = [
+  {
+    id: "Colors",
+    url: requireTexture("Colors.png"),
+    standardWidth: 4,
+    standardHeight: 4,
+  },
   {
     id: "Creeper",
     url: requireTexture("Creeper.png"),
@@ -217,14 +227,80 @@ let drawPage = (texture, src) => {
   Generator.drawTexture(texture, src, dst(3, 5), ~rotate=180.0, ~flip=#Vertical, ())
 }
 
+let rgbaToHex: ((int, int, int, int)) => string = %raw(`
+  function rgbaToHex(rgba) {
+    let r = rgba[0].toString(16);
+    let g = rgba[1].toString(16);
+    let b = rgba[2].toString(16);
+    let a = rgba[3].toString(16);
+
+    if (r.length == 1)
+      r = "0" + r;
+    if (g.length == 1)
+      g = "0" + g;
+    if (b.length == 1)
+      b = "0" + b;
+    if (a.length == 1)
+      a = "0" + a;
+
+    return "#" + r + g + b + a;
+  }
+`)
+
 let script = () => {
   Generator.defineText("Test page for some generator features.")
 
-  Generator.defineButtonInput("Example Button Input", () => {
-    Js.log("Hello")
+  // Define a counter variable, with a default value of 1
+  let counter =
+    Generator.getSelectInputValue("Counter")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
+
+  // Show the counter
+  Generator.defineText("Counter is " ++ Belt.Int.toString(counter))
+
+  // Define a button that increments the counter
+  Generator.defineButtonInput("Increment Counter", () => {
+    let nextCounter = counter >= 6 ? 1 : counter + 1
+    let nextCounterString = Belt.Int.toString(nextCounter)
+    Generator.setSelectInputValue("Counter", nextCounterString)
   })
 
+  Generator.defineText("Pixel color test")
+
+  let color00 = switch Generator.getTexturePixelColor("Colors", 0, 0) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let color11 = switch Generator.getTexturePixelColor("Colors", 1, 1) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let color22 = switch Generator.getTexturePixelColor("Colors", 2, 2) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let color33 = switch Generator.getTexturePixelColor("Colors", 3, 3) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  Generator.defineText(color00)
+  Generator.defineText(color11)
+  Generator.defineText(color22)
+  Generator.defineText(color33)
+
+  // Use a page (this is needed for region inputs to work)
   Generator.usePage("Page 1")
+
+  // Define a region that increments the counter
+  Generator.defineRegionInput((0, 0, 100, 100), () => {
+    let nextCounter = counter >= 6 ? 1 : counter + 1
+    let nextCounterString = Belt.Int.toString(nextCounter)
+    Generator.setSelectInputValue("Counter", nextCounterString)
+  })
+
   drawPage("Steve", (8, 8, 8, 8))
 
   Generator.usePage("Page 2")
@@ -268,6 +344,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: None,
   video: None,
   instructions: None,

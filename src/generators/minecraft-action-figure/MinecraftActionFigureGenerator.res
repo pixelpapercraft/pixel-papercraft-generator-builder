@@ -5,8 +5,16 @@ let id = "minecraft-action-figure"
 
 let name = "Minecraft Action Figure"
 
+let history = [
+  "16 Aug 2020 NinjolasNJM - Initial script finished.",
+  "03 Oct 2020 NinjolasNJM - Added Alex support and Hand Notches.",
+  "09 Oct 2020 NinjolasNJM - Tweaked pelvis, bottom of body and leg height.",
+  "24 Feb 2021 NinjolasNJM - Moved pelvis so that the leg's pivot point is accurate to the game, changed leg height accordingly.",
+  "06 Jun 2021 NinjolasNJM - Converted to ReScript generator.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Backgroundalex", "Backgroundsteve", "Foldsalex", "Foldssteve", "Labels", "Notch"]
@@ -655,6 +663,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

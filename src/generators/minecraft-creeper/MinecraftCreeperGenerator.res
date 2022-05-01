@@ -5,33 +5,39 @@ let id = "minecraft-creeper"
 
 let name = "Minecraft Creeper"
 
+let history = [
+  "Originally developed by gootube2000.",
+  "19 Jun 2014 lostminer - Fix glitch in body, Make back legs face forward rather than backward.",
+  "06 Feb 2015 lostminer - Add user variables.",
+  "13 Feb 2015 lostminer - Update to use new version of generator.",
+  "29 Sep 2020 NinjolasNJM - Fixed bottom textures.",
+  "06 Jun 2021 NinjolasNJM - Converted to ReScript generator.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
-let instructions: Generator.instructionsDef = {
-  open Generator.Markup
+let instructions = {
   let creeperTexture = requireTexture("creeper")
-  <div>
-    <H2> {"How to use the Minecraft Creeper Generator?"->React.string} </H2>
-    <H3> {"Option 1: Use a texture pack or mod Creeper skin"->React.string} </H3>
-    <OL>
-      <LI> {"Download your favourite texture pack or mod."->React.string} </LI>
-      <LI> {"Find the creeper.png file."->React.string} </LI>
-      <LI> {"Select this file in the generator."->React.string} </LI>
-      <LI> {"Download and print your new Creeper papercraft."->React.string} </LI>
-    </OL>
-    <H3> {"Option 2: Create your own Creeper skin"->React.string} </H3>
-    <OL>
-      <LI>
-        {"Download a sample Creeper skin."->React.string}
-        <a href={creeperTexture}> <img className="border p-1" src={creeperTexture} /> </a>
-      </LI>
-      <LI> {"Edit this skin in your favourite graphics program."->React.string} </LI>
-      <LI> {"Select this file in the generator."->React.string} </LI>
-      <LI> {"Download and print your new Creeper papercraft."->React.string} </LI>
-    </OL>
-  </div>
+  `
+## How to use the Minecraft Creeper Generator?
+
+### Option 1: Use a texture pack or mod Creeper skin
+
+* Download your favourite texture pack or mod.
+* Find the **creeper.png** texture file.
+* Select this file in the generator.
+* "Download and print your new Creeper papercraft. 
+
+## Option 2: Create your own Creeper skin
+
+* Download a sample Creeper texture (right click and save):
+  ![Creeper Texture](${creeperTexture})
+* Edit this texture in your favourite graphics program.
+* Select this file in the generator.
+* Download and print your new Creeper papercraft.
+`
 }
 
 let imageIds = [
@@ -360,9 +366,10 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
-  instructions: Some(instructions),
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,

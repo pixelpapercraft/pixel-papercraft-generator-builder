@@ -5,6 +5,12 @@ let id = "minecraft-character-mini"
 
 let name = "Minecraft Character Mini"
 
+let history = [
+  "13 Sep 2015 Sandvich - First release using the generator builder.",
+  "17 Sep 2020 NinjolasNJM - Added support for Alex skins and fixed bottom of legs.",
+  "11 Feb 2022 LostMiner - Refactor. Add pixelate option.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
@@ -20,731 +26,296 @@ let images: array<Generator.imageDef> = [
   },
 ]
 
+let steveSkin = requireTexture("SkinSteve64x64")
+let alexSkin = requireTexture("SkinAlex64x64")
+
 let textures: array<Generator.textureDef> = [
+  // Default texture for "Mini 1"
   {
-    id: "Skin",
-    url: requireTexture("Steve"),
+    id: "Mini 1",
+    url: steveSkin,
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  // Steve texture choice
+  {
+    id: "Steve",
+    url: steveSkin,
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  // Alex texture choice
+  {
+    id: "Alex",
+    url: alexSkin,
     standardWidth: 64,
     standardHeight: 64,
   },
 ]
 
-let steve = TextureMap.MinecraftCharacterLegacy.steve
-let alex = TextureMap.MinecraftCharacterLegacy.alex
+let steve = TextureMap.MinecraftCharacter.steve
+let alex = TextureMap.MinecraftCharacter.alex
 
-type options = {
-  skin: string,
-  x: int,
-  y: int,
-  alexModel: bool,
-  showHeadOverlay: bool,
-  showBodyOverlay: bool,
-  showArmOverlay: bool,
-  showLegOverlay: bool,
-  bodyHeight: int,
+let drawHead = (textureId: string, layer: TextureMap.MinecraftCharacter.layer, ox, oy) => {
+  Generator.drawTexture(textureId, layer.head.right, (ox, oy, 64, 64), ())
+  Generator.drawTexture(textureId, layer.head.front, (ox + 64, oy, 64, 64), ())
+  Generator.drawTexture(textureId, layer.head.left, (ox + 128, oy, 64, 64), ())
+  Generator.drawTexture(textureId, layer.head.back, (ox + 192, oy, 64, 64), ())
+  Generator.drawTexture(textureId, layer.head.top, (ox + 64, oy - 64, 64, 64), ())
 }
 
-let drawMini = (options: options) => {
-  let skin = options.skin
-  let x = options.x
-  let y = options.y
-  let alexModel = options.alexModel
-  let showHeadOverlay = options.showHeadOverlay
-  let showBodyOverlay = options.showBodyOverlay
-  let showArmOverlay = options.showArmOverlay
-  let showLegOverlay = options.showLegOverlay
-  let bodyHeight = options.bodyHeight
+let drawHeadFlaps = (textureId: string, layer: TextureMap.MinecraftCharacter.layer, ox, oy) => {
+  Generator.drawTexture(textureId, layer.head.right, (ox, oy, 64, 64), ~rotate=90.0, ())
+  Generator.drawTexture(textureId, layer.head.left, (ox + 128, oy, 64, 64), ~rotate=-90.0, ())
+}
+
+let drawBody = (
+  textureId: string,
+  layer: TextureMap.MinecraftCharacter.layer,
+  ox,
+  oy,
+  bodyHeight,
+  pixelate,
+) => {
+  Generator.drawTexture(textureId, layer.body.right, (ox, oy, 64, bodyHeight), ~pixelate, ())
+  Generator.drawTexture(textureId, layer.body.front, (ox + 64, oy, 64, bodyHeight), ~pixelate, ())
+  Generator.drawTexture(textureId, layer.body.left, (ox + 128, oy, 64, bodyHeight), ~pixelate, ())
+  Generator.drawTexture(textureId, layer.body.back, (ox + 192, oy, 64, bodyHeight), ~pixelate, ())
+}
+
+let drawRightArm = (
+  textureId: string,
+  layer: TextureMap.MinecraftCharacter.layer,
+  ox,
+  oy,
+  pixelate,
+) => {
+  Generator.drawTexture(
+    textureId,
+    layer.rightArm.left,
+    (ox, oy, 32, 48),
+    ~rotate=90.0,
+    ~pixelate,
+    (),
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.rightArm.right,
+    (ox, oy + 32, 32, 48),
+    ~rotate=90.0,
+    ~pixelate,
+    (),
+  )
+}
+
+let drawLeftArm = (
+  textureId: string,
+  layer: TextureMap.MinecraftCharacter.layer,
+  ox,
+  oy,
+  pixelate,
+) => {
+  Generator.drawTexture(
+    textureId,
+    layer.leftArm.right,
+    (ox, oy, 32, 48),
+    ~rotate=-90.0,
+    ~pixelate,
+    (),
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.leftArm.left,
+    (ox, oy + 32, 32, 48),
+    ~rotate=-90.0,
+    ~pixelate,
+    (),
+  )
+}
+
+let drawRightLeg = (
+  textureId: string,
+  layer: TextureMap.MinecraftCharacter.layer,
+  ox,
+  oy,
+  bodyHeight,
+  pixelate,
+) => {
   let legHeight = 64 - bodyHeight
-
-  // Skin background
-  Generator.drawImage("Skin Background", (x, y))
-
-  // Head
-  let ox = x + 49
-  let oy = y + 90
-  Generator.drawTextureLegacy(skin, steve.base.head.right, {x: ox, y: oy, w: 64, h: 64}, ()) // Right
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.head.front,
-    {
-      x: ox + 64,
-      y: oy,
-      w: 64,
-      h: 64,
-    },
+  Generator.drawTexture(
+    textureId,
+    layer.rightLeg.front,
+    (ox + 64, oy + bodyHeight, 32, legHeight),
+    ~pixelate,
     (),
-  ) // Face
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.head.left,
-    {
-      x: ox + 128,
-      y: oy,
-      w: 64,
-      h: 64,
-    },
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.rightLeg.right,
+    (ox, oy + bodyHeight, 64, legHeight),
+    ~pixelate,
     (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.head.back,
-    {
-      x: ox + 192,
-      y: oy,
-      w: 64,
-      h: 64,
-    },
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.rightLeg.back,
+    (ox + 224, oy + bodyHeight, 32, legHeight),
+    ~pixelate,
     (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.head.top,
-    {
-      x: ox + 64,
-      y: oy - 64,
-      w: 64,
-      h: 64,
-    },
-    (),
-  ) // Top
-
-  // head overlay
-  if showHeadOverlay {
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.right,
-      {
-        x: ox,
-        y: oy,
-        w: 64,
-        h: 64,
-      },
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.front,
-      {
-        x: ox + 64,
-        y: oy,
-        w: 64,
-        h: 64,
-      },
-      (),
-    ) // Face
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.left,
-      {
-        x: ox + 128,
-        y: oy,
-        w: 64,
-        h: 64,
-      },
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.back,
-      {
-        x: ox + 192,
-        y: oy,
-        w: 64,
-        h: 64,
-      },
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.top,
-      {
-        x: ox + 64,
-        y: oy - 64,
-        w: 64,
-        h: 64,
-      },
-      (),
-    )
-  }
-
-  //head flaps
-  let ox = x + 49
-  let oy = y + 26
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.head.right,
-    {x: ox + 64, y: oy, w: 64, h: 64},
-    ~rotateLegacy=90.0,
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.head.left,
-    {x: ox + 128, y: oy + 64, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    (),
-  ) // Left
-  if showHeadOverlay {
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.right,
-      {x: ox + 64, y: oy, w: 64, h: 64},
-      ~rotateLegacy=90.0,
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.head.left,
-      {x: ox + 128, y: oy + 64, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      (),
-    )
-  }
-
-  // Body
-  let ox = x + 49
-  let oy = y + 154
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.body.right,
-    {
-      x: ox,
-      y: oy,
-      w: 64,
-      h: bodyHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.body.front,
-    {
-      x: ox + 64,
-      y: oy,
-      w: 64,
-      h: bodyHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.body.left,
-    {
-      x: ox + 128,
-      y: oy,
-      w: 64,
-      h: bodyHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.body.back,
-    {
-      x: ox + 192,
-      y: oy,
-      w: 64,
-      h: bodyHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Back
-
-  // Body Overlay
-  if showBodyOverlay {
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.body.right,
-      {
-        x: ox,
-        y: oy,
-        w: 64,
-        h: bodyHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.body.front,
-      {
-        x: ox + 64,
-        y: oy,
-        w: 64,
-        h: bodyHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.body.left,
-      {
-        x: ox + 128,
-        y: oy,
-        w: 64,
-        h: bodyHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.body.back,
-      {
-        x: ox + 192,
-        y: oy,
-        w: 64,
-        h: bodyHeight,
-      },
-      ~pixelate=true,
-      (),
-    )
-  }
-
-  // Arms
-  if alexModel {
-    let ox = x + 49
-    let oy = y + 10
-    Generator.drawTextureLegacy(
-      skin,
-      alex.base.rightArm.left,
-      {x: ox, y: oy, w: 32, h: 48},
-      ~rotateLegacy=90.0,
-      ~pixelate=true,
-      (),
-    )
-    Generator.drawTextureLegacy(
-      skin,
-      alex.base.rightArm.right,
-      {x: ox, y: oy + 32, w: 32, h: 48},
-      ~rotateLegacy=90.0,
-      ~pixelate=true,
-      (),
-    )
-
-    if showArmOverlay {
-      Generator.drawTextureLegacy(
-        skin,
-        alex.overlay.rightArm.left,
-        {x: ox, y: oy, w: 32, h: 48},
-        ~rotateLegacy=90.0,
-        ~pixelate=true,
-        (),
-      )
-      Generator.drawTextureLegacy(
-        skin,
-        alex.overlay.rightArm.right,
-        {x: ox, y: oy + 32, w: 32, h: 48},
-        ~rotateLegacy=90.0,
-        ~pixelate=true,
-        (),
-      )
-    }
-
-    let ox = x + 241
-    let oy = y + 42
-    Generator.drawTextureLegacy(
-      skin,
-      alex.base.leftArm.right,
-      {x: ox, y: oy, w: 32, h: 48},
-      ~rotateLegacy=-90.0,
-      ~pixelate=true,
-      (),
-    )
-    Generator.drawTextureLegacy(
-      skin,
-      alex.base.leftArm.left,
-      {x: ox, y: oy + 32, w: 32, h: 48},
-      ~rotateLegacy=-90.0,
-      ~pixelate=true,
-      (),
-    )
-
-    if showArmOverlay {
-      Generator.drawTextureLegacy(
-        skin,
-        alex.overlay.leftArm.right,
-        {x: ox, y: oy, w: 32, h: 48},
-        ~rotateLegacy=-90.0,
-        ~pixelate=true,
-        (),
-      )
-      Generator.drawTextureLegacy(
-        skin,
-        alex.overlay.leftArm.left,
-        {x: ox, y: oy + 32, w: 32, h: 48},
-        ~rotateLegacy=-90.0,
-        ~pixelate=true,
-        (),
-      )
-    }
-  } else {
-    let ox = x + 49
-    let oy = y + 10
-    Generator.drawTextureLegacy(
-      skin,
-      steve.base.rightArm.left,
-      {x: ox, y: oy, w: 32, h: 48},
-      ~rotateLegacy=90.0,
-      ~pixelate=true,
-      (),
-    )
-    Generator.drawTextureLegacy(
-      skin,
-      steve.base.rightArm.right,
-      {x: ox, y: oy + 32, w: 32, h: 48},
-      ~rotateLegacy=90.0,
-      ~pixelate=true,
-      (),
-    )
-
-    if showArmOverlay {
-      Generator.drawTextureLegacy(
-        skin,
-        steve.overlay.rightArm.left,
-        {x: ox, y: oy, w: 32, h: 48},
-        ~rotateLegacy=90.0,
-        ~pixelate=true,
-        (),
-      )
-      Generator.drawTextureLegacy(
-        skin,
-        steve.overlay.rightArm.right,
-        {x: ox, y: oy + 32, w: 32, h: 48},
-        ~rotateLegacy=90.0,
-        ~pixelate=true,
-        (),
-      )
-    }
-
-    let ox = x + 241
-    let oy = y + 42
-    Generator.drawTextureLegacy(
-      skin,
-      steve.base.leftArm.right,
-      {x: ox, y: oy, w: 32, h: 48},
-      ~rotateLegacy=-90.0,
-      ~pixelate=true,
-      (),
-    )
-    Generator.drawTextureLegacy(
-      skin,
-      steve.base.leftArm.left,
-      {x: ox, y: oy + 32, w: 32, h: 48},
-      ~rotateLegacy=-90.0,
-      ~pixelate=true,
-      (),
-    )
-
-    if showArmOverlay {
-      Generator.drawTextureLegacy(
-        skin,
-        steve.overlay.leftArm.right,
-        {x: ox, y: oy, w: 32, h: 48},
-        ~rotateLegacy=-90.0,
-        ~pixelate=true,
-        (),
-      )
-      Generator.drawTextureLegacy(
-        skin,
-        steve.overlay.leftArm.left,
-        {x: ox, y: oy + 32, w: 32, h: 48},
-        ~rotateLegacy=-90.0,
-        ~pixelate=true,
-        (),
-      )
-    }
-  }
-
-  //legs
-  let ox = x + 49
-  let oy = y + 154
-
-  // Right Leg
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.rightLeg.front,
-    {
-      x: ox + 64,
-      y: oy + bodyHeight,
-      w: 32,
-      h: legHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.rightLeg.right,
-    {
-      x: ox,
-      y: oy + bodyHeight,
-      w: 64,
-      h: legHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.rightLeg.back,
-    {
-      x: ox + 224,
-      y: oy + bodyHeight,
-      w: 32,
-      h: legHeight,
-    },
-    ~pixelate=true,
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.rightLeg.bottom,
-    {x: ox + 64, y: oy + 64, w: 32, h: 64},
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.rightLeg.bottom,
+    (ox + 64, oy + 64, 32, 64),
     ~flip=#Vertical,
-    ~pixelate=true,
+    ~pixelate,
     (),
-  ) // Bottom
+  )
+}
 
-  // Left Leg
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.leftLeg.front,
-    {
-      x: ox + 96,
-      y: oy + bodyHeight,
-      w: 32,
-      h: legHeight,
-    },
-    ~pixelate=true,
+let drawLeftLeg = (
+  textureId: string,
+  layer: TextureMap.MinecraftCharacter.layer,
+  ox,
+  oy,
+  bodyHeight,
+  pixelate,
+) => {
+  let legHeight = 64 - bodyHeight
+  Generator.drawTexture(
+    textureId,
+    layer.leftLeg.front,
+    (ox + 96, oy + bodyHeight, 32, legHeight),
+    ~pixelate,
     (),
-  ) // Front
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.leftLeg.left,
-    {
-      x: ox + 128,
-      y: oy + bodyHeight,
-      w: 64,
-      h: legHeight,
-    },
-    ~pixelate=true,
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.leftLeg.left,
+    (ox + 128, oy + bodyHeight, 64, legHeight),
+    ~pixelate,
     (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.leftLeg.back,
-    {
-      x: ox + 192,
-      y: oy + bodyHeight,
-      w: 32,
-      h: legHeight,
-    },
-    ~pixelate=true,
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.leftLeg.back,
+    (ox + 192, oy + bodyHeight, 32, legHeight),
+    ~pixelate,
     (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    skin,
-    steve.base.leftLeg.bottom,
-    {x: ox + 96, y: oy + 64, w: 32, h: 64},
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.leftLeg.bottom,
+    (ox + 96, oy + 64, 32, 64),
     ~flip=#Vertical,
-    ~pixelate=true,
+    ~pixelate,
     (),
-  ) // Bottom
+  )
+}
 
-  if showLegOverlay {
+let drawMini = (textureId: string, x: int, y: int) => {
+  Generator.defineTextureInput(
+    textureId,
+    {standardWidth: 64, standardHeight: 64, choices: ["Steve", "Alex"]},
+  )
+
+  if Generator.hasTexture(textureId) {
+    let modelTypeName = textureId ++ " Model Type"
+    Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
+    let modelType = Generator.getSelectInputValue(modelTypeName)
+
+    let showHeadOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Head Overlay", true)
+    let showBodyOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Body Overlay", true)
+    let showArmOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Arm Overlay", true)
+    let showLegOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Leg Overlay", true)
+    let bodyHeight = Generator.defineAndGetRangeInput(
+      textureId ++ " Body Height",
+      {min: 0, max: 64, value: 32, step: 1},
+    )
+    let textureStyle = Generator.defineAndGetSelectInput(
+      textureId ++ " Texture Style",
+      ["Simple", "Detailed"],
+    )
+
+    let isAlexModel = modelType === "Alex"
+    let pixelate = textureStyle === "Simple"
+
+    // Skin Background
+    Generator.drawImage("Skin Background", (x, y))
+
+    // Head
+    let ox = x + 49
+    let oy = y + 90
+    drawHead(textureId, steve.base, ox, oy)
+    if showHeadOverlay {
+      drawHead(textureId, steve.overlay, ox, oy)
+    }
+
+    // Head Flaps
+    let ox = x + 49
+    let oy = y + 26
+    drawHeadFlaps(textureId, steve.base, ox, oy)
+    if showHeadOverlay {
+      drawHeadFlaps(textureId, steve.overlay, ox, oy)
+    }
+
+    // Body
+    let ox = x + 49
+    let oy = y + 154
+    drawBody(textureId, steve.base, ox, oy, bodyHeight, pixelate)
+    if showBodyOverlay {
+      drawBody(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
+    }
+
+    // Arms
+    let armTexture = isAlexModel ? alex : steve
+
+    // Right Arm
+    let ox = x + 9
+    let oy = y + 2
+    drawRightArm(textureId, armTexture.base, ox, oy, pixelate)
+    if showArmOverlay {
+      drawRightArm(textureId, armTexture.overlay, ox, oy, pixelate)
+    }
+
+    // Left Arm
+    let ox = x + 249
+    let oy = y + 2
+    drawLeftArm(textureId, armTexture.base, ox, oy, pixelate)
+    if showArmOverlay {
+      drawLeftArm(textureId, armTexture.overlay, ox, oy, pixelate)
+    }
+
+    // Legs
+    let ox = x + 49
+    let oy = y + 154
+
     // Right Leg
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.rightLeg.front,
-      {
-        x: ox + 64,
-        y: oy + bodyHeight,
-        w: 32,
-        h: legHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.rightLeg.right,
-      {
-        x: ox,
-        y: oy + bodyHeight,
-        w: 64,
-        h: legHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.rightLeg.back,
-      {
-        x: ox + 224,
-        y: oy + bodyHeight,
-        w: 32,
-        h: legHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.rightLeg.bottom,
-      {x: ox + 64, y: oy + 64, w: 32, h: 64},
-      ~flip=#Vertical,
-      ~pixelate=true,
-      (),
-    ) // Bottom
+    drawRightLeg(textureId, steve.base, ox, oy, bodyHeight, pixelate)
+    if showLegOverlay {
+      drawRightLeg(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
+    }
 
-    // Left
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.leftLeg.front,
-      {
-        x: ox + 96,
-        y: oy + bodyHeight,
-        w: 32,
-        h: legHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Front
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.leftLeg.left,
-      {
-        x: ox + 128,
-        y: oy + bodyHeight,
-        w: 64,
-        h: legHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.leftLeg.back,
-      {
-        x: ox + 192,
-        y: oy + bodyHeight,
-        w: 32,
-        h: legHeight,
-      },
-      ~pixelate=true,
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      skin,
-      steve.overlay.leftLeg.bottom,
-      {x: ox + 96, y: oy + 64, w: 32, h: 64},
-      ~flip=#Vertical,
-      ~pixelate=true,
-      (),
-    )
+    // Left Leg
+    drawLeftLeg(textureId, steve.base, ox, oy, bodyHeight, pixelate)
+    if showLegOverlay {
+      drawLeftLeg(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
+    }
+
+    // Draw the fold and cut lines
+    Generator.drawImage("Skin Overlay", (x, y))
   }
-
-  // Draw the fold and cut lines
-  Generator.drawImage("Skin Overlay", (x, y))
 }
 
 let script = () => {
-  // Define the user inputs
-  Generator.defineTextureInput("Skin 1", {standardWidth: 64, standardHeight: 64, choices: []})
-  Generator.defineTextureInput("Skin 2", {standardWidth: 64, standardHeight: 64, choices: []})
-
-  let showSkin1 = Generator.hasTexture("Skin 1")
-  let showSkin2 = Generator.hasTexture("Skin 2")
-
-  if showSkin1 {
-    Generator.defineSelectInput("Skin 1 Model Type", ["Steve", "Alex"])
-    let modelType1 = Generator.getSelectInputValue("Skin 1 Model Type")
-
-    Generator.defineBooleanInput("Skin 1 Head Overlay", true)
-    Generator.defineBooleanInput("Skin 1 Body Overlay", true)
-    Generator.defineBooleanInput("Skin 1 Arm Overlay", true)
-    Generator.defineBooleanInput("Skin 1 Leg Overlay", true)
-    Generator.defineRangeInput(
-      "Skin 1 Body Height",
-      {
-        min: 0,
-        max: 64,
-        value: 32,
-        step: 1,
-      },
-    )
-
-    let alexModel1 = modelType1 === "Alex"
-    let showSkin1HeadOverlay = Generator.getBooleanInputValue("Skin 1 Head Overlay")
-    let showSkin1BodyOverlay = Generator.getBooleanInputValue("Skin 1 Body Overlay")
-    let showSkin1ArmOverlay = Generator.getBooleanInputValue("Skin 1 Arm Overlay")
-    let showSkin1LegOverlay = Generator.getBooleanInputValue("Skin 1 Leg Overlay")
-    let skin1BodyHeight = Generator.getRangeInputValue("Skin 1 Body Height")
-
-    let skin1Options = {
-      skin: "Skin 1",
-      x: 151,
-      y: 108,
-      alexModel: alexModel1,
-      showHeadOverlay: showSkin1HeadOverlay,
-      showBodyOverlay: showSkin1BodyOverlay,
-      showArmOverlay: showSkin1ArmOverlay,
-      showLegOverlay: showSkin1LegOverlay,
-      bodyHeight: skin1BodyHeight,
-    }
-
-    drawMini(skin1Options)
-  }
-
-  if showSkin2 {
-    Generator.defineSelectInput("Skin 2 Model Type", ["Steve", "Alex"])
-    let modelType2 = Generator.getSelectInputValue("Skin 2 Model Type")
-
-    Generator.defineBooleanInput("Skin 2 Head Overlay", true)
-    Generator.defineBooleanInput("Skin 2 Body Overlay", true)
-    Generator.defineBooleanInput("Skin 2 Arm Overlay", true)
-    Generator.defineBooleanInput("Skin 2 Leg Overlay", true)
-    Generator.defineRangeInput(
-      "Skin 2 Body Height",
-      {
-        min: 0,
-        max: 64,
-        value: 32,
-        step: 1,
-      },
-    )
-
-    let alexModel2 = modelType2 === "Alex"
-    let showSkin2HeadOverlay = Generator.getBooleanInputValue("Skin 2 Head Overlay")
-    let showSkin2BodyOverlay = Generator.getBooleanInputValue("Skin 2 Body Overlay")
-    let showSkin2ArmOverlay = Generator.getBooleanInputValue("Skin 2 Arm Overlay")
-    let showSkin2LegOverlay = Generator.getBooleanInputValue("Skin 2 Leg Overlay")
-    let skin2BodyHeight = +Generator.getRangeInputValue("Skin 2 Body Height")
-    let skin2Options = {
-      skin: "Skin 2",
-      x: 151,
-      y: 453,
-      alexModel: alexModel2,
-      showHeadOverlay: showSkin2HeadOverlay,
-      showBodyOverlay: showSkin2BodyOverlay,
-      showArmOverlay: showSkin2ArmOverlay,
-      showLegOverlay: showSkin2LegOverlay,
-      bodyHeight: skin2BodyHeight,
-    }
-
-    drawMini(skin2Options)
-  }
+  drawMini("Mini 1", 151, 108)
+  drawMini("Mini 2", 151, 453)
 }
 
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

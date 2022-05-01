@@ -5,8 +5,15 @@ let id = "minecraft-wolf-character"
 
 let name = "Minecraft Wolf Character"
 
+let history = [
+  "Originally developed by dodecaphon.",
+  "06 Feb 2015 lostminer - Add user variables.",
+  "13 Feb 2015 lostminer - Update to use new version of generator.",
+  "29 Sep 2020 NinjolasNJM - Various updates.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/v3-thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Background", "Folds", "Labels"]
@@ -787,6 +794,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

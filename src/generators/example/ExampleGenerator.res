@@ -5,6 +5,8 @@ let id = "example"
 
 let name = "Example"
 
+let history = []
+
 let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background.png")},
   {id: "Folds", url: requireImage("Folds.png")},
@@ -56,6 +58,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: None,
   video: None,
   instructions: None,

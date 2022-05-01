@@ -1,3 +1,6 @@
+module Builder = Generator.Builder
+
+module Icon = Generator_Icon
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 module Tints = MinecraftBlock_Tints
@@ -143,7 +146,7 @@ let makeTileStyle = (
 }
 
 let makePreviewTileStyle = (
-  ~textureDef,
+  ~textureDef: Generator.textureDef,
   ~textureFrame: option<Textures.textureFrame>,
   ~rotation,
 ) => {
@@ -211,6 +214,115 @@ module PreviewTile = {
   }
 }
 
+type textureSingle = {
+  textureId: string,
+  textureFrame: Textures.textureFrame,
+}
+
+type textureMultiple = {
+  textureId: string,
+  textureFrames: array<Textures.textureFrame>,
+}
+
+type textureGroup = TextureSingle(textureSingle) | TextureMultiple(textureMultiple)
+
+let getBlend = tint => {
+  switch tint {
+  | None => #None
+  | Some(tint) => #MultiplyHex(tint)
+  }
+}
+
+module GridTileSingle = {
+  @react.component
+  let make = (
+    ~textureDef: Generator.textureDef,
+    ~textureSingle: textureSingle,
+    ~textureIsSelected: (string, int) => bool,
+    ~onClick,
+  ) => {
+    let {textureId, textureFrame} = textureSingle
+    let onClick = _ => {
+      onClick(textureFrame)
+    }
+    let isSelected = textureIsSelected(textureId, textureFrame.frame)
+    let key = textureId ++ ":" ++ Js.Int.toString(textureFrame.frame)
+    <GridTile
+      key={key}
+      textureDef
+      textureFrame
+      isSelected
+      onClick={_ => {
+        onClick(textureFrame)
+      }}
+    />
+  }
+}
+
+module GridTileMultiple = {
+  @react.component
+  let make = (
+    ~textureDef: Generator.textureDef,
+    ~textureMultiple: textureMultiple,
+    ~textureIsSelected: (string, int) => bool,
+    ~onClick: Textures.textureFrame => unit,
+  ) => {
+    // Mutiple frame grouping is supported, but it feels a bit weird to use
+    // so keeping it turned off for now.
+    let (isExpanded, setIsExpanded) = React.useState(_ => true)
+    let {textureId, textureFrames} = textureMultiple
+    if isExpanded {
+      <>
+        {textureFrames
+        ->Belt.Array.map(textureFrame => {
+          let isSelected = textureIsSelected(textureId, textureFrame.frame)
+          let key = textureId ++ ":" ++ Js.Int.toString(textureFrame.frame)
+          <GridTile
+            key={key}
+            textureDef
+            textureFrame
+            isSelected
+            onClick={_ => {
+              onClick(textureFrame)
+            }}
+          />
+        })
+        ->React.array}
+      </>
+    } else {
+      let textureFrame = textureFrames->Belt.Array.getUnsafe(0)
+      let isSelected = textureIsSelected(textureId, textureFrame.frame)
+      let key = textureId ++ ":" ++ Js.Int.toString(textureFrame.frame)
+      <>
+        <GridTile
+          key={key}
+          textureDef
+          textureFrame
+          isSelected
+          onClick={_ => {
+            onClick(textureFrame)
+          }}
+        />
+        <button
+          className="border border-transparent hover:bg-gray-200 inline-flex items-center justify-center"
+          style={ReactDOM.Style.make(
+            ~width="40px",
+            ~height="40px",
+            ~marginRight="6px",
+            ~marginBottom="6px",
+            ~borderWidth="4px",
+            (),
+          )}
+          onClick={_ => {
+            setIsExpanded(_ => !isExpanded)
+          }}>
+          <Icon.ChevronDoubleRight size=#Small color=#Gray500 />
+        </button>
+      </>
+    }
+  }
+}
+
 @react.component
 let make = (~versionId: string, ~onChange: string => unit) => {
   let (selectedTextureFrame, setSelectedTextureFrame): useState<
@@ -223,18 +335,11 @@ let make = (~versionId: string, ~onChange: string => unit) => {
   let textureFrames = Textures.findTextureFrames(versionId)
   let textureDef = Textures.findTextureDef(versionId)
 
-  let textureIsSelected = (textureId, frame) => {
+  let textureIsSelected = (textureId: string, frame: int) => {
     switch selectedTextureFrame {
     | None => false
     | Some(selectedTextureFrame) =>
       textureId == selectedTextureFrame.textureId && frame == selectedTextureFrame.frame
-    }
-  }
-
-  let getBlend = tint => {
-    switch tint {
-    | None => #None
-    | Some(tint) => #MultiplyHex(tint)
     }
   }
 
@@ -249,10 +354,41 @@ let make = (~versionId: string, ~onChange: string => unit) => {
         setSearch(_ => value)
       }
 
-      let textures = switch search {
-      | None => textureFrames
+      let textureIds =
+        textureFrames
+        ->Belt.Array.reduce([], (acc, frame) => {
+          let found = acc->Belt.Array.some(textureId => textureId === frame.textureId)
+          found ? acc : Belt.Array.concat(acc, [frame.textureId])
+        })
+        ->Belt.SortArray.stableSortBy((textureId1, textureId2) =>
+          Js.String2.localeCompare(textureId1, textureId2)->Belt.Float.toInt
+        )
+
+      let groups = textureIds->Belt.Array.reduce([], (acc, textureId) => {
+        let frames = textureFrames->Belt.Array.keep(frame => frame.textureId === textureId)
+        let frameCount = Belt.Array.length(frames)
+        if frameCount === 0 {
+          acc
+        } else if frameCount === 1 {
+          let frame = frames->Belt.Array.getUnsafe(0)
+          let group = TextureSingle({textureId: textureId, textureFrame: frame})
+          Belt.Array.concat(acc, [group])
+        } else {
+          let group = TextureMultiple({textureId: textureId, textureFrames: frames})
+          Belt.Array.concat(acc, [group])
+        }
+      })
+
+      let groups = switch search {
+      | None => groups
       | Some(search) =>
-        textureFrames->Js.Array2.filter(({textureId}) => Js.String2.indexOf(textureId, search) >= 0)
+        groups->Belt.Array.keep(group => {
+          let textureId = switch group {
+          | TextureSingle({textureId}) => textureId
+          | TextureMultiple({textureId}) => textureId
+          }
+          Js.String2.indexOf(textureId, search) >= 0
+        })
       }
 
       let onRotate = _ => {
@@ -295,6 +431,19 @@ let make = (~versionId: string, ~onChange: string => unit) => {
         }
       }
 
+      let onClickGridTile = (textureFrame: Textures.textureFrame) => {
+        setSelectedTextureFrame(_ => Some(textureFrame))
+        setRotation(_ => 0)
+        let faceTexture: Face.faceTexture = {
+          versionId: textureFrame.versionId,
+          textureId: textureFrame.textureId,
+          frame: textureFrame.frame,
+          rot: 0,
+          blend: getBlend(tint),
+        }
+        onChange(Face.encodeFaceTexture(faceTexture))
+      }
+
       <div className="mb-4">
         <div className="font-bold"> {React.string("Block Texture")} </div>
         <div>
@@ -303,32 +452,26 @@ let make = (~versionId: string, ~onChange: string => unit) => {
         <div className="flex w-full">
           <div className="w-full">
             <div className="h-44 overflow-y-scroll">
-              {textures
-              ->Js.Array2.map(textureFrame => {
-                let {textureId, frame} = textureFrame
-
-                let key = textureId ++ ":" ++ Js.Int.toString(frame)
-
-                let onClick = _ => {
-                  setSelectedTextureFrame(_ => Some(textureFrame))
-                  setRotation(_ => 0)
-                  let faceTexture: Face.faceTexture = {
-                    versionId: versionId,
-                    textureId: textureId,
-                    frame: frame,
-                    rot: 0,
-                    blend: getBlend(tint),
-                  }
-                  onChange(Face.encodeFaceTexture(faceTexture))
+              {groups
+              ->Belt.Array.map(group => {
+                switch group {
+                | TextureSingle(textureSingle) =>
+                  <GridTileSingle
+                    key={textureSingle.textureId}
+                    textureSingle
+                    textureDef
+                    textureIsSelected
+                    onClick=onClickGridTile
+                  />
+                | TextureMultiple(textureMultiple) =>
+                  <GridTileMultiple
+                    key={textureMultiple.textureId}
+                    textureMultiple
+                    textureDef
+                    textureIsSelected
+                    onClick=onClickGridTile
+                  />
                 }
-
-                <GridTile
-                  key={key}
-                  textureDef={textureDef}
-                  textureFrame={textureFrame}
-                  isSelected={textureIsSelected(textureId, frame)}
-                  onClick={onClick}
-                />
               })
               ->React.array}
             </div>

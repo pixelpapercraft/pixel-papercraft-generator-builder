@@ -5,8 +5,13 @@ let id = "minecraft-cape-and-elytra"
 
 let name = "Minecraft Cape And Elytra"
 
+let history = [
+  "16 Mar 2021 NinjolasNJM - Initially completed both cape and elytra generation.",
+  "06 Jun 2021 NinjolasNJM - Converted to ReScript generator.",
+]
+
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Foreground", "Folds", "Labels"]
@@ -225,6 +230,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

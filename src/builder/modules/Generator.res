@@ -1,3 +1,7 @@
+module Builder = Generator_Builder
+module PageSize = Generator_PageSize
+module Markdown = Generator_Markdown
+
 @val external requireImage: string => string = "require"
 
 type imageDef = Builder.imageDef
@@ -7,57 +11,6 @@ type thumnbnailDef = Builder.thumnbnailDef
 type videoDef = Builder.videoDef
 type instructionsDef = Builder.instructionsDef
 
-module Markup = {
-  module H2 = {
-    @react.component
-    let make = (~children) => {
-      <h2 className="mb-4 text-2xl font-bold"> {children} </h2>
-    }
-  }
-
-  module H3 = {
-    @react.component
-    let make = (~children) => {
-      <h3 className="mb-4 font-bold"> {children} </h3>
-    }
-  }
-
-  module LI = {
-    @react.component
-    let make = (~children) => {
-      <li> {children} </li>
-    }
-  }
-
-  module UL = {
-    @react.component
-    let make = (~children) => {
-      <ul className="mb-4 ml-4 list-disc"> {children} </ul>
-    }
-  }
-
-  module OL = {
-    @react.component
-    let make = (~children) => {
-      <ol className="mb-4 ml-4 list-decimal"> {children} </ol>
-    }
-  }
-
-  module P = {
-    @react.component
-    let make = (~children) => {
-      <p className="mb-4"> {children} </p>
-    }
-  }
-
-  module A = {
-    @react.component
-    let make = (~href, ~children) => {
-      <a className="text-green-600 font-medium hover:underline" href={href}> {children} </a>
-    }
-  }
-}
-
 let model = ref(Builder.Model.make())
 
 let setModel = newModel => {
@@ -66,8 +19,16 @@ let setModel = newModel => {
 
 let getModel = () => model.contents
 
+let getTexturePixelColor = (x, y) => {
+  Builder.getTexturePixelColor(model.contents, x, y)
+}
+
 let clearStringInputValues = () => {
   model := Builder.clearStringInputValues(model.contents)
+}
+
+let defineButtonInput = (id, onClick) => {
+  model := Builder.defineButtonInput(model.contents, id, onClick)
 }
 
 let defineRegionInput = (region, callback) => {
@@ -86,24 +47,25 @@ let setStringInputValue = (id: string, value: string) => {
   model := Builder.setStringInputValue(model.contents, id, value)
 }
 
-let defineBooleanInput = (id, initial) => {
-  model := Builder.defineBooleanInput(model.contents, id, initial)
-}
-
-let defineButtonInput = (id, onClick) => {
-  model := Builder.defineButtonInput(model.contents, id, onClick)
+let getBooleanInputValue = (id: string) => {
+  Builder.getBooleanInputValue(model.contents, id)
 }
 
 let setBooleanInputValue = (id, value) => {
   model := Builder.setBooleanInputValue(model.contents, id, value)
 }
 
-let getBooleanInputValue = (id: string) => {
-  Builder.getBooleanInputValue(model.contents, id)
+let defineBooleanInput = (id, initial) => {
+  model := Builder.defineBooleanInput(model.contents, id, initial)
 }
 
-let defineSelectInput = (id, options) => {
-  model := Builder.defineSelectInput(model.contents, id, options)
+let defineAndGetBooleanInput = (id, initial) => {
+  defineBooleanInput(id, initial)
+  getBooleanInputValue(id)
+}
+
+let getBooleanInputValueWithDefault = (id: string, default: bool) => {
+  Builder.getBooleanInputValueWithDefault(model.contents, id, default)
 }
 
 let setSelectInputValue = (id, value) => {
@@ -114,12 +76,26 @@ let getSelectInputValue = (id: string) => {
   Builder.getSelectInputValue(model.contents, id)
 }
 
-let defineRangeInput = (id: string, options) => {
-  model := Builder.defineRangeInput(model.contents, id, options)
+let defineSelectInput = (id, options) => {
+  model := Builder.defineSelectInput(model.contents, id, options)
+}
+
+let defineAndGetSelectInput = (id, options) => {
+  defineSelectInput(id, options)
+  getSelectInputValue(id)
 }
 
 let getRangeInputValue = (id: string) => {
   Builder.getRangeInputValue(model.contents, id)
+}
+
+let defineRangeInput = (id: string, options) => {
+  model := Builder.defineRangeInput(model.contents, id, options)
+}
+
+let defineAndGetRangeInput = (id: string, options) => {
+  defineRangeInput(id, options)
+  getRangeInputValue(id)
 }
 
 let defineTextureInput = (id: string, options) => {

@@ -12,7 +12,7 @@ module.exports = {
   entry: "./src/index.bs.js",
   devtool: devtool,
   devServer: {
-    static: "./dist",
+    static: ["./dist", "./static"],
     port,
   },
   plugins: [new HtmlWebpackPlugin({ template: "templates/index.html" })],

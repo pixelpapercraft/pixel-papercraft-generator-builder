@@ -5,8 +5,10 @@ let id = "minecraft-horse"
 
 let name = "Minecraft Horse"
 
+let history = ["11 Jul 2021 NinjolasNJM - Initial script finished."]
+
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/v3-thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Foreground-Horse", "Foreground-Mule", "Folds-Horse", "Folds-Mule", "Labels"]
@@ -424,6 +426,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,

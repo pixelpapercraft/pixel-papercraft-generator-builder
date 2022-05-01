@@ -1,3 +1,5 @@
+module Builder = Generator.Builder
+
 module Textures = MinecraftBlock_Textures
 
 type versionId = string

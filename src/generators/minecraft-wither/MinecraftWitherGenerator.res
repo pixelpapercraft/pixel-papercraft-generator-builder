@@ -5,32 +5,31 @@ let id = "minecraft-wither"
 
 let name = "Minecraft Wither"
 
-let instructions: Generator.instructionsDef = {
-  open Generator.Markup
+let history = ["01 Aug 2021 Hannibanni - Created."]
+
+let instructions = {
   let witherTexture = Generator.requireImage("./instructions/wither.png")
-  <div>
-    <H2> {"TODO"->React.string} </H2>
-    <OL>
-      <LI> {"Add a thumbnail image."->React.string} </LI>
-      <LI> {"Make background the A4 page tempate with Pixel Papercraft footer."->React.string} </LI>
-    </OL>
-    <H2> {"How to use the Wither generator"->React.string} </H2>
-    <H3> {"Option 1: Use an existing Wither skin"->React.string} </H3>
-    <OL>
-      <LI> {"Select one of the Wither skins from the generator."->React.string} </LI>
-      <LI> {"Download and print your Wither papercraft."->React.string} </LI>
-    </OL>
-    <H3> {"Option 2: Create your own texture"->React.string} </H3>
-    <OL>
-      <LI>
-        {"Download a sample Wither texture."->React.string}
-        <a href={witherTexture}> <img src={witherTexture} /> </a>
-      </LI>
-      <LI> {"Edit this texture in your favourite graphics program."->React.string} </LI>
-      <LI> {"Select this file in the generator."->React.string} </LI>
-      <LI> {"Download and print your Wither papercraft."->React.string} </LI>
-    </OL>
-  </div>
+  `
+## TODO
+
+* Add a thumbnail image.
+* Make background the A4 page tempate with Pixel Papercraft footer.
+
+## How to use the Wither generator
+
+### Option 1: Use an existing Wither skin
+
+* Select one of the Wither skins from the generator.
+* Download and print your Wither papercraft.
+
+### Option 2: Create your own texture
+
+* Download a sample Wither texture (right click and save):
+  ![Wither Texture](${witherTexture})
+* Edit this texture in your favourite graphics program.
+* Select this file in the generator.
+* Download and print your Wither papercraft.
+`
 }
 
 let images: array<Generator.imageDef> = [
@@ -625,9 +624,10 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
   thumbnail: None,
   video: None,
-  instructions: Some(instructions),
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
