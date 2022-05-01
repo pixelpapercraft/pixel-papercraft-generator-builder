@@ -20,6 +20,7 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftVillagerCharacterGenerator.generator,
   MinecraftWolfCharacterGenerator.generator,
   MinecraftAxolotlCharacterGenerator.generator,
+  MinecraftAllayCharacterGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
