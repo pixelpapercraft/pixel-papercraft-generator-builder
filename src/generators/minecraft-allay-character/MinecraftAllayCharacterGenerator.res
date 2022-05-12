@@ -7,6 +7,10 @@ let name = "Minecraft Allay Character"
 
 let history = ["1 May 2022 PaperDoggy - Initial script developed."]
 
+let thumbnail: Generator.thumnbnailDef = {
+  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+}
+
 let images: array<Generator.imageDef> = [{id: "Overlay", url: requireImage("OverlayAllay.png")}]
 
 let textures: array<Generator.textureDef> = [
@@ -888,7 +892,7 @@ let script = () => {
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
-  thumbnail: None,
+  thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
   images: images,
