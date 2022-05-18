@@ -32,26 +32,26 @@ let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
 
 module Drawing = {
-  let drawHead1 = (ox, oy) => {
-    Generator.drawTexture("Skin1", steve.base.head.front, (ox, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.base.head.right, (ox - 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.base.head.left, (ox + 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.base.head.back, (ox + 51 * 2, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.base.head.top, (ox, oy - 51, 50, 50), ())
+  let drawHead = (ox, oy, texture) => {
+    Generator.drawTexture(texture, steve.base.head.front, (ox, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.base.head.right, (ox - 51, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.base.head.left, (ox + 51, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.base.head.back, (ox + 51 * 2, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.base.head.top, (ox, oy - 51, 50, 50), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.head.bottom,
       (ox, oy + 51, 50, 50),
       ~flip=#Vertical,
       (),
     )
-    Generator.drawTexture("Skin1", steve.overlay.head.front, (ox, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.overlay.head.right, (ox - 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.overlay.head.left, (ox + 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.overlay.head.back, (ox + 51 * 2, oy, 50, 50), ())
-    Generator.drawTexture("Skin1", steve.overlay.head.top, (ox, oy - 51, 50, 50), ())
+    Generator.drawTexture(texture, steve.overlay.head.front, (ox, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.overlay.head.right, (ox - 51, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.overlay.head.left, (ox + 51, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.overlay.head.back, (ox + 51 * 2, oy, 50, 50), ())
+    Generator.drawTexture(texture, steve.overlay.head.top, (ox, oy - 51, 50, 50), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.head.bottom,
       (ox, oy + 51, 50, 50),
       ~flip=#Vertical,
@@ -59,85 +59,85 @@ module Drawing = {
     )
   }
 
-  let drawBody1 = (ox, oy) => {
-    Generator.drawTexture("Skin1", steve.base.body.front, (ox, oy, 30, 30), ())
-    Generator.drawTexture("Skin1", steve.base.body.right, (ox - 21, oy, 20, 30), ())
-    Generator.drawTexture("Skin1", steve.base.body.left, (ox + 31, oy, 20, 30), ())
-    Generator.drawTexture("Skin1", steve.base.body.back, (ox + 31 + 21, oy, 30, 30), ())
-    Generator.drawTexture("Skin1", steve.base.body.top, (ox, oy - 21, 30, 20), ())
+  let drawBody = (ox, oy, texture) => {
+    Generator.drawTexture(texture, steve.base.body.front, (ox, oy, 30, 30), ())
+    Generator.drawTexture(texture, steve.base.body.right, (ox - 21, oy, 20, 30), ())
+    Generator.drawTexture(texture, steve.base.body.left, (ox + 31, oy, 20, 30), ())
+    Generator.drawTexture(texture, steve.base.body.back, (ox + 31 + 21, oy, 30, 30), ())
+    Generator.drawTexture(texture, steve.base.body.top, (ox, oy - 21, 30, 20), ())
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.front,
       (ox - 21 - 21 - 31, oy, 30, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.right,
       (ox - 21 - 21, oy, 20, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.left,
       (ox - 21 - 21 - 31 - 21, oy, 20, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.back,
       (ox - 21 - 21 - 31 - 21 - 31, oy, 30, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.top,
       (ox - 21 - 21 - 31, oy - 21, 30, 20),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.overlay.body.front, (ox, oy, 30, 30), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.right, (ox - 21, oy, 20, 30), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.left, (ox + 31, oy, 20, 30), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.back, (ox + 31 + 21, oy, 30, 30), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.top, (ox, oy - 21, 30, 20), ())
+    Generator.drawTexture(texture, steve.overlay.body.front, (ox, oy, 30, 30), ())
+    Generator.drawTexture(texture, steve.overlay.body.right, (ox - 21, oy, 20, 30), ())
+    Generator.drawTexture(texture, steve.overlay.body.left, (ox + 31, oy, 20, 30), ())
+    Generator.drawTexture(texture, steve.overlay.body.back, (ox + 31 + 21, oy, 30, 30), ())
+    Generator.drawTexture(texture, steve.overlay.body.top, (ox, oy - 21, 30, 20), ())
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.front,
       (ox - 21 - 21 - 31, oy, 30, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.right,
       (ox - 21 - 21, oy, 20, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.left,
       (ox - 21 - 21 - 31 - 21, oy, 20, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.back,
       (ox - 21 - 21 - 31 - 21 - 31, oy, 30, 30),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.top,
       (ox - 21 - 21 - 31, oy - 21, 30, 20),
       ~flip=#Horizontal,
@@ -145,108 +145,108 @@ module Drawing = {
     )
   }
 
-  let drawRightArm1 = (ox, oy) => {
-    Generator.drawTexture("Skin1", steve.base.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.base.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.base.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.base.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.base.rightArm.top, (ox, oy - 21, 10, 20), ())
+  let drawRightArm = (ox, oy, texture) => {
+    Generator.drawTexture(texture, steve.base.rightArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.base.rightArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.base.rightArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.base.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.base.rightArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.rightArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.overlay.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.rightArm.top, (ox, oy - 21, 10, 20), ())
+    Generator.drawTexture(texture, steve.overlay.rightArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.overlay.rightArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.overlay.rightArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.overlay.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.overlay.rightArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.rightArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
   }
-  let drawLeftArm1 = (ox, oy) => {
-    Generator.drawTexture("Skin1", steve.base.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.base.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.base.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.base.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.base.leftArm.top, (ox, oy - 21, 10, 20), ())
+  let drawLeftArm = (ox, oy, texture) => {
+    Generator.drawTexture(texture, steve.base.leftArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.base.leftArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.base.leftArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.base.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.base.leftArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.leftArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.overlay.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", steve.overlay.leftArm.top, (ox, oy - 21, 10, 20), ())
+    Generator.drawTexture(texture, steve.overlay.leftArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.overlay.leftArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.overlay.leftArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, steve.overlay.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, steve.overlay.leftArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.leftArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
   }
-  let drawRightArm1Alex = (ox, oy) => {
-    Generator.drawTexture("Skin1", alex.base.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.base.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.base.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.base.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.base.rightArm.top, (ox, oy - 21, 10, 20), ())
+  let drawRightArmAlex = (ox, oy, texture) => {
+    Generator.drawTexture(texture, alex.base.rightArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.base.rightArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.base.rightArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.base.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.base.rightArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       alex.base.rightArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", alex.overlay.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.rightArm.top, (ox, oy - 21, 10, 20), ())
+    Generator.drawTexture(texture, alex.overlay.rightArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.overlay.rightArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.overlay.rightArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.overlay.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.overlay.rightArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       alex.overlay.rightArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
   }
-  let drawLeftArm1Alex = (ox, oy) => {
-    Generator.drawTexture("Skin1", alex.base.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.base.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.base.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.base.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.base.leftArm.top, (ox, oy - 21, 10, 20), ())
+  let drawLeftArmAlex = (ox, oy, texture) => {
+    Generator.drawTexture(texture, alex.base.leftArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.base.leftArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.base.leftArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.base.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.base.leftArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       alex.base.leftArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", alex.overlay.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin1", alex.overlay.leftArm.top, (ox, oy - 21, 10, 20), ())
+    Generator.drawTexture(texture, alex.overlay.leftArm.front, (ox, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.overlay.leftArm.right, (ox - 21, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.overlay.leftArm.left, (ox + 11, oy, 20, 40), ())
+    Generator.drawTexture(texture, alex.overlay.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
+    Generator.drawTexture(texture, alex.overlay.leftArm.top, (ox, oy - 21, 10, 20), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       alex.overlay.leftArm.bottom,
       (ox, oy + 41, 10, 20),
       ~flip=#Horizontal,
@@ -254,70 +254,70 @@ module Drawing = {
     )
   }
 
-  let drawLegs1 = (ox, oy) => {
-    Generator.drawTexture("Skin1", steve.base.body.front, (ox, oy, 30, 25), ())
-    Generator.drawTexture("Skin1", steve.base.body.right, (ox - 21, oy, 20, 25), ())
-    Generator.drawTexture("Skin1", steve.base.body.left, (ox + 31, oy, 20, 25), ())
-    Generator.drawTexture("Skin1", steve.base.body.back, (ox + 31 + 21, oy, 30, 25), ())
+  let drawLegs = (ox, oy, texture) => {
+    Generator.drawTexture(texture, steve.base.body.front, (ox, oy, 30, 25), ())
+    Generator.drawTexture(texture, steve.base.body.right, (ox - 21, oy, 20, 25), ())
+    Generator.drawTexture(texture, steve.base.body.left, (ox + 31, oy, 20, 25), ())
+    Generator.drawTexture(texture, steve.base.body.back, (ox + 31 + 21, oy, 30, 25), ())
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.front,
       (ox + 31 + 21 + 31 + 21 + 31, oy, 30, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.right,
       (ox + 31 + 21 + 31 + 31 + 21 + 31, oy, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.left,
       (ox + 31 + 31 + 21 + 31, oy, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.body.back,
       (ox + 31 + 21 + 31, oy, 30, 25),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.base.rightLeg.front, (ox, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin1", steve.base.rightLeg.right, (ox - 21, oy + 25, 20, 25), ())
+    Generator.drawTexture(texture, steve.base.rightLeg.front, (ox, oy + 25, 15, 25), ())
+    Generator.drawTexture(texture, steve.base.rightLeg.right, (ox - 21, oy + 25, 20, 25), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.rightLeg.back,
       (ox + 31 + 21 + 15, oy + 25, 15, 25),
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.base.leftLeg.front, (ox + 15, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin1", steve.base.leftLeg.left, (ox + 31, oy + 25, 20, 25), ())
-    Generator.drawTexture("Skin1", steve.base.leftLeg.back, (ox + 31 + 21, oy + 25, 15, 25), ())
+    Generator.drawTexture(texture, steve.base.leftLeg.front, (ox + 15, oy + 25, 15, 25), ())
+    Generator.drawTexture(texture, steve.base.leftLeg.left, (ox + 31, oy + 25, 20, 25), ())
+    Generator.drawTexture(texture, steve.base.leftLeg.back, (ox + 31 + 21, oy + 25, 15, 25), ())
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.rightLeg.front,
       (ox + 31 + 21 + 31 + 21 + 31 + 15, oy + 25, 15, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.rightLeg.right,
       (ox + 31 + 21 + 31 + 31 + 21 + 31, oy + 25, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.rightLeg.back,
       (ox + 31 + 21 + 31, oy + 25, 15, 25),
       ~flip=#Horizontal,
@@ -325,90 +325,90 @@ module Drawing = {
     )
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.leftLeg.front,
       (ox + 31 + 21 + 31 + 21 + 31, oy + 25, 15, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.leftLeg.left,
       (ox + 31 + 21 + 31 + 31, oy + 25, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.base.leftLeg.back,
       (ox + 31 + 21 + 31 + 15, oy + 25, 15, 25),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.overlay.body.front, (ox, oy, 30, 25), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.right, (ox - 21, oy, 20, 25), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.left, (ox + 31, oy, 20, 25), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.back, (ox + 31 + 21, oy, 30, 25), ())
+    Generator.drawTexture(texture, steve.overlay.body.front, (ox, oy, 30, 25), ())
+    Generator.drawTexture(texture, steve.overlay.body.right, (ox - 21, oy, 20, 25), ())
+    Generator.drawTexture(texture, steve.overlay.body.left, (ox + 31, oy, 20, 25), ())
+    Generator.drawTexture(texture, steve.overlay.body.back, (ox + 31 + 21, oy, 30, 25), ())
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.front,
       (ox + 31 + 21 + 31 + 21 + 31, oy, 30, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.right,
       (ox + 31 + 21 + 31 + 31 + 21 + 31, oy, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.left,
       (ox + 31 + 31 + 21 + 31, oy, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.body.back,
       (ox + 31 + 21 + 31, oy, 30, 25),
       ~flip=#Horizontal,
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.overlay.rightLeg.front, (ox, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin1", steve.overlay.rightLeg.right, (ox - 21, oy + 25, 20, 25), ())
+    Generator.drawTexture(texture, steve.overlay.rightLeg.front, (ox, oy + 25, 15, 25), ())
+    Generator.drawTexture(texture, steve.overlay.rightLeg.right, (ox - 21, oy + 25, 20, 25), ())
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.rightLeg.back,
       (ox + 31 + 21 + 15, oy + 25, 15, 25),
       (),
     )
 
-    Generator.drawTexture("Skin1", steve.overlay.leftLeg.front, (ox + 15, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin1", steve.overlay.leftLeg.left, (ox + 31, oy + 25, 20, 25), ())
-    Generator.drawTexture("Skin1", steve.overlay.leftLeg.back, (ox + 31 + 21, oy + 25, 15, 25), ())
+    Generator.drawTexture(texture, steve.overlay.leftLeg.front, (ox + 15, oy + 25, 15, 25), ())
+    Generator.drawTexture(texture, steve.overlay.leftLeg.left, (ox + 31, oy + 25, 20, 25), ())
+    Generator.drawTexture(texture, steve.overlay.leftLeg.back, (ox + 31 + 21, oy + 25, 15, 25), ())
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.rightLeg.front,
       (ox + 31 + 21 + 31 + 21 + 31 + 15, oy + 25, 15, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.rightLeg.right,
       (ox + 31 + 21 + 31 + 31 + 21 + 31, oy + 25, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.rightLeg.back,
       (ox + 31 + 21 + 31, oy + 25, 15, 25),
       ~flip=#Horizontal,
@@ -416,427 +416,21 @@ module Drawing = {
     )
 
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.leftLeg.front,
       (ox + 31 + 21 + 31 + 21 + 31, oy + 25, 15, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
+      texture,
       steve.overlay.leftLeg.left,
       (ox + 31 + 21 + 31 + 31, oy + 25, 20, 25),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
-      "Skin1",
-      steve.overlay.leftLeg.back,
-      (ox + 31 + 21 + 31 + 15, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-  }
-
-  let drawHead2 = (ox, oy) => {
-    Generator.drawTexture("Skin2", steve.base.head.front, (ox, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.base.head.right, (ox - 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.base.head.left, (ox + 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.base.head.back, (ox + 51 * 2, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.base.head.top, (ox, oy - 51, 50, 50), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.head.bottom,
-      (ox, oy + 51, 50, 50),
-      ~flip=#Vertical,
-      (),
-    )
-    Generator.drawTexture("Skin2", steve.overlay.head.front, (ox, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.overlay.head.right, (ox - 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.overlay.head.left, (ox + 51, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.overlay.head.back, (ox + 51 * 2, oy, 50, 50), ())
-    Generator.drawTexture("Skin2", steve.overlay.head.top, (ox, oy - 51, 50, 50), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.head.bottom,
-      (ox, oy + 51, 50, 50),
-      ~flip=#Vertical,
-      (),
-    )
-  }
-
-  let drawBody2 = (ox, oy) => {
-    Generator.drawTexture("Skin2", steve.base.body.front, (ox, oy, 30, 30), ())
-    Generator.drawTexture("Skin2", steve.base.body.right, (ox - 21, oy, 20, 30), ())
-    Generator.drawTexture("Skin2", steve.base.body.left, (ox + 31, oy, 20, 30), ())
-    Generator.drawTexture("Skin2", steve.base.body.back, (ox + 31 + 21, oy, 30, 30), ())
-    Generator.drawTexture("Skin2", steve.base.body.top, (ox, oy - 21, 30, 20), ())
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.front,
-      (ox - 21 - 21 - 31, oy, 30, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.right,
-      (ox - 21 - 21, oy, 20, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.left,
-      (ox - 21 - 21 - 31 - 21, oy, 20, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.back,
-      (ox - 21 - 21 - 31 - 21 - 31, oy, 30, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.top,
-      (ox - 21 - 21 - 31, oy - 21, 30, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.overlay.body.front, (ox, oy, 30, 30), ())
-    Generator.drawTexture("Skin2", steve.overlay.body.right, (ox - 21, oy, 20, 30), ())
-    Generator.drawTexture("Skin2", steve.overlay.body.left, (ox + 31, oy, 20, 30), ())
-    Generator.drawTexture("Skin2", steve.overlay.body.back, (ox + 31 + 21, oy, 30, 30), ())
-    Generator.drawTexture("Skin1", steve.overlay.body.top, (ox, oy - 21, 30, 20), ())
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.front,
-      (ox - 21 - 21 - 31, oy, 30, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.right,
-      (ox - 21 - 21, oy, 20, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.left,
-      (ox - 21 - 21 - 31 - 21, oy, 20, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.back,
-      (ox - 21 - 21 - 31 - 21 - 31, oy, 30, 30),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.top,
-      (ox - 21 - 21 - 31, oy - 21, 30, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-  }
-
-  let drawRightArm2 = (ox, oy) => {
-    Generator.drawTexture("Skin2", steve.base.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.base.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.base.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.base.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.base.rightArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.rightArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.overlay.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.rightArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.rightArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-  }
-  let drawLeftArm2 = (ox, oy) => {
-    Generator.drawTexture("Skin2", steve.base.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.base.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.base.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.base.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.base.leftArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.leftArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.overlay.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", steve.overlay.leftArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.leftArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-  }
-  let drawRightArm2Alex = (ox, oy) => {
-    Generator.drawTexture("Skin2", alex.base.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.base.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.base.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.base.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.base.rightArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      alex.base.rightArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", alex.overlay.rightArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.rightArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.rightArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.rightArm.back, (ox - 11 - 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.rightArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      alex.overlay.rightArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-  }
-  let drawLeftArm2Alex = (ox, oy) => {
-    Generator.drawTexture("Skin2", alex.base.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.base.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.base.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.base.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.base.leftArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      alex.base.leftArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", alex.overlay.leftArm.front, (ox, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.leftArm.right, (ox - 21, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.leftArm.left, (ox + 11, oy, 20, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.leftArm.back, (ox + 11 + 21, oy, 10, 40), ())
-    Generator.drawTexture("Skin2", alex.overlay.leftArm.top, (ox, oy - 21, 10, 20), ())
-    Generator.drawTexture(
-      "Skin2",
-      alex.overlay.leftArm.bottom,
-      (ox, oy + 41, 10, 20),
-      ~flip=#Horizontal,
-      (),
-    )
-  }
-
-  let drawLegs2 = (ox, oy) => {
-    Generator.drawTexture("Skin2", steve.base.body.front, (ox, oy, 30, 25), ())
-    Generator.drawTexture("Skin2", steve.base.body.right, (ox - 21, oy, 20, 25), ())
-    Generator.drawTexture("Skin2", steve.base.body.left, (ox + 31, oy, 20, 25), ())
-    Generator.drawTexture("Skin2", steve.base.body.back, (ox + 31 + 21, oy, 30, 25), ())
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.front,
-      (ox + 31 + 21 + 31 + 21 + 31, oy, 30, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.right,
-      (ox + 31 + 21 + 31 + 31 + 21 + 31, oy, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.left,
-      (ox + 31 + 31 + 21 + 31, oy, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.body.back,
-      (ox + 31 + 21 + 31, oy, 30, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.base.rightLeg.front, (ox, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin2", steve.base.rightLeg.right, (ox - 21, oy + 25, 20, 25), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.rightLeg.back,
-      (ox + 31 + 21 + 15, oy + 25, 15, 25),
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.base.leftLeg.front, (ox + 15, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin2", steve.base.leftLeg.left, (ox + 31, oy + 25, 20, 25), ())
-    Generator.drawTexture("Skin2", steve.base.leftLeg.back, (ox + 31 + 21, oy + 25, 15, 25), ())
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.rightLeg.front,
-      (ox + 31 + 21 + 31 + 21 + 31 + 15, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.rightLeg.right,
-      (ox + 31 + 21 + 31 + 31 + 21 + 31, oy + 25, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.rightLeg.back,
-      (ox + 31 + 21 + 31, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.leftLeg.front,
-      (ox + 31 + 21 + 31 + 21 + 31, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.leftLeg.left,
-      (ox + 31 + 21 + 31 + 31, oy + 25, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.base.leftLeg.back,
-      (ox + 31 + 21 + 31 + 15, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.overlay.body.front, (ox, oy, 30, 25), ())
-    Generator.drawTexture("Skin2", steve.overlay.body.right, (ox - 21, oy, 20, 25), ())
-    Generator.drawTexture("Skin2", steve.overlay.body.left, (ox + 31, oy, 20, 25), ())
-    Generator.drawTexture("Skin2", steve.overlay.body.back, (ox + 31 + 21, oy, 30, 25), ())
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.front,
-      (ox + 31 + 21 + 31 + 21 + 31, oy, 30, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.right,
-      (ox + 31 + 21 + 31 + 31 + 21 + 31, oy, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.left,
-      (ox + 31 + 31 + 21 + 31, oy, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.body.back,
-      (ox + 31 + 21 + 31, oy, 30, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.overlay.rightLeg.front, (ox, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin2", steve.overlay.rightLeg.right, (ox - 21, oy + 25, 20, 25), ())
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.rightLeg.back,
-      (ox + 31 + 21 + 15, oy + 25, 15, 25),
-      (),
-    )
-
-    Generator.drawTexture("Skin2", steve.overlay.leftLeg.front, (ox + 15, oy + 25, 15, 25), ())
-    Generator.drawTexture("Skin2", steve.overlay.leftLeg.left, (ox + 31, oy + 25, 20, 25), ())
-    Generator.drawTexture("Skin2", steve.overlay.leftLeg.back, (ox + 31 + 21, oy + 25, 15, 25), ())
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.rightLeg.front,
-      (ox + 31 + 21 + 31 + 21 + 31 + 15, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.rightLeg.right,
-      (ox + 31 + 21 + 31 + 31 + 21 + 31, oy + 25, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.rightLeg.back,
-      (ox + 31 + 21 + 31, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.leftLeg.front,
-      (ox + 31 + 21 + 31 + 21 + 31, oy + 25, 15, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
-      steve.overlay.leftLeg.left,
-      (ox + 31 + 21 + 31 + 31, oy + 25, 20, 25),
-      ~flip=#Horizontal,
-      (),
-    )
-    Generator.drawTexture(
-      "Skin2",
+      texture,
       steve.overlay.leftLeg.back,
       (ox + 31 + 21 + 31 + 15, oy + 25, 15, 25),
       ~flip=#Horizontal,
@@ -865,27 +459,27 @@ let script = () => {
     },
   )
   let alexModel2 = Generator.getSelectInputValue("Character 2 skin model type") === "Alex"
-  Drawing.drawHead1(62, 63)
-  Drawing.drawBody1(422, 84)
+  Drawing.drawHead(62, 63, "Skin1")
+  Drawing.drawBody(422, 84, "Skin1")
   if alexModel1 {
-    Drawing.drawRightArm1Alex(186, 198)
-    Drawing.drawLeftArm1Alex(48, 198)
+    Drawing.drawRightArmAlex(186, 198, "Skin1")
+    Drawing.drawLeftArmAlex(48, 198, "Skin1")
   } else {
-    Drawing.drawRightArm1(186, 198)
-    Drawing.drawLeftArm1(48, 198)
+    Drawing.drawRightArm(186, 198, "Skin1")
+    Drawing.drawLeftArm(48, 198, "Skin1")
   }
-  Drawing.drawLegs1(279, 197)
+  Drawing.drawLegs(279, 197, "Skin1")
 
-  Drawing.drawHead2(62, 424)
-  Drawing.drawBody2(422, 445)
+  Drawing.drawHead(62, 424, "Skin2")
+  Drawing.drawBody(422, 445, "Skin2")
   if alexModel2 {
-    Drawing.drawRightArm2Alex(186, 198 + 361)
-    Drawing.drawLeftArm2Alex(48, 198 + 361)
+    Drawing.drawRightArmAlex(186, 198 + 361, "Skin2")
+    Drawing.drawLeftArmAlex(48, 198 + 361, "Skin2")
   } else {
-    Drawing.drawRightArm2(186, 198 + 361)
-    Drawing.drawLeftArm2(48, 198 + 361)
+    Drawing.drawRightArm(186, 198 + 361, "Skin2")
+    Drawing.drawLeftArm(48, 198 + 361, "Skin2")
   }
-  Drawing.drawLegs2(278, 559)
+  Drawing.drawLegs(278, 559, "Skin2")
   Generator.drawImage("Overlay", (0, 0))
 }
 
