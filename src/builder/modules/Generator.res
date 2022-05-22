@@ -122,6 +122,10 @@ let usePage = id => {
   model := Builder.usePage(model.contents, id)
 }
 
+let fillBackgroundColor = (fillStyle: string) => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, fillStyle)
+}
+
 let drawTexture = (
   id: string,
   source: Builder.rectangle,

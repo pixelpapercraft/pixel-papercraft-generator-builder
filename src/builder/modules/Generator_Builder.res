@@ -401,12 +401,49 @@ let defineText = (model: Model.t, text: string) => {
   }
 }
 
+let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
+  switch model.currentPage {
+  | None => model
+  | Some(currentPage) => {
+      let currentPage = findPage(model, currentPage.id)
+      switch currentPage {
+      | None => model
+      | Some(currentPage) => {
+          let {width, height} = currentPage.canvasWithContext
+          let newCanvas = Generator_CanvasWithContext.make(width, height)
+          newCanvas.context->Context2d.fillStyle(fillStyle)
+          newCanvas.context->Context2d.fillRect(0, 0, width, height)
+          newCanvas.context->Context2d.drawCanvasXY(currentPage.canvasWithContext.canvas, 0, 0)
+
+          let newCurrentPage = {
+            ...currentPage,
+            canvasWithContext: newCanvas,
+          }
+
+          let newPages = Belt.Array.map(model.pages, page => {
+            page.id === newCurrentPage.id ? newCurrentPage : page
+          })
+
+          let newModel = {
+            ...model,
+            pages: newPages,
+            currentPage: Some(newCurrentPage),
+          }
+
+          newModel
+        }
+      }
+    }
+  }
+}
+
 let drawImage = (model: Model.t, id: string, (x, y): position) => {
   let model = ensureCurrentPage(model)
   let currentPage = model.currentPage
   let image = Js.Dict.get(model.values.images, id)
   switch (currentPage, image) {
-  | (Some(page), Some(image)) => Generator_ImageWithCanvas.draw(image, page, x, y)
+  | (Some(page), Some(imageWithCanvas)) =>
+    Context2d.drawImageXY(page.canvasWithContext.context, imageWithCanvas.image, x, y)
   | _ => ()
   }
   model

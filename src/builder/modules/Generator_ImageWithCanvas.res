@@ -24,7 +24,3 @@ let makeFromImage = (image: Image.t): t => {
 let makeFromImageUrl = (url: string): Promise.t<t> => {
   Generator_ImageFactory.makeFromUrl(url)->Promise.thenResolve(image => makeFromImage(image))
 }
-
-let draw = (imageWithCanvas: t, page: Generator_Page.t, x: int, y: int) => {
-  Context2d.drawImageXY(page.canvasWithContext.context, imageWithCanvas.image, x, y)
-}
