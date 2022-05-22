@@ -16,7 +16,7 @@ type textureFrame = {
   textureId: string,
   frame: int,
   frameIndex: int,
-  blend: Builder.Texture.blend,
+  blend: Generator_Texture.blend,
 }
 
 let textureSize = 16
