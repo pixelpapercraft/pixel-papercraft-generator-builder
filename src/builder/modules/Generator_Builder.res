@@ -445,31 +445,13 @@ let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle
       switch currentPage {
       | None => model
       | Some(currentPage) => {
-          let {width, height} = currentPage.canvasWithContext
-          let newCanvas = Generator_CanvasWithContext.make(width, height)
-          newCanvas.context->Context2d.beginPath
-          newCanvas.context->Context2d.strokeStyle(strokeStyle)
-          newCanvas.context->Context2d.moveTo(dx, dy)
-          newCanvas.context->Context2d.lineTo(dw, dh)
-          newCanvas.context->Context2d.stroke
-          newCanvas.context->Context2d.drawCanvasXY(currentPage.canvasWithContext.canvas, 0, 0)
+          currentPage.canvasWithContext.context->Context2d.beginPath
+          currentPage.canvasWithContext.context->Context2d.strokeStyle(strokeStyle)
+          currentPage.canvasWithContext.context->Context2d.moveTo(dx, dy)
+          currentPage.canvasWithContext.context->Context2d.lineTo(dx + dw, dy + dh)
+          currentPage.canvasWithContext.context->Context2d.stroke
 
-          let newCurrentPage = {
-            ...currentPage,
-            canvasWithContext: newCanvas,
-          }
-
-          let newPages = Belt.Array.map(model.pages, page => {
-            page.id === newCurrentPage.id ? newCurrentPage : page
-          })
-
-          let newModel = {
-            ...model,
-            pages: newPages,
-            currentPage: Some(newCurrentPage),
-          }
-
-          newModel
+          model
         }
       }
     }
