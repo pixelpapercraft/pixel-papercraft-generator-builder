@@ -94,7 +94,7 @@ let script = () => {
   Generator.drawTexture("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
   Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
   Generator.drawTexture("Diamond Sword", (0, 0, 16, 16), (300, 550, 128, 64), ~flip=#Horizontal, ())
-  Folds.drawFolds((100, 100, 128, 128))
+  //Folds.drawFolds((100, 100, 128, 128))
   //Folds.drawFolds((250, 200, 64, 64))
   //Folds.drawFolds((200, 400, 112, 112))
   //Folds.drawFolds((300, 550, 128, 64))
