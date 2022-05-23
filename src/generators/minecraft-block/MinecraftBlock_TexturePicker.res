@@ -23,7 +23,7 @@ module TintSelector = {
   }
 
   let isValidTint = tint => {
-    switch Builder.Texture.hexToRGB(tint) {
+    switch Generator_Texture.hexToRGB(tint) {
     | None => false
     | Some(_) => true
     }

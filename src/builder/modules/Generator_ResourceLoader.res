@@ -1,14 +1,17 @@
 module Builder = Generator_Builder
 
-type imageTuple = (string, Builder.Image.t)
-type textureTuple = (string, Builder.Texture.t)
+type imageTuple = (string, Dom2.Image.t)
+type textureTuple = (string, Generator_Texture.t)
 
 let imageDefToImage = (imageDef: Builder.imageDef): Promise.t<imageTuple> => {
-  Builder.ImageFactory.makeFromUrl(imageDef.url)->Promise.thenResolve(image => (imageDef.id, image))
+  Generator_ImageFactory.makeFromUrl(imageDef.url)->Promise.thenResolve(image => (
+    imageDef.id,
+    image,
+  ))
 }
 
 let textureDefToTexture = (textureDef: Builder.textureDef): Promise.t<textureTuple> => {
-  Builder.Texture.makeFromUrl(
+  Generator_Texture.makeFromUrl(
     textureDef.url,
     textureDef.standardWidth,
     textureDef.standardHeight,

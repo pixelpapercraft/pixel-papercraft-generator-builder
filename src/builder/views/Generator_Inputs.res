@@ -7,7 +7,7 @@ module TextureInput = {
   @react.component
   let make = (
     ~id: string,
-    ~textures: Js.Dict.t<Builder.Texture.t>,
+    ~textures: Js.Dict.t<Generator_Texture.t>,
     ~choices: array<string>,
     ~onChange: option<Dom2.Image.t> => unit,
   ) => {
@@ -28,7 +28,7 @@ module TextureInput = {
             | None => ()
             | Some(result) => {
                 setName(_ => Some(file.name))
-                Builder.ImageFactory.makeFromUrl(result)
+                Generator_ImageFactory.makeFromUrl(result)
                 ->Promise.thenResolve(image => onChange(Some(image)))
                 ->ignore
               }
@@ -45,7 +45,7 @@ module TextureInput = {
       let texture = Js.Dict.get(textures, value)
       switch texture {
       | None => onChange(None)
-      | Some(texture) => onChange(Some(texture.image))
+      | Some(texture) => onChange(Some(texture.imageWithCanvas.image))
       }
     }
 
@@ -203,7 +203,7 @@ let make = (~model: Builder.Model.t, ~onChange) => {
     id: string,
     standardWidth: int,
     standardHeight: int,
-    image: option<Builder.Image.t>,
+    image: option<Dom2.Image.t>,
   ) => {
     switch image {
     | None => {
@@ -211,7 +211,7 @@ let make = (~model: Builder.Model.t, ~onChange) => {
         onChange(model)
       }
     | Some(image) => {
-        let texture = Builder.Texture.make(image, standardWidth, standardHeight)
+        let texture = Generator_Texture.make(image, standardWidth, standardHeight)
         let model = Builder.addTexture(model, id, texture)
         onChange(model)
       }

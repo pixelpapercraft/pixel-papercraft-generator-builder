@@ -14,11 +14,19 @@ let images: array<Generator.imageDef> = [
     id: "Grid",
     url: requireImage("Grid.png"),
   },
+  {
+    id: "ImageColors4x4",
+    url: requireImage("Colors4x4.png"),
+  },
+  {
+    id: "ImageColors64x64",
+    url: requireImage("Colors64x64.png"),
+  },
 ]
 
 let textures: array<Generator.textureDef> = [
   {
-    id: "Colors",
+    id: "TextureColors",
     url: requireTexture("Colors.png"),
     standardWidth: 4,
     standardHeight: 4,
@@ -63,6 +71,15 @@ module Config = {
   let gridHeight = gridCellSize * rowCount
   let offsetX = (PageSize.A4.px.width - gridWidth) / 2
   let offsetY = (PageSize.A4.px.height - gridHeight) / 2
+}
+
+let assertEquals = (actual, expected) => {
+  let text = if actual === expected {
+    `${actual} === ${expected}: PASS`
+  } else {
+    `${actual} === ${expected}: FAIL`
+  }
+  Generator.defineText(text)
 }
 
 let drawGrid = () => {
@@ -264,32 +281,123 @@ let script = () => {
     Generator.setSelectInputValue("Counter", nextCounterString)
   })
 
-  Generator.defineText("Pixel color test")
+  Generator.defineText("Texture pixel color test")
 
-  let color00 = switch Generator.getTexturePixelColor("Colors", 0, 0) {
+  let textureColor00 = switch Generator.getTexturePixelColor("TextureColors", 0, 0) {
   | None => "Unknown"
   | Some(color) => rgbaToHex(color)
   }
 
-  let color11 = switch Generator.getTexturePixelColor("Colors", 1, 1) {
+  let textureColor11 = switch Generator.getTexturePixelColor("TextureColors", 1, 1) {
   | None => "Unknown"
   | Some(color) => rgbaToHex(color)
   }
 
-  let color22 = switch Generator.getTexturePixelColor("Colors", 2, 2) {
+  let textureColor22 = switch Generator.getTexturePixelColor("TextureColors", 2, 2) {
   | None => "Unknown"
   | Some(color) => rgbaToHex(color)
   }
 
-  let color33 = switch Generator.getTexturePixelColor("Colors", 3, 3) {
+  let textureColor33 = switch Generator.getTexturePixelColor("TextureColors", 3, 3) {
   | None => "Unknown"
   | Some(color) => rgbaToHex(color)
   }
 
-  Generator.defineText(color00)
-  Generator.defineText(color11)
-  Generator.defineText(color22)
-  Generator.defineText(color33)
+  assertEquals(textureColor00, "#000000ff")
+  assertEquals(textureColor11, "#777777ff")
+  assertEquals(textureColor22, "#ff000080")
+  assertEquals(textureColor33, "#ffffff80")
+
+  Generator.defineText("Image pixel color test")
+
+  let imageColor00 = switch Generator.getImagePixelColor("ImageColors4x4", 0, 0) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let imageColor11 = switch Generator.getImagePixelColor("ImageColors4x4", 1, 1) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let imageColor22 = switch Generator.getImagePixelColor("ImageColors4x4", 2, 2) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let imageColor33 = switch Generator.getImagePixelColor("ImageColors4x4", 3, 3) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  assertEquals(imageColor00, "#000000ff")
+  assertEquals(imageColor11, "#777777ff")
+  assertEquals(imageColor22, "#ff000080")
+  assertEquals(imageColor33, "#ffffff80")
+
+  Generator.usePage("Color Test 1")
+
+  Generator.fillBackgroundColor("#000000")
+  Generator.drawImage("ImageColors64x64", (0, 0))
+
+  Generator.defineText("Page pixel color test #1")
+
+  let pageColor00 = switch Generator.getCurrentPagePixelColor(0 * 16, 0 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let pageColor11 = switch Generator.getCurrentPagePixelColor(1 * 16, 1 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let pageColor22 = switch Generator.getCurrentPagePixelColor(2 * 16, 2 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let pageColor33 = switch Generator.getCurrentPagePixelColor(3 * 16, 3 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  assertEquals(pageColor00, "#000000ff")
+  assertEquals(pageColor11, "#777777ff")
+  assertEquals(pageColor22, "#800000ff") // ff000080 + 000000ff === 800000ff
+  assertEquals(pageColor33, "#808080ff") // ffffff80 + 000000ff === 808080ff
+
+  Generator.usePage("Color Test 2")
+
+  Generator.fillBackgroundColor("#ffffff")
+  Generator.drawImage("ImageColors64x64", (0, 0))
+
+  Generator.defineText("Page pixel color test #1")
+
+  let pageColor00 = switch Generator.getCurrentPagePixelColor(0 * 16, 0 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let pageColor11 = switch Generator.getCurrentPagePixelColor(1 * 16, 1 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let pageColor22 = switch Generator.getCurrentPagePixelColor(2 * 16, 2 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  let pageColor33 = switch Generator.getCurrentPagePixelColor(3 * 16, 3 * 16) {
+  | None => "Unknown"
+  | Some(color) => rgbaToHex(color)
+  }
+
+  assertEquals(pageColor00, "#000000ff")
+  assertEquals(pageColor11, "#777777ff")
+  assertEquals(pageColor22, "#ff7f7fff") // ff000080 + ffffffff === ff7f7fff
+  assertEquals(pageColor33, "#ffffffff") // ffffff80 + ffffffff === ffffffff
 
   // Use a page (this is needed for region inputs to work)
   Generator.usePage("Page 1")
