@@ -122,6 +122,7 @@ module Context2d = {
   @set external fillStyle: (context2d, string) => unit = "fillStyle"
   @set external strokeStyle: (context2d, string) => unit = "strokeStyle"
   @set external lineWidth: (context2d, float) => unit = "lineWidth"
+  @set external lineDashOffset: (context2d, int) => unit = "lineDashOffset"
 
   @set
   external setWebkitImageSmoothingEnabled: (context2d, bool) => unit = "webkitImageSmoothingEnabled"

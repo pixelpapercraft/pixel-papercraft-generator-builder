@@ -467,6 +467,7 @@ let drawLine = (
           context->Context2d.strokeStyle(strokeStyle)
           context->Context2d.lineWidth(lineWidth)
           context->Context2d.setLineDash(dashPattern)
+          context->Context2d.lineDashOffset(3)
           context->Context2d.moveTo(x +. ow, y +. oh)
           context->Context2d.lineTo(x +. w +. ow, y +. h +. oh)
           context->Context2d.stroke
