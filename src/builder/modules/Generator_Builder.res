@@ -438,6 +438,10 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
 }
 
 let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle) => {
+  let x = Belt.Int.toFloat(dx)
+  let y = Belt.Int.toFloat(dy)
+  let w = Belt.Int.toFloat(dw)
+  let h = Belt.Int.toFloat(dh)
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
@@ -445,11 +449,14 @@ let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle
       switch currentPage {
       | None => model
       | Some(currentPage) => {
-          currentPage.canvasWithContext.context->Context2d.beginPath
-          currentPage.canvasWithContext.context->Context2d.strokeStyle(strokeStyle)
-          currentPage.canvasWithContext.context->Context2d.moveTo(dx, dy)
-          currentPage.canvasWithContext.context->Context2d.lineTo(dx + dw, dy + dh)
-          currentPage.canvasWithContext.context->Context2d.stroke
+          let context = currentPage.canvasWithContext.context
+          context->Context2d.setImageSmoothingEnabled(false)
+          context->Context2d.beginPath
+          context->Context2d.strokeStyle(strokeStyle)
+          context->Context2d.lineWidth(1.0)
+          context->Context2d.moveTo(x, y -. 0.5)
+          context->Context2d.lineTo(x +. w, y +. h -. 0.5)
+          context->Context2d.stroke
 
           model
         }

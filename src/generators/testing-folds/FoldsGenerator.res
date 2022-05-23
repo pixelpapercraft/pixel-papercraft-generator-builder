@@ -92,13 +92,31 @@ let script = () => {
   Generator.defineText("Folds Alpha = " ++ Belt.Int.toString(alpha))
   Generator.drawTexture("Slime Ball", (4, 0, 16, 12), (100, 100, 128, 128), ())
   Generator.drawTexture("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
-  Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
+  //Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
   Generator.drawTexture("Diamond Sword", (0, 0, 16, 16), (300, 550, 128, 64), ~flip=#Horizontal, ())
   Generator.drawLine("#ff0000", (100, 100, 128, 128))
   //Folds.drawFolds((100, 100, 128, 128))
   //Folds.drawFolds((250, 200, 64, 64))
   //Folds.drawFolds((200, 400, 112, 112))
   //Folds.drawFolds((300, 550, 128, 64))
+  // Draw a Head
+
+  let drawHead = (head: TextureMap.cuboid, ox, oy) => {
+    Generator.drawTexture("Steve", head.right, (ox, oy + 64, 64, 64), ())
+    Generator.drawTexture("Steve", head.front, (ox + 64, oy + 64, 64, 64), ())
+    Generator.drawTexture("Steve", head.left, (ox + 128, oy + 64, 64, 64), ())
+    Generator.drawTexture("Steve", head.back, (ox + 192, oy + 64, 64, 64), ())
+    Generator.drawTexture("Steve", head.top, (ox + 64, oy, 64, 64), ())
+    Generator.drawTexture("Steve", head.bottom, (ox + 64, oy + 128, 64, 64), ~flip=#Vertical, ())
+  }
+
+  let ox = 128
+  let oy = 400
+  drawHead(TextureMap.MinecraftCharacter.steve.base.head, ox, oy)
+
+  Generator.drawLine("#7b7b7b", (ox + 64, oy - 3 + 48, 64, 0))
+  Generator.drawLine("#7b7b7b", (ox - 3 + 48, oy + 64, 0, 64))
+
   Generator.fillBackgroundColor("#ffffff")
 }
 

@@ -114,12 +114,13 @@ module Context2d = {
   @send external fillRect: (context2d, int, int, int, int) => unit = "fillRect"
   @send external fill: context2d => unit = "fill"
   @send external getTransform: context2d => domMatrix = "getTransform"
-  @send external moveTo: (context2d, int, int) => unit = "moveTo"
-  @send external lineTo: (context2d, int, int) => unit = "lineTo"
+  @send external moveTo: (context2d, float, float) => unit = "moveTo"
+  @send external lineTo: (context2d, float, float) => unit = "lineTo"
   @send external beginPath: context2d => unit = "beginPath"
   @send external stroke: context2d => unit = "stroke"
   @set external fillStyle: (context2d, string) => unit = "fillStyle"
   @set external strokeStyle: (context2d, string) => unit = "strokeStyle"
+  @set external lineWidth: (context2d, float) => unit = "lineWidth"
 
   @set
   external setWebkitImageSmoothingEnabled: (context2d, bool) => unit = "webkitImageSmoothingEnabled"
