@@ -442,6 +442,11 @@ let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle
   let y = Belt.Int.toFloat(dy)
   let w = Belt.Int.toFloat(dw)
   let h = Belt.Int.toFloat(dh)
+
+  let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
+  let ow = Js.Math.sin(angle) *. 0.5
+  let oh = Js.Math.cos(angle) *. 0.5
+
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
@@ -454,8 +459,8 @@ let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle
           context->Context2d.beginPath
           context->Context2d.strokeStyle(strokeStyle)
           context->Context2d.lineWidth(1.0)
-          context->Context2d.moveTo(x, y -. 0.5)
-          context->Context2d.lineTo(x +. w, y +. h -. 0.5)
+          context->Context2d.moveTo(x -. ow, y -. oh)
+          context->Context2d.lineTo(x +. w -. ow, y +. h -. oh)
           context->Context2d.stroke
 
           model

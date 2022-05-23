@@ -87,9 +87,15 @@ let textures: array<Generator.textureDef> = [
 //Generator.drawImage("Dither", (x + w * 8, y + h * 8))
 let script = () => {
   Generator.defineText("Test page for some generator features.")
-  Generator.drawImage("Fold", (0, 0))
-  let alpha = Folds.getCurrentPagePixelAlpha(0, 0)
-  Generator.defineText("Folds Alpha = " ++ Belt.Int.toString(alpha))
+  let h = 0.0
+  let w = 64.0
+
+  let angle = Js.Math.atan2(~y=h, ~x=w, ())
+  let ow = Js.Math.sin(angle) *. 1.0
+  let oh = Js.Math.cos(angle) *. 1.0
+  Generator.defineText("Offset Width = " ++ Belt.Float.toString(ow))
+  Generator.defineText("Offset Height = " ++ Belt.Float.toString(oh))
+  Generator.defineText("Angle = " ++ Belt.Float.toString(angle))
   Generator.drawTexture("Slime Ball", (4, 0, 16, 12), (100, 100, 128, 128), ())
   Generator.drawTexture("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
   //Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
