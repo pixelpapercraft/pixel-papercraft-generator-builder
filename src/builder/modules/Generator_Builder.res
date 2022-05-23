@@ -452,6 +452,8 @@ let drawLine = (
   let ow = Js.Math.sin(angle) *. 0.5
   let oh = Js.Math.cos(angle) *. 0.5
 
+  let dashPattern: array<int> = [2, 2]
+
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
@@ -464,8 +466,9 @@ let drawLine = (
           context->Context2d.beginPath
           context->Context2d.strokeStyle(strokeStyle)
           context->Context2d.lineWidth(lineWidth)
-          context->Context2d.moveTo(x -. ow, y -. oh)
-          context->Context2d.lineTo(x +. w -. ow, y +. h -. oh)
+          context->Context2d.setLineDash(dashPattern)
+          context->Context2d.moveTo(x +. ow, y +. oh)
+          context->Context2d.lineTo(x +. w +. ow, y +. h +. oh)
           context->Context2d.stroke
 
           model
