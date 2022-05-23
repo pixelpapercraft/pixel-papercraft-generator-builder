@@ -125,8 +125,8 @@ let usePage = id => {
 let fillBackgroundColor = (fillStyle: string) => {
   model := Generator_Builder.fillBackgroundColor(model.contents, fillStyle)
 }
-let drawLine = (strokeStyle: string, dest: Builder.rectangle) => {
-  model := Generator_Builder.drawLine(model.contents, strokeStyle, dest)
+let drawLine = (strokeStyle: string, dest: Builder.rectangle, ~lineWidth: float=1.0, ()) => {
+  model := Generator_Builder.drawLine(model.contents, strokeStyle, dest, ~lineWidth)
 }
 
 let drawTexture = (

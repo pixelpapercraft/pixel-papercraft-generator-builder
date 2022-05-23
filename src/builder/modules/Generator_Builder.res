@@ -437,7 +437,12 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
   }
 }
 
-let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle) => {
+let drawLine = (
+  model: Model.t,
+  strokeStyle: string,
+  (dx, dy, dw, dh): rectangle,
+  ~lineWidth: float,
+) => {
   let x = Belt.Int.toFloat(dx)
   let y = Belt.Int.toFloat(dy)
   let w = Belt.Int.toFloat(dw)
@@ -458,7 +463,7 @@ let drawLine = (model: Model.t, strokeStyle: string, (dx, dy, dw, dh): rectangle
           context->Context2d.setImageSmoothingEnabled(false)
           context->Context2d.beginPath
           context->Context2d.strokeStyle(strokeStyle)
-          context->Context2d.lineWidth(1.0)
+          context->Context2d.lineWidth(lineWidth)
           context->Context2d.moveTo(x -. ow, y -. oh)
           context->Context2d.lineTo(x +. w -. ow, y +. h -. oh)
           context->Context2d.stroke
