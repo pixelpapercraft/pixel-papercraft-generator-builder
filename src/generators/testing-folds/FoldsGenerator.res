@@ -87,16 +87,18 @@ let textures: array<Generator.textureDef> = [
 //Generator.drawImage("Dither", (x + w * 8, y + h * 8))
 let script = () => {
   Generator.defineText("Test page for some generator features.")
-  Folds.drawTextureWithFolds("Slime Ball", (4, 0, 16, 12), (100, 100, 128, 128), ())
-  Folds.drawTextureWithFolds("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
-  Folds.drawTextureWithFolds("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ())
-  Folds.drawTextureWithFolds(
-    "Diamond Sword",
-    (0, 0, 16, 16),
-    (300, 550, 128, 64),
-    ~flip=#Horizontal,
-    (),
-  )
+  Generator.drawImage("Fold", (0, 0))
+  let alpha = Folds.getCurrentPagePixelAlpha(0, 0)
+  Generator.defineText("Folds Alpha = " ++ Belt.Int.toString(alpha))
+  Generator.drawTexture("Slime Ball", (4, 0, 16, 12), (100, 100, 128, 128), ())
+  Generator.drawTexture("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
+  Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
+  Generator.drawTexture("Diamond Sword", (0, 0, 16, 16), (300, 550, 128, 64), ~flip=#Horizontal, ())
+  Folds.drawFolds((100, 100, 128, 128))
+  //Folds.drawFolds((250, 200, 64, 64))
+  //Folds.drawFolds((200, 400, 112, 112))
+  //Folds.drawFolds((300, 550, 128, 64))
+  Generator.fillBackgroundColor("#ffffff")
 }
 
 let generator: Generator.generatorDef = {
