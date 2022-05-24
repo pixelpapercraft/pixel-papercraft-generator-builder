@@ -111,15 +111,15 @@ let script = () => {
   let oy = 400
   drawHead(TextureMap.MinecraftCharacter.steve.base.head, ox, oy)
 
-  Generator.drawLine("#7b7b7b", (ox + 64, oy - 1, 64, 0), ())
-  Generator.drawLine("#7b7b7b", (ox - 1, oy + 64, 0, 64), ())
-  Generator.drawLine("#7b7b7b", (ox, oy + 64 - 1, 256, 0), ())
-  Generator.drawLine("#7b7b7b", (ox, oy + 128, 256, 0), ())
-  Generator.drawLine("#7b7b7b", (ox + 64, oy + 192, 64, 0), ())
-  Generator.drawLine("#7b7b7b", (ox + 64 - 1, oy, 0, 192), ())
-  Generator.drawLine("#7b7b7b", (ox + 128, oy, 0, 192), ())
-  Generator.drawLine("#7b7b7b", (ox + 192 - 1, oy + 64, 0, 64), ())
-  Generator.drawLine("#7b7b7b", (ox + 256, oy + 64, 0, 64), ())
+  Generator.drawFold((ox + 64, oy - 1, 64, 0))
+  Generator.drawFold((ox - 1, oy + 64, 0, 64))
+  Generator.drawFold((ox, oy + 64 - 1, 256, 0))
+  Generator.drawFold((ox, oy + 128, 256, 0))
+  Generator.drawFold((ox + 64, oy + 192, 64, 0))
+  Generator.drawFold((ox + 64 - 1, oy, 0, 192))
+  Generator.drawFold((ox + 128, oy, 0, 192))
+  Generator.drawFold((ox + 192 - 1, oy + 64, 0, 64))
+  Generator.drawFold((ox + 256, oy + 64, 0, 64))
 
   Generator.fillBackgroundColor("#ffffff")
 }

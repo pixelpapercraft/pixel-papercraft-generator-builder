@@ -144,6 +144,17 @@ let drawLine = (
     )
 }
 
+let drawFold = (dest: Builder.rectangle) => {
+  model :=
+    Generator_Builder.drawLine(
+      model.contents,
+      "#7b7b7b",
+      dest,
+      ~lineWidth=1.0,
+      ~dashPattern=[2, 2],
+      ~lineDashOffset=3,
+    )
+}
 let drawTexture = (
   id: string,
   source: Builder.rectangle,
