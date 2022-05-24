@@ -442,6 +442,8 @@ let drawLine = (
   strokeStyle: string,
   (dx, dy, dw, dh): rectangle,
   ~lineWidth: float,
+  ~dashPattern: array<int>,
+  ~lineDashOffset: int,
 ) => {
   let x = Belt.Int.toFloat(dx)
   let y = Belt.Int.toFloat(dy)
@@ -451,8 +453,6 @@ let drawLine = (
   let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
   let ow = Js.Math.sin(angle) *. 0.5
   let oh = Js.Math.cos(angle) *. 0.5
-
-  let dashPattern: array<int> = [2, 2]
 
   switch model.currentPage {
   | None => model
@@ -467,7 +467,7 @@ let drawLine = (
           context->Context2d.strokeStyle(strokeStyle)
           context->Context2d.lineWidth(lineWidth)
           context->Context2d.setLineDash(dashPattern)
-          context->Context2d.lineDashOffset(3)
+          context->Context2d.lineDashOffset(lineDashOffset)
           context->Context2d.moveTo(x +. ow, y +. oh)
           context->Context2d.lineTo(x +. w +. ow, y +. h +. oh)
           context->Context2d.stroke
