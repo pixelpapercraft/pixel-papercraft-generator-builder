@@ -523,10 +523,33 @@ By default, the generator uses a transparent background. You can fill the backgr
 
 ```res
 // Fill the background color with red
-Generator.fillBackgroundColor("#ff0000")
+Generator.fillBackgroundColor(~color="#ff0000", ())
+
+// Fill the background color with white
+Generator.fillBackgroundColor()
 ```
 
 Note: This does not overwrite any images of textures you've drawn. It just changes the background from transparent to the color you specify.
+
+### Drawing lines
+
+You can draw straight lines onto the generator canvas. The line color, width, dash pattern, and dash offset can all be customized, but the defaults will make a line that works well for standard tab lines.
+
+```res
+// Draw a line starting at (0, 100) that ends 50 pixels right and 150 pixels down from there
+Generator.drawLine((0, 100, 50, 150), ())
+
+// Draw a red line with doubled width and a mountain fold pattern
+Generator.drawLine((0, 100, 50, 150), ~color="#ff0000", ~width=2.0, ~pattern=[12, 2, 2, 2], ~offset=14, ())
+```
+
+### Drawing fold lines
+
+You can also draw standard fold lines with a simpler function:
+
+```res
+Generator.drawFold((0, 100, 50, 150))
+```
 
 ### Getting pixel colors
 

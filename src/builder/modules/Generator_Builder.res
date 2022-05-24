@@ -441,9 +441,9 @@ let drawLine = (
   model: Model.t,
   (dx, dy, dw, dh): rectangle,
   ~color: string,
-  ~lineWidth: float,
-  ~dashPattern: array<int>,
-  ~lineDashOffset: int,
+  ~width: float,
+  ~pattern: array<int>,
+  ~offset: int,
 ) => {
   let x = Belt.Int.toFloat(dx)
   let y = Belt.Int.toFloat(dy)
@@ -465,9 +465,9 @@ let drawLine = (
           context->Context2d.setImageSmoothingEnabled(false)
           context->Context2d.beginPath
           context->Context2d.strokeStyle(color)
-          context->Context2d.lineWidth(lineWidth)
-          context->Context2d.setLineDash(dashPattern)
-          context->Context2d.lineDashOffset(lineDashOffset)
+          context->Context2d.lineWidth(width)
+          context->Context2d.setLineDash(pattern)
+          context->Context2d.lineDashOffset(offset)
           context->Context2d.moveTo(x +. ow, y +. oh)
           context->Context2d.lineTo(x +. w +. ow, y +. h +. oh)
           context->Context2d.stroke

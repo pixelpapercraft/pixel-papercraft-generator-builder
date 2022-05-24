@@ -128,20 +128,12 @@ let fillBackgroundColor = (~color: string="#ffffff", ()) => {
 let drawLine = (
   dest: Builder.rectangle,
   ~color: string="#000000",
-  ~lineWidth: float=1.0,
-  ~dashPattern: array<int>=[],
-  ~lineDashOffset: int=0,
+  ~width: float=1.0,
+  ~pattern: array<int>=[],
+  ~offset: int=0,
   (),
 ) => {
-  model :=
-    Generator_Builder.drawLine(
-      model.contents,
-      dest,
-      ~color,
-      ~lineWidth,
-      ~dashPattern,
-      ~lineDashOffset,
-    )
+  model := Generator_Builder.drawLine(model.contents, dest, ~color, ~width, ~pattern, ~offset)
 }
 
 let drawFold = (dest: Builder.rectangle) => {
@@ -150,9 +142,9 @@ let drawFold = (dest: Builder.rectangle) => {
       model.contents,
       dest,
       ~color="#7b7b7b",
-      ~lineWidth=1.0,
-      ~dashPattern=[2, 2],
-      ~lineDashOffset=3,
+      ~width=1.0,
+      ~pattern=[2, 2],
+      ~offset=3,
     )
 }
 let drawTexture = (
