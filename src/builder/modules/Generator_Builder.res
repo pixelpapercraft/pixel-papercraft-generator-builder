@@ -401,7 +401,7 @@ let defineText = (model: Model.t, text: string) => {
   }
 }
 
-let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
+let fillBackgroundColor = (model: Model.t, ~color: string) => {
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
@@ -411,7 +411,7 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
       | Some(currentPage) => {
           let {width, height} = currentPage.canvasWithContext
           let newCanvas = Generator_CanvasWithContext.make(width, height)
-          newCanvas.context->Context2d.fillStyle(fillStyle)
+          newCanvas.context->Context2d.fillStyle(color)
           newCanvas.context->Context2d.fillRect(0, 0, width, height)
           newCanvas.context->Context2d.drawCanvasXY(currentPage.canvasWithContext.canvas, 0, 0)
 
@@ -439,8 +439,8 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
 
 let drawLine = (
   model: Model.t,
-  strokeStyle: string,
   (dx, dy, dw, dh): rectangle,
+  ~color: string,
   ~lineWidth: float,
   ~dashPattern: array<int>,
   ~lineDashOffset: int,
@@ -464,7 +464,7 @@ let drawLine = (
           let context = currentPage.canvasWithContext.context
           context->Context2d.setImageSmoothingEnabled(false)
           context->Context2d.beginPath
-          context->Context2d.strokeStyle(strokeStyle)
+          context->Context2d.strokeStyle(color)
           context->Context2d.lineWidth(lineWidth)
           context->Context2d.setLineDash(dashPattern)
           context->Context2d.lineDashOffset(lineDashOffset)

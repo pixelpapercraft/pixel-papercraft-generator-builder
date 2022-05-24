@@ -122,12 +122,12 @@ let usePage = id => {
   model := Builder.usePage(model.contents, id)
 }
 
-let fillBackgroundColor = (fillStyle: string) => {
-  model := Generator_Builder.fillBackgroundColor(model.contents, fillStyle)
+let fillBackgroundColor = (~color: string="#ffffff", ()) => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, ~color)
 }
 let drawLine = (
-  strokeStyle: string,
   dest: Builder.rectangle,
+  ~color: string="#000000",
   ~lineWidth: float=1.0,
   ~dashPattern: array<int>=[],
   ~lineDashOffset: int=0,
@@ -136,8 +136,8 @@ let drawLine = (
   model :=
     Generator_Builder.drawLine(
       model.contents,
-      strokeStyle,
       dest,
+      ~color,
       ~lineWidth,
       ~dashPattern,
       ~lineDashOffset,
@@ -148,8 +148,8 @@ let drawFold = (dest: Builder.rectangle) => {
   model :=
     Generator_Builder.drawLine(
       model.contents,
-      "#7b7b7b",
       dest,
+      ~color="#7b7b7b",
       ~lineWidth=1.0,
       ~dashPattern=[2, 2],
       ~lineDashOffset=3,
