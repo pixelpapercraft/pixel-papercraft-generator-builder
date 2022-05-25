@@ -122,9 +122,14 @@ let usePage = id => {
   model := Builder.usePage(model.contents, id)
 }
 
-let fillBackgroundColor = (~color: string="#ffffff", ()) => {
-  model := Generator_Builder.fillBackgroundColor(model.contents, ~color)
+let fillBackgroundColor = (color: string) => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, color)
 }
+
+let fillBackgroundColorWithWhite = () => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, "#ffffff")
+}
+
 let drawLine = (
   dest: Builder.rectangle,
   ~color: string="#000000",

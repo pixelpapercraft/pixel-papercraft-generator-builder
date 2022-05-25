@@ -401,7 +401,7 @@ let defineText = (model: Model.t, text: string) => {
   }
 }
 
-let fillBackgroundColor = (model: Model.t, ~color: string) => {
+let fillBackgroundColor = (model: Model.t, color: string) => {
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {

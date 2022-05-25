@@ -128,7 +128,7 @@ let script = () => {
   Generator.drawFold((ox + 192 - 1, oy + 64, 0, 64))
   Generator.drawFold((ox + 256, oy + 64, 0, 64))
 
-  Generator.fillBackgroundColor()
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
