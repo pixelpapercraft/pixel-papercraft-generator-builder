@@ -466,7 +466,6 @@ let drawLine = (
       | None => model
       | Some(currentPage) => {
           let context = currentPage.canvasWithContext.context
-          context->Context2d.setImageSmoothingEnabled(false)
           context->Context2d.beginPath
           context->Context2d.strokeStyle(color)
           context->Context2d.lineWidth(width)
