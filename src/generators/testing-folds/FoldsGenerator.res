@@ -92,7 +92,8 @@ let script = () => {
   //Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
   Generator.drawTexture("Diamond Sword", (0, 0, 16, 16), (300, 550, 128, 64), ~flip=#Horizontal, ())
   Generator.drawLine(
-    (0, 100, 50, 150),
+    (0, 100),
+    (50, 250),
     ~color="#ff0000",
     ~width=2.0,
     ~pattern=[12, 4, 4, 4],
@@ -118,15 +119,15 @@ let script = () => {
   let oy = 400
   drawHead(TextureMap.MinecraftCharacter.steve.base.head, ox, oy)
 
-  Generator.drawFold((ox + 64, oy - 1, 64, 0))
-  Generator.drawFold((ox - 1, oy + 64, 0, 64))
-  Generator.drawFold((ox, oy + 64 - 1, 256, 0))
-  Generator.drawFold((ox, oy + 128, 256, 0))
-  Generator.drawFold((ox + 64, oy + 192, 64, 0))
-  Generator.drawFold((ox + 64 - 1, oy, 0, 192))
-  Generator.drawFold((ox + 128, oy, 0, 192))
-  Generator.drawFold((ox + 192 - 1, oy + 64, 0, 64))
-  Generator.drawFold((ox + 256, oy + 64, 0, 64))
+  Generator.drawFold((ox + 64, oy - 1), (ox + 128, oy - 1))
+  Generator.drawFold((ox - 1, oy + 64), (ox - 1, oy + 128))
+  Generator.drawFold((ox, oy + 64 - 1), (ox + 256, oy + 64 - 1))
+  Generator.drawFold((ox, oy + 128), (ox + 256, oy + 128))
+  Generator.drawFold((ox + 64, oy + 192), (ox + 128, oy + 192))
+  Generator.drawFold((ox + 64 - 1, oy), (ox + 64 - 1, oy + 192))
+  Generator.drawFold((ox + 128, oy), (ox + 128, oy + 192))
+  Generator.drawFold((ox + 192 - 1, oy + 64), (ox + 192 - 1, oy + 128))
+  Generator.drawFold((ox + 256, oy + 64), (ox + 256, oy + 128))
 
   Generator.fillBackgroundColorWithWhite()
 }

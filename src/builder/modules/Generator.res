@@ -131,21 +131,23 @@ let fillBackgroundColorWithWhite = () => {
 }
 
 let drawLine = (
-  dest: Builder.rectangle,
+  from: Builder.position,
+  to: Builder.position,
   ~color: string="#000000",
   ~width: float=1.0,
   ~pattern: array<int>=[],
   ~offset: int=0,
   (),
 ) => {
-  model := Generator_Builder.drawLine(model.contents, dest, ~color, ~width, ~pattern, ~offset)
+  model := Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern, ~offset)
 }
 
-let drawFold = (dest: Builder.rectangle) => {
+let drawFold = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
       model.contents,
-      dest,
+      from,
+      to,
       ~color="#7b7b7b",
       ~width=1.0,
       ~pattern=[2, 2],
