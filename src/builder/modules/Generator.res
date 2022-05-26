@@ -154,6 +154,19 @@ let drawFold = (from: Builder.position, to: Builder.position) => {
       ~offset=3,
     )
 }
+
+let drawFoldPath = (points: array<Builder.position>) => {
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      points,
+      ~color="#7b7b7b",
+      ~width=1.0,
+      ~pattern=[2, 2],
+      ~offset=3,
+    )
+}
+
 let drawTexture = (
   id: string,
   source: Builder.rectangle,

@@ -100,10 +100,7 @@ let script = () => {
     ~offset=14,
     (),
   )
-  //Folds.drawFolds((100, 100, 128, 128))
-  //Folds.drawFolds((250, 200, 64, 64))
-  //Folds.drawFolds((200, 400, 112, 112))
-  //Folds.drawFolds((300, 550, 128, 64))
+  Generator.drawFoldPath([(0, 0), (0, 100), (100, 100), (150, 50)])
   // Draw a Head
 
   let drawHead = (head: TextureMap.cuboid, ox, oy) => {
