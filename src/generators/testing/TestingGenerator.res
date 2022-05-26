@@ -337,7 +337,7 @@ let script = () => {
 
   Generator.usePage("Color Test 1")
 
-  Generator.fillBackgroundColorWithWhite()
+  Generator.fillBackgroundColor("#000000")
   Generator.drawImage("ImageColors64x64", (0, 0))
 
   Generator.defineText("Page pixel color test #1")
@@ -369,7 +369,7 @@ let script = () => {
 
   Generator.usePage("Color Test 2")
 
-  Generator.fillBackgroundColor("#ffff00")
+  Generator.fillBackgroundColor("#ffffff")
   Generator.drawImage("ImageColors64x64", (0, 0))
 
   Generator.defineText("Page pixel color test #1")
