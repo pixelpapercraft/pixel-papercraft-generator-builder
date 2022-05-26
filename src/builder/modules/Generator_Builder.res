@@ -439,21 +439,30 @@ let fillBackgroundColor = (model: Model.t, color: string) => {
 
 let drawLine = (
   model: Model.t,
-  (x0, y0): position,
-  (x, y): position,
+  (x1, y1): position,
+  (x2, y2): position,
   ~color: string,
   ~width: float,
   ~pattern: array<int>,
   ~offset: int,
 ) => {
-  let x1 = Belt.Int.toFloat(x0)
-  let y1 = Belt.Int.toFloat(y0)
-  let x2 = Belt.Int.toFloat(x)
-  let y2 = Belt.Int.toFloat(y)
+  let x1 = Belt.Int.toFloat(x1)
+  let y1 = Belt.Int.toFloat(y1)
+  let x2 = Belt.Int.toFloat(x2)
+  let y2 = Belt.Int.toFloat(y2)
 
   let w = x2 -. x1
   let h = y2 -. y1
 
+  /* When a line is drawn and its start and end coordinates are integer values, 
+  the resulting line is drawn in between to rows of pixels, resulting in a line
+  that is two pixels wide and half transparent. To fix this, the line's start
+  and end positions need to be offset 0.5 pixels in the direction normal to the
+  line's slope. The following code gets the angle of the line, and creates the
+  offset needed in each direction to place the line in the correct spot. This
+  results in a fully opaque line with the correct width if the line is vertical
+  or horizontal, but antialiasing may still affect lines at other angles.
+ */
   let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
   let ox = Js.Math.sin(angle) *. 0.5
   let oy = Js.Math.cos(angle) *. 0.5
