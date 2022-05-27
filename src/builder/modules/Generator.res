@@ -265,7 +265,7 @@ let drawCuboid = (
   ss: (int, int, int),
   dp: Builder.position,
   ds: (int, int, int),
-  ~isLeftSide: bool=false,
+  ~leftSide: bool=false,
   (),
 ) => {
   let (sx, sy) = sp
@@ -273,7 +273,7 @@ let drawCuboid = (
   let (dx, dy) = dp
   let (dw, dh, dl) = ds
 
-  if !isLeftSide {
+  if !leftSide {
     drawTexture(id, (sx + sl, sy + sl, sw, sh), (dx + dl, dy + dl, dw, dh), ()) // Front
     drawTexture(id, (sx + sl + sw, sy + sl, sl, sh), (dx + dl + dw, dy + dl, dl, dh), ()) // Left
     drawTexture(id, (sx, sy + sl, sl, sh), (dx, dy + dl, dl, dh), ()) // Right
@@ -299,6 +299,26 @@ let drawCuboid = (
       ~flip=#Vertical,
       (),
     ) // Bottom
+  }
+}
+
+let drawFoldCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawFoldRect((x + l, y, w, w * 2 + h))
+    drawFoldRect((x, y + l, l * 2 + w * 2, h))
+    drawFold((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
+  } else {
+    drawFoldRect((x + l + w, y, w, w * 2 + h))
+    drawFoldRect((x, y + l, l * 2 + w * 2, h))
+    drawFold((x + l, y + l), (x + l, y + l + h))
   }
 }
 

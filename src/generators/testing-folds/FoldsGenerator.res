@@ -112,7 +112,7 @@ let script = () => {
     Generator.drawTexture("Steve", head.bottom, (ox + 64, oy + 128, 64, 64), ~flip=#Vertical, ())
   }
   let drawHead2 = (skin: string, (x, y): (int, int)) => {
-    Generator.drawCuboid(skin, (0, 0), (8, 8, 8), (x, y), (64, 64, 64), ())
+    Generator.drawCuboid(skin, (0, 0), (8, 8, 8), (x, y), (64, 64, 64), ~leftSide=true, ())
   }
 
   let ox = 128
@@ -144,8 +144,9 @@ let script = () => {
 
   drawHead2("Steve", (ox, oy))
   //Generator.drawImage("Fold", (ox + 64, oy))
-  Generator.drawFoldRect((ox + 64, oy, 64, 192))
-  Generator.drawLineRect((ox, oy + 64, 256, 64), ~color="#345678", ())
+  //Generator.drawFoldRect((ox + 64, oy, 64, 192))
+  //Generator.drawLineRect((ox, oy + 64, 256, 64), ~color="#345678", ())
+  Generator.drawFoldCuboid((ox, oy), (64, 64, 64), ~leftSide=true, ())
 
   Generator.fillBackgroundColorWithWhite()
 }
