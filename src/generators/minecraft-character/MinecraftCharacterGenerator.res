@@ -60,7 +60,7 @@ let textures: array<Generator.textureDef> = [
 let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
 
-let drawHead = (head: TextureMap.cuboid, ox, oy) => {
+/* let drawHead = (head: TextureMap.cuboid, ox, oy) => {
   Generator.drawTexture("Skin", head.right, (ox, oy + 64, 64, 64), ())
   Generator.drawTexture("Skin", head.front, (ox + 64, oy + 64, 64, 64), ())
   Generator.drawTexture("Skin", head.left, (ox + 128, oy + 64, 64, 64), ())
@@ -130,6 +130,38 @@ let drawAlexLeftArm = (leftArm: TextureMap.cuboid, ox, oy) => {
   Generator.drawTexture("Skin", leftArm.back, (ox - 24, oy + 32, 24, 96), ())
   Generator.drawTexture("Skin", leftArm.top, (ox + 32, oy, 24, 32), ())
   Generator.drawTexture("Skin", leftArm.bottom, (ox + 32, oy + 128, 24, 32), ~flip=#Vertical, ())
+} */
+
+let drawHead = (head: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (0, 0), (8, 8, 8), (ox, oy), (64, 64, 64), ())
+}
+
+let drawBody = (body: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (16, 16), (8, 12, 4), (ox, oy), (64, 96, 32), ())
+}
+
+let drawRightLeg = (rightLeg: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (0, 16), (4, 12, 4), (ox, oy), (32, 96, 32), ())
+}
+
+let drawLeftLeg = (leftLeg: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (16, 48), (4, 12, 4), (ox, oy), (32, 96, 32), ~leftSide=true, ())
+}
+
+let drawSteveRightArm = (rightArm: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (40, 16), (4, 12, 4), (ox, oy), (32, 96, 32), ())
+}
+
+let drawSteveLeftArm = (leftArm: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (32, 48), (4, 12, 4), (ox, oy), (32, 96, 32), ~leftSide=true, ())
+}
+
+let drawAlexRightArm = (rightArm: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (40, 16), (3, 12, 4), (ox, oy), (24, 96, 32), ())
+}
+
+let drawAlexLeftArm = (leftArm: TextureMap.cuboid, ox, oy) => {
+  Generator.drawCuboid("Skin", (32, 48), (3, 12, 4), (ox, oy), (24, 96, 32), ())
 }
 
 let script = () => {
@@ -228,7 +260,7 @@ let script = () => {
     }
 
     // Left Arm
-    let ox = 415
+    let ox = 383
     let oy = 373
     drawAlexLeftArm(alex.base.leftArm, ox, oy)
     if showLeftArmOverlay {
@@ -244,7 +276,7 @@ let script = () => {
     }
 
     // Left Arm
-    let ox = 415
+    let ox = 383
     let oy = 373
     drawSteveLeftArm(steve.base.leftArm, ox, oy)
     if showLeftArmOverlay {
@@ -263,7 +295,7 @@ let script = () => {
 
   // Left Leg
 
-  let ox = 415
+  let ox = 383
   let oy = 587
   drawLeftLeg(steve.base.leftLeg, ox, oy)
   if showLeftLegOverlay {
