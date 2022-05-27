@@ -41,6 +41,42 @@ type rectangleLegacy = {
 
 type rectangle = (int, int, int, int)
 
+type cuboidLegacy = {
+  top: rectangleLegacy,
+  bottom: rectangleLegacy,
+  front: rectangleLegacy,
+  right: rectangleLegacy,
+  left: rectangleLegacy,
+  back: rectangleLegacy,
+}
+
+type cuboid = {
+  top: rectangle,
+  bottom: rectangle,
+  front: rectangle,
+  right: rectangle,
+  left: rectangle,
+  back: rectangle,
+}
+
+let makeCuboidLegacy = ((x, y): position, (w, h, l)): cuboidLegacy => {
+  top: {x: x + l, y: y, w: w, h: l},
+  bottom: {x: x + l + w, y: y, w: w, h: l},
+  front: {x: x + l, y: y + l, w: w, h: h},
+  right: {x: x, y: y + l, w: l, h: h},
+  left: {x: x + l + w, y: y + l, w: l, h: h},
+  back: {x: x + l * 2 + w, y: y + l, w: w, h: h},
+}
+
+let makeCuboid = ((x, y): position, (w, h, l)): cuboid => {
+  top: (x + l, y, w, l),
+  bottom: (x + l + w, y, w, l),
+  front: (x + l, y + l, w, h),
+  right: (x, y + l, l, h),
+  left: (x + l + w, y + l, l, h),
+  back: (x + l * 2 + w, y + l, w, h),
+}
+
 module Input = {
   type rangeArgs = {
     min: int,
