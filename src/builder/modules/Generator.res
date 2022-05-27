@@ -259,6 +259,49 @@ let drawTextureLegacy = (
   )
 }
 
+let drawCuboid = (
+  id,
+  sp: Builder.position,
+  ss: (int, int, int),
+  dp: Builder.position,
+  ds: (int, int, int),
+  ~isLeftSide: bool=false,
+  (),
+) => {
+  let (sx, sy) = sp
+  let (sw, sh, sl) = ss
+  let (dx, dy) = dp
+  let (dw, dh, dl) = ds
+
+  if !isLeftSide {
+    drawTexture(id, (sx + sl, sy + sl, sw, sh), (dx + dl, dy + dl, dw, dh), ()) // Front
+    drawTexture(id, (sx + sl + sw, sy + sl, sl, sh), (dx + dl + dw, dy + dl, dl, dh), ()) // Left
+    drawTexture(id, (sx, sy + sl, sl, sh), (dx, dy + dl, dl, dh), ()) // Right
+    drawTexture(id, (sx + sl * 2 + sw, sy + sl, sw, sh), (dx + dl * 2 + dw, dy + dl, dw, dh), ()) // Back
+    drawTexture(id, (sx + sl, sy, sw, sl), (dx + dl, dy, dw, dl), ()) // Top
+    drawTexture(
+      id,
+      (sx + sl + sw, sy, sw, sl),
+      (dx + dl, dy + dl + dh, dw, dl),
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+  } else {
+    drawTexture(id, (sx + sl, sy + sl, sw, sh), (dx + dl + dw, dy + dl, dw, dh), ()) // Front
+    drawTexture(id, (sx + sl + sw, sy + sl, sl, sh), (dx + dl + dw * 2, dy + dl, dl, dh), ()) // Left
+    drawTexture(id, (sx, sy + sl, sl, sh), (dx + dw, dy + dl, dl, dh), ()) // Right
+    drawTexture(id, (sx + sl * 2 + sw, sy + sl, sw, sh), (dx, dy + dl, dw, dh), ()) // Back
+    drawTexture(id, (sx + sl, sy, sw, sl), (dx + dl + dw, dy, dw, dl), ()) // Top
+    drawTexture(
+      id,
+      (sx + sl + sw, sy, sw, sl),
+      (dx + dl + dw, dy + dl + dh, dw, dl),
+      ~flip=#Vertical,
+      (),
+    ) // Bottom
+  }
+}
+
 let drawImage = (id: string, position: Builder.position) => {
   model := Builder.drawImage(model.contents, id, position)
 }
