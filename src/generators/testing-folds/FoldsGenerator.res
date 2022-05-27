@@ -118,8 +118,8 @@ let script = () => {
   let ox = 128
   let oy = 400
   drawHead(TextureMap.MinecraftCharacter.steve.base.head, ox, oy)
-
-  Generator.drawFold((ox + 64, oy - 1), (ox + 128, oy - 1))
+  Generator.drawLineCuboid((ox, oy), (64, 64, 64), ~color="#007744", ())
+  /* Generator.drawFold((ox + 64, oy - 1), (ox + 128, oy - 1))
   Generator.drawFold((ox - 1, oy + 64), (ox - 1, oy + 128))
   Generator.drawFold((ox, oy + 64 - 1), (ox + 256, oy + 64 - 1))
   Generator.drawFold((ox, oy + 128), (ox + 256, oy + 128))
@@ -127,7 +127,7 @@ let script = () => {
   Generator.drawFold((ox + 64 - 1, oy), (ox + 64 - 1, oy + 192))
   Generator.drawFold((ox + 128, oy), (ox + 128, oy + 192))
   Generator.drawFold((ox + 192 - 1, oy + 64), (ox + 192 - 1, oy + 128))
-  Generator.drawFold((ox + 256, oy + 64), (ox + 256, oy + 128))
+  Generator.drawFold((ox + 256, oy + 64), (ox + 256, oy + 128)) */
 
   let ox = 256
   let oy = 200

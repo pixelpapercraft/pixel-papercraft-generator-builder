@@ -176,6 +176,38 @@ let drawLineRect = (
     )
 }
 
+let drawLineCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~color: string="#000000",
+  ~width: float=1.0,
+  ~pattern: array<int>=[],
+  ~offset: int=0,
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawLineRect((x + l, y, w, w * 2 + h), ~color, ~width, ~pattern, ~offset, ())
+    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ~pattern, ~offset, ())
+    drawLine(
+      (x + l * 2 + w - 1, y + l),
+      (x + l * 2 + w - 1, y + l + h),
+      ~color,
+      ~width,
+      ~pattern,
+      ~offset,
+      (),
+    )
+  } else {
+    drawLineRect((x + l + w, y, w, w * 2 + h), ~color, ~width, ~pattern, ~offset, ())
+    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ~pattern, ~offset, ())
+    drawLine((x + l, y + l), (x + l, y + l + h), ~color, ~width, ~pattern, ~offset, ())
+  }
+}
+
 let drawFold = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
@@ -214,6 +246,38 @@ let drawFoldRect = (dest: Builder.rectangle) => {
       ~offset=3,
       ~close=false,
     )
+}
+
+let drawFoldCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawFoldRect((x + l, y, w, w * 2 + h))
+    drawFoldRect((x, y + l, l * 2 + w * 2, h))
+    drawFold((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
+  } else {
+    drawFoldRect((x + l + w, y, w, w * 2 + h))
+    drawFoldRect((x, y + l, l * 2 + w * 2, h))
+    drawFold((x + l, y + l), (x + l, y + l + h))
+  }
+}
+
+let drawImage = (id: string, position: Builder.position) => {
+  model := Builder.drawImage(model.contents, id, position)
+}
+
+let hasImage = (id: string) => {
+  Builder.hasImage(model.contents, id)
+}
+
+let hasTexture = (id: string) => {
+  Builder.hasTexture(model.contents, id)
 }
 
 let drawTexture = (
@@ -300,36 +364,4 @@ let drawCuboid = (
       (),
     ) // Bottom
   }
-}
-
-let drawFoldCuboid = (
-  position: Builder.position,
-  scale: (int, int, int),
-  ~leftSide: bool=false,
-  (),
-) => {
-  let (x, y) = position
-  let (w, h, l) = scale
-
-  if !leftSide {
-    drawFoldRect((x + l, y, w, w * 2 + h))
-    drawFoldRect((x, y + l, l * 2 + w * 2, h))
-    drawFold((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
-  } else {
-    drawFoldRect((x + l + w, y, w, w * 2 + h))
-    drawFoldRect((x, y + l, l * 2 + w * 2, h))
-    drawFold((x + l, y + l), (x + l, y + l + h))
-  }
-}
-
-let drawImage = (id: string, position: Builder.position) => {
-  model := Builder.drawImage(model.contents, id, position)
-}
-
-let hasImage = (id: string) => {
-  Builder.hasImage(model.contents, id)
-}
-
-let hasTexture = (id: string) => {
-  Builder.hasTexture(model.contents, id)
 }
