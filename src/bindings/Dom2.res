@@ -117,6 +117,7 @@ module Context2d = {
   @send external moveTo: (context2d, float, float) => unit = "moveTo"
   @send external lineTo: (context2d, float, float) => unit = "lineTo"
   @send external beginPath: context2d => unit = "beginPath"
+  @send external closePath: context2d => unit = "closePath"
   @send external stroke: context2d => unit = "stroke"
   @send external setLineDash: (context2d, array<int>) => unit = "setLineDash"
   @set external fillStyle: (context2d, string) => unit = "fillStyle"

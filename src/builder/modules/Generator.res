@@ -142,6 +142,19 @@ let drawLine = (
   model := Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern, ~offset)
 }
 
+let drawLinePath = (
+  points: array<Builder.position>,
+  ~color: string="#000000",
+  ~width: float=1.0,
+  ~pattern: array<int>=[],
+  ~offset: int=0,
+  ~close: bool=false,
+  (),
+) => {
+  model :=
+    Generator_Builder.drawPath(model.contents, points, ~color, ~width, ~pattern, ~offset, ~close)
+}
+
 let drawFold = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
@@ -155,7 +168,7 @@ let drawFold = (from: Builder.position, to: Builder.position) => {
     )
 }
 
-let drawFoldPath = (points: array<Builder.position>) => {
+let drawFoldPath = (points: array<Builder.position>, ~close: bool=false, ()) => {
   model :=
     Generator_Builder.drawPath(
       model.contents,
@@ -164,6 +177,7 @@ let drawFoldPath = (points: array<Builder.position>) => {
       ~width=1.0,
       ~pattern=[2, 2],
       ~offset=3,
+      ~close,
     )
 }
 

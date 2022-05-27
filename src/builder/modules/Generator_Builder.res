@@ -504,6 +504,7 @@ let drawPath = (
   ~width: float,
   ~pattern: array<int>,
   ~offset: int,
+  ~close: bool,
 ) => {
   switch model.currentPage {
   | None => model
@@ -521,7 +522,14 @@ let drawPath = (
           for i in 1 to Js.Array.length(points) - 1 {
             let (x, y) = points[i]
             let (x0, y0) = points[i - 1]
-            let (ox, oy) = getOffset(points[i - 1], points[i])
+            let (ox, oy) = getOffset((x, y), (x0, y0))
+            context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
+            context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
+          }
+          if close {
+            let (x, y) = points[Js.Array.length(points) - 1]
+            let (x0, y0) = points[0]
+            let (ox, oy) = getOffset((x, y), (x0, y0))
             context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
             context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
           }

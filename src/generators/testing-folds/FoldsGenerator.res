@@ -100,7 +100,7 @@ let script = () => {
     ~offset=14,
     (),
   )
-  Generator.drawFoldPath([(0, 0), (0, 100), (100, 100), (150, 50)])
+  Generator.drawFoldPath([(0, 0), (0, 100), (100, 100), (150, 50)], ())
   // Draw a Head
 
   let drawHead = (head: TextureMap.cuboid, ox, oy) => {
@@ -125,6 +125,16 @@ let script = () => {
   Generator.drawFold((ox + 128, oy), (ox + 128, oy + 192))
   Generator.drawFold((ox + 192 - 1, oy + 64), (ox + 192 - 1, oy + 128))
   Generator.drawFold((ox + 256, oy + 64), (ox + 256, oy + 128))
+
+  let ox = 256
+  let oy = 200
+
+  Generator.drawLinePath(
+    [(ox, oy), (ox + 64, oy + 64), (ox, oy + 128), (ox - 64, oy + 64)],
+    ~color="#a71810",
+    ~close=true,
+    (),
+  )
 
   Generator.fillBackgroundColorWithWhite()
 }
