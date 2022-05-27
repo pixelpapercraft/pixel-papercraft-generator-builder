@@ -155,6 +155,27 @@ let drawLinePath = (
     Generator_Builder.drawPath(model.contents, points, ~color, ~width, ~pattern, ~offset, ~close)
 }
 
+let drawLineRect = (
+  dest: Builder.rectangle,
+  ~color: string="#000000",
+  ~width: float=1.0,
+  ~pattern: array<int>=[],
+  ~offset: int=0,
+  (),
+) => {
+  let (x, y, w, h) = dest
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
+      ~color,
+      ~width,
+      ~pattern,
+      ~offset,
+      ~close=false,
+    )
+}
+
 let drawFold = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
@@ -178,6 +199,20 @@ let drawFoldPath = (points: array<Builder.position>, ~close: bool=false, ()) => 
       ~pattern=[2, 2],
       ~offset=3,
       ~close,
+    )
+}
+
+let drawFoldRect = (dest: Builder.rectangle) => {
+  let (x, y, w, h) = dest
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
+      ~color="#7b7b7b",
+      ~width=1.0,
+      ~pattern=[2, 2],
+      ~offset=3,
+      ~close=false,
     )
 }
 

@@ -87,11 +87,11 @@ let textures: array<Generator.textureDef> = [
 //Generator.drawImage("Dither", (x + w * 8, y + h * 8))
 let script = () => {
   Generator.defineText("Test page for some generator features.")
-  Generator.drawTexture("Slime Ball", (4, 0, 16, 12), (100, 100, 128, 128), ())
-  Generator.drawTexture("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
+  //Generator.drawTexture("Slime Ball", (4, 0, 16, 12), (100, 100, 128, 128), ())
+  //Generator.drawTexture("Apple", (0, 0, 16, 16), (250, 200, 64, 64), ())
   //Generator.drawTexture("Bottle", (0, 0, 16, 16), (200, 400, 112, 112), ~rotate=45.0, ())
-  Generator.drawTexture("Diamond Sword", (0, 0, 16, 16), (300, 550, 128, 64), ~flip=#Horizontal, ())
-  Generator.drawLine(
+  //Generator.drawTexture("Diamond Sword", (0, 0, 16, 16), (300, 550, 128, 64), ~flip=#Horizontal, ())
+  /* Generator.drawLine(
     (0, 100),
     (50, 250),
     ~color="#ff0000",
@@ -100,7 +100,7 @@ let script = () => {
     ~offset=14,
     (),
   )
-  Generator.drawFoldPath([(0, 0), (0, 100), (100, 100), (150, 50)], ())
+  Generator.drawFoldPath([(0, 0), (0, 100), (100, 100), (150, 50)], ()) */
   // Draw a Head
 
   let drawHead = (head: TextureMap.cuboid, ox, oy) => {
@@ -135,6 +135,14 @@ let script = () => {
     ~close=true,
     (),
   )
+
+  let ox = 100
+  let oy = 150
+
+  drawHead(TextureMap.MinecraftCharacter.steve.base.head, ox, oy)
+  //Generator.drawImage("Fold", (ox + 64, oy))
+  Generator.drawFoldRect((ox + 64, oy, 64, 192))
+  Generator.drawLineRect((ox, oy + 64, 256, 64), ~color="#345678", ())
 
   Generator.fillBackgroundColorWithWhite()
 }
