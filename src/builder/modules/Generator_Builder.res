@@ -41,42 +41,6 @@ type rectangleLegacy = {
 
 type rectangle = (int, int, int, int)
 
-type cuboidLegacy = {
-  top: rectangleLegacy,
-  bottom: rectangleLegacy,
-  front: rectangleLegacy,
-  right: rectangleLegacy,
-  left: rectangleLegacy,
-  back: rectangleLegacy,
-}
-
-type cuboid = {
-  top: rectangle,
-  bottom: rectangle,
-  front: rectangle,
-  right: rectangle,
-  left: rectangle,
-  back: rectangle,
-}
-
-let makeCuboidLegacy = ((x, y): position, (w, h, l)): cuboidLegacy => {
-  top: {x: x + l, y: y, w: w, h: l},
-  bottom: {x: x + l + w, y: y, w: w, h: l},
-  front: {x: x + l, y: y + l, w: w, h: h},
-  right: {x: x, y: y + l, w: l, h: h},
-  left: {x: x + l + w, y: y + l, w: l, h: h},
-  back: {x: x + l * 2 + w, y: y + l, w: w, h: h},
-}
-
-let makeCuboid = ((x, y): position, (w, h, l)): cuboid => {
-  top: (x + l, y, w, l),
-  bottom: (x + l + w, y, w, l),
-  front: (x + l, y + l, w, h),
-  right: (x, y + l, l, h),
-  left: (x + l + w, y + l, l, h),
-  back: (x + l * 2 + w, y + l, w, h),
-}
-
 module Input = {
   type rangeArgs = {
     min: int,
@@ -447,9 +411,11 @@ let fillBackgroundColor = (model: Model.t, color: string) => {
       | Some(currentPage) => {
           let {width, height} = currentPage.canvasWithContext
           let newCanvas = Generator_CanvasWithContext.make(width, height)
-          newCanvas.context->Context2d.fillStyle(color)
+          let previousFillStyle = newCanvas.context->Context2d.getFillStyle
+          newCanvas.context->Context2d.setFillStyle(color)
           newCanvas.context->Context2d.fillRect(0, 0, width, height)
           newCanvas.context->Context2d.drawCanvasXY(currentPage.canvasWithContext.canvas, 0, 0)
+          newCanvas.context->Context2d.setFillStyle(previousFillStyle)
 
           let newCurrentPage = {
             ...currentPage,
@@ -482,14 +448,15 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   let w = x2 -. x1
   let h = y2 -. y1
 
-  /* When a line is drawn and its start and end coordinates are integer values, 
-  the resulting line is drawn in between to rows of pixels, resulting in a line
+  /* When a line is drawn and its start and end coords are integer values, the
+  resulting line is drawn in between to rows of pixels, resulting in a line
   that is two pixels wide and half transparent. To fix this, the line's start
   and end positions need to be offset 0.5 pixels in the direction normal to the
-  line's slope. The following code gets the angle of the line, and creates the
-  offset needed in each direction to place the line in the correct spot. This
-  results in a fully opaque line with the correct width if the line is vertical
-  or horizontal, but antialiasing may still affect lines at other angles.
+  line. The following code gets the angle of the line, and gets the components
+  for a translation in the direction perpendicular to the angle using vector
+  resolution: https://physics.info/vector-components/summary.shtml This results
+  in a fully opaque line with the correct width if the line is vertical or
+  horizontal, but antialiasing may still affect lines at other angles.
  */
   let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
   let ox = Js.Math.sin(angle) *. 0.5
@@ -524,51 +491,6 @@ let drawLine = (
           context->Context2d.lineDashOffset(offset)
           context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
           context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
-          context->Context2d.stroke
-
-          model
-        }
-      }
-    }
-  }
-}
-
-let drawPath = (
-  model: Model.t,
-  points: array<position>,
-  ~color: string,
-  ~width: float,
-  ~pattern: array<int>,
-  ~offset: int,
-  ~close: bool,
-) => {
-  switch model.currentPage {
-  | None => model
-  | Some(currentPage) => {
-      let currentPage = findPage(model, currentPage.id)
-      switch currentPage {
-      | None => model
-      | Some(currentPage) => {
-          let context = currentPage.canvasWithContext.context
-          context->Context2d.beginPath
-          context->Context2d.strokeStyle(color)
-          context->Context2d.lineWidth(width)
-          context->Context2d.setLineDash(pattern)
-          context->Context2d.lineDashOffset(offset)
-          for i in 1 to Js.Array.length(points) - 1 {
-            let (x, y) = points[i]
-            let (x0, y0) = points[i - 1]
-            let (ox, oy) = getOffset((x, y), (x0, y0))
-            context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
-            context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
-          }
-          if close {
-            let (x, y) = points[Js.Array.length(points) - 1]
-            let (x0, y0) = points[0]
-            let (ox, oy) = getOffset((x, y), (x0, y0))
-            context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
-            context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
-          }
           context->Context2d.stroke
 
           model
@@ -680,4 +602,18 @@ let hasTexture = (model: Model.t, id: string) => {
   | None => false
   | Some(_) => true
   }
+}
+
+let drawText = (model: Model.t, text: string, position: position, size: int) => {
+  let model = ensureCurrentPage(model)
+  switch model.currentPage {
+  | None => ()
+  | Some(currentPage) => {
+      let (x, y) = position
+      let font = Belt.Int.toString(size) ++ "px sans-serif"
+      currentPage.canvasWithContext.context->Context2d.font(font)
+      currentPage.canvasWithContext.context->Context2d.fillText(text, x, y)
+    }
+  }
+  model
 }

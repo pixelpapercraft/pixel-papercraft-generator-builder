@@ -523,10 +523,10 @@ By default, the generator uses a transparent background. You can fill the backgr
 
 ```res
 // Fill the background color with red
-Generator.fillBackgroundColor(~color="#ff0000", ())
+Generator.fillBackgroundColor("#ff0000")
 
 // Fill the background color with white
-Generator.fillBackgroundColor()
+Generator.fillBackgroundColorWithWhite()
 ```
 
 Note: This does not overwrite any images of textures you've drawn. It just changes the background from transparent to the color you specify.
