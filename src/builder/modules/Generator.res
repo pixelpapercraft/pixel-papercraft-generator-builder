@@ -180,3 +180,7 @@ let hasImage = (id: string) => {
 let hasTexture = (id: string) => {
   Builder.hasTexture(model.contents, id)
 }
+
+let drawText = (text: string, position: Builder.position, size: int) => {
+  model := Generator_Builder.drawText(model.contents, text, position, size)
+}

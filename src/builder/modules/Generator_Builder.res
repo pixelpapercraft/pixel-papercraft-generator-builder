@@ -411,9 +411,11 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
       | Some(currentPage) => {
           let {width, height} = currentPage.canvasWithContext
           let newCanvas = Generator_CanvasWithContext.make(width, height)
-          newCanvas.context->Context2d.fillStyle(fillStyle)
+          let previousFillStyle = newCanvas.context->Context2d.getFillStyle
+          newCanvas.context->Context2d.setFillStyle(fillStyle)
           newCanvas.context->Context2d.fillRect(0, 0, width, height)
           newCanvas.context->Context2d.drawCanvasXY(currentPage.canvasWithContext.canvas, 0, 0)
+          newCanvas.context->Context2d.setFillStyle(previousFillStyle)
 
           let newCurrentPage = {
             ...currentPage,
@@ -539,4 +541,18 @@ let hasTexture = (model: Model.t, id: string) => {
   | None => false
   | Some(_) => true
   }
+}
+
+let drawText = (model: Model.t, text: string, position: position, size: int) => {
+  let model = ensureCurrentPage(model)
+  switch model.currentPage {
+  | None => ()
+  | Some(currentPage) => {
+      let (x, y) = position
+      let font = Belt.Int.toString(size) ++ "px sans-serif"
+      currentPage.canvasWithContext.context->Context2d.font(font)
+      currentPage.canvasWithContext.context->Context2d.fillText(text, x, y)
+    }
+  }
+  model
 }
