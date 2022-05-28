@@ -111,8 +111,8 @@ let script = () => {
     Generator.drawTexture("Steve", head.top, (ox + 64, oy, 64, 64), ())
     Generator.drawTexture("Steve", head.bottom, (ox + 64, oy + 128, 64, 64), ~flip=#Vertical, ())
   }
-  let drawHead2 = (skin: string, (x, y): (int, int)) => {
-    Generator.drawCuboid(skin, (0, 0), (8, 8, 8), (x, y), (64, 64, 64), ~leftSide=true, ())
+  let drawHead2 = (head: Generator_Builder.cuboid, (x, y): (int, int)) => {
+    Generator.drawCuboid("Steve", head, (x, y), (64, 64, 64), ~leftSide=true, ())
   }
 
   let ox = 128
@@ -143,7 +143,7 @@ let script = () => {
   let ox = 100
   let oy = 150
 
-  drawHead2("Steve", (ox, oy))
+  drawHead2(TextureMap.MinecraftCharacter.steve.base.head, (ox, oy))
   Generator.drawImage("Fold", (ox, oy))
   //Generator.drawFoldRect((ox + 64, oy, 64, 192))
   //Generator.drawLineRect((ox, oy + 64, 256, 64), ~color="#345678", ())
