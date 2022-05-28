@@ -98,6 +98,76 @@ let drawGrid = () => {
   }
 }
 
+let drawSun = (ox, oy, ~color, ~width) => {
+  let angles = [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0,
+    105.0,
+    120.0,
+    135.0,
+    150.0,
+    165.0,
+    180.0,
+    195.0,
+    210.0,
+    225.0,
+    240.0,
+    255.0,
+    270.0,
+    285.0,
+    300.0,
+    315.0,
+    330.0,
+    345.0,
+  ]
+  let innerRadius = 20.0
+  let outerRadius = 50.0
+  angles->Belt.Array.forEach(angle => {
+    let radians = angle *. Js.Math._PI /. 180.0
+    let x1 = Belt.Float.toInt(innerRadius *. Js.Math.cos(radians))
+    let y1 = Belt.Float.toInt(innerRadius *. Js.Math.sin(radians))
+    let x2 = Belt.Float.toInt(outerRadius *. Js.Math.cos(radians))
+    let y2 = Belt.Float.toInt(outerRadius *. Js.Math.sin(radians))
+    Generator.drawLine((ox + x1, oy + y1), (ox + x2, oy + y2), ~color, ~width, ())
+  })
+}
+
+let drawSquare = (ox, oy, ~color, ~width) => {
+  let size = 50
+  let ox = ox - size / 2
+  let oy = oy - size / 2
+  let p1 = (ox, oy)
+  let p2 = (ox + size, oy)
+  let p3 = (ox + size, oy + size)
+  let p4 = (ox, oy + size)
+  Generator.drawLine(p1, p2, ~color, ~width, ())
+  Generator.drawLine(p2, p3, ~color, ~width, ())
+  Generator.drawLine(p3, p4, ~color, ~width, ())
+  Generator.drawLine(p4, p1, ~color, ~width, ())
+}
+
+let drawLinesTestPage = () => {
+  Generator.usePage("Lines")
+  drawSun(100, 100, ~color="#000000", ~width=1.0)
+  drawSun(250, 100, ~color="#000000", ~width=2.0)
+  drawSun(400, 100, ~color="#000000", ~width=3.0)
+  drawSun(100, 250, ~color="#ff0000", ~width=1.0)
+  drawSun(250, 250, ~color="#00ff00", ~width=2.0)
+  drawSun(400, 250, ~color="#0000ff", ~width=3.0)
+
+  drawSquare(100, 400, ~color="#000000", ~width=1.0)
+  drawSquare(250, 400, ~color="#000000", ~width=2.0)
+  drawSquare(400, 400, ~color="#000000", ~width=3.0)
+  drawSquare(100, 550, ~color="#ff0000", ~width=1.0)
+  drawSquare(250, 550, ~color="#00ff00", ~width=2.0)
+  drawSquare(400, 550, ~color="#0000ff", ~width=3.0)
+}
+
 let rgbaToHex: ((int, int, int, int)) => string = %raw(`
   function rgbaToHex(rgba) {
     let r = rgba[0].toString(16);
@@ -404,6 +474,7 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  drawLinesTestPage()
   drawTextureImagePageColorTestPage()
   drawButtonInputTest()
   drawTextureRotation64Test()
