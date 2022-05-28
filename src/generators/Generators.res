@@ -52,7 +52,7 @@ let dev: array<Generator.generatorDef> = isDevEnvironment
   : []
 
 let test: array<Generator.generatorDef> = isDevEnvironment
-  ? [ExampleGenerator.generator, TestingGenerator.generator, FoldsGenerator.generator,]
+  ? [ExampleGenerator.generator, TestingGenerator.generator]
   : []
 
 let all = Belt.Array.concatMany([character, mobCharacter, mob, utility, mod, other, dev, test])
