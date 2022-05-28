@@ -155,18 +155,6 @@ let drawFold = (from: Builder.position, to: Builder.position) => {
     )
 }
 
-let drawImage = (id: string, position: Builder.position) => {
-  model := Builder.drawImage(model.contents, id, position)
-}
-
-let hasImage = (id: string) => {
-  Builder.hasImage(model.contents, id)
-}
-
-let hasTexture = (id: string) => {
-  Builder.hasTexture(model.contents, id)
-}
-
 let drawTexture = (
   id: string,
   source: Builder.rectangle,
@@ -208,4 +196,20 @@ let drawTextureLegacy = (
     ~pixelate,
     (),
   )
+}
+
+let drawImage = (id: string, position: Builder.position) => {
+  model := Builder.drawImage(model.contents, id, position)
+}
+
+let hasImage = (id: string) => {
+  Builder.hasImage(model.contents, id)
+}
+
+let hasTexture = (id: string) => {
+  Builder.hasTexture(model.contents, id)
+}
+
+let drawText = (text: string, position: Builder.position, size: int) => {
+  model := Generator_Builder.drawText(model.contents, text, position, size)
 }
