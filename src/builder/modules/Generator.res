@@ -142,72 +142,6 @@ let drawLine = (
   model := Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern, ~offset)
 }
 
-let drawLinePath = (
-  points: array<Builder.position>,
-  ~color: string="#000000",
-  ~width: float=1.0,
-  ~pattern: array<int>=[],
-  ~offset: int=0,
-  ~close: bool=false,
-  (),
-) => {
-  model :=
-    Generator_Builder.drawPath(model.contents, points, ~color, ~width, ~pattern, ~offset, ~close)
-}
-
-let drawLineRect = (
-  dest: Builder.rectangle,
-  ~color: string="#000000",
-  ~width: float=1.0,
-  ~pattern: array<int>=[],
-  ~offset: int=0,
-  (),
-) => {
-  let (x, y, w, h) = dest
-  model :=
-    Generator_Builder.drawPath(
-      model.contents,
-      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
-      ~color,
-      ~width,
-      ~pattern,
-      ~offset,
-      ~close=false,
-    )
-}
-
-let drawLineCuboid = (
-  position: Builder.position,
-  scale: (int, int, int),
-  ~color: string="#000000",
-  ~width: float=1.0,
-  ~pattern: array<int>=[],
-  ~offset: int=0,
-  ~leftSide: bool=false,
-  (),
-) => {
-  let (x, y) = position
-  let (w, h, l) = scale
-
-  if !leftSide {
-    drawLineRect((x + l, y, w, w * 2 + h), ~color, ~width, ~pattern, ~offset, ())
-    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ~pattern, ~offset, ())
-    drawLine(
-      (x + l * 2 + w - 1, y + l),
-      (x + l * 2 + w - 1, y + l + h),
-      ~color,
-      ~width,
-      ~pattern,
-      ~offset,
-      (),
-    )
-  } else {
-    drawLineRect((x + l + w, y, w, w * 2 + h), ~color, ~width, ~pattern, ~offset, ())
-    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ~pattern, ~offset, ())
-    drawLine((x + l, y + l), (x + l, y + l + h), ~color, ~width, ~pattern, ~offset, ())
-  }
-}
-
 let drawFold = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
@@ -219,53 +153,6 @@ let drawFold = (from: Builder.position, to: Builder.position) => {
       ~pattern=[2, 2],
       ~offset=3,
     )
-}
-
-let drawFoldPath = (points: array<Builder.position>, ~close: bool=false, ()) => {
-  model :=
-    Generator_Builder.drawPath(
-      model.contents,
-      points,
-      ~color="#7b7b7b",
-      ~width=1.0,
-      ~pattern=[2, 2],
-      ~offset=3,
-      ~close,
-    )
-}
-
-let drawFoldRect = (dest: Builder.rectangle) => {
-  let (x, y, w, h) = dest
-  model :=
-    Generator_Builder.drawPath(
-      model.contents,
-      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
-      ~color="#7b7b7b",
-      ~width=1.0,
-      ~pattern=[2, 2],
-      ~offset=3,
-      ~close=false,
-    )
-}
-
-let drawFoldCuboid = (
-  position: Builder.position,
-  scale: (int, int, int),
-  ~leftSide: bool=false,
-  (),
-) => {
-  let (x, y) = position
-  let (w, h, l) = scale
-
-  if !leftSide {
-    drawFoldRect((x + l, y, w, l * 2 + h))
-    drawFoldRect((x, y + l, l * 2 + w * 2, h))
-    drawFold((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
-  } else {
-    drawFoldRect((x + l + w, y, w, l * 2 + h))
-    drawFoldRect((x, y + l, l * 2 + w * 2, h))
-    drawFold((x + w, y + l), (x + w, y + l + h))
-  }
 }
 
 let drawImage = (id: string, position: Builder.position) => {
@@ -321,32 +208,4 @@ let drawTextureLegacy = (
     ~pixelate,
     (),
   )
-}
-
-let drawCuboid = (
-  id,
-  source: Builder.cuboid,
-  dp: Builder.position,
-  ds: (int, int, int),
-  ~leftSide: bool=false,
-  (),
-) => {
-  let (dx, dy) = dp
-  let (dw, dh, dl) = ds
-
-  if !leftSide {
-    drawTexture(id, source.front, (dx + dl, dy + dl, dw, dh), ()) // Front
-    drawTexture(id, source.left, (dx + dl + dw, dy + dl, dl, dh), ()) // Left
-    drawTexture(id, source.right, (dx, dy + dl, dl, dh), ()) // Right
-    drawTexture(id, source.back, (dx + dl * 2 + dw, dy + dl, dw, dh), ()) // Back
-    drawTexture(id, source.top, (dx + dl, dy, dw, dl), ()) // Top
-    drawTexture(id, source.bottom, (dx + dl, dy + dl + dh, dw, dl), ~flip=#Vertical, ()) // Bottom
-  } else {
-    drawTexture(id, source.front, (dx + dl + dw, dy + dl, dw, dh), ()) // Front
-    drawTexture(id, source.left, (dx + dl + dw * 2, dy + dl, dl, dh), ()) // Left
-    drawTexture(id, source.right, (dx + dw, dy + dl, dl, dh), ()) // Right
-    drawTexture(id, source.back, (dx, dy + dl, dw, dh), ()) // Back
-    drawTexture(id, source.top, (dx + dl + dw, dy, dw, dl), ()) // Top
-    drawTexture(id, source.bottom, (dx + dl + dw, dy + dl + dh, dw, dl), ~flip=#Vertical, ()) // Bottom
-  }
 }

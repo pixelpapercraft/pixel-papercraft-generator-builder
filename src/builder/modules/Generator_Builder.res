@@ -41,42 +41,6 @@ type rectangleLegacy = {
 
 type rectangle = (int, int, int, int)
 
-type cuboidLegacy = {
-  top: rectangleLegacy,
-  bottom: rectangleLegacy,
-  front: rectangleLegacy,
-  right: rectangleLegacy,
-  left: rectangleLegacy,
-  back: rectangleLegacy,
-}
-
-type cuboid = {
-  top: rectangle,
-  bottom: rectangle,
-  front: rectangle,
-  right: rectangle,
-  left: rectangle,
-  back: rectangle,
-}
-
-let makeCuboidLegacy = ((x, y): position, (w, h, l)): cuboidLegacy => {
-  top: {x: x + l, y: y, w: w, h: l},
-  bottom: {x: x + l + w, y: y, w: w, h: l},
-  front: {x: x + l, y: y + l, w: w, h: h},
-  right: {x: x, y: y + l, w: l, h: h},
-  left: {x: x + l + w, y: y + l, w: l, h: h},
-  back: {x: x + l * 2 + w, y: y + l, w: w, h: h},
-}
-
-let makeCuboid = ((x, y): position, (w, h, l)): cuboid => {
-  top: (x + l, y, w, l),
-  bottom: (x + l + w, y, w, l),
-  front: (x + l, y + l, w, h),
-  right: (x, y + l, l, h),
-  left: (x + l + w, y + l, l, h),
-  back: (x + l * 2 + w, y + l, w, h),
-}
-
 module Input = {
   type rangeArgs = {
     min: int,
@@ -524,51 +488,6 @@ let drawLine = (
           context->Context2d.lineDashOffset(offset)
           context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
           context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
-          context->Context2d.stroke
-
-          model
-        }
-      }
-    }
-  }
-}
-
-let drawPath = (
-  model: Model.t,
-  points: array<position>,
-  ~color: string,
-  ~width: float,
-  ~pattern: array<int>,
-  ~offset: int,
-  ~close: bool,
-) => {
-  switch model.currentPage {
-  | None => model
-  | Some(currentPage) => {
-      let currentPage = findPage(model, currentPage.id)
-      switch currentPage {
-      | None => model
-      | Some(currentPage) => {
-          let context = currentPage.canvasWithContext.context
-          context->Context2d.beginPath
-          context->Context2d.strokeStyle(color)
-          context->Context2d.lineWidth(width)
-          context->Context2d.setLineDash(pattern)
-          context->Context2d.lineDashOffset(offset)
-          for i in 1 to Js.Array.length(points) - 1 {
-            let (x, y) = points[i]
-            let (x0, y0) = points[i - 1]
-            let (ox, oy) = getOffset((x, y), (x0, y0))
-            context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
-            context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
-          }
-          if close {
-            let (x, y) = points[Js.Array.length(points) - 1]
-            let (x0, y0) = points[0]
-            let (ox, oy) = getOffset((x, y), (x0, y0))
-            context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
-            context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
-          }
           context->Context2d.stroke
 
           model
