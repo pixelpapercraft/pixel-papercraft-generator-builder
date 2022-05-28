@@ -448,14 +448,15 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   let w = x2 -. x1
   let h = y2 -. y1
 
-  /* When a line is drawn and its start and end coordinates are integer values, 
-  the resulting line is drawn in between to rows of pixels, resulting in a line
+  /* When a line is drawn and its start and end coords are integer values, the
+  resulting line is drawn in between to rows of pixels, resulting in a line
   that is two pixels wide and half transparent. To fix this, the line's start
   and end positions need to be offset 0.5 pixels in the direction normal to the
-  line's slope. The following code gets the angle of the line, and creates the
-  offset needed in each direction to place the line in the correct spot. This
-  results in a fully opaque line with the correct width if the line is vertical
-  or horizontal, but antialiasing may still affect lines at other angles.
+  line. The following code gets the angle of the line, and gets the components
+  for a translation in the direction perpendicular to the angle using vector
+  resolution: https://physics.info/vector-components/summary.shtml This results
+  in a fully opaque line with the correct width if the line is vertical or
+  horizontal, but antialiasing may still affect lines at other angles.
  */
   let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
   let ox = Js.Math.sin(angle) *. 0.5
