@@ -78,7 +78,7 @@ module SaveAsPDFButton = {
         format: #a4,
       })
       model.pages->Js.Array2.forEachi((page, index) => {
-        let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
+        let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvasWithContext.canvas)
         if index > 0 {
           JsPdf.addPage(doc, #a4, #portrait)
         }
@@ -192,7 +192,7 @@ let make = (
   <div>
     {model.pages
     ->Js.Array2.mapi((page, index) => {
-      let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvas)
+      let dataUrl = Dom2.Canvas.toDataUrlAsPng(page.canvasWithContext.canvas)
 
       let fileName =
         Belt.Array.length(model.pages) > 1

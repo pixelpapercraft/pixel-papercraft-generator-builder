@@ -112,6 +112,7 @@ module Context2d = {
   @send external scale: (context2d, int, int) => unit = "scale"
   @send external rotate: (context2d, float) => unit = "rotate"
   @send external fillRect: (context2d, int, int, int, int) => unit = "fillRect"
+  @send external fill: context2d => unit = "fill"
   @send external getTransform: context2d => domMatrix = "getTransform"
   @set external fillStyle: (context2d, string) => unit = "fillStyle"
 

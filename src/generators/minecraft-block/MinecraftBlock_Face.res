@@ -11,7 +11,7 @@ type faceTexture = {
   textureId: string,
   frame: int,
   rot: int,
-  blend: Builder.Texture.blend,
+  blend: Generator_Texture.blend,
 }
 type faceTextures = array<faceTexture>
 
@@ -60,7 +60,7 @@ let drawTexture = (
   face,
   (sx, sy, sw, sh),
   (dx, dy, dw, dh),
-  ~flip: Builder.Texture.flip=#None,
+  ~flip: Generator_Texture.flip=#None,
   ~rotate: float=0.0,
   (),
 ) => {
@@ -113,7 +113,7 @@ let draw = (
   faceId,
   source,
   destination,
-  ~flip: Builder.Texture.flip=#None,
+  ~flip: Generator_Texture.flip=#None,
   ~rotate: float=0.0,
   (),
 ) => {
