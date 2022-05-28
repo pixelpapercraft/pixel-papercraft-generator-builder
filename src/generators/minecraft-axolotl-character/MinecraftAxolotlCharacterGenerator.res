@@ -108,7 +108,7 @@ let drawBody = (layer: TextureMap.MinecraftCharacter.layer) => {
   Generator.drawTexture("Skin", body.right, (ox, oy, 32, 80), ~rotateLegacy=90.00, ())
 }
 
-let drawLimb = (leg: TextureMap.cuboid, ox, oy) => {
+let drawLimb = (leg: Generator_Builder.cuboid, ox, oy) => {
   Generator.drawTexture("Skin", armOrLegPart(leg.left), (ox + 8, oy - 24, 8, 24), ())
   Generator.drawTexture("Skin", handOrFootPart(leg.left), (ox, oy, 24, 16), ())
   Generator.drawTexture("Skin", armOrLegPart(leg.right), (ox - 16, oy - 24, 8, 24), ())
