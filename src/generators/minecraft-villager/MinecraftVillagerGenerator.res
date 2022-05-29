@@ -245,8 +245,8 @@ module Drawing = {
     Generator.drawTexture(texture, (4, 26 - 4, 4, 4), (ox, oy - 33, 32, 32), ~flip=#Horizontal, ())
     Generator.drawTexture(texture, (4 + 4, 26 - 4, 4, 4), (ox, oy + 97, 32, 32), ~rotate=180.0, ())
     Generator.drawTexture(texture, (4, 26, 4, 12), (ox, oy, 32, 96), ~flip=#Horizontal, ())
-    Generator.drawTexture(texture, (4 - 4, 26, 4, 12), (ox - 33, oy, 32, 96), ~flip=#Horizontal, ())
-    Generator.drawTexture(texture, (4 + 4, 26, 4, 12), (ox + 33, oy, 32, 96), ~flip=#Horizontal, ())
+    Generator.drawTexture(texture, (4 + 4, 26, 4, 12), (ox - 33, oy, 32, 96), ~flip=#Horizontal, ())
+    Generator.drawTexture(texture, (4 - 4, 26, 4, 12), (ox + 33, oy, 32, 96), ~flip=#Horizontal, ())
     Generator.drawTexture(
       texture,
       (4 + 8, 26, 4, 12),
@@ -273,8 +273,8 @@ module Drawing = {
     Generator.drawTexture(texture, (48, 26 - 4, 4, 4), (ox, oy - 33, 32, 32), ~flip=#Horizontal, ())
     Generator.drawTexture(texture, (48 + 4, 26 - 4, 4, 4), (ox, oy + 65, 32, 32), ~rotate=180.0, ())
     Generator.drawTexture(texture, (48, 26, 4, 8), (ox, oy, 32, 64), ~flip=#Horizontal, ())
-    Generator.drawTexture(texture, (48 - 4, 26, 4, 8), (ox - 33, oy, 32, 64), ~flip=#Horizontal, ())
-    Generator.drawTexture(texture, (48 + 4, 26, 4, 8), (ox + 33, oy, 32, 64), ~flip=#Horizontal, ())
+    Generator.drawTexture(texture, (48 + 4, 26, 4, 8), (ox - 33, oy, 32, 64), ~flip=#Horizontal, ())
+    Generator.drawTexture(texture, (48 - 4, 26, 4, 8), (ox + 33, oy, 32, 64), ~flip=#Horizontal, ())
     Generator.drawTexture(
       texture,
       (48 + 8, 26, 4, 8),
@@ -317,14 +317,14 @@ module Drawing = {
     Generator.drawTexture(texture, (48, 26, 4, 12), (ox, oy, 32, 96), ~flip=#Horizontal, ())
     Generator.drawTexture(
       texture,
-      (48 - 4, 26, 4, 12),
+      (48 + 4, 26, 4, 12),
       (ox - 33, oy, 32, 96),
       ~flip=#Horizontal,
       (),
     )
     Generator.drawTexture(
       texture,
-      (48 + 4, 26, 4, 12),
+      (48 - 4, 26, 4, 12),
       (ox + 33, oy, 32, 96),
       ~flip=#Horizontal,
       (),
