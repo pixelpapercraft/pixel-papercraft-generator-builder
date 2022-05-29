@@ -517,11 +517,29 @@ You can provide some text instructions and comments with your inputs using `Gene
 Generator.defineText("Click body parts to change the texture.")
 ```
 
-### Getting texture pixel colors (Advanced)
+### Filling the background color
 
-You can get specific pixel colors of textures using `Generator.getTexturePixelColor()`.
+By default, the generator uses a transparent background. You can fill the background with `Generator.fillBackgroundColor()`.
 
-For example, if you have a texture named `Colors` and you want to get the pixel color at position `(0, 0)` then you would call:
+```res
+// Fill the background color with red
+Generator.fillBackgroundColor("#ff0000")
+```
+
+Note: This does not overwrite any images of textures you've drawn. It just changes the background from transparent to the color you specify.
+
+### Getting pixel colors
+
+There are a few functions to get specific pixel colors:
+
+- `Generator.getTexturePixelColor(textureName, x, y)`
+- `Generator.getImagePixelColor(imageName, x, y)`
+- `Generator.getCurrentPagePixelColor(x, y)`
+- `Generator.getPagePixelColor(pageName, x, y)`
+
+For example, using `Generator.getTexturePixelColor()`:
+
+If you have a texture named `Colors` and you want to get the pixel color at position `(0, 0)` then you would call:
 
 ```res
 let color = Generator.getTexturePixelColor("Colors", 0, 0)

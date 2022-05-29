@@ -19,8 +19,20 @@ let setModel = newModel => {
 
 let getModel = () => model.contents
 
-let getTexturePixelColor = (x, y) => {
-  Builder.getTexturePixelColor(model.contents, x, y)
+let getPagePixelColor = (id, x, y) => {
+  Builder.getPagePixelColor(model.contents, id, x, y)
+}
+
+let getCurrentPagePixelColor = (x, y) => {
+  Builder.getCurrentPagePixelColor(model.contents, x, y)
+}
+
+let getTexturePixelColor = (id, x, y) => {
+  Builder.getTexturePixelColor(model.contents, id, x, y)
+}
+
+let getImagePixelColor = (id, x, y) => {
+  Builder.getImagePixelColor(model.contents, id, x, y)
 }
 
 let clearStringInputValues = () => {
@@ -110,12 +122,16 @@ let usePage = id => {
   model := Builder.usePage(model.contents, id)
 }
 
+let fillBackgroundColor = (fillStyle: string) => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, fillStyle)
+}
+
 let drawTexture = (
   id: string,
   source: Builder.rectangle,
   dest: Builder.rectangle,
-  ~flip: Builder.Texture.flip=#None,
-  ~blend: Builder.Texture.blend=#None,
+  ~flip: Generator_Texture.flip=#None,
+  ~blend: Generator_Texture.blend=#None,
   ~rotateLegacy: float=0.0,
   ~rotate: float=0.0,
   ~pixelate: bool=false,
@@ -137,7 +153,7 @@ let drawTextureLegacy = (
   id: string,
   source: Builder.rectangleLegacy,
   dest: Builder.rectangleLegacy,
-  ~flip: Builder.Texture.flip=#None,
+  ~flip: Generator_Texture.flip=#None,
   ~rotateLegacy: float=0.0,
   ~pixelate: bool=false,
   (),
@@ -163,4 +179,8 @@ let hasImage = (id: string) => {
 
 let hasTexture = (id: string) => {
   Builder.hasTexture(model.contents, id)
+}
+
+let drawText = (text: string, position: Builder.position, size: int) => {
+  model := Generator_Builder.drawText(model.contents, text, position, size)
 }

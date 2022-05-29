@@ -112,8 +112,12 @@ module Context2d = {
   @send external scale: (context2d, int, int) => unit = "scale"
   @send external rotate: (context2d, float) => unit = "rotate"
   @send external fillRect: (context2d, int, int, int, int) => unit = "fillRect"
+  @send external fill: context2d => unit = "fill"
   @send external getTransform: context2d => domMatrix = "getTransform"
-  @set external fillStyle: (context2d, string) => unit = "fillStyle"
+  @get external getFillStyle: context2d => string = "fillStyle"
+  @set external setFillStyle: (context2d, string) => unit = "fillStyle"
+  @send external fillText: (context2d, string, int, int) => unit = "fillText"
+  @set external font: (context2d, string) => unit = "font"
 
   @set
   external setWebkitImageSmoothingEnabled: (context2d, bool) => unit = "webkitImageSmoothingEnabled"
@@ -130,7 +134,7 @@ module Context2d = {
       Js.Int.toString(b) ++
       "," ++
       Js.Float.toString(a) ++ ")"
-    fillStyle(context, value)
+    setFillStyle(context, value)
   }
 }
 
