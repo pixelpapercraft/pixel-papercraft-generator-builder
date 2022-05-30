@@ -133,6 +133,10 @@ Each generator should export a property named `generator` that has the type `Gen
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
+  history: history,
+  thumbnail: Some(thumbnail),
+  video: None,
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
@@ -141,13 +145,17 @@ let generator: Generator.generatorDef = {
 
 These properties are:
 
-| Property | Description                                  |
-| -------- | -------------------------------------------- |
-| id       | Unique Id for the generator, used in the URL |
-| name     | Name for the generator                       |
-| images   | Array of image URLs                          |
-| textures | Array of texture image URLs                  |
-| script   | Generator script                             |
+| Property     | Description                                      |
+| ------------ | ------------------------------------------------ |
+| id           | Unique Id for the generator, used in the URL     |
+| name         | Name for the generator                           |
+| images       | Array of image URLs                              |
+| textures     | Array of texture image URLs                      |
+| script       | Generator script                                 |
+| history      | Array of strings, used as the history of updates |
+| thumbnail    | Thumbnail image                                  |
+| video        | Video (optional)                                 |
+| instructions | Instructions for the generator                   |
 
 Lastly, add the generator to the `src/generators/Generators.res` file.
 
@@ -156,6 +164,20 @@ let generators = [
   Example.generator,
 ]
 ```
+
+## Contributing
+
+To contribute to the project, you will need to do a few steps:
+
+1. Create a "fork" of the generator project into your account.
+2. Create a "branch" for a particular change you want to make.
+3. Create a "pull request" to request for your branch to be added to the main generator project.
+
+[Read more about proposing changes on Github](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests).
+
+If you need help, ask in the #generator-help channel on Discord.
+
+**Tip:** It's best to keep your branches and pull requests small. For example, create a separate branch and pull request for each generator. This helps to get the changes merged into the main project more quickly.
 
 ## Images vs Textures
 
