@@ -153,19 +153,19 @@ let drawSquare = (ox, oy, ~color, ~width) => {
 
 let drawLinesTestPage = () => {
   Generator.usePage("Lines")
-  drawSun(100, 100, ~color="#000000", ~width=1.0)
-  drawSun(250, 100, ~color="#000000", ~width=2.0)
-  drawSun(400, 100, ~color="#000000", ~width=3.0)
-  drawSun(100, 250, ~color="#ff0000", ~width=1.0)
-  drawSun(250, 250, ~color="#00ff00", ~width=2.0)
-  drawSun(400, 250, ~color="#0000ff", ~width=3.0)
+  drawSun(100, 100, ~color="#000000", ~width=1)
+  drawSun(250, 100, ~color="#000000", ~width=2)
+  drawSun(400, 100, ~color="#000000", ~width=3)
+  drawSun(100, 250, ~color="#ff0000", ~width=1)
+  drawSun(250, 250, ~color="#00ff00", ~width=2)
+  drawSun(400, 250, ~color="#0000ff", ~width=3)
 
-  drawSquare(100, 400, ~color="#000000", ~width=1.0)
-  drawSquare(250, 400, ~color="#000000", ~width=2.0)
-  drawSquare(400, 400, ~color="#000000", ~width=3.0)
-  drawSquare(100, 550, ~color="#ff0000", ~width=1.0)
-  drawSquare(250, 550, ~color="#00ff00", ~width=2.0)
-  drawSquare(400, 550, ~color="#0000ff", ~width=3.0)
+  drawSquare(100, 400, ~color="#000000", ~width=1)
+  drawSquare(250, 400, ~color="#000000", ~width=2)
+  drawSquare(400, 400, ~color="#000000", ~width=3)
+  drawSquare(100, 550, ~color="#ff0000", ~width=1)
+  drawSquare(250, 550, ~color="#00ff00", ~width=2)
+  drawSquare(400, 550, ~color="#0000ff", ~width=3)
 }
 
 let rgbaToHex: ((int, int, int, int)) => string = %raw(`

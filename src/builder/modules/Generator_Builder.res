@@ -470,7 +470,7 @@ let drawLine = (
   (x1, y1): position,
   (x2, y2): position,
   ~color: string,
-  ~width: float,
+  ~width: int,
   ~pattern: array<int>,
   ~offset: int,
 ) => {
