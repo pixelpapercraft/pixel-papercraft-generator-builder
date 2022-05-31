@@ -479,23 +479,17 @@ let drawLine = (
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
-      let currentPage = findPage(model, currentPage.id)
-      switch currentPage {
-      | None => model
-      | Some(currentPage) => {
-          let context = currentPage.canvasWithContext.context
-          context->Context2d.beginPath
-          context->Context2d.strokeStyle(color)
-          context->Context2d.lineWidth(width)
-          context->Context2d.setLineDash(pattern)
-          context->Context2d.lineDashOffset(offset)
-          context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
-          context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
-          context->Context2d.stroke
+      let context = currentPage.canvasWithContext.context
+      context->Context2d.beginPath
+      context->Context2d.strokeStyle(color)
+      context->Context2d.lineWidth(width)
+      context->Context2d.setLineDash(pattern)
+      context->Context2d.lineDashOffset(offset)
+      context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
+      context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
+      context->Context2d.stroke
 
-          model
-        }
-      }
+      model
     }
   }
 }
