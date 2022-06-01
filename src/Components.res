@@ -1,14 +1,8 @@
 type generatorGroup = {label: string, generators: array<Generator.generatorDef>}
 
 let generatorGroups = [
-  {label: "Characters", generators: Generators.character},
-  {label: "Mob Characters", generators: Generators.mobCharacter},
-  {label: "Mobs", generators: Generators.mob},
-  {label: "Blocks, Items and Accessories", generators: Generators.utility},
-  {label: "Mods", generators: Generators.mod},
-  {label: "Other", generators: Generators.other},
-  {label: "Development", generators: Generators.dev},
-  {label: "Testing", generators: Generators.test},
+  {label: "NinjolasNJM's Generators", generators: Generators.ninjolasNJM},
+  {label: "PaperDoggy's Generators", generators: Generators.paperDoggy},
 ]
 
 module Heading = {
