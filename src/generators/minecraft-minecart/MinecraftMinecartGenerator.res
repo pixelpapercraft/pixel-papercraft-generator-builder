@@ -1,9 +1,9 @@
 let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
 let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
 
-let id = "minecraft-cape-and-elytra"
+let id = "minecraft-minecart"
 
-let name = "Minecraft Cape And Elytra"
+let name = "Minecraft Minecart"
 
 let history = [
   "16 Mar 2021 NinjolasNJM - Initially completed both cape and elytra generation.",

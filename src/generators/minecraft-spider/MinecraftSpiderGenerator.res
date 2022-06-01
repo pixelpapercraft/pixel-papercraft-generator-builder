@@ -1,9 +1,9 @@
 let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
 let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
 
-let id = "minecraft-character"
+let id = "minecraft-spider"
 
-let name = "Minecraft Character"
+let name = "Minecraft Spider"
 
 let history = [
   "01 Feb 2015 gootube2000 - First release.",
