@@ -56,7 +56,10 @@ let test: array<Generator.generatorDef> = isDevEnvironment
   : [] 
  */
 
-let ninjolasNJM: array<Generator.generatorDef> = [MinecraftBlockGenerator.generator]
+let ninjolasNJM: array<Generator.generatorDef> = [
+  MinecraftActionFigureMiniGenerator.generator,
+  MinecraftBlockGenerator.generator,
+]
 
 let paperDoggy: array<Generator.generatorDef> = [MinecraftBlockGenerator.generator]
 
