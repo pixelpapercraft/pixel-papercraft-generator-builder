@@ -558,11 +558,11 @@ Note: This does not overwrite any images of textures you've drawn. It just chang
 You can draw straight lines onto the generator canvas. The line color, width, dash pattern, and dash offset can all be customized, but the defaults will make a line that works well for standard tab lines.
 
 ```res
-// Draw a line starting at (0, 100) that ends 50 pixels right and 150 pixels down from there
-Generator.drawLine((0, 100, 50, 150), ())
+// Draw a simple black line starting at (0, 100) and ends at (50, 150)
+Generator.drawLine((0, 100), (50, 150), ())
 
-// Draw a red line with doubled width and a mountain fold pattern
-Generator.drawLine((0, 100, 50, 150), ~color="#ff0000", ~width=2.0, ~pattern=[12, 2, 2, 2], ~offset=14, ())
+// Draw the same line, but red and with a 4 pixel width
+Generator.drawLine((0, 100), (50, 150), ~color="#ff0000", ~width=4, ())
 ```
 
 ### Drawing fold lines
@@ -570,7 +570,7 @@ Generator.drawLine((0, 100, 50, 150), ~color="#ff0000", ~width=2.0, ~pattern=[12
 You can also draw standard fold lines with a simpler function:
 
 ```res
-Generator.drawFold((0, 100, 50, 150))
+Generator.drawFoldLine((0, 100), (50, 150))
 ```
 
 ### Getting pixel colors
