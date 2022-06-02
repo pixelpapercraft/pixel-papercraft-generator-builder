@@ -458,7 +458,7 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   in a fully opaque line with the correct width if the line is vertical or
   horizontal, but antialiasing may still affect lines at other angles.
  */
-  let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
+  let angle = Js.Math.atan2(~y=h, ~x=w, ())
   let ox = Js.Math.sin(angle) *. 0.5
   let oy = Js.Math.cos(angle) *. 0.5
 
@@ -470,7 +470,7 @@ let drawLine = (
   (x1, y1): position,
   (x2, y2): position,
   ~color: string,
-  ~width: float,
+  ~width: int,
   ~pattern: array<int>,
   ~offset: int,
 ) => {
@@ -479,23 +479,17 @@ let drawLine = (
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
-      let currentPage = findPage(model, currentPage.id)
-      switch currentPage {
-      | None => model
-      | Some(currentPage) => {
-          let context = currentPage.canvasWithContext.context
-          context->Context2d.beginPath
-          context->Context2d.strokeStyle(color)
-          context->Context2d.lineWidth(width)
-          context->Context2d.setLineDash(pattern)
-          context->Context2d.lineDashOffset(offset)
-          context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
-          context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
-          context->Context2d.stroke
+      let context = currentPage.canvasWithContext.context
+      context->Context2d.beginPath
+      context->Context2d.strokeStyle(color)
+      context->Context2d.lineWidth(width)
+      context->Context2d.setLineDash(pattern)
+      context->Context2d.lineDashOffset(offset)
+      context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
+      context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
+      context->Context2d.stroke
 
-          model
-        }
-      }
+      model
     }
   }
 }

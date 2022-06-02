@@ -134,22 +134,23 @@ let drawLine = (
   from: Builder.position,
   to: Builder.position,
   ~color: string="#000000",
-  ~width: float=1.0,
-  ~pattern: array<int>=[],
-  ~offset: int=0,
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
   (),
 ) => {
-  model := Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern, ~offset)
+  model :=
+    Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern=[], ~offset=0)
 }
 
-let drawFold = (from: Builder.position, to: Builder.position) => {
+let drawFoldLine = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
       model.contents,
       from,
       to,
       ~color="#7b7b7b",
-      ~width=1.0,
+      ~width=1,
       ~pattern=[2, 2],
       ~offset=3,
     )

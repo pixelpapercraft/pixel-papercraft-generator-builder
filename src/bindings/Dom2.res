@@ -124,7 +124,7 @@ module Context2d = {
   @send external setLineDash: (context2d, array<int>) => unit = "setLineDash"
   @set external fillStyle: (context2d, string) => unit = "fillStyle"
   @set external strokeStyle: (context2d, string) => unit = "strokeStyle"
-  @set external lineWidth: (context2d, float) => unit = "lineWidth"
+  @set external lineWidth: (context2d, int) => unit = "lineWidth"
   @set external lineDashOffset: (context2d, int) => unit = "lineDashOffset"
   @get external getFillStyle: context2d => string = "fillStyle"
   @set external setFillStyle: (context2d, string) => unit = "fillStyle"
