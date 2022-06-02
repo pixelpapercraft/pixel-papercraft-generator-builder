@@ -135,11 +135,12 @@ let drawLine = (
   to: Builder.position,
   ~color: string="#000000",
   ~width: int=1,
-  ~pattern: array<int>=[],
-  ~offset: int=0,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
   (),
 ) => {
-  model := Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern, ~offset)
+  model :=
+    Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern=[], ~offset=0)
 }
 
 let drawFold = (from: Builder.position, to: Builder.position) => {
