@@ -122,8 +122,38 @@ let usePage = id => {
   model := Builder.usePage(model.contents, id)
 }
 
-let fillBackgroundColor = (fillStyle: string) => {
-  model := Generator_Builder.fillBackgroundColor(model.contents, fillStyle)
+let fillBackgroundColor = (color: string) => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, color)
+}
+
+let fillBackgroundColorWithWhite = () => {
+  model := Generator_Builder.fillBackgroundColor(model.contents, "#ffffff")
+}
+
+let drawLine = (
+  from: Builder.position,
+  to: Builder.position,
+  ~color: string="#000000",
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
+  (),
+) => {
+  model :=
+    Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern=[], ~offset=0)
+}
+
+let drawFoldLine = (from: Builder.position, to: Builder.position) => {
+  model :=
+    Generator_Builder.drawLine(
+      model.contents,
+      from,
+      to,
+      ~color="#7b7b7b",
+      ~width=1,
+      ~pattern=[2, 2],
+      ~offset=3,
+    )
 }
 
 let drawTexture = (

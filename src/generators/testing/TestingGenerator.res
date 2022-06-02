@@ -98,6 +98,217 @@ let drawGrid = () => {
   }
 }
 
+let drawSteveHead = (texture, ox, oy, size) => {
+  let head = TextureMap.MinecraftCharacter.steve.base.head
+  Generator.drawTexture(texture, head.front, (ox + size, oy + size, size, size), ())
+  Generator.drawTexture(texture, head.right, (ox, oy + size, size, size), ())
+  Generator.drawTexture(texture, head.left, (ox + size * 2, oy + size, size, size), ())
+  Generator.drawTexture(texture, head.top, (ox + size, oy, size, size), ())
+  Generator.drawTexture(texture, head.back, (ox + size * 3, oy + size, size, size), ())
+  Generator.drawTexture(
+    texture,
+    head.bottom,
+    (ox + size, oy + size * 2, size, size),
+    ~flip=#Vertical,
+    (),
+  )
+}
+
+let drawFoldBox = (x, y, size, direction: [#clockwise | #anticlockwise]) => {
+  let p1 = (x, y)
+  let p2 = (x + size, y)
+  let p3 = (x + size, y + size)
+  let p4 = (x, y + size)
+  if direction === #clockwise {
+    Generator.drawFoldLine(p1, p2)
+    Generator.drawFoldLine(p2, p3)
+    Generator.drawFoldLine(p3, p4)
+    Generator.drawFoldLine(p4, p1)
+  } else {
+    Generator.drawFoldLine(p2, p1)
+    Generator.drawFoldLine(p3, p2)
+    Generator.drawFoldLine(p4, p3)
+    Generator.drawFoldLine(p1, p4)
+  }
+}
+
+let drawFoldsSun = (ox, oy, size) => {
+  let angles = [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0,
+    105.0,
+    120.0,
+    135.0,
+    150.0,
+    165.0,
+    180.0,
+    195.0,
+    210.0,
+    225.0,
+    240.0,
+    255.0,
+    270.0,
+    285.0,
+    300.0,
+    315.0,
+    330.0,
+    345.0,
+  ]
+  let innerRadius = 20.0
+  let outerRadius = 20.0 +. size
+  angles->Belt.Array.forEach(angle => {
+    let radians = angle *. Js.Math._PI /. 180.0
+    let x1 = Belt.Float.toInt(innerRadius *. Js.Math.cos(radians))
+    let y1 = Belt.Float.toInt(innerRadius *. Js.Math.sin(radians))
+    let x2 = Belt.Float.toInt(outerRadius *. Js.Math.cos(radians))
+    let y2 = Belt.Float.toInt(outerRadius *. Js.Math.sin(radians))
+    Generator.drawFoldLine((ox + x1, oy + y1), (ox + x2, oy + y2))
+  })
+}
+
+let drawFoldLinesTestPage = () => {
+  Generator.usePage("Fold Lines")
+
+  // Clockwise
+  let ox = 40
+  let oy = 70
+  let size = 64
+  Generator.drawText("Clockwise", (ox, oy - 20), 16)
+  drawSteveHead("Steve", ox, oy, size)
+  drawFoldBox(ox + size, oy + size, size, #clockwise)
+
+  // Anti-clockwise
+  let ox = 300
+  let oy = 70
+  let size = 64
+  Generator.drawText("Anti-Clockwise", (ox, oy - 20), 16)
+  drawSteveHead("Steve", ox, oy, size)
+  drawFoldBox(ox + size, oy + size, size, #anticlockwise)
+
+  Generator.drawText("Arbitrary Sizes", (40, 320), 16)
+
+  let ox = 40
+  let oy = 340
+
+  for index in 0 to 19 {
+    let size = 4 + index
+    let x = ox + index * 27
+    let y = oy
+    drawFoldBox(x, y, size, #clockwise)
+  }
+
+  let ox = 40
+  let oy = 380
+
+  for index in 0 to 12 {
+    let size = 24 + index
+    let x = ox + index * 40
+    let y = oy
+    drawFoldBox(x, y, size, #clockwise)
+  }
+
+  Generator.drawText("Power of 2 Sizes", (40, 440), 16)
+
+  let ox = 40
+  let oy = 460
+
+  for index in 0 to 4 {
+    let exp = Belt.Int.toFloat(index) +. 2.0
+    let size = Js.Math.pow_float(~base=2.0, ~exp)->Belt.Float.toInt
+    let x = ox + index * 50
+    let y = oy
+    drawFoldBox(x, y, size, #clockwise)
+  }
+
+  Generator.drawText("Contrast", (40, 560), 16)
+  let ox = 40
+  let oy = 580
+  let size = 128
+  Generator.drawTexture("TextureColors64x64", (0, 0, 64, 64), (ox, oy, 128, 128), ())
+  drawFoldBox(ox + 16, oy + 16, size - 32, #clockwise)
+  drawFoldBox(ox + 48, oy + 48, size - 96, #clockwise)
+
+  let ox = 280
+  let oy = 560
+  Generator.drawText("Angles", (ox, oy), 16)
+  drawFoldsSun(ox + 140, oy + 100, 100.0)
+}
+
+let drawSun = (ox, oy, ~color, ~width) => {
+  let angles = [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0,
+    105.0,
+    120.0,
+    135.0,
+    150.0,
+    165.0,
+    180.0,
+    195.0,
+    210.0,
+    225.0,
+    240.0,
+    255.0,
+    270.0,
+    285.0,
+    300.0,
+    315.0,
+    330.0,
+    345.0,
+  ]
+  let innerRadius = 20.0
+  let outerRadius = 50.0
+  angles->Belt.Array.forEach(angle => {
+    let radians = angle *. Js.Math._PI /. 180.0
+    let x1 = Belt.Float.toInt(innerRadius *. Js.Math.cos(radians))
+    let y1 = Belt.Float.toInt(innerRadius *. Js.Math.sin(radians))
+    let x2 = Belt.Float.toInt(outerRadius *. Js.Math.cos(radians))
+    let y2 = Belt.Float.toInt(outerRadius *. Js.Math.sin(radians))
+    Generator.drawLine((ox + x1, oy + y1), (ox + x2, oy + y2), ~color, ~width, ())
+  })
+}
+
+let drawSquare = (ox, oy, ~color, ~width) => {
+  let size = 50
+  let ox = ox - size / 2
+  let oy = oy - size / 2
+  let p1 = (ox, oy)
+  let p2 = (ox + size, oy)
+  let p3 = (ox + size, oy + size)
+  let p4 = (ox, oy + size)
+  Generator.drawLine(p1, p2, ~color, ~width, ())
+  Generator.drawLine(p2, p3, ~color, ~width, ())
+  Generator.drawLine(p3, p4, ~color, ~width, ())
+  Generator.drawLine(p4, p1, ~color, ~width, ())
+}
+
+let drawLinesTestPage = () => {
+  Generator.usePage("Lines")
+  drawSun(100, 100, ~color="#000000", ~width=1)
+  drawSun(250, 100, ~color="#000000", ~width=2)
+  drawSun(400, 100, ~color="#000000", ~width=3)
+  drawSun(100, 250, ~color="#ff0000", ~width=1)
+  drawSun(250, 250, ~color="#00ff00", ~width=2)
+  drawSun(400, 250, ~color="#0000ff", ~width=3)
+
+  drawSquare(100, 400, ~color="#000000", ~width=1)
+  drawSquare(250, 400, ~color="#000000", ~width=2)
+  drawSquare(400, 400, ~color="#000000", ~width=3)
+  drawSquare(100, 550, ~color="#ff0000", ~width=1)
+  drawSquare(250, 550, ~color="#00ff00", ~width=2)
+  drawSquare(400, 550, ~color="#0000ff", ~width=3)
+}
+
 let rgbaToHex: ((int, int, int, int)) => string = %raw(`
   function rgbaToHex(rgba) {
     let r = rgba[0].toString(16);
@@ -404,6 +615,8 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  drawFoldLinesTestPage()
+  drawLinesTestPage()
   drawTextureImagePageColorTestPage()
   drawButtonInputTest()
   drawTextureRotation64Test()
