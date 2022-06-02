@@ -143,7 +143,7 @@ let drawLine = (
     Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern=[], ~offset=0)
 }
 
-let drawFold = (from: Builder.position, to: Builder.position) => {
+let drawFoldLine = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
       model.contents,
