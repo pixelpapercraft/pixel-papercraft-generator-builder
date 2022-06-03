@@ -143,6 +143,72 @@ let drawLine = (
     Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern=[], ~offset=0)
 }
 
+let drawLinePath = (
+  points: array<Builder.position>,
+  ~color: string="#000000",
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
+  ~close: bool=false,
+  (),
+) => {
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      points,
+      ~color,
+      ~width,
+      ~pattern=[],
+      ~offset=0,
+      ~close,
+    )
+}
+
+let drawLineRect = (
+  dest: Builder.rectangle,
+  ~color: string="#000000",
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
+  (),
+) => {
+  let (x, y, w, h) = dest
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
+      ~color,
+      ~width,
+      ~pattern=[],
+      ~offset=0,
+      ~close=false,
+    )
+}
+
+let drawLineCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~color: string="#000000",
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawLineRect((x + l, y, w, w * 2 + h), ~color, ~width, ())
+    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ())
+    drawLine((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h), ~color, ~width, ())
+  } else {
+    drawLineRect((x + l + w, y, w, w * 2 + h), ~color, ~width, ())
+    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ())
+    drawLine((x + l, y + l), (x + l, y + l + h), ~color, ~width, ())
+  }
+}
+
 let drawFoldLine = (from: Builder.position, to: Builder.position) => {
   model :=
     Generator_Builder.drawLine(
@@ -154,6 +220,53 @@ let drawFoldLine = (from: Builder.position, to: Builder.position) => {
       ~pattern=[2, 2],
       ~offset=3,
     )
+}
+
+let drawFoldLinePath = (points: array<Builder.position>, ~close: bool=false, ()) => {
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      points,
+      ~color="#7b7b7b",
+      ~width=1,
+      ~pattern=[2, 2],
+      ~offset=3,
+      ~close,
+    )
+}
+
+let drawFoldLineRect = (dest: Builder.rectangle) => {
+  let (x, y, w, h) = dest
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
+      ~color="#7b7b7b",
+      ~width=1,
+      ~pattern=[2, 2],
+      ~offset=3,
+      ~close=false,
+    )
+}
+
+let drawFoldLineCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawFoldLineRect((x + l, y, w, w * 2 + h))
+    drawFoldLineRect((x, y + l, l * 2 + w * 2, h))
+    drawFoldLine((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
+  } else {
+    drawFoldLineRect((x + l + w, y, w, w * 2 + h))
+    drawFoldLineRect((x, y + l, l * 2 + w * 2, h))
+    drawFoldLine((x + l, y + l), (x + l, y + l + h))
+  }
 }
 
 let drawTexture = (
@@ -197,6 +310,34 @@ let drawTextureLegacy = (
     ~pixelate,
     (),
   )
+}
+
+let drawCuboid = (
+  id,
+  source: Builder.cuboid,
+  dp: Builder.position,
+  ds: (int, int, int),
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (dx, dy) = dp
+  let (dw, dh, dl) = ds
+
+  if !leftSide {
+    drawTexture(id, source.front, (dx + dl, dy + dl, dw, dh), ()) // Front
+    drawTexture(id, source.left, (dx + dl + dw, dy + dl, dl, dh), ()) // Left
+    drawTexture(id, source.right, (dx, dy + dl, dl, dh), ()) // Right
+    drawTexture(id, source.back, (dx + dl * 2 + dw, dy + dl, dw, dh), ()) // Back
+    drawTexture(id, source.top, (dx + dl, dy, dw, dl), ()) // Top
+    drawTexture(id, source.bottom, (dx + dl, dy + dl + dh, dw, dl), ~flip=#Vertical, ()) // Bottom
+  } else {
+    drawTexture(id, source.front, (dx + dl + dw, dy + dl, dw, dh), ()) // Front
+    drawTexture(id, source.left, (dx + dl + dw * 2, dy + dl, dl, dh), ()) // Left
+    drawTexture(id, source.right, (dx + dw, dy + dl, dl, dh), ()) // Right
+    drawTexture(id, source.back, (dx, dy + dl, dw, dh), ()) // Back
+    drawTexture(id, source.top, (dx + dl + dw, dy, dw, dl), ()) // Top
+    drawTexture(id, source.bottom, (dx + dl + dw, dy + dl + dh, dw, dl), ~flip=#Vertical, ()) // Bottom
+  }
 }
 
 let drawImage = (id: string, position: Builder.position) => {
