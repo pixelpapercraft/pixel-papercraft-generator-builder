@@ -259,13 +259,13 @@ let drawFoldLineCuboid = (
   let (w, h, l) = scale
 
   if !leftSide {
-    drawFoldLineRect((x + l, y, w, w * 2 + h))
+    drawFoldLineRect((x + l, y, w, l * 2 + h))
     drawFoldLineRect((x, y + l, l * 2 + w * 2, h))
     drawFoldLine((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
   } else {
-    drawFoldLineRect((x + l + w, y, w, w * 2 + h))
+    drawFoldLineRect((x + l + w, y, w, l * 2 + h))
     drawFoldLineRect((x, y + l, l * 2 + w * 2, h))
-    drawFoldLine((x + l, y + l), (x + l, y + l + h))
+    drawFoldLine((x + w, y + l), (x + w, y + l + h))
   }
 }
 

@@ -475,8 +475,13 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   resolution: https://physics.info/vector-components/summary.shtml This results
   in a fully opaque line with the correct width if the line is vertical or
   horizontal, but antialiasing may still affect lines at other angles.
+
+  The angle should be 3 pi / 2 radians if the angle is 270 degrees, but with 
+  the ternary making it pi / 2 regardless of sign the rectangle lines functions
+  are much easier to do, for some reason. Maybe later, this could be replaced 
+  with something using the absolute value of the angle?
  */
-  let angle = Js.Math.atan2(~y=h, ~x=w, ())
+  let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
   let ox = Js.Math.sin(angle) *. 0.5
   let oy = Js.Math.cos(angle) *. 0.5
 
