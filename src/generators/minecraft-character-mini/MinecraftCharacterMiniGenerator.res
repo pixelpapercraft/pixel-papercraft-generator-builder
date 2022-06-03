@@ -9,6 +9,7 @@ let history = [
   "13 Sep 2015 Sandvich - First release using the generator builder.",
   "17 Sep 2020 NinjolasNJM - Added support for Alex skins and fixed bottom of legs.",
   "11 Feb 2022 LostMiner - Refactor. Add pixelate option.",
+  "03 Jun 2022 NinjolasNJM - Overhauled the foreground, added a title and an opaque background, a folds toggle, and overlay region inputs",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
