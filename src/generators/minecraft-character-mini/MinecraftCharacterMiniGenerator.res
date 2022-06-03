@@ -17,12 +17,12 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let images: array<Generator.imageDef> = [
   {
-    id: "Skin Overlay",
-    url: requireImage("skin-overlay"),
+    id: "Foreground",
+    url: requireImage("Foreground"),
   },
   {
-    id: "Skin Background",
-    url: requireImage("skin-background"),
+    id: "Title",
+    url: requireImage("Title"),
   },
 ]
 
@@ -213,6 +213,24 @@ let drawLeftLeg = (
   )
 }
 
+let drawFolds = ((x, y): (int, int)) => {
+  Generator.drawFoldLineCuboid((x + 49, y + 26), (64, 128, 64), ())
+  Generator.drawFoldLine((x + 49, y + 25), (x + 241, y + 25))
+
+  Generator.drawFoldLineRect((x + 1, y + 10, 48, 64))
+  Generator.drawFoldLine((x + 1, y + 41), (x + 49, y + 41))
+  Generator.drawFoldLine((x + 48, y + 74), (x + 48, y + 90))
+  Generator.drawLine((x + 49, y + 26), (x + 49, y + 42), ~color="#ff0000", ())
+
+  Generator.drawFoldLineRect((x + 241, y + 10, 48, 64))
+  Generator.drawFoldLine((x + 241, y + 41), (x + 290, y + 41))
+  Generator.drawFoldLine((x + 241, y + 74), (x + 241, y + 90))
+  Generator.drawLine((x + 240, y + 26), (x + 240, y + 42), ~color="#ff0000", ())
+
+  Generator.drawLine((x + 49, y + 89), (x + 113, y + 89), ~color="#ff0000", ())
+  Generator.drawLine((x + 177, y + 89), (x + 241, y + 89), ~color="#ff0000", ())
+}
+
 let drawMini = (textureId: string, x: int, y: int) => {
   Generator.defineTextureInput(
     textureId,
@@ -224,10 +242,31 @@ let drawMini = (textureId: string, x: int, y: int) => {
     Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
     let modelType = Generator.getSelectInputValue(modelTypeName)
 
-    let showHeadOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Head Overlay", true)
-    let showBodyOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Body Overlay", true)
-    let showArmOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Arm Overlay", true)
-    let showLegOverlay = Generator.defineAndGetBooleanInput(textureId ++ " Leg Overlay", true)
+    let showFolds = Generator.defineAndGetBooleanInput("Show " ++ textureId ++ " Folds", true)
+    let showHeadOverlay = Generator.getBooleanInputValueWithDefault(
+      textureId ++ " Head Overlay",
+      true,
+    )
+    let showBodyOverlay = Generator.getBooleanInputValueWithDefault(
+      textureId ++ " Body Overlay",
+      true,
+    )
+    let showLeftArmOverlay = Generator.getBooleanInputValueWithDefault(
+      textureId ++ " Left Arm Overlay",
+      true,
+    )
+    let showRightArmOverlay = Generator.getBooleanInputValueWithDefault(
+      textureId ++ " Right Arm Overlay",
+      true,
+    )
+    let showLeftLegOverlay = Generator.getBooleanInputValueWithDefault(
+      textureId ++ " Left Leg Overlay",
+      true,
+    )
+    let showRightLegOverlay = Generator.getBooleanInputValueWithDefault(
+      textureId ++ " Right Leg Overlay",
+      true,
+    )
     let bodyHeight = Generator.defineAndGetRangeInput(
       textureId ++ " Body Height",
       {min: 0, max: 64, value: 32, step: 1},
@@ -240,9 +279,6 @@ let drawMini = (textureId: string, x: int, y: int) => {
     let isAlexModel = modelType === "Alex"
     let pixelate = textureStyle === "Simple"
 
-    // Skin Background
-    Generator.drawImage("Skin Background", (x, y))
-
     // Head
     let ox = x + 49
     let oy = y + 90
@@ -250,6 +286,9 @@ let drawMini = (textureId: string, x: int, y: int) => {
     if showHeadOverlay {
       drawHead(textureId, steve.overlay, ox, oy)
     }
+    Generator.defineRegionInput((ox, oy - 64, 192, 128), () => {
+      Generator.setBooleanInputValue(textureId ++ " Head Overlay", !showHeadOverlay)
+    })
 
     // Head Flaps
     let ox = x + 49
@@ -266,6 +305,9 @@ let drawMini = (textureId: string, x: int, y: int) => {
     if showBodyOverlay {
       drawBody(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
     }
+    Generator.defineRegionInput((ox, oy, 256, bodyHeight), () => {
+      Generator.setBooleanInputValue(textureId ++ " Body Overlay", !showBodyOverlay)
+    })
 
     // Arms
     let armTexture = isAlexModel ? alex : steve
@@ -274,17 +316,23 @@ let drawMini = (textureId: string, x: int, y: int) => {
     let ox = x + 9
     let oy = y + 2
     drawRightArm(textureId, armTexture.base, ox, oy, pixelate)
-    if showArmOverlay {
+    if showRightArmOverlay {
       drawRightArm(textureId, armTexture.overlay, ox, oy, pixelate)
     }
+    Generator.defineRegionInput((ox - 8, oy + 8, 48, 64), () => {
+      Generator.setBooleanInputValue(textureId ++ " Right Arm Overlay", !showRightArmOverlay)
+    })
 
     // Left Arm
     let ox = x + 249
     let oy = y + 2
     drawLeftArm(textureId, armTexture.base, ox, oy, pixelate)
-    if showArmOverlay {
+    if showLeftArmOverlay {
       drawLeftArm(textureId, armTexture.overlay, ox, oy, pixelate)
     }
+    Generator.defineRegionInput((ox - 8, oy + 8, 48, 64), () => {
+      Generator.setBooleanInputValue(textureId ++ " Left Arm Overlay", !showLeftArmOverlay)
+    })
 
     // Legs
     let ox = x + 49
@@ -292,24 +340,36 @@ let drawMini = (textureId: string, x: int, y: int) => {
 
     // Right Leg
     drawRightLeg(textureId, steve.base, ox, oy, bodyHeight, pixelate)
-    if showLegOverlay {
+    if showRightLegOverlay {
       drawRightLeg(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
     }
+    Generator.defineRegionInput((ox, oy + bodyHeight, 96, 128 - bodyHeight), () => {
+      Generator.setBooleanInputValue(textureId ++ " Right Leg Overlay", !showRightLegOverlay)
+    })
 
     // Left Leg
     drawLeftLeg(textureId, steve.base, ox, oy, bodyHeight, pixelate)
-    if showLegOverlay {
+    if showLeftLegOverlay {
       drawLeftLeg(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
     }
+    Generator.defineRegionInput((ox + 96, oy + bodyHeight, 160, 128 - bodyHeight), () => {
+      Generator.setBooleanInputValue(textureId ++ " Left Leg Overlay", !showLeftLegOverlay)
+    })
 
     // Draw the fold and cut lines
-    Generator.drawImage("Skin Overlay", (x, y))
+    Generator.drawImage("Foreground", (x, y))
+    if showFolds {
+      drawFolds((x, y))
+    }
   }
 }
 
 let script = () => {
-  drawMini("Mini 1", 151, 108)
-  drawMini("Mini 2", 151, 453)
+  drawMini("Mini 1", 121, 108)
+  drawMini("Mini 2", 121, 453)
+
+  Generator.drawImage("Title", (0, 0))
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
