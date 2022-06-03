@@ -130,6 +130,10 @@ let fillBackgroundColorWithWhite = () => {
   model := Generator_Builder.fillBackgroundColor(model.contents, "#ffffff")
 }
 
+let fillRect = (dest: Builder.rectangle, color: string) => {
+  model := Generator_Builder.fillRect(model.contents, dest, color)
+}
+
 let drawLine = (
   from: Builder.position,
   to: Builder.position,

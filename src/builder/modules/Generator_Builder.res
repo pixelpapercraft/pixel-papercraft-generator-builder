@@ -457,6 +457,21 @@ let fillBackgroundColor = (model: Model.t, color: string) => {
   }
 }
 
+let fillRect = (model: Model.t, dest: rectangle, color: string) => {
+  let (x, y, w, h) = dest
+
+  switch model.currentPage {
+  | None => model
+  | Some(currentPage) => {
+      let context = currentPage.canvasWithContext.context
+      context->Context2d.setFillStyle(color)
+      context->Context2d.fillRect(x, y, w, h)
+
+      model
+    }
+  }
+}
+
 let getOffset = ((x1, y1): position, (x2, y2): position) => {
   let x1 = Belt.Int.toFloat(x1)
   let y1 = Belt.Int.toFloat(y1)

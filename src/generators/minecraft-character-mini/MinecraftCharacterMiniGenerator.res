@@ -214,6 +214,9 @@ let drawLeftLeg = (
 }
 
 let drawFolds = ((x, y): (int, int)) => {
+  Generator.fillRect((x + 49, y + 90, 64, 64), "#ffffff80")
+  Generator.fillRect((x + 177, y + 90, 64, 64), "#ffffff80")
+
   Generator.drawFoldLineCuboid((x + 49, y + 26), (64, 128, 64), ())
   Generator.drawFoldLine((x + 49, y + 25), (x + 241, y + 25))
 
