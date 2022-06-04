@@ -8,7 +8,7 @@ let name = "Minecraft Villager"
 let history = ["19 May 2022 PaperDoggy - Initial script developed."]
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
 let images: array<Generator.imageDef> = [
