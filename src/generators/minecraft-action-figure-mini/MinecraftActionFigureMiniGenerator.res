@@ -53,16 +53,8 @@ let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
 
 let drawHead = (textureId: string, layer: TextureMap.MinecraftCharacter.layer, ox, oy) => {
-  Generator.drawTexture(textureId, layer.head.right, (ox, oy, 64, 64), ())
-  Generator.drawTexture(textureId, layer.head.front, (ox + 64, oy, 64, 64), ())
-  Generator.drawTexture(textureId, layer.head.left, (ox + 128, oy, 64, 64), ())
-  Generator.drawTexture(textureId, layer.head.back, (ox + 192, oy, 64, 64), ())
-  Generator.drawTexture(textureId, layer.head.top, (ox + 64, oy - 64, 64, 64), ())
-}
-
-let drawHeadFlaps = (textureId: string, layer: TextureMap.MinecraftCharacter.layer, ox, oy) => {
-  Generator.drawTexture(textureId, layer.head.right, (ox, oy, 64, 64), ~rotate=90.0, ())
-  Generator.drawTexture(textureId, layer.head.left, (ox + 128, oy, 64, 64), ~rotate=-90.0, ())
+  Generator.drawCuboid(textureId, layer.head, (ox, oy), (64, 64, 64), ())
+  Generator.drawTexture(textureId, layer.head.bottom, (ox + 352, oy + 32, 96, 64), ()) // Neck
 }
 
 let drawBody = (
@@ -73,10 +65,30 @@ let drawBody = (
   bodyHeight,
   pixelate,
 ) => {
-  Generator.drawTexture(textureId, layer.body.right, (ox, oy, 64, bodyHeight), ~pixelate, ())
-  Generator.drawTexture(textureId, layer.body.front, (ox + 64, oy, 64, bodyHeight), ~pixelate, ())
-  Generator.drawTexture(textureId, layer.body.left, (ox + 128, oy, 64, bodyHeight), ~pixelate, ())
-  Generator.drawTexture(textureId, layer.body.back, (ox + 192, oy, 64, bodyHeight), ~pixelate, ())
+  Generator.drawTexture(textureId, layer.body.top, (ox + 64, oy, 64, 64), ())
+  Generator.drawTexture(textureId, layer.body.right, (ox, oy + 64, 64, bodyHeight), ~pixelate, ())
+  Generator.drawTexture(
+    textureId,
+    layer.body.front,
+    (ox + 64, oy + 64, 64, bodyHeight),
+    ~pixelate,
+    (),
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.body.left,
+    (ox + 128, oy + 64, 64, bodyHeight),
+    ~pixelate,
+    (),
+  )
+  Generator.drawTexture(
+    textureId,
+    layer.body.back,
+    (ox + 192, oy + 64, 64, bodyHeight),
+    ~pixelate,
+    (),
+  )
+  // Generator.drawCuboid(textureId, layer.body, (ox, oy), (64, bodyHeight, 64), ~excludeFace=#Bottom, ~pixelate, ())
 }
 
 let drawRightArm = (
@@ -86,18 +98,22 @@ let drawRightArm = (
   oy,
   pixelate,
 ) => {
+  let (sx, sy, _, _) = layer.rightArm.left
+  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy, 32, 32), ()) // Shoulder Inside
+  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy + 32, 32, 32), ()) // Shoulder
+
   Generator.drawTexture(
     textureId,
-    layer.rightArm.left,
-    (ox, oy, 32, 48),
-    ~rotate=90.0,
+    layer.rightArm.right,
+    (ox + 8, oy + 88, 32, 48),
+    ~rotate=-90.0,
     ~pixelate,
     (),
   )
   Generator.drawTexture(
     textureId,
-    layer.rightArm.right,
-    (ox, oy + 32, 32, 48),
+    layer.rightArm.left,
+    (ox + 56, oy + 88, 32, 48),
     ~rotate=90.0,
     ~pixelate,
     (),
@@ -111,10 +127,14 @@ let drawLeftArm = (
   oy,
   pixelate,
 ) => {
+  let (sx, sy, _, _) = layer.leftArm.right
+  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy, 32, 32), ()) // Shoulder Inside
+  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy + 32, 32, 32), ()) // Shoulder
+
   Generator.drawTexture(
     textureId,
     layer.leftArm.right,
-    (ox, oy, 32, 48),
+    (ox + 8, oy + 88, 32, 48),
     ~rotate=-90.0,
     ~pixelate,
     (),
@@ -122,8 +142,8 @@ let drawLeftArm = (
   Generator.drawTexture(
     textureId,
     layer.leftArm.left,
-    (ox, oy + 32, 32, 48),
-    ~rotate=-90.0,
+    (ox + 56, oy + 88, 32, 48),
+    ~rotate=90.0,
     ~pixelate,
     (),
   )
@@ -241,7 +261,7 @@ let drawMini = (textureId: string, x: int, y: int) => {
     Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
     let modelType = Generator.getSelectInputValue(modelTypeName)
 
-    let showFolds = Generator.defineAndGetBooleanInput("Show " ++ textureId ++ " Folds", true)
+    let showFolds = Generator.defineAndGetBooleanInput("Show " ++ textureId ++ " Folds", false)
     let showHeadOverlay = Generator.getBooleanInputValueWithDefault(
       textureId ++ " Head Overlay",
       true,
@@ -279,32 +299,24 @@ let drawMini = (textureId: string, x: int, y: int) => {
     let pixelate = textureStyle === "Simple"
 
     // Head
-    let ox = x + 49
-    let oy = y + 90
+    let ox = x
+    let oy = y
     drawHead(textureId, steve.base, ox, oy)
     if showHeadOverlay {
       drawHead(textureId, steve.overlay, ox, oy)
     }
-    Generator.defineRegionInput((ox, oy - 64, 192, 128), () => {
+    Generator.defineRegionInput((ox, oy, 256, 192), () => {
       Generator.setBooleanInputValue(textureId ++ " Head Overlay", !showHeadOverlay)
     })
 
-    // Head Flaps
-    let ox = x + 49
-    let oy = y + 26
-    drawHeadFlaps(textureId, steve.base, ox, oy)
-    if showHeadOverlay {
-      drawHeadFlaps(textureId, steve.overlay, ox, oy)
-    }
-
     // Body
-    let ox = x + 49
-    let oy = y + 154
+    let ox = x + 224
+    let oy = y + 160
     drawBody(textureId, steve.base, ox, oy, bodyHeight, pixelate)
     if showBodyOverlay {
       drawBody(textureId, steve.overlay, ox, oy, bodyHeight, pixelate)
     }
-    Generator.defineRegionInput((ox, oy, 256, bodyHeight), () => {
+    Generator.defineRegionInput((ox, oy, 256, 64 + bodyHeight), () => {
       Generator.setBooleanInputValue(textureId ++ " Body Overlay", !showBodyOverlay)
     })
 
@@ -312,30 +324,30 @@ let drawMini = (textureId: string, x: int, y: int) => {
     let armTexture = isAlexModel ? alex : steve
 
     // Right Arm
-    let ox = x + 9
-    let oy = y + 2
+    let ox = x - 32
+    let oy = y + 224
     drawRightArm(textureId, armTexture.base, ox, oy, pixelate)
     if showRightArmOverlay {
       drawRightArm(textureId, armTexture.overlay, ox, oy, pixelate)
     }
-    Generator.defineRegionInput((ox - 8, oy + 8, 48, 64), () => {
+    Generator.defineRegionInput((ox, oy + 96, 96, 32), () => {
       Generator.setBooleanInputValue(textureId ++ " Right Arm Overlay", !showRightArmOverlay)
     })
 
     // Left Arm
-    let ox = x + 249
-    let oy = y + 2
+    let ox = x + 96
+    let oy = y + 224
     drawLeftArm(textureId, armTexture.base, ox, oy, pixelate)
     if showLeftArmOverlay {
       drawLeftArm(textureId, armTexture.overlay, ox, oy, pixelate)
     }
-    Generator.defineRegionInput((ox - 8, oy + 8, 48, 64), () => {
+    Generator.defineRegionInput((ox, oy + 96, 96, 32), () => {
       Generator.setBooleanInputValue(textureId ++ " Left Arm Overlay", !showLeftArmOverlay)
     })
 
     // Legs
-    let ox = x + 49
-    let oy = y + 154
+    let ox = x + 224
+    let oy = y + 224
 
     // Right Leg
     drawRightLeg(textureId, steve.base, ox, oy, bodyHeight, pixelate)
@@ -356,7 +368,7 @@ let drawMini = (textureId: string, x: int, y: int) => {
     })
 
     // Draw the fold and cut lines
-    Generator.drawImage("Foreground", (x, y))
+    Generator.drawImage("Foreground", (x - 64, y - 32))
     if showFolds {
       drawFolds((x, y))
     }
@@ -364,8 +376,8 @@ let drawMini = (textureId: string, x: int, y: int) => {
 }
 
 let script = () => {
-  drawMini("Mini 1", 121, 108)
-  drawMini("Mini 2", 121, 453)
+  drawMini("Mini 1", 73, 30)
+  drawMini("Mini 2", 73, 415)
 
   Generator.drawImage("Title", (0, 0))
   Generator.fillBackgroundColorWithWhite()
