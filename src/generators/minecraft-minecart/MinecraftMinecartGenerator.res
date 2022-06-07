@@ -228,7 +228,7 @@ let generator: Generator.generatorDef = {
   id: id,
   name: name,
   history: history,
-  thumbnail: Some(thumbnail),
+  thumbnail: None,
   video: None,
   instructions: None,
   images: images,
