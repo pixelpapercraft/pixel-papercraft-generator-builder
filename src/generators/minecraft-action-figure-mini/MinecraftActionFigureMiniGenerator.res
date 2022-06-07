@@ -13,6 +13,10 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let images: array<Generator.imageDef> = [
   {
+    id: "Folds",
+    url: requireImage("Folds"),
+  },
+  {
     id: "Foreground",
     url: requireImage("Foreground"),
   },
@@ -99,8 +103,8 @@ let drawRightArm = (
   pixelate,
 ) => {
   let (sx, sy, _, _) = layer.rightArm.left
-  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy, 32, 32), ()) // Shoulder Inside
-  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy + 32, 32, 32), ()) // Shoulder
+  Generator.drawTexture(textureId, (sx, sy, 4, 8), (ox + 32, oy, 32, 32), ~pixelate, ()) // Shoulder Inside
+  Generator.drawTexture(textureId, (sx, sy, 4, 8), (ox + 32, oy + 32, 32, 32), ~pixelate, ()) // Shoulder
 
   Generator.drawTexture(
     textureId,
@@ -128,8 +132,8 @@ let drawLeftArm = (
   pixelate,
 ) => {
   let (sx, sy, _, _) = layer.leftArm.right
-  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy, 32, 32), ()) // Shoulder Inside
-  Generator.drawTexture(textureId, (sx, sy, 4, 4), (ox + 32, oy + 32, 32, 32), ()) // Shoulder
+  Generator.drawTexture(textureId, (sx, sy, 4, 8), (ox + 32, oy, 32, 32), ~pixelate, ()) // Shoulder Inside
+  Generator.drawTexture(textureId, (sx, sy, 4, 8), (ox + 32, oy + 32, 32, 32), ~pixelate, ()) // Shoulder
 
   Generator.drawTexture(
     textureId,
@@ -230,24 +234,12 @@ let drawLeftLeg = (
 }
 
 let drawFolds = ((x, y): (int, int)) => {
-  Generator.fillRect((x + 49, y + 90, 64, 64), "#ffffff80")
-  Generator.fillRect((x + 177, y + 90, 64, 64), "#ffffff80")
-
-  Generator.drawFoldLineCuboid((x + 49, y + 26), (64, 128, 64), ())
-  Generator.drawFoldLine((x + 49, y + 25), (x + 241, y + 25))
-
-  Generator.drawFoldLineRect((x + 1, y + 10, 48, 64))
-  Generator.drawFoldLine((x + 1, y + 41), (x + 49, y + 41))
-  Generator.drawFoldLine((x + 48, y + 74), (x + 48, y + 90))
-  Generator.drawLine((x + 49, y + 26), (x + 49, y + 42), ~color="#ff0000", ())
-
-  Generator.drawFoldLineRect((x + 241, y + 10, 48, 64))
-  Generator.drawFoldLine((x + 241, y + 41), (x + 290, y + 41))
-  Generator.drawFoldLine((x + 241, y + 74), (x + 241, y + 90))
-  Generator.drawLine((x + 240, y + 26), (x + 240, y + 42), ~color="#ff0000", ())
-
-  Generator.drawLine((x + 49, y + 89), (x + 113, y + 89), ~color="#ff0000", ())
-  Generator.drawLine((x + 177, y + 89), (x + 241, y + 89), ~color="#ff0000", ())
+  Generator.drawFoldLineCuboid((x, y), (64, 64, 64), ()) // Head
+  Generator.drawFoldLineCuboid((x + 224, y + 160), (64, 64, 64), ()) // Body
+  Generator.drawFoldLineRect((x - 32, y + 320, 96, 32)) // Right Arm
+  Generator.drawFoldLineRect((x + 96, y + 320, 96, 32)) // Left Arm
+  Generator.drawFoldLineRect((x + 352, y + 32, 96, 64)) // Neck
+  Generator.drawImage("Folds", (x - 64, y - 32))
 }
 
 let drawMini = (textureId: string, x: int, y: int) => {
@@ -261,7 +253,7 @@ let drawMini = (textureId: string, x: int, y: int) => {
     Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
     let modelType = Generator.getSelectInputValue(modelTypeName)
 
-    let showFolds = Generator.defineAndGetBooleanInput("Show " ++ textureId ++ " Folds", false)
+    let showFolds = Generator.defineAndGetBooleanInput("Show " ++ textureId ++ " Folds", true)
     let showHeadOverlay = Generator.getBooleanInputValueWithDefault(
       textureId ++ " Head Overlay",
       true,
