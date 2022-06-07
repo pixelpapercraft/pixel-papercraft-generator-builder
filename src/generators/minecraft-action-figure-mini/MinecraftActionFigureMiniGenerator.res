@@ -235,10 +235,16 @@ let drawLeftLeg = (
 
 let drawFolds = ((x, y): (int, int)) => {
   Generator.drawFoldLineCuboid((x, y), (64, 64, 64), ()) // Head
-  Generator.drawFoldLineCuboid((x + 224, y + 160), (64, 64, 64), ()) // Body
-  Generator.drawFoldLineRect((x - 32, y + 320, 96, 32)) // Right Arm
-  Generator.drawFoldLineRect((x + 96, y + 320, 96, 32)) // Left Arm
   Generator.drawFoldLineRect((x + 352, y + 32, 96, 64)) // Neck
+
+  Generator.drawFoldLineCuboid((x + 224, y + 160), (64, 64, 64), ()) // Body
+
+  Generator.drawFoldLineRect((x - 32, y + 320, 96, 32)) // Right Arm
+  Generator.drawFoldLine((x + 15, y + 320), (x + 15, y + 352)) // Right Arm Center
+
+  Generator.drawFoldLineRect((x + 96, y + 320, 96, 32)) // Left Arm
+  Generator.drawFoldLine((x + 144, y + 320), (x + 144, y + 352)) // Left Arm Center
+
   Generator.drawImage("Folds", (x - 64, y - 32))
 }
 
