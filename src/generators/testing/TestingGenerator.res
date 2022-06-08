@@ -22,6 +22,10 @@ let images: array<Generator.imageDef> = [
     id: "ImageColors64x64",
     url: requireImage("Colors64x64.png"),
   },
+  {
+    id: "Tabs",
+    url: requireImage("Tabs.png"),
+  },
 ]
 
 let textures: array<Generator.textureDef> = [
@@ -96,6 +100,152 @@ let drawGrid = () => {
       Generator.drawImage("Grid", (xpos, ypos))
     }
   }
+}
+
+let drawHead = ((x, y): (int, int), t: int) => {
+  let head = TextureMap.MinecraftCharacter.steve.base.head
+  let x = x - 64
+  let y = y - 64
+  let p = (x, y)
+  let s = (64, 64, 64)
+
+  let c1 = "#7b7b7b"
+  let c2 = "#b7b7b7"
+  let c3 = "#000000"
+
+  let d1 = [4, 4]
+  let d2 = [2, 2]
+  let d3 = []
+
+  let o1 = 6
+  let o2 = 3
+  let o3 = 0
+
+  Generator.drawImage("Tabs", (x - 26, y - 1))
+  Generator.drawCuboid("Creeper", head, (x, y), (64, 64, 64), ())
+
+  /*
+  0: current fold line
+  1: PPA's original proposed lines
+  2: Larger and darker cut lines, lighter and smaller fold lines- tabs are cut lines
+  3: solid black cut lines, dark and small fold lines - tabs are cut lines
+  4: 2 - tabs are fold lines
+  5: 3 - tabs are fold lines
+  6: smaller lines - darker cut lines, lighter fold lines - tabs are cut lines
+  7: 6 - tabs are fold lines
+ */
+  switch t {
+  | 0 => Generator.drawFoldLineCuboid(p, s, ())
+  | 1 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c1,
+      ~pattern=d3,
+      ~pattern2=d1,
+      ~offset=o3,
+      ~offset2=o1,
+      0,
+    )
+  | 2 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d1,
+      ~pattern2=d2,
+      ~offset=o1,
+      ~offset2=o2,
+      0,
+    )
+  | 3 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c3,
+      ~color2=c2,
+      ~pattern=d3,
+      ~pattern2=d2,
+      ~offset=o3,
+      ~offset2=o2,
+      0,
+    )
+  | 4 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d1,
+      ~pattern2=d2,
+      ~offset=o1,
+      ~offset2=o2,
+      1,
+    )
+  | 5 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c3,
+      ~color2=c2,
+      ~pattern=d3,
+      ~pattern2=d2,
+      ~offset=o3,
+      ~offset2=o2,
+      1,
+    )
+  | 6 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d2,
+      ~pattern2=d2,
+      ~offset=o2,
+      ~offset2=o2,
+      0,
+    )
+  | 7 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d2,
+      ~pattern2=d2,
+      ~offset=o2,
+      ~offset2=o2,
+      1,
+    )
+  | _ =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d1,
+      ~pattern2=d2,
+      ~offset=o1,
+      ~offset2=o2,
+      1,
+    )
+  }
+}
+
+let drawCuboidStylesTestPage = () => {
+  Generator.usePage("Cuboid Fold Line Styles")
+
+  drawHead((99, 79), 0)
+  drawHead((387, 79), 1)
+  drawHead((99, 279), 2)
+  drawHead((387, 279), 3)
+  drawHead((99, 479), 4)
+  drawHead((387, 479), 5)
+  drawHead((99, 679), 6)
+  drawHead((387, 679), 7)
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {
@@ -615,6 +765,7 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  drawCuboidStylesTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
