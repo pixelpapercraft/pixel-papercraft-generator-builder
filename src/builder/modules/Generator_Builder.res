@@ -401,7 +401,7 @@ let defineText = (model: Model.t, text: string) => {
   }
 }
 
-let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
+let fillBackgroundColor = (model: Model.t, color: string) => {
   switch model.currentPage {
   | None => model
   | Some(currentPage) => {
@@ -412,7 +412,7 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
           let {width, height} = currentPage.canvasWithContext
           let newCanvas = Generator_CanvasWithContext.make(width, height)
           let previousFillStyle = newCanvas.context->Context2d.getFillStyle
-          newCanvas.context->Context2d.setFillStyle(fillStyle)
+          newCanvas.context->Context2d.setFillStyle(color)
           newCanvas.context->Context2d.fillRect(0, 0, width, height)
           newCanvas.context->Context2d.drawCanvasXY(currentPage.canvasWithContext.canvas, 0, 0)
           newCanvas.context->Context2d.setFillStyle(previousFillStyle)
@@ -435,6 +435,61 @@ let fillBackgroundColor = (model: Model.t, fillStyle: string) => {
           newModel
         }
       }
+    }
+  }
+}
+
+let getOffset = ((x1, y1): position, (x2, y2): position) => {
+  let x1 = Belt.Int.toFloat(x1)
+  let y1 = Belt.Int.toFloat(y1)
+  let x2 = Belt.Int.toFloat(x2)
+  let y2 = Belt.Int.toFloat(y2)
+
+  let w = x2 -. x1
+  let h = y2 -. y1
+
+  /* When a line is drawn and its start and end coords are integer values, the
+  resulting line is drawn in between to rows of pixels, resulting in a line
+  that is two pixels wide and half transparent. To fix this, the line's start
+  and end positions need to be offset 0.5 pixels in the direction normal to the
+  line. The following code gets the angle of the line, and gets the components
+  for a translation in the direction perpendicular to the angle using vector
+  resolution: https://physics.info/vector-components/summary.shtml This results
+  in a fully opaque line with the correct width if the line is vertical or
+  horizontal, but antialiasing may still affect lines at other angles.
+ */
+  let angle = Js.Math.atan2(~y=h, ~x=w, ())
+  let ox = Js.Math.sin(angle) *. 0.5
+  let oy = Js.Math.cos(angle) *. 0.5
+
+  (ox, oy)
+}
+
+let drawLine = (
+  model: Model.t,
+  (x1, y1): position,
+  (x2, y2): position,
+  ~color: string,
+  ~width: int,
+  ~pattern: array<int>,
+  ~offset: int,
+) => {
+  let (ox, oy) = getOffset((x1, y1), (x2, y2))
+
+  switch model.currentPage {
+  | None => model
+  | Some(currentPage) => {
+      let context = currentPage.canvasWithContext.context
+      context->Context2d.beginPath
+      context->Context2d.strokeStyle(color)
+      context->Context2d.lineWidth(width)
+      context->Context2d.setLineDash(pattern)
+      context->Context2d.lineDashOffset(offset)
+      context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
+      context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
+      context->Context2d.stroke
+
+      model
     }
   }
 }
