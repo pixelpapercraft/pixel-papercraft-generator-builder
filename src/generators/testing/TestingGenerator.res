@@ -133,6 +133,15 @@ let drawHead = ((x, y): (int, int), t: int) => {
   5: 3 - tabs are fold lines
   6: smaller lines - darker cut lines, lighter fold lines - tabs are cut lines
   7: 6 - tabs are fold lines
+
+  8: All solid lines - black
+  9: All solid lines - gray
+  10: All solid lines - black cut, gray fold
+  11: All solid lines - dark cut, light fold
+  12: 10 - tabs are cut lines
+  13: 11 - tabs are cut lines
+  14: 6 - larger lines
+  15: 7 - larger lines
  */
   switch t {
   | 0 => Generator.drawFoldLineCuboid(p, s, ())
@@ -220,6 +229,102 @@ let drawHead = ((x, y): (int, int), t: int) => {
       ~offset2=o2,
       1,
     )
+  | 8 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c3,
+      ~color2=c3,
+      ~pattern=d3,
+      ~pattern2=d3,
+      ~offset=o3,
+      ~offset2=o3,
+      0,
+    )
+  | 9 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c1,
+      ~pattern=d3,
+      ~pattern2=d3,
+      ~offset=o3,
+      ~offset2=o3,
+      0,
+    )
+  | 10 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c3,
+      ~color2=c1,
+      ~pattern=d3,
+      ~pattern2=d3,
+      ~offset=o3,
+      ~offset2=o3,
+      0,
+    )
+  | 11 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d3,
+      ~pattern2=d3,
+      ~offset=o3,
+      ~offset2=o3,
+      0,
+    )
+  | 12 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c3,
+      ~color2=c1,
+      ~pattern=d3,
+      ~pattern2=d3,
+      ~offset=o3,
+      ~offset2=o3,
+      1,
+    )
+  | 13 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d3,
+      ~pattern2=d3,
+      ~offset=o3,
+      ~offset2=o3,
+      1,
+    )
+  | 14 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d1,
+      ~pattern2=d1,
+      ~offset=o1,
+      ~offset2=o1,
+      0,
+    )
+  | 15 =>
+    TestingCuboid.drawLineCuboid2(
+      p,
+      s,
+      ~color=c1,
+      ~color2=c2,
+      ~pattern=d1,
+      ~pattern2=d1,
+      ~offset=o1,
+      ~offset2=o1,
+      1,
+    )
   | _ =>
     TestingCuboid.drawLineCuboid2(
       p,
@@ -236,7 +341,19 @@ let drawHead = ((x, y): (int, int), t: int) => {
 }
 
 let drawCuboidStylesTestPage = () => {
-  Generator.usePage("Cuboid Fold Line Styles")
+  Generator.usePage("Cuboid Fold Line Styles 1")
+
+  drawHead((99, 79), 8)
+  drawHead((387, 79), 9)
+  drawHead((99, 279), 10)
+  drawHead((387, 279), 11)
+  drawHead((99, 479), 12)
+  drawHead((387, 479), 13)
+  drawHead((99, 679), 14)
+  drawHead((387, 679), 15)
+  Generator.fillBackgroundColorWithWhite()
+
+  Generator.usePage("Cuboid Fold Line Styles 2")
 
   drawHead((99, 79), 0)
   drawHead((387, 79), 1)
