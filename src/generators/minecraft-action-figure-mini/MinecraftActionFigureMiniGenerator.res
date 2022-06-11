@@ -5,7 +5,10 @@ let id = "minecraft-action-figure-mini"
 
 let name = "Minecraft Action Figure Mini"
 
-let history = []
+let history = [
+  "Original Mini Action Figure designed by diamondcrafter99.",
+  "30 Jun NinjolasNJM - first release",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
