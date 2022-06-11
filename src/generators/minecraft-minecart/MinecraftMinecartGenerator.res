@@ -69,8 +69,6 @@ let script = () => {
 
   // Minecart
 
-  Generator.drawImage("Foreground", (0, 0))
-
   let ox = 249
   let oy = 245
 
@@ -136,7 +134,7 @@ let script = () => {
   Generator.drawTexture(
     "Texture",
     Map.minecart.bottom.bottom,
-    (ox + 160, oy + 56, 160, 16),
+    (ox + 168, oy + 56, 160, 16),
     ~flip=#Vertical,
     ~rotate=90.0,
     (),
@@ -222,7 +220,7 @@ let script = () => {
   )
 
   // Draw the Foreground image
-  //Generator.drawImage("Foreground", (0, 0))
+  Generator.drawImage("Foreground", (0, 0))
 
   // Folds
   if showFolds {
