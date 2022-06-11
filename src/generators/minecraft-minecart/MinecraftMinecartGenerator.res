@@ -60,12 +60,12 @@ let script = () => {
   )
 
   // Define user variables
-  Generator.defineBooleanInput("Show Folds", false)
-  Generator.defineBooleanInput("Show Labels", false)
+  Generator.defineBooleanInput("Show Folds", true)
+  //Generator.defineBooleanInput("Show Labels", false)
 
   // Get user variable values
   let showFolds = Generator.getBooleanInputValue("Show Folds")
-  let showLabels = Generator.getBooleanInputValue("Show Labels")
+  //let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Minecart
 
@@ -219,18 +219,25 @@ let script = () => {
     (),
   )
 
+  let drawFolds = () => {
+    // Generator.drawFoldLineCuboid((ox - 80, oy - 64), (dimensions in proper order), ~isVertical=true, ())
+    Generator.drawFoldLine((ox, oy - 64), (ox, oy + 192))
+  }
+
   // Draw the Foreground image
   Generator.drawImage("Foreground", (0, 0))
 
   // Folds
   if showFolds {
-    Generator.drawImage("Folds", (0, 0))
+    // Generator.drawImage("Folds", (0, 0))
+    drawFolds()
   }
 
-  // Labels
+  /* Labels
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
+ */
 }
 
 let generator: Generator.generatorDef = {
