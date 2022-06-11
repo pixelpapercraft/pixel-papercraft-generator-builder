@@ -496,7 +496,7 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   are much easier to do, for some reason. Maybe later, this could be replaced 
   with something using the absolute value of the angle?
  */
-  let angle = w === 0.0 ? Js.Math._PI /. 2.0 : Js.Math.atan2(~y=h, ~x=w, ())
+  let angle = Js.Math.atan2(~y=h, ~x=w, ())
   let ox = Js.Math.sin(angle) *. 0.5
   let oy = Js.Math.cos(angle) *. 0.5
 
