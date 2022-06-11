@@ -18,7 +18,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Texture",
-    url: requireTexture("minecart"),
+    url: requireTexture("testing"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -75,11 +75,10 @@ let script = () => {
   let oy = 245
 
   // Center
-  Generator.drawTexture("Texture", (26, 14, 16, 12), (ox - 16, oy + 16, 128, 96), ~rotate=90.0, ())
+  Generator.drawTexture("Texture", (26, 14, 16, 12), (ox - 16, oy + 16, 128, 96), ~rotate=-90.0, ())
 
-  // First Side
+  // Front Side
 
-  // Sides were of the wrong type. Figure this out
   Generator.drawTexture("Texture", Map.minecart.sides.front, (ox - 16, oy - 64, 128, 64), ())
   Generator.drawTexture("Texture", Map.minecart.sides.top, (ox - 16, oy - 80, 128, 16), ())
   Generator.drawTexture(
@@ -87,6 +86,129 @@ let script = () => {
     Map.minecart.sides.back,
     (ox - 16, oy - 144, 128, 64),
     ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.bottom.right,
+    (ox + 40, oy - 216, 16, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Right Side
+
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.front,
+    (ox + 64, oy + 32, 128, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.top,
+    (ox + 104, oy + 56, 128, 16),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.back,
+    (ox + 144, oy + 32, 128, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.left,
+    (ox + 200, oy - 40, 16, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.right,
+    (ox + 200, oy + 104, 16, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.bottom.bottom,
+    (ox + 160, oy + 56, 160, 16),
+    ~flip=#Vertical,
+    ~rotate=90.0,
+    (),
+  )
+
+  // Back Side
+
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.front,
+    (ox - 16, oy + 128, 128, 64),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.top,
+    (ox - 16, oy + 192, 128, 16),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture("Texture", Map.minecart.sides.back, (ox - 16, oy + 208, 128, 64), ())
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.bottom.left,
+    (ox + 40, oy + 216, 16, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Left Side
+
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.front,
+    (ox - 96, oy + 32, 128, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.top,
+    (ox - 136, oy + 56, 128, 16),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.back,
+    (ox - 176, oy + 32, 128, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.left,
+    (ox - 120, oy + 104, 16, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.sides.right,
+    (ox - 120, oy - 40, 16, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.bottom.top,
+    (ox - 232, oy + 56, 160, 16),
+    ~rotate=90.0,
     (),
   )
 
