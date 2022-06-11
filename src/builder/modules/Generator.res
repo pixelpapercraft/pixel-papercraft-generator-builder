@@ -177,8 +177,8 @@ let drawLineRect = (
   (),
 ) => {
   let (x, y, w, h) = dest
-  model :=
-    Generator_Builder.drawPath(
+  // model :=
+  /* Generator_Builder.drawPath(
       model.contents,
       [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
       ~color,
@@ -186,7 +186,11 @@ let drawLineRect = (
       ~pattern=[],
       ~offset=0,
       ~close=false,
-    )
+    ) */
+  drawLine((x, y - 1), (x + w, y - 1), ~color, ~width, ())
+  drawLine((x + w, y - 1), (x + w, y + h + 1), ~color, ~width, ())
+  drawLine((x + w, y + h + 1), (x, y + h + 1), ~color, ~width, ())
+  drawLine((x, y + h + 1), (x, y - 1), ~color, ~width, ())
 }
 
 let drawLineCuboid = (
@@ -241,7 +245,7 @@ let drawFoldLinePath = (points: array<Builder.position>, ~close: bool=false, ())
 
 let drawFoldLineRect = (dest: Builder.rectangle) => {
   let (x, y, w, h) = dest
-  model :=
+  /* model :=
     Generator_Builder.drawPath(
       model.contents,
       [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
@@ -250,7 +254,12 @@ let drawFoldLineRect = (dest: Builder.rectangle) => {
       ~pattern=[2, 2],
       ~offset=3,
       ~close=false,
-    )
+    ) */
+
+  drawFoldLine((x, y - 1), (x + w, y - 1))
+  drawFoldLine((x + w, y), (x + w, y + h))
+  drawFoldLine((x + w, y + h + 1), (x, y + h + 1))
+  drawFoldLine((x, y + h), (x, y))
 }
 
 let drawFoldLineCuboid = (
