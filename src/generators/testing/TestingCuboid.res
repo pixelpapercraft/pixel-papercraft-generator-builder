@@ -34,16 +34,11 @@ let drawLineRect2 = (
   (),
 ) => {
   let (x, y, w, h) = dest
-  model :=
-    Generator_Builder.drawPath(
-      model.contents,
-      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
-      ~color,
-      ~width,
-      ~pattern,
-      ~offset,
-      ~close=false,
-    )
+
+  drawLine2((x, y - 1), (x + w, y - 1), ~color, ~width, ~pattern, ~offset, ())
+  drawLine2((x + w, y - 1), (x + w, y + h + 1), ~color, ~width, ~pattern, ~offset, ())
+  drawLine2((x + w, y + h + 1), (x, y + h + 1), ~color, ~width, ~pattern, ~offset, ())
+  drawLine2((x, y + h + 1), (x, y - 1), ~color, ~width, ~pattern, ~offset, ())
 }
 
 let drawLineCuboid2 = (
@@ -71,7 +66,7 @@ let drawLineCuboid2 = (
   switch mode {
   | 0 => {
       drawLinePath2(
-        [(x + l - 1, y + l), (x + l - 1, y), (x + l + w, y), (x + l + w, y + l)],
+        [(x + l - 1, y + l), (x + l - 1, y), (x + l + w + 1, y), (x + l + w + 1, y + l)],
         ~color,
         ~width,
         ~pattern,
@@ -80,8 +75,8 @@ let drawLineCuboid2 = (
       )
       drawLinePath2(
         [
-          (x + l - 1, y + l + h),
-          (x + l - 1, y + l * 2 + h + 1),
+          (x + l, y + l + h),
+          (x + l, y + l * 2 + h + 1),
           (x + l + w, y + l * 2 + h + 1),
           (x + l + w, y + l + h),
         ],
@@ -94,8 +89,8 @@ let drawLineCuboid2 = (
       drawLinePath2(
         [
           (x + l * 2 + w * 2, y + l - 1),
-          (x - 1, y + l - 1),
-          (x - 1, y + l + h + 1),
+          (x, y + l - 1),
+          (x, y + l + h + 1),
           (x + l * 2 + w * 2, y + l + h + 1),
         ],
         ~color=color2,
@@ -122,8 +117,8 @@ let drawLineCuboid2 = (
         (),
       )
       drawLine2(
-        (x + l * 2 + w * 2, y + l),
-        (x + l * 2 + w * 2, y + l + h),
+        (x + l * 2 + w * 2, y + l - 1),
+        (x + l * 2 + w * 2, y + l + h + 1),
         ~color,
         ~width,
         ~pattern,
@@ -137,24 +132,24 @@ let drawLineCuboid2 = (
           // Part 1
           (x + l + w, y + l),
           (x + l + w, y - 1),
-          (x + l - 1, y - 1),
-          (x + l - 1, y + l - 1),
-          (x - 1, y + l - 1),
-          (x - 1, y + l + h + 1),
+          (x + l, y - 1),
+          (x + l, y + l - 1),
+          (x, y + l - 1),
+          (x, y + l + h + 1),
           // Part 2
-          (x + l - 1, y + l + h + 1),
-          (x + l - 1, y + l * 2 + h + 1),
+          (x + l, y + l + h + 1),
+          (x + l, y + l * 2 + h + 1),
           (x + l + w, y + l * 2 + h + 1),
           (x + l + w, y + l + h + 1),
           // Part 3
           (x + l * 2 + w * 2, y + l + h + 1),
-          (x + l * 2 + w * 2, y + l),
+          (x + l * 2 + w * 2, y + l - 1),
+          (x + l + w, y + l - 1),
         ],
         ~color,
         ~width,
         ~pattern,
         ~offset,
-        ~close=true,
         (),
       )
       drawLineRect2(
