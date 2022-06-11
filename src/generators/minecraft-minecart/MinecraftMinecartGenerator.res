@@ -212,6 +212,15 @@ let script = () => {
     (),
   )
 
+  // Bottom
+  Generator.drawTexture(
+    "Texture",
+    Map.minecart.bottom.front,
+    (ox - 32, oy + 304, 160, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
   // Draw the Foreground image
   //Generator.drawImage("Foreground", (0, 0))
 
