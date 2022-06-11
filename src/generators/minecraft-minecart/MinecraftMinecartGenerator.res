@@ -11,6 +11,10 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
+let instructions = "
+To make blocks that fit in a minecart, go to the Block Generator and select the block's type to be \"Minecart Block\".
+"
+
 let imageIds = ["Foreground"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
@@ -49,11 +53,9 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
-  //Generator.defineBooleanInput("Show Labels", false)
 
   // Get user variable values
   let showFolds = Generator.getBooleanInputValue("Show Folds")
-  //let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   // Minecart
 
@@ -214,7 +216,6 @@ let script = () => {
   )
 
   let drawFolds = () => {
-    // Generator.drawFoldLineCuboid((ox - 80, oy - 64), (dimensions in proper order), ~isVertical=true, ())
     // Center Lines
     Generator.drawFoldLine((ox - 1, oy - 64), (ox - 1, oy + 192))
     Generator.drawFoldLine((ox + 96, oy - 64), (ox + 96, oy + 192))
@@ -255,7 +256,7 @@ let generator: Generator.generatorDef = {
   history: history,
   thumbnail: None,
   video: None,
-  instructions: None,
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
