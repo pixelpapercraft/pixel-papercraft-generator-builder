@@ -221,7 +221,29 @@ let script = () => {
 
   let drawFolds = () => {
     // Generator.drawFoldLineCuboid((ox - 80, oy - 64), (dimensions in proper order), ~isVertical=true, ())
-    Generator.drawFoldLine((ox, oy - 64), (ox, oy + 192))
+    // Center Lines
+    Generator.drawFoldLine((ox - 1, oy - 64), (ox - 1, oy + 192))
+    Generator.drawFoldLine((ox + 96, oy - 64), (ox + 96, oy + 192))
+
+    Generator.drawFoldLine((ox - 80, oy - 1), (ox + 176, oy - 1))
+    Generator.drawFoldLine((ox - 80, oy + 128), (ox + 176, oy + 128))
+
+    // Top Lines
+    Generator.drawFoldLineRect((ox - 16, oy - 160, 128, 96))
+    Generator.drawFoldLine((ox - 16, oy - 80), (ox + 112, oy - 80))
+
+    // Right Lines
+    Generator.drawFoldLineRect((ox + 176, oy - 16, 80, 160))
+    Generator.drawFoldLine((ox + 160, oy), (ox + 160, oy + 128))
+
+    // Bottom Lines
+    Generator.drawFoldLineRect((ox - 16, oy + 192, 128, 256))
+    Generator.drawFoldLine((ox - 16, oy + 207), (ox + 112, oy + 207))
+    Generator.drawFoldLine((ox - 16, oy + 288), (ox + 112, oy + 288))
+
+    // Left Lines
+    Generator.drawFoldLineRect((ox - 160, oy - 16, 80, 160))
+    Generator.drawFoldLine((ox - 64, oy), (ox - 64, oy + 128))
   }
 
   // Draw the Foreground image
