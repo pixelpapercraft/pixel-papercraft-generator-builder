@@ -18,7 +18,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Texture",
-    url: requireTexture("testing"),
+    url: requireTexture("minecart"),
     standardWidth: 64,
     standardHeight: 32,
   },
