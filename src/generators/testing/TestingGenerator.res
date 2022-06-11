@@ -246,6 +246,7 @@ let drawCuboidStylesTestPage = () => {
   drawHead((387, 479), 5)
   drawHead((99, 679), 6)
   drawHead((387, 679), 7)
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {
