@@ -159,6 +159,8 @@ module Body = {
 module Document = {
   type t = Dom.document
 
+  external toDomElement: t => Dom.element = "%identity"
+
   // @val external document: t = "document"
   @get external body: t => Dom.htmlBodyElement = "body"
   @send external getElementById: (t, string) => Js.Nullable.t<Dom.element> = "getElementById"
