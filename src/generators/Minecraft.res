@@ -1,6 +1,6 @@
 module Builder = Generator.Builder
 
-module CuboidLegacy = {
+module Cuboidegacy = {
   type t = {
     top: Builder.rectangleLegacy,
     bottom: Builder.rectangleLegacy,
@@ -128,12 +128,12 @@ module Cuboid = {
 module MinecraftCharacterLegacy = {
   module Layer = {
     type t = {
-      head: CuboidLegacy.t,
-      rightArm: CuboidLegacy.t,
-      leftArm: CuboidLegacy.t,
-      body: CuboidLegacy.t,
-      rightLeg: CuboidLegacy.t,
-      leftLeg: CuboidLegacy.t,
+      head: Cuboidegacy.t,
+      rightArm: Cuboidegacy.t,
+      leftArm: Cuboidegacy.t,
+      body: Cuboidegacy.t,
+      rightLeg: Cuboidegacy.t,
+      leftLeg: Cuboidegacy.t,
     }
   }
 
@@ -142,7 +142,7 @@ module MinecraftCharacterLegacy = {
     overlay: Layer.t,
   }
 
-  let {make, translate} = module(CuboidLegacy)
+  let {make, translate} = module(Cuboidegacy)
 
   let steve: t = {
     base: {
@@ -238,5 +238,47 @@ module MinecraftCharacter = {
       rightLeg: steve.overlay.rightLeg,
       leftLeg: steve.overlay.leftLeg,
     },
+  }
+}
+
+type direction = [#Right | #Left | #Top | #Bottom]
+
+// let drawCuboidegacy
+
+let drawCuboid = (
+  id: string,
+  source: Cuboid.t,
+  dp: Builder.position,
+  ds: (int, int, int),
+  ~direction: direction=#Right,
+  (),
+) => {
+  // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
+
+  /* Direction changes the placement of the back face - this replaces the ~leftSide parameter from the old branch.
+      It allows for the drawing of not only "left side" cuboids, but also any other shape that might occur.
+      In conjunction with a "~center" parameter which could specify which face of the cuboid is drawn at the center, and ~rotate and ~flip parameters that match drawTexture(),
+      any cross-shaped cuboid net should be drawable with drawCuboid().
+
+      With ~direction, and unlike ~leftSide, (x, y) will always represent the point that is (-d, -d) away from 
+      the center face's origin - the usual corner for a right direction, but not for the other directions. 
+      This makes it so that only the back face needs to be included in the switch statement.
+ */
+
+  let (x, y) = dp
+  let (w, h, d) = ds
+
+  Generator.drawTexture(id, source.front, (x + d, y + d, w, h), ()) // Front
+  Generator.drawTexture(id, source.left, (x + d + w, y + d, d, h), ()) // Left
+  Generator.drawTexture(id, source.right, (x, y + d, d, h), ()) // Right
+  Generator.drawTexture(id, source.top, (x + d, y, w, d), ()) // Top
+  Generator.drawTexture(id, source.bottom, (x + d, y + d + h, w, d), ~flip=#Vertical, ()) // Bottom
+  // Back
+  switch direction {
+  | #Right => Generator.drawTexture(id, source.back, (x + d * 2 + w, y + d, w, h), ())
+  | #Left => Generator.drawTexture(id, source.back, (x - d, y + d, w, h), ())
+  | #Top => Generator.drawTexture(id, source.back, (x + d, y - h, w, h), ~rotate=180.0, ())
+  | #Bottom =>
+    Generator.drawTexture(id, source.back, (x + d, y + d * 2 + h, w, h), ~rotate=180.0, ())
   }
 }
