@@ -125,7 +125,7 @@ module Cuboid = {
   }
 }
 
-module MinecraftCharacterLegacy = {
+module CharacterLegacy = {
   module Layer = {
     type t = {
       head: CuboidLegacy.t,
@@ -183,7 +183,7 @@ module MinecraftCharacterLegacy = {
   }
 }
 
-module MinecraftCharacter = {
+module Character = {
   module Layer = {
     type t = {
       head: Cuboid.t,
@@ -243,7 +243,7 @@ module MinecraftCharacter = {
 
 type direction = [#Right | #Left | #Top | #Bottom]
 
-let drawCuboidLegacy = (
+/* let drawCuboidLegacy = (
   id: string,
   source: CuboidLegacy.t,
   dp: Builder.position,
@@ -299,7 +299,7 @@ let drawCuboidLegacy = (
       (),
     )
   }
-}
+} */
 
 let drawCuboid = (
   id: string,
@@ -332,7 +332,7 @@ let drawCuboid = (
   // Back
   switch direction {
   | #Right => Generator.drawTexture(id, source.back, (x + d * 2 + w, y + d, w, h), ())
-  | #Left => Generator.drawTexture(id, source.back, (x - d, y + d, w, h), ())
+  | #Left => Generator.drawTexture(id, source.back, (x - w, y + d, w, h), ())
   | #Top => Generator.drawTexture(id, source.back, (x + d, y - h, w, h), ~rotate=180.0, ())
   | #Bottom =>
     Generator.drawTexture(id, source.back, (x + d, y + d * 2 + h, w, h), ~rotate=180.0, ())
