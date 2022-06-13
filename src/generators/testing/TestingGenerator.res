@@ -98,6 +98,42 @@ let drawGrid = () => {
   }
 }
 
+let drawSteveHeadCuboid = (x, y, size, direction) => {
+  let (w, h) = switch direction {
+  | #Top | #Bottom => (size * 3, size * 4)
+  | #Left | #Right => (size * 4, size * 3)
+  }
+  Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
+  Minecraft.drawCuboid(
+    "Steve",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (size, size, size),
+    ~direction,
+    (),
+  )
+}
+
+let drawCuboidTestPage = () => {
+  Generator.usePage("Cuboid")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawSteveHeadCuboid(10, 10, 10, #Right)
+  drawSteveHeadCuboid(100, 10, 10, #Left)
+  drawSteveHeadCuboid(10, 100, 10, #Top)
+  drawSteveHeadCuboid(100, 100, 10, #Bottom)
+
+  drawSteveHeadCuboid(200, 10, 33, #Right)
+  drawSteveHeadCuboid(400, 10, 33, #Left)
+  drawSteveHeadCuboid(200, 150, 33, #Top)
+  drawSteveHeadCuboid(400, 150, 33, #Bottom)
+
+  drawSteveHeadCuboid(10, 300, 64, #Right)
+  drawSteveHeadCuboid(330, 300, 64, #Left)
+  drawSteveHeadCuboid(10, 550, 64, #Top)
+  drawSteveHeadCuboid(330, 550, 64, #Bottom)
+}
+
 let drawSteveHead = (texture, ox, oy, size) => {
   let head = TextureMap.MinecraftCharacter.steve.base.head
   Generator.drawTexture(texture, head.front, (ox + size, oy + size, size, size), ())
@@ -615,6 +651,7 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
