@@ -50,6 +50,12 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Steve-Corners",
+    url: requireTexture("Steve-Corners.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve256",
     url: requireTexture("Steve256.png"),
     standardWidth: 256,
@@ -105,7 +111,7 @@ let drawSteveHeadCuboid = (x, y, size, direction) => {
   }
   Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
   Minecraft.drawCuboid(
-    "Steve",
+    "Steve-Corners",
     Minecraft.Character.steve.base.head,
     (x, y),
     (size, size, size),

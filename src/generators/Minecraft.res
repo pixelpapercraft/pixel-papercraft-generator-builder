@@ -246,30 +246,115 @@ type direction = [#East | #West | #North | #South]
 let drawCuboid = (
   id: string,
   source: Cuboid.t,
-  dp: Builder.position,
-  ds: (int, int, int),
+  position: Builder.position,
+  scale: (int, int, int),
   ~direction: direction=#East,
   (),
 ) => {
   // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
 
   /* Improvements: add ~flip, ~blend, ~rotate, ~pixelate, which do the same as what they do in drawTexture(), and ~center, That changes the center face of the cuboid.
-   */
+   
+ */
 
-  let (x, y) = dp
-  let (w, h, d) = ds
+  let (x, y) = position
+  let (w, h, d) = scale
 
-  Generator.drawTexture(id, source.front, (x + d, y + d, w, h), ())
-  Generator.drawTexture(id, source.left, (x + d + w, y + d, d, h), ())
-  Generator.drawTexture(id, source.right, (x, y + d, d, h), ())
-  Generator.drawTexture(id, source.top, (x + d, y, w, d), ())
-  Generator.drawTexture(id, source.bottom, (x + d, y + d + h, w, d), ~flip=#Vertical, ())
-
-  switch direction {
-  | #East => Generator.drawTexture(id, source.back, (x + d * 2 + w, y + d, w, h), ())
-  | #West => Generator.drawTexture(id, source.back, (x - w, y + d, w, h), ())
-  | #North => Generator.drawTexture(id, source.back, (x + d, y - h, w, h), ~rotate=180.0, ())
-  | #South =>
-    Generator.drawTexture(id, source.back, (x + d, y + d * 2 + h, w, h), ~rotate=180.0, ())
+  module Dest = {
+    type face = {rectangle: Builder.rectangle, flip: Generator_Texture.flip, rotate: float}
+    type t = {
+      top: face,
+      bottom: face,
+      right: face,
+      front: face,
+      left: face,
+      back: face,
+    }
   }
+
+  let makeDest = (w, h, d, direction): Dest.t => {
+    top: {rectangle: (d, 0, w, d)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
+    bottom: {
+      rectangle: (d, d + h, w, d)->Cuboid.translateRectangle(x, y),
+      flip: #Vertical,
+      rotate: 0.0,
+    },
+    right: {rectangle: (0, d, d, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
+    front: {rectangle: (d, d, w, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
+    left: {rectangle: (d + w, d, d, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
+    back: switch direction {
+    | #East => {
+        rectangle: (d * 2 + w, d, w, h)->Cuboid.translateRectangle(x, y),
+        flip: #None,
+        rotate: 0.0,
+      }
+    | #West => {rectangle: (-w, d, w, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0}
+    | #North => {
+        rectangle: (d, -w, w, h)->Cuboid.translateRectangle(x, y),
+        flip: #None,
+        rotate: 180.0,
+      }
+    | #South => {
+        rectangle: (d, d * 2 + h, w, h)->Cuboid.translateRectangle(x, y),
+        flip: #None,
+        rotate: 180.0,
+      }
+    },
+  }
+
+  // Have default destination- exact information for center = front, direction = east.
+  // Given direction, change back position to be at the correct place, with correct rotation.
+  // Given center, assign dest faces to be at correct faces, and have correct rotations
+  // draw at destination, with its parameters
+
+  let dest = makeDest(w, h, d, direction)
+  //tbrflb
+  Generator.drawTexture(
+    id,
+    source.top,
+    dest.top.rectangle,
+    ~flip=dest.top.flip,
+    ~rotate=dest.top.rotate,
+    (),
+  )
+  Generator.drawTexture(
+    id,
+    source.bottom,
+    dest.bottom.rectangle,
+    ~flip=dest.bottom.flip,
+    ~rotate=dest.bottom.rotate,
+    (),
+  )
+  Generator.drawTexture(
+    id,
+    source.right,
+    dest.right.rectangle,
+    ~flip=dest.right.flip,
+    ~rotate=dest.right.rotate,
+    (),
+  )
+  Generator.drawTexture(
+    id,
+    source.front,
+    dest.front.rectangle,
+    ~flip=dest.front.flip,
+    ~rotate=dest.front.rotate,
+    (),
+  )
+  Generator.drawTexture(
+    id,
+    source.left,
+    dest.left.rectangle,
+    ~flip=dest.left.flip,
+    ~rotate=dest.left.rotate,
+    (),
+  )
+  Generator.drawTexture(
+    id,
+    source.back,
+    dest.back.rectangle,
+    ~flip=dest.back.flip,
+    ~rotate=dest.back.rotate,
+    (),
+  )
 }
