@@ -172,7 +172,7 @@ let drawNearestNeighbor = (
     Context2d.save(context)
 
     // Move to the destination coordinate
-    Context2d.translate(context, dx, dy)
+    Context2d.translate(context, Belt.Int.toFloat(dx), Belt.Int.toFloat(dy))
 
     switch options.rotate {
     | #None => ()
