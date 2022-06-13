@@ -100,8 +100,8 @@ let drawGrid = () => {
 
 let drawSteveHeadCuboid = (x, y, size, direction) => {
   let (w, h) = switch direction {
-  | #Top | #Bottom => (size * 3, size * 4)
-  | #Left | #Right => (size * 4, size * 3)
+  | #North | #South => (size * 3, size * 4)
+  | #West | #East => (size * 4, size * 3)
   }
   Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
   Minecraft.drawCuboid(
@@ -118,20 +118,20 @@ let drawCuboidTestPage = () => {
   Generator.usePage("Cuboid")
   Generator.fillBackgroundColorWithWhite()
 
-  drawSteveHeadCuboid(10, 10, 10, #Right)
-  drawSteveHeadCuboid(100, 10, 10, #Left)
-  drawSteveHeadCuboid(10, 100, 10, #Top)
-  drawSteveHeadCuboid(100, 100, 10, #Bottom)
+  drawSteveHeadCuboid(10, 10, 10, #East)
+  drawSteveHeadCuboid(100, 10, 10, #West)
+  drawSteveHeadCuboid(10, 100, 10, #North)
+  drawSteveHeadCuboid(100, 100, 10, #South)
 
-  drawSteveHeadCuboid(200, 10, 33, #Right)
-  drawSteveHeadCuboid(400, 10, 33, #Left)
-  drawSteveHeadCuboid(200, 150, 33, #Top)
-  drawSteveHeadCuboid(400, 150, 33, #Bottom)
+  drawSteveHeadCuboid(200, 10, 33, #East)
+  drawSteveHeadCuboid(400, 10, 33, #West)
+  drawSteveHeadCuboid(200, 150, 33, #North)
+  drawSteveHeadCuboid(400, 150, 33, #South)
 
-  drawSteveHeadCuboid(10, 300, 64, #Right)
-  drawSteveHeadCuboid(330, 300, 64, #Left)
-  drawSteveHeadCuboid(10, 550, 64, #Top)
-  drawSteveHeadCuboid(330, 550, 64, #Bottom)
+  drawSteveHeadCuboid(10, 300, 64, #East)
+  drawSteveHeadCuboid(330, 300, 64, #West)
+  drawSteveHeadCuboid(10, 550, 64, #North)
+  drawSteveHeadCuboid(330, 550, 64, #South)
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {

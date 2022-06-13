@@ -136,12 +136,12 @@ let script = () => {
   }
   let drawLeftArm = (position: Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftArm, position, scale, ~direction=#Left, ())
+    Minecraft.drawCuboid("Skin", char.base.leftArm, position, scale, ~direction=#West, ())
     if showLeftArmOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftArm, position, scale, ~direction=#Left, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftArm, position, scale, ~direction=#West, ())
     }
     /* if showFolds {
-      Generator.drawFoldLineCuboid(position, scale, ~direction=#Left, ())
+      Generator.drawFoldLineCuboid(position, scale, ~direction=#West, ())
     } */
   }
   let drawRightLeg = (position: Generator_Builder.position) => {
@@ -156,12 +156,12 @@ let script = () => {
   }
   let drawLeftLeg = (position: Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftLeg, position, scale, ~direction=#Left, ())
+    Minecraft.drawCuboid("Skin", char.base.leftLeg, position, scale, ~direction=#West, ())
     if showLeftLegOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, position, scale, ~direction=#Left, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, position, scale, ~direction=#West, ())
     }
     /* if showFolds {
-      Generator.drawFoldLineCuboid(position, scale, ~direction=#Left, ())
+      Generator.drawFoldLineCuboid(position, scale, ~direction=#West, ())
     } */
   }
 

@@ -241,100 +241,35 @@ module Character = {
   }
 }
 
-type direction = [#Right | #Left | #Top | #Bottom]
-
-/* let drawCuboidLegacy = (
-  id: string,
-  source: CuboidLegacy.t,
-  dp: Builder.position,
-  ds: (int, int, int),
-  ~direction: direction=#Right,
-  (),
-) => {
-  // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
-
-  /* Direction changes the placement of the back face - this replaces the ~leftSide parameter from the old branch.
-      It allows for the drawing of not only "left side" cuboids, but also any other shape that might occur.
-      In conjunction with a "~center" parameter which could specify which face of the cuboid is drawn at the center, and ~rotate and ~flip parameters that match drawTexture(),
-      any cross-shaped cuboid net should be drawable with drawCuboid().
-
-      With ~direction, and unlike ~leftSide, (x, y) will always represent the point that is (-d, -d) away from 
-      the center face's origin - the usual corner for a right direction, but not for the other directions. 
-      This makes it so that only the back face needs to be included in the switch statement.
- */
-
-  let (x, y) = dp
-  let (w, h, d) = ds
-
-  Generator.drawTextureLegacy(id, source.front, {x: x + d, y: y + d, w: w, h: h}, ()) // Front
-  Generator.drawTextureLegacy(id, source.left, {x: x + d + w, y: y + d, w: d, h: h}, ()) // Left
-  Generator.drawTextureLegacy(id, source.right, {x: x, y: y + d, w: d, h: h}, ()) // Right
-  Generator.drawTextureLegacy(id, source.top, {x: x + d, y: y, w: w, h: d}, ()) // Top
-  Generator.drawTextureLegacy(
-    id,
-    source.bottom,
-    {x: x + d, y: y + d + h, w: w, h: d},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
-  // Back
-  switch direction {
-  | #Right =>
-    Generator.drawTextureLegacy(id, source.back, {x: x + d * 2 + w, y: y + d, w: w, h: h}, ())
-  | #Left => Generator.drawTextureLegacy(id, source.back, {x: x - d, y: y + d, w: w, h: h}, ())
-  | #Top =>
-    Generator.drawTextureLegacy(
-      id,
-      source.back,
-      {x: x + d, y: y - h, w: w, h: h},
-      ~rotateLegacy=180.0,
-      (),
-    )
-  | #Bottom =>
-    Generator.drawTextureLegacy(
-      id,
-      source.back,
-      {x: x + d, y: y + d * 2 + h, w: w, h: h},
-      ~rotateLegacy=180.0,
-      (),
-    )
-  }
-} */
+type direction = [#East | #West | #North | #South]
 
 let drawCuboid = (
   id: string,
   source: Cuboid.t,
   dp: Builder.position,
   ds: (int, int, int),
-  ~direction: direction=#Right,
+  ~direction: direction=#East,
   (),
 ) => {
   // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
 
-  /* Direction changes the placement of the back face - this replaces the ~leftSide parameter from the old branch.
-      It allows for the drawing of not only "left side" cuboids, but also any other shape that might occur.
-      In conjunction with a "~center" parameter which could specify which face of the cuboid is drawn at the center, and ~rotate and ~flip parameters that match drawTexture(),
-      any cross-shaped cuboid net should be drawable with drawCuboid().
-
-      With ~direction, and unlike ~leftSide, (x, y) will always represent the point that is (-d, -d) away from 
-      the center face's origin - the usual corner for a right direction, but not for the other directions. 
-      This makes it so that only the back face needs to be included in the switch statement.
- */
+  /* Improvements: add ~flip, ~blend, ~rotate, ~pixelate, which do the same as what they do in drawTexture(), and ~center, That changes the center face of the cuboid.
+   */
 
   let (x, y) = dp
   let (w, h, d) = ds
 
-  Generator.drawTexture(id, source.front, (x + d, y + d, w, h), ()) // Front
-  Generator.drawTexture(id, source.left, (x + d + w, y + d, d, h), ()) // Left
-  Generator.drawTexture(id, source.right, (x, y + d, d, h), ()) // Right
-  Generator.drawTexture(id, source.top, (x + d, y, w, d), ()) // Top
-  Generator.drawTexture(id, source.bottom, (x + d, y + d + h, w, d), ~flip=#Vertical, ()) // Bottom
-  // Back
+  Generator.drawTexture(id, source.front, (x + d, y + d, w, h), ())
+  Generator.drawTexture(id, source.left, (x + d + w, y + d, d, h), ())
+  Generator.drawTexture(id, source.right, (x, y + d, d, h), ())
+  Generator.drawTexture(id, source.top, (x + d, y, w, d), ())
+  Generator.drawTexture(id, source.bottom, (x + d, y + d + h, w, d), ~flip=#Vertical, ())
+
   switch direction {
-  | #Right => Generator.drawTexture(id, source.back, (x + d * 2 + w, y + d, w, h), ())
-  | #Left => Generator.drawTexture(id, source.back, (x - w, y + d, w, h), ())
-  | #Top => Generator.drawTexture(id, source.back, (x + d, y - h, w, h), ~rotate=180.0, ())
-  | #Bottom =>
+  | #East => Generator.drawTexture(id, source.back, (x + d * 2 + w, y + d, w, h), ())
+  | #West => Generator.drawTexture(id, source.back, (x - w, y + d, w, h), ())
+  | #North => Generator.drawTexture(id, source.back, (x + d, y - h, w, h), ~rotate=180.0, ())
+  | #South =>
     Generator.drawTexture(id, source.back, (x + d, y + d * 2 + h, w, h), ~rotate=180.0, ())
   }
 }
