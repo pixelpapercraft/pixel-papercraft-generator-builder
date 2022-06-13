@@ -261,45 +261,39 @@ let drawCuboid = (
   let (w, h, d) = scale
 
   module Dest = {
-    type face = {rectangle: Builder.rectangle, flip: Generator_Texture.flip, rotate: float}
-    type t = {
-      top: face,
-      bottom: face,
-      right: face,
-      front: face,
-      left: face,
-      back: face,
+    module Face = {
+      type t = {rectangle: Builder.rectangle, flip: Generator_Texture.flip, rotate: float}
+      let make = (rectangle, ~flip=#None, ~rotate=0.0, ()) => {
+        rectangle: rectangle,
+        flip: flip,
+        rotate: rotate,
+      }
     }
-  }
+    type t = {
+      top: Face.t,
+      bottom: Face.t,
+      right: Face.t,
+      front: Face.t,
+      left: Face.t,
+      back: Face.t,
+    }
 
-  let makeDest = (w, h, d, direction): Dest.t => {
-    top: {rectangle: (d, 0, w, d)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
-    bottom: {
-      rectangle: (d, d + h, w, d)->Cuboid.translateRectangle(x, y),
-      flip: #Vertical,
-      rotate: 0.0,
-    },
-    right: {rectangle: (0, d, d, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
-    front: {rectangle: (d, d, w, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
-    left: {rectangle: (d + w, d, d, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0},
-    back: switch direction {
-    | #East => {
-        rectangle: (d * 2 + w, d, w, h)->Cuboid.translateRectangle(x, y),
-        flip: #None,
-        rotate: 0.0,
+    let make = (x, y, w, h, d, direction): t => {
+      let translate = rectangle => Cuboid.translateRectangle(rectangle, x, y)
+      {
+        top: Face.make((d, 0, w, d)->translate, ()),
+        bottom: Face.make((d, d + h, w, d)->translate, ~flip=#Vertical, ()),
+        right: Face.make((0, d, d, h)->translate, ()),
+        front: Face.make((d, d, w, h)->translate, ()),
+        left: Face.make((d + w, d, d, h)->translate, ()),
+        back: switch direction {
+        | #East => Face.make((d * 2 + w, d, w, h)->translate, ())
+        | #West => Face.make((-w, d, w, h)->translate, ())
+        | #North => Face.make((d, -w, w, h)->translate, ~rotate=180.0, ())
+        | #South => Face.make((d, d * 2 + h, w, h)->translate, ~rotate=180.0, ())
+        },
       }
-    | #West => {rectangle: (-w, d, w, h)->Cuboid.translateRectangle(x, y), flip: #None, rotate: 0.0}
-    | #North => {
-        rectangle: (d, -w, w, h)->Cuboid.translateRectangle(x, y),
-        flip: #None,
-        rotate: 180.0,
-      }
-    | #South => {
-        rectangle: (d, d * 2 + h, w, h)->Cuboid.translateRectangle(x, y),
-        flip: #None,
-        rotate: 180.0,
-      }
-    },
+    }
   }
 
   // Have default destination- exact information for center = front, direction = east.
@@ -307,54 +301,13 @@ let drawCuboid = (
   // Given center, assign dest faces to be at correct faces, and have correct rotations
   // draw at destination, with its parameters
 
-  let dest = makeDest(w, h, d, direction)
+  let dest = Dest.make(x, y, w, h, d, direction)
+  let {top: t, bottom: b, right: r, front: f, left: l, back: b1} = dest
   //tbrflb
-  Generator.drawTexture(
-    id,
-    source.top,
-    dest.top.rectangle,
-    ~flip=dest.top.flip,
-    ~rotate=dest.top.rotate,
-    (),
-  )
-  Generator.drawTexture(
-    id,
-    source.bottom,
-    dest.bottom.rectangle,
-    ~flip=dest.bottom.flip,
-    ~rotate=dest.bottom.rotate,
-    (),
-  )
-  Generator.drawTexture(
-    id,
-    source.right,
-    dest.right.rectangle,
-    ~flip=dest.right.flip,
-    ~rotate=dest.right.rotate,
-    (),
-  )
-  Generator.drawTexture(
-    id,
-    source.front,
-    dest.front.rectangle,
-    ~flip=dest.front.flip,
-    ~rotate=dest.front.rotate,
-    (),
-  )
-  Generator.drawTexture(
-    id,
-    source.left,
-    dest.left.rectangle,
-    ~flip=dest.left.flip,
-    ~rotate=dest.left.rotate,
-    (),
-  )
-  Generator.drawTexture(
-    id,
-    source.back,
-    dest.back.rectangle,
-    ~flip=dest.back.flip,
-    ~rotate=dest.back.rotate,
-    (),
-  )
+  Generator.drawTexture(id, source.top, t.rectangle, ~flip=t.flip, ~rotate=t.rotate, ())
+  Generator.drawTexture(id, source.bottom, b.rectangle, ~flip=b.flip, ~rotate=b.rotate, ())
+  Generator.drawTexture(id, source.right, r.rectangle, ~flip=r.flip, ~rotate=r.rotate, ())
+  Generator.drawTexture(id, source.front, f.rectangle, ~flip=f.flip, ~rotate=f.rotate, ())
+  Generator.drawTexture(id, source.left, l.rectangle, ~flip=l.flip, ~rotate=l.rotate, ())
+  Generator.drawTexture(id, source.back, b1.rectangle, ~flip=b1.flip, ~rotate=b1.rotate, ())
 }
