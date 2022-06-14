@@ -281,6 +281,15 @@ let drawCuboid = (
         flip: face.flip,
         rotate: face.rotate +. r,
       }
+      let flip = (face: t, f): t => {
+        rectangle: face.rectangle,
+        flip: face.flip == #None ? f : #None,
+        rotate: face.flip == #None
+          ? face.rotate
+          : face.flip != f
+          ? face.rotate +. 180.0
+          : face.rotate,
+      }
     }
     type t = {
       top: Face.t,
@@ -294,7 +303,7 @@ let drawCuboid = (
     let make = (w, h, d, direction): t => {
       {
         top: Face.make((d, 0, w, d), ()),
-        bottom: Face.make((d, d + h, w, d), ~flip=#Vertical, ()),
+        bottom: Face.make((d, d + h, w, d), ()),
         right: Face.make((0, d, d, h), ()),
         front: Face.make((d, d, w, h), ()),
         left: Face.make((d + w, d, d, h), ()),
@@ -318,14 +327,25 @@ let drawCuboid = (
       | #Bottom => 5
       }
       let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
+      let m = Belt.Int.toFloat(n)
 
       {
-        right: a[n < 4 ? mod(5 - n, 4) : 0],
+        right: a[n < 4 ? mod(5 - n, 4) : 0]->Face.rotate(
+          m < 4.0 ? 0.0 : (m -. 3.0) *. 180.0 -. 90.0,
+        ),
         front: a[n < 4 ? mod(6 - n, 4) : n == 4 ? 5 : 4],
-        left: a[n < 4 ? mod(7 - n, 4) : 2],
-        back: a[n < 4 ? mod(8 - n, 4) : n == 4 ? 4 : 5],
-        top: a[n < 4 ? 4 : n == 4 ? 1 : 3],
-        bottom: a[n < 4 ? 5 : n == 4 ? 3 : 1],
+        left: a[n < 4 ? mod(7 - n, 4) : 2]->Face.rotate(
+          m < 4.0 ? 0.0 : (m -. 3.0) *. -180.0 +. 90.0,
+        ),
+        back: a[n < 4 ? mod(8 - n, 4) : n == 4 ? 4 : 5]->Face.rotate(m < 4.0 ? 0.0 : 180.0),
+        top: a[n < 4 ? 4 : n == 4 ? 1 : 3]->Face.rotate(
+          m > 3.0 ? (m -. 4.0) *. 180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. 90.0,
+        ),
+        bottom: a[n < 4 ? 5 : n == 4 ? 3 : 1]
+        ->Face.flip(#Vertical)
+        ->Face.rotate(
+          m > 3.0 ? (5.0 -. m) *. -180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. -90.0,
+        ),
       }
     }
     let translate = (dest: t, x, y) => {
