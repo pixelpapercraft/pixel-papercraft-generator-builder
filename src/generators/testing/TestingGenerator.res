@@ -121,6 +121,7 @@ let drawSteveHeadCuboid2 = (x, y, center) => {
     (x, y),
     (64, 96, 32),
     ~center,
+    //~direction=#South,
     (),
   )
 }

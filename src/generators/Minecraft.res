@@ -300,19 +300,14 @@ let drawCuboid = (
       back: Face.t,
     }
 
-    let make = (w, h, d, direction): t => {
+    let make = (w, h, d): t => {
       {
         top: Face.make((d, 0, w, d), ()),
         bottom: Face.make((d, d + h, w, d), ()),
         right: Face.make((0, d, d, h), ()),
         front: Face.make((d, d, w, h), ()),
         left: Face.make((d + w, d, d, h), ()),
-        back: switch direction {
-        | #East => Face.make((d * 2 + w, d, w, h), ())
-        | #West => Face.make((-w, d, w, h), ())
-        | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
-        | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
-        },
+        back: Face.make((d * 2 + w, d, w, h), ()),
       }
     }
     let center = (dest: t, center): t => {
@@ -326,6 +321,9 @@ let drawCuboid = (
       | #Top => 4
       | #Bottom => 5
       }
+
+      let (_, d, w, h) = dest.front.rectangle
+      let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? h : h, n == 0 || n == 2 ? w : d)
       let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
       let m = Belt.Int.toFloat(n)
 
@@ -348,6 +346,22 @@ let drawCuboid = (
         ),
       }
     }
+    let direction = (dest: t, direction) => {
+      let out = switch direction {
+      | #East => Face.make((d * 2 + w, d, w, h), ())
+      | #West => Face.make((-w, d, w, h), ())
+      | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
+      | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
+      }
+      {
+        top: dest.top,
+        bottom: dest.bottom,
+        right: dest.right,
+        front: dest.front,
+        left: dest.left,
+        back: out,
+      }
+    }
     let translate = (dest: t, x, y) => {
       let translate = face => Face.translate(face, x, y)
       {
@@ -366,7 +380,8 @@ let drawCuboid = (
   // Given center, assign dest faces to be at correct faces, and have correct rotations
   // draw at destination, with its parameters
 
-  let dest = Dest.make(w, h, d, direction)->Dest.center(center)->Dest.translate(x, y)
+  let dest =
+    Dest.make(w, h, d)->Dest.direction(direction)->Dest.center(center)->Dest.translate(x, y)
   let {top: t, bottom: o, right: r, front: f, left: l, back: b} = dest
   //tbrflb
   Generator.drawTexture(id, source.top, t.rectangle, ~flip=t.flip, ~rotate=t.rotate, ())
