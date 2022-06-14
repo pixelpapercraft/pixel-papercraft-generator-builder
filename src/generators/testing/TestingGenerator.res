@@ -56,6 +56,12 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Steve-Faces",
+    url: requireTexture("Steve-Faces.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve256",
     url: requireTexture("Steve256.png"),
     standardWidth: 256,
@@ -102,6 +108,37 @@ let drawGrid = () => {
       Generator.drawImage("Grid", (xpos, ypos))
     }
   }
+}
+
+let drawSteveHeadCuboid2 = (x, y, size, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (size, size, size),
+    ~center,
+    (),
+  )
+}
+
+let drawCuboidTestPage2 = () => {
+  Generator.usePage("Cuboid 2")
+  Generator.fillBackgroundColorWithWhite()
+
+  let n = 1
+  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
+  drawSteveHeadCuboid2(99, 79, 64, #Right)
+  drawSteveHeadCuboid2(387, 79, 64, #Front)
+  drawSteveHeadCuboid2(99, 279, 64, #Left)
+  drawSteveHeadCuboid2(387, 279, 64, #Back)
+  drawSteveHeadCuboid2(99, 479, 64, #Top)
+  drawSteveHeadCuboid2(387, 479, 64, #Bottom)
+  drawSteveHeadCuboid2(99, 679, 64, #Front)
+  drawSteveHeadCuboid2(387, 679, 64, #Front)
 }
 
 let drawSteveHeadCuboid = (x, y, size, direction) => {
@@ -657,6 +694,7 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage2()
   drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
