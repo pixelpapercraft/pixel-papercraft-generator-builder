@@ -251,6 +251,10 @@ let drawCuboid = (
   scale: (int, int, int),
   ~direction: direction=#East,
   ~center: center=#Front,
+  ~flip: Generator_Texture.flip=#None,
+  ~blend: Generator_Texture.blend=#None,
+  ~rotate: float=0.0,
+  ~pixelate: bool=false,
   (),
 ) => {
   let (x, y) = position
@@ -271,9 +275,11 @@ let drawCuboid = (
         rotate: face.rotate,
       }
       let rotate = (face: t, r): t => {
-        rectangle: face.rectangle,
-        flip: face.flip,
-        rotate: face.rotate +. r,
+        {
+          rectangle: face.rectangle,
+          flip: face.flip,
+          rotate: face.rotate +. r,
+        }
       }
       let flip = (face: t, f): t => {
         rectangle: face.rectangle,
@@ -369,14 +375,32 @@ let drawCuboid = (
         back: dest.back->translate,
       }
     }
+    let rotate = (dest: t, r) => {
+      let rotate = (face: Face.t) => {
+        let (sx, sy, _, _) = face.rectangle
+        let (x, y) = (Belt.Int.toFloat(sx), Belt.Int.toFloat(sy))
+        let radians = r *. Js.Math._PI /. 180.0
+        let cos = Js.Math.cos(radians)
+        let sin = Js.Math.sin(radians)
+
+        Face.translate(
+          face,
+          Belt.Float.toInt(x *. cos -. y *. sin) - sx,
+          Belt.Float.toInt(x *. sin +. y *. cos) - sy,
+        )->Face.rotate(r)
+      }
+      {
+        top: dest.top->rotate,
+        bottom: dest.bottom->rotate,
+        right: dest.right->rotate,
+        front: dest.front->rotate,
+        left: dest.left->rotate,
+        back: dest.back->rotate,
+      }
+    }
   }
 
-  // Have default destination- exact information for center = front, direction = east.
-  // Given direction, change back position to be at the correct place, with correct rotation.
-  // Given center, assign dest faces to be at correct faces, and have correct rotations
-  // draw at destination, with its parameters
-
-  let dest = Dest.make((w, h, d), direction, center)->Dest.translate(x, y)
+  let dest = Dest.make((w, h, d), direction, center)->Dest.rotate(rotate)->Dest.translate(x, y)
 
   Dest.Face.draw(id, source.top, dest.top)
   Dest.Face.draw(id, source.bottom, dest.bottom)

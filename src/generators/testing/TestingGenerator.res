@@ -110,6 +110,36 @@ let drawGrid = () => {
   }
 }
 
+let drawSteveHeadCuboid3 = (x, y, rotate) => {
+  let x = x - 64
+  let y = y - 64
+
+  Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, 4, 4), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (32, 32, 32),
+    ~rotate,
+    //~center=#Left,
+    (),
+  )
+}
+
+let drawCuboidTestPage4 = () => {
+  Generator.usePage("Cuboid 4")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawSteveHeadCuboid3(99, 79, 0.0)
+  drawSteveHeadCuboid3(387, 79, 45.0)
+  drawSteveHeadCuboid3(99, 279, 90.0)
+  drawSteveHeadCuboid3(387, 279, 135.0)
+  drawSteveHeadCuboid3(99, 479, 180.0)
+  drawSteveHeadCuboid3(387, 479, 225.0)
+  drawSteveHeadCuboid3(99, 679, 270.0)
+  drawSteveHeadCuboid3(387, 679, 315.0)
+}
+
 let drawSteveBodyCuboid = (x, y, center) => {
   let x = x - 64
   let y = y - 64
@@ -725,6 +755,7 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage4()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawCuboidTestPage()
