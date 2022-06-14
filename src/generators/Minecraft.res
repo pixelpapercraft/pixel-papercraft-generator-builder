@@ -250,15 +250,9 @@ let drawCuboid = (
   position: Builder.position,
   scale: (int, int, int),
   ~direction: direction=#East,
-  //~center: center=#Front,
+  ~center: center=#Front,
   (),
 ) => {
-  // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
-
-  /* Improvements: add ~flip, ~blend, ~rotate, ~pixelate, which do the same as what they do in drawTexture(), and ~center, That changes the center face of the cuboid.
-   
- */
-
   let (x, y) = position
   let (w, h, d) = scale
 
@@ -290,6 +284,19 @@ let drawCuboid = (
           ? face.rotate +. 180.0
           : face.rotate,
       }
+
+      let draw = (id: string, source: Builder.rectangle, dest: t) => {
+        let (dx, dy, dw, dh) = dest.rectangle
+        let destination = switch mod_float(dest.rotate +. 720.0, 360.0) {
+        | 0.0 => (dx, dy, dw, dh)
+        | 90.0 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+        | 180.0 => (dx, dy, dw, dh)
+        | 270.0 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+        | _ => (dx, dy, dw, dh)
+        }
+
+        Generator.drawTexture(id, source, destination, ~flip=dest.flip, ~rotate=dest.rotate, ())
+      }
     }
     type t = {
       top: Face.t,
@@ -303,14 +310,14 @@ let drawCuboid = (
     let make = (w, h, d): t => {
       {
         top: Face.make((d, 0, w, d), ()),
-        bottom: Face.make((d, d + h, w, d), ~flip=#Vertical, ()),
+        bottom: Face.make((d, d + h, w, d), ()),
         right: Face.make((0, d, d, h), ()),
         front: Face.make((d, d, w, h), ()),
         left: Face.make((d + w, d, d, h), ()),
         back: Face.make((d * 2 + w, d, w, h), ()),
       }
     }
-    /* let center = (dest: t, center): t => {
+    let center = (dest: t, center): t => {
       // Assign each return face to have a different face, and rotation, depending on the center value.
 
       let n: int = switch center {
@@ -322,8 +329,8 @@ let drawCuboid = (
       | #Bottom => 5
       }
 
-      //let (_, d, w, h) = dest.front.rectangle
-      //let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? h : h, n == 0 || n == 2 ? w : d)
+      let (_, d, w, h) = dest.front.rectangle
+      let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? d : h, n == 0 || n == 2 ? w : n > 3 ? h : d)
       let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
       let m = Belt.Int.toFloat(n)
 
@@ -345,7 +352,7 @@ let drawCuboid = (
           m > 3.0 ? (5.0 -. m) *. -180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. -90.0,
         ),
       }
-    } */
+    }
     let direction = (dest: t, direction) => {
       let out = switch direction {
       | #East => Face.make((d * 2 + w, d, w, h), ())
@@ -380,13 +387,14 @@ let drawCuboid = (
   // Given center, assign dest faces to be at correct faces, and have correct rotations
   // draw at destination, with its parameters
 
-  let dest = Dest.make(w, h, d)->Dest.direction(direction)->Dest.translate(x, y) //->Dest.center(center)->Dest.translate(x, y)
+  let dest =
+    Dest.make(w, h, d)->Dest.direction(direction)->Dest.center(center)->Dest.translate(x, y)
   let {top: t, bottom: o, right: r, front: f, left: l, back: b} = dest
   //tbrflb
-  Generator.drawTexture(id, source.top, t.rectangle, ~flip=t.flip, ~rotate=t.rotate, ())
-  Generator.drawTexture(id, source.bottom, o.rectangle, ~flip=o.flip, ~rotate=o.rotate, ())
-  Generator.drawTexture(id, source.right, r.rectangle, ~flip=r.flip, ~rotate=r.rotate, ())
-  Generator.drawTexture(id, source.front, f.rectangle, ~flip=f.flip, ~rotate=f.rotate, ())
-  Generator.drawTexture(id, source.left, l.rectangle, ~flip=l.flip, ~rotate=l.rotate, ())
-  Generator.drawTexture(id, source.back, b.rectangle, ~flip=b.flip, ~rotate=b.rotate, ())
+  Dest.Face.draw(id, source.top, t) // , ~flip=t.flip, ~rotate=t.rotate, ())
+  Dest.Face.draw(id, source.bottom, o) // , ~flip=o.flip, ~rotate=o.rotate, ())
+  Dest.Face.draw(id, source.right, r) // , ~flip=r.flip, ~rotate=r.rotate, ())
+  Dest.Face.draw(id, source.front, f) // , ~flip=f.flip, ~rotate=f.rotate, ())
+  Dest.Face.draw(id, source.left, l) // , ~flip=l.flip, ~rotate=l.rotate, ())
+  Dest.Face.draw(id, source.back, b) // , ~flip=b.flip, ~rotate=b.rotate, ())
 }

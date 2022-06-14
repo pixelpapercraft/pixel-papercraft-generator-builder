@@ -110,7 +110,7 @@ let drawGrid = () => {
   }
 }
 
-/* let drawSteveHeadCuboid2 = (x, y, center) => {
+let drawSteveBodyCuboid = (x, y, center) => {
   let x = x - 64
   let y = y - 64
 
@@ -121,7 +121,37 @@ let drawGrid = () => {
     (x, y),
     (64, 96, 32),
     ~center,
-    //~direction=#South,
+    ~direction=#South,
+    (),
+  )
+}
+
+let drawCuboidTestPage3 = () => {
+  Generator.usePage("Cuboid 3")
+  Generator.fillBackgroundColorWithWhite()
+  let m = 5.0
+  Generator.defineText("Answer: " ++ Belt.Float.toString((m -. 3.0) *. -180.0 +. 90.0))
+
+  drawSteveBodyCuboid(99, 79, #Right)
+  drawSteveBodyCuboid(387, 79, #Front)
+  drawSteveBodyCuboid(99, 379, #Left)
+  drawSteveBodyCuboid(387, 379, #Back)
+  drawSteveBodyCuboid(99, 579, #Top)
+  drawSteveBodyCuboid(387, 579, #Bottom)
+}
+
+let drawSteveHeadCuboid2 = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (64, 64, 64),
+    ~center,
+    ~direction=#East,
     (),
   )
 }
@@ -140,7 +170,7 @@ let drawCuboidTestPage2 = () => {
   drawSteveHeadCuboid2(387, 479, #Bottom)
   drawSteveHeadCuboid2(99, 679, #Front)
   drawSteveHeadCuboid2(387, 679, #Front)
-} */
+}
 
 let drawSteveHeadCuboid = (x, y, size, direction) => {
   let (w, h) = switch direction {
@@ -695,7 +725,8 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
-  //drawCuboidTestPage2()
+  drawCuboidTestPage3()
+  drawCuboidTestPage2()
   drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
