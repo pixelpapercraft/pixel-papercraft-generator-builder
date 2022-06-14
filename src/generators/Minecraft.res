@@ -249,8 +249,8 @@ let drawCuboid = (
   source: Cuboid.t,
   position: Builder.position,
   scale: (int, int, int),
-  ~direction: direction=#East,
-  ~center: center=#Front,
+  //~direction: direction=#East,
+  //~center: center=#Front,
   (),
 ) => {
   // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
@@ -303,14 +303,14 @@ let drawCuboid = (
     let make = (w, h, d): t => {
       {
         top: Face.make((d, 0, w, d), ()),
-        bottom: Face.make((d, d + h, w, d), ()),
+        bottom: Face.make((d, d + h, w, d), ~flip=#Vertical, ()),
         right: Face.make((0, d, d, h), ()),
         front: Face.make((d, d, w, h), ()),
         left: Face.make((d + w, d, d, h), ()),
         back: Face.make((d * 2 + w, d, w, h), ()),
       }
     }
-    let center = (dest: t, center): t => {
+    /* let center = (dest: t, center): t => {
       // Assign each return face to have a different face, and rotation, depending on the center value.
 
       let n: int = switch center {
@@ -322,8 +322,8 @@ let drawCuboid = (
       | #Bottom => 5
       }
 
-      let (_, d, w, h) = dest.front.rectangle
-      let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? h : h, n == 0 || n == 2 ? w : d)
+      //let (_, d, w, h) = dest.front.rectangle
+      //let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? h : h, n == 0 || n == 2 ? w : d)
       let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
       let m = Belt.Int.toFloat(n)
 
@@ -352,7 +352,7 @@ let drawCuboid = (
       | #West => Face.make((-w, d, w, h), ())
       | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
       | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
-      }
+      } 
       {
         top: dest.top,
         bottom: dest.bottom,
@@ -361,7 +361,7 @@ let drawCuboid = (
         left: dest.left,
         back: out,
       }
-    }
+    } */
     let translate = (dest: t, x, y) => {
       let translate = face => Face.translate(face, x, y)
       {
@@ -380,8 +380,7 @@ let drawCuboid = (
   // Given center, assign dest faces to be at correct faces, and have correct rotations
   // draw at destination, with its parameters
 
-  let dest =
-    Dest.make(w, h, d)->Dest.direction(direction)->Dest.center(center)->Dest.translate(x, y)
+  let dest = Dest.make(w, h, d)->Dest.translate(x, y) //Dest.direction(direction)->Dest.center(center)->Dest.translate(x, y)
   let {top: t, bottom: o, right: r, front: f, left: l, back: b} = dest
   //tbrflb
   Generator.drawTexture(id, source.top, t.rectangle, ~flip=t.flip, ~rotate=t.rotate, ())
