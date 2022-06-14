@@ -136,15 +136,10 @@ let script = () => {
   }
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ()) // ~direction=#West, ())
+    Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
     if showLeftArmOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ()) // ~direction=#West, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~direction=#West, ())
     }
-    // Quick fix for lack of direction parameter:
-    let dx = char == alex ? 24 : 32
-    Generator.fillRect((ox + 64 + dx, oy + 32, dx, 96), "#ffffff")
-    Generator.drawTexture("Skin", char.base.leftArm.back, (ox - dx, oy + 32, 32, 96), ())
-    Generator.drawTexture("Skin", char.overlay.leftArm.back, (ox - dx, oy + 32, dx, 96), ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
@@ -161,14 +156,10 @@ let script = () => {
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
     if showLeftLegOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~direction=#West, ())
     }
-    // Quick fix for lack of direction parameter:
-    Generator.fillRect((ox + 96, oy + 32, 32, 96), "#ffffff")
-    Generator.drawTexture("Skin", char.base.leftLeg.back, (ox - 32, oy + 32, 32, 96), ())
-    Generator.drawTexture("Skin", char.overlay.leftLeg.back, (ox - 32, oy + 32, 32, 96), ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */

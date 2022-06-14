@@ -140,7 +140,7 @@ let drawCuboidTestPage2 = () => {
   drawSteveHeadCuboid2(387, 479, #Bottom)
   drawSteveHeadCuboid2(99, 679, #Front)
   drawSteveHeadCuboid2(387, 679, #Front)
-}
+} */
 
 let drawSteveHeadCuboid = (x, y, size, direction) => {
   let (w, h) = switch direction {
@@ -176,7 +176,7 @@ let drawCuboidTestPage = () => {
   drawSteveHeadCuboid(330, 300, 64, #West)
   drawSteveHeadCuboid(10, 550, 64, #North)
   drawSteveHeadCuboid(330, 550, 64, #South)
-} */
+}
 
 let drawSteveHead = (texture, ox, oy, size) => {
   let head = TextureMap.MinecraftCharacter.steve.base.head
@@ -696,7 +696,7 @@ let drawTextureCropTest = () => {
 
 let script = () => {
   //drawCuboidTestPage2()
-  //drawCuboidTestPage()
+  drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()

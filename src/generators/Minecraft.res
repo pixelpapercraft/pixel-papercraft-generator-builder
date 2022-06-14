@@ -249,7 +249,7 @@ let drawCuboid = (
   source: Cuboid.t,
   position: Builder.position,
   scale: (int, int, int),
-  //~direction: direction=#East,
+  ~direction: direction=#East,
   //~center: center=#Front,
   (),
 ) => {
@@ -345,14 +345,14 @@ let drawCuboid = (
           m > 3.0 ? (5.0 -. m) *. -180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. -90.0,
         ),
       }
-    }
+    } */
     let direction = (dest: t, direction) => {
       let out = switch direction {
       | #East => Face.make((d * 2 + w, d, w, h), ())
       | #West => Face.make((-w, d, w, h), ())
       | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
       | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
-      } 
+      }
       {
         top: dest.top,
         bottom: dest.bottom,
@@ -361,7 +361,7 @@ let drawCuboid = (
         left: dest.left,
         back: out,
       }
-    } */
+    }
     let translate = (dest: t, x, y) => {
       let translate = face => Face.translate(face, x, y)
       {
@@ -380,7 +380,7 @@ let drawCuboid = (
   // Given center, assign dest faces to be at correct faces, and have correct rotations
   // draw at destination, with its parameters
 
-  let dest = Dest.make(w, h, d)->Dest.translate(x, y) //Dest.direction(direction)->Dest.center(center)->Dest.translate(x, y)
+  let dest = Dest.make(w, h, d)->Dest.direction(direction)->Dest.translate(x, y) //->Dest.center(center)->Dest.translate(x, y)
   let {top: t, bottom: o, right: r, front: f, left: l, back: b} = dest
   //tbrflb
   Generator.drawTexture(id, source.top, t.rectangle, ~flip=t.flip, ~rotate=t.rotate, ())
