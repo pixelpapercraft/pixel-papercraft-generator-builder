@@ -114,7 +114,7 @@ let drawSteveBodyCuboid = (x, y, center) => {
   let x = x - 64
   let y = y - 64
 
-  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, 1, 1), ())
   Minecraft.drawCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.body,
