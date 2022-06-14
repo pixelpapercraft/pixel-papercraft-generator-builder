@@ -307,19 +307,7 @@ let drawCuboid = (
       back: Face.t,
     }
 
-    let make = (w, h, d): t => {
-      {
-        top: Face.make((d, 0, w, d), ()),
-        bottom: Face.make((d, d + h, w, d), ()),
-        right: Face.make((0, d, d, h), ()),
-        front: Face.make((d, d, w, h), ()),
-        left: Face.make((d + w, d, d, h), ()),
-        back: Face.make((d * 2 + w, d, w, h), ()),
-      }
-    }
-    let center = (dest: t, center): t => {
-      // Assign each return face to have a different face, and rotation, depending on the center value.
-
+    let make = ((w, h, d), direction, center): t => {
       let n: int = switch center {
       | #Right => 0
       | #Front => 1
@@ -329,8 +317,25 @@ let drawCuboid = (
       | #Bottom => 5
       }
 
-      let (_, d, w, h) = dest.front.rectangle
-      let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? d : h, n == 0 || n == 2 ? w : n > 3 ? h : d)
+      let (w, h, d) = (
+        n == 0 || n == 2 ? d : w,
+        n > 3 ? d : h,
+        n == 0 || n == 2 ? w : n > 3 ? h : d,
+      )
+
+      let dest = {
+        top: Face.make((d, 0, w, d), ()),
+        bottom: Face.make((d, d + h, w, d), ()),
+        right: Face.make((0, d, d, h), ()),
+        front: Face.make((d, d, w, h), ()),
+        left: Face.make((d + w, d, d, h), ()),
+        back: switch direction {
+        | #East => Face.make((d * 2 + w, d, w, h), ())
+        | #West => Face.make((-w, d, w, h), ())
+        | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
+        | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
+        },
+      }
       let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
       let m = Belt.Int.toFloat(n)
 
@@ -353,22 +358,6 @@ let drawCuboid = (
         ),
       }
     }
-    let direction = (dest: t, direction) => {
-      let out = switch direction {
-      | #East => Face.make((d * 2 + w, d, w, h), ())
-      | #West => Face.make((-w, d, w, h), ())
-      | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
-      | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
-      }
-      {
-        top: dest.top,
-        bottom: dest.bottom,
-        right: dest.right,
-        front: dest.front,
-        left: dest.left,
-        back: out,
-      }
-    }
     let translate = (dest: t, x, y) => {
       let translate = face => Face.translate(face, x, y)
       {
@@ -387,14 +376,12 @@ let drawCuboid = (
   // Given center, assign dest faces to be at correct faces, and have correct rotations
   // draw at destination, with its parameters
 
-  let dest =
-    Dest.make(w, h, d)->Dest.direction(direction)->Dest.center(center)->Dest.translate(x, y)
-  let {top: t, bottom: o, right: r, front: f, left: l, back: b} = dest
-  //tbrflb
-  Dest.Face.draw(id, source.top, t) // , ~flip=t.flip, ~rotate=t.rotate, ())
-  Dest.Face.draw(id, source.bottom, o) // , ~flip=o.flip, ~rotate=o.rotate, ())
-  Dest.Face.draw(id, source.right, r) // , ~flip=r.flip, ~rotate=r.rotate, ())
-  Dest.Face.draw(id, source.front, f) // , ~flip=f.flip, ~rotate=f.rotate, ())
-  Dest.Face.draw(id, source.left, l) // , ~flip=l.flip, ~rotate=l.rotate, ())
-  Dest.Face.draw(id, source.back, b) // , ~flip=b.flip, ~rotate=b.rotate, ())
+  let dest = Dest.make((w, h, d), direction, center)->Dest.translate(x, y)
+
+  Dest.Face.draw(id, source.top, dest.top)
+  Dest.Face.draw(id, source.bottom, dest.bottom)
+  Dest.Face.draw(id, source.right, dest.right)
+  Dest.Face.draw(id, source.front, dest.front)
+  Dest.Face.draw(id, source.left, dest.left)
+  Dest.Face.draw(id, source.back, dest.back)
 }
