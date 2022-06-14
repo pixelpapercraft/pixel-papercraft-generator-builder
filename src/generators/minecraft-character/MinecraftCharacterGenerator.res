@@ -141,20 +141,10 @@ let script = () => {
       Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ()) // ~direction=#West, ())
     }
     // Quick fix for lack of direction parameter:
-    //Generator.fillRect
-    let (ox, oy) = (ox, oy)
-    Generator.drawTexture(
-      "Skin",
-      char.base.leftArm.back,
-      (ox - 32, oy + 32, char == alex ? 24 : 32, 96),
-      (),
-    )
-    Generator.drawTexture(
-      "Skin",
-      char.overlay.leftArm.back,
-      (ox - 32, oy + 32, char == alex ? 24 : 32, 96),
-      (),
-    )
+    let dx = char == alex ? 24 : 32
+    Generator.fillRect((ox + 64 + dx, oy + 32, dx, 96), "#ffffff")
+    Generator.drawTexture("Skin", char.base.leftArm.back, (ox - dx, oy + 32, 32, 96), ())
+    Generator.drawTexture("Skin", char.overlay.leftArm.back, (ox - dx, oy + 32, dx, 96), ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
@@ -176,20 +166,9 @@ let script = () => {
       Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ())
     }
     // Quick fix for lack of direction parameter:
-    //Generator.fillRect
-    let (ox, oy) = (ox, oy)
-    Generator.drawTexture(
-      "Skin",
-      char.base.leftLeg.back,
-      (ox - 32, oy + 32, char == alex ? 24 : 32, 96),
-      (),
-    )
-    Generator.drawTexture(
-      "Skin",
-      char.overlay.leftLeg.back,
-      (ox - 32, oy + 32, char == alex ? 24 : 32, 96),
-      (),
-    )
+    Generator.fillRect((ox + 96, oy + 32, 32, 96), "#ffffff")
+    Generator.drawTexture("Skin", char.base.leftLeg.back, (ox - 32, oy + 32, 32, 96), ())
+    Generator.drawTexture("Skin", char.overlay.leftLeg.back, (ox - 32, oy + 32, 32, 96), ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
