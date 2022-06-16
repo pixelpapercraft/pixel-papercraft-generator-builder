@@ -28,7 +28,6 @@ let mob: array<Generator.generatorDef> = [
   MinecraftCreeperGenerator.generator,
   MinecraftTropicalFishGenerator.generator,
   MinecraftEndermanGenerator.generator,
-  MinecraftTropicalFishGenerator.generator,
   MinecraftGolemGenerator.generator,
   MinecraftHorseGenerator.generator,
   MinecraftPigGenerator.generator,
