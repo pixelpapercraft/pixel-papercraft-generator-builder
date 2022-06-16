@@ -10,6 +10,7 @@ let history = ["June 10 2022 Paper Dog - Initial script developed."]
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
+
 let images: array<Generator.imageDef> = [
   {id: "Foldpiece", url: requireImage("Foldpiece.png")},
   {id: "Folds1", url: requireImage("folds1.png")},
@@ -18,6 +19,12 @@ let images: array<Generator.imageDef> = [
 ]
 
 let textures: array<Generator.textureDef> = [
+  {
+    id: "Fold",
+    url: requireTexture("fold"),
+    standardWidth: 32,
+    standardHeight: 32,
+  },
   {
     id: "Kob",
     url: requireTexture("pattern1"),
@@ -207,6 +214,7 @@ module DrawVariant1 = {
     Generator.drawFoldLine((ox - k * 8 * 6 - 1, oy - 1), (ox - k * 8 * 6 - 1, oy + k * 8 * 3))
     Generator.drawFoldLine((ox + k * 8 * 10 + 2, oy + k * 8 * 3), (ox + k * 8 * 10 + 2, oy - 1))
     Generator.drawFoldLine((ox + k * 8 * 8 + 1, oy + k * 8 * 3), (ox + k * 8 * 8 + 1, oy - 1))
+
     if k == 1 {
       Generator.drawImage("Folds1", (0, 0))
     }
@@ -453,6 +461,7 @@ module DrawVariant1 = {
     )
   }
 }
+
 module DrawVariant2 = {
   let drawBody = (ox, oy, k, color) => {
     Generator.drawTexture(
@@ -940,6 +949,7 @@ let script = () => {
   )
   let ox = 30 + sizemultiplier * 6 * 8
   let oy = 30 + sizemultiplier * 6 * 8
+
   if (
     Generator.getSelectInputValue("Fish Type") === "Kob" ||
     Generator.getSelectInputValue("Fish Type") === "Sunstreak" ||
