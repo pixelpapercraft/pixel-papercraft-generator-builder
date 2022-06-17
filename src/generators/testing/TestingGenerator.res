@@ -139,8 +139,8 @@ let drawSteveBodyCuboid2 = (x, y, rotate) => {
     (x, y),
     (32, 48, 32),
     ~rotate,
-    //~center=#Bottom,
-    //~direction=#South,
+    ~center=#Right,
+    //~direction=#North,
     (),
   )
   Generator.fillRect((x + 32, y + 32, 32, 48), "#80008080")

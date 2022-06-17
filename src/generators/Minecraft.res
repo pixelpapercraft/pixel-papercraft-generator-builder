@@ -300,9 +300,9 @@ let drawCuboid = (
         let (dx, dy, dw, dh) = dest.rectangle
         let destination = switch mod_float(dest.rotate -. rotate +. 720.0, 360.0) {
         | 0.0 => (dx, dy, dw, dh)
-        | 90.0 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
-        | 180.0 => (dx, dy, dw, dh)
-        | 270.0 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+        | 90.0 => (dx + dh, dy, dh, dw)
+        | 180.0 => (dx + dw, dy + dh, dw, dh)
+        | 270.0 => (dx, dy + dw, dh, dw)
         | _ => (dx, dy, dw, dh)
         }
 
@@ -380,7 +380,6 @@ let drawCuboid = (
       }
 
       // Rotate and translate faces according to the rotation
-      let (cx, cy, cw, ch) = dest.front.rectangle
       let rotate = (face: Face.t) => {
         let (sx, sy, sw, sh) = face.rectangle
         let radians = r *. Js.Math._PI /. 180.0
@@ -395,7 +394,7 @@ let drawCuboid = (
       }
 
       let translate = (face: Face.t, s) => {
-        Face.translate(face, s * cx, s * cy)
+        Face.translate(face, s * (d + w / 2), s * (d + h / 2))
       }
       {
         top: dest.top->translate(-1)->rotate->translate(1),
