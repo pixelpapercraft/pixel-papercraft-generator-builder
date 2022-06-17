@@ -274,6 +274,11 @@ let drawCuboid = (
         flip: face.flip,
         rotate: face.rotate,
       }
+      let move = (face: t, x, y): t => {
+        rectangle: face.rectangle->Cuboid.translateRectangle(x, y),
+        flip: face.flip,
+        rotate: face.rotate,
+      }
       let rotate = (face: t, r): t => {
         {
           rectangle: face.rectangle,
@@ -291,9 +296,9 @@ let drawCuboid = (
           : face.rotate,
       }
 
-      let draw = (id: string, source: Builder.rectangle, dest: t) => {
+      let draw = (id: string, source: Builder.rectangle, dest: t, rotate: float) => {
         let (dx, dy, dw, dh) = dest.rectangle
-        let destination = switch mod_float(dest.rotate +. 720.0, 360.0) {
+        let destination = switch mod_float(dest.rotate -. rotate +. 720.0, 360.0) {
         | 0.0 => (dx, dy, dw, dh)
         | 90.0 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
         | 180.0 => (dx, dy, dw, dh)
@@ -301,7 +306,14 @@ let drawCuboid = (
         | _ => (dx, dy, dw, dh)
         }
 
-        Generator.drawTexture(id, source, destination, ~flip=dest.flip, ~rotate=dest.rotate, ())
+        Generator.drawTexture(
+          id,
+          source,
+          destination,
+          ~flip=dest.flip,
+          ~rotateLegacy=dest.rotate,
+          (),
+        )
       }
     }
     type t = {
@@ -313,7 +325,7 @@ let drawCuboid = (
       back: Face.t,
     }
 
-    let make = ((w, h, d), direction, center): t => {
+    let make = ((w, h, d), direction, center, r): t => {
       let n: int = switch center {
       | #Right => 0
       | #Front => 1
@@ -323,12 +335,14 @@ let drawCuboid = (
       | #Bottom => 5
       }
 
+      // Change width, height and depth to work with correct face layout
       let (w, h, d) = (
         n == 0 || n == 2 ? d : w,
         n > 3 ? d : h,
         n == 0 || n == 2 ? w : n > 3 ? h : d,
       )
 
+      // Define base layout, according to direction
       let dest = {
         top: Face.make((d, 0, w, d), ()),
         bottom: Face.make((d, d + h, w, d), ()),
@@ -342,10 +356,11 @@ let drawCuboid = (
         | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
         },
       }
+      // Rotate and flip to match centers
       let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
       let m = Belt.Int.toFloat(n)
 
-      {
+      let dest = {
         right: a[n < 4 ? mod(5 - n, 4) : 0]->Face.rotate(
           m < 4.0 ? 0.0 : (m -. 3.0) *. 180.0 -. 90.0,
         ),
@@ -363,6 +378,33 @@ let drawCuboid = (
           m > 3.0 ? (5.0 -. m) *. -180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. -90.0,
         ),
       }
+
+      // Rotate and translate faces according to the rotation
+      let (cx, cy, cw, ch) = dest.front.rectangle
+      let rotate = (face: Face.t) => {
+        let (sx, sy, sw, sh) = face.rectangle
+        let radians = r *. Js.Math._PI /. 180.0
+        let cos = Js.Math.cos(radians)
+        let sin = Js.Math.sin(radians)
+
+        Face.translate(
+          face,
+          Belt.Float.toInt(Belt.Int.toFloat(sx) *. cos -. Belt.Int.toFloat(sy) *. sin) - sx,
+          Belt.Float.toInt(Belt.Int.toFloat(sx) *. sin +. Belt.Int.toFloat(sy) *. cos) - sy,
+        )->Face.rotate(r)
+      }
+
+      let translate = (face: Face.t, s) => {
+        Face.translate(face, s * cx, s * cy)
+      }
+      {
+        top: dest.top->translate(-1)->rotate->translate(1),
+        bottom: dest.bottom->translate(-1)->rotate->translate(1),
+        right: dest.right->translate(-1)->rotate->translate(1),
+        front: dest.front->translate(-1)->rotate->translate(1),
+        left: dest.left->translate(-1)->rotate->translate(1),
+        back: dest.back->translate(-1)->rotate->translate(1),
+      }
     }
     let translate = (dest: t, x, y) => {
       let translate = face => Face.translate(face, x, y)
@@ -375,37 +417,15 @@ let drawCuboid = (
         back: dest.back->translate,
       }
     }
-    let rotate = (dest: t, r) => {
-      let rotate = (face: Face.t) => {
-        let (sx, sy, _, _) = face.rectangle
-        let (x, y) = (Belt.Int.toFloat(sx), Belt.Int.toFloat(sy))
-        let radians = r *. Js.Math._PI /. 180.0
-        let cos = Js.Math.cos(radians)
-        let sin = Js.Math.sin(radians)
-
-        Face.translate(
-          face,
-          Belt.Float.toInt(x *. cos -. y *. sin) - sx,
-          Belt.Float.toInt(x *. sin +. y *. cos) - sy,
-        )->Face.rotate(r)
-      }
-      {
-        top: dest.top->rotate,
-        bottom: dest.bottom->rotate,
-        right: dest.right->rotate,
-        front: dest.front->rotate,
-        left: dest.left->rotate,
-        back: dest.back->rotate,
-      }
-    }
   }
 
-  let dest = Dest.make((w, h, d), direction, center)->Dest.rotate(rotate)->Dest.translate(x, y)
+  let dest = Dest.make((w, h, d), direction, center, rotate)
+  let dest = Dest.translate(dest, x, y)
 
-  Dest.Face.draw(id, source.top, dest.top)
-  Dest.Face.draw(id, source.bottom, dest.bottom)
-  Dest.Face.draw(id, source.right, dest.right)
-  Dest.Face.draw(id, source.front, dest.front)
-  Dest.Face.draw(id, source.left, dest.left)
-  Dest.Face.draw(id, source.back, dest.back)
+  Dest.Face.draw(id, source.top, dest.top, rotate)
+  Dest.Face.draw(id, source.bottom, dest.bottom, rotate)
+  Dest.Face.draw(id, source.right, dest.right, rotate)
+  Dest.Face.draw(id, source.front, dest.front, rotate)
+  Dest.Face.draw(id, source.left, dest.left, rotate)
+  Dest.Face.draw(id, source.back, dest.back, rotate)
 }

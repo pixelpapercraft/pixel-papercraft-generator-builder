@@ -114,30 +114,64 @@ let drawSteveHeadCuboid3 = (x, y, rotate) => {
   let x = x - 64
   let y = y - 64
 
-  Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, 4, 4), ())
+  Generator.fillRect((x, y, 128, 96), "#ff8000")
   Minecraft.drawCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.head,
     (x, y),
     (32, 32, 32),
     ~rotate,
-    //~center=#Left,
+    //~center=#Bottom,
+    //~direction=#South,
     (),
   )
+  Generator.fillRect((x + 32, y + 32, 32, 32), "#80008080")
+}
+
+let drawSteveBodyCuboid2 = (x, y, rotate) => {
+  let x = x - 64
+  let y = y - 64
+
+  Generator.fillRect((x, y, 128, 112), "#ff8000")
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (32, 48, 32),
+    ~rotate,
+    //~center=#Bottom,
+    //~direction=#South,
+    (),
+  )
+  Generator.fillRect((x + 32, y + 32, 32, 48), "#80008080")
 }
 
 let drawCuboidTestPage4 = () => {
   Generator.usePage("Cuboid 4")
   Generator.fillBackgroundColorWithWhite()
 
-  drawSteveHeadCuboid3(99, 79, 0.0)
-  drawSteveHeadCuboid3(387, 79, 45.0)
-  drawSteveHeadCuboid3(99, 279, 90.0)
-  drawSteveHeadCuboid3(387, 279, 135.0)
-  drawSteveHeadCuboid3(99, 479, 180.0)
-  drawSteveHeadCuboid3(387, 479, 225.0)
-  drawSteveHeadCuboid3(99, 679, 270.0)
-  drawSteveHeadCuboid3(387, 679, 315.0)
+  // Define a counter variable, with a default value of 1
+  let rotation =
+    Generator.getSelectInputValue("Rotation")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  // Show the counter
+  Generator.defineText("Rotation is " ++ Belt.Int.toString(rotation))
+
+  // Define a button that increments the counter
+  Generator.defineButtonInput("Increment Rotation", () => {
+    let nextRotation = rotation > 359 ? 0 : mod(rotation + 15, 360)
+    let nextRotationString = Belt.Int.toString(nextRotation)
+    Generator.setSelectInputValue("Rotation", nextRotationString)
+  })
+
+  drawSteveHeadCuboid3(99, 79, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 79, Belt.Int.toFloat(rotation))
+  drawSteveHeadCuboid3(99, 279, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 279, Belt.Int.toFloat(rotation))
+  drawSteveHeadCuboid3(99, 479, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 479, Belt.Int.toFloat(rotation))
+  drawSteveHeadCuboid3(99, 679, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 679, Belt.Int.toFloat(rotation))
 }
 
 let drawSteveBodyCuboid = (x, y, center) => {
