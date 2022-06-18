@@ -10,12 +10,13 @@ let history = ["19 May 2022 PaperDoggy - Initial script developed."]
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
-
+let video: Generator.videoDef = {url: "https://www.youtube.com/embed/jcO0fe-pj9k?rel=0"}
 let images: array<Generator.imageDef> = [
   {id: "Villager", url: requireImage("Villager.png")},
   {id: "ZombieVillager", url: requireImage("ZombieVillager.png")},
   {id: "FarmerHat", url: requireImage("farmerhat.png")},
   {id: "ShepherdHat", url: requireImage("shepherdhat.png")},
+  {id: "FishermanHat", url: requireImage("fishermanhat.png")},
 ]
 
 let textures: array<Generator.textureDef> = [
@@ -184,6 +185,90 @@ let textures: array<Generator.textureDef> = [
   {
     id: "Weaponsmith",
     url: requireTexture("weaponsmith.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieArmorer",
+    url: requireTexture("zombiearmorer.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieButcher",
+    url: requireTexture("zombiebutcher.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieCartographer",
+    url: requireTexture("zombiecartographer.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieCleric",
+    url: requireTexture("zombiecleric.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieFarmer",
+    url: requireTexture("zombiefarmer.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieFisherman",
+    url: requireTexture("zombiefisherman.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieFletcher",
+    url: requireTexture("zombiefletcher.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieLeatherworker",
+    url: requireTexture("zombieleatherworker.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieLibrarian",
+    url: requireTexture("zombielibrarian.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieMason",
+    url: requireTexture("zombiemason.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieNitwit",
+    url: requireTexture("zombienitwit.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieShepherd",
+    url: requireTexture("zombieshepherd.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieToolsmith",
+    url: requireTexture("zombietoolsmith.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "ZombieWeaponsmith",
+    url: requireTexture("zombieweaponsmith.png"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -531,6 +616,7 @@ let script = () => {
       Drawing.drawLeftArmOverlay(56, 476, "Fisherman")
       Drawing.drawRightArmOverlay(517, 379, "Fisherman")
       Drawing.drawMiddleArmOverlay(46, 643, "Fisherman")
+      Generator.drawImage("FishermanHat", (316, 12))
     }
     if professionFletcher {
       Drawing.drawHatOverlay(82, 83, "Fletcher")
@@ -683,94 +769,95 @@ let script = () => {
     }
     //Profession Overlay
     if professionArmorer {
-      Drawing.drawHatOverlay(82, 83, "Armorer")
-      Drawing.drawClothes(330, 550, "Armorer")
-      Drawing.drawLeftArmOverlay(56, 476, "Armorer")
-      Drawing.drawRightArmOverlay(517, 379, "Armorer")
+      Drawing.drawHatOverlay(82, 83, "ZombieArmorer")
+      Drawing.drawClothes(330, 550, "ZombieArmorer")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieArmorer")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieArmorer")
     }
     if professionButcher {
-      Drawing.drawHatOverlay(82, 83, "Buther")
-      Drawing.drawClothes(330, 550, "Butcher")
-      Drawing.drawLeftArmOverlay(56, 476, "Butcher")
-      Drawing.drawRightArmOverlay(517, 379, "Butcher")
+      Drawing.drawHatOverlay(82, 83, "ZombieButher")
+      Drawing.drawClothes(330, 550, "ZombieButcher")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieButcher")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieButcher")
     }
     if professionCartographer {
-      Drawing.drawHatOverlay(82, 83, "Cartographer")
-      Drawing.drawClothes(330, 550, "Cartographer")
-      Drawing.drawLeftArmOverlay(56, 476, "Cartographer")
-      Drawing.drawRightArmOverlay(517, 379, "Cartographer")
+      Drawing.drawHatOverlay(82, 83, "ZombieCartographer")
+      Drawing.drawClothes(330, 550, "ZombieCartographer")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieCartographer")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieCartographer")
     }
     if professionCleric {
-      Drawing.drawHatOverlay(82, 83, "Cleric")
-      Drawing.drawClothes(330, 550, "Cleric")
-      Drawing.drawLeftArmOverlay(56, 476, "Cleric")
-      Drawing.drawRightArmOverlay(517, 379, "Cleric")
+      Drawing.drawHatOverlay(82, 83, "ZombieCleric")
+      Drawing.drawClothes(330, 550, "ZombieCleric")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieCleric")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieCleric")
     }
     if professionFarmer {
-      Drawing.drawHatOverlay(82, 83, "Farmer")
-      Drawing.drawClothes(330, 550, "Farmer")
-      Drawing.drawLeftArmOverlay(56, 476, "Farmer")
-      Drawing.drawRightArmOverlay(517, 379, "Farmer")
+      Drawing.drawHatOverlay(82, 83, "ZombieFarmer")
+      Drawing.drawClothes(330, 550, "ZombieFarmer")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieFarmer")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieFarmer")
 
       Generator.drawImage("FarmerHat", (316, 12))
     }
     if professionFisherman {
-      Drawing.drawHatOverlay(82, 83, "Fisherman")
-      Drawing.drawClothes(330, 550, "Fisherman")
-      Drawing.drawLeftLegOverlay(62, 290, "Fisherman")
-      Drawing.drawRightLegOverlay(267, 370, "Fisherman")
-      Drawing.drawLeftArmOverlay(56, 476, "Fisherman")
-      Drawing.drawRightArmOverlay(517, 379, "Fisherman")
+      Drawing.drawHatOverlay(82, 83, "ZombieFisherman")
+      Drawing.drawClothes(330, 550, "ZombieFisherman")
+      Drawing.drawLeftLegOverlay(62, 290, "ZombieFisherman")
+      Drawing.drawRightLegOverlay(267, 370, "ZombieFisherman")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieFisherman")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieFisherman")
+      Generator.drawImage("FishermanHat", (316, 12))
     }
     if professionFletcher {
-      Drawing.drawHatOverlay(82, 83, "Fletcher")
-      Drawing.drawClothes(330, 550, "Fletcher")
-      Drawing.drawLeftArmOverlay(56, 476, "Fletcher")
-      Drawing.drawRightArmOverlay(517, 379, "Fletcher")
+      Drawing.drawHatOverlay(82, 83, "ZombieFletcher")
+      Drawing.drawClothes(330, 550, "ZombieFletcher")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieFletcher")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieFletcher")
     }
     if professionLeatherworker {
-      Drawing.drawHatOverlay(82, 83, "Leatherworker")
-      Drawing.drawClothes(330, 550, "Leatherworker")
-      Drawing.drawLeftArmOverlay(56, 476, "Leatherworker")
-      Drawing.drawRightArmOverlay(517, 379, "Leatherworker")
+      Drawing.drawHatOverlay(82, 83, "ZombieLeatherworker")
+      Drawing.drawClothes(330, 550, "ZombieLeatherworker")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieLeatherworker")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieLeatherworker")
     }
     if professionLibrarian {
-      Drawing.drawHatOverlay(82, 83, "Librarian")
-      Drawing.drawClothes(330, 550, "Librarian")
-      Drawing.drawLeftArmOverlay(56, 476, "Librarian")
-      Drawing.drawRightArmOverlay(517, 379, "Librarian")
+      Drawing.drawHatOverlay(82, 83, "ZombieLibrarian")
+      Drawing.drawClothes(330, 550, "ZombieLibrarian")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieLibrarian")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieLibrarian")
     }
     if professionMason {
-      Drawing.drawHatOverlay(82, 83, "Mason")
-      Drawing.drawClothes(330, 550, "Mason")
-      Drawing.drawLeftArmOverlay(56, 476, "Mason")
-      Drawing.drawRightArmOverlay(517, 379, "Mason")
+      Drawing.drawHatOverlay(82, 83, "ZombieMason")
+      Drawing.drawClothes(330, 550, "ZombieMason")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieMason")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieMason")
     }
     if professionNitwit {
-      Drawing.drawHatOverlay(82, 83, "Nitwit")
-      Drawing.drawClothes(330, 550, "Nitwit")
-      Drawing.drawLeftArmOverlay(56, 476, "Nitwit")
-      Drawing.drawRightArmOverlay(517, 379, "Nitwit")
+      Drawing.drawHatOverlay(82, 83, "ZombieNitwit")
+      Drawing.drawClothes(330, 550, "ZombieNitwit")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieNitwit")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieNitwit")
     }
     if professionShepherd {
-      Drawing.drawHatOverlay(82, 83, "Shepherd")
-      Drawing.drawClothes(330, 550, "Shepherd")
-      Drawing.drawLeftArmOverlay(56, 476, "Shepherd")
-      Drawing.drawRightArmOverlay(517, 379, "Shepherd")
+      Drawing.drawHatOverlay(82, 83, "ZombieShepherd")
+      Drawing.drawClothes(330, 550, "ZombieShepherd")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieShepherd")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieShepherd")
 
       Generator.drawImage("ShepherdHat", (316, 12))
     }
     if professionToolsmith {
-      Drawing.drawHatOverlay(82, 83, "Toolsmith")
-      Drawing.drawClothes(330, 550, "Toolsmith")
-      Drawing.drawLeftArmOverlay(56, 476, "Toolsmith")
-      Drawing.drawRightArmOverlay(517, 379, "Toolsmith")
+      Drawing.drawHatOverlay(82, 83, "ZombieToolsmith")
+      Drawing.drawClothes(330, 550, "ZombieToolsmith")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieToolsmith")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieToolsmith")
     }
     if professionWeaponsmith {
-      Drawing.drawHatOverlay(82, 83, "Weaponsmith")
-      Drawing.drawClothes(330, 550, "Weaponsmith")
-      Drawing.drawLeftArmOverlay(56, 476, "Weaponsmith")
-      Drawing.drawRightArmOverlay(517, 379, "Weaponsmith")
+      Drawing.drawHatOverlay(82, 83, "ZombieWeaponsmith")
+      Drawing.drawClothes(330, 550, "ZombieWeaponsmith")
+      Drawing.drawLeftArmOverlay(56, 476, "ZombieWeaponsmith")
+      Drawing.drawRightArmOverlay(517, 379, "ZombieWeaponsmith")
     }
   }
 }
@@ -779,7 +866,7 @@ let generator: Generator.generatorDef = {
   id: id,
   name: name,
   thumbnail: Some(thumbnail),
-  video: None,
+  video: Some(video),
   instructions: None,
   images: images,
   textures: textures,
