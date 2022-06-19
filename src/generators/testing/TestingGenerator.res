@@ -614,7 +614,74 @@ let drawTextureCropTest = () => {
   }
 }
 
+let drawRectTab = (rectangle, orientation) => {
+  Generator.fillRect(rectangle, "#ff000020")
+  Minecraft.drawRectTab(rectangle, orientation, ())
+}
+
+let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
+  let head = Minecraft.MinecraftCharacter.steve.base.head
+
+  let frontFace = (ox + size, oy + size, size, size)
+  Generator.drawTexture(texture, head.front, frontFace, ())
+
+  let rightFace = (ox, oy + size, size, size)
+  Generator.drawTexture(texture, head.right, rightFace, ())
+  Minecraft.drawFaceTab(rightFace, #West, ())
+  Minecraft.drawFaceTab(rightFace, #North, ())
+  Minecraft.drawFaceTab(rightFace, #South, ())
+
+  let leftFace = (ox + size * 2, oy + size, size, size)
+  Generator.drawTexture(texture, head.left, leftFace, ())
+  Minecraft.drawFaceTab(leftFace, #North, ())
+  Minecraft.drawFaceTab(leftFace, #South, ())
+
+  let topFace = (ox + size, oy, size, size)
+  Generator.drawTexture(texture, head.top, topFace, ())
+  Minecraft.drawFaceTab(topFace, #North, ())
+  Minecraft.drawFaceTab(topFace, #West, ())
+  Minecraft.drawFaceTab(topFace, #East, ())
+
+  let backFace = (ox + size * 3, oy + size, size, size)
+  Generator.drawTexture(texture, head.back, backFace, ())
+  Minecraft.drawFaceTab(backFace, #North, ())
+  Minecraft.drawFaceTab(backFace, #South, ())
+  Minecraft.drawFaceTab(backFace, #East, ())
+
+  let bottomFace = (ox + size, oy + size * 2, size, size)
+  Generator.drawTexture(texture, head.bottom, bottomFace, ~flip=#Vertical, ())
+  Minecraft.drawFaceTab(bottomFace, #West, ())
+  Minecraft.drawFaceTab(bottomFace, #East, ())
+  Minecraft.drawFaceTab(bottomFace, #South, ())
+}
+
+let drawTabsTestPage = () => {
+  Generator.usePage("Tabs")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawRectTab((10, 10, 100, 50), #North)
+  drawRectTab((150, 10, 100, 50), #South)
+  drawRectTab((300, 10, 100, 50), #East)
+  drawRectTab((450, 10, 100, 50), #West)
+
+  drawRectTab((10, 100, 100, 100), #North)
+  drawRectTab((150, 100, 100, 100), #South)
+  drawRectTab((300, 100, 100, 100), #East)
+  drawRectTab((450, 100, 100, 100), #West)
+
+  drawRectTab((10, 250, 50, 100), #North)
+  drawRectTab((150, 250, 50, 100), #South)
+  drawRectTab((300, 250, 50, 100), #East)
+  drawRectTab((450, 250, 50, 100), #West)
+
+  let ox = 50
+  let oy = 450
+  let size = 64
+  drawSteveHeadWithTabs("Steve", ox, oy, size)
+}
+
 let script = () => {
+  drawTabsTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
