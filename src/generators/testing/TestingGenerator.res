@@ -614,9 +614,44 @@ let drawTextureCropTest = () => {
   }
 }
 
-let drawRectTab = (rectangle, orientation) => {
+let drawRectTab = (rectangle, orientation, ~tabAngle) => {
   Generator.fillRect(rectangle, "#ff000020")
-  Minecraft.drawRectTab(rectangle, orientation, ())
+  Minecraft.drawRectTab(rectangle, orientation, ~tabAngle, ())
+}
+
+let drawTabsTestPage = () => {
+  Generator.usePage("Tabs")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawRectTab((10, 10, 100, 50), #North, ~tabAngle=60.0)
+  drawRectTab((150, 10, 100, 50), #South, ~tabAngle=60.0)
+  drawRectTab((300, 10, 100, 50), #East, ~tabAngle=60.0)
+  drawRectTab((450, 10, 100, 50), #West, ~tabAngle=60.0)
+
+  drawRectTab((10, 100, 100, 100), #North, ~tabAngle=60.0)
+  drawRectTab((150, 100, 100, 100), #South, ~tabAngle=60.0)
+  drawRectTab((300, 100, 100, 100), #East, ~tabAngle=60.0)
+  drawRectTab((450, 100, 100, 100), #West, ~tabAngle=60.0)
+
+  drawRectTab((10, 250, 50, 100), #North, ~tabAngle=60.0)
+  drawRectTab((150, 250, 50, 100), #South, ~tabAngle=60.0)
+  drawRectTab((300, 250, 50, 100), #East, ~tabAngle=60.0)
+  drawRectTab((450, 250, 50, 100), #West, ~tabAngle=60.0)
+
+  drawRectTab((10, 400, 100, 50), #North, ~tabAngle=80.0)
+  drawRectTab((150, 400, 100, 50), #South, ~tabAngle=80.0)
+  drawRectTab((300, 400, 100, 50), #East, ~tabAngle=80.0)
+  drawRectTab((450, 400, 100, 50), #West, ~tabAngle=80.0)
+
+  drawRectTab((10, 500, 100, 100), #North, ~tabAngle=80.0)
+  drawRectTab((150, 500, 100, 100), #South, ~tabAngle=80.0)
+  drawRectTab((300, 500, 100, 100), #East, ~tabAngle=80.0)
+  drawRectTab((450, 500, 100, 100), #West, ~tabAngle=80.0)
+
+  drawRectTab((10, 650, 50, 100), #North, ~tabAngle=80.0)
+  drawRectTab((150, 650, 50, 100), #South, ~tabAngle=80.0)
+  drawRectTab((300, 650, 50, 100), #East, ~tabAngle=80.0)
+  drawRectTab((450, 650, 50, 100), #West, ~tabAngle=80.0)
 }
 
 let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
@@ -655,32 +690,53 @@ let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
   Minecraft.drawFaceTab(bottomFace, #South, ())
 }
 
-let drawTabsTestPage = () => {
-  Generator.usePage("Tabs")
+let drawSteveFaceWithTabs = (x, y, w, h, ~size, ~tabAngle) => {
+  let head = Minecraft.MinecraftCharacter.steve.base.head
+  let face = (x, y, w, h)
+  Generator.drawTexture("Steve", head.front, face, ())
+  Minecraft.drawFaceTab(face, #North, ~size, ~tabAngle, ())
+  Minecraft.drawFaceTab(face, #East, ~size, ~tabAngle, ())
+  Minecraft.drawFaceTab(face, #South, ~size, ~tabAngle, ())
+  Minecraft.drawFaceTab(face, #West, ~size, ~tabAngle, ())
+}
+
+let drawFaceTabsTestPage = () => {
+  Generator.usePage("Face Tabs")
   Generator.fillBackgroundColorWithWhite()
 
-  drawRectTab((10, 10, 100, 50), #North)
-  drawRectTab((150, 10, 100, 50), #South)
-  drawRectTab((300, 10, 100, 50), #East)
-  drawRectTab((450, 10, 100, 50), #West)
+  drawSteveFaceWithTabs(50, 50, 64, 64, ~size=24, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(200, 50, 64, 32, ~size=24, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(350, 50, 32, 64, ~size=24, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(500, 50, 32, 32, ~size=24, ~tabAngle=60.0)
 
-  drawRectTab((10, 100, 100, 100), #North)
-  drawRectTab((150, 100, 100, 100), #South)
-  drawRectTab((300, 100, 100, 100), #East)
-  drawRectTab((450, 100, 100, 100), #West)
+  drawSteveFaceWithTabs(50, 200, 64, 64, ~size=45, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(200, 200, 64, 32, ~size=45, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(350, 200, 32, 64, ~size=45, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(500, 200, 32, 32, ~size=45, ~tabAngle=60.0)
 
-  drawRectTab((10, 250, 50, 100), #North)
-  drawRectTab((150, 250, 50, 100), #South)
-  drawRectTab((300, 250, 50, 100), #East)
-  drawRectTab((450, 250, 50, 100), #West)
+  drawSteveFaceWithTabs(50, 350, 64, 64, ~size=24, ~tabAngle=45.0)
+  drawSteveFaceWithTabs(200, 350, 64, 32, ~size=24, ~tabAngle=45.0)
+  drawSteveFaceWithTabs(350, 350, 32, 64, ~size=24, ~tabAngle=45.0)
+  drawSteveFaceWithTabs(500, 350, 32, 32, ~size=24, ~tabAngle=45.0)
+
+  drawSteveFaceWithTabs(50, 500, 64, 64, ~size=24, ~tabAngle=30.0)
+  drawSteveFaceWithTabs(200, 500, 64, 32, ~size=24, ~tabAngle=30.0)
+  drawSteveFaceWithTabs(350, 500, 32, 64, ~size=24, ~tabAngle=30.0)
+  drawSteveFaceWithTabs(500, 500, 32, 32, ~size=24, ~tabAngle=30.0)
+
+  drawSteveFaceWithTabs(400, 650, 16, 16, ~size=8, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(450, 650, 16, 8, ~size=8, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(400, 700, 8, 16, ~size=8, ~tabAngle=60.0)
+  drawSteveFaceWithTabs(450, 700, 8, 8, ~size=4, ~tabAngle=60.0)
 
   let ox = 50
-  let oy = 450
+  let oy = 600
   let size = 64
   drawSteveHeadWithTabs("Steve", ox, oy, size)
 }
 
 let script = () => {
+  drawFaceTabsTestPage()
   drawTabsTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
