@@ -75,6 +75,8 @@ module Cuboid = {
     back: Builder.rectangle,
   }
 
+  type direction = [#East | #West | #North | #South]
+  type scale = (int, int, int)
   // W = Width
   // H = Height
   // D = Depth
@@ -95,12 +97,14 @@ module Cuboid = {
   //             +----W----+
   //
   let make = (width, height, depth): t => {
-    top: (depth, 0, width, depth),
-    bottom: (depth + width, 0, width, depth),
-    front: (depth, depth, width, height),
-    right: (0, depth, depth, height),
-    left: (depth + width, depth, depth, height),
-    back: (depth * 2 + width, depth, width, height),
+    {
+      top: (depth, 0, width, depth),
+      bottom: (depth + width, 0, width, depth),
+      front: (depth, depth, width, height),
+      right: (0, depth, depth, height),
+      left: (depth + width, depth, depth, height),
+      back: (depth * 2 + width, depth, width, height),
+    }
   }
 
   let translateRectangle = (
@@ -123,6 +127,227 @@ module Cuboid = {
       back: translateRectangle(back, xTranslate, yTranslate),
     }
   }
+
+  let make2 = ((w, h, d): scale, direction: direction): t => {
+    switch direction {
+    | #East => {
+        // (0,0)
+        //   .         +----W----+
+        //             |         |
+        //             D   Top   D
+        //             |         |
+        //   +----D----+----W----+----D----+----W----+
+        //   |         |         |         |         |
+        //   H  Right  H  Front  H  Left   H  Back   H
+        //   |         |         |         |         |
+        //   +----D----+----W----+----D----+----W----+
+        //             |         |
+        //             D Bottom  D
+        //             |         |
+        //             +----W----+
+        //
+        top: (d, 0, w, d),
+        right: (0, d, d, h),
+        front: (d, d, w, h),
+        left: (d + w, d, d, h),
+        back: (d + w + d, d, w, h),
+        bottom: (d, d + h, w, d),
+      }
+    | #West => {
+        // (0,0)
+        //   .                   +----W----+
+        //                       |         |
+        //                       D   Top   D
+        //                       |         |
+        //   +----W----+----D----+----W----+----D----+
+        //   |         |         |         |         |
+        //   H  Back   H  Right  H  Front  H  Left   H
+        //   |         |         |         |         |
+        //   +----W----+----D----+----W----+----D----+
+        //                       |         |
+        //                       D Bottom  D
+        //                       |         |
+        //                       +----W----+
+        //
+        top: (w + d, 0, w, d),
+        back: (0, d, w, h),
+        right: (w, d, d, h),
+        front: (w + d, d, w, h),
+        left: (w + d + w, d, d, h),
+        bottom: (w + d, d + h, w, d),
+      }
+    | #North => {
+        // (0,0)
+        //   .         +----W----+
+        //             |         |
+        //             D   Top   D
+        //             |         |
+        //   +----D----+----W----+----D----+
+        //   |         |         |         |
+        //   H  Right  H  Front  H  Left   H
+        //   |         |         |         |
+        //   +----D----+----W----+----D----+
+        //             |         |
+        //             D Bottom  D
+        //             |         |
+        //             +----W----+
+        //             |         |
+        //             H  Back   H
+        //             |         |
+        //             +----W----+
+        //
+        top: (d, 0, w, d),
+        right: (0, d, d, h),
+        front: (d, d, w, h),
+        left: (d + w, d, d, h),
+        bottom: (d, d + h, w, d),
+        back: (d, d + h + d, w, h),
+      }
+    | #South => {
+        // (0,0)
+        //   .         +----W----+
+        //             |         |
+        //             H  Back   H
+        //             |         |
+        //             +----W----+
+        //             |         |
+        //             D   Top   D
+        //             |         |
+        //   +----D----+----W----+----D----+
+        //   |         |         |         |
+        //   H  Right  H  Front  H  Left   H
+        //   |         |         |         |
+        //   +----D----+----W----+----D----+
+        //             |         |
+        //             D Bottom  D
+        //             |         |
+        //             +----W----+
+        //
+        back: (d, 0, w, h),
+        top: (d, h, w, d),
+        right: (0, h + d, d, h),
+        front: (d, h + d, w, h),
+        left: (d + w, h + d, d, h),
+        bottom: (d, h + d + w, w, d),
+      }
+    }
+  }
+}
+
+/* module Cuboid = {
+  module Face = {
+    type t = {rectangle, flip, rotate, (etc)}
+    let translate = rectangle->translateRectangle
+  }
+  
+  type t = {top: Face.t, ... } // CuboidFaces.t
+  let translate
+  let translateRectangle
+
+  let makeSource = scale: t // make
+  let makeDest = (scale, direction): t // make2
+  let getLayout = (scale, direction): t // getCuboidFaces
+
+  let drawFace, or Face.draw
+  let drawCuboid, or Cuboid.draw, = (textureId, source: makeSource, position, scale, ~direction) => {
+    let dest = getLayout??-> translate(position)
+    draw each of dest's faces
+  }
+
+
+ */
+
+module CuboidFace = {
+  type t = {
+    rectangle: Builder.rectangle,
+    flip: Generator_Texture.flip,
+    rotate: float,
+  }
+
+  let translate = ({rectangle, flip, rotate}: t, (dx, dy): Builder.position) => {
+    rectangle: rectangle->Cuboid.translateRectangle(dx, dy),
+    flip: flip,
+    rotate: rotate,
+  }
+}
+
+module CuboidFaces = {
+  type t = {
+    front: CuboidFace.t,
+    back: CuboidFace.t,
+    top: CuboidFace.t,
+    bottom: CuboidFace.t,
+    right: CuboidFace.t,
+    left: CuboidFace.t,
+  }
+
+  let translate = (faces: t, position: Builder.position) => {
+    front: CuboidFace.translate(faces.front, position),
+    back: CuboidFace.translate(faces.back, position),
+    top: CuboidFace.translate(faces.top, position),
+    bottom: CuboidFace.translate(faces.bottom, position),
+    right: CuboidFace.translate(faces.right, position),
+    left: CuboidFace.translate(faces.left, position),
+  }
+}
+
+let getCuboidFaces = (scale: Cuboid.scale, direction: Cuboid.direction): CuboidFaces.t => {
+  let cuboid = Cuboid.make2(scale, direction)
+  switch direction {
+  | #East => {
+      top: {rectangle: cuboid.top, flip: #None, rotate: 0.0},
+      right: {rectangle: cuboid.right, flip: #None, rotate: 0.0},
+      front: {rectangle: cuboid.front, flip: #None, rotate: 0.0},
+      left: {rectangle: cuboid.left, flip: #None, rotate: 0.0},
+      back: {rectangle: cuboid.back, flip: #None, rotate: 0.0},
+      bottom: {rectangle: cuboid.bottom, flip: #Vertical, rotate: 0.0},
+    }
+  | #West => {
+      top: {rectangle: cuboid.top, flip: #None, rotate: 0.0},
+      right: {rectangle: cuboid.right, flip: #None, rotate: 0.0},
+      front: {rectangle: cuboid.front, flip: #None, rotate: 0.0},
+      left: {rectangle: cuboid.left, flip: #None, rotate: 0.0},
+      back: {rectangle: cuboid.back, flip: #None, rotate: 0.0},
+      bottom: {rectangle: cuboid.bottom, flip: #Vertical, rotate: 0.0},
+    }
+  | #North => {
+      top: {rectangle: cuboid.top, flip: #None, rotate: 0.0},
+      right: {rectangle: cuboid.right, flip: #None, rotate: 0.0},
+      front: {rectangle: cuboid.front, flip: #None, rotate: 0.0},
+      left: {rectangle: cuboid.left, flip: #None, rotate: 0.0},
+      back: {rectangle: cuboid.back, flip: #None, rotate: 180.0},
+      bottom: {rectangle: cuboid.bottom, flip: #Vertical, rotate: 0.0},
+    }
+  | #South => {
+      top: {rectangle: cuboid.top, flip: #None, rotate: 0.0},
+      right: {rectangle: cuboid.right, flip: #None, rotate: 0.0},
+      front: {rectangle: cuboid.front, flip: #None, rotate: 0.0},
+      left: {rectangle: cuboid.left, flip: #None, rotate: 0.0},
+      back: {rectangle: cuboid.back, flip: #None, rotate: 180.0},
+      bottom: {rectangle: cuboid.bottom, flip: #Vertical, rotate: 0.0},
+    }
+  }
+}
+
+let drawCuboidFace = (textureId: string, source: Builder.rectangle, face: CuboidFace.t) => {
+  Generator.drawTexture(textureId, source, face.rectangle, ~flip=face.flip, ~rotate=face.rotate, ())
+}
+
+let drawCuboid = (
+  textureId: string,
+  source: Cuboid.t,
+  position: Builder.position,
+  scale: Cuboid.scale,
+  ~direction: Cuboid.direction=#East,
+  (),
+) => {
+  let faces = getCuboidFaces(scale, direction)->CuboidFaces.translate(position)
+  drawCuboidFace(textureId, source.front, faces.front)
+  drawCuboidFace(textureId, source.back, faces.back)
+  drawCuboidFace(textureId, source.top, faces.top)
+  drawCuboidFace(textureId, source.bottom, faces.bottom)
+  drawCuboidFace(textureId, source.left, faces.left)
+  drawCuboidFace(textureId, source.right, faces.right)
 }
 
 module CharacterLegacy = {
@@ -239,154 +464,4 @@ module Character = {
       leftLeg: steve.overlay.leftLeg,
     },
   }
-}
-
-type direction = [#East | #West | #North | #South]
-type center = [#Right | #Front | #Left | #Back | #Top | #Bottom]
-
-let drawCuboid = (
-  id: string,
-  source: Cuboid.t,
-  position: Builder.position,
-  scale: (int, int, int),
-  ~direction: direction=#East,
-  //~center: center=#Front,
-  (),
-) => {
-  // ~flip, ~blend, ~rotate, ~pixelate - rotate and flip can be used for some generators and for simplifying old player model drawing, respectively
-
-  /* Improvements: add ~flip, ~blend, ~rotate, ~pixelate, which do the same as what they do in drawTexture(), and ~center, That changes the center face of the cuboid.
-   
- */
-
-  let (x, y) = position
-  let (w, h, d) = scale
-
-  module Dest = {
-    module Face = {
-      type t = {rectangle: Builder.rectangle, flip: Generator_Texture.flip, rotate: float}
-      let make = (rectangle, ~flip=#None, ~rotate=0.0, ()) => {
-        rectangle: rectangle,
-        flip: flip,
-        rotate: rotate,
-      }
-
-      let translate = (face: t, x, y): t => {
-        rectangle: face.rectangle->Cuboid.translateRectangle(x, y),
-        flip: face.flip,
-        rotate: face.rotate,
-      }
-      let rotate = (face: t, r): t => {
-        rectangle: face.rectangle,
-        flip: face.flip,
-        rotate: face.rotate +. r,
-      }
-      let flip = (face: t, f): t => {
-        rectangle: face.rectangle,
-        flip: face.flip == #None ? f : #None,
-        rotate: face.flip == #None
-          ? face.rotate
-          : face.flip != f
-          ? face.rotate +. 180.0
-          : face.rotate,
-      }
-    }
-    type t = {
-      top: Face.t,
-      bottom: Face.t,
-      right: Face.t,
-      front: Face.t,
-      left: Face.t,
-      back: Face.t,
-    }
-
-    let make = (w, h, d): t => {
-      {
-        top: Face.make((d, 0, w, d), ()),
-        bottom: Face.make((d, d + h, w, d), ~flip=#Vertical, ()),
-        right: Face.make((0, d, d, h), ()),
-        front: Face.make((d, d, w, h), ()),
-        left: Face.make((d + w, d, d, h), ()),
-        back: Face.make((d * 2 + w, d, w, h), ()),
-      }
-    }
-    /* let center = (dest: t, center): t => {
-      // Assign each return face to have a different face, and rotation, depending on the center value.
-
-      let n: int = switch center {
-      | #Right => 0
-      | #Front => 1
-      | #Left => 2
-      | #Back => 3
-      | #Top => 4
-      | #Bottom => 5
-      }
-
-      //let (_, d, w, h) = dest.front.rectangle
-      //let dest = make(n == 0 || n == 2 ? d : w, n > 3 ? h : h, n == 0 || n == 2 ? w : d)
-      let a = [dest.right, dest.front, dest.left, dest.back, dest.top, dest.bottom]
-      let m = Belt.Int.toFloat(n)
-
-      {
-        right: a[n < 4 ? mod(5 - n, 4) : 0]->Face.rotate(
-          m < 4.0 ? 0.0 : (m -. 3.0) *. 180.0 -. 90.0,
-        ),
-        front: a[n < 4 ? mod(6 - n, 4) : n == 4 ? 5 : 4],
-        left: a[n < 4 ? mod(7 - n, 4) : 2]->Face.rotate(
-          m < 4.0 ? 0.0 : (m -. 3.0) *. -180.0 +. 90.0,
-        ),
-        back: a[n < 4 ? mod(8 - n, 4) : n == 4 ? 4 : 5]->Face.rotate(m < 4.0 ? 0.0 : 180.0),
-        top: a[n < 4 ? 4 : n == 4 ? 1 : 3]->Face.rotate(
-          m > 3.0 ? (m -. 4.0) *. 180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. 90.0,
-        ),
-        bottom: a[n < 4 ? 5 : n == 4 ? 3 : 1]
-        ->Face.flip(#Vertical)
-        ->Face.rotate(
-          m > 3.0 ? (5.0 -. m) *. -180.0 : (Belt.Int.toFloat(mod(n, 4)) -. 1.0) *. -90.0,
-        ),
-      }
-    } */
-    let direction = (dest: t, direction) => {
-      let out = switch direction {
-      | #East => Face.make((d * 2 + w, d, w, h), ())
-      | #West => Face.make((-w, d, w, h), ())
-      | #North => Face.make((d, -w, w, h), ~rotate=180.0, ())
-      | #South => Face.make((d, d * 2 + h, w, h), ~rotate=180.0, ())
-      }
-      {
-        top: dest.top,
-        bottom: dest.bottom,
-        right: dest.right,
-        front: dest.front,
-        left: dest.left,
-        back: out,
-      }
-    }
-    let translate = (dest: t, x, y) => {
-      let translate = face => Face.translate(face, x, y)
-      {
-        top: dest.top->translate,
-        bottom: dest.bottom->translate,
-        right: dest.right->translate,
-        front: dest.front->translate,
-        left: dest.left->translate,
-        back: dest.back->translate,
-      }
-    }
-  }
-
-  // Have default destination- exact information for center = front, direction = east.
-  // Given direction, change back position to be at the correct place, with correct rotation.
-  // Given center, assign dest faces to be at correct faces, and have correct rotations
-  // draw at destination, with its parameters
-
-  let dest = Dest.make(w, h, d)->Dest.direction(direction)->Dest.translate(x, y) //->Dest.center(center)->Dest.translate(x, y)
-  let {top: t, bottom: o, right: r, front: f, left: l, back: b} = dest
-  //tbrflb
-  Generator.drawTexture(id, source.top, t.rectangle, ~flip=t.flip, ~rotate=t.rotate, ())
-  Generator.drawTexture(id, source.bottom, o.rectangle, ~flip=o.flip, ~rotate=o.rotate, ())
-  Generator.drawTexture(id, source.right, r.rectangle, ~flip=r.flip, ~rotate=r.rotate, ())
-  Generator.drawTexture(id, source.front, f.rectangle, ~flip=f.flip, ~rotate=f.rotate, ())
-  Generator.drawTexture(id, source.left, l.rectangle, ~flip=l.flip, ~rotate=l.rotate, ())
-  Generator.drawTexture(id, source.back, b.rectangle, ~flip=b.flip, ~rotate=b.rotate, ())
 }
