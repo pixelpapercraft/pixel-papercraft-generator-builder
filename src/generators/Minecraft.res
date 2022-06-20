@@ -154,7 +154,7 @@ module Cuboid = {
   //   +----D----+----W----+----D----+----W----+
   //             |         |
   //             D Bottom  D
-  //             |         |
+  //             | (Vert)  |
   //             +----W----+
   //
   let makeSource = ((w, h, d): scale): t => {
@@ -183,7 +183,7 @@ module Cuboid = {
         //   +----D----+----W----+----D----+----W----+
         //             |         |
         //             D Bottom  D
-        //             |         |
+        //             | (Vert)  |
         //             +----W----+
         //
         top: Face.make((d, 0, w, d)),
@@ -191,7 +191,7 @@ module Cuboid = {
         front: Face.make((d, d, w, h)),
         left: Face.make((d + w, d, d, h)),
         back: Face.make((d + w + d, d, w, h)),
-        bottom: Face.make((d, d + h, w, d))->Face.flip(#Vertical),
+        bottom: Face.make((d, d + h, w, d)),
       }
     | #West => {
         // (0,0)
@@ -206,7 +206,7 @@ module Cuboid = {
         //   +----W----+----D----+----W----+----D----+
         //                       |         |
         //                       D Bottom  D
-        //                       |         |
+        //                       | (Vert)  |
         //                       +----W----+
         //
         top: Face.make((w + d, 0, w, d)),
@@ -214,7 +214,7 @@ module Cuboid = {
         right: Face.make((w, d, d, h)),
         front: Face.make((w + d, d, w, h)),
         left: Face.make((w + d + w, d, d, h)),
-        bottom: Face.make((w + d, d + h, w, d))->Face.flip(#Vertical),
+        bottom: Face.make((w + d, d + h, w, d)),
       }
     | #North => {
         // (0,0)
@@ -229,18 +229,18 @@ module Cuboid = {
         //   +----D----+----W----+----D----+
         //             |         |
         //             D Bottom  D
-        //             |         |
+        //             | (Vert)  |
         //             +----W----+
         //             |         |
         //             H  Back   H
-        //             |         |
+        //             | (180.0) |
         //             +----W----+
         //
         top: Face.make((d, 0, w, d)),
         right: Face.make((0, d, d, h)),
         front: Face.make((d, d, w, h)),
         left: Face.make((d + w, d, d, h)),
-        bottom: Face.make((d, d + h, w, d))->Face.flip(#Vertical),
+        bottom: Face.make((d, d + h, w, d)),
         back: Face.make((d, d + h + d, w, h))->Face.rotate(180.0),
       }
     | #South => {
@@ -248,7 +248,7 @@ module Cuboid = {
         //   .         +----W----+
         //             |         |
         //             H  Back   H
-        //             |         |
+        //             | (180.0) |
         //             +----W----+
         //             |         |
         //             D   Top   D
@@ -260,7 +260,7 @@ module Cuboid = {
         //   +----D----+----W----+----D----+
         //             |         |
         //             D Bottom  D
-        //             |         |
+        //             | (Vert)  |
         //             +----W----+
         //
         back: Face.make((d, 0, w, h))->Face.rotate(180.0),
@@ -268,48 +268,63 @@ module Cuboid = {
         right: Face.make((0, h + d, d, h)),
         front: Face.make((d, h + d, w, h)),
         left: Face.make((d + w, h + d, d, h)),
-        bottom: Face.make((d, h * 2 + d, w, d))->Face.flip(#Vertical),
+        bottom: Face.make((d, h * 2 + d, w, d)),
       }
     }
   }
 
-  let getLayout = (scale, direction): t => {
+  let getLayout = (scale, direction, center): t => {
     let cuboid = makeDest(scale, direction)
-    cuboid
-    /* switch direction {
-    | #East => {
-        top: cuboid.top,
+    switch center {
+    | #Right => {
+        right: cuboid.front,
+        front: cuboid.left,
+        left: cuboid.back,
+        back: cuboid.right,
+        top: cuboid.top->Face.rotate(-90.0),
+        bottom: cuboid.bottom->Face.rotate(90.0)->Face.flip(#Vertical),
+      }
+    | #Front => {
         right: cuboid.right,
         front: cuboid.front,
         left: cuboid.left,
         back: cuboid.back,
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
-      }
-    | #West => {
         top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: cuboid.back,
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+        bottom: cuboid.bottom->Face.flip(#Vertical),
       }
-    | #North => {
-        top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: {rectangle: cuboid.back.rectangle, flip: #None, rotate: 180.0},
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+    | #Left => {
+        right: cuboid.back,
+        front: cuboid.right,
+        left: cuboid.front,
+        back: cuboid.left,
+        top: cuboid.top->Face.rotate(90.0),
+        bottom: cuboid.bottom->Face.rotate(-90.0)->Face.flip(#Vertical),
       }
-    | #South => {
-        top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: {rectangle: cuboid.back.rectangle, flip: #None, rotate: 180.0},
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+    | #Back => {
+        right: cuboid.left,
+        front: cuboid.back,
+        left: cuboid.right,
+        back: cuboid.front,
+        top: cuboid.top->Face.rotate(180.0),
+        bottom: cuboid.bottom->Face.rotate(180.0)->Face.flip(#Vertical),
       }
-    } */
+    | #Top => {
+        right: cuboid.right->Face.rotate(90.0),
+        front: cuboid.bottom,
+        left: cuboid.left->Face.rotate(-90.0),
+        back: cuboid.top,
+        top: cuboid.front,
+        bottom: cuboid.back->Face.flip(#Vertical)->Face.rotate(180.0),
+      }
+    | #Bottom => {
+        right: cuboid.right->Face.rotate(-90.0),
+        front: cuboid.top,
+        left: cuboid.left->Face.rotate(90.0),
+        back: cuboid.bottom->Face.rotate(180.0),
+        top: cuboid.back->Face.rotate(180.0),
+        bottom: cuboid.front->Face.flip(#Vertical),
+      }
+    }
   }
 
   let draw = (
@@ -318,9 +333,10 @@ module Cuboid = {
     position: Builder.position,
     scale: scale,
     ~direction: direction=#East,
+    ~center: center=#Front,
     (),
   ) => {
-    let dest = getLayout(scale, direction)->translate(position)
+    let dest = getLayout(scale, direction, center)->translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -361,7 +377,7 @@ let drawCuboid = (
   ~direction: Cuboid.direction=#East,
   ~center: Cuboid.center=#Front,
   (),
-) => Cuboid.draw(textureId, source, position, scale, ~direction, ())
+) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ())
 
 module CharacterLegacy = {
   module Layer = {

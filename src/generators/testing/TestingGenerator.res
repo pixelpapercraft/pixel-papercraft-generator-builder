@@ -725,8 +725,8 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
-  drawCuboidTestPage3()
   drawCuboidTestPage2()
+  drawCuboidTestPage3()
   drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
