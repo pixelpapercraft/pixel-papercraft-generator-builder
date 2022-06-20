@@ -237,6 +237,10 @@ module Angle = {
   }
 }
 
+module Orientation = {
+  type t = [#North | #South | #East | #West]
+}
+
 // Normal
 //
 //        p3   p4
@@ -255,18 +259,18 @@ module Angle = {
 //     |         |       | Rectangle tab height
 //     |         |       |
 //     | p2 X p3 |       |    ---
-//     |   /|\   |       |     |
-//     |  / | \  |       |     | Actual tab height
-//     | /  |  \ |       |     |
-//     |/   |   \|       |     |
+//     |   / \   |       |     |
+//     |  /   \  |       |     | Actual tab height
+//     | /     \ |       |     |
+//     |/       \|       |     |
 //     +----+----+      ---   ---
 //     p1        p4
 //
 let drawTab = (
   rectangle: Builder.rectangle,
-  orientation: [#North | #South | #East | #West],
+  orientation: Orientation.t,
   ~showFoldLine: bool=true,
-  ~tabAngle: float=60.0,
+  ~tabAngle: float=45.0,
   (),
 ) => {
   let (x, y, w, h) = rectangle

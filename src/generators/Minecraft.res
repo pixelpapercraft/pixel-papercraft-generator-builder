@@ -243,10 +243,10 @@ module MinecraftCharacter = {
 
 let drawFaceTab = (
   face: Builder.rectangle,
-  side: [#North | #South | #East | #West],
+  side: Generator.Orientation.t,
   ~size: int=24,
   ~showFoldLine: bool=true,
-  ~tabAngle: float=60.0,
+  ~tabAngle: float=45.0,
   (),
 ) => {
   let (x, y, w, h) = face
@@ -257,4 +257,17 @@ let drawFaceTab = (
   | #West => (x - size, y, size, h)
   }
   Generator.drawTab(tabRect, side, ~showFoldLine, ~tabAngle, ())
+}
+
+let drawFaceTabs = (
+  face: Builder.rectangle,
+  sides: array<Generator.Orientation.t>,
+  ~size: int=24,
+  ~showFoldLine: bool=true,
+  ~tabAngle: float=45.0,
+  (),
+) => {
+  sides->Belt.Array.forEach(side => {
+    drawFaceTab(face, side, ~size, ~showFoldLine, ~tabAngle, ())
+  })
 }
