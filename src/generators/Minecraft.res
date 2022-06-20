@@ -88,6 +88,18 @@ module Cuboid = {
       rotate: 0.0,
     }
 
+    // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
+    let flip = ({rectangle, flip, rotate}: t, f: Generator_Texture.flip) => {
+      rectangle: rectangle,
+      flip: flip == #None ? f : #None,
+      rotate: flip == #None ? rotate : flip != f ? rotate +. 180.0 : rotate,
+    }
+    let rotate = ({rectangle, flip, rotate}: t, r: float) => {
+      rectangle: rectangle,
+      flip: flip,
+      rotate: rotate +. r,
+    }
+
     let translate = ({rectangle, flip, rotate}: t, (dx, dy): Builder.position) => {
       rectangle: rectangle->translateRectangle(dx, dy),
       flip: flip,
@@ -179,7 +191,7 @@ module Cuboid = {
         front: Face.make((d, d, w, h)),
         left: Face.make((d + w, d, d, h)),
         back: Face.make((d + w + d, d, w, h)),
-        bottom: Face.make((d, d + h, w, d)),
+        bottom: Face.make((d, d + h, w, d))->Face.flip(#Vertical),
       }
     | #West => {
         // (0,0)
@@ -202,7 +214,7 @@ module Cuboid = {
         right: Face.make((w, d, d, h)),
         front: Face.make((w + d, d, w, h)),
         left: Face.make((w + d + w, d, d, h)),
-        bottom: Face.make((w + d, d + h, w, d)),
+        bottom: Face.make((w + d, d + h, w, d))->Face.flip(#Vertical),
       }
     | #North => {
         // (0,0)
@@ -228,8 +240,8 @@ module Cuboid = {
         right: Face.make((0, d, d, h)),
         front: Face.make((d, d, w, h)),
         left: Face.make((d + w, d, d, h)),
-        bottom: Face.make((d, d + h, w, d)),
-        back: Face.make((d, d + h + d, w, h)),
+        bottom: Face.make((d, d + h, w, d))->Face.flip(#Vertical),
+        back: Face.make((d, d + h + d, w, h))->Face.rotate(180.0),
       }
     | #South => {
         // (0,0)
@@ -251,19 +263,20 @@ module Cuboid = {
         //             |         |
         //             +----W----+
         //
-        back: Face.make((d, 0, w, h)),
+        back: Face.make((d, 0, w, h))->Face.rotate(180.0),
         top: Face.make((d, h, w, d)),
         right: Face.make((0, h + d, d, h)),
         front: Face.make((d, h + d, w, h)),
         left: Face.make((d + w, h + d, d, h)),
-        bottom: Face.make((d, h * 2 + d, w, d)),
+        bottom: Face.make((d, h * 2 + d, w, d))->Face.flip(#Vertical),
       }
     }
   }
 
   let getLayout = (scale, direction): t => {
     let cuboid = makeDest(scale, direction)
-    switch direction {
+    cuboid
+    /* switch direction {
     | #East => {
         top: cuboid.top,
         right: cuboid.right,
@@ -296,7 +309,7 @@ module Cuboid = {
         back: {rectangle: cuboid.back.rectangle, flip: #None, rotate: 180.0},
         bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
       }
-    }
+    } */
   }
 
   let draw = (
