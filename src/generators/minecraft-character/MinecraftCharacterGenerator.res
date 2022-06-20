@@ -216,10 +216,10 @@ let script = () => {
 
   // Left Arm
 
-  let (ox, oy) = (415, 373)
+  let (ox, oy) = (isAlexModel ? 391 : 383, 373)
 
   drawLeftArm((ox, oy))
-  Generator.defineRegionInput((ox - 32, oy, isAlexModel ? 112 : 128, 166), () => {
+  Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 166), () => {
     Generator.setBooleanInputValue("Show Left Arm Overlay", !showLeftArmOverlay)
   })
 
@@ -234,10 +234,10 @@ let script = () => {
 
   // Left Leg
 
-  let (ox, oy) = (415, 587)
+  let (ox, oy) = (383, 587)
 
   drawLeftLeg((ox, oy))
-  Generator.defineRegionInput((ox - 32, oy, 128, 160), () => {
+  Generator.defineRegionInput((ox, oy, 128, 160), () => {
     Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
   })
 
