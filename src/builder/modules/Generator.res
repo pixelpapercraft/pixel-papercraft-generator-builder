@@ -19,6 +19,38 @@ let setModel = newModel => {
 
 let getModel = () => model.contents
 
+let setStringVariable = (id, value) => {
+  model := Builder.setStringVariable(model.contents, id, value)
+}
+
+let getStringVariable = id => {
+  Builder.getStringVariable(model.contents, id)
+}
+
+let setIntegerVariable = (id, value) => {
+  model := Builder.setIntegerVariable(model.contents, id, value)
+}
+
+let getIntegerVariable = id => {
+  Builder.getIntegerVariable(model.contents, id)
+}
+
+let setFloatVariable = (id, value) => {
+  model := Builder.setFloatVariable(model.contents, id, value)
+}
+
+let getFloatVariable = id => {
+  Builder.getFloatVariable(model.contents, id)
+}
+
+let setBooleanVariable = (id, value) => {
+  model := Builder.setBooleanVariable(model.contents, id, value)
+}
+
+let getBooleanVariable = id => {
+  Builder.getBooleanVariable(model.contents, id)
+}
+
 let getPagePixelColor = (id, x, y) => {
   Builder.getPagePixelColor(model.contents, id, x, y)
 }

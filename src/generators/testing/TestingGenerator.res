@@ -624,6 +624,7 @@ let drawTabsTestPage = () => {
   Generator.fillBackgroundColorWithWhite()
 
   let tabAngle = 45.0
+
   drawRectTab((10, 10, 100, 30), #North, ~tabAngle)
   drawRectTab((150, 10, 100, 30), #South, ~tabAngle)
   drawRectTab((300, 10, 100, 30), #East, ~tabAngle)
@@ -684,7 +685,11 @@ let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
   Minecraft.drawFaceTabs(bottomFace, [#West, #East, #South], ())
 }
 
-let drawSteveFaceWithTabs = (x, y, w, h, ~size, ~tabAngle) => {
+let drawSteveFaceWithTabs = (x, y, w, h, ~size=?, ~tabAngle, ()) => {
+  let size = switch size {
+  | Some(size) => size
+  | None => Minecraft.getTabSize()
+  }
   let head = Minecraft.MinecraftCharacter.steve.base.head
   let face = (x, y, w, h)
   Generator.drawTexture("Steve", head.front, face, ())
@@ -695,34 +700,39 @@ let drawFaceTabsTestPage = () => {
   Generator.usePage("Face Tabs")
   Generator.fillBackgroundColorWithWhite()
 
-  drawSteveFaceWithTabs(50, 50, 64, 64, ~size=24, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(200, 50, 64, 32, ~size=24, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(350, 50, 32, 64, ~size=24, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(500, 50, 32, 32, ~size=24, ~tabAngle=45.0)
+  Minecraft.setTabSize(24)
+  drawSteveFaceWithTabs(50, 50, 64, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(200, 50, 64, 32, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(350, 50, 32, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(500, 50, 32, 32, ~tabAngle=45.0, ())
 
-  drawSteveFaceWithTabs(50, 200, 64, 64, ~size=45, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(200, 200, 64, 32, ~size=45, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(350, 200, 32, 64, ~size=45, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(500, 200, 32, 32, ~size=45, ~tabAngle=45.0)
+  Minecraft.setTabSize(48)
+  drawSteveFaceWithTabs(50, 200, 64, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(200, 200, 64, 32, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(350, 200, 32, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(500, 200, 32, 32, ~tabAngle=45.0, ())
 
-  drawSteveFaceWithTabs(50, 350, 64, 64, ~size=24, ~tabAngle=60.0)
-  drawSteveFaceWithTabs(200, 350, 64, 32, ~size=24, ~tabAngle=60.0)
-  drawSteveFaceWithTabs(350, 350, 32, 64, ~size=24, ~tabAngle=60.0)
-  drawSteveFaceWithTabs(500, 350, 32, 32, ~size=24, ~tabAngle=60.0)
+  Minecraft.setTabSize(12)
+  drawSteveFaceWithTabs(50, 350, 64, 64, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(200, 350, 64, 32, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(350, 350, 32, 64, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(500, 350, 32, 32, ~tabAngle=60.0, ())
 
-  drawSteveFaceWithTabs(50, 500, 64, 64, ~size=24, ~tabAngle=30.0)
-  drawSteveFaceWithTabs(200, 500, 64, 32, ~size=24, ~tabAngle=30.0)
-  drawSteveFaceWithTabs(350, 500, 32, 64, ~size=24, ~tabAngle=30.0)
-  drawSteveFaceWithTabs(500, 500, 32, 32, ~size=24, ~tabAngle=30.0)
+  Minecraft.setTabSize(12)
+  drawSteveFaceWithTabs(50, 500, 64, 64, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(200, 500, 64, 32, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(350, 500, 32, 64, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(500, 500, 32, 32, ~tabAngle=30.0, ())
 
-  drawSteveFaceWithTabs(400, 650, 16, 16, ~size=8, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(450, 650, 16, 8, ~size=8, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(400, 700, 8, 16, ~size=8, ~tabAngle=45.0)
-  drawSteveFaceWithTabs(450, 700, 8, 8, ~size=4, ~tabAngle=45.0)
+  drawSteveFaceWithTabs(400, 650, 16, 16, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(450, 650, 16, 8, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(400, 700, 8, 16, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(450, 700, 8, 8, ~size=4, ~tabAngle=45.0, ())
 
   let ox = 50
   let oy = 600
   let size = 64
+  Minecraft.setTabSize(24)
   drawSteveHeadWithTabs("Steve", ox, oy, size)
 }
 

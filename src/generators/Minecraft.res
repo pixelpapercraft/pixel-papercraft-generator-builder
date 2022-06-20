@@ -241,14 +241,31 @@ module MinecraftCharacter = {
   }
 }
 
+let setTabSize = (tabSize: int) => {
+  Generator.setIntegerVariable("tabSize", tabSize)
+}
+
+let defaultTabSize = 24
+
+let getTabSize = () => {
+  switch Generator.getIntegerVariable("tabSize") {
+  | None => defaultTabSize
+  | Some(value) => value
+  }
+}
+
 let drawFaceTab = (
   face: Builder.rectangle,
   side: Generator.Orientation.t,
-  ~size: int=24,
   ~showFoldLine: bool=true,
   ~tabAngle: float=45.0,
+  ~size: option<int>=?,
   (),
 ) => {
+  let size = switch size {
+  | Some(size) => size
+  | None => getTabSize()
+  }
   let (x, y, w, h) = face
   let tabRect = switch side {
   | #North => (x, y - size, w, size)
@@ -262,12 +279,16 @@ let drawFaceTab = (
 let drawFaceTabs = (
   face: Builder.rectangle,
   sides: array<Generator.Orientation.t>,
-  ~size: int=24,
   ~showFoldLine: bool=true,
   ~tabAngle: float=45.0,
+  ~size: option<int>=?,
   (),
 ) => {
+  let size = switch size {
+  | Some(size) => size
+  | None => getTabSize()
+  }
   sides->Belt.Array.forEach(side => {
-    drawFaceTab(face, side, ~size, ~showFoldLine, ~tabAngle, ())
+    drawFaceTab(face, side, ~showFoldLine, ~tabAngle, ~size, ())
   })
 }
