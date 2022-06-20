@@ -121,7 +121,7 @@ let drawSteveBodyCuboid = (x, y, center) => {
     (x, y),
     (64, 96, 32),
     ~center,
-    ~direction=#South,
+    ~direction=#East,
     (),
   )
 }
@@ -725,8 +725,8 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
-  drawCuboidTestPage2()
   drawCuboidTestPage3()
+  drawCuboidTestPage2()
   drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()

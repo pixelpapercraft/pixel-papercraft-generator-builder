@@ -94,10 +94,17 @@ module Cuboid = {
       flip: flip == #None ? f : #None,
       rotate: flip == #None ? rotate : flip != f ? rotate +. 180.0 : rotate,
     }
+
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
-      rectangle: rectangle,
-      flip: flip,
-      rotate: rotate +. r,
+      let (x, y, w, h) = rectangle
+
+      {
+        rectangle: mod_float(r +. 360.0, 180.0) == 90.0
+          ? (x + (w - h) / 2, y - (w - h) / 2, h, w)
+          : (x, y, w, h),
+        flip: flip,
+        rotate: rotate +. r,
+      }
     }
 
     let translate = ({rectangle, flip, rotate}: t, (dx, dy): Builder.position) => {
@@ -274,6 +281,15 @@ module Cuboid = {
   }
 
   let getLayout = (scale, direction, center): t => {
+    let (w, h, d) = scale
+    let scale = switch center {
+    | #Right => (d, h, w)
+    | #Left => (d, h, w)
+    | #Top => (w, d, h)
+    | #Bottom => (w, d, h)
+    | _ => (w, h, d)
+    }
+
     let cuboid = makeDest(scale, direction)
     switch center {
     | #Right => {
