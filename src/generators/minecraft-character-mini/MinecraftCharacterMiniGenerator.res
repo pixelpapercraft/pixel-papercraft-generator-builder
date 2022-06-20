@@ -214,19 +214,36 @@ let drawLeftLeg = (
   )
 }
 
+let drawFoldLineRect = ((x, y, w, h): Generator_Builder.rectangle) => {
+  Generator.drawFoldLine((x, y - 1), (x + w, y - 1))
+  Generator.drawFoldLine((x + w, y), (x + w, y + h))
+  Generator.drawFoldLine((x + w, y + h + 1), (x, y + h + 1))
+  Generator.drawFoldLine((x, y + h), (x, y))
+}
+
+let drawFoldLineCuboid = (
+  (x, y): Generator_Builder.position,
+  (w, h, d): Minecraft.Cuboid.scale,
+  (),
+) => {
+  drawFoldLineRect((x + d, y, w, d * 2 + h))
+  drawFoldLineRect((x, y + d, w * 2 + d * 2, h))
+  Generator.drawFoldLine((x + d * 2 + w - 1, y + d), (x + d * 2 + w - 1, y + d + h))
+}
+
 let drawFolds = ((x, y): (int, int)) => {
   Generator.fillRect((x + 49, y + 90, 64, 64), "#ffffff80")
   Generator.fillRect((x + 177, y + 90, 64, 64), "#ffffff80")
 
-  Generator.drawFoldLineCuboid((x + 49, y + 26), (64, 128, 64), ())
+  drawFoldLineCuboid((x + 49, y + 26), (64, 128, 64), ())
   Generator.drawFoldLine((x + 49, y + 25), (x + 241, y + 25))
 
-  Generator.drawFoldLineRect((x + 1, y + 10, 48, 64))
+  drawFoldLineRect((x + 1, y + 10, 48, 64))
   Generator.drawFoldLine((x + 1, y + 41), (x + 49, y + 41))
   Generator.drawFoldLine((x + 48, y + 74), (x + 48, y + 90))
   Generator.drawLine((x + 49, y + 26), (x + 49, y + 42), ~color="#ff0000", ())
 
-  Generator.drawFoldLineRect((x + 241, y + 10, 48, 64))
+  drawFoldLineRect((x + 241, y + 10, 48, 64))
   Generator.drawFoldLine((x + 241, y + 41), (x + 290, y + 41))
   Generator.drawFoldLine((x + 241, y + 74), (x + 241, y + 90))
   Generator.drawLine((x + 240, y + 26), (x + 240, y + 42), ~color="#ff0000", ())

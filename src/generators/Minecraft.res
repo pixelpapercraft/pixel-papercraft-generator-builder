@@ -463,3 +463,17 @@ module Character = {
     },
   }
 }
+
+module Minecart = {
+  type t = {
+    bottom: Cuboid.t,
+    sides: Cuboid.t,
+  }
+
+  let {makeSource, translate} = module(Cuboid)
+
+  let minecart = {
+    bottom: makeSource((20, 16, 2))->translate((0, 10)),
+    sides: makeSource((16, 8, 2))->translate((0, 0)),
+  }
+}

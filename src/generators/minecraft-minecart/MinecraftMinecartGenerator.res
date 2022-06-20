@@ -28,17 +28,7 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-module Map = {
-  type map = {
-    bottom: Generator_Builder.cuboid,
-    sides: Generator_Builder.cuboid,
-  }
-
-  let minecart = {
-    bottom: Generator_Builder.makeCuboid((0, 10), (20, 16, 2)),
-    sides: Generator_Builder.makeCuboid((0, 0), (16, 8, 2)),
-  }
-}
+let minecart = Minecraft.Minecart.minecart
 
 let script = () => {
   // Define the user inputs
@@ -73,18 +63,18 @@ let script = () => {
 
   // Front Side
 
-  Generator.drawTexture("Minecart", Map.minecart.sides.front, (ox - 16, oy - 64, 128, 64), ())
-  Generator.drawTexture("Minecart", Map.minecart.sides.top, (ox - 16, oy - 80, 128, 16), ())
+  Generator.drawTexture("Minecart", minecart.sides.front.rectangle, (ox - 16, oy - 64, 128, 64), ())
+  Generator.drawTexture("Minecart", minecart.sides.top.rectangle, (ox - 16, oy - 80, 128, 16), ())
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.back,
+    minecart.sides.back.rectangle,
     (ox - 16, oy - 144, 128, 64),
     ~rotate=180.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.bottom.right,
+    minecart.bottom.right.rectangle,
     (ox + 40, oy - 216, 16, 128),
     ~rotate=-90.0,
     (),
@@ -94,42 +84,42 @@ let script = () => {
 
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.front,
+    minecart.sides.front.rectangle,
     (ox + 64, oy + 32, 128, 64),
     ~rotate=90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.top,
+    minecart.sides.top.rectangle,
     (ox + 104, oy + 56, 128, 16),
     ~rotate=90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.back,
+    minecart.sides.back.rectangle,
     (ox + 144, oy + 32, 128, 64),
     ~rotate=-90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.left,
+    minecart.sides.left.rectangle,
     (ox + 200, oy - 40, 16, 64),
     ~rotate=-90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.right,
+    minecart.sides.right.rectangle,
     (ox + 200, oy + 104, 16, 64),
     ~rotate=-90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.bottom.bottom,
+    minecart.bottom.bottom.rectangle,
     (ox + 168, oy + 56, 160, 16),
     ~flip=#Vertical,
     ~rotate=90.0,
@@ -140,22 +130,22 @@ let script = () => {
 
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.front,
+    minecart.sides.front.rectangle,
     (ox - 16, oy + 128, 128, 64),
     ~rotate=180.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.top,
+    minecart.sides.top.rectangle,
     (ox - 16, oy + 192, 128, 16),
     ~rotate=180.0,
     (),
   )
-  Generator.drawTexture("Minecart", Map.minecart.sides.back, (ox - 16, oy + 208, 128, 64), ())
+  Generator.drawTexture("Minecart", minecart.sides.back.rectangle, (ox - 16, oy + 208, 128, 64), ())
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.bottom.left,
+    minecart.bottom.left.rectangle,
     (ox + 40, oy + 216, 16, 128),
     ~rotate=-90.0,
     (),
@@ -165,42 +155,42 @@ let script = () => {
 
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.front,
+    minecart.sides.front.rectangle,
     (ox - 96, oy + 32, 128, 64),
     ~rotate=-90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.top,
+    minecart.sides.top.rectangle,
     (ox - 136, oy + 56, 128, 16),
     ~rotate=-90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.back,
+    minecart.sides.back.rectangle,
     (ox - 176, oy + 32, 128, 64),
     ~rotate=90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.left,
+    minecart.sides.left.rectangle,
     (ox - 120, oy + 104, 16, 64),
     ~rotate=90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.sides.right,
+    minecart.sides.right.rectangle,
     (ox - 120, oy - 40, 16, 64),
     ~rotate=90.0,
     (),
   )
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.bottom.top,
+    minecart.bottom.top.rectangle,
     (ox - 232, oy + 56, 160, 16),
     ~rotate=90.0,
     (),
@@ -209,11 +199,18 @@ let script = () => {
   // Bottom
   Generator.drawTexture(
     "Minecart",
-    Map.minecart.bottom.front,
+    minecart.bottom.front.rectangle,
     (ox - 32, oy + 304, 160, 128),
     ~rotate=-90.0,
     (),
   )
+
+  let drawFoldLineRect = ((x, y, w, h): Generator_Builder.rectangle) => {
+    Generator.drawFoldLine((x, y - 1), (x + w, y - 1))
+    Generator.drawFoldLine((x + w, y), (x + w, y + h))
+    Generator.drawFoldLine((x + w, y + h + 1), (x, y + h + 1))
+    Generator.drawFoldLine((x, y + h), (x, y))
+  }
 
   let drawFolds = () => {
     // Center Lines
@@ -224,20 +221,20 @@ let script = () => {
     Generator.drawFoldLine((ox - 80, oy + 128), (ox + 176, oy + 128))
 
     // Top Lines
-    Generator.drawFoldLineRect((ox - 16, oy - 160, 128, 96))
+    drawFoldLineRect((ox - 16, oy - 160, 128, 96))
     Generator.drawFoldLine((ox - 16, oy - 80), (ox + 112, oy - 80))
 
     // Right Lines
-    Generator.drawFoldLineRect((ox + 176, oy - 16, 80, 160))
+    drawFoldLineRect((ox + 176, oy - 16, 80, 160))
     Generator.drawFoldLine((ox + 160, oy), (ox + 160, oy + 128))
 
     // Bottom Lines
-    Generator.drawFoldLineRect((ox - 16, oy + 192, 128, 256))
+    drawFoldLineRect((ox - 16, oy + 192, 128, 256))
     Generator.drawFoldLine((ox - 16, oy + 207), (ox + 112, oy + 207))
     Generator.drawFoldLine((ox - 16, oy + 288), (ox + 112, oy + 288))
 
     // Left Lines
-    Generator.drawFoldLineRect((ox - 160, oy - 16, 80, 160))
+    drawFoldLineRect((ox - 160, oy - 16, 80, 160))
     Generator.drawFoldLine((ox - 64, oy), (ox - 64, oy + 128))
   }
 
