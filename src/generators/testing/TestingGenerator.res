@@ -616,7 +616,7 @@ let drawTextureCropTest = () => {
 
 let drawRectTab = (rectangle, orientation, ~tabAngle) => {
   Generator.fillRect(rectangle, "#ff000020")
-  Minecraft.drawRectTab(rectangle, orientation, ~tabAngle, ())
+  Generator.drawTab(rectangle, orientation, ~tabAngle, ())
 }
 
 let drawTabsTestPage = () => {
