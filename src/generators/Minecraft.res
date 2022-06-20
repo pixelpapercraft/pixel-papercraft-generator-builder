@@ -256,7 +256,7 @@ module Cuboid = {
         right: Face.make((0, h + d, d, h)),
         front: Face.make((d, h + d, w, h)),
         left: Face.make((d + w, h + d, d, h)),
-        bottom: Face.make((d, h + d + w, w, d)),
+        bottom: Face.make((d, h * 2 + d, w, d)),
       }
     }
   }
