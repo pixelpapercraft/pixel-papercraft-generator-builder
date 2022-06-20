@@ -10,6 +10,7 @@ let history = [
   "06 Feb 2015 lostminer - Add user variables.",
   "13 Feb 2015 lostminer - Update to use new version of generator.",
   "17 Jul 2021 M16 - Updated generator photo.",
+  "12 Jun 2022 NinjolasNJM - Updated to use Minecraft module, and added Action Figure option",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -106,7 +107,7 @@ let script = () => {
   let showFolds = Generator.defineAndGetBooleanInput("Show Folds", true)
   let actionFigure = Generator.defineAndGetBooleanInput("Action Figure", false)
 
-  let steve = TextureMap.MinecraftCharacter.steve
+  let steve = Minecraft.Character.steve
 
   // Helper Function to draw heads
   let drawHead = (textureId, x, y) => {
@@ -124,13 +125,15 @@ let script = () => {
         Generator.setBooleanInputValue("Show " ++ textureId ++ " Overlay", !showOverlay)
       })
       // Draw Head
-      Generator.drawCuboid(textureId, steve.base.head, (x, y), (64, 64, 64), ())
+      Minecraft.drawCuboid(textureId, steve.base.head, (x, y), (64, 64, 64), ())
       if showOverlay {
-        Generator.drawCuboid(textureId, steve.overlay.head, (x, y), (64, 64, 64), ())
+        Minecraft.drawCuboid(textureId, steve.overlay.head, (x, y), (64, 64, 64), ())
       }
       // draw Folds and Action Figure Cut lines
       if showFolds {
-        Generator.drawFoldLineCuboid((x, y), (64, 64, 64), ())
+        //Generator.drawFoldLineCuboid((x, y), (64, 64, 64), ())
+
+        Generator.drawImage("Folds", (x - 26, y - 1))
       }
       if actionFigure {
         Generator.drawImage("Action Figure", (x + 64, y + 128))
