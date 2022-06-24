@@ -183,6 +183,32 @@ let drawFoldLineCuboidNorth = (
   Generator.drawFoldLine((ox + height, oy + depth), (ox + height + width, oy + depth))
 }
 
+let drawFoldLineCuboidWing = (
+  (ox, oy): Generator_Builder.position,
+  (width, height, depth): Minecraft.Cuboid.scale,
+) => {
+  Generator.drawFoldLine((ox + height, oy + depth - 1), (ox + width + height, oy + depth - 1))
+  Generator.drawFoldLine(
+    (ox, oy + depth + height - 1),
+    (ox + height * 2 + width, oy + depth + height - 1),
+  )
+  Generator.drawFoldLine((ox + height - 1, oy + height), (ox + height - 1, oy + height + depth * 2))
+  Generator.drawFoldLine(
+    (ox + height + width, oy + height),
+    (ox + height + width, oy + height + depth * 2),
+  )
+  Generator.drawFoldLine((ox - 1, oy + height + depth), (ox - 1, oy + height + depth * 2))
+  Generator.drawFoldLine(
+    (ox + width + height * 2, oy + height + depth),
+    (ox + width + height * 2, oy + height + depth * 2),
+  )
+  Generator.drawFoldLine((ox, oy + height + depth * 2), (ox + height, oy + height + depth * 2))
+  Generator.drawFoldLine(
+    (ox + width + height, oy + height + depth * 2),
+    (ox + width + height * 2, oy + height + depth * 2),
+  )
+}
+
 let drawFolds = () => {
   let (ox, oy) = (201, 37)
   Generator.drawFoldLineCuboid((ox, oy), (56, 24, 40), ()) // drawHead
@@ -194,12 +220,14 @@ let drawFolds = () => {
   Generator.drawFoldLineCuboid((ox, oy), (8, 48, 8), ~leftSide=true, ()) // drawTail2
   let (ox, oy) = (449, 197)
   drawFoldLineCuboidNorth((ox, oy), (48, 16, 72)) // drawWing1
-  //let (ox, oy) = (429, 453)
-  //drawFoldLineCuboidNorth((ox, oy), (104, 8, 72)) // drawWing2
+  let (ox, oy) = (429, 453)
+  drawFoldLineCuboidWing((ox, oy), (104, 8, 72)) // drawWing2
   let (ox, oy) = (65, 197)
   drawFoldLineCuboidNorth((ox, oy), (48, 16, 72)) // drawWing1
-  //let (ox, oy) = (45, 453)
-  //drawFoldLineCuboidNorth((ox, oy), (104, 8, 72)) // drawWing2
+  let (ox, oy) = (45, 453)
+  drawFoldLineCuboidWing((ox, oy), (104, 8, 72)) // drawWing2
+
+  Generator.drawImage("Folds", (0, 0))
 }
 
 let drawPhantom = (texture: string) => {
@@ -239,7 +267,7 @@ let script = () => {
   // Draw Phantom Eyes
   drawPhantom("Phantom Eyes")
 
-  // Background
+  // Foreground
   Generator.drawImage("Foreground", (0, 0))
 
   // Fold Lines
