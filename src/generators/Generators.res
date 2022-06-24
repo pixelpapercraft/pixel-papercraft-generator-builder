@@ -20,6 +20,8 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftVillagerCharacterGenerator.generator,
   MinecraftWolfCharacterGenerator.generator,
   MinecraftAxolotlCharacterGenerator.generator,
+  MinecraftAllayCharacterGenerator.generator,
+  MinecraftBeeCharacterGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
@@ -30,6 +32,7 @@ let mob: array<Generator.generatorDef> = [
   MinecraftPigGenerator.generator,
   MinecraftPhantomGenerator.generator,
   MinecraftCatGenerator.generator,
+  MinecraftVillagerGenerator.generator,
 ]
 
 // Blocks, Items and Accessories

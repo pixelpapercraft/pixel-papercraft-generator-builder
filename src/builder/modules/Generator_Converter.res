@@ -77,7 +77,7 @@ let convertCallback = (source: Image.t, onSuccess: Image.t => unit, onError: exn
 
   // Flip the destination canvas horizontally
   // so when we draw the new parts they will be flipped
-  Context2d.translate(dContext, dw, 0)
+  Context2d.translate(dContext, Belt.Int.toFloat(dw), 0.0)
   Context2d.scale(dContext, -1, 1)
 
   // Copying: Leg
