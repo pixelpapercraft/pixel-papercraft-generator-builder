@@ -67,14 +67,43 @@ module CuboidLegacy = {
 
 let translateRectangle = (
   rectangle: Builder.rectangle,
-  xTranslate: int,
-  yTranslate: int,
+  (xTranslate, yTranslate): Builder.position,
 ): Builder.rectangle => {
   let (x, y, w, h) = rectangle
   (x + xTranslate, y + yTranslate, w, h)
 }
+type scale = (int, int, int)
 
 module Cuboid = {
+  module Source = {
+    type t = {
+      front: Builder.rectangle,
+      back: Builder.rectangle,
+      top: Builder.rectangle,
+      bottom: Builder.rectangle,
+      right: Builder.rectangle,
+      left: Builder.rectangle,
+    }
+
+    let make = ((w, h, d): scale): t => {
+      top: (d, 0, w, d),
+      bottom: (d + w, 0, w, d),
+      front: (d, d, w, h),
+      right: (0, d, d, h),
+      left: (d + w, d, d, h),
+      back: (d * 2 + w, d, w, h),
+    }
+
+    let translate = (source: t, position: Builder.position) => {
+      front: translateRectangle(source.front, position),
+      back: translateRectangle(source.back, position),
+      top: translateRectangle(source.top, position),
+      bottom: translateRectangle(source.bottom, position),
+      right: translateRectangle(source.right, position),
+      left: translateRectangle(source.left, position),
+    }
+  }
+
   module Face = {
     type t = {
       rectangle: Builder.rectangle,
@@ -88,16 +117,16 @@ module Cuboid = {
       rotate: 0.0,
     }
 
-    let translate = ({rectangle, flip, rotate}: t, (dx, dy): Builder.position) => {
-      rectangle: rectangle->translateRectangle(dx, dy),
+    let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
+      rectangle: rectangle->translateRectangle(position),
       flip: flip,
       rotate: rotate,
     }
 
-    let draw = (textureId: string, source: t, dest: t) => {
+    let draw = (textureId: string, source: Builder.rectangle, dest: t) => {
       Generator.drawTexture(
         textureId,
-        source.rectangle,
+        source,
         dest.rectangle,
         ~flip=dest.flip,
         ~rotate=dest.rotate,
@@ -105,208 +134,112 @@ module Cuboid = {
       )
     }
   }
-  type t = {
-    front: Face.t,
-    back: Face.t,
-    top: Face.t,
-    bottom: Face.t,
-    right: Face.t,
-    left: Face.t,
-  }
 
-  let translate = (cuboid: t, position: Builder.position) => {
-    front: Face.translate(cuboid.front, position),
-    back: Face.translate(cuboid.back, position),
-    top: Face.translate(cuboid.top, position),
-    bottom: Face.translate(cuboid.bottom, position),
-    right: Face.translate(cuboid.right, position),
-    left: Face.translate(cuboid.left, position),
-  }
-
-  type direction = [#East | #West | #North | #South]
-  type scale = (int, int, int)
-  // W = Width
-  // H = Height
-  // D = Depth
-  //
-  // (0,0)
-  //   .         +----W----+
-  //             |         |
-  //             D   Top   D
-  //             |         |
-  //   +----D----+----W----+----D----+----W----+
-  //   |         |         |         |         |
-  //   H  Right  H  Front  H  Left   H  Back   H
-  //   |         |         |         |         |
-  //   +----D----+----W----+----D----+----W----+
-  //             |         |
-  //             D Bottom  D
-  //             |         |
-  //             +----W----+
-  //
-  let makeSource = ((w, h, d): scale): t => {
-    {
-      top: Face.make((d, 0, w, d)),
-      bottom: Face.make((d + w, 0, w, d)),
-      front: Face.make((d, d, w, h)),
-      right: Face.make((0, d, d, h)),
-      left: Face.make((d + w, d, d, h)),
-      back: Face.make((d * 2 + w, d, w, h)),
+  module Dest = {
+    type t = {
+      front: Face.t,
+      back: Face.t,
+      top: Face.t,
+      bottom: Face.t,
+      right: Face.t,
+      left: Face.t,
     }
-  }
+    let translate = (dest: t, position: Builder.position) => {
+      front: Face.translate(dest.front, position),
+      back: Face.translate(dest.back, position),
+      top: Face.translate(dest.top, position),
+      bottom: Face.translate(dest.bottom, position),
+      right: Face.translate(dest.right, position),
+      left: Face.translate(dest.left, position),
+    }
 
-  let makeDest = ((w, h, d): scale, direction: direction): t => {
-    switch direction {
-    | #East => {
-        // (0,0)
-        //   .         +----W----+
-        //             |         |
-        //             D   Top   D
-        //             |         |
-        //   +----D----+----W----+----D----+----W----+
-        //   |         |         |         |         |
-        //   H  Right  H  Front  H  Left   H  Back   H
-        //   |         |         |         |         |
-        //   +----D----+----W----+----D----+----W----+
-        //             |         |
-        //             D Bottom  D
-        //             |         |
-        //             +----W----+
-        //
-        top: Face.make((d, 0, w, d)),
-        right: Face.make((0, d, d, h)),
-        front: Face.make((d, d, w, h)),
-        left: Face.make((d + w, d, d, h)),
-        back: Face.make((d + w + d, d, w, h)),
-        bottom: Face.make((d, d + h, w, d)),
-      }
-    | #West => {
-        // (0,0)
-        //   .                   +----W----+
-        //                       |         |
-        //                       D   Top   D
-        //                       |         |
-        //   +----W----+----D----+----W----+----D----+
-        //   |         |         |         |         |
-        //   H  Back   H  Right  H  Front  H  Left   H
-        //   |         |         |         |         |
-        //   +----W----+----D----+----W----+----D----+
-        //                       |         |
-        //                       D Bottom  D
-        //                       |         |
-        //                       +----W----+
-        //
-        top: Face.make((w + d, 0, w, d)),
-        back: Face.make((0, d, w, h)),
-        right: Face.make((w, d, d, h)),
-        front: Face.make((w + d, d, w, h)),
-        left: Face.make((w + d + w, d, d, h)),
-        bottom: Face.make((w + d, d + h, w, d)),
-      }
-    | #North => {
-        // (0,0)
-        //   .         +----W----+
-        //             |         |
-        //             D   Top   D
-        //             |         |
-        //   +----D----+----W----+----D----+
-        //   |         |         |         |
-        //   H  Right  H  Front  H  Left   H
-        //   |         |         |         |
-        //   +----D----+----W----+----D----+
-        //             |         |
-        //             D Bottom  D
-        //             |         |
-        //             +----W----+
-        //             |         |
-        //             H  Back   H
-        //             |         |
-        //             +----W----+
-        //
-        top: Face.make((d, 0, w, d)),
-        right: Face.make((0, d, d, h)),
-        front: Face.make((d, d, w, h)),
-        left: Face.make((d + w, d, d, h)),
-        bottom: Face.make((d, d + h, w, d)),
-        back: Face.make((d, d + h + d, w, h)),
-      }
-    | #South => {
-        // (0,0)
-        //   .         +----W----+
-        //             |         |
-        //             H  Back   H
-        //             |         |
-        //             +----W----+
-        //             |         |
-        //             D   Top   D
-        //             |         |
-        //   +----D----+----W----+----D----+
-        //   |         |         |         |
-        //   H  Right  H  Front  H  Left   H
-        //   |         |         |         |
-        //   +----D----+----W----+----D----+
-        //             |         |
-        //             D Bottom  D
-        //             |         |
-        //             +----W----+
-        //
-        back: Face.make((d, 0, w, h)),
-        top: Face.make((d, h, w, d)),
-        right: Face.make((0, h + d, d, h)),
-        front: Face.make((d, h + d, w, h)),
-        left: Face.make((d + w, h + d, d, h)),
-        bottom: Face.make((d, h + d + w, w, d)),
+    type direction = [#East | #West | #North | #South]
+
+    let make = ((w, h, d): scale, direction: direction): t => {
+      switch direction {
+      | #East => {
+          top: Face.make((d, 0, w, d)),
+          right: Face.make((0, d, d, h)),
+          front: Face.make((d, d, w, h)),
+          left: Face.make((d + w, d, d, h)),
+          back: Face.make((d + w + d, d, w, h)),
+          bottom: Face.make((d, d + h, w, d)),
+        }
+      | #West => {
+          top: Face.make((w + d, 0, w, d)),
+          back: Face.make((0, d, w, h)),
+          right: Face.make((w, d, d, h)),
+          front: Face.make((w + d, d, w, h)),
+          left: Face.make((w + d + w, d, d, h)),
+          bottom: Face.make((w + d, d + h, w, d)),
+        }
+      | #North => {
+          top: Face.make((d, 0, w, d)),
+          right: Face.make((0, d, d, h)),
+          front: Face.make((d, d, w, h)),
+          left: Face.make((d + w, d, d, h)),
+          bottom: Face.make((d, d + h, w, d)),
+          back: Face.make((d, d + h + d, w, h)),
+        }
+      | #South => {
+          back: Face.make((d, 0, w, h)),
+          top: Face.make((d, h, w, d)),
+          right: Face.make((0, h + d, d, h)),
+          front: Face.make((d, h + d, w, h)),
+          left: Face.make((d + w, h + d, d, h)),
+          bottom: Face.make((d, h + d + w, w, d)),
+        }
       }
     }
-  }
 
-  let getLayout = (scale, direction): t => {
-    let cuboid = makeDest(scale, direction)
-    switch direction {
-    | #East => {
-        top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: cuboid.back,
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
-      }
-    | #West => {
-        top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: cuboid.back,
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
-      }
-    | #North => {
-        top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: {rectangle: cuboid.back.rectangle, flip: #None, rotate: 180.0},
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
-      }
-    | #South => {
-        top: cuboid.top,
-        right: cuboid.right,
-        front: cuboid.front,
-        left: cuboid.left,
-        back: {rectangle: cuboid.back.rectangle, flip: #None, rotate: 180.0},
-        bottom: {rectangle: cuboid.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+    let setLayout = (scale, direction): t => {
+      let dest = make(scale, direction)
+      switch direction {
+      | #East => {
+          top: dest.top,
+          right: dest.right,
+          front: dest.front,
+          left: dest.left,
+          back: dest.back,
+          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+        }
+      | #West => {
+          top: dest.top,
+          right: dest.right,
+          front: dest.front,
+          left: dest.left,
+          back: dest.back,
+          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+        }
+      | #North => {
+          top: dest.top,
+          right: dest.right,
+          front: dest.front,
+          left: dest.left,
+          back: {rectangle: dest.back.rectangle, flip: #None, rotate: 180.0},
+          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+        }
+      | #South => {
+          top: dest.top,
+          right: dest.right,
+          front: dest.front,
+          left: dest.left,
+          back: {rectangle: dest.back.rectangle, flip: #None, rotate: 180.0},
+          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+        }
       }
     }
   }
 
   let draw = (
     textureId: string,
-    source: t,
+    source: Source.t,
     position: Builder.position,
     scale: scale,
-    ~direction: direction=#East,
+    ~direction: Dest.direction=#East,
     (),
   ) => {
-    let dest = getLayout(scale, direction)->translate(position)
+    let dest = Dest.setLayout(scale, direction)->Dest.translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -316,35 +249,12 @@ module Cuboid = {
   }
 }
 
-/* module Cuboid = {
-  module Face = {
-    type t = {rectangle, flip, rotate, (etc)}
-    let translate = rectangle->translateRectangle
-  }
-  
-  type t = {top: Face.t, ... } // Faces.t
-  let translate
-  let translateRectangle
-
-  let makeSource = scale: t // make
-  let makeDest = (scale, direction): t // make2
-  let getLayout = (scale, direction): t // getFaces
-
-  let drawFace, or Face.draw
-  let drawCuboid, or Cuboid.draw, = (textureId, source: makeSource, position, scale, ~direction) => {
-    let dest = getLayout??-> translate(position)
-    draw each of dest's faces
-  }
-
-
- */
-
 let drawCuboid = (
   textureId: string,
-  source: Cuboid.t,
+  source: Cuboid.Source.t,
   position: Builder.position,
-  scale: Cuboid.scale,
-  ~direction: Cuboid.direction=#East,
+  scale: scale,
+  ~direction: Cuboid.Dest.direction=#East,
   (),
 ) => Cuboid.draw(textureId, source, position, scale, ~direction, ())
 
@@ -409,12 +319,12 @@ module CharacterLegacy = {
 module Character = {
   module Layer = {
     type t = {
-      head: Cuboid.t,
-      rightArm: Cuboid.t,
-      leftArm: Cuboid.t,
-      body: Cuboid.t,
-      rightLeg: Cuboid.t,
-      leftLeg: Cuboid.t,
+      head: Cuboid.Source.t,
+      rightArm: Cuboid.Source.t,
+      leftArm: Cuboid.Source.t,
+      body: Cuboid.Source.t,
+      rightLeg: Cuboid.Source.t,
+      leftLeg: Cuboid.Source.t,
     }
   }
 
@@ -423,40 +333,40 @@ module Character = {
     overlay: Layer.t,
   }
 
-  let {makeSource, translate} = module(Cuboid)
+  let {make, translate} = module(Cuboid.Source)
 
   let steve: t = {
     base: {
-      head: makeSource((8, 8, 8))->translate((0, 0)),
-      rightArm: makeSource((4, 12, 4))->translate((40, 16)),
-      leftArm: makeSource((4, 12, 4))->translate((32, 48)),
-      body: makeSource((8, 12, 4))->translate((16, 16)),
-      rightLeg: makeSource((4, 12, 4))->translate((0, 16)),
-      leftLeg: makeSource((4, 12, 4))->translate((16, 48)),
+      head: make((8, 8, 8))->translate((0, 0)),
+      rightArm: make((4, 12, 4))->translate((40, 16)),
+      leftArm: make((4, 12, 4))->translate((32, 48)),
+      body: make((8, 12, 4))->translate((16, 16)),
+      rightLeg: make((4, 12, 4))->translate((0, 16)),
+      leftLeg: make((4, 12, 4))->translate((16, 48)),
     },
     overlay: {
-      head: makeSource((8, 8, 8))->translate((32, 0)),
-      rightArm: makeSource((4, 12, 4))->translate((40, 32)),
-      leftArm: makeSource((4, 12, 4))->translate((48, 48)),
-      body: makeSource((8, 12, 4))->translate((16, 32)),
-      rightLeg: makeSource((4, 12, 4))->translate((0, 32)),
-      leftLeg: makeSource((4, 12, 4))->translate((0, 48)),
+      head: make((8, 8, 8))->translate((32, 0)),
+      rightArm: make((4, 12, 4))->translate((40, 32)),
+      leftArm: make((4, 12, 4))->translate((48, 48)),
+      body: make((8, 12, 4))->translate((16, 32)),
+      rightLeg: make((4, 12, 4))->translate((0, 32)),
+      leftLeg: make((4, 12, 4))->translate((0, 48)),
     },
   }
 
   let alex: t = {
     base: {
       head: steve.base.head,
-      rightArm: makeSource((3, 12, 4))->translate((40, 16)),
-      leftArm: makeSource((3, 12, 4))->translate((32, 48)),
+      rightArm: make((3, 12, 4))->translate((40, 16)),
+      leftArm: make((3, 12, 4))->translate((32, 48)),
       body: steve.base.body,
       rightLeg: steve.base.rightLeg,
       leftLeg: steve.base.leftLeg,
     },
     overlay: {
       head: steve.overlay.head,
-      rightArm: makeSource((3, 12, 4))->translate((40, 32)),
-      leftArm: makeSource((3, 12, 4))->translate((48, 48)),
+      rightArm: make((3, 12, 4))->translate((40, 32)),
+      leftArm: make((3, 12, 4))->translate((48, 48)),
       body: steve.overlay.body,
       rightLeg: steve.overlay.rightLeg,
       leftLeg: steve.overlay.leftLeg,
