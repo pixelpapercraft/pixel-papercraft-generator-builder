@@ -511,6 +511,28 @@ module Character = {
   }
 }
 
+module Phantom = {
+  type t = {
+    head: Cuboid.t,
+    body: Cuboid.t,
+    wing1: Cuboid.t,
+    wing2: Cuboid.t,
+    tail1: Cuboid.t,
+    tail2: Cuboid.t,
+  }
+
+  let {makeSource, translate} = module(Cuboid)
+
+  let phantom: t = {
+    head: makeSource((7, 3, 5))->translate((0, 0)),
+    body: makeSource((5, 3, 9))->translate((0, 8)),
+    wing1: makeSource((6, 2, 9))->translate((23, 12)),
+    wing2: makeSource((13, 1, 9))->translate((16, 24)),
+    tail1: makeSource((3, 2, 6))->translate((3, 20)),
+    tail2: makeSource((1, 1, 6))->translate((4, 29)),
+  }
+}
+
 /* type direction = [#East | #West | #North | #South]
 type center = [#Right | #Front | #Left | #Back | #Top | #Bottom]
 

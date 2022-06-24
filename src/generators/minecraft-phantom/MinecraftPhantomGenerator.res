@@ -30,34 +30,59 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-module Map = {
-  type t = {
-    head: TextureMap.cuboid,
-    body: TextureMap.cuboid,
-    wing1: TextureMap.cuboid,
-    wing2: TextureMap.cuboid,
-    tail1: TextureMap.cuboid,
-    tail2: TextureMap.cuboid,
-  }
-
-  let phantom = {
-    head: TextureMap.makeCuboid((0, 0), (7, 3, 5)),
-    body: TextureMap.makeCuboid((0, 8), (5, 3, 9)),
-    wing1: TextureMap.makeCuboid((23, 12), (6, 2, 9)),
-    wing2: TextureMap.makeCuboid((16, 24), (13, 1, 9)),
-    tail1: TextureMap.makeCuboid((23, 12), (3, 2, 6)),
-    tail2: TextureMap.makeCuboid((16, 24), (1, 1, 6)),
-  }
-}
-
 let drawHead = (texture: string, (ox, oy): Generator_Builder.position) => {
   let scale = (56, 24, 40)
-  Generator.drawCuboid(texture, Map.phantom.head, (ox, oy), scale, ())
+  Minecraft.drawCuboid(texture, Minecraft.Phantom.phantom.head, (ox, oy), scale, ())
+}
+
+let drawBody = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (40, 24, 72)
+  Minecraft.drawCuboid(
+    texture,
+    Minecraft.Phantom.phantom.body,
+    (ox, oy),
+    scale,
+    ~center=#Bottom,
+    ~direction=#South,
+    (),
+  )
+}
+
+let drawWing1 = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (56, 24, 40)
+  Minecraft.drawCuboid(texture, Minecraft.Phantom.phantom.head, (ox, oy), scale, ())
+}
+
+let drawWing2 = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (56, 24, 40)
+  Minecraft.drawCuboid(texture, Minecraft.Phantom.phantom.head, (ox, oy), scale, ())
+}
+
+let drawTail1 = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (24, 16, 48)
+  Minecraft.drawCuboid(
+    texture,
+    Minecraft.Phantom.phantom.tail1,
+    (ox, oy),
+    scale,
+    ~center=#Bottom,
+    ~direction=#West,
+    (),
+  )
+}
+
+let drawTail2 = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (56, 24, 40)
+  Minecraft.drawCuboid(texture, Minecraft.Phantom.phantom.head, (ox, oy), scale, ())
 }
 
 let drawPhantom = (texture: string) => {
   let (ox, oy) = (225, 37)
   drawHead(texture, (ox, oy))
+  let (ox, oy) = (233, 197)
+  drawBody(texture, (ox, oy))
+  let (ox, oy) = (137, 389)
+  drawTail1(texture, (ox, oy))
 }
 
 let script = () => {
@@ -83,13 +108,13 @@ let script = () => {
     Generator.drawImage("Folds", (0, 0))
   } */
   // Background
-  Generator.drawImage("Foreground", (0, 0))
+  //Generator.drawImage("Foreground", (0, 0))
   // Labels
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
   // Fill Transparent Parts, with a different color while creating
-  Generator.fillBackgroundColor("#ff8000")
+  //Generator.fillBackgroundColor("#ff8000")
 }
 
 let generator: Generator.generatorDef = {
