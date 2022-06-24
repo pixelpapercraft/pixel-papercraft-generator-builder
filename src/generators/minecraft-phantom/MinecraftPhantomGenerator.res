@@ -48,9 +48,54 @@ let drawBody = (texture: string, (ox, oy): Generator_Builder.position) => {
   )
 }
 
-let drawWing1 = (texture: string, (ox, oy): Generator_Builder.position) => {
-  let scale = (56, 24, 40)
-  Minecraft.drawCuboid(texture, Minecraft.Phantom.phantom.head, (ox, oy), scale, ())
+let drawWing1 = (texture: string, (ox, oy): Generator_Builder.position, leftSide: bool) => {
+  let scale = (48, 16, 72)
+  // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
+  if leftSide {
+    let source = Minecraft.Phantom.phantom.wing1
+    let dest =
+      Minecraft.Cuboid.getLayout(scale, #South, #Bottom)->Minecraft.Cuboid.translate((ox, oy))
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.front,
+      dest.front->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.back,
+      dest.back->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.top,
+      dest.top->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.bottom,
+      dest.bottom->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.left,
+      dest.right->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.right,
+      dest.left->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+  } else {
+    Minecraft.drawCuboid(
+      texture,
+      Minecraft.Phantom.phantom.wing1,
+      (ox, oy),
+      scale,
+      ~center=#Bottom,
+      ~direction=#South,
+      (),
+    )
+  }
 }
 
 let drawWing2 = (texture: string, (ox, oy): Generator_Builder.position) => {
@@ -83,6 +128,10 @@ let drawPhantom = (texture: string) => {
   drawBody(texture, (ox, oy))
   let (ox, oy) = (137, 389)
   drawTail1(texture, (ox, oy))
+  let (ox, oy) = (425, 165)
+  drawWing1(texture, (ox, oy), false)
+  let (ox, oy) = (42, 165)
+  drawWing1(texture, (ox, oy), true)
 }
 
 let script = () => {
