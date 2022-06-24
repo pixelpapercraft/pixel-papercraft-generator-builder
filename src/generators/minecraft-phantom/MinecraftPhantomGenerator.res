@@ -18,7 +18,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Phantom",
-    url: requireTexture("faces"),
+    url: requireTexture("phantom"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -174,6 +174,34 @@ let drawTail2 = (texture: string, (ox, oy): Generator_Builder.position) => {
   )
 }
 
+let drawFoldLineCuboidNorth = (
+  (ox, oy): Generator_Builder.position,
+  (width, height, depth): Minecraft.Cuboid.scale,
+) => {
+  Generator.drawFoldLineRect((ox + height, oy, width, height * 2 + depth * 2))
+  Generator.drawFoldLineRect((ox, oy + depth + height, height * 2 + width, depth))
+  Generator.drawFoldLine((ox + height, oy + depth), (ox + height + width, oy + depth))
+}
+
+let drawFolds = () => {
+  let (ox, oy) = (201, 37)
+  Generator.drawFoldLineCuboid((ox, oy), (56, 24, 40), ()) // drawHead
+  let (ox, oy) = (253, 197)
+  drawFoldLineCuboidNorth((ox, oy), (40, 24, 72)) // drawBody
+  let (ox, oy) = (313, 637)
+  Generator.drawFoldLineCuboid((ox, oy), (24, 48, 16), ~leftSide=true, ()) // drawTail1
+  let (ox, oy) = (217, 645)
+  Generator.drawFoldLineCuboid((ox, oy), (8, 48, 8), ~leftSide=true, ()) // drawTail2
+  let (ox, oy) = (449, 197)
+  drawFoldLineCuboidNorth((ox, oy), (48, 16, 72)) // drawWing1
+  //let (ox, oy) = (429, 453)
+  //drawFoldLineCuboidNorth((ox, oy), (104, 8, 72)) // drawWing2
+  let (ox, oy) = (65, 197)
+  drawFoldLineCuboidNorth((ox, oy), (48, 16, 72)) // drawWing1
+  //let (ox, oy) = (45, 453)
+  //drawFoldLineCuboidNorth((ox, oy), (104, 8, 72)) // drawWing2
+}
+
 let drawPhantom = (texture: string) => {
   let (ox, oy) = (201, 37)
   drawHead(texture, (ox, oy))
@@ -199,7 +227,7 @@ let script = () => {
   Generator.defineTextureInput("Phantom Eyes", {standardWidth: 64, standardHeight: 32, choices: []})
 
   // Define user variables
-  Generator.defineBooleanInput("Show Folds", false)
+  Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", false)
 
   // Get user variable values
@@ -211,18 +239,20 @@ let script = () => {
   // Draw Phantom Eyes
   drawPhantom("Phantom Eyes")
 
-  // Fold Lines
-  /* if showFolds {
-    Generator.drawImage("Folds", (0, 0))
-  } */
   // Background
   Generator.drawImage("Foreground", (0, 0))
+
+  // Fold Lines
+  if showFolds {
+    drawFolds()
+  }
+
   // Labels
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
   // Fill Transparent Parts, with a different color while creating
-  Generator.fillBackgroundColor("#ff8000")
+  Generator.fillBackgroundColor("#ffffff")
 }
 
 let generator: Generator.generatorDef = {
