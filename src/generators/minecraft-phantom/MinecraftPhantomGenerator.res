@@ -11,14 +11,14 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
-let imageIds = ["Background", "Labels", "Folds"]
+let imageIds = ["Foreground", "Labels", "Folds"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
     id: "Phantom",
-    url: requireTexture("phantom"),
+    url: requireTexture("testing"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -50,8 +50,14 @@ module Map = {
   }
 }
 
-let drawPhantom = (texture: string, (ox, oy): Generator_Builder.position) => {
-  Generator.drawCuboid(texture, Map.phantom.head, (ox, oy), (64, 96, 48), ~leftSide=true, ())
+let drawHead = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (56, 24, 40)
+  Generator.drawCuboid(texture, Map.phantom.head, (ox, oy), scale, ())
+}
+
+let drawPhantom = (texture: string) => {
+  let (ox, oy) = (225, 37)
+  drawHead(texture, (ox, oy))
 }
 
 let script = () => {
@@ -67,24 +73,23 @@ let script = () => {
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
-  let ox = 0
-  let oy = 0
-  // Background
-  //Generator.drawImage("Background", (0, 0))
-
   // Draw Phantom
-  drawPhantom("Phantom", (ox, oy))
+  drawPhantom("Phantom")
   // Draw Phantom Eyes
-  drawPhantom("Phantom Eyes", (ox, oy))
+  drawPhantom("Phantom Eyes")
 
   // Fold Lines
-  if showFolds {
+  /* if showFolds {
     Generator.drawImage("Folds", (0, 0))
-  }
+  } */
+  // Background
+  Generator.drawImage("Foreground", (0, 0))
   // Labels
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
+  // Fill Transparent Parts, with a different color while creating
+  Generator.fillBackgroundColor("#ff8000")
 }
 
 let generator: Generator.generatorDef = {
