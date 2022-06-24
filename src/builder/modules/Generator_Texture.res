@@ -172,7 +172,7 @@ let drawNearestNeighbor = (
     Context2d.save(context)
 
     // Move to the destination coordinate
-    Context2d.translate(context, dx, dy)
+    Context2d.translate(context, Belt.Int.toFloat(dx), Belt.Int.toFloat(dy))
 
     switch options.rotate {
     | #None => ()
@@ -182,20 +182,20 @@ let drawNearestNeighbor = (
       }
     | #Center(degrees) => {
         let radians = degrees *. Js.Math._PI /. 180.0
-        Context2d.translate(context, dw / 2, dh / 2)
+        Context2d.translate(context, Belt.Int.toFloat(dw) /. 2.0, Belt.Int.toFloat(dh) /. 2.0)
         Context2d.rotate(context, radians)
-        Context2d.translate(context, -dw / 2, -dh / 2)
+        Context2d.translate(context, Belt.Int.toFloat(dw) /. -2.0, Belt.Int.toFloat(dh) /. -2.0)
       }
     }
 
     switch options.flip {
     | #None => ()
     | #Horizontal => {
-        Context2d.translate(context, dw, 0)
+        Context2d.translate(context, Belt.Int.toFloat(dw), 0.0)
         Context2d.scale(context, -1, 1)
       }
     | #Vertical => {
-        Context2d.translate(context, 0, dh)
+        Context2d.translate(context, 0.0, Belt.Int.toFloat(dh))
         Context2d.scale(context, 1, -1)
       }
     }

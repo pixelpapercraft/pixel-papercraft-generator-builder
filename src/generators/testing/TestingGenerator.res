@@ -54,6 +54,18 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Steve-Corners",
+    url: requireTexture("Steve-Corners.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve-Faces",
+    url: requireTexture("Steve-Faces.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve256",
     url: requireTexture("Steve256.png"),
     standardWidth: 256,
@@ -102,268 +114,166 @@ let drawGrid = () => {
   }
 }
 
-let drawHead = ((x, y): (int, int), t: int) => {
-  let head = TextureMap.MinecraftCharacter.steve.base.head
+let drawSteveHeadCuboid3 = (x, y, rotate) => {
   let x = x - 64
   let y = y - 64
-  let p = (x, y)
-  let s = (64, 64, 64)
 
-  let c1 = "#7b7b7b"
-  let c2 = "#b7b7b7"
-  let c3 = "#000000"
-
-  let d1 = [4, 4]
-  let d2 = [2, 2]
-  let d3 = []
-
-  let o1 = 6
-  let o2 = 3
-  let o3 = 0
-
-  Generator.drawImage("Tabs", (x - 26, y - 1))
-  Generator.drawCuboid("Creeper", head, (x, y), (64, 64, 64), ())
-
-  /*
-  0: current fold line
-  1: PPA's original proposed lines
-  2: Larger and darker cut lines, lighter and smaller fold lines- tabs are cut lines
-  3: solid black cut lines, dark and small fold lines - tabs are cut lines
-  4: 2 - tabs are fold lines
-  5: 3 - tabs are fold lines
-  6: smaller lines - darker cut lines, lighter fold lines - tabs are cut lines
-  7: 6 - tabs are fold lines
-
-  8: All solid lines - black
-  9: All solid lines - gray
-  10: All solid lines - black cut, gray fold
-  11: All solid lines - dark cut, light fold
-  12: 10 - tabs are cut lines
-  13: 11 - tabs are cut lines
-  14: 6 - larger lines
-  15: 7 - larger lines
- */
-  switch t {
-  | 0 => Generator.drawFoldLineCuboid(p, s, ())
-  | 1 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d1,
-      ~offset=o3,
-      ~offset2=o1,
-      0,
-    )
-  | 2 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d2,
-      ~offset=o1,
-      ~offset2=o2,
-      0,
-    )
-  | 3 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d2,
-      ~offset=o3,
-      ~offset2=o2,
-      0,
-    )
-  | 4 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d2,
-      ~offset=o1,
-      ~offset2=o2,
-      1,
-    )
-  | 5 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d2,
-      ~offset=o3,
-      ~offset2=o2,
-      1,
-    )
-  | 6 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d2,
-      ~pattern2=d2,
-      ~offset=o2,
-      ~offset2=o2,
-      0,
-    )
-  | 7 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d2,
-      ~pattern2=d2,
-      ~offset=o2,
-      ~offset2=o2,
-      1,
-    )
-  | 8 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c3,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 9 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 10 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 11 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 12 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      1,
-    )
-  | 13 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      1,
-    )
-  | 14 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d1,
-      ~offset=o1,
-      ~offset2=o1,
-      0,
-    )
-  | 15 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d1,
-      ~offset=o1,
-      ~offset2=o1,
-      1,
-    )
-  | _ =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d2,
-      ~offset=o1,
-      ~offset2=o2,
-      1,
-    )
-  }
+  Generator.fillRect((x, y, 128, 96), "#ff8000")
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (32, 32, 32),
+    ~rotate,
+    //~center=#Bottom,
+    //~direction=#South,
+    (),
+  )
+  Generator.fillRect((x + 32, y + 32, 32, 32), "#80008080")
 }
 
-let drawCuboidStylesTestPage = () => {
-  Generator.usePage("Cuboid Fold Line Styles 1")
+let drawSteveBodyCuboid2 = (x, y, rotate) => {
+  let x = x - 64
+  let y = y - 64
 
-  drawHead((99, 79), 8)
-  drawHead((387, 79), 9)
-  drawHead((99, 279), 10)
-  drawHead((387, 279), 11)
-  drawHead((99, 479), 12)
-  drawHead((387, 479), 13)
-  drawHead((99, 679), 14)
-  drawHead((387, 679), 15)
+  Generator.fillRect((x, y, 128, 112), "#ff8000")
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (32, 48, 32),
+    ~rotate,
+    ~center=#Right,
+    //~direction=#North,
+    (),
+  )
+  Generator.fillRect((x + 32, y + 32, 32, 48), "#80008080")
+}
+
+let drawCuboidTestPage4 = () => {
+  Generator.usePage("Cuboid 4")
   Generator.fillBackgroundColorWithWhite()
 
-  Generator.usePage("Cuboid Fold Line Styles 2")
+  // Define a counter variable, with a default value of 1
+  let rotation =
+    Generator.getSelectInputValue("Rotation")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
 
-  drawHead((99, 79), 0)
-  drawHead((387, 79), 1)
-  drawHead((99, 279), 2)
-  drawHead((387, 279), 3)
-  drawHead((99, 479), 4)
-  drawHead((387, 479), 5)
-  drawHead((99, 679), 6)
-  drawHead((387, 679), 7)
+  // Show the counter
+  Generator.defineText("Rotation is " ++ Belt.Int.toString(rotation))
+
+  // Define a button that increments the counter
+  Generator.defineButtonInput("Increment Rotation", () => {
+    let nextRotation = rotation > 359 ? 0 : mod(rotation + 15, 360)
+    let nextRotationString = Belt.Int.toString(nextRotation)
+    Generator.setSelectInputValue("Rotation", nextRotationString)
+  })
+
+  drawSteveHeadCuboid3(99, 79, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 79, Belt.Int.toFloat(rotation))
+  drawSteveHeadCuboid3(99, 279, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 279, Belt.Int.toFloat(rotation))
+  drawSteveHeadCuboid3(99, 479, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 479, Belt.Int.toFloat(rotation))
+  drawSteveHeadCuboid3(99, 679, Belt.Int.toFloat(rotation))
+  drawSteveBodyCuboid2(387, 679, Belt.Int.toFloat(rotation))
+}
+
+let drawSteveBodyCuboid = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, 1, 1), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (64, 96, 32),
+    ~center,
+    ~direction=#South,
+    (),
+  )
+}
+
+let drawCuboidTestPage3 = () => {
+  Generator.usePage("Cuboid 3")
   Generator.fillBackgroundColorWithWhite()
+  let m = 5.0
+  Generator.defineText("Answer: " ++ Belt.Float.toString((m -. 3.0) *. -180.0 +. 90.0))
+
+  drawSteveBodyCuboid(99, 79, #Right)
+  drawSteveBodyCuboid(387, 79, #Front)
+  drawSteveBodyCuboid(99, 379, #Left)
+  drawSteveBodyCuboid(387, 379, #Back)
+  drawSteveBodyCuboid(99, 579, #Top)
+  drawSteveBodyCuboid(387, 579, #Bottom)
+}
+
+let drawSteveHeadCuboid2 = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (64, 64, 64),
+    ~center,
+    ~direction=#East,
+    (),
+  )
+}
+
+let drawCuboidTestPage2 = () => {
+  Generator.usePage("Cuboid 2")
+  Generator.fillBackgroundColorWithWhite()
+
+  let n = 1
+  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
+  drawSteveHeadCuboid2(99, 79, #Right)
+  drawSteveHeadCuboid2(387, 79, #Front)
+  drawSteveHeadCuboid2(99, 279, #Left)
+  drawSteveHeadCuboid2(387, 279, #Back)
+  drawSteveHeadCuboid2(99, 479, #Top)
+  drawSteveHeadCuboid2(387, 479, #Bottom)
+  drawSteveHeadCuboid2(99, 679, #Front)
+  drawSteveHeadCuboid2(387, 679, #Front)
+}
+
+let drawSteveHeadCuboid = (x, y, size, direction) => {
+  let (w, h) = switch direction {
+  | #North | #South => (size * 3, size * 4)
+  | #West | #East => (size * 4, size * 3)
+  }
+  Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
+  Minecraft.drawCuboid(
+    "Steve-Corners",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (size, size, size),
+    ~direction,
+    (),
+  )
+}
+
+let drawCuboidTestPage = () => {
+  Generator.usePage("Cuboid")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawSteveHeadCuboid(10, 10, 10, #East)
+  drawSteveHeadCuboid(100, 10, 10, #West)
+  drawSteveHeadCuboid(10, 100, 10, #North)
+  drawSteveHeadCuboid(100, 100, 10, #South)
+
+  drawSteveHeadCuboid(200, 10, 33, #East)
+  drawSteveHeadCuboid(400, 10, 33, #West)
+  drawSteveHeadCuboid(200, 150, 33, #North)
+  drawSteveHeadCuboid(400, 150, 33, #South)
+
+  drawSteveHeadCuboid(10, 300, 64, #East)
+  drawSteveHeadCuboid(330, 300, 64, #West)
+  drawSteveHeadCuboid(10, 550, 64, #North)
+  drawSteveHeadCuboid(330, 550, 64, #South)
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {
@@ -883,7 +793,10 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
-  drawCuboidStylesTestPage()
+  drawCuboidTestPage4()
+  drawCuboidTestPage3()
+  drawCuboidTestPage2()
+  drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()

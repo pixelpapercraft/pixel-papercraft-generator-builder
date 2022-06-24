@@ -14,6 +14,7 @@ let history = [
   "27 May 2021 lostminer - Convert to ReScript generator.",
   "17 Jul 2021 M16 - Updated generator photo.",
   "27 May 2022 NinjolasNJM - Made folds drawn using drawFolds, and parts drawn using drawCuboid, and added title",
+  "12 Jun 2022 NinjolasNJM - Updated to use new Minecraft module",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -56,8 +57,8 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-let steve = TextureMap.MinecraftCharacter.steve
-let alex = TextureMap.MinecraftCharacter.alex
+let steve = Minecraft.Character.steve
+let alex = Minecraft.Character.alex
 
 let script = () => {
   // Inputs
@@ -101,65 +102,75 @@ let script = () => {
 
   let drawHead = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 64, 64)
-    Generator.drawCuboid("Skin", char.base.head, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Skin", char.base.head, (ox, oy), scale, ())
     if showHeadOverlay {
-      Generator.drawCuboid("Skin", char.overlay.head, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Skin", char.overlay.head, (ox, oy), scale, ())
     }
-    if showFolds {
+    /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    }
+    } */
   }
 
   let drawBody = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 96, 32)
-    Generator.drawCuboid("Skin", char.base.body, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Skin", char.base.body, (ox, oy), scale, ())
     if showBodyOverlay {
-      Generator.drawCuboid("Skin", char.overlay.body, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Skin", char.overlay.body, (ox, oy), scale, ())
     }
-    if showFolds {
+    /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    }
+    } */
   }
 
   let drawRightArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Generator.drawCuboid("Skin", char.base.rightArm, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Skin", char.base.rightArm, (ox, oy), scale, ())
     if showRightArmOverlay {
-      Generator.drawCuboid("Skin", char.overlay.rightArm, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Skin", char.overlay.rightArm, (ox, oy), scale, ())
     }
-    if showFolds {
+    /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    }
+    } */
   }
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Generator.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~leftSide=true, ())
+    Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
     if showLeftArmOverlay {
-      Generator.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~leftSide=true, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~direction=#West, ())
     }
-    if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~leftSide=true, ())
-    }
+    /* if showFolds {
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
+    } */
   }
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Generator.drawCuboid("Skin", char.base.rightLeg, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Skin", char.base.rightLeg, (ox, oy), scale, ())
     if showRightLegOverlay {
-      Generator.drawCuboid("Skin", char.overlay.rightLeg, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Skin", char.overlay.rightLeg, (ox, oy), scale, ())
     }
-    if showFolds {
+    /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    }
+    } */
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Generator.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~leftSide=true, ())
+    Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
     if showLeftLegOverlay {
-      Generator.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~leftSide=true, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~direction=#West, ())
     }
-    if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~leftSide=true, ())
+    /* if showFolds {
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
+    } */
+  }
+
+  let drawFolds = () => {
+    if isAlexModel {
+      Generator.drawImage("AlexFolds", (0, 0))
+    } else {
+      Generator.drawImage("SteveFolds", (0, 0))
     }
+
+    // Later replace with drawLineFold functions
   }
 
   // Background
@@ -174,8 +185,8 @@ let script = () => {
 
   // Head
 
-  let ox = 74
-  let oy = 25
+  let (ox, oy) = (74, 25)
+
   drawHead((ox, oy))
   Generator.defineRegionInput((ox, oy, 256, 192), () => {
     Generator.setBooleanInputValue("Show Head Overlay", !showHeadOverlay)
@@ -183,8 +194,8 @@ let script = () => {
 
   // Body
 
-  let ox = 268
-  let oy = 201
+  let (ox, oy) = (268, 201)
+
   drawBody((ox, oy))
   Generator.defineRegionInput((ox, oy, 192, 160), () => {
     Generator.setBooleanInputValue("Show Body Overlay", !showBodyOverlay)
@@ -194,8 +205,8 @@ let script = () => {
 
   // Right Arm
 
-  let ox = isAlexModel ? 107 : 99
-  let oy = 373
+  let (ox, oy) = (isAlexModel ? 107 : 99, 373)
+
   drawRightArm((ox, oy))
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 160), () => {
     Generator.setBooleanInputValue("Show Right Arm Overlay", !showRightArmOverlay)
@@ -203,17 +214,17 @@ let script = () => {
 
   // Left Arm
 
-  let ox = isAlexModel ? 391 : 383
-  let oy = 373
+  let (ox, oy) = (415, 373)
+
   drawLeftArm((ox, oy))
-  Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 166), () => {
+  Generator.defineRegionInput((ox - 32, oy, isAlexModel ? 112 : 128, 166), () => {
     Generator.setBooleanInputValue("Show Left Arm Overlay", !showLeftArmOverlay)
   })
 
   // Right Leg
 
-  let ox = 99
-  let oy = 587
+  let (ox, oy) = (99, 587)
+
   drawRightLeg((ox, oy))
   Generator.defineRegionInput((ox, oy, 128, 160), () => {
     Generator.setBooleanInputValue("Show Right Leg Overlay", !showRightLegOverlay)
@@ -221,12 +232,18 @@ let script = () => {
 
   // Left Leg
 
-  let ox = 383
-  let oy = 587
+  let (ox, oy) = (415, 587)
+
   drawLeftLeg((ox, oy))
-  Generator.defineRegionInput((ox, oy, 128, 160), () => {
+  Generator.defineRegionInput((ox - 32, oy, 128, 160), () => {
     Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
   })
+
+  // Folds
+
+  if showFolds {
+    drawFolds()
+  }
 
   // Labels
 
