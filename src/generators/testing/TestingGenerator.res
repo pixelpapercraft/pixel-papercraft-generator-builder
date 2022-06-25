@@ -50,6 +50,18 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Steve-Corners",
+    url: requireTexture("Steve-Corners.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve-Faces",
+    url: requireTexture("Steve-Faces.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve256",
     url: requireTexture("Steve256.png"),
     standardWidth: 256,
@@ -96,6 +108,74 @@ let drawGrid = () => {
       Generator.drawImage("Grid", (xpos, ypos))
     }
   }
+}
+
+/* let drawSteveHeadCuboid2 = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (64, 96, 32),
+    ~center,
+    //~direction=#South,
+    (),
+  )
+}
+
+let drawCuboidTestPage2 = () => {
+  Generator.usePage("Cuboid 2")
+  Generator.fillBackgroundColorWithWhite()
+
+  let n = 1
+  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
+  drawSteveHeadCuboid2(99, 79, #Right)
+  drawSteveHeadCuboid2(387, 79, #Front)
+  drawSteveHeadCuboid2(99, 279, #Left)
+  drawSteveHeadCuboid2(387, 279, #Back)
+  drawSteveHeadCuboid2(99, 479, #Top)
+  drawSteveHeadCuboid2(387, 479, #Bottom)
+  drawSteveHeadCuboid2(99, 679, #Front)
+  drawSteveHeadCuboid2(387, 679, #Front)
+} */
+
+let drawSteveHeadCuboid = (x, y, size, direction) => {
+  let (w, h) = switch direction {
+  | #North | #South => (size * 3, size * 4)
+  | #West | #East => (size * 4, size * 3)
+  }
+  Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
+  Minecraft.drawCuboid(
+    "Steve-Corners",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (size, size, size),
+    ~direction,
+    (),
+  )
+}
+
+let drawCuboidTestPage = () => {
+  Generator.usePage("Cuboid")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawSteveHeadCuboid(10, 10, 10, #East)
+  drawSteveHeadCuboid(100, 10, 10, #West)
+  drawSteveHeadCuboid(10, 100, 10, #North)
+  drawSteveHeadCuboid(100, 100, 10, #South)
+
+  drawSteveHeadCuboid(200, 10, 33, #East)
+  drawSteveHeadCuboid(400, 10, 33, #West)
+  drawSteveHeadCuboid(200, 150, 33, #North)
+  drawSteveHeadCuboid(400, 150, 33, #South)
+
+  drawSteveHeadCuboid(10, 300, 64, #East)
+  drawSteveHeadCuboid(330, 300, 64, #West)
+  drawSteveHeadCuboid(10, 550, 64, #North)
+  drawSteveHeadCuboid(330, 550, 64, #South)
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {
@@ -615,6 +695,8 @@ let drawTextureCropTest = () => {
 }
 
 let script = () => {
+  //drawCuboidTestPage2()
+  drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
