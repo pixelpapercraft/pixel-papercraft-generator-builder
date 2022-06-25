@@ -70,6 +70,38 @@ module Input = {
 }
 
 module Model = {
+  module Variable = {
+    type t = [#Integer(int) | #String(string) | #Float(float) | #Boolean(bool)]
+
+    let toString = (value: t) => {
+      switch value {
+      | #String(value) => Some(value)
+      | _ => None
+      }
+    }
+
+    let toInteger = (value: t) => {
+      switch value {
+      | #Integer(value) => Some(value)
+      | _ => None
+      }
+    }
+
+    let toFloat = (value: t) => {
+      switch value {
+      | #Float(value) => Some(value)
+      | _ => None
+      }
+    }
+
+    let toBoolean = (value: t) => {
+      switch value {
+      | #Boolean(value) => Some(value)
+      | _ => None
+      }
+    }
+  }
+
   type pageRegion = {
     pageId: string,
     region: (int, int, int, int),
@@ -82,6 +114,7 @@ module Model = {
     selects: Js.Dict.t<string>,
     ranges: Js.Dict.t<int>,
     strings: Js.Dict.t<string>,
+    variables: Js.Dict.t<Variable.t>,
   }
 
   type t = {
@@ -102,6 +135,7 @@ module Model = {
       selects: Js.Dict.empty(),
       ranges: Js.Dict.empty(),
       strings: Js.Dict.empty(),
+      variables: Js.Dict.empty(),
     },
   }
 }
@@ -152,6 +186,61 @@ let getCurrentPagePixelColor = (model: Model.t, x, y) => {
   | None => None
   | Some(page) => getCanvasWithContextPixelColor(page.canvasWithContext, x, y)
   }
+}
+
+let setVariable = (model: Model.t, id: string, value: Model.Variable.t) => {
+  let variables = Js.Dict.fromArray(Js.Dict.entries(model.values.variables))
+  Js.Dict.set(variables, id, value)
+  {
+    ...model,
+    values: {
+      ...model.values,
+      variables: variables,
+    },
+  }
+}
+
+let getVariable = (model: Model.t, id: string) => {
+  Js.Dict.get(model.values.variables, id)
+}
+
+let getVariableMap = (model: Model.t, id: string, fn) => {
+  switch getVariable(model, id) {
+  | None => None
+  | Some(value) => fn(value)
+  }
+}
+
+let setStringVariable = (model: Model.t, id: string, value: string) => {
+  setVariable(model, id, #String(value))
+}
+
+let getStringVariable = (model: Model.t, id: string): option<string> => {
+  getVariableMap(model, id, Model.Variable.toString)
+}
+
+let setIntegerVariable = (model: Model.t, id: string, value: int) => {
+  setVariable(model, id, #Integer(value))
+}
+
+let getFloatVariable = (model: Model.t, id: string): option<float> => {
+  getVariableMap(model, id, Model.Variable.toFloat)
+}
+
+let setFloatVariable = (model: Model.t, id: string, value: float) => {
+  setVariable(model, id, #Float(value))
+}
+
+let getIntegerVariable = (model: Model.t, id: string): option<int> => {
+  getVariableMap(model, id, Model.Variable.toInteger)
+}
+
+let setBooleanVariable = (model: Model.t, id: string, value: bool) => {
+  setVariable(model, id, #Boolean(value))
+}
+
+let getBooleanVariable = (model: Model.t, id: string): option<bool> => {
+  getVariableMap(model, id, Model.Variable.toBoolean)
 }
 
 let hasInput = (model: Model.t, idToFind: string) => {

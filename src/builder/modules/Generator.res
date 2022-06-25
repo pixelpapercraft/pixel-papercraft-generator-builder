@@ -19,6 +19,38 @@ let setModel = newModel => {
 
 let getModel = () => model.contents
 
+let setStringVariable = (id, value) => {
+  model := Builder.setStringVariable(model.contents, id, value)
+}
+
+let getStringVariable = id => {
+  Builder.getStringVariable(model.contents, id)
+}
+
+let setIntegerVariable = (id, value) => {
+  model := Builder.setIntegerVariable(model.contents, id, value)
+}
+
+let getIntegerVariable = id => {
+  Builder.getIntegerVariable(model.contents, id)
+}
+
+let setFloatVariable = (id, value) => {
+  model := Builder.setFloatVariable(model.contents, id, value)
+}
+
+let getFloatVariable = id => {
+  Builder.getFloatVariable(model.contents, id)
+}
+
+let setBooleanVariable = (id, value) => {
+  model := Builder.setBooleanVariable(model.contents, id, value)
+}
+
+let getBooleanVariable = id => {
+  Builder.getBooleanVariable(model.contents, id)
+}
+
 let getPagePixelColor = (id, x, y) => {
   Builder.getPagePixelColor(model.contents, id, x, y)
 }
@@ -217,4 +249,223 @@ let hasTexture = (id: string) => {
 
 let drawText = (text: string, position: Builder.position, size: int) => {
   model := Generator_Builder.drawText(model.contents, text, position, size)
+}
+
+module Point = {
+  type t = (float, float)
+
+  let toIntPoint = ((x, y): t) => {
+    (x->Js.Math.round->Belt.Int.fromFloat, y->Js.Math.round->Belt.Int.fromFloat)
+  }
+
+  let translate = ((x, y): t, dx, dy) => {
+    (x +. dx, y +. dy)
+  }
+}
+
+module Angle = {
+  let toRadians = degrees => {
+    degrees *. (Js.Math._PI /. 180.0)
+  }
+}
+
+module Orientation = {
+  type t = [#North | #South | #East | #West]
+}
+
+// Normal
+//
+//        p3   p4
+//    +---+-----+---+        ---
+//    |  /       \  |         |
+//    | /         \ |         | Actual tab height
+//    |/           \|         |
+//    +-------------+        ---
+//    p1           p4
+//
+//
+// Overflow
+//
+//     +---------+      ---
+//     |         |       |
+//     |         |       | Rectangle tab height
+//     |         |       |
+//     | p2 X p3 |       |    ---
+//     |   / \   |       |     |
+//     |  /   \  |       |     | Actual tab height
+//     | /     \ |       |     |
+//     |/       \|       |     |
+//     +----+----+      ---   ---
+//     p1        p4
+//
+let drawTab = (
+  rectangle: Builder.rectangle,
+  orientation: Orientation.t,
+  ~showFoldLine: bool=true,
+  ~tabAngle: float=45.0,
+  (),
+) => {
+  let (x, y, w, h) = rectangle
+
+  let x = Belt.Int.toFloat(x)
+  let y = Belt.Int.toFloat(y)
+  let w = Belt.Int.toFloat(w)
+  let h = Belt.Int.toFloat(h)
+
+  let tabAngleRad = Angle.toRadians(tabAngle)
+
+  switch orientation {
+  | #North => {
+      //
+      //    p2 ______ p3
+      //      /|    |\
+      //     / |    | \
+      // p1 +--|----|--+ p4
+      //
+
+      let maxInset = w /. 2.0
+      let inset = h /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, h)
+      }
+
+      let p1 = (0.0, h)
+      let p2 = (0.0 +. inset, h -. tabHeight)
+      let p3 = (w -. inset, h -. tabHeight)
+      let p4 = (w, h)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      drawLine(p2, p1, ())
+      drawLine(p2, p3, ())
+      drawLine(p4, p3, ())
+
+      if showFoldLine {
+        drawFoldLine(p4, p1)
+      }
+    }
+  | #East => {
+      //
+      //  p1
+      //   +
+      //   | ⟍
+      //   |   ⟍  p2
+      //   |     |
+      //   |     |
+      //   |    ⟋ p3
+      //   |  ⟋
+      //   +
+      //  p4
+      //
+
+      let maxInset = h /. 2.0
+      let inset = w /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, w)
+      }
+
+      let p1 = (0.0, 0.0)
+      let p2 = (tabHeight, 0.0 +. inset)
+      let p3 = (tabHeight, h -. inset)
+      let p4 = (0.0, h)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      drawLine(p1, p2, ())
+      drawLine(p3, p2, ())
+      drawLine(p3, p4, ())
+
+      if showFoldLine {
+        drawFoldLine(p1, p4)
+      }
+    }
+  | #South => {
+      //
+      // p4 +----------+ p1
+      //     \         /
+      //      \      /
+      //    p3 +----+ p2
+      //
+
+      let maxInset = w /. 2.0
+      let inset = h /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, h)
+      }
+
+      let p1 = (w, 0.0)
+      let p2 = (w -. inset, tabHeight)
+      let p3 = (0.0 +. inset, tabHeight)
+      let p4 = (0.0, 0.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      drawLine(p2, p1, ())
+      drawLine(p2, p3, ())
+      drawLine(p4, p3, ())
+
+      if showFoldLine {
+        drawFoldLine(p4, p1)
+      }
+    }
+  | #West => {
+      //
+      //       p4
+      //         +
+      //       / |
+      //  p3 /   |
+      //    |    |
+      //    |    |
+      //  p2 \   |
+      //       \ |
+      //         +
+      //        p1
+      //
+
+      let maxInset = h /. 2.0
+      let inset = w /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, w)
+      }
+
+      let p1 = (w, h)
+      let p2 = (w -. tabHeight, h -. inset)
+      let p3 = (w -. tabHeight, 0.0 +. inset)
+      let p4 = (w, 0.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      drawLine(p1, p2, ())
+      drawLine(p3, p2, ())
+      drawLine(p3, p4, ())
+
+      if showFoldLine {
+        drawFoldLine(p1, p4)
+      }
+    }
+  }
 }
