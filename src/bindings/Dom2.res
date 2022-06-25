@@ -108,7 +108,7 @@ module Context2d = {
   @send external putImageData: (imageData, int, int) => unit = "putImageData"
   @send external save: context2d => unit = "save"
   @send external restore: context2d => unit = "restore"
-  @send external translate: (context2d, int, int) => unit = "translate"
+  @send external translate: (context2d, float, float) => unit = "translate"
   @send external scale: (context2d, int, int) => unit = "scale"
   @send external rotate: (context2d, float) => unit = "rotate"
   @send external fillRect: (context2d, int, int, int, int) => unit = "fillRect"
