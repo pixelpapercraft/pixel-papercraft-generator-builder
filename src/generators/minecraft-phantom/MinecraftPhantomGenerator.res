@@ -256,7 +256,7 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", false)
+  Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
   let showLabels = Generator.getBooleanInputValue("Show Labels")
