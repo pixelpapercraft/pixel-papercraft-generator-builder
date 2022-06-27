@@ -11,6 +11,29 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
+let video: Generator.videoDef = {url: "https://www.youtube.com/embed/pgz6PnHkmpY"}
+
+let instructions = `
+## How to use the Minecraft Phantom Generator?
+
+### Option 1: Standard Model
+
+* Download and print the phantom design without turning on the  "Action Figure" toggle.
+* Using the dashed tabs, make the design normally.
+
+### Option 2: Simple Moving Model
+
+* Download and print the phantom design without turning on the  "Action Figure" toggle.
+* Cut out the dashed tabs, and cut along the larger gray dashed lines.
+* Glue each part to each other by the colored tab to where the arrows point. Complete the outer parts first, followed by the next inner parts, with the body last.
+* Glue the head to the body by the white label.
+
+### Option 3: Action Figure Model
+
+* Turn on the "Action Figure" toggle, then download and print the phantom design.
+* Complete the design like a regular action figure or bendable design. (If you are reading this, then NinjolasNJM forgot to expound on this option's instructions.)
+`
+
 let imageIds = ["Foreground", "Labels", "Folds"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
@@ -288,8 +311,8 @@ let generator: Generator.generatorDef = {
   name: name,
   history: history,
   thumbnail: None,
-  video: None,
-  instructions: None,
+  video: Some(video),
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
