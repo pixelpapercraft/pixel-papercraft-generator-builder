@@ -34,7 +34,7 @@ let instructions = `
 * Complete the design like a regular action figure or bendable design. (If you are reading this, then NinjolasNJM forgot to expound on this option's instructions.)
 `
 
-let imageIds = ["Foreground", "Labels", "Folds"]
+let imageIds = ["Foreground", "Folds", "Foreground-Action-Figure", "Folds-Action-Figure", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -280,10 +280,12 @@ let script = () => {
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
+  Generator.defineBooleanInput("Action Figure", true)
 
   // Get user variable values
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let actionFigure = Generator.getBooleanInputValue("Action Figure")
 
   // Draw Phantom
   drawPhantom("Phantom")
@@ -291,11 +293,17 @@ let script = () => {
   drawPhantom("Phantom Eyes")
 
   // Foreground
-  Generator.drawImage("Foreground", (0, 0))
+  if actionFigure {
+    Generator.drawImage("Foreground-Action-Figure", (0, 0))
+  } else {
+    Generator.drawImage("Foreground", (0, 0))
+  }
 
   // Fold Lines
   if showFolds {
-    drawFolds()
+    if !actionFigure {
+      drawFolds()
+    }
   }
 
   // Labels
@@ -311,8 +319,8 @@ let generator: Generator.generatorDef = {
   name: name,
   history: history,
   thumbnail: None,
-  video: Some(video),
-  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
+  video: None, //Some(video),
+  instructions: None, // Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
