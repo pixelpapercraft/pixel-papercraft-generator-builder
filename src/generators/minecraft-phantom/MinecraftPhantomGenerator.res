@@ -19,12 +19,12 @@ let instructions = `
 ### Option 1: Standard Model
 
 * Download and print the phantom design without turning on the  "Action Figure" toggle.
-* Using the dashed tabs, make the design normally.
+* Using the dashed tabs and ignoring the colored tabs, make the design normally.
 
 ### Option 2: Simple Moving Model
 
 * Download and print the phantom design without turning on the  "Action Figure" toggle.
-* Cut out the dashed tabs, and cut along the larger gray dashed lines.
+* Ignore the dashed tabs.
 * Glue each part to each other by the colored tab to where the arrows point. Complete the outer parts first, followed by the next inner parts, with the body last.
 * Glue the head to the body by the white label.
 
@@ -41,7 +41,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Phantom",
-    url: requireTexture("phantom"),
+    url: requireTexture("testing"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -197,6 +197,111 @@ let drawTail2 = (texture: string, (ox, oy): Generator_Builder.position) => {
   )
 }
 
+let drawBodyActionFigure = (texture: string, (ox, oy): Generator_Builder.position) => {
+  let scale = (40, 24, 72)
+  Minecraft.drawCuboid(
+    texture,
+    Minecraft.Phantom.phantom.body,
+    (ox, oy),
+    scale,
+    ~center=#Bottom,
+    ~direction=#South,
+    (),
+  )
+}
+
+let drawWing1ActionFigure = (
+  texture: string,
+  (ox, oy): Generator_Builder.position,
+  leftSide: bool,
+) => {
+  let scale = (48, 16, 72)
+  // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
+  if leftSide {
+    let source = Minecraft.Phantom.phantom.wing1
+    let dest = Minecraft.Cuboid.getLayout(scale, #North, #Top)->Minecraft.Cuboid.translate((ox, oy))
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.front,
+      dest.front->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.back,
+      dest.back->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.top,
+      dest.top->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.bottom,
+      dest.bottom->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.left,
+      dest.right->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.right,
+      dest.left->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    // New Things
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.bottom,
+      dest.bottom
+      ->Minecraft.Cuboid.Face.translate((64, -88))
+      ->Minecraft.Cuboid.Face.rotate(180.0)
+      ->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.front,
+      dest.front->Minecraft.Cuboid.Face.translate((-48, 0)),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.back,
+      dest.back->Minecraft.Cuboid.Face.translate((-48, 0)),
+    )
+  } else {
+    Minecraft.drawCuboid(
+      texture,
+      Minecraft.Phantom.phantom.wing1,
+      (ox, oy),
+      scale,
+      ~center=#Top,
+      ~direction=#North,
+      (),
+    )
+    // New things
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      Minecraft.Phantom.phantom.wing1.bottom,
+      Minecraft.Cuboid.Face.make((ox - 48, oy + 16, 48, 72))->Minecraft.Cuboid.Face.flip(
+        #Horizontal,
+      ),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      Minecraft.Phantom.phantom.wing1.front,
+      Minecraft.Cuboid.Face.make((ox + 64, oy + 88, 48, 16))->Minecraft.Cuboid.Face.flip(
+        #Horizontal,
+      ),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      Minecraft.Phantom.phantom.wing1.back,
+      Minecraft.Cuboid.Face.make((ox + 64, oy, 48, 16))->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+  }
+}
+
 let drawFoldLineCuboidNorth = (
   (ox, oy): Generator_Builder.position,
   (width, height, depth): Minecraft.Cuboid.scale,
@@ -253,7 +358,7 @@ let drawFolds = () => {
   Generator.drawImage("Folds", (0, 0))
 }
 
-let drawPhantom = (texture: string) => {
+let drawPhantom = (texture: string, showFolds: bool, showLabels: bool) => {
   let (ox, oy) = (201, 37)
   drawHead(texture, (ox, oy))
   let (ox, oy) = (253, 197)
@@ -270,6 +375,51 @@ let drawPhantom = (texture: string) => {
   drawWing1(texture, (ox, oy), true)
   let (ox, oy) = (45, 453)
   drawWing2(texture, (ox, oy), true)
+
+  // Foreground
+  Generator.drawImage("Foreground", (0, 0))
+
+  // Fold Lines
+  if showFolds {
+    drawFolds()
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
+  }
+}
+
+let drawPhantomActionFigure = (texture: string, showFolds: bool, showLabels: bool) => {
+  let (ox, oy) = (201, 37)
+  drawHead(texture, (ox, oy))
+  let (ox, oy) = (253, 197)
+  drawBodyActionFigure(texture, (ox, oy))
+  let (ox, oy) = (313, 637)
+  drawTail1(texture, (ox, oy))
+  let (ox, oy) = (217, 645)
+  drawTail2(texture, (ox, oy))
+  let (ox, oy) = (449, 197)
+  drawWing1ActionFigure(texture, (ox, oy), false)
+  let (ox, oy) = (429, 453)
+  drawWing2(texture, (ox, oy), false)
+  let (ox, oy) = (65, 197)
+  drawWing1ActionFigure(texture, (ox, oy), true)
+  let (ox, oy) = (45, 453)
+  drawWing2(texture, (ox, oy), true)
+
+  // Foreground
+  Generator.drawImage("Foreground-Action-Figure", (0, 0))
+
+  // Fold Lines
+  if showFolds {
+    drawFolds()
+  }
+
+  // Labels
+  if showLabels {
+    Generator.drawImage("Labels", (0, 0))
+  }
 }
 
 let script = () => {
@@ -288,30 +438,18 @@ let script = () => {
   let actionFigure = Generator.getBooleanInputValue("Action Figure")
 
   // Draw Phantom
-  drawPhantom("Phantom")
-  // Draw Phantom Eyes
-  drawPhantom("Phantom Eyes")
-
-  // Foreground
   if actionFigure {
-    Generator.drawImage("Foreground-Action-Figure", (0, 0))
+    drawPhantomActionFigure("Phantom", false, false) //, showFolds, showLabels)
+    // Draw Phantom Eyes
+    drawPhantomActionFigure("Phantom Eyes", false, false) //, showFolds, showLabels)
   } else {
-    Generator.drawImage("Foreground", (0, 0))
+    drawPhantom("Phantom", showFolds, showLabels)
+    // Draw Phantom Eyes
+    drawPhantom("Phantom Eyes", showFolds, showLabels)
   }
 
-  // Fold Lines
-  if showFolds {
-    if !actionFigure {
-      drawFolds()
-    }
-  }
-
-  // Labels
-  if showLabels {
-    Generator.drawImage("Labels", (0, 0))
-  }
   // Fill Transparent Parts, with a different color while creating
-  Generator.fillBackgroundColor("#ffffff")
+  Generator.fillBackgroundColor("#ff8000")
 }
 
 let generator: Generator.generatorDef = {
