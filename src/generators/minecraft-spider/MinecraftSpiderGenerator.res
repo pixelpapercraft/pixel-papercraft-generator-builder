@@ -89,37 +89,67 @@ let drawThorax = (texture: string, (ox, oy): Generator_Builder.position) => {
 
 let drawAbdomen = (texture: string, (ox, oy): Generator_Builder.position) => {
   let scale = (80, 64, 96)
-  drawCuboidCenterTopRotate180(texture, Minecraft.Spider.spider.abdomen, (ox, oy), scale, #West)
+  drawCuboidCenterTopRotate180(texture, Minecraft.Spider.spider.abdomen, (ox, oy), scale, #East)
 }
 
-let drawLeg = (texture: string, (ox, oy): Generator_Builder.position) => {
+let drawLeg = (
+  texture: string,
+  (ox, oy): Generator_Builder.position,
+  direction: Minecraft.Cuboid.direction,
+  leftSide: bool,
+) => {
   let scale = (128, 16, 16)
-  Minecraft.drawCuboid(
-    texture,
-    Minecraft.Spider.spider.leg,
-    (ox, oy),
-    scale,
-    ~center=#Top,
-    ~direction=#North,
-    (),
-  )
+  if leftSide {
+    let source = Minecraft.Spider.spider.leg
+    let dest =
+      Minecraft.Cuboid.getLayout(scale, direction, #Top)->Minecraft.Cuboid.translate((ox, oy))
+
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.right,
+      dest.right->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.front,
+      dest.back->Minecraft.Cuboid.Face.flip(#Vertical),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.left,
+      dest.left->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.back,
+      dest.front->Minecraft.Cuboid.Face.flip(#Horizontal),
+    )
+    Minecraft.Cuboid.Face.draw(texture, source.top, dest.top->Minecraft.Cuboid.Face.flip(#Vertical))
+    Minecraft.Cuboid.Face.draw(
+      texture,
+      source.bottom,
+      dest.bottom->Minecraft.Cuboid.Face.flip(#Vertical),
+    )
+  } else {
+    drawCuboidCenterTopRotate180(texture, Minecraft.Spider.spider.leg, (ox, oy), scale, direction)
+  }
 }
 
 let drawSpider = (texture: string) => {
-  drawHead(texture, (169, 37))
+  drawHead(texture, (169, 21))
 
-  drawThorax(texture, (225, 325))
+  drawThorax(texture, (225, 309))
 
-  //drawAbdomen(texture, (233, 485))
-  drawLeg(texture, (393, 229))
-  drawLeg(texture, (393, 325))
-  drawLeg(texture, (393, 421))
-  drawLeg(texture, (393, 517))
+  drawAbdomen(texture, (177, 549))
+  drawLeg(texture, (393, 205), #South, false)
+  drawLeg(texture, (393, 301), #South, false)
+  drawLeg(texture, (393, 405), #North, false)
+  drawLeg(texture, (393, 501), #North, false)
 
-  drawLeg(texture, (41, 229))
-  drawLeg(texture, (41, 325))
-  drawLeg(texture, (41, 421))
-  drawLeg(texture, (41, 517))
+  drawLeg(texture, (41, 205), #South, true)
+  drawLeg(texture, (41, 301), #South, true)
+  drawLeg(texture, (41, 405), #North, true)
+  drawLeg(texture, (41, 501), #North, true)
 }
 
 let script = () => {
@@ -138,14 +168,12 @@ let script = () => {
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
-  Generator.drawImage("Foreground", (0, 0))
-
   drawSpider("Spider")
   // draw Spider Eyes
   drawSpider("Spider Eyes")
 
   // Background
-  //Generator.drawImage("Foreground", (0, 0))
+  Generator.drawImage("Foreground", (0, 0))
 
   // Fold Lines
   if showFolds {
@@ -155,6 +183,9 @@ let script = () => {
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
+
+  // Fill Background
+  Generator.fillBackgroundColor("#ff8000")
 }
 
 let generator: Generator.generatorDef = {
