@@ -511,6 +511,24 @@ module Character = {
   }
 }
 
+module Spider = {
+  type t = {
+    head: Cuboid.t,
+    thorax: Cuboid.t,
+    abdomen: Cuboid.t,
+    leg: Cuboid.t,
+  }
+
+  let {makeSource, translate} = module(Cuboid)
+
+  let spider: t = {
+    head: makeSource((8, 8, 8))->translate((32, 4)),
+    thorax: makeSource((6, 6, 6))->translate((0, 0)),
+    abdomen: makeSource((10, 8, 12))->translate((0, 12)),
+    leg: makeSource((16, 2, 2))->translate((18, 0)),
+  }
+}
+
 /* type direction = [#East | #West | #North | #South]
 type center = [#Right | #Front | #Left | #Back | #Top | #Bottom]
 
