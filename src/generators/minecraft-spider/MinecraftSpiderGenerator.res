@@ -18,7 +18,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Spider",
-    url: requireTexture("testing"),
+    url: requireTexture("spider"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -152,6 +152,53 @@ let drawSpider = (texture: string) => {
   drawLeg(texture, (41, 501), #North, true)
 }
 
+let drawFoldLineRect = ((x, y, w, h): Generator_Builder.rectangle) => {
+  Generator.drawFoldLine((x, y - 1), (x + w, y - 1))
+  Generator.drawFoldLine((x + w, y), (x + w, y + h))
+  Generator.drawFoldLine((x + w, y + h + 1), (x, y + h + 1))
+  Generator.drawFoldLine((x, y + h), (x, y))
+}
+
+let drawFoldLineCuboid = (
+  (x, y): Generator_Builder.position,
+  (w, h, d): Minecraft.Cuboid.scale,
+  (),
+) => {
+  drawFoldLineRect((x + d, y, w, d * 2 + h))
+  drawFoldLineRect((x, y + d, w * 2 + d * 2, h))
+  Generator.drawFoldLine((x + d * 2 + w - 1, y + d), (x + d * 2 + w - 1, y + d + h))
+}
+
+let drawFoldLineCuboid1 = (
+  (x, y): Generator_Builder.position,
+  (w, h, d): Minecraft.Cuboid.scale,
+  (),
+) => {
+  drawFoldLineRect((x + d, y, w, d * 2 + h * 2))
+  drawFoldLineRect((x, y + d, w + d * 2, h))
+  Generator.drawFoldLine((x + d, y + h + d * 2 - 1), (x + w + d, y + h + d * 2 - 1))
+}
+
+let drawFoldLineCuboid2 = (
+  (x, y): Generator_Builder.position,
+  (w, h, d): Minecraft.Cuboid.scale,
+  (),
+) => {
+  drawFoldLineRect((x + d, y, w, d * 2 + h * 2))
+  drawFoldLineRect((x, y + d + h, w + d * 2, h))
+  Generator.drawFoldLine((x + d, y + d), (x + w + d, y + d))
+}
+
+let drawFolds = () => {
+  drawFoldLineCuboid((169, 21), (64, 64, 64), ())
+
+  drawFoldLineCuboid1((225, 309), (48, 48, 48), ())
+
+  drawFoldLineCuboid((177, 549), (80, 96, 64), ())
+
+  Generator.drawImage("Folds", (0, 0))
+}
+
 let script = () => {
   // Define user inputs
   Generator.defineTextureInput(
@@ -161,7 +208,7 @@ let script = () => {
   Generator.defineTextureInput("Spider Eyes", {standardWidth: 64, standardHeight: 32, choices: []})
 
   // Define user variables
-  Generator.defineBooleanInput("Show Folds", false)
+  Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", false)
 
   // Get user variable values
@@ -177,7 +224,7 @@ let script = () => {
 
   // Fold Lines
   if showFolds {
-    Generator.drawImage("Folds", (0, 0))
+    drawFolds()
   }
   // Labels
   if showLabels {
