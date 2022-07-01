@@ -44,6 +44,8 @@ let images: array<Generator.imageDef> = [
   {id: "Tabs-Cake-Middle", url: Generator.requireImage("./images/Tabs-Cake-Middle.png")},
   {id: "Tabs-Cake-Corner", url: Generator.requireImage("./images/Tabs-Cake-Corner.png")},
   {id: "Tabs-Cake-Right", url: Generator.requireImage("./images/Tabs-Cake-Right.png")},
+  {id: "Folds-Minecart", url: Generator.requireImage("./images/Folds-Minecart.png")},
+  {id: "Tabs-Minecart", url: Generator.requireImage("./images/Tabs-Minecart.png")},
 ]
 
 let textures: array<Generator.textureDef> = Textures.textures
@@ -74,7 +76,17 @@ let script = () => {
     let typeName = "Block " ++ blockId ++ " Type"
     Generator.defineSelectInput(
       typeName,
-      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake"],
+      [
+        "Block",
+        "Slab",
+        "Stair",
+        "Fence",
+        "Door",
+        "Trapdoor",
+        "Snow Layers",
+        "Cake",
+        "Minecart Block",
+      ],
     )
     let blockType = Generator.getSelectInputValue(typeName)
 
@@ -90,6 +102,7 @@ let script = () => {
     | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy, showFolds)
     | "Snow Layers" => Types.Snow.draw(blockId, ox, oy, showFolds)
     | "Cake" => Types.Cake.draw(blockId, ox, oy, showFolds)
+    | "Minecart Block" => Types.Minecart.draw(blockId, ox, oy, showFolds)
     | _ => ()
     }
   }

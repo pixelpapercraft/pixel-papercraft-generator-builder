@@ -424,9 +424,6 @@ module Character = {
   }
 }
 
-let setTabSize = (tabSize: int) => {
-  Generator.setIntegerVariable("tabSize", tabSize)
-}
 module Spider = {
   type t = {
     head: Cuboid.Source.t,
@@ -465,6 +462,24 @@ module Phantom = {
     tail1: make((3, 2, 6))->translate((3, 20)),
     tail2: make((1, 1, 6))->translate((4, 29)),
   }
+}
+
+module Minecart = {
+  type t = {
+    bottom: Cuboid.Source.t,
+    sides: Cuboid.Source.t,
+  }
+
+  let {make, translate} = module(Cuboid.Source)
+
+  let minecart = {
+    bottom: make((20, 16, 2))->translate((0, 10)),
+    sides: make((16, 8, 2))->translate((0, 0)),
+  }
+}
+
+let setTabSize = (tabSize: int) => {
+  Generator.setIntegerVariable("tabSize", tabSize)
 }
 
 let defaultTabSize = 24

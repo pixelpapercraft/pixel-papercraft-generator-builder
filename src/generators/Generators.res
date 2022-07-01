@@ -43,6 +43,7 @@ let utility: array<Generator.generatorDef> = [
   MinecraftItemGenerator.generator,
   MinecraftCapeAndElytraGenerator.generator,
   MinecraftCharacterHeadsGenerator.generator,
+  MinecraftMinecartGenerator.generator,
 ]
 
 let mod: array<Generator.generatorDef> = [

@@ -5,25 +5,384 @@ let id = "minecraft-minecart"
 
 let name = "Minecraft Minecart"
 
-let history = [
-  "16 Mar 2021 NinjolasNJM - Initially completed both cape and elytra generation.",
-  "06 Jun 2021 NinjolasNJM - Converted to ReScript generator.",
-]
+let history = ["30 Jun NinjolasNJM - first release"]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
-let imageIds = ["Foreground", "Folds", "Labels"]
+let instructions = "
+To make blocks that fit in a minecart, go to the Block Generator and select the block's type to be \"Minecart Block\".
+"
+
+let imageIds = ["Foreground-Advanced", "Foreground-Simple"]
 let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = []
+let textures: array<Generator.textureDef> = [
+  {
+    id: "Minecart",
+    url: requireTexture("minecart"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+]
+
+let minecart = Minecraft.Minecart.minecart
+
+let (ox, oy) = (249, 245)
+
+let drawFoldLineRect = ((x, y, w, h): Generator_Builder.rectangle) => {
+  Generator.drawFoldLine((x, y - 1), (x + w, y - 1))
+  Generator.drawFoldLine((x + w, y), (x + w, y + h))
+  Generator.drawFoldLine((x + w, y + h + 1), (x, y + h + 1))
+  Generator.drawFoldLine((x, y + h), (x, y))
+}
+
+let drawFoldsAdvanced = () => {
+  // Center Lines
+  Generator.drawFoldLine((ox - 1, oy - 64), (ox - 1, oy + 192))
+  Generator.drawFoldLine((ox + 96, oy - 64), (ox + 96, oy + 192))
+
+  Generator.drawFoldLine((ox - 80, oy - 1), (ox + 176, oy - 1))
+  Generator.drawFoldLine((ox - 80, oy + 128), (ox + 176, oy + 128))
+
+  // Top Lines
+  drawFoldLineRect((ox - 16, oy - 160, 128, 96))
+  Generator.drawFoldLine((ox - 16, oy - 80), (ox + 112, oy - 80))
+
+  // Right Lines
+  drawFoldLineRect((ox + 176, oy - 16, 80, 160))
+  Generator.drawFoldLine((ox + 160, oy), (ox + 160, oy + 128))
+
+  // Bottom Lines
+  drawFoldLineRect((ox - 16, oy + 192, 128, 256))
+  Generator.drawFoldLine((ox - 16, oy + 207), (ox + 112, oy + 207))
+  Generator.drawFoldLine((ox - 16, oy + 288), (ox + 112, oy + 288))
+
+  // Left Lines
+  drawFoldLineRect((ox - 160, oy - 16, 80, 160))
+  Generator.drawFoldLine((ox - 64, oy), (ox - 64, oy + 128))
+}
+
+let drawFoldsSimple = () => {
+  drawFoldLineRect((ox - 16, oy - 16, 128, 160))
+
+  drawFoldLineRect((ox - 16, oy - 176, 128, 640))
+  drawFoldLineRect((ox - 16, oy - 96, 128, 320))
+
+  drawFoldLineRect((ox - 176, oy - 16, 448, 160))
+  drawFoldLineRect((ox - 96, oy - 16, 278, 160))
+}
+
+let drawAdvanced = (showFolds: bool) => {
+  // Center
+  Generator.drawTexture(
+    "Minecart",
+    (26, 14, 16, 12),
+    (ox - 16, oy + 16, 128, 96),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Front Side
+
+  Generator.drawTexture("Minecart", minecart.sides.front, (ox - 16, oy - 64, 128, 64), ())
+  Generator.drawTexture("Minecart", minecart.sides.top, (ox - 16, oy - 80, 128, 16), ())
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.back,
+    (ox - 16, oy - 144, 128, 64),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.right,
+    (ox + 40, oy - 216, 16, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Right Side
+
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.front,
+    (ox + 64, oy + 32, 128, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.top,
+    (ox + 104, oy + 56, 128, 16),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.back,
+    (ox + 144, oy + 32, 128, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.left,
+    (ox + 200, oy - 40, 16, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.right,
+    (ox + 200, oy + 104, 16, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.bottom,
+    (ox + 168, oy + 56, 160, 16),
+    ~flip=#Vertical,
+    ~rotate=90.0,
+    (),
+  )
+
+  // Back Side
+
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.front,
+    (ox - 16, oy + 128, 128, 64),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.top,
+    (ox - 16, oy + 192, 128, 16),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture("Minecart", minecart.sides.back, (ox - 16, oy + 208, 128, 64), ())
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.left,
+    (ox + 40, oy + 216, 16, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Left Side
+
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.front,
+    (ox - 96, oy + 32, 128, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.top,
+    (ox - 136, oy + 56, 128, 16),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.back,
+    (ox - 176, oy + 32, 128, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.left,
+    (ox - 120, oy + 104, 16, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.right,
+    (ox - 120, oy - 40, 16, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.top,
+    (ox - 232, oy + 56, 160, 16),
+    ~rotate=90.0,
+    (),
+  )
+
+  // Bottom
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.front,
+    (ox - 32, oy + 304, 160, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Draw the Foreground image
+  Generator.drawImage("Foreground-Advanced", (0, 0))
+
+  // Folds
+  if showFolds {
+    drawFoldsAdvanced()
+  }
+}
+
+let drawSimple = (showFolds: bool) => {
+  // Center
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.back,
+    (ox - 32, oy, 160, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Front Side
+
+  Generator.drawTexture("Minecart", minecart.sides.front, (ox - 16, oy - 96, 128, 80), ())
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.back,
+    (ox - 16, oy - 160, 128, 64),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.right,
+    (ox + 40, oy - 232, 16, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Right Side
+
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.front,
+    (ox + 72, oy + 24, 160, 80),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.back,
+    (ox + 160, oy + 32, 128, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.left,
+    (ox + 216, oy - 40, 16, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.right,
+    (ox + 216, oy + 104, 16, 64),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.bottom,
+    (ox + 184, oy + 56, 160, 16),
+    ~flip=#Vertical,
+    ~rotate=90.0,
+    (),
+  )
+
+  // Back Side
+
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.front,
+    (ox - 16, oy + 144, 128, 80),
+    ~rotate=180.0,
+    (),
+  )
+  Generator.drawTexture("Minecart", minecart.sides.back, (ox - 16, oy + 224, 128, 64), ())
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.left,
+    (ox + 40, oy + 232, 16, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Left Side
+
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.front,
+    (ox - 136, oy + 24, 160, 80),
+    ~rotate=-90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.back,
+    (ox - 192, oy + 32, 128, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.left,
+    (ox - 136, oy + 104, 16, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.sides.right,
+    (ox - 136, oy - 40, 16, 64),
+    ~rotate=90.0,
+    (),
+  )
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.top,
+    (ox - 248, oy + 56, 160, 16),
+    ~rotate=90.0,
+    (),
+  )
+
+  // Bottom
+  Generator.drawTexture(
+    "Minecart",
+    minecart.bottom.front,
+    (ox - 32, oy + 320, 160, 128),
+    ~rotate=-90.0,
+    (),
+  )
+
+  // Draw the Foreground image
+  Generator.drawImage("Foreground-Simple", (0, 0))
+
+  //Folds
+  if showFolds {
+    drawFoldsSimple()
+  }
+}
 
 let script = () => {
   // Define the user inputs
   Generator.defineTextureInput(
-    "Cape",
+    "Minecart",
     {
       standardWidth: 64,
       standardHeight: 32,
@@ -31,209 +390,28 @@ let script = () => {
     },
   )
 
-  // Define user variables
-  Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", true)
+  // Define And Get user variables
+  //let modelType = Generator.defineAndGetSelectInput("Model Type", ["Advanced", "Simple"])
+  let showFolds = Generator.defineAndGetBooleanInput("Show Folds", true)
 
-  // Get user variable values
-  let showFolds = Generator.getBooleanInputValue("Show Folds")
-  let showLabels = Generator.getBooleanInputValue("Show Labels")
+  // Minecart
 
-  // Cape
-  Generator.drawTextureLegacy("Cape", {x: 0, y: 1, w: 1, h: 16}, {x: 74, y: 116, w: 8, h: 128}, ()) // Right
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 1, y: 1, w: 10, h: 16},
-    {x: 82, y: 116, w: 80, h: 128},
-    (),
-  ) // Face
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 11, y: 1, w: 1, h: 16},
-    {x: 162, y: 116, w: 8, h: 128},
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 12, y: 1, w: 10, h: 16},
-    {x: 170, y: 116, w: 80, h: 128},
-    (),
-  ) // Back
-  Generator.drawTextureLegacy("Cape", {x: 1, y: 0, w: 10, h: 1}, {x: 82, y: 108, w: 80, h: 8}, ()) // Top
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 11, y: 0, w: 10, h: 1},
-    {x: 82, y: 244, w: 80, h: 8},
-    ~flip=#Vertical,
-    (),
-  ) // Bottom
+  drawAdvanced(showFolds)
 
-  // Elytra Harness
-  Generator.drawTextureLegacy("Cape", {x: 36, y: 2, w: 6, h: 4}, {x: 402, y: 180, w: 48, h: 32}, ()) // Left Harness Bottom
-  Generator.drawTextureLegacy("Cape", {x: 36, y: 2, w: 4, h: 5}, {x: 418, y: 140, w: 32, h: 40}, ()) // Left Harness Top
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 6, h: 4},
-    {x: 450, y: 180, w: 48, h: 32},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Harness Bottom
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 4, h: 5},
-    {x: 450, y: 140, w: 32, h: 40},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Harness Top
-
-  // Left Elytron
-
-  // Left Wing
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 10, h: 20},
-    {x: 81, y: 336, w: 80, h: 160},
-    (),
-  ) // Left Wing Front (Back in game)
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 24, y: 0, w: 10, h: 2},
-    {x: 161, y: 336, w: 80, h: 32},
-    ~rotateLegacy=180.0,
-    (),
-  ) // Left Wing Top (Top in game)
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 34, y: 2, w: 2, h: 20},
-    {x: 49, y: 336, w: 32, h: 160},
-    (),
-  ) // Left Wing Side (Side in game)
-
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 10, h: 20},
-    {x: 161, y: 336, w: 80, h: 160},
-    ~flip=#Horizontal,
-    (),
-  ) // Left Wing Front (Back in game) Back
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 24, y: 0, w: 10, h: 2},
-    {x: 161, y: 304, w: 80, h: 32},
-    ~flip=#Vertical,
-    (),
-  ) // Left Wing Top (Top in game) Back
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 34, y: 2, w: 2, h: 20},
-    {x: 241, y: 336, w: 32, h: 160},
-    ~flip=#Horizontal,
-    (),
-  ) // Left Wing Side (Side in game) Back
-
-  // Left Wing Base
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 34, y: 2, w: 2, h: 2},
-    {x: 353, y: 352, w: 32, h: 112},
-    (),
-  ) // Left Wing Base
-
-  // Left Wing Joint
-  Generator.drawTextureLegacy("Cape", {x: 36, y: 2, w: 4, h: 4}, {x: 496, y: 375, w: 32, h: 32}, ()) // Left Wing Joint 1
-  Generator.drawTextureLegacy("Cape", {x: 36, y: 2, w: 4, h: 4}, {x: 496, y: 409, w: 32, h: 32}, ()) // Left Wing Joint 2
-
-  // Right Elytron
-
-  // Right Wing
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 10, h: 20},
-    {x: 81, y: 592, w: 80, h: 160},
-    (),
-  ) // Right Wing Front (Back in game)
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 24, y: 0, w: 10, h: 2},
-    {x: 161, y: 592, w: 80, h: 32},
-    ~rotateLegacy=180.0,
-    (),
-  ) // Right Wing Top (Top in game)
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 34, y: 2, w: 2, h: 20},
-    {x: 49, y: 592, w: 32, h: 160},
-    (),
-  ) // Right Wing Side (Side in game)
-
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 10, h: 20},
-    {x: 161, y: 592, w: 80, h: 160},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Wing Front (Back in game) Back
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 24, y: 0, w: 10, h: 2},
-    {x: 161, y: 560, w: 80, h: 32},
-    ~flip=#Vertical,
-    (),
-  ) // Right Wing Top (Top in game) Back
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 34, y: 2, w: 2, h: 20},
-    {x: 241, y: 592, w: 32, h: 160},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Wing Side (Side in game) Back
-
-  // Right Wing Base
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 34, y: 2, w: 2, h: 2},
-    {x: 353, y: 608, w: 32, h: 112},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Wing Base
-
-  // Right Wing Joint
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 4, h: 4},
-    {x: 496, y: 631, w: 32, h: 32},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Wing Joint 1
-  Generator.drawTextureLegacy(
-    "Cape",
-    {x: 36, y: 2, w: 4, h: 4},
-    {x: 496, y: 665, w: 32, h: 32},
-    ~flip=#Horizontal,
-    (),
-  ) // Right Wing Joint 2
-
-  // Draw the Foreground image
-  Generator.drawImage("Foreground", (0, 0))
-
-  // Folds
-  if showFolds {
-    Generator.drawImage("Folds", (0, 0))
-  }
-
-  // Labels
-  if showLabels {
-    Generator.drawImage("Labels", (0, 0))
-  }
+  /* switch modelType {
+  | "Advanced" => drawAdvanced(showFolds)
+  | "Simple" => drawSimple(showFolds)
+  | _ => drawAdvanced(showFolds)
+  } */
 }
 
 let generator: Generator.generatorDef = {
   id: id,
   name: name,
   history: history,
-  thumbnail: Some(thumbnail),
+  thumbnail: None,
   video: None,
-  instructions: None,
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
