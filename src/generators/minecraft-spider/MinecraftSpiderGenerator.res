@@ -5,7 +5,7 @@ let id = "minecraft-spider"
 
 let name = "Minecraft Spider"
 
-let history = []
+let history = ["30 Jun 2022 NinjolasNJM - first release."]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
@@ -222,7 +222,7 @@ let script = () => {
   }
 
   // Fill Background
-  Generator.fillBackgroundColor("#ff8000")
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
