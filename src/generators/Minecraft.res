@@ -427,6 +427,23 @@ module Character = {
 let setTabSize = (tabSize: int) => {
   Generator.setIntegerVariable("tabSize", tabSize)
 }
+module Spider = {
+  type t = {
+    head: Cuboid.Source.t,
+    thorax: Cuboid.Source.t,
+    abdomen: Cuboid.Source.t,
+    leg: Cuboid.Source.t,
+  }
+
+  let {make, translate} = module(Cuboid.Source)
+
+  let spider: t = {
+    head: make((8, 8, 8))->translate((32, 4)),
+    thorax: make((6, 6, 6))->translate((0, 0)),
+    abdomen: make((10, 8, 12))->translate((0, 12)),
+    leg: make((16, 2, 2))->translate((18, 0)),
+  }
+}
 
 let defaultTabSize = 24
 
