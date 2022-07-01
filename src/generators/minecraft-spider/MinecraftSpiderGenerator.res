@@ -179,16 +179,6 @@ let drawFoldLineCuboid1 = (
   Generator.drawFoldLine((x + d, y + h + d * 2 - 1), (x + w + d, y + h + d * 2 - 1))
 }
 
-let drawFoldLineCuboid2 = (
-  (x, y): Generator_Builder.position,
-  (w, h, d): Minecraft.Cuboid.scale,
-  (),
-) => {
-  drawFoldLineRect((x + d, y, w, d * 2 + h * 2))
-  drawFoldLineRect((x, y + d + h, w + d * 2, h))
-  Generator.drawFoldLine((x + d, y + d), (x + w + d, y + d))
-}
-
 let drawFolds = () => {
   drawFoldLineCuboid((169, 21), (64, 64, 64), ())
 
@@ -209,7 +199,7 @@ let script = () => {
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", false)
+  Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
   let showLabels = Generator.getBooleanInputValue("Show Labels")
