@@ -50,6 +50,18 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Steve-Corners",
+    url: requireTexture("Steve-Corners.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve-Faces",
+    url: requireTexture("Steve-Faces.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve256",
     url: requireTexture("Steve256.png"),
     standardWidth: 256,
@@ -96,6 +108,245 @@ let drawGrid = () => {
       Generator.drawImage("Grid", (xpos, ypos))
     }
   }
+}
+
+let drawSteveBodyCuboid = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, 1, 1), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (64, 96, 32),
+    ~center,
+    ~direction=#North,
+    (),
+  )
+}
+
+let drawCuboidTestPage3 = () => {
+  Generator.usePage("Cuboid 3")
+  Generator.fillBackgroundColorWithWhite()
+  let m = 5.0
+  Generator.defineText("Answer: " ++ Belt.Float.toString((m -. 3.0) *. -180.0 +. 90.0))
+
+  drawSteveBodyCuboid(99, 79, #Right)
+  drawSteveBodyCuboid(387, 79, #Front)
+  drawSteveBodyCuboid(99, 379, #Left)
+  drawSteveBodyCuboid(387, 379, #Back)
+  drawSteveBodyCuboid(99, 579, #Top)
+  drawSteveBodyCuboid(387, 579, #Bottom)
+}
+
+let drawSteveHeadCuboid2 = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (64, 64, 64),
+    ~center,
+    ~direction=#East,
+    (),
+  )
+}
+
+let drawCuboidTestPage2 = () => {
+  Generator.usePage("Cuboid 2")
+  Generator.fillBackgroundColorWithWhite()
+
+  let n = 1
+  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
+  drawSteveHeadCuboid2(99, 79, #Right)
+  drawSteveHeadCuboid2(387, 79, #Front)
+  drawSteveHeadCuboid2(99, 279, #Left)
+  drawSteveHeadCuboid2(387, 279, #Back)
+  drawSteveHeadCuboid2(99, 479, #Top)
+  drawSteveHeadCuboid2(387, 479, #Bottom)
+  drawSteveHeadCuboid2(99, 679, #Front)
+  drawSteveHeadCuboid2(387, 679, #Front)
+}
+
+let drawSteveHeadCuboid = (x, y, size, direction) => {
+  let (w, h) = switch direction {
+  | #North | #South => (size * 3, size * 4)
+  | #West | #East => (size * 4, size * 3)
+  }
+  Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
+  Minecraft.drawCuboid(
+    "Steve-Corners",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (size, size, size),
+    ~direction,
+    (),
+  )
+}
+
+let drawCuboidTestPage = () => {
+  Generator.usePage("Cuboid")
+  Generator.fillBackgroundColorWithWhite()
+
+  drawSteveHeadCuboid(10, 10, 10, #East)
+  drawSteveHeadCuboid(100, 10, 10, #West)
+  drawSteveHeadCuboid(10, 100, 10, #North)
+  drawSteveHeadCuboid(100, 100, 10, #South)
+
+  drawSteveHeadCuboid(200, 10, 33, #East)
+  drawSteveHeadCuboid(400, 10, 33, #West)
+  drawSteveHeadCuboid(200, 150, 33, #North)
+  drawSteveHeadCuboid(400, 150, 33, #South)
+
+  drawSteveHeadCuboid(10, 300, 64, #East)
+  drawSteveHeadCuboid(330, 300, 64, #West)
+  drawSteveHeadCuboid(10, 550, 64, #North)
+  drawSteveHeadCuboid(330, 550, 64, #South)
+}
+
+let drawSteveHead = (texture, ox, oy, size) => {
+  let head = TextureMap.MinecraftCharacter.steve.base.head
+  Generator.drawTexture(texture, head.front, (ox + size, oy + size, size, size), ())
+  Generator.drawTexture(texture, head.right, (ox, oy + size, size, size), ())
+  Generator.drawTexture(texture, head.left, (ox + size * 2, oy + size, size, size), ())
+  Generator.drawTexture(texture, head.top, (ox + size, oy, size, size), ())
+  Generator.drawTexture(texture, head.back, (ox + size * 3, oy + size, size, size), ())
+  Generator.drawTexture(
+    texture,
+    head.bottom,
+    (ox + size, oy + size * 2, size, size),
+    ~flip=#Vertical,
+    (),
+  )
+}
+
+let drawFoldBox = (x, y, size, direction: [#clockwise | #anticlockwise]) => {
+  let p1 = (x, y)
+  let p2 = (x + size, y)
+  let p3 = (x + size, y + size)
+  let p4 = (x, y + size)
+  if direction === #clockwise {
+    Generator.drawFoldLine(p1, p2)
+    Generator.drawFoldLine(p2, p3)
+    Generator.drawFoldLine(p3, p4)
+    Generator.drawFoldLine(p4, p1)
+  } else {
+    Generator.drawFoldLine(p2, p1)
+    Generator.drawFoldLine(p3, p2)
+    Generator.drawFoldLine(p4, p3)
+    Generator.drawFoldLine(p1, p4)
+  }
+}
+
+let drawFoldsSun = (ox, oy, size) => {
+  let angles = [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0,
+    105.0,
+    120.0,
+    135.0,
+    150.0,
+    165.0,
+    180.0,
+    195.0,
+    210.0,
+    225.0,
+    240.0,
+    255.0,
+    270.0,
+    285.0,
+    300.0,
+    315.0,
+    330.0,
+    345.0,
+  ]
+  let innerRadius = 20.0
+  let outerRadius = 20.0 +. size
+  angles->Belt.Array.forEach(angle => {
+    let radians = angle *. Js.Math._PI /. 180.0
+    let x1 = Belt.Float.toInt(innerRadius *. Js.Math.cos(radians))
+    let y1 = Belt.Float.toInt(innerRadius *. Js.Math.sin(radians))
+    let x2 = Belt.Float.toInt(outerRadius *. Js.Math.cos(radians))
+    let y2 = Belt.Float.toInt(outerRadius *. Js.Math.sin(radians))
+    Generator.drawFoldLine((ox + x1, oy + y1), (ox + x2, oy + y2))
+  })
+}
+
+let drawFoldLinesTestPage = () => {
+  Generator.usePage("Fold Lines")
+
+  // Clockwise
+  let ox = 40
+  let oy = 70
+  let size = 64
+  Generator.drawText("Clockwise", (ox, oy - 20), 16)
+  drawSteveHead("Steve", ox, oy, size)
+  drawFoldBox(ox + size, oy + size, size, #clockwise)
+
+  // Anti-clockwise
+  let ox = 300
+  let oy = 70
+  let size = 64
+  Generator.drawText("Anti-Clockwise", (ox, oy - 20), 16)
+  drawSteveHead("Steve", ox, oy, size)
+  drawFoldBox(ox + size, oy + size, size, #anticlockwise)
+
+  Generator.drawText("Arbitrary Sizes", (40, 320), 16)
+
+  let ox = 40
+  let oy = 340
+
+  for index in 0 to 19 {
+    let size = 4 + index
+    let x = ox + index * 27
+    let y = oy
+    drawFoldBox(x, y, size, #clockwise)
+  }
+
+  let ox = 40
+  let oy = 380
+
+  for index in 0 to 12 {
+    let size = 24 + index
+    let x = ox + index * 40
+    let y = oy
+    drawFoldBox(x, y, size, #clockwise)
+  }
+
+  Generator.drawText("Power of 2 Sizes", (40, 440), 16)
+
+  let ox = 40
+  let oy = 460
+
+  for index in 0 to 4 {
+    let exp = Belt.Int.toFloat(index) +. 2.0
+    let size = Js.Math.pow_float(~base=2.0, ~exp)->Belt.Float.toInt
+    let x = ox + index * 50
+    let y = oy
+    drawFoldBox(x, y, size, #clockwise)
+  }
+
+  Generator.drawText("Contrast", (40, 560), 16)
+  let ox = 40
+  let oy = 580
+  let size = 128
+  Generator.drawTexture("TextureColors64x64", (0, 0, 64, 64), (ox, oy, 128, 128), ())
+  drawFoldBox(ox + 16, oy + 16, size - 32, #clockwise)
+  drawFoldBox(ox + 48, oy + 48, size - 96, #clockwise)
+
+  let ox = 280
+  let oy = 560
+  Generator.drawText("Angles", (ox, oy), 16)
+  drawFoldsSun(ox + 140, oy + 100, 100.0)
 }
 
 let drawSun = (ox, oy, ~color, ~width) => {
@@ -473,7 +724,135 @@ let drawTextureCropTest = () => {
   }
 }
 
+let drawRectTab = (rectangle, orientation, ~tabAngle) => {
+  Generator.fillRect(rectangle, "#ff000020")
+  Generator.drawTab(rectangle, orientation, ~tabAngle, ())
+}
+
+let drawTabsTestPage = () => {
+  Generator.usePage("Tabs")
+  Generator.fillBackgroundColorWithWhite()
+
+  let tabAngle = 45.0
+
+  drawRectTab((10, 10, 100, 30), #North, ~tabAngle)
+  drawRectTab((150, 10, 100, 30), #South, ~tabAngle)
+  drawRectTab((300, 10, 100, 30), #East, ~tabAngle)
+  drawRectTab((450, 10, 100, 30), #West, ~tabAngle)
+
+  drawRectTab((10, 80, 100, 100), #North, ~tabAngle)
+  drawRectTab((150, 80, 100, 100), #South, ~tabAngle)
+  drawRectTab((300, 80, 100, 100), #East, ~tabAngle)
+  drawRectTab((450, 80, 100, 100), #West, ~tabAngle)
+
+  drawRectTab((10, 220, 30, 100), #North, ~tabAngle)
+  drawRectTab((150, 220, 30, 100), #South, ~tabAngle)
+  drawRectTab((300, 220, 30, 100), #East, ~tabAngle)
+  drawRectTab((450, 220, 30, 100), #West, ~tabAngle)
+
+  let tabAngle = 80.0
+
+  drawRectTab((10, 400, 100, 50), #North, ~tabAngle)
+  drawRectTab((150, 400, 100, 50), #South, ~tabAngle)
+  drawRectTab((300, 400, 100, 50), #East, ~tabAngle)
+  drawRectTab((450, 400, 100, 50), #West, ~tabAngle)
+
+  drawRectTab((10, 500, 100, 100), #North, ~tabAngle)
+  drawRectTab((150, 500, 100, 100), #South, ~tabAngle)
+  drawRectTab((300, 500, 100, 100), #East, ~tabAngle)
+  drawRectTab((450, 500, 100, 100), #West, ~tabAngle)
+
+  drawRectTab((10, 650, 50, 100), #North, ~tabAngle)
+  drawRectTab((150, 650, 50, 100), #South, ~tabAngle)
+  drawRectTab((300, 650, 50, 100), #East, ~tabAngle)
+  drawRectTab((450, 650, 50, 100), #West, ~tabAngle)
+}
+
+let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
+  let head = Minecraft.Character.steve.base.head
+
+  let frontFace = (ox + size, oy + size, size, size)
+  Generator.drawTexture(texture, head.front, frontFace, ())
+
+  let rightFace = (ox, oy + size, size, size)
+  Generator.drawTexture(texture, head.right, rightFace, ())
+  Minecraft.drawFaceTabs(rightFace, [#West, #North, #South], ())
+
+  let leftFace = (ox + size * 2, oy + size, size, size)
+  Generator.drawTexture(texture, head.left, leftFace, ())
+  Minecraft.drawFaceTabs(leftFace, [#North, #South], ())
+
+  let topFace = (ox + size, oy, size, size)
+  Generator.drawTexture(texture, head.top, topFace, ())
+  Minecraft.drawFaceTabs(topFace, [#North, #West, #East], ())
+
+  let backFace = (ox + size * 3, oy + size, size, size)
+  Generator.drawTexture(texture, head.back, backFace, ())
+  Minecraft.drawFaceTabs(backFace, [#North, #South, #East], ())
+
+  let bottomFace = (ox + size, oy + size * 2, size, size)
+  Generator.drawTexture(texture, head.bottom, bottomFace, ~flip=#Vertical, ())
+  Minecraft.drawFaceTabs(bottomFace, [#West, #East, #South], ())
+}
+
+let drawSteveFaceWithTabs = (x, y, w, h, ~size=?, ~tabAngle, ()) => {
+  let size = switch size {
+  | Some(size) => size
+  | None => Minecraft.getTabSize()
+  }
+  let head = Minecraft.Character.steve.base.head
+  let face = (x, y, w, h)
+  Generator.drawTexture("Steve", head.front, face, ())
+  Minecraft.drawFaceTabs(face, [#North, #East, #South, #West], ~size, ~tabAngle, ())
+}
+
+let drawFaceTabsTestPage = () => {
+  Generator.usePage("Face Tabs")
+  Generator.fillBackgroundColorWithWhite()
+
+  Minecraft.setTabSize(24)
+  drawSteveFaceWithTabs(50, 50, 64, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(200, 50, 64, 32, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(350, 50, 32, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(500, 50, 32, 32, ~tabAngle=45.0, ())
+
+  Minecraft.setTabSize(48)
+  drawSteveFaceWithTabs(50, 200, 64, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(200, 200, 64, 32, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(350, 200, 32, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(500, 200, 32, 32, ~tabAngle=45.0, ())
+
+  Minecraft.setTabSize(12)
+  drawSteveFaceWithTabs(50, 350, 64, 64, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(200, 350, 64, 32, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(350, 350, 32, 64, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(500, 350, 32, 32, ~tabAngle=60.0, ())
+
+  Minecraft.setTabSize(12)
+  drawSteveFaceWithTabs(50, 500, 64, 64, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(200, 500, 64, 32, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(350, 500, 32, 64, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(500, 500, 32, 32, ~tabAngle=30.0, ())
+
+  drawSteveFaceWithTabs(400, 650, 16, 16, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(450, 650, 16, 8, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(400, 700, 8, 16, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(450, 700, 8, 8, ~size=4, ~tabAngle=45.0, ())
+
+  let ox = 50
+  let oy = 600
+  let size = 64
+  Minecraft.setTabSize(24)
+  drawSteveHeadWithTabs("Steve", ox, oy, size)
+}
+
 let script = () => {
+  drawCuboidTestPage3()
+  drawCuboidTestPage2()
+  drawFaceTabsTestPage()
+  drawTabsTestPage()
+  drawCuboidTestPage()
+  drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
   drawButtonInputTest()
