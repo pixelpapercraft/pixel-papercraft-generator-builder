@@ -445,6 +445,28 @@ module Spider = {
   }
 }
 
+module Phantom = {
+  type t = {
+    head: Cuboid.Source.t,
+    body: Cuboid.Source.t,
+    wing1: Cuboid.Source.t,
+    wing2: Cuboid.Source.t,
+    tail1: Cuboid.Source.t,
+    tail2: Cuboid.Source.t,
+  }
+
+  let {make, translate} = module(Cuboid.Source)
+
+  let phantom: t = {
+    head: make((7, 3, 5))->translate((0, 0)),
+    body: make((5, 3, 9))->translate((0, 8)),
+    wing1: make((6, 2, 9))->translate((23, 12)),
+    wing2: make((13, 1, 9))->translate((16, 24)),
+    tail1: make((3, 2, 6))->translate((3, 20)),
+    tail2: make((1, 1, 6))->translate((4, 29)),
+  }
+}
+
 let defaultTabSize = 24
 
 let getTabSize = () => {
@@ -453,7 +475,6 @@ let getTabSize = () => {
   | Some(value) => value
   }
 }
-
 let drawFaceTab = (
   face: Builder.rectangle,
   side: Generator.Orientation.t,

@@ -32,6 +32,7 @@ let mob: array<Generator.generatorDef> = [
   MinecraftHorseGenerator.generator,
   MinecraftPigGenerator.generator,
   MinecraftSpiderGenerator.generator,
+  MinecraftPhantomGenerator.generator,
   MinecraftCatGenerator.generator,
   MinecraftVillagerGenerator.generator,
 ]
