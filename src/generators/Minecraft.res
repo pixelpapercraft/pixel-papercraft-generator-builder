@@ -263,7 +263,7 @@ module Cuboid = {
           right: dest.right->Face.rotate(90.0),
           front: dest.bottom,
           left: dest.left->Face.rotate(-90.0),
-          back: dest.top,
+          back: dest.top->Face.rotate(180.0),
           top: dest.front,
           bottom: dest.back->Face.flip(#Vertical)->Face.rotate(180.0),
         }
