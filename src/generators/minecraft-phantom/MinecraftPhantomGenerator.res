@@ -18,20 +18,14 @@ let instructions = `
 
 ### Option 1: Standard Model
 
-* Download and print the phantom design without turning on the  "Action Figure" toggle.
 * Using the dashed tabs and ignoring the colored tabs, make the design normally.
 
-### Option 2: Simple Moving Model
+### Option 2: Simple Action Figure
 
-* Download and print the phantom design without turning on the  "Action Figure" toggle.
 * Ignore the dashed tabs.
 * Glue each part to each other by the colored tab to where the arrows point. Complete the outer parts first, followed by the next inner parts, with the body last.
 * Glue the head to the body by the white label.
 
-### Option 3: Action Figure Model
-
-* Turn on the "Action Figure" toggle, then download and print the phantom design.
-* Complete the design like a regular action figure or bendable design. (If you are reading this, then NinjolasNJM forgot to expound on this option's instructions.)
 `
 
 let imageIds = ["Foreground", "Folds", "Foreground-Action-Figure", "Folds-Action-Figure", "Labels"]
@@ -41,7 +35,7 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Phantom",
-    url: requireTexture("testing"),
+    url: requireTexture("phantom"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -430,7 +424,7 @@ let script = () => {
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
-  Generator.defineBooleanInput("Action Figure", true)
+  //Generator.defineBooleanInput("Action Figure", true)
 
   // Get user variable values
   let showLabels = Generator.getBooleanInputValue("Show Labels")
@@ -449,7 +443,7 @@ let script = () => {
   }
 
   // Fill Transparent Parts, with a different color while creating
-  Generator.fillBackgroundColor("#ff8000")
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
@@ -457,8 +451,8 @@ let generator: Generator.generatorDef = {
   name: name,
   history: history,
   thumbnail: None,
-  video: None, //Some(video),
-  instructions: None, // Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
+  video: Some(video),
+  instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
   images: images,
   textures: textures,
   script: script,
