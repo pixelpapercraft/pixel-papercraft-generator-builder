@@ -32,9 +32,7 @@ let instructions = `
 let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background")},
   {id: "SteveTabs", url: requireImage("SteveTabs")},
-  {id: "SteveFolds", url: requireImage("SteveFolds")},
   {id: "AlexTabs", url: requireImage("AlexTabs")},
-  {id: "AlexFolds", url: requireImage("AlexFolds")},
   {id: "Labels", url: requireImage("Labels")},
 ]
 

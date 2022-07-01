@@ -7,6 +7,7 @@ let isDevEnvironment: bool = process["env"]["NODE_ENV"] == "development"
   MinecraftActionFigureGenerator.generator,
   MinecraftUltimateBendableGenerator.generator,
   MinecraftCharacterMiniGenerator.generator,
+  MinecraftActionFigureMiniGenerator.generator,
 ]
 
 let mobCharacter: array<Generator.generatorDef> = [

@@ -22,6 +22,10 @@ let images: array<Generator.imageDef> = [
     id: "ImageColors64x64",
     url: requireImage("Colors64x64.png"),
   },
+  {
+    id: "Tabs",
+    url: requireImage("Tabs.png"),
+  },
 ]
 
 let textures: array<Generator.textureDef> = [
