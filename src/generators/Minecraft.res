@@ -119,10 +119,23 @@ module Cuboid = {
     }
 
     // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
-    let flip = ({rectangle, flip, rotate}: t, f: Generator_Texture.flip) => {
-      rectangle: rectangle,
-      flip: flip == #None ? f : #None,
-      rotate: flip == #None ? rotate : flip != f ? rotate +. 180.0 : rotate,
+    let flip = (face: t, flip: Generator_Texture.flip) => {
+      let (newFlip, newRotate) = switch (face.flip, flip) {
+      | (#None, #None) => (#None, face.rotate)
+      | (#None, #Vertical) => (#Vertical, face.rotate)
+      | (#None, #Horizontal) => (#Horizontal, face.rotate)
+      | (#Vertical, #None) => (#Vertical, face.rotate)
+      | (#Vertical, #Vertical) => (#None, face.rotate)
+      | (#Vertical, #Horizontal) => (#None, face.rotate +. 180.0)
+      | (#Horizontal, #None) => (#Horizontal, face.rotate)
+      | (#Horizontal, #Vertical) => (#None, face.rotate +. 180.0)
+      | (#Horizontal, #Horizontal) => (#None, face.rotate)
+      }
+      {
+        rectangle: face.rectangle,
+        flip: newFlip,
+        rotate: newRotate,
+      }
     }
 
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
