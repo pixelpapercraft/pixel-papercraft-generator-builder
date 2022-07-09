@@ -4,7 +4,7 @@ let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileNam
 let id = "minecraft-bee-character"
 
 let name = "Minecraft Bee Character"
-
+let video: Generator.videoDef = {url: "https://www.youtube.com/embed/vG-mXWu0OlA?rel=0"}
 let history = ["1 May 2022 PaperDoggy - Initial script developed."]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -483,7 +483,7 @@ let generator: Generator.generatorDef = {
   id: id,
   name: name,
   thumbnail: Some(thumbnail),
-  video: None,
+  video: Some(video),
   instructions: None,
   images: images,
   textures: textures,

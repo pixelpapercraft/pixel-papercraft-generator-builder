@@ -54,6 +54,18 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Steve-Corners",
+    url: requireTexture("Steve-Corners.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve-Faces",
+    url: requireTexture("Steve-Faces.png"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve256",
     url: requireTexture("Steve256.png"),
     standardWidth: 256,
@@ -102,268 +114,72 @@ let drawGrid = () => {
   }
 }
 
-let drawHead = ((x, y): (int, int), t: int) => {
-  let head = TextureMap.MinecraftCharacter.steve.base.head
+/* let drawSteveHeadCuboid2 = (x, y, center) => {
   let x = x - 64
   let y = y - 64
-  let p = (x, y)
-  let s = (64, 64, 64)
 
-  let c1 = "#7b7b7b"
-  let c2 = "#b7b7b7"
-  let c3 = "#000000"
-
-  let d1 = [4, 4]
-  let d2 = [2, 2]
-  let d3 = []
-
-  let o1 = 6
-  let o2 = 3
-  let o3 = 0
-
-  Generator.drawImage("Tabs", (x - 26, y - 1))
-  Generator.drawCuboid("Creeper", head, (x, y), (64, 64, 64), ())
-
-  /*
-  0: current fold line
-  1: PPA's original proposed lines
-  2: Larger and darker cut lines, lighter and smaller fold lines- tabs are cut lines
-  3: solid black cut lines, dark and small fold lines - tabs are cut lines
-  4: 2 - tabs are fold lines
-  5: 3 - tabs are fold lines
-  6: smaller lines - darker cut lines, lighter fold lines - tabs are cut lines
-  7: 6 - tabs are fold lines
-
-  8: All solid lines - black
-  9: All solid lines - gray
-  10: All solid lines - black cut, gray fold
-  11: All solid lines - dark cut, light fold
-  12: 10 - tabs are cut lines
-  13: 11 - tabs are cut lines
-  14: 6 - larger lines
-  15: 7 - larger lines
- */
-  switch t {
-  | 0 => Generator.drawFoldLineCuboid(p, s, ())
-  | 1 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d1,
-      ~offset=o3,
-      ~offset2=o1,
-      0,
-    )
-  | 2 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d2,
-      ~offset=o1,
-      ~offset2=o2,
-      0,
-    )
-  | 3 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d2,
-      ~offset=o3,
-      ~offset2=o2,
-      0,
-    )
-  | 4 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d2,
-      ~offset=o1,
-      ~offset2=o2,
-      1,
-    )
-  | 5 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d2,
-      ~offset=o3,
-      ~offset2=o2,
-      1,
-    )
-  | 6 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d2,
-      ~pattern2=d2,
-      ~offset=o2,
-      ~offset2=o2,
-      0,
-    )
-  | 7 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d2,
-      ~pattern2=d2,
-      ~offset=o2,
-      ~offset2=o2,
-      1,
-    )
-  | 8 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c3,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 9 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 10 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 11 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      0,
-    )
-  | 12 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c3,
-      ~color2=c1,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      1,
-    )
-  | 13 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d3,
-      ~pattern2=d3,
-      ~offset=o3,
-      ~offset2=o3,
-      1,
-    )
-  | 14 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d1,
-      ~offset=o1,
-      ~offset2=o1,
-      0,
-    )
-  | 15 =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d1,
-      ~offset=o1,
-      ~offset2=o1,
-      1,
-    )
-  | _ =>
-    TestingCuboid.drawLineCuboid2(
-      p,
-      s,
-      ~color=c1,
-      ~color2=c2,
-      ~pattern=d1,
-      ~pattern2=d2,
-      ~offset=o1,
-      ~offset2=o2,
-      1,
-    )
-  }
+  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (64, 96, 32),
+    ~center,
+    //~direction=#South,
+    (),
+  )
 }
 
-let drawCuboidStylesTestPage = () => {
-  Generator.usePage("Cuboid Fold Line Styles 1")
-
-  drawHead((99, 79), 8)
-  drawHead((387, 79), 9)
-  drawHead((99, 279), 10)
-  drawHead((387, 279), 11)
-  drawHead((99, 479), 12)
-  drawHead((387, 479), 13)
-  drawHead((99, 679), 14)
-  drawHead((387, 679), 15)
+let drawCuboidTestPage2 = () => {
+  Generator.usePage("Cuboid 2")
   Generator.fillBackgroundColorWithWhite()
 
-  Generator.usePage("Cuboid Fold Line Styles 2")
+  let n = 1
+  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
+  drawSteveHeadCuboid2(99, 79, #Right)
+  drawSteveHeadCuboid2(387, 79, #Front)
+  drawSteveHeadCuboid2(99, 279, #Left)
+  drawSteveHeadCuboid2(387, 279, #Back)
+  drawSteveHeadCuboid2(99, 479, #Top)
+  drawSteveHeadCuboid2(387, 479, #Bottom)
+  drawSteveHeadCuboid2(99, 679, #Front)
+  drawSteveHeadCuboid2(387, 679, #Front)
+} */
 
-  drawHead((99, 79), 0)
-  drawHead((387, 79), 1)
-  drawHead((99, 279), 2)
-  drawHead((387, 279), 3)
-  drawHead((99, 479), 4)
-  drawHead((387, 479), 5)
-  drawHead((99, 679), 6)
-  drawHead((387, 679), 7)
+let drawSteveHeadCuboid = (x, y, size, direction) => {
+  let (w, h) = switch direction {
+  | #North | #South => (size * 3, size * 4)
+  | #West | #East => (size * 4, size * 3)
+  }
+  Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
+  Minecraft.drawCuboid(
+    "Steve-Corners",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (size, size, size),
+    ~direction,
+    (),
+  )
+}
+
+let drawCuboidTestPage = () => {
+  Generator.usePage("Cuboid")
   Generator.fillBackgroundColorWithWhite()
+
+  drawSteveHeadCuboid(10, 10, 10, #East)
+  drawSteveHeadCuboid(100, 10, 10, #West)
+  drawSteveHeadCuboid(10, 100, 10, #North)
+  drawSteveHeadCuboid(100, 100, 10, #South)
+
+  drawSteveHeadCuboid(200, 10, 33, #East)
+  drawSteveHeadCuboid(400, 10, 33, #West)
+  drawSteveHeadCuboid(200, 150, 33, #North)
+  drawSteveHeadCuboid(400, 150, 33, #South)
+
+  drawSteveHeadCuboid(10, 300, 64, #East)
+  drawSteveHeadCuboid(330, 300, 64, #West)
+  drawSteveHeadCuboid(10, 550, 64, #North)
+  drawSteveHeadCuboid(330, 550, 64, #South)
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {
@@ -882,8 +698,133 @@ let drawTextureCropTest = () => {
   }
 }
 
+let drawRectTab = (rectangle, orientation, ~tabAngle) => {
+  Generator.fillRect(rectangle, "#ff000020")
+  Generator.drawTab(rectangle, orientation, ~tabAngle, ())
+}
+
+let drawTabsTestPage = () => {
+  Generator.usePage("Tabs")
+  Generator.fillBackgroundColorWithWhite()
+
+  let tabAngle = 45.0
+
+  drawRectTab((10, 10, 100, 30), #North, ~tabAngle)
+  drawRectTab((150, 10, 100, 30), #South, ~tabAngle)
+  drawRectTab((300, 10, 100, 30), #East, ~tabAngle)
+  drawRectTab((450, 10, 100, 30), #West, ~tabAngle)
+
+  drawRectTab((10, 80, 100, 100), #North, ~tabAngle)
+  drawRectTab((150, 80, 100, 100), #South, ~tabAngle)
+  drawRectTab((300, 80, 100, 100), #East, ~tabAngle)
+  drawRectTab((450, 80, 100, 100), #West, ~tabAngle)
+
+  drawRectTab((10, 220, 30, 100), #North, ~tabAngle)
+  drawRectTab((150, 220, 30, 100), #South, ~tabAngle)
+  drawRectTab((300, 220, 30, 100), #East, ~tabAngle)
+  drawRectTab((450, 220, 30, 100), #West, ~tabAngle)
+
+  let tabAngle = 80.0
+
+  drawRectTab((10, 400, 100, 50), #North, ~tabAngle)
+  drawRectTab((150, 400, 100, 50), #South, ~tabAngle)
+  drawRectTab((300, 400, 100, 50), #East, ~tabAngle)
+  drawRectTab((450, 400, 100, 50), #West, ~tabAngle)
+
+  drawRectTab((10, 500, 100, 100), #North, ~tabAngle)
+  drawRectTab((150, 500, 100, 100), #South, ~tabAngle)
+  drawRectTab((300, 500, 100, 100), #East, ~tabAngle)
+  drawRectTab((450, 500, 100, 100), #West, ~tabAngle)
+
+  drawRectTab((10, 650, 50, 100), #North, ~tabAngle)
+  drawRectTab((150, 650, 50, 100), #South, ~tabAngle)
+  drawRectTab((300, 650, 50, 100), #East, ~tabAngle)
+  drawRectTab((450, 650, 50, 100), #West, ~tabAngle)
+}
+
+let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
+  let head = Minecraft.Character.steve.base.head
+
+  let frontFace = (ox + size, oy + size, size, size)
+  Generator.drawTexture(texture, head.front, frontFace, ())
+
+  let rightFace = (ox, oy + size, size, size)
+  Generator.drawTexture(texture, head.right, rightFace, ())
+  Minecraft.drawFaceTabs(rightFace, [#West, #North, #South], ())
+
+  let leftFace = (ox + size * 2, oy + size, size, size)
+  Generator.drawTexture(texture, head.left, leftFace, ())
+  Minecraft.drawFaceTabs(leftFace, [#North, #South], ())
+
+  let topFace = (ox + size, oy, size, size)
+  Generator.drawTexture(texture, head.top, topFace, ())
+  Minecraft.drawFaceTabs(topFace, [#North, #West, #East], ())
+
+  let backFace = (ox + size * 3, oy + size, size, size)
+  Generator.drawTexture(texture, head.back, backFace, ())
+  Minecraft.drawFaceTabs(backFace, [#North, #South, #East], ())
+
+  let bottomFace = (ox + size, oy + size * 2, size, size)
+  Generator.drawTexture(texture, head.bottom, bottomFace, ~flip=#Vertical, ())
+  Minecraft.drawFaceTabs(bottomFace, [#West, #East, #South], ())
+}
+
+let drawSteveFaceWithTabs = (x, y, w, h, ~size=?, ~tabAngle, ()) => {
+  let size = switch size {
+  | Some(size) => size
+  | None => Minecraft.getTabSize()
+  }
+  let head = Minecraft.Character.steve.base.head
+  let face = (x, y, w, h)
+  Generator.drawTexture("Steve", head.front, face, ())
+  Minecraft.drawFaceTabs(face, [#North, #East, #South, #West], ~size, ~tabAngle, ())
+}
+
+let drawFaceTabsTestPage = () => {
+  Generator.usePage("Face Tabs")
+  Generator.fillBackgroundColorWithWhite()
+
+  Minecraft.setTabSize(24)
+  drawSteveFaceWithTabs(50, 50, 64, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(200, 50, 64, 32, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(350, 50, 32, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(500, 50, 32, 32, ~tabAngle=45.0, ())
+
+  Minecraft.setTabSize(48)
+  drawSteveFaceWithTabs(50, 200, 64, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(200, 200, 64, 32, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(350, 200, 32, 64, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(500, 200, 32, 32, ~tabAngle=45.0, ())
+
+  Minecraft.setTabSize(12)
+  drawSteveFaceWithTabs(50, 350, 64, 64, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(200, 350, 64, 32, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(350, 350, 32, 64, ~tabAngle=60.0, ())
+  drawSteveFaceWithTabs(500, 350, 32, 32, ~tabAngle=60.0, ())
+
+  Minecraft.setTabSize(12)
+  drawSteveFaceWithTabs(50, 500, 64, 64, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(200, 500, 64, 32, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(350, 500, 32, 64, ~tabAngle=30.0, ())
+  drawSteveFaceWithTabs(500, 500, 32, 32, ~tabAngle=30.0, ())
+
+  drawSteveFaceWithTabs(400, 650, 16, 16, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(450, 650, 16, 8, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(400, 700, 8, 16, ~size=8, ~tabAngle=45.0, ())
+  drawSteveFaceWithTabs(450, 700, 8, 8, ~size=4, ~tabAngle=45.0, ())
+
+  let ox = 50
+  let oy = 600
+  let size = 64
+  Minecraft.setTabSize(24)
+  drawSteveHeadWithTabs("Steve", ox, oy, size)
+}
+
 let script = () => {
-  drawCuboidStylesTestPage()
+  drawFaceTabsTestPage()
+  drawTabsTestPage()
+  //drawCuboidTestPage2()
+  drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
