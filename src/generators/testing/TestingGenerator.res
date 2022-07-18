@@ -123,6 +123,7 @@ let drawSteveHeadCuboid4 = (x, y, rotate) => {
     Minecraft.Character.steve.base.head,
     (x, y),
     (64, 64, 64),
+    ~center=#Back,
     ~rotate,
     (),
   )

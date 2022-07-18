@@ -138,18 +138,6 @@ module Cuboid = {
       }
     }
 
-    let rotate = ({rectangle, flip, rotate}: t, r: float) => {
-      let (x, y, w, h) = rectangle
-
-      {
-        rectangle: mod_float(r +. 360.0, 180.0) == 90.0
-          ? (x + (w - h) / 2, y - (w - h) / 2, h, w)
-          : (x, y, w, h),
-        flip: flip,
-        rotate: rotate +. r,
-      }
-    }
-
     let rotate2 = ({rectangle, flip, rotate}: t, axis: Generator_Builder.position, r: float) => {
       let rad = r *. Js.Math._PI /. 180.0
       let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
@@ -166,6 +154,12 @@ module Cuboid = {
         flip: flip,
         rotate: rotate +. r,
       }
+    }
+
+    let rotate = ({rectangle, flip, rotate}: t, r: float) => {
+      let (x, y, w, h) = rectangle
+
+      rotate2({rectangle: rectangle, flip: flip, rotate: rotate}, (x + w / 2, y + h / 2), r)
     }
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
