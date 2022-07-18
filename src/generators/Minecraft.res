@@ -150,6 +150,24 @@ module Cuboid = {
       }
     }
 
+    let rotate2 = ({rectangle, flip, rotate}: t, axis: Generator_Builder.position, r: float) => {
+      let rad = r *. Js.Math._PI /. 180.0
+      let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
+      let (x, y, w, h) = rectangle
+      let (x0, y0) = axis
+      let (x1, y1) = (Belt.Int.toFloat(x - x0), Belt.Int.toFloat(y - y0))
+      let (x2, y2) = (x1 *. cos -. y1 *. sin, x1 *. sin +. y1 *. cos)
+      let (x3, y3) = (Belt.Float.toInt(x2) + x0, Belt.Float.toInt(y2) + y0)
+
+      {
+        rectangle: mod_float(r +. 360.0, 180.0) == 90.0
+          ? (x3 + (w - h) / 2, y3 - (w - h) / 2, h, w)
+          : (x3, y3, w, h),
+        flip: flip,
+        rotate: rotate +. r,
+      }
+    }
+
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
       flip: flip,
@@ -162,7 +180,7 @@ module Cuboid = {
         source,
         dest.rectangle,
         ~flip=dest.flip,
-        ~rotate=dest.rotate,
+        ~rotateLegacy=dest.rotate,
         (),
       )
     }
@@ -228,7 +246,20 @@ module Cuboid = {
       }
     }
 
-    let setLayout = (scale, direction, center): t => {
+    let rotate = (dest: t, scale: scale, rotate: float): t => {
+      let (w, h, d) = scale
+      let axis = (d + w / 2, d + h / 2)
+      {
+        right: dest.right->Face.rotate2(axis, rotate),
+        front: dest.front->Face.rotate2(axis, rotate),
+        left: dest.left->Face.rotate2(axis, rotate),
+        back: dest.back->Face.rotate2(axis, rotate),
+        top: dest.top->Face.rotate2(axis, rotate),
+        bottom: dest.bottom->Face.rotate2(axis, rotate),
+      }
+    }
+
+    let setLayout = (scale, direction, center, r): t => {
       let (w, h, d) = scale
       let scale = switch center {
       | #Right => (d, h, w)
@@ -239,7 +270,7 @@ module Cuboid = {
       }
 
       let dest = make(scale, direction)
-      switch center {
+      let dest = switch center {
       | #Right => {
           right: dest.front,
           front: dest.left,
@@ -289,6 +320,7 @@ module Cuboid = {
           bottom: dest.front->Face.flip(#Vertical),
         }
       }
+      rotate(dest, scale, r)
     }
   }
 
@@ -299,9 +331,10 @@ module Cuboid = {
     scale: scale,
     ~direction: Dest.direction=#East,
     ~center: Dest.center=#Front,
+    ~rotate: float=0.0,
     (),
   ) => {
-    let dest = Dest.setLayout(scale, direction, center)->Dest.translate(position)
+    let dest = Dest.setLayout(scale, direction, center, rotate)->Dest.translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -318,8 +351,9 @@ let drawCuboid = (
   scale: scale,
   ~direction: Cuboid.Dest.direction=#East,
   ~center: Cuboid.Dest.center=#Front,
+  ~rotate: float=0.0,
   (),
-) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ())
+) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
 
 module CharacterLegacy = {
   module Layer = {

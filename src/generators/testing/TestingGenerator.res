@@ -110,6 +110,103 @@ let drawGrid = () => {
   }
 }
 
+let drawPoint = ((x, y): Generator_Builder.position, color: string) => {
+  Generator.fillRect((x - 1, y - 1, 3, 3), color)
+}
+
+let drawSteveHeadCuboid4 = (x, y, rotate) => {
+  let x = x - 64
+  let y = y - 64
+
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (64, 64, 64),
+    ~rotate,
+    (),
+  )
+  drawPoint((x, y), "#0000ff")
+}
+
+let drawCuboidTestPage4 = () => {
+  Generator.usePage("Cuboid 4")
+  Generator.fillBackgroundColorWithWhite()
+
+  let angle =
+    Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 359 ? 0 : angle + 15
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+  //drawSteveHeadCuboid4(99, 79, 0.0)
+  //drawSteveHeadCuboid4(387, 79, 45.0)
+  //drawSteveHeadCuboid4(99, 279, 90.0)
+  drawSteveHeadCuboid4(387, 279, Belt.Int.toFloat(angle))
+  //drawSteveHeadCuboid4(99, 479, 180.0)
+  //drawSteveHeadCuboid4(387, 479, 225.0)
+  //drawSteveHeadCuboid4(99, 679, 270.0)
+  //drawSteveHeadCuboid4(387, 679, 315.0)
+}
+
+let rotateAroundPoint = (
+  point: Generator_Builder.position,
+  angle: float,
+  axis: Generator_Builder.position,
+): Generator_Builder.position => {
+  let rad = angle *. Js.Math._PI /. 180.0
+  let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
+  let (x, y) = point
+  let (x0, y0) = axis
+  let (x1, y1) = (Belt.Int.toFloat(x - x0), Belt.Int.toFloat(y - y0))
+  let (x2, y2) = (x1 *. cos -. y1 *. sin, x1 *. sin +. y1 *. cos)
+  let (x, y) = (Belt.Float.toInt(x2) + x0, Belt.Float.toInt(y2) + y0)
+  (x, y)
+}
+
+let rotateEachPoint = (
+  points: array<Generator_Builder.position>,
+  axis: Generator_Builder.position,
+  angle: float,
+): array<Generator_Builder.position> => {
+  Belt.Array.forEachWithIndex(points, (i, p) => points[i] = rotateAroundPoint(p, angle, axis))
+  points
+}
+
+let drawEachPoint = (points: array<Generator_Builder.position>, color: string) => {
+  Belt.Array.forEach(points, p => drawPoint(p, color))
+}
+
+let drawRotationTestPage = () => {
+  Generator.usePage("Rotation")
+  let rx = 0 //Generator.defineAndGetRangeInput("Axis X", {min: 0, max: 595, value: 132, step: 1})
+  let ry = 0 //Generator.defineAndGetRangeInput("Axis Y", {min: 0, max: 842, value: 132, step: 1})
+  let angle = 0 //Generator.defineAndGetRangeInput("Angle", {min: 0, max: 360, value: 0, step: 1})
+  let (x, y) = (100, 100)
+
+  let points =
+    [(x, y), (x + 64, y), (x + 64, y + 96), (x, y + 96)]->rotateEachPoint(
+      (rx, ry),
+      Belt.Int.toFloat(angle),
+    )
+  let (fx, fy) =
+    rotateAroundPoint((x, y), 90.0, (x + 32, y + 48))->rotateAroundPoint(
+      Belt.Int.toFloat(angle),
+      (rx, ry),
+    )
+  Generator.drawTexture(
+    "Steve",
+    (20, 20, 8, 12),
+    (fx, fy, 64, 96),
+    ~rotateLegacy=Belt.Int.toFloat(angle) +. 90.0,
+    (),
+  )
+  drawPoint((rx, ry), "#0000ff")
+  drawEachPoint(points, "#ff0000")
+}
+
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
@@ -865,6 +962,8 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage4()
+  drawRotationTestPage()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()
