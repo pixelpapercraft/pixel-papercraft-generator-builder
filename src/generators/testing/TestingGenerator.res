@@ -114,6 +114,67 @@ let drawPoint = ((x, y): Generator_Builder.position, color: string) => {
   Generator.fillRect((x - 1, y - 1, 3, 3), color)
 }
 
+let drawSteveBodyCuboid2 = (x, y, scale, direction, center, rotate) => {
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (2 * scale, 3 * scale, scale),
+    ~center,
+    ~direction,
+    ~rotate,
+    (),
+  )
+}
+
+let drawCuboidTestPage5 = () => {
+  Generator.usePage("Cuboid 5")
+  Generator.fillBackgroundColorWithWhite()
+
+  let angle =
+    Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 359 ? 0 : angle + 15
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+
+  let anglef = Belt.Int.toFloat(angle)
+  let scale = 16
+  let y = 10
+  drawSteveBodyCuboid2(10, y, scale, #North, #Front, anglef)
+  drawSteveBodyCuboid2(80, y, scale, #North, #Back, anglef)
+  drawSteveBodyCuboid2(150, y, scale, #North, #Right, anglef)
+  drawSteveBodyCuboid2(240, y, scale, #North, #Left, anglef)
+  drawSteveBodyCuboid2(330, y, scale, #North, #Top, anglef)
+  drawSteveBodyCuboid2(460, y, scale, #North, #Bottom, anglef)
+
+  let y = y + 180
+  drawSteveBodyCuboid2(10, y, scale, #South, #Front, anglef)
+  drawSteveBodyCuboid2(80, y, scale, #South, #Back, anglef)
+  drawSteveBodyCuboid2(150, y, scale, #South, #Right, anglef)
+  drawSteveBodyCuboid2(240, y, scale, #South, #Left, anglef)
+  drawSteveBodyCuboid2(330, y, scale, #South, #Top, anglef)
+  drawSteveBodyCuboid2(460, y, scale, #South, #Bottom, anglef)
+
+  let y = y + 180
+  drawSteveBodyCuboid2(10, y, scale, #West, #Front, anglef)
+  drawSteveBodyCuboid2(110, y, scale, #West, #Back, anglef)
+  drawSteveBodyCuboid2(210, y, scale, #West, #Right, anglef)
+  drawSteveBodyCuboid2(310, y, scale, #West, #Left, anglef)
+  drawSteveBodyCuboid2(380, y - 50, scale, #West, #Top, anglef)
+  drawSteveBodyCuboid2(420, y + 20, scale, #West, #Bottom, anglef)
+
+  let y = y + 180
+  drawSteveBodyCuboid2(10, y, scale, #East, #Front, anglef)
+  drawSteveBodyCuboid2(110, y, scale, #East, #Back, anglef)
+  drawSteveBodyCuboid2(210, y, scale, #East, #Right, anglef)
+  drawSteveBodyCuboid2(310, y, scale, #East, #Left, anglef)
+  drawSteveBodyCuboid2(380, y - 50, scale, #East, #Top, anglef)
+  drawSteveBodyCuboid2(420, y + 20, scale, #East, #Bottom, anglef)
+}
+
 let drawSteveHeadCuboid4 = (x, y, rotate) => {
   let x = x - 64
   let y = y - 64
@@ -138,11 +199,6 @@ let drawCuboidTestPage4 = () => {
   let angle =
     Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
 
-  Generator.defineButtonInput("Increment Angle", () => {
-    let nextAngle = angle >= 359 ? 0 : angle + 15
-    let nextAngleString = Belt.Int.toString(nextAngle)
-    Generator.setSelectInputValue("Angle", nextAngleString)
-  })
   //drawSteveHeadCuboid4(99, 79, 0.0)
   //drawSteveHeadCuboid4(387, 79, 45.0)
   //drawSteveHeadCuboid4(99, 279, 90.0)
@@ -964,6 +1020,7 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage5()
   drawCuboidTestPage4()
   drawRotationTestPage()
   drawCuboidTestPage3()
