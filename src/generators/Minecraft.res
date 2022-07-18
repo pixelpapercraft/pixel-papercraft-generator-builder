@@ -118,26 +118,6 @@ module Cuboid = {
       rotate: 0.0,
     }
 
-    // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
-    let flip = (face: t, flip: Generator_Texture.flip) => {
-      let (newFlip, newRotate) = switch (face.flip, flip) {
-      | (#None, #None) => (#None, face.rotate)
-      | (#None, #Vertical) => (#Vertical, face.rotate)
-      | (#None, #Horizontal) => (#Horizontal, face.rotate)
-      | (#Vertical, #None) => (#Vertical, face.rotate)
-      | (#Vertical, #Vertical) => (#None, face.rotate)
-      | (#Vertical, #Horizontal) => (#None, face.rotate +. 180.0)
-      | (#Horizontal, #None) => (#Horizontal, face.rotate)
-      | (#Horizontal, #Vertical) => (#None, face.rotate +. 180.0)
-      | (#Horizontal, #Horizontal) => (#None, face.rotate)
-      }
-      {
-        rectangle: face.rectangle,
-        flip: newFlip,
-        rotate: newRotate,
-      }
-    }
-
     let rotate2 = ({rectangle, flip, rotate}: t, axis: Generator_Builder.position, r: float) => {
       let rad = r *. Js.Math._PI /. 180.0
       let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
@@ -157,7 +137,10 @@ module Cuboid = {
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
       let (x, y, w, h) = rectangle
 
-      let f = rotate2({rectangle: rectangle, flip: flip, rotate: rotate}, (x + w / 2, y + h / 2), r)
+      let f =
+        r == 180.0
+          ? {rectangle: rectangle, flip: flip, rotate: rotate}
+          : rotate2({rectangle: rectangle, flip: flip, rotate: rotate}, (x + w / 2, y + h / 2), r)
       let {rectangle, flip, rotate} = f
       let (x, y, w, h) = rectangle
 
@@ -169,6 +152,26 @@ module Cuboid = {
         },
         flip: flip,
         rotate: rotate,
+      }
+    }
+
+    // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
+    let flip = (face: t, flip: Generator_Texture.flip) => {
+      let (newFlip, newRotate) = switch (face.flip, flip) {
+      | (#None, #None) => (#None, face.rotate)
+      | (#None, #Vertical) => (#Vertical, face.rotate)
+      | (#None, #Horizontal) => (#Horizontal, face.rotate)
+      | (#Vertical, #None) => (#Vertical, face.rotate)
+      | (#Vertical, #Vertical) => (#None, face.rotate)
+      | (#Vertical, #Horizontal) => (#None, face.rotate +. 180.0)
+      | (#Horizontal, #None) => (#Horizontal, face.rotate)
+      | (#Horizontal, #Vertical) => (#None, face.rotate +. 180.0)
+      | (#Horizontal, #Horizontal) => (#None, face.rotate)
+      }
+      {
+        rectangle: face.rectangle,
+        flip: newFlip,
+        rotate: newRotate,
       }
     }
 
