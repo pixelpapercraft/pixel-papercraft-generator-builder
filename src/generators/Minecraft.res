@@ -73,6 +73,9 @@ let translateRectangle = (
   (x + xTranslate, y + yTranslate, w, h)
 }
 
+let toFloat = (i: int) => Belt.Int.toFloat(i)
+let toInt = (f: float) => Belt.Float.toInt(f)
+
 type scale = (int, int, int)
 
 module Cuboid = {
@@ -118,14 +121,14 @@ module Cuboid = {
       rotate: 0.0,
     }
 
-    let rotate2 = ({rectangle, flip, rotate}: t, axis: Generator_Builder.position, r: float) => {
+    let rotateOnAxis = ({rectangle, flip, rotate}: t, axis: (float, float), r: float) => {
       let rad = r *. Js.Math._PI /. 180.0
       let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
       let (x, y, w, h) = rectangle
       let (x0, y0) = axis
-      let (x1, y1) = (Belt.Int.toFloat(x - x0), Belt.Int.toFloat(y - y0))
+      let (x1, y1) = (toFloat(x) -. x0, toFloat(y) -. y0)
       let (x2, y2) = (x1 *. cos -. y1 *. sin, x1 *. sin +. y1 *. cos)
-      let (x3, y3) = (Belt.Float.toInt(x2) + x0, Belt.Float.toInt(y2) + y0)
+      let (x3, y3) = (toInt(x2 +. x0), toInt(y2 +. y0))
 
       {
         rectangle: (x3, y3, w, h),
@@ -136,18 +139,33 @@ module Cuboid = {
 
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
       let (x, y, w, h) = rectangle
+      let r = mod_float(r +. 360.0, 360.0)
 
       let f =
         r == 180.0
           ? {rectangle: rectangle, flip: flip, rotate: rotate}
-          : rotate2({rectangle: rectangle, flip: flip, rotate: rotate}, (x + w / 2, y + h / 2), r)
+          : rotateOnAxis(
+              {rectangle: rectangle, flip: flip, rotate: rotate},
+              (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
+              r,
+            )
       let {rectangle, flip, rotate} = f
       let (x, y, w, h) = rectangle
 
       {
         rectangle: switch mod_float(rotate +. 360.0, 360.0) {
-        | 90.0 => (x + (w - h) / 2, y + (w - h) / 2, h, w)
-        | 270.0 => (x - (w - h) / 2, y - (w - h) / 2, h, w)
+        | 90.0 => (
+            toInt(toFloat(x) +. (toFloat(w) -. toFloat(h)) /. 2.0),
+            toInt(toFloat(y) +. (toFloat(w) -. toFloat(h)) /. 2.0),
+            h,
+            w,
+          )
+        | 270.0 => (
+            toInt(toFloat(x) -. (toFloat(w) -. toFloat(h)) /. 2.0),
+            toInt(toFloat(y) -. (toFloat(w) -. toFloat(h)) /. 2.0),
+            h,
+            w,
+          )
         | _ => (x, y, w, h)
         },
         flip: flip,
@@ -255,14 +273,14 @@ module Cuboid = {
 
     let rotate = (dest: t, scale: scale, rotate: float): t => {
       let (w, h, d) = scale
-      let axis = (d + w / 2, d + h / 2)
+      let axis = (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) /. 2.0)
       {
-        right: dest.right->Face.rotate2(axis, rotate),
-        front: dest.front->Face.rotate2(axis, rotate),
-        left: dest.left->Face.rotate2(axis, rotate),
-        back: dest.back->Face.rotate2(axis, rotate),
-        top: dest.top->Face.rotate2(axis, rotate),
-        bottom: dest.bottom->Face.rotate2(axis, rotate),
+        right: dest.right->Face.rotateOnAxis(axis, rotate),
+        front: dest.front->Face.rotateOnAxis(axis, rotate),
+        left: dest.left->Face.rotateOnAxis(axis, rotate),
+        back: dest.back->Face.rotateOnAxis(axis, rotate),
+        top: dest.top->Face.rotateOnAxis(axis, rotate),
+        bottom: dest.bottom->Face.rotateOnAxis(axis, rotate),
       }
     }
 

@@ -185,7 +185,7 @@ let drawSteveHeadCuboid4 = (x, y, rotate) => {
     (x, y),
     (64, 96, 32),
     ~center=#Top,
-    ~direction=#South,
+    ~direction=#North,
     ~rotate,
     (),
   )
