@@ -114,18 +114,66 @@ let drawGrid = () => {
   }
 }
 
-/* let drawSteveHeadCuboid2 = (x, y, center) => {
-  let x = x - 64
-  let y = y - 64
-
-  //Generator.drawTexture("TextureColors4x4", (0, 1, 1, 1), (x, y, size * 4, size * 3), ())
+let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.body,
     (x, y),
-    (64, 96, 32),
+    (2 * scale, 3 * scale, scale),
     ~center,
-    //~direction=#South,
+    ~direction,
+    (),
+  )
+}
+
+let drawCuboidTestPage3 = () => {
+  Generator.usePage("Cuboid 3")
+  Generator.fillBackgroundColorWithWhite()
+  let scale = 16
+  let y = 10
+  drawSteveBodyCuboid(10, y, scale, #North, #Front)
+  drawSteveBodyCuboid(80, y, scale, #North, #Back)
+  drawSteveBodyCuboid(150, y, scale, #North, #Right)
+  drawSteveBodyCuboid(240, y, scale, #North, #Left)
+  drawSteveBodyCuboid(330, y, scale, #North, #Top)
+  drawSteveBodyCuboid(460, y, scale, #North, #Bottom)
+
+  let y = y + 180
+  drawSteveBodyCuboid(10, y, scale, #South, #Front)
+  drawSteveBodyCuboid(80, y, scale, #South, #Back)
+  drawSteveBodyCuboid(150, y, scale, #South, #Right)
+  drawSteveBodyCuboid(240, y, scale, #South, #Left)
+  drawSteveBodyCuboid(330, y, scale, #South, #Top)
+  drawSteveBodyCuboid(460, y, scale, #South, #Bottom)
+
+  let y = y + 180
+  drawSteveBodyCuboid(10, y, scale, #West, #Front)
+  drawSteveBodyCuboid(110, y, scale, #West, #Back)
+  drawSteveBodyCuboid(210, y, scale, #West, #Right)
+  drawSteveBodyCuboid(310, y, scale, #West, #Left)
+  drawSteveBodyCuboid(380, y - 50, scale, #West, #Top)
+  drawSteveBodyCuboid(420, y + 20, scale, #West, #Bottom)
+
+  let y = y + 180
+  drawSteveBodyCuboid(10, y, scale, #East, #Front)
+  drawSteveBodyCuboid(110, y, scale, #East, #Back)
+  drawSteveBodyCuboid(210, y, scale, #East, #Right)
+  drawSteveBodyCuboid(310, y, scale, #East, #Left)
+  drawSteveBodyCuboid(380, y - 50, scale, #East, #Top)
+  drawSteveBodyCuboid(420, y + 20, scale, #East, #Bottom)
+}
+
+let drawSteveHeadCuboid2 = (x, y, center) => {
+  let x = x - 64
+  let y = y - 64
+
+  Minecraft.drawCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.head,
+    (x, y),
+    (64, 64, 64),
+    ~center,
+    ~direction=#East,
     (),
   )
 }
@@ -144,7 +192,7 @@ let drawCuboidTestPage2 = () => {
   drawSteveHeadCuboid2(387, 479, #Bottom)
   drawSteveHeadCuboid2(99, 679, #Front)
   drawSteveHeadCuboid2(387, 679, #Front)
-} */
+}
 
 let drawSteveHeadCuboid = (x, y, size, direction) => {
   let (w, h) = switch direction {
@@ -821,9 +869,10 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage3()
+  drawCuboidTestPage2()
   drawFaceTabsTestPage()
   drawTabsTestPage()
-  //drawCuboidTestPage2()
   drawCuboidTestPage()
   drawFoldLinesTestPage()
   drawLinesTestPage()

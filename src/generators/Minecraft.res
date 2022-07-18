@@ -72,6 +72,7 @@ let translateRectangle = (
   let (x, y, w, h) = rectangle
   (x + xTranslate, y + yTranslate, w, h)
 }
+
 type scale = (int, int, int)
 
 module Cuboid = {
@@ -117,6 +118,38 @@ module Cuboid = {
       rotate: 0.0,
     }
 
+    // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
+    let flip = (face: t, flip: Generator_Texture.flip) => {
+      let (newFlip, newRotate) = switch (face.flip, flip) {
+      | (#None, #None) => (#None, face.rotate)
+      | (#None, #Vertical) => (#Vertical, face.rotate)
+      | (#None, #Horizontal) => (#Horizontal, face.rotate)
+      | (#Vertical, #None) => (#Vertical, face.rotate)
+      | (#Vertical, #Vertical) => (#None, face.rotate)
+      | (#Vertical, #Horizontal) => (#None, face.rotate +. 180.0)
+      | (#Horizontal, #None) => (#Horizontal, face.rotate)
+      | (#Horizontal, #Vertical) => (#None, face.rotate +. 180.0)
+      | (#Horizontal, #Horizontal) => (#None, face.rotate)
+      }
+      {
+        rectangle: face.rectangle,
+        flip: newFlip,
+        rotate: newRotate,
+      }
+    }
+
+    let rotate = ({rectangle, flip, rotate}: t, r: float) => {
+      let (x, y, w, h) = rectangle
+
+      {
+        rectangle: mod_float(r +. 360.0, 180.0) == 90.0
+          ? (x + (w - h) / 2, y - (w - h) / 2, h, w)
+          : (x, y, w, h),
+        flip: flip,
+        rotate: rotate +. r,
+      }
+    }
+
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
       flip: flip,
@@ -144,6 +177,11 @@ module Cuboid = {
       right: Face.t,
       left: Face.t,
     }
+
+    type direction = [#East | #West | #North | #South]
+
+    type center = [#Right | #Front | #Left | #Back | #Top | #Bottom]
+
     let translate = (dest: t, position: Builder.position) => {
       front: Face.translate(dest.front, position),
       back: Face.translate(dest.back, position),
@@ -152,8 +190,6 @@ module Cuboid = {
       right: Face.translate(dest.right, position),
       left: Face.translate(dest.left, position),
     }
-
-    type direction = [#East | #West | #North | #South]
 
     let make = ((w, h, d): scale, direction: direction): t => {
       switch direction {
@@ -174,58 +210,83 @@ module Cuboid = {
           bottom: Face.make((w + d, d + h, w, d)),
         }
       | #North => {
+          back: Face.make((d, 0, w, h))->Face.rotate(180.0),
+          top: Face.make((d, h, w, d)),
+          right: Face.make((0, h + d, d, h)),
+          front: Face.make((d, h + d, w, h)),
+          left: Face.make((d + w, h + d, d, h)),
+          bottom: Face.make((d, h * 2 + d, w, d)),
+        }
+      | #South => {
           top: Face.make((d, 0, w, d)),
           right: Face.make((0, d, d, h)),
           front: Face.make((d, d, w, h)),
           left: Face.make((d + w, d, d, h)),
           bottom: Face.make((d, d + h, w, d)),
-          back: Face.make((d, d + h + d, w, h)),
-        }
-      | #South => {
-          back: Face.make((d, 0, w, h)),
-          top: Face.make((d, h, w, d)),
-          right: Face.make((0, h + d, d, h)),
-          front: Face.make((d, h + d, w, h)),
-          left: Face.make((d + w, h + d, d, h)),
-          bottom: Face.make((d, h + d + w, w, d)),
+          back: Face.make((d, d + h + d, w, h))->Face.rotate(180.0),
         }
       }
     }
 
-    let setLayout = (scale, direction): t => {
+    let setLayout = (scale, direction, center): t => {
+      let (w, h, d) = scale
+      let scale = switch center {
+      | #Right => (d, h, w)
+      | #Left => (d, h, w)
+      | #Top => (w, d, h)
+      | #Bottom => (w, d, h)
+      | _ => (w, h, d)
+      }
+
       let dest = make(scale, direction)
-      switch direction {
-      | #East => {
-          top: dest.top,
+      switch center {
+      | #Right => {
+          right: dest.front,
+          front: dest.left,
+          left: dest.back,
+          back: dest.right,
+          top: dest.top->Face.rotate(-90.0),
+          bottom: dest.bottom->Face.rotate(90.0)->Face.flip(#Vertical),
+        }
+      | #Front => {
           right: dest.right,
           front: dest.front,
           left: dest.left,
           back: dest.back,
-          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
-        }
-      | #West => {
           top: dest.top,
-          right: dest.right,
-          front: dest.front,
-          left: dest.left,
-          back: dest.back,
-          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+          bottom: dest.bottom->Face.flip(#Vertical),
         }
-      | #North => {
-          top: dest.top,
-          right: dest.right,
-          front: dest.front,
-          left: dest.left,
-          back: {rectangle: dest.back.rectangle, flip: #None, rotate: 180.0},
-          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+      | #Left => {
+          right: dest.back,
+          front: dest.right,
+          left: dest.front,
+          back: dest.left,
+          top: dest.top->Face.rotate(90.0),
+          bottom: dest.bottom->Face.rotate(-90.0)->Face.flip(#Vertical),
         }
-      | #South => {
-          top: dest.top,
-          right: dest.right,
-          front: dest.front,
-          left: dest.left,
-          back: {rectangle: dest.back.rectangle, flip: #None, rotate: 180.0},
-          bottom: {rectangle: dest.bottom.rectangle, flip: #Vertical, rotate: 0.0},
+      | #Back => {
+          right: dest.left,
+          front: dest.back,
+          left: dest.right,
+          back: dest.front,
+          top: dest.top->Face.rotate(180.0),
+          bottom: dest.bottom->Face.rotate(180.0)->Face.flip(#Vertical),
+        }
+      | #Top => {
+          right: dest.right->Face.rotate(90.0),
+          front: dest.bottom,
+          left: dest.left->Face.rotate(-90.0),
+          back: dest.top->Face.rotate(180.0),
+          top: dest.front,
+          bottom: dest.back->Face.flip(#Vertical)->Face.rotate(180.0),
+        }
+      | #Bottom => {
+          right: dest.right->Face.rotate(-90.0),
+          front: dest.top,
+          left: dest.left->Face.rotate(90.0),
+          back: dest.bottom->Face.rotate(180.0),
+          top: dest.back->Face.rotate(180.0),
+          bottom: dest.front->Face.flip(#Vertical),
         }
       }
     }
@@ -237,9 +298,10 @@ module Cuboid = {
     position: Builder.position,
     scale: scale,
     ~direction: Dest.direction=#East,
+    ~center: Dest.center=#Front,
     (),
   ) => {
-    let dest = Dest.setLayout(scale, direction)->Dest.translate(position)
+    let dest = Dest.setLayout(scale, direction, center)->Dest.translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -255,8 +317,9 @@ let drawCuboid = (
   position: Builder.position,
   scale: scale,
   ~direction: Cuboid.Dest.direction=#East,
+  ~center: Cuboid.Dest.center=#Front,
   (),
-) => Cuboid.draw(textureId, source, position, scale, ~direction, ())
+) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ())
 
 module CharacterLegacy = {
   module Layer = {
