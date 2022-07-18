@@ -148,9 +148,7 @@ module Cuboid = {
       let (x3, y3) = (Belt.Float.toInt(x2) + x0, Belt.Float.toInt(y2) + y0)
 
       {
-        rectangle: mod_float(r +. 360.0, 180.0) == 90.0
-          ? (x3 + (w - h) / 2, y3 - (w - h) / 2, h, w)
-          : (x3, y3, w, h),
+        rectangle: (x3, y3, w, h),
         flip: flip,
         rotate: rotate +. r,
       }
@@ -159,7 +157,19 @@ module Cuboid = {
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
       let (x, y, w, h) = rectangle
 
-      rotate2({rectangle: rectangle, flip: flip, rotate: rotate}, (x + w / 2, y + h / 2), r)
+      let f = rotate2({rectangle: rectangle, flip: flip, rotate: rotate}, (x + w / 2, y + h / 2), r)
+      let {rectangle, flip, rotate} = f
+      let (x, y, w, h) = rectangle
+
+      {
+        rectangle: switch mod_float(rotate +. 360.0, 360.0) {
+        | 90.0 => (x + (w - h) / 2, y + (w - h) / 2, h, w)
+        | 270.0 => (x - (w - h) / 2, y - (w - h) / 2, h, w)
+        | _ => (x, y, w, h)
+        },
+        flip: flip,
+        rotate: rotate,
+      }
     }
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {

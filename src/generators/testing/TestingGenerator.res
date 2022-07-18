@@ -120,10 +120,10 @@ let drawSteveHeadCuboid4 = (x, y, rotate) => {
 
   Minecraft.drawCuboid(
     "Steve-Faces",
-    Minecraft.Character.steve.base.head,
+    Minecraft.Character.steve.base.body,
     (x, y),
-    (64, 64, 64),
-    ~center=#Back,
+    (64, 96, 32),
+    ~center=#Right,
     ~rotate,
     (),
   )
