@@ -222,8 +222,19 @@ module Cuboid = {
         ", " ++
         Belt.Int.toString(h) ++ ")"
       }
-
-      rectString(source) ++ " to " ++ rectString(dest.rectangle) // (face) face is drawn (source) at (dest) flipped (flip) and rotated (rotate)
+      let flipString = (flip: Generator_Texture.flip): string =>
+        switch flip {
+        | #Horizontal => " flipped Horizontally"
+        | #Vertical => " flipped Vertically"
+        | #None => " not flipped"
+        }
+      Generator.fillRect(dest.rectangle, "#ff800080")
+      rectString(source) ++
+      " to " ++
+      rectString(dest.rectangle) ++
+      flipString(dest.flip) ++
+      " rotated " ++
+      Belt.Float.toString(dest.rotate) ++ " degrees" // (face) face is drawn (source) at (dest) flipped (flip) and rotated (rotate)
     }
   }
 

@@ -175,7 +175,7 @@ let drawCuboidTestPage5 = () => {
   drawSteveBodyCuboid2(420, y + 20, scale, #East, #Bottom, anglef)
 }
 
-let drawSteveHeadCuboid4 = (x, y, rotate) => {
+let drawSteveHeadCuboid4 = (x, y, rotate, face) => {
   let x = x - 64
   let y = y - 64
 
@@ -184,6 +184,7 @@ let drawSteveHeadCuboid4 = (x, y, rotate) => {
     Minecraft.Character.steve.base.body,
     (x, y),
     (64, 96, 32),
+    ~face,
     ~center=#Top,
     ~direction=#North,
     ~rotate,
@@ -207,16 +208,21 @@ let drawCuboidTestPage4 = () => {
     Generator.setSelectInputValue("Angle", nextAngleString)
   })
 
-  //let anglef = Belt.Int.toFloat(angle)
+  let f = Generator.defineAndGetSelectInput(
+    "Face",
+    ["Right", "Front", "Left", "Back", "Top", "Bottom"],
+  )
+  let face: Minecraft.Cuboid.Dest.center = switch f {
+  | "Right" => #Right
+  | "Front" => #Front
+  | "Left" => #Left
+  | "Back" => #Back
+  | "Top" => #Top
+  | "Bottom" => #Bottom
+  | _ => #Front
+  }
 
-  //drawSteveHeadCuboid4(99, 79, 0.0)
-  //drawSteveHeadCuboid4(387, 79, 45.0)
-  //drawSteveHeadCuboid4(99, 279, 90.0)
-  drawSteveHeadCuboid4(387, 279, Belt.Int.toFloat(angle))
-  //drawSteveHeadCuboid4(99, 479, 180.0)
-  //drawSteveHeadCuboid4(387, 479, 225.0)
-  //drawSteveHeadCuboid4(99, 679, 270.0)
-  //drawSteveHeadCuboid4(387, 679, 315.0)
+  drawSteveHeadCuboid4(128, 128, Belt.Int.toFloat(angle), face)
 }
 
 let rotateAroundPoint = (
@@ -343,8 +349,6 @@ let drawCuboidTestPage2 = () => {
   Generator.usePage("Cuboid 2")
   Generator.fillBackgroundColorWithWhite()
 
-  let n = 1
-  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
   drawSteveHeadCuboid2(99, 79, #Right)
   drawSteveHeadCuboid2(387, 79, #Front)
   drawSteveHeadCuboid2(99, 279, #Left)
@@ -1042,7 +1046,7 @@ let script = () => {
   drawFoldLinesTestPage()
   drawLinesTestPage()
   drawTextureImagePageColorTestPage()
-  drawButtonInputTest()
+  //drawButtonInputTest()
   drawTextureRotation64Test()
   drawTextureRotation256Test()
   drawTextureCropRotationTest()
