@@ -210,31 +210,34 @@ module Cuboid = {
       )
     }
 
-    let debug = (source: Builder.rectangle, dest: t) => {
+    let isAligned = ({rectangle, _}: t) => {
+      let (x, y, _, _) = rectangle
+      mod(x, 2) == 0 && mod(y, 2) == 0
+    }
+
+    let debug = (dest: t) => {
       let rectString = (rectangle: Generator_Builder.rectangle): string => {
-        let (x, y, w, h) = rectangle
-        "(" ++
-        Belt.Int.toString(x) ++
-        ", " ++
-        Belt.Int.toString(y) ++
-        ", " ++
-        Belt.Int.toString(w) ++
-        ", " ++
-        Belt.Int.toString(h) ++ ")"
+        let (x, y, _, _) = rectangle
+        "(" ++ Belt.Int.toString(x) ++ ", " ++ Belt.Int.toString(y) ++ ")"
       }
       let flipString = (flip: Generator_Texture.flip): string =>
         switch flip {
-        | #Horizontal => " flipped Horizontally"
-        | #Vertical => " flipped Vertically"
-        | #None => " not flipped"
+        | #Horizontal => " f H"
+        | #Vertical => " f V"
+        | #None => " f N"
         }
-      Generator.fillRect(dest.rectangle, "#ff800080")
-      rectString(source) ++
-      " to " ++
-      rectString(dest.rectangle) ++
-      flipString(dest.flip) ++
-      " rotated " ++
-      Belt.Float.toString(dest.rotate) ++ " degrees" // (face) face is drawn (source) at (dest) flipped (flip) and rotated (rotate)
+      if !isAligned(dest) {
+        Generator.fillRect(dest.rectangle, "#ff800080")
+      }
+      let output = isAligned(dest)
+        ? "OK; "
+        : " @ " ++
+          rectString(dest.rectangle) ++
+          flipString(dest.flip) ++
+          " r " ++
+          Belt.Float.toString(dest.rotate) ++ ";" // (face) face is drawn (source) at (dest) flipped (flip) and rotated (rotate)
+
+      output
     }
   }
 
@@ -396,7 +399,6 @@ module Cuboid = {
   }
 
   let debug = (
-    source: Source.t,
     position: Builder.position,
     scale: scale,
     ~face: Dest.center=#Front,
@@ -409,22 +411,12 @@ module Cuboid = {
 
     let faceString = (face: Dest.center): string =>
       switch face {
-      | #Right => "right"
-      | #Front => "front"
-      | #Left => "left"
-      | #Back => "back"
-      | #Top => "top"
-      | #Bottom => "bottom"
-      }
-
-    let sourceFace = (face: Dest.center, source: Source.t): Generator_Builder.rectangle =>
-      switch face {
-      | #Right => source.right
-      | #Front => source.front
-      | #Left => source.left
-      | #Back => source.back
-      | #Top => source.top
-      | #Bottom => source.bottom
+      | #Right => "R"
+      | #Front => "F"
+      | #Left => "L"
+      | #Back => "B"
+      | #Top => "T"
+      | #Bottom => "O"
       }
 
     let destFace = (face: Dest.center, dest: Dest.t): Face.t =>
@@ -437,11 +429,7 @@ module Cuboid = {
       | #Bottom => dest.bottom
       }
 
-    let output =
-      "Drawing " ++
-      faceString(face) ++
-      " at " ++
-      Face.debug(sourceFace(face, source), destFace(face, dest))
+    let output = faceString(face) ++ ": " ++ Face.debug(destFace(face, dest))
     output
   }
 }
@@ -462,14 +450,27 @@ let drawAndDebugCuboid = (
   source: Cuboid.Source.t,
   position: Builder.position,
   scale: scale,
-  ~face: Cuboid.Dest.center=#Front,
   ~direction: Cuboid.Dest.direction=#East,
   ~center: Cuboid.Dest.center=#Front,
   ~rotate: float=0.0,
   (),
 ): string => {
   Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
-  let output = Cuboid.debug(source, position, scale, ~face, ~direction, ~center, ~rotate, ())
+  let output =
+    "(" ++
+    Belt.Float.toString(rotate) ++
+    ")- " ++
+    Cuboid.debug(position, scale, ~face=#Right, ~direction, ~center, ~rotate, ()) ++
+    "\n" ++
+    Cuboid.debug(position, scale, ~face=#Front, ~direction, ~center, ~rotate, ()) ++
+    "\n" ++
+    Cuboid.debug(position, scale, ~face=#Left, ~direction, ~center, ~rotate, ()) ++
+    "\n" ++
+    Cuboid.debug(position, scale, ~face=#Back, ~direction, ~center, ~rotate, ()) ++
+    "\n" ++
+    Cuboid.debug(position, scale, ~face=#Top, ~direction, ~center, ~rotate, ()) ++
+    "\n" ++
+    Cuboid.debug(position, scale, ~face=#Bottom, ~direction, ~center, ~rotate, ())
 
   output
 }

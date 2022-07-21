@@ -184,9 +184,8 @@ let drawSteveHeadCuboid4 = (x, y, rotate, face) => {
     Minecraft.Character.steve.base.body,
     (x, y),
     (64, 96, 32),
-    ~face,
-    ~center=#Top,
-    ~direction=#North,
+    ~center=face,
+    ~direction=#East,
     ~rotate,
     (),
   )
@@ -203,7 +202,7 @@ let drawCuboidTestPage4 = () => {
     Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
 
   Generator.defineButtonInput("Increment Angle", () => {
-    let nextAngle = angle >= 359 ? 0 : angle + 15
+    let nextAngle = angle >= 359 ? 0 : angle + 90
     let nextAngleString = Belt.Int.toString(nextAngle)
     Generator.setSelectInputValue("Angle", nextAngleString)
   })
