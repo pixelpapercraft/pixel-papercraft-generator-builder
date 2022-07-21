@@ -179,7 +179,7 @@ let drawSteveHeadCuboid4 = (x, y, rotate) => {
   let x = x - 64
   let y = y - 64
 
-  Minecraft.drawCuboid(
+  let text = Minecraft.drawAndDebugCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.body,
     (x, y),
@@ -189,6 +189,8 @@ let drawSteveHeadCuboid4 = (x, y, rotate) => {
     ~rotate,
     (),
   )
+
+  Generator.defineText(text)
   drawPoint((x, y), "#0000ff")
 }
 
@@ -198,6 +200,14 @@ let drawCuboidTestPage4 = () => {
 
   let angle =
     Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 359 ? 0 : angle + 15
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+
+  //let anglef = Belt.Int.toFloat(angle)
 
   //drawSteveHeadCuboid4(99, 79, 0.0)
   //drawSteveHeadCuboid4(387, 79, 45.0)
@@ -835,6 +845,7 @@ let drawTextureTintTest = () => {
             (),
           )
         }
+
       | Some(tint) =>
         Generator.drawTexture(
           "GrassTop",
@@ -1020,7 +1031,7 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
-  drawCuboidTestPage5()
+  //drawCuboidTestPage5()
   drawCuboidTestPage4()
   drawRotationTestPage()
   drawCuboidTestPage3()
@@ -1040,13 +1051,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: None,
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

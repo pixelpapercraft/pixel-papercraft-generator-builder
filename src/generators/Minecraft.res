@@ -47,8 +47,8 @@ module CuboidLegacy = {
     {
       x: x + xTranslate,
       y: y + yTranslate,
-      w: w,
-      h: h,
+      w,
+      h,
     }
   }
 
@@ -132,7 +132,7 @@ module Cuboid = {
 
       {
         rectangle: (x3, y3, w, h),
-        flip: flip,
+        flip,
         rotate: rotate +. r,
       }
     }
@@ -143,9 +143,9 @@ module Cuboid = {
 
       let f =
         r == 180.0
-          ? {rectangle: rectangle, flip: flip, rotate: rotate}
+          ? {rectangle, flip, rotate}
           : rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: rotate},
+              {rectangle, flip, rotate},
               (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
               r,
             )
@@ -168,8 +168,8 @@ module Cuboid = {
           )
         | _ => (x, y, w, h)
         },
-        flip: flip,
-        rotate: rotate,
+        flip,
+        rotate,
       }
     }
 
@@ -195,8 +195,8 @@ module Cuboid = {
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
-      flip: flip,
-      rotate: rotate,
+      flip,
+      rotate,
     }
 
     let draw = (textureId: string, source: Builder.rectangle, dest: t) => {
@@ -208,6 +208,22 @@ module Cuboid = {
         ~rotateLegacy=dest.rotate,
         (),
       )
+    }
+
+    let debug = (source: Builder.rectangle, dest: t) => {
+      let rectString = (rectangle: Generator_Builder.rectangle): string => {
+        let (x, y, w, h) = rectangle
+        "(" ++
+        Belt.Int.toString(x) ++
+        ", " ++
+        Belt.Int.toString(y) ++
+        ", " ++
+        Belt.Int.toString(w) ++
+        ", " ++
+        Belt.Int.toString(h) ++ ")"
+      }
+
+      rectString(source) ++ " to " ++ rectString(dest.rectangle) // (face) face is drawn (source) at (dest) flipped (flip) and rotated (rotate)
     }
   }
 
@@ -367,6 +383,56 @@ module Cuboid = {
     Face.draw(textureId, source.left, dest.left)
     Face.draw(textureId, source.right, dest.right)
   }
+
+  let debug = (
+    source: Source.t,
+    position: Builder.position,
+    scale: scale,
+    ~face: Dest.center=#Front,
+    ~direction: Dest.direction=#East,
+    ~center: Dest.center=#Front,
+    ~rotate: float=0.0,
+    (),
+  ): string => {
+    let dest = Dest.setLayout(scale, direction, center, rotate)->Dest.translate(position)
+
+    let faceString = (face: Dest.center): string =>
+      switch face {
+      | #Right => "right"
+      | #Front => "front"
+      | #Left => "left"
+      | #Back => "back"
+      | #Top => "top"
+      | #Bottom => "bottom"
+      }
+
+    let sourceFace = (face: Dest.center, source: Source.t): Generator_Builder.rectangle =>
+      switch face {
+      | #Right => source.right
+      | #Front => source.front
+      | #Left => source.left
+      | #Back => source.back
+      | #Top => source.top
+      | #Bottom => source.bottom
+      }
+
+    let destFace = (face: Dest.center, dest: Dest.t): Face.t =>
+      switch face {
+      | #Right => dest.right
+      | #Front => dest.front
+      | #Left => dest.left
+      | #Back => dest.back
+      | #Top => dest.top
+      | #Bottom => dest.bottom
+      }
+
+    let output =
+      "Drawing " ++
+      faceString(face) ++
+      " at " ++
+      Face.debug(sourceFace(face, source), destFace(face, dest))
+    output
+  }
 }
 
 let drawCuboid = (
@@ -379,6 +445,23 @@ let drawCuboid = (
   ~rotate: float=0.0,
   (),
 ) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
+
+let drawAndDebugCuboid = (
+  textureId: string,
+  source: Cuboid.Source.t,
+  position: Builder.position,
+  scale: scale,
+  ~face: Cuboid.Dest.center=#Front,
+  ~direction: Cuboid.Dest.direction=#East,
+  ~center: Cuboid.Dest.center=#Front,
+  ~rotate: float=0.0,
+  (),
+): string => {
+  Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
+  let output = Cuboid.debug(source, position, scale, ~face, ~direction, ~center, ~rotate, ())
+
+  output
+}
 
 module CharacterLegacy = {
   module Layer = {
