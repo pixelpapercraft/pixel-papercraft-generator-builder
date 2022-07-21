@@ -110,6 +110,14 @@ let drawGrid = () => {
   }
 }
 
+let drawTextInputPage = () => {
+  Generator.usePage("Text Input")
+  Generator.fillBackgroundColorWithWhite()
+
+  let textInput = Generator.defineAndGetSelectInput("Text Choices", ["One", "Two", "Three", "Four"])
+  Generator.drawText(textInput, (20, 40), 24)
+}
+
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
@@ -865,6 +873,7 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawTextInputPage()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()

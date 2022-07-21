@@ -488,3 +488,14 @@ let drawFaceTabs = (
     drawFaceTab(face, side, ~showFoldLine, ~tabAngle, ~size, ())
   })
 }
+
+let defineMinecraftSkinInput = (skinId: string) => {
+  Generator.defineTextureInput(
+    skinId,
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
+}

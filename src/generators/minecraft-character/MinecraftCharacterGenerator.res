@@ -65,14 +65,7 @@ let alex = Minecraft.Character.alex
 let script = () => {
   // Inputs
 
-  Generator.defineTextureInput(
-    "Skin",
-    {
-      standardWidth: 64,
-      standardHeight: 64,
-      choices: ["Steve", "Alex"],
-    },
-  )
+  Minecraft.defineMinecraftSkinInput("Skin")
   Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
