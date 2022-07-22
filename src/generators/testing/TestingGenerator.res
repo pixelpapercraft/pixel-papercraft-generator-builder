@@ -185,7 +185,7 @@ let drawSteveHeadCuboid4 = (x, y, rotate, face) => {
     (x, y),
     (64, 96, 32),
     ~center=face,
-    ~direction=#East,
+    ~direction=#North,
     ~rotate,
     (),
   )
@@ -209,7 +209,7 @@ let drawCuboidTestPage4 = () => {
 
   let f = Generator.defineAndGetSelectInput(
     "Face",
-    ["Right", "Front", "Left", "Back", "Top", "Bottom"],
+    ["Top", "Bottom", "Right", "Front", "Left", "Back"],
   )
   let face: Minecraft.Cuboid.Dest.center = switch f {
   | "Right" => #Right

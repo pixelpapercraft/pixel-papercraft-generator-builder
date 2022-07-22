@@ -76,6 +76,8 @@ let translateRectangle = (
 let toFloat = (i: int) => Belt.Int.toFloat(i)
 let toInt = (f: float) => Belt.Float.toInt(f)
 
+let addAngle = (r1: float, r2: float): float => mod_float(r1 +. r2 +. 360.0, 360.0)
+
 type scale = (int, int, int)
 
 module Cuboid = {
@@ -133,17 +135,22 @@ module Cuboid = {
       {
         rectangle: (x3, y3, w, h),
         flip,
-        rotate: rotate +. r,
+        rotate: addAngle(rotate, r),
       }
     }
 
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
       let (x, y, w, h) = rectangle
-      let r = mod_float(r +. 360.0, 360.0)
+      let r = addAngle(r, 0.0)
 
+      // When the new angle is 360 or more, then the original angle's displacement needs to be accounted for, but translating it back to where it was.
       let f =
-        r == 180.0
-          ? {rectangle, flip, rotate}
+        rotate +. r >= 360.0
+          ? rotateOnAxis(
+              {rectangle, flip, rotate},
+              (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
+              r,
+            )
           : rotateOnAxis(
               {rectangle, flip, rotate},
               (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
@@ -153,7 +160,7 @@ module Cuboid = {
       let (x, y, w, h) = rectangle
 
       {
-        rectangle: switch mod_float(rotate +. 360.0, 360.0) {
+        rectangle: switch addAngle(rotate, 0.0) {
         | 90.0 => (
             toInt(toFloat(x) +. (toFloat(w) -. toFloat(h)) /. 2.0),
             toInt(toFloat(y) +. (toFloat(w) -. toFloat(h)) /. 2.0),
@@ -176,21 +183,24 @@ module Cuboid = {
     // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
     let flip = (face: t, flip: Generator_Texture.flip) => {
       let (newFlip, newRotate) = switch (face.flip, flip) {
-      | (#None, #None) => (#None, face.rotate)
-      | (#None, #Vertical) => (#Vertical, face.rotate)
-      | (#None, #Horizontal) => (#Horizontal, face.rotate)
-      | (#Vertical, #None) => (#Vertical, face.rotate)
-      | (#Vertical, #Vertical) => (#None, face.rotate)
-      | (#Vertical, #Horizontal) => (#None, face.rotate +. 180.0)
-      | (#Horizontal, #None) => (#Horizontal, face.rotate)
-      | (#Horizontal, #Vertical) => (#None, face.rotate +. 180.0)
-      | (#Horizontal, #Horizontal) => (#None, face.rotate)
+      | (#None, #None) => (#None, 0.0)
+      | (#None, #Vertical) => (#Vertical, 0.0)
+      | (#None, #Horizontal) => (#Horizontal, 0.0)
+      | (#Vertical, #None) => (#Vertical, 0.0)
+      | (#Vertical, #Vertical) => (#None, 0.0)
+      | (#Vertical, #Horizontal) => (#None, 180.0)
+      | (#Horizontal, #None) => (#Horizontal, 0.0)
+      | (#Horizontal, #Vertical) => (#None, 180.0)
+      | (#Horizontal, #Horizontal) => (#None, 0.0)
       }
-      {
-        rectangle: face.rectangle,
-        flip: newFlip,
-        rotate: newRotate,
-      }
+      rotate(
+        {
+          rectangle: face.rectangle,
+          flip: newFlip,
+          rotate: face.rotate,
+        },
+        newRotate,
+      )
     }
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
@@ -332,7 +342,7 @@ module Cuboid = {
           left: dest.back,
           back: dest.right,
           top: dest.top->Face.rotate(-90.0),
-          bottom: dest.bottom->Face.rotate(90.0)->Face.flip(#Vertical),
+          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(90.0),
         }
       | #Front => {
           right: dest.right,
@@ -348,7 +358,7 @@ module Cuboid = {
           left: dest.front,
           back: dest.left,
           top: dest.top->Face.rotate(90.0),
-          bottom: dest.bottom->Face.rotate(-90.0)->Face.flip(#Vertical),
+          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(-90.0),
         }
       | #Back => {
           right: dest.left,
@@ -356,7 +366,7 @@ module Cuboid = {
           left: dest.right,
           back: dest.front,
           top: dest.top->Face.rotate(180.0),
-          bottom: dest.bottom->Face.rotate(180.0)->Face.flip(#Vertical),
+          bottom: dest.bottom->Face.flip(#Horizontal),
         }
       | #Top => {
           right: dest.right->Face.rotate(90.0),
@@ -364,7 +374,7 @@ module Cuboid = {
           left: dest.left->Face.rotate(-90.0),
           back: dest.top->Face.rotate(180.0),
           top: dest.front,
-          bottom: dest.back->Face.flip(#Vertical)->Face.rotate(180.0),
+          bottom: dest.back->Face.flip(#Horizontal),
         }
       | #Bottom => {
           right: dest.right->Face.rotate(-90.0),
