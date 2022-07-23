@@ -110,11 +110,79 @@ let drawGrid = () => {
   }
 }
 
+let isAligned = ({rectangle, _}: Minecraft.Cuboid.Face.t) => {
+  let (x, y, _, _) = rectangle
+  mod(x, 2) == 0 && mod(y, 2) == 0
+}
+
+let debugFace = (dest: Minecraft.Cuboid.Face.t) => {
+  let rectString = (rectangle: Generator_Builder.rectangle): string => {
+    let (x, y, _, _) = rectangle
+    "(" ++ Belt.Int.toString(x) ++ ", " ++ Belt.Int.toString(y) ++ ")"
+  }
+  let flipString = (flip: Generator_Texture.flip): string =>
+    switch flip {
+    | #Horizontal => " f H"
+    | #Vertical => " f V"
+    | #None => " f N"
+    }
+  if !isAligned(dest) {
+    Generator.fillRect(dest.rectangle, "#ff800080")
+  }
+  let output = isAligned(dest)
+    ? "OK; "
+    : " @ " ++
+      rectString(dest.rectangle) ++
+      flipString(dest.flip) ++
+      " r " ++
+      Belt.Float.toString(dest.rotate) ++ ";"
+
+  output
+}
+
+let drawAndDebugCuboid = (
+  textureId: string,
+  source: Minecraft.Cuboid.Source.t,
+  position: Generator_Builder.position,
+  scale: Minecraft.scale,
+  ~direction: Minecraft.Cuboid.Dest.direction=#East,
+  ~center: Minecraft.Cuboid.Dest.center=#Front,
+  ~rotate: float=0.0,
+  (),
+): string => {
+  Minecraft.drawCuboid(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
+  let dest =
+    Minecraft.Cuboid.Dest.setLayout(
+      scale,
+      direction,
+      center,
+      rotate,
+    )->Minecraft.Cuboid.Dest.translate(position)
+
+  let output =
+    "(" ++
+    Belt.Float.toString(rotate) ++
+    ")- R: " ++
+    debugFace(dest.right) ++
+    "F: " ++
+    debugFace(dest.front) ++
+    "L: " ++
+    debugFace(dest.left) ++
+    "B: " ++
+    debugFace(dest.back) ++
+    "T: " ++
+    debugFace(dest.top) ++
+    "O: " ++
+    debugFace(dest.bottom)
+
+  output
+}
+
 let drawSteveBodyCuboid2 = (x, y, rotate, face, direction) => {
   let x = x - 64
   let y = y - 64
 
-  let text = Minecraft.drawAndDebugCuboid(
+  let text = drawAndDebugCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.body,
     (x, y),

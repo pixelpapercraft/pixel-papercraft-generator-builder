@@ -144,7 +144,6 @@ module Cuboid = {
       let (x, y, w, h) = rectangle
       let r = addAngle(r, 0.0)
 
-      // When the new angle is 360 or more, then the original angle's displacement needs to be accounted for, but translating it back to where it was.
       let f =
         rotate +. r >= 360.0
           ? rotateOnAxis(
@@ -219,36 +218,6 @@ module Cuboid = {
         ~rotateLegacy=dest.rotate,
         (),
       )
-    }
-
-    let isAligned = ({rectangle, _}: t) => {
-      let (x, y, _, _) = rectangle
-      mod(x, 2) == 0 && mod(y, 2) == 0
-    }
-
-    let debug = (dest: t) => {
-      let rectString = (rectangle: Generator_Builder.rectangle): string => {
-        let (x, y, _, _) = rectangle
-        "(" ++ Belt.Int.toString(x) ++ ", " ++ Belt.Int.toString(y) ++ ")"
-      }
-      let flipString = (flip: Generator_Texture.flip): string =>
-        switch flip {
-        | #Horizontal => " f H"
-        | #Vertical => " f V"
-        | #None => " f N"
-        }
-      if !isAligned(dest) {
-        Generator.fillRect(dest.rectangle, "#ff800080")
-      }
-      let output = isAligned(dest)
-        ? "OK; "
-        : " @ " ++
-          rectString(dest.rectangle) ++
-          flipString(dest.flip) ++
-          " r " ++
-          Belt.Float.toString(dest.rotate) ++ ";" // (face) face is drawn (source) at (dest) flipped (flip) and rotated (rotate)
-
-      output
     }
   }
 
@@ -338,51 +307,51 @@ module Cuboid = {
       let dest = make(scale, direction)
       let dest = switch center {
       | #Right => {
-          right: dest.front, // 270
-          front: dest.left, // 180
+          right: dest.front,
+          front: dest.left,
           left: dest.back,
-          back: dest.right, // 90, 180
-          top: dest.top->Face.rotate(-90.0), // 270
-          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(90.0), // 180, 270
+          back: dest.right,
+          top: dest.top->Face.rotate(-90.0),
+          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(90.0),
         }
       | #Front => {
-          right: dest.right, // 90, 180
-          front: dest.front, // 180
-          left: dest.left, // 180, 270
+          right: dest.right,
+          front: dest.front,
+          left: dest.left,
           back: dest.back,
           top: dest.top,
-          bottom: dest.bottom->Face.flip(#Vertical), // 180, 270
+          bottom: dest.bottom->Face.flip(#Vertical),
         }
       | #Left => {
           right: dest.back,
-          front: dest.right, // 90, 180
-          left: dest.front, // 270
-          back: dest.left, // 180
+          front: dest.right,
+          left: dest.front,
+          back: dest.left,
           top: dest.top->Face.rotate(90.0),
-          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(-90.0), // 180, 270
+          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(-90.0),
         }
       | #Back => {
-          right: dest.left, // 180, 270
+          right: dest.left,
           front: dest.back,
-          left: dest.right, // 90, 180
-          back: dest.front, // 180
-          top: dest.top->Face.rotate(180.0), // 180, 270
-          bottom: dest.bottom->Face.flip(#Horizontal), // 180, 270
+          left: dest.right,
+          back: dest.front,
+          top: dest.top->Face.rotate(180.0),
+          bottom: dest.bottom->Face.flip(#Horizontal),
         }
       | #Top => {
           right: dest.right->Face.rotate(90.0),
-          front: dest.bottom, // 180
+          front: dest.bottom,
           left: dest.left->Face.rotate(-90.0),
           back: dest.top->Face.rotate(180.0),
           top: dest.front,
-          bottom: dest.back->Face.flip(#Horizontal), // 0, 90, 180, 270, 360
+          bottom: dest.back->Face.flip(#Horizontal),
         }
       | #Bottom => {
-          right: dest.right->Face.rotate(-90.0), // 180
-          front: dest.top, // 360
-          left: dest.left->Face.rotate(90.0), // 270, 360
-          back: dest.bottom->Face.rotate(180.0), // 180, 270
-          top: dest.back->Face.rotate(180.0), // 360
+          right: dest.right->Face.rotate(-90.0),
+          front: dest.top,
+          left: dest.left->Face.rotate(90.0),
+          back: dest.bottom->Face.rotate(180.0),
+          top: dest.back->Face.rotate(180.0),
           bottom: dest.front->Face.flip(#Vertical),
         }
       }
@@ -408,41 +377,6 @@ module Cuboid = {
     Face.draw(textureId, source.left, dest.left)
     Face.draw(textureId, source.right, dest.right)
   }
-
-  let debug = (
-    position: Builder.position,
-    scale: scale,
-    ~face: Dest.center=#Front,
-    ~direction: Dest.direction=#East,
-    ~center: Dest.center=#Front,
-    ~rotate: float=0.0,
-    (),
-  ): string => {
-    let dest = Dest.setLayout(scale, direction, center, rotate)->Dest.translate(position)
-
-    let faceString = (face: Dest.center): string =>
-      switch face {
-      | #Right => "R"
-      | #Front => "F"
-      | #Left => "L"
-      | #Back => "B"
-      | #Top => "T"
-      | #Bottom => "O"
-      }
-
-    let destFace = (face: Dest.center, dest: Dest.t): Face.t =>
-      switch face {
-      | #Right => dest.right
-      | #Front => dest.front
-      | #Left => dest.left
-      | #Back => dest.back
-      | #Top => dest.top
-      | #Bottom => dest.bottom
-      }
-
-    let output = faceString(face) ++ ": " ++ Face.debug(destFace(face, dest))
-    output
-  }
 }
 
 let drawCuboid = (
@@ -455,36 +389,6 @@ let drawCuboid = (
   ~rotate: float=0.0,
   (),
 ) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
-
-let drawAndDebugCuboid = (
-  textureId: string,
-  source: Cuboid.Source.t,
-  position: Builder.position,
-  scale: scale,
-  ~direction: Cuboid.Dest.direction=#East,
-  ~center: Cuboid.Dest.center=#Front,
-  ~rotate: float=0.0,
-  (),
-): string => {
-  Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
-  let output =
-    "(" ++
-    Belt.Float.toString(rotate) ++
-    ")- " ++
-    Cuboid.debug(position, scale, ~face=#Right, ~direction, ~center, ~rotate, ()) ++
-    "\n" ++
-    Cuboid.debug(position, scale, ~face=#Front, ~direction, ~center, ~rotate, ()) ++
-    "\n" ++
-    Cuboid.debug(position, scale, ~face=#Left, ~direction, ~center, ~rotate, ()) ++
-    "\n" ++
-    Cuboid.debug(position, scale, ~face=#Back, ~direction, ~center, ~rotate, ()) ++
-    "\n" ++
-    Cuboid.debug(position, scale, ~face=#Top, ~direction, ~center, ~rotate, ()) ++
-    "\n" ++
-    Cuboid.debug(position, scale, ~face=#Bottom, ~direction, ~center, ~rotate, ())
-
-  output
-}
 
 module CharacterLegacy = {
   module Layer = {
