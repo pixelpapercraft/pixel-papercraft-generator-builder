@@ -77,24 +77,6 @@ let toFloat = (i: int) => Belt.Int.toFloat(i)
 let round = (f: float) => Js.Math.round(f)
 let toInt = (f: float) => Belt.Float.toInt(round(f))
 
-type rectangleF = (float, float, float, float)
-
-let toRectangleF = ((x, y, w, h): Builder.rectangle): rectangleF => {
-  (toFloat(x), toFloat(y), toFloat(w), toFloat(h))
-}
-
-let toRectangle = ((x, y, w, h): rectangleF): Builder.rectangle => {
-  (toInt(x), toInt(y), toInt(w), toInt(h))
-}
-
-let translateRectangleF = (
-  rectangle: rectangleF,
-  (xTranslate, yTranslate): Builder.position,
-): rectangleF => {
-  let (x, y, w, h) = rectangle
-  (x +. toFloat(xTranslate), y +. toFloat(yTranslate), w, h)
-}
-
 let addAngle = (r1: float, r2: float): float => mod_float(r1 +. r2 +. 360.0, 360.0)
 
 type scale = (int, int, int)
@@ -131,13 +113,13 @@ module Cuboid = {
 
   module Face = {
     type t = {
-      rectangle: rectangleF,
+      rectangle: Builder.rectangle,
       flip: Generator_Texture.flip,
       rotate: float,
     }
 
     let make = (rect: Builder.rectangle): t => {
-      rectangle: toRectangleF(rect),
+      rectangle: rect,
       flip: #None,
       rotate: 0.0,
     }
@@ -147,9 +129,9 @@ module Cuboid = {
       let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
       let (x, y, w, h) = rectangle
       let (x0, y0) = axis
-      let (x1, y1) = (x -. x0, y -. y0)
+      let (x1, y1) = (toFloat(x) -. x0, toFloat(y) -. y0)
       let (x2, y2) = (x1 *. cos -. y1 *. sin, x1 *. sin +. y1 *. cos)
-      let (x3, y3) = (x2 +. x0, y2 +. y0)
+      let (x3, y3) = (toInt(x2 +. x0), toInt(y2 +. y0))
 
       {
         rectangle: (x3, y3, w, h),
@@ -165,15 +147,33 @@ module Cuboid = {
       // When the new angle is 360 or more, then the original angle's displacement needs to be accounted for, but translating it back to where it was.
       let f =
         rotate +. r >= 360.0
-          ? rotateOnAxis({rectangle, flip, rotate}, (x -. w /. 2.0, y -. h /. 2.0), r)
-          : rotateOnAxis({rectangle, flip, rotate}, (x +. w /. 2.0, y +. h /. 2.0), r)
+          ? rotateOnAxis(
+              {rectangle, flip, rotate},
+              (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
+              r,
+            )
+          : rotateOnAxis(
+              {rectangle, flip, rotate},
+              (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
+              r,
+            )
       let {rectangle, flip, rotate} = f
       let (x, y, w, h) = rectangle
 
       {
         rectangle: switch addAngle(rotate, 0.0) {
-        | 90.0 => (x +. (w -. h) /. 2.0, y +. (w -. h) /. 2.0, h, w)
-        | 270.0 => (x -. (w -. h) /. 2.0, y -. (w -. h) /. 2.0, h, w)
+        | 90.0 => (
+            toInt(toFloat(x) +. (toFloat(w) -. toFloat(h)) /. 2.0),
+            toInt(toFloat(y) +. (toFloat(w) -. toFloat(h)) /. 2.0),
+            h,
+            w,
+          )
+        | 270.0 => (
+            toInt(toFloat(x) -. (toFloat(w) -. toFloat(h)) /. 2.0),
+            toInt(toFloat(y) -. (toFloat(w) -. toFloat(h)) /. 2.0),
+            h,
+            w,
+          )
         | _ => (x, y, w, h)
         },
         flip,
@@ -205,7 +205,7 @@ module Cuboid = {
     }
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
-      rectangle: rectangle->translateRectangleF(position),
+      rectangle: rectangle->translateRectangle(position),
       flip,
       rotate,
     }
@@ -214,7 +214,7 @@ module Cuboid = {
       Generator.drawTexture(
         textureId,
         source,
-        toRectangle(dest.rectangle),
+        dest.rectangle,
         ~flip=dest.flip,
         ~rotateLegacy=dest.rotate,
         (),
@@ -222,21 +222,14 @@ module Cuboid = {
     }
 
     let isAligned = ({rectangle, _}: t) => {
-      let (x, y, _, _) = toRectangle(rectangle)
+      let (x, y, _, _) = rectangle
       mod(x, 2) == 0 && mod(y, 2) == 0
     }
 
     let debug = (dest: t) => {
-      let rectString = (rectangle: rectangleF): string => {
+      let rectString = (rectangle: Generator_Builder.rectangle): string => {
         let (x, y, _, _) = rectangle
-        "(" ++
-        Belt.Float.toString(x) ++
-        ", " ++
-        Belt.Float.toString(y) ++
-        "), or (" ++
-        Belt.Int.toString(toInt(x)) ++
-        ", " ++
-        Belt.Int.toString(toInt(y)) ++ ")"
+        "(" ++ Belt.Int.toString(x) ++ ", " ++ Belt.Int.toString(y) ++ ")"
       }
       let flipString = (flip: Generator_Texture.flip): string =>
         switch flip {
@@ -245,7 +238,7 @@ module Cuboid = {
         | #None => " f N"
         }
       if !isAligned(dest) {
-        Generator.fillRect(toRectangle(dest.rectangle), "#ff800080")
+        Generator.fillRect(dest.rectangle, "#ff800080")
       }
       let output = isAligned(dest)
         ? "OK; "
