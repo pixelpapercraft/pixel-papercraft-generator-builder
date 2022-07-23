@@ -159,6 +159,19 @@ let drawAndDebugCuboid = (
       rotate,
     )->Minecraft.Cuboid.Dest.translate(position)
 
+  let (w, h, d) = scale
+  let (x, y) = position
+  let scale = switch center {
+  | #Right => (d, h, w)
+  | #Left => (d, h, w)
+  | #Top => (w, d, h)
+  | #Bottom => (w, d, h)
+  | _ => (w, h, d)
+  }
+  let (w, h, d) = scale
+
+  Generator.fillRect((x + d + w / 2 - 2, y + d + h / 2 - 2, 4, 4), "#0000ff")
+
   let output =
     "(" ++
     Belt.Float.toString(rotate) ++
