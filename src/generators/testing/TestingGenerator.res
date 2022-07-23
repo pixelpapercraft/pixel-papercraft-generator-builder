@@ -110,6 +110,145 @@ let drawGrid = () => {
   }
 }
 
+let isAligned = ({rectangle, _}: Minecraft.Cuboid.Face.t) => {
+  let (x, y, _, _) = rectangle
+  mod(x, 2) == 0 && mod(y, 2) == 0
+}
+
+let debugFace = (dest: Minecraft.Cuboid.Face.t) => {
+  let rectString = (rectangle: Generator_Builder.rectangle): string => {
+    let (x, y, _, _) = rectangle
+    "(" ++ Belt.Int.toString(x) ++ ", " ++ Belt.Int.toString(y) ++ ")"
+  }
+  let flipString = (flip: Generator_Texture.flip): string =>
+    switch flip {
+    | #Horizontal => " f H"
+    | #Vertical => " f V"
+    | #None => " f N"
+    }
+  if !isAligned(dest) {
+    Generator.fillRect(dest.rectangle, "#ff800080")
+  }
+  let output = isAligned(dest)
+    ? "OK; "
+    : " @ " ++
+      rectString(dest.rectangle) ++
+      flipString(dest.flip) ++
+      " r " ++
+      Belt.Float.toString(dest.rotate) ++ ";"
+
+  output
+}
+
+let drawAndDebugCuboid = (
+  textureId: string,
+  source: Minecraft.Cuboid.Source.t,
+  position: Generator_Builder.position,
+  scale: Minecraft.scale,
+  ~direction: Minecraft.Cuboid.Dest.direction=#East,
+  ~center: Minecraft.Cuboid.Dest.center=#Front,
+  ~rotate: float=0.0,
+  (),
+): string => {
+  Minecraft.drawCuboid(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
+  let dest =
+    Minecraft.Cuboid.Dest.setLayout(
+      scale,
+      direction,
+      center,
+      rotate,
+    )->Minecraft.Cuboid.Dest.translate(position)
+
+  let (w, h, d) = scale
+  let (x, y) = position
+  let scale = switch center {
+  | #Right => (d, h, w)
+  | #Left => (d, h, w)
+  | #Top => (w, d, h)
+  | #Bottom => (w, d, h)
+  | _ => (w, h, d)
+  }
+  let (w, h, d) = scale
+
+  Generator.fillRect((x + d + w / 2 - 2, y + d + h / 2 - 2, 4, 4), "#0000ff")
+
+  let output =
+    "(" ++
+    Belt.Float.toString(rotate) ++
+    ")- R: " ++
+    debugFace(dest.right) ++
+    "F: " ++
+    debugFace(dest.front) ++
+    "L: " ++
+    debugFace(dest.left) ++
+    "B: " ++
+    debugFace(dest.back) ++
+    "T: " ++
+    debugFace(dest.top) ++
+    "O: " ++
+    debugFace(dest.bottom)
+
+  output
+}
+
+let drawSteveBodyCuboid2 = (x, y, rotate, face, direction) => {
+  let x = x - 64
+  let y = y - 64
+
+  let text = drawAndDebugCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (64, 96, 32),
+    ~center=face,
+    ~direction,
+    ~rotate,
+    (),
+  )
+
+  Generator.defineText(text)
+}
+
+let drawCuboidTestPage4 = () => {
+  Generator.usePage("Cuboid 4")
+  Generator.fillBackgroundColorWithWhite()
+
+  let angle =
+    Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 270 ? 0 : angle + 90
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+
+  let f = Generator.defineAndGetSelectInput(
+    "Face",
+    ["Front", "Right", "Back", "Left", "Top", "Bottom"],
+  )
+
+  let d = Generator.defineAndGetSelectInput("Direction", ["East", "West", "North", "South"])
+  let face: Minecraft.Cuboid.Dest.center = switch f {
+  | "Right" => #Right
+  | "Front" => #Front
+  | "Left" => #Left
+  | "Back" => #Back
+  | "Top" => #Top
+  | "Bottom" => #Bottom
+  | _ => #Front
+  }
+
+  let direction: Minecraft.Cuboid.Dest.direction = switch d {
+  | "East" => #East
+  | "West" => #West
+  | "North" => #North
+  | "South" => #South
+  | _ => #East
+  }
+
+  drawSteveBodyCuboid2(256, 256, Belt.Int.toFloat(angle), face, direction)
+}
+
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
@@ -178,8 +317,6 @@ let drawCuboidTestPage2 = () => {
   Generator.usePage("Cuboid 2")
   Generator.fillBackgroundColorWithWhite()
 
-  let n = 1
-  Generator.defineText("Answer: " ++ Belt.Int.toString(mod(n + 1, 4)))
   drawSteveHeadCuboid2(99, 79, #Right)
   drawSteveHeadCuboid2(387, 79, #Front)
   drawSteveHeadCuboid2(99, 279, #Left)
@@ -680,6 +817,7 @@ let drawTextureTintTest = () => {
             (),
           )
         }
+
       | Some(tint) =>
         Generator.drawTexture(
           "GrassTop",
@@ -865,6 +1003,7 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawCuboidTestPage4()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()
@@ -882,13 +1021,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: None,
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

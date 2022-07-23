@@ -47,8 +47,8 @@ module CuboidLegacy = {
     {
       x: x + xTranslate,
       y: y + yTranslate,
-      w: w,
-      h: h,
+      w,
+      h,
     }
   }
 
@@ -72,6 +72,12 @@ let translateRectangle = (
   let (x, y, w, h) = rectangle
   (x + xTranslate, y + yTranslate, w, h)
 }
+
+let toFloat = (i: int) => Belt.Int.toFloat(i)
+let round = (f: float) => Js.Math.round(f)
+let toInt = (f: float) => Belt.Float.toInt(round(f))
+
+let addAngle = (r1: float, r2: float): float => mod_float(r1 +. r2 +. 360.0, 360.0)
 
 type scale = (int, int, int)
 
@@ -118,42 +124,89 @@ module Cuboid = {
       rotate: 0.0,
     }
 
-    // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
-    let flip = (face: t, flip: Generator_Texture.flip) => {
-      let (newFlip, newRotate) = switch (face.flip, flip) {
-      | (#None, #None) => (#None, face.rotate)
-      | (#None, #Vertical) => (#Vertical, face.rotate)
-      | (#None, #Horizontal) => (#Horizontal, face.rotate)
-      | (#Vertical, #None) => (#Vertical, face.rotate)
-      | (#Vertical, #Vertical) => (#None, face.rotate)
-      | (#Vertical, #Horizontal) => (#None, face.rotate +. 180.0)
-      | (#Horizontal, #None) => (#Horizontal, face.rotate)
-      | (#Horizontal, #Vertical) => (#None, face.rotate +. 180.0)
-      | (#Horizontal, #Horizontal) => (#None, face.rotate)
-      }
+    let rotateOnAxis = ({rectangle, flip, rotate}: t, axis: (float, float), r: float) => {
+      let rad = r *. Js.Math._PI /. 180.0
+      let (cos, sin) = (Js.Math.cos(rad), Js.Math.sin(rad))
+      let (x, y, w, h) = rectangle
+      let (x0, y0) = axis
+      let (x1, y1) = (toFloat(x) -. x0, toFloat(y) -. y0)
+      let (x2, y2) = (x1 *. cos -. y1 *. sin, x1 *. sin +. y1 *. cos)
+      let (x3, y3) = (toInt(x2 +. x0), toInt(y2 +. y0))
+
       {
-        rectangle: face.rectangle,
-        flip: newFlip,
-        rotate: newRotate,
+        rectangle: (x3, y3, w, h),
+        flip,
+        rotate: addAngle(rotate, r),
       }
     }
 
     let rotate = ({rectangle, flip, rotate}: t, r: float) => {
       let (x, y, w, h) = rectangle
+      let r = addAngle(r, 0.0)
+
+      let f =
+        rotate +. r >= 360.0
+          ? rotateOnAxis(
+              {rectangle, flip, rotate},
+              (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
+              r,
+            )
+          : rotateOnAxis(
+              {rectangle, flip, rotate},
+              (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
+              r,
+            )
+      let {rectangle, flip, rotate} = f
+      let (x, y, w, h) = rectangle
 
       {
-        rectangle: mod_float(r +. 360.0, 180.0) == 90.0
-          ? (x + (w - h) / 2, y - (w - h) / 2, h, w)
-          : (x, y, w, h),
-        flip: flip,
-        rotate: rotate +. r,
+        rectangle: switch addAngle(rotate, 0.0) {
+        | 90.0 => (
+            toInt(toFloat(x) +. (toFloat(w) -. toFloat(h)) /. 2.0),
+            toInt(toFloat(y) +. (toFloat(w) -. toFloat(h)) /. 2.0),
+            h,
+            w,
+          )
+        | 270.0 => (
+            toInt(toFloat(x) -. (toFloat(w) -. toFloat(h)) /. 2.0),
+            toInt(toFloat(y) -. (toFloat(w) -. toFloat(h)) /. 2.0),
+            h,
+            w,
+          )
+        | _ => (x, y, w, h)
+        },
+        flip,
+        rotate,
       }
+    }
+
+    // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
+    let flip = (face: t, flip: Generator_Texture.flip) => {
+      let (newFlip, newRotate) = switch (face.flip, flip) {
+      | (#None, #None) => (#None, 0.0)
+      | (#None, #Vertical) => (#Vertical, 0.0)
+      | (#None, #Horizontal) => (#Horizontal, 0.0)
+      | (#Vertical, #None) => (#Vertical, 0.0)
+      | (#Vertical, #Vertical) => (#None, 0.0)
+      | (#Vertical, #Horizontal) => (#None, 180.0)
+      | (#Horizontal, #None) => (#Horizontal, 0.0)
+      | (#Horizontal, #Vertical) => (#None, 180.0)
+      | (#Horizontal, #Horizontal) => (#None, 0.0)
+      }
+      rotate(
+        {
+          rectangle: face.rectangle,
+          flip: newFlip,
+          rotate: face.rotate,
+        },
+        newRotate,
+      )
     }
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
-      flip: flip,
-      rotate: rotate,
+      flip,
+      rotate,
     }
 
     let draw = (textureId: string, source: Builder.rectangle, dest: t) => {
@@ -162,7 +215,7 @@ module Cuboid = {
         source,
         dest.rectangle,
         ~flip=dest.flip,
-        ~rotate=dest.rotate,
+        ~rotateLegacy=dest.rotate,
         (),
       )
     }
@@ -228,7 +281,20 @@ module Cuboid = {
       }
     }
 
-    let setLayout = (scale, direction, center): t => {
+    let rotate = (dest: t, scale: scale, rotate: float): t => {
+      let (w, h, d) = scale
+      let axis = (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) /. 2.0)
+      {
+        right: dest.right->Face.rotateOnAxis(axis, rotate),
+        front: dest.front->Face.rotateOnAxis(axis, rotate),
+        left: dest.left->Face.rotateOnAxis(axis, rotate),
+        back: dest.back->Face.rotateOnAxis(axis, rotate),
+        top: dest.top->Face.rotateOnAxis(axis, rotate),
+        bottom: dest.bottom->Face.rotateOnAxis(axis, rotate),
+      }
+    }
+
+    let setLayout = (scale, direction, center, r): t => {
       let (w, h, d) = scale
       let scale = switch center {
       | #Right => (d, h, w)
@@ -239,14 +305,14 @@ module Cuboid = {
       }
 
       let dest = make(scale, direction)
-      switch center {
+      let dest = switch center {
       | #Right => {
           right: dest.front,
           front: dest.left,
           left: dest.back,
           back: dest.right,
           top: dest.top->Face.rotate(-90.0),
-          bottom: dest.bottom->Face.rotate(90.0)->Face.flip(#Vertical),
+          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(90.0),
         }
       | #Front => {
           right: dest.right,
@@ -262,7 +328,7 @@ module Cuboid = {
           left: dest.front,
           back: dest.left,
           top: dest.top->Face.rotate(90.0),
-          bottom: dest.bottom->Face.rotate(-90.0)->Face.flip(#Vertical),
+          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(-90.0),
         }
       | #Back => {
           right: dest.left,
@@ -270,7 +336,7 @@ module Cuboid = {
           left: dest.right,
           back: dest.front,
           top: dest.top->Face.rotate(180.0),
-          bottom: dest.bottom->Face.rotate(180.0)->Face.flip(#Vertical),
+          bottom: dest.bottom->Face.flip(#Horizontal),
         }
       | #Top => {
           right: dest.right->Face.rotate(90.0),
@@ -278,7 +344,7 @@ module Cuboid = {
           left: dest.left->Face.rotate(-90.0),
           back: dest.top->Face.rotate(180.0),
           top: dest.front,
-          bottom: dest.back->Face.flip(#Vertical)->Face.rotate(180.0),
+          bottom: dest.back->Face.flip(#Horizontal),
         }
       | #Bottom => {
           right: dest.right->Face.rotate(-90.0),
@@ -289,6 +355,7 @@ module Cuboid = {
           bottom: dest.front->Face.flip(#Vertical),
         }
       }
+      rotate(dest, scale, r)
     }
   }
 
@@ -299,9 +366,10 @@ module Cuboid = {
     scale: scale,
     ~direction: Dest.direction=#East,
     ~center: Dest.center=#Front,
+    ~rotate: float=0.0,
     (),
   ) => {
-    let dest = Dest.setLayout(scale, direction, center)->Dest.translate(position)
+    let dest = Dest.setLayout(scale, direction, center, rotate)->Dest.translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -318,8 +386,9 @@ let drawCuboid = (
   scale: scale,
   ~direction: Cuboid.Dest.direction=#East,
   ~center: Cuboid.Dest.center=#Front,
+  ~rotate: float=0.0,
   (),
-) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ())
+) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
 
 module CharacterLegacy = {
   module Layer = {
