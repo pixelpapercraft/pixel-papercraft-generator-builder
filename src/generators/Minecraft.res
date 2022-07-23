@@ -74,7 +74,8 @@ let translateRectangle = (
 }
 
 let toFloat = (i: int) => Belt.Int.toFloat(i)
-let toInt = (f: float) => Belt.Float.toInt(f)
+let round = (f: float) => Js.Math.round(f)
+let toInt = (f: float) => Belt.Float.toInt(round(f))
 
 type rectangleF = (float, float, float, float)
 
@@ -228,7 +229,14 @@ module Cuboid = {
     let debug = (dest: t) => {
       let rectString = (rectangle: rectangleF): string => {
         let (x, y, _, _) = rectangle
-        "(" ++ Belt.Float.toString(x) ++ ", " ++ Belt.Float.toString(y) ++ ")"
+        "(" ++
+        Belt.Float.toString(x) ++
+        ", " ++
+        Belt.Float.toString(y) ++
+        "), or (" ++
+        Belt.Int.toString(toInt(x)) ++
+        ", " ++
+        Belt.Int.toString(toInt(y)) ++ ")"
       }
       let flipString = (flip: Generator_Texture.flip): string =>
         switch flip {
