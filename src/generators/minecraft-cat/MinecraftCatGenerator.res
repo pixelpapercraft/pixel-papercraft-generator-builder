@@ -12,7 +12,7 @@ let history = [
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-v2-256.jpeg"),
 }
 
 let instructions = {
