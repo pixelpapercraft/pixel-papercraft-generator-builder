@@ -9,6 +9,7 @@ let history = [
   "Originally created by Micaias32.",
   "15 Mar 2021 Micaias32 - All cats of 1.14.",
   "03 Feb 2022 NinjolasNJM - Converted to new generator builder, with updated backgrounds, folds and labels, as well as improved texture mappping and collar handling.",
+  "06 Aug 2022 M16 - Update thumbnail photo.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
