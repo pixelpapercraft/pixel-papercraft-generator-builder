@@ -231,7 +231,7 @@ module Cuboid = {
       left: Face.t,
     }
 
-    type direction = [#East | #West | #North | #South]
+    type orientation = Generator.Orientation.t
 
     type center = [#Right | #Front | #Left | #Back | #Top | #Bottom]
 
@@ -244,9 +244,9 @@ module Cuboid = {
       left: Face.translate(dest.left, position),
     }
 
-    let make = ((w, h, d): scale, direction: direction): t => {
-      switch direction {
-      | #East => {
+    let make = ((w, h, d): scale, orientation: orientation): t => {
+      switch orientation {
+      | #West => {
           top: Face.make((d, 0, w, d)),
           right: Face.make((0, d, d, h)),
           front: Face.make((d, d, w, h)),
@@ -254,7 +254,7 @@ module Cuboid = {
           back: Face.make((d + w + d, d, w, h)),
           bottom: Face.make((d, d + h, w, d)),
         }
-      | #West => {
+      | #East => {
           top: Face.make((w + d, 0, w, d)),
           back: Face.make((0, d, w, h)),
           right: Face.make((w, d, d, h)),
@@ -262,7 +262,7 @@ module Cuboid = {
           left: Face.make((w + d + w, d, d, h)),
           bottom: Face.make((w + d, d + h, w, d)),
         }
-      | #North => {
+      | #South => {
           back: Face.make((d, 0, w, h))->Face.rotate(180.0),
           top: Face.make((d, h, w, d)),
           right: Face.make((0, h + d, d, h)),
@@ -270,7 +270,7 @@ module Cuboid = {
           left: Face.make((d + w, h + d, d, h)),
           bottom: Face.make((d, h * 2 + d, w, d)),
         }
-      | #South => {
+      | #North => {
           top: Face.make((d, 0, w, d)),
           right: Face.make((0, d, d, h)),
           front: Face.make((d, d, w, h)),
@@ -281,10 +281,10 @@ module Cuboid = {
       }
     }
 
-    let getAxis = ((w, h, d): scale, direction: direction): (float, float) => {
-      switch direction {
-      | #West => (toFloat(d) +. toFloat(w) *. 1.5, toFloat(d) +. toFloat(h) /. 2.0)
-      | #North => (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) *. 1.5)
+    let getAxis = ((w, h, d): scale, orientation: orientation): (float, float) => {
+      switch orientation {
+      | #East => (toFloat(d) +. toFloat(w) *. 1.5, toFloat(d) +. toFloat(h) /. 2.0)
+      | #South => (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) *. 1.5)
       | _ => (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) /. 2.0)
       }
     }
@@ -300,7 +300,7 @@ module Cuboid = {
       }
     }
 
-    let setLayout = (scale, direction, center, r): t => {
+    let setLayout = (scale, orientation, center, r): t => {
       let (w, h, d) = scale
       let scale = switch center {
       | #Right => (d, h, w)
@@ -310,7 +310,7 @@ module Cuboid = {
       | _ => (w, h, d)
       }
 
-      let dest = make(scale, direction)
+      let dest = make(scale, orientation)
       let dest = switch center {
       | #Right => {
           right: dest.front,
@@ -361,7 +361,7 @@ module Cuboid = {
           bottom: dest.front->Face.flip(#Vertical),
         }
       }
-      let axis = getAxis(scale, direction)
+      let axis = getAxis(scale, orientation)
       rotate(dest, axis, r)
     }
   }
@@ -371,12 +371,12 @@ module Cuboid = {
     source: Source.t,
     position: Builder.position,
     scale: scale,
-    ~direction: Dest.direction=#East,
+    ~orientation: Dest.orientation=#West,
     ~center: Dest.center=#Front,
     ~rotate: float=0.0,
     (),
   ) => {
-    let dest = Dest.setLayout(scale, direction, center, rotate)->Dest.translate(position)
+    let dest = Dest.setLayout(scale, orientation, center, rotate)->Dest.translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -391,11 +391,11 @@ let drawCuboid = (
   source: Cuboid.Source.t,
   position: Builder.position,
   scale: scale,
-  ~direction: Cuboid.Dest.direction=#East,
+  ~orientation: Cuboid.Dest.orientation=#West,
   ~center: Cuboid.Dest.center=#Front,
   ~rotate: float=0.0,
   (),
-) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
+) => Cuboid.draw(textureId, source, position, scale, ~orientation, ~center, ~rotate, ())
 
 module CharacterLegacy = {
   module Layer = {

@@ -145,16 +145,16 @@ let drawAndDebugCuboid = (
   source: Minecraft.Cuboid.Source.t,
   position: Generator_Builder.position,
   scale: Minecraft.scale,
-  ~direction: Minecraft.Cuboid.Dest.direction=#East,
+  ~orientation: Generator.Orientation.t=#West,
   ~center: Minecraft.Cuboid.Dest.center=#Front,
   ~rotate: float=0.0,
   (),
 ): string => {
-  Minecraft.drawCuboid(textureId, source, position, scale, ~direction, ~center, ~rotate, ())
+  Minecraft.drawCuboid(textureId, source, position, scale, ~orientation, ~center, ~rotate, ())
   let dest =
     Minecraft.Cuboid.Dest.setLayout(
       scale,
-      direction,
+      orientation,
       center,
       rotate,
     )->Minecraft.Cuboid.Dest.translate(position)
@@ -169,7 +169,7 @@ let drawAndDebugCuboid = (
   | _ => (w, h, d)
   }
 
-  let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, direction)
+  let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, orientation)
   Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
 
   let output =
@@ -191,7 +191,7 @@ let drawAndDebugCuboid = (
   output
 }
 
-let drawSteveBodyCuboid2 = (x, y, rotate, face, direction) => {
+let drawSteveBodyCuboid2 = (x, y, rotate, face, orientation) => {
   let x = x - 64
   let y = y - 64
 
@@ -201,7 +201,7 @@ let drawSteveBodyCuboid2 = (x, y, rotate, face, direction) => {
     (x, y),
     (64, 96, 32),
     ~center=face,
-    ~direction,
+    ~orientation,
     ~rotate,
     (),
   )
@@ -227,7 +227,7 @@ let drawCuboidTestPage4 = () => {
     ["Front", "Right", "Back", "Left", "Top", "Bottom"],
   )
 
-  let d = Generator.defineAndGetSelectInput("Direction", ["East", "West", "North", "South"])
+  let d = Generator.defineAndGetSelectInput("orientation", ["West", "East", "South", "North"])
   let face: Minecraft.Cuboid.Dest.center = switch f {
   | "Right" => #Right
   | "Front" => #Front
@@ -238,25 +238,25 @@ let drawCuboidTestPage4 = () => {
   | _ => #Front
   }
 
-  let direction: Minecraft.Cuboid.Dest.direction = switch d {
-  | "East" => #East
+  let orientation: Minecraft.Cuboid.Dest.orientation = switch d {
   | "West" => #West
-  | "North" => #North
+  | "East" => #East
   | "South" => #South
-  | _ => #East
+  | "North" => #North
+  | _ => #West
   }
 
-  drawSteveBodyCuboid2(256, 256, Belt.Int.toFloat(angle), face, direction)
+  drawSteveBodyCuboid2(256, 256, Belt.Int.toFloat(angle), face, orientation)
 }
 
-let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
+let drawSteveBodyCuboid = (x, y, scale, orientation, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.body,
     (x, y),
     (2 * scale, 3 * scale, scale),
     ~center,
-    ~direction,
+    ~orientation,
     (),
   )
 }
@@ -266,14 +266,6 @@ let drawCuboidTestPage3 = () => {
   Generator.fillBackgroundColorWithWhite()
   let scale = 16
   let y = 10
-  drawSteveBodyCuboid(10, y, scale, #North, #Front)
-  drawSteveBodyCuboid(80, y, scale, #North, #Back)
-  drawSteveBodyCuboid(150, y, scale, #North, #Right)
-  drawSteveBodyCuboid(240, y, scale, #North, #Left)
-  drawSteveBodyCuboid(330, y, scale, #North, #Top)
-  drawSteveBodyCuboid(460, y, scale, #North, #Bottom)
-
-  let y = y + 180
   drawSteveBodyCuboid(10, y, scale, #South, #Front)
   drawSteveBodyCuboid(80, y, scale, #South, #Back)
   drawSteveBodyCuboid(150, y, scale, #South, #Right)
@@ -282,12 +274,12 @@ let drawCuboidTestPage3 = () => {
   drawSteveBodyCuboid(460, y, scale, #South, #Bottom)
 
   let y = y + 180
-  drawSteveBodyCuboid(10, y, scale, #West, #Front)
-  drawSteveBodyCuboid(110, y, scale, #West, #Back)
-  drawSteveBodyCuboid(210, y, scale, #West, #Right)
-  drawSteveBodyCuboid(310, y, scale, #West, #Left)
-  drawSteveBodyCuboid(380, y - 50, scale, #West, #Top)
-  drawSteveBodyCuboid(420, y + 20, scale, #West, #Bottom)
+  drawSteveBodyCuboid(10, y, scale, #North, #Front)
+  drawSteveBodyCuboid(80, y, scale, #North, #Back)
+  drawSteveBodyCuboid(150, y, scale, #North, #Right)
+  drawSteveBodyCuboid(240, y, scale, #North, #Left)
+  drawSteveBodyCuboid(330, y, scale, #North, #Top)
+  drawSteveBodyCuboid(460, y, scale, #North, #Bottom)
 
   let y = y + 180
   drawSteveBodyCuboid(10, y, scale, #East, #Front)
@@ -296,6 +288,14 @@ let drawCuboidTestPage3 = () => {
   drawSteveBodyCuboid(310, y, scale, #East, #Left)
   drawSteveBodyCuboid(380, y - 50, scale, #East, #Top)
   drawSteveBodyCuboid(420, y + 20, scale, #East, #Bottom)
+
+  let y = y + 180
+  drawSteveBodyCuboid(10, y, scale, #West, #Front)
+  drawSteveBodyCuboid(110, y, scale, #West, #Back)
+  drawSteveBodyCuboid(210, y, scale, #West, #Right)
+  drawSteveBodyCuboid(310, y, scale, #West, #Left)
+  drawSteveBodyCuboid(380, y - 50, scale, #West, #Top)
+  drawSteveBodyCuboid(420, y + 20, scale, #West, #Bottom)
 }
 
 let drawSteveHeadCuboid2 = (x, y, center) => {
@@ -308,7 +308,7 @@ let drawSteveHeadCuboid2 = (x, y, center) => {
     (x, y),
     (64, 64, 64),
     ~center,
-    ~direction=#East,
+    ~orientation=#West,
     (),
   )
 }
@@ -327,10 +327,10 @@ let drawCuboidTestPage2 = () => {
   drawSteveHeadCuboid2(387, 679, #Front)
 }
 
-let drawSteveHeadCuboid = (x, y, size, direction) => {
-  let (w, h) = switch direction {
-  | #North | #South => (size * 3, size * 4)
-  | #West | #East => (size * 4, size * 3)
+let drawSteveHeadCuboid = (x, y, size, orientation) => {
+  let (w, h) = switch orientation {
+  | #South | #North => (size * 3, size * 4)
+  | #East | #West => (size * 4, size * 3)
   }
   Generator.drawTexture("TextureColors4x4", (2, 0, 1, 1), (x, y, w, h), ())
   Minecraft.drawCuboid(
@@ -338,7 +338,7 @@ let drawSteveHeadCuboid = (x, y, size, direction) => {
     Minecraft.Character.steve.base.head,
     (x, y),
     (size, size, size),
-    ~direction,
+    ~orientation,
     (),
   )
 }
@@ -347,20 +347,20 @@ let drawCuboidTestPage = () => {
   Generator.usePage("Cuboid")
   Generator.fillBackgroundColorWithWhite()
 
-  drawSteveHeadCuboid(10, 10, 10, #East)
-  drawSteveHeadCuboid(100, 10, 10, #West)
-  drawSteveHeadCuboid(10, 100, 10, #North)
-  drawSteveHeadCuboid(100, 100, 10, #South)
+  drawSteveHeadCuboid(10, 10, 10, #West)
+  drawSteveHeadCuboid(100, 10, 10, #East)
+  drawSteveHeadCuboid(10, 100, 10, #South)
+  drawSteveHeadCuboid(100, 100, 10, #North)
 
-  drawSteveHeadCuboid(200, 10, 33, #East)
-  drawSteveHeadCuboid(400, 10, 33, #West)
-  drawSteveHeadCuboid(200, 150, 33, #North)
-  drawSteveHeadCuboid(400, 150, 33, #South)
+  drawSteveHeadCuboid(200, 10, 33, #West)
+  drawSteveHeadCuboid(400, 10, 33, #East)
+  drawSteveHeadCuboid(200, 150, 33, #South)
+  drawSteveHeadCuboid(400, 150, 33, #North)
 
-  drawSteveHeadCuboid(10, 300, 64, #East)
-  drawSteveHeadCuboid(330, 300, 64, #West)
-  drawSteveHeadCuboid(10, 550, 64, #North)
-  drawSteveHeadCuboid(330, 550, 64, #South)
+  drawSteveHeadCuboid(10, 300, 64, #West)
+  drawSteveHeadCuboid(330, 300, 64, #East)
+  drawSteveHeadCuboid(10, 550, 64, #South)
+  drawSteveHeadCuboid(330, 550, 64, #North)
 }
 
 let drawSteveHead = (texture, ox, oy, size) => {
@@ -379,12 +379,12 @@ let drawSteveHead = (texture, ox, oy, size) => {
   )
 }
 
-let drawFoldBox = (x, y, size, direction: [#clockwise | #anticlockwise]) => {
+let drawFoldBox = (x, y, size, orientation: [#clockwise | #anticlockwise]) => {
   let p1 = (x, y)
   let p2 = (x + size, y)
   let p3 = (x + size, y + size)
   let p4 = (x, y + size)
-  if direction === #clockwise {
+  if orientation === #clockwise {
     Generator.drawFoldLine(p1, p2)
     Generator.drawFoldLine(p2, p3)
     Generator.drawFoldLine(p3, p4)
@@ -891,37 +891,37 @@ let drawTabsTestPage = () => {
 
   let tabAngle = 45.0
 
-  drawRectTab((10, 10, 100, 30), #North, ~tabAngle)
-  drawRectTab((150, 10, 100, 30), #South, ~tabAngle)
-  drawRectTab((300, 10, 100, 30), #East, ~tabAngle)
-  drawRectTab((450, 10, 100, 30), #West, ~tabAngle)
+  drawRectTab((10, 10, 100, 30), #South, ~tabAngle)
+  drawRectTab((150, 10, 100, 30), #North, ~tabAngle)
+  drawRectTab((300, 10, 100, 30), #West, ~tabAngle)
+  drawRectTab((450, 10, 100, 30), #East, ~tabAngle)
 
-  drawRectTab((10, 80, 100, 100), #North, ~tabAngle)
-  drawRectTab((150, 80, 100, 100), #South, ~tabAngle)
-  drawRectTab((300, 80, 100, 100), #East, ~tabAngle)
-  drawRectTab((450, 80, 100, 100), #West, ~tabAngle)
+  drawRectTab((10, 80, 100, 100), #South, ~tabAngle)
+  drawRectTab((150, 80, 100, 100), #North, ~tabAngle)
+  drawRectTab((300, 80, 100, 100), #West, ~tabAngle)
+  drawRectTab((450, 80, 100, 100), #East, ~tabAngle)
 
-  drawRectTab((10, 220, 30, 100), #North, ~tabAngle)
-  drawRectTab((150, 220, 30, 100), #South, ~tabAngle)
-  drawRectTab((300, 220, 30, 100), #East, ~tabAngle)
-  drawRectTab((450, 220, 30, 100), #West, ~tabAngle)
+  drawRectTab((10, 220, 30, 100), #South, ~tabAngle)
+  drawRectTab((150, 220, 30, 100), #North, ~tabAngle)
+  drawRectTab((300, 220, 30, 100), #West, ~tabAngle)
+  drawRectTab((450, 220, 30, 100), #East, ~tabAngle)
 
   let tabAngle = 80.0
 
-  drawRectTab((10, 400, 100, 50), #North, ~tabAngle)
-  drawRectTab((150, 400, 100, 50), #South, ~tabAngle)
-  drawRectTab((300, 400, 100, 50), #East, ~tabAngle)
-  drawRectTab((450, 400, 100, 50), #West, ~tabAngle)
+  drawRectTab((10, 400, 100, 50), #South, ~tabAngle)
+  drawRectTab((150, 400, 100, 50), #North, ~tabAngle)
+  drawRectTab((300, 400, 100, 50), #West, ~tabAngle)
+  drawRectTab((450, 400, 100, 50), #East, ~tabAngle)
 
-  drawRectTab((10, 500, 100, 100), #North, ~tabAngle)
-  drawRectTab((150, 500, 100, 100), #South, ~tabAngle)
-  drawRectTab((300, 500, 100, 100), #East, ~tabAngle)
-  drawRectTab((450, 500, 100, 100), #West, ~tabAngle)
+  drawRectTab((10, 500, 100, 100), #South, ~tabAngle)
+  drawRectTab((150, 500, 100, 100), #North, ~tabAngle)
+  drawRectTab((300, 500, 100, 100), #West, ~tabAngle)
+  drawRectTab((450, 500, 100, 100), #East, ~tabAngle)
 
-  drawRectTab((10, 650, 50, 100), #North, ~tabAngle)
-  drawRectTab((150, 650, 50, 100), #South, ~tabAngle)
-  drawRectTab((300, 650, 50, 100), #East, ~tabAngle)
-  drawRectTab((450, 650, 50, 100), #West, ~tabAngle)
+  drawRectTab((10, 650, 50, 100), #South, ~tabAngle)
+  drawRectTab((150, 650, 50, 100), #North, ~tabAngle)
+  drawRectTab((300, 650, 50, 100), #West, ~tabAngle)
+  drawRectTab((450, 650, 50, 100), #East, ~tabAngle)
 }
 
 let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
@@ -932,23 +932,23 @@ let drawSteveHeadWithTabs = (texture, ox, oy, size) => {
 
   let rightFace = (ox, oy + size, size, size)
   Generator.drawTexture(texture, head.right, rightFace, ())
-  Minecraft.drawFaceTabs(rightFace, [#West, #North, #South], ())
+  Minecraft.drawFaceTabs(rightFace, [#East, #South, #North], ())
 
   let leftFace = (ox + size * 2, oy + size, size, size)
   Generator.drawTexture(texture, head.left, leftFace, ())
-  Minecraft.drawFaceTabs(leftFace, [#North, #South], ())
+  Minecraft.drawFaceTabs(leftFace, [#South, #North], ())
 
   let topFace = (ox + size, oy, size, size)
   Generator.drawTexture(texture, head.top, topFace, ())
-  Minecraft.drawFaceTabs(topFace, [#North, #West, #East], ())
+  Minecraft.drawFaceTabs(topFace, [#South, #East, #West], ())
 
   let backFace = (ox + size * 3, oy + size, size, size)
   Generator.drawTexture(texture, head.back, backFace, ())
-  Minecraft.drawFaceTabs(backFace, [#North, #South, #East], ())
+  Minecraft.drawFaceTabs(backFace, [#South, #North, #West], ())
 
   let bottomFace = (ox + size, oy + size * 2, size, size)
   Generator.drawTexture(texture, head.bottom, bottomFace, ~flip=#Vertical, ())
-  Minecraft.drawFaceTabs(bottomFace, [#West, #East, #South], ())
+  Minecraft.drawFaceTabs(bottomFace, [#East, #West, #North], ())
 }
 
 let drawSteveFaceWithTabs = (x, y, w, h, ~size=?, ~tabAngle, ()) => {
@@ -959,7 +959,7 @@ let drawSteveFaceWithTabs = (x, y, w, h, ~size=?, ~tabAngle, ()) => {
   let head = Minecraft.Character.steve.base.head
   let face = (x, y, w, h)
   Generator.drawTexture("Steve", head.front, face, ())
-  Minecraft.drawFaceTabs(face, [#North, #East, #South, #West], ~size, ~tabAngle, ())
+  Minecraft.drawFaceTabs(face, [#South, #West, #North, #East], ~size, ~tabAngle, ())
 }
 
 let drawFaceTabsTestPage = () => {
