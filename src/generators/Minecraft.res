@@ -47,8 +47,8 @@ module CuboidLegacy = {
     {
       x: x + xTranslate,
       y: y + yTranslate,
-      w,
-      h,
+      w: w,
+      h: h,
     }
   }
 
@@ -135,7 +135,7 @@ module Cuboid = {
 
       {
         rectangle: (x3, y3, w, h),
-        flip,
+        flip: flip,
         rotate: addAngle(rotate, r),
       }
     }
@@ -147,12 +147,12 @@ module Cuboid = {
       let f =
         rotate +. r >= 360.0
           ? rotateOnAxis(
-              {rectangle, flip, rotate},
+              {rectangle: rectangle, flip: flip, rotate: rotate},
               (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
               r,
             )
           : rotateOnAxis(
-              {rectangle, flip, rotate},
+              {rectangle: rectangle, flip: flip, rotate: rotate},
               (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
               r,
             )
@@ -175,8 +175,8 @@ module Cuboid = {
           )
         | _ => (x, y, w, h)
         },
-        flip,
-        rotate,
+        flip: flip,
+        rotate: rotate,
       }
     }
 
@@ -205,8 +205,8 @@ module Cuboid = {
 
     let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
-      flip,
-      rotate,
+      flip: flip,
+      rotate: rotate,
     }
 
     let draw = (textureId: string, source: Builder.rectangle, dest: t) => {
@@ -281,9 +281,15 @@ module Cuboid = {
       }
     }
 
-    let rotate = (dest: t, scale: scale, rotate: float): t => {
-      let (w, h, d) = scale
-      let axis = (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) /. 2.0)
+    let getAxis = ((w, h, d): scale, direction: direction): (float, float) => {
+      switch direction {
+      | #West => (toFloat(d) +. toFloat(w) *. 1.5, toFloat(d) +. toFloat(h) /. 2.0)
+      | #North => (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) *. 1.5)
+      | _ => (toFloat(d) +. toFloat(w) /. 2.0, toFloat(d) +. toFloat(h) /. 2.0)
+      }
+    }
+
+    let rotate = (dest: t, axis: (float, float), rotate: float): t => {
       {
         right: dest.right->Face.rotateOnAxis(axis, rotate),
         front: dest.front->Face.rotateOnAxis(axis, rotate),
@@ -355,7 +361,8 @@ module Cuboid = {
           bottom: dest.front->Face.flip(#Vertical),
         }
       }
-      rotate(dest, scale, r)
+      let axis = getAxis(scale, direction)
+      rotate(dest, axis, r)
     }
   }
 

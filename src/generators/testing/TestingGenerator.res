@@ -168,9 +168,9 @@ let drawAndDebugCuboid = (
   | #Bottom => (w, d, h)
   | _ => (w, h, d)
   }
-  let (w, h, d) = scale
 
-  Generator.fillRect((x + d + w / 2 - 2, y + d + h / 2 - 2, 4, 4), "#0000ff")
+  let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, direction)
+  Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
 
   let output =
     "(" ++
@@ -1021,13 +1021,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id,
-  name,
-  history,
+  id: id,
+  name: name,
+  history: history,
   thumbnail: None,
   video: None,
   instructions: None,
-  images,
-  textures,
-  script,
+  images: images,
+  textures: textures,
+  script: script,
 }
