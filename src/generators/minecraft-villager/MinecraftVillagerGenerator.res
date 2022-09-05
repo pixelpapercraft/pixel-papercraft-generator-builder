@@ -8,7 +8,7 @@ let name = "Minecraft Villager"
 let history = ["19 May 2022 PaperDoggy - Initial script developed."]
 
 let thumbnail: Generator.thumnbnailDef = {
-  url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
+  url: Generator.requireImage("./thumbnail/thumbnail-v2-256.jpeg"),
 }
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/jcO0fe-pj9k?rel=0"}
 let images: array<Generator.imageDef> = [
@@ -475,6 +475,7 @@ let script = () => {
   let taiga = Generator.getSelectInputValue("Biome") === "Taiga"
   if villagertype {
     Generator.drawImage("Villager", (0, 0))
+
     //Biome Overlay
     if (
       !(
@@ -571,6 +572,7 @@ let script = () => {
       Drawing.drawRightArmOverlay(517, 379, "Taiga")
       Drawing.drawMiddleArmOverlay(46, 643, "Taiga")
     }
+
     //Profession Overlay
     if professionArmorer {
       Drawing.drawHatOverlay(82, 83, "Armorer")
@@ -678,6 +680,7 @@ let script = () => {
   }
   if zombietype {
     Generator.drawImage("ZombieVillager", (0, 0))
+
     //Biome Overlay
     if (
       !(
@@ -767,6 +770,7 @@ let script = () => {
       Drawing.drawZombieLeftArmOverlay(56, 476, "TaigaZombie")
       Drawing.drawZombieRightArmOverlay(517, 379, "TaigaZombie")
     }
+
     //Profession Overlay
     if professionArmorer {
       Drawing.drawHatOverlay(82, 83, "ZombieArmorer")
@@ -863,13 +867,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
+  id,
+  name,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
-  history: history,
+  images,
+  textures,
+  script,
+  history,
 }
