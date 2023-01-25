@@ -38,6 +38,7 @@ let mob: array<Generator.generatorDef> = [
 let utility: array<Generator.generatorDef> = [
   MinecraftBlockGenerator.generator,
   MinecraftItemGenerator.generator,
+  MinecraftArmorGenerator.generator,
   MinecraftCapeAndElytraGenerator.generator,
   MinecraftCharacterHeadsGenerator.generator,
 ]
