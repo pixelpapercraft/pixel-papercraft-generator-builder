@@ -28,22 +28,106 @@ let images: array<Generator.imageDef> = [
 
 let textures: array<Generator.textureDef> = [
   {
-    id: "Skin",
-    url: requireTexture("SkinSteve64x64"),
+    id: "Layer 1",
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
-    standardHeight: 64,
+    standardHeight: 32,
   },
   {
-    id: "Steve",
-    url: requireTexture("SkinSteve64x64"),
+    id: "Layer 2",
+    url: requireTexture("diamond_layer_2"),
     standardWidth: 64,
-    standardHeight: 64,
+    standardHeight: 32,
   },
   {
-    id: "Alex",
-    url: requireTexture("SkinAlex64x64"),
+    id: "Chainmail 1",
+    url: requireTexture("chainmail_layer_1"),
     standardWidth: 64,
-    standardHeight: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Chainmail 2",
+    url: requireTexture("chainmail_layer_2"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Diamond 1",
+    url: requireTexture("diamond_layer_1"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Diamond 2",
+    url: requireTexture("diamond_layer_2"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Gold 1",
+    url: requireTexture("gold_layer_1"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Gold 2",
+    url: requireTexture("gold_layer_2"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Iron 1",
+    url: requireTexture("iron_layer_1"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Iron 2",
+    url: requireTexture("iron_layer_2"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Netherite 1",
+    url: requireTexture("netherite_layer_1"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Netherite 2",
+    url: requireTexture("netherite_layer_2"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Leather 1",
+    url: requireTexture("leather_layer_1"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Leather 1 Overlay",
+    url: requireTexture("leather_layer_1_overlay"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Leather 2",
+    url: requireTexture("leather_layer_2"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Leather 2 Overlay",
+    url: requireTexture("leather_layer_2_overlay"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Turtle 1",
+    url: requireTexture("turtle_layer_1"),
+    standardWidth: 64,
+    standardHeight: 32,
   },
 ]
 
@@ -54,11 +138,11 @@ let script = () => {
   // Inputs
 
   Generator.defineTextureInput(
-    "Skin",
+    "Layer 1",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: ["Steve", "Alex"],
+      choices: ["Chainmail 1", "Diamond 1", "Gold 1", "Iron 1", "Netherite 1", "Turtle 1"],
     },
   )
   Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
@@ -70,25 +154,12 @@ let script = () => {
 
   // Draw
 
-  let isAlexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
-
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   let showHeadOverlay = Generator.getBooleanInputValueWithDefault("Show Head Overlay", true)
-  let showBodyOverlay = Generator.getBooleanInputValueWithDefault("Show Body Overlay", true)
-  let showLeftArmOverlay = Generator.getBooleanInputValueWithDefault("Show Left Arm Overlay", true)
-  let showRightArmOverlay = Generator.getBooleanInputValueWithDefault(
-    "Show Right Arm Overlay",
-    true,
-  )
-  let showLeftLegOverlay = Generator.getBooleanInputValueWithDefault("Show Left Leg Overlay", true)
-  let showRightLegOverlay = Generator.getBooleanInputValueWithDefault(
-    "Show Right Leg Overlay",
-    true,
-  )
 
-  let char = isAlexModel ? alex : steve
+  let char = steve
 
   let drawHead = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 64, 64)
@@ -104,9 +175,6 @@ let script = () => {
   let drawBody = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.body, (ox, oy), scale, ())
-    if showBodyOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.body, (ox, oy), scale, ())
-    }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
@@ -115,9 +183,6 @@ let script = () => {
   let drawRightArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.rightArm, (ox, oy), scale, ())
-    if showRightArmOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.rightArm, (ox, oy), scale, ())
-    }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
@@ -125,9 +190,6 @@ let script = () => {
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
-    if showLeftArmOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~direction=#West, ())
-    }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
@@ -135,9 +197,6 @@ let script = () => {
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.rightLeg, (ox, oy), scale, ())
-    if showRightLegOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.rightLeg, (ox, oy), scale, ())
-    }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
@@ -145,21 +204,13 @@ let script = () => {
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
-    if showLeftLegOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~direction=#West, ())
-    }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
   }
 
   let drawFolds = () => {
-    if isAlexModel {
-      Generator.drawImage("AlexFolds", (0, 0))
-    } else {
-      Generator.drawImage("SteveFolds", (0, 0))
-    }
-
+    Generator.drawImage("SteveFolds", (0, 0))
     // Later replace with drawLineFold functions
   }
 
@@ -167,11 +218,7 @@ let script = () => {
 
   Generator.drawImage("Background", (0, 0))
 
-  if isAlexModel {
-    Generator.drawImage("AlexTabs", (0, 0))
-  } else {
-    Generator.drawImage("SteveTabs", (0, 0))
-  }
+  Generator.drawImage("SteveTabs", (0, 0))
 
   // Head
 
@@ -187,47 +234,32 @@ let script = () => {
   let (ox, oy) = (268, 201)
 
   drawBody((ox, oy))
-  Generator.defineRegionInput((ox, oy, 192, 160), () => {
-    Generator.setBooleanInputValue("Show Body Overlay", !showBodyOverlay)
-  })
 
   // Arms
 
   // Right Arm
 
-  let (ox, oy) = (isAlexModel ? 107 : 99, 373)
+  let (ox, oy) = (99, 373)
 
   drawRightArm((ox, oy))
-  Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 160), () => {
-    Generator.setBooleanInputValue("Show Right Arm Overlay", !showRightArmOverlay)
-  })
 
   // Left Arm
 
-  let (ox, oy) = (isAlexModel ? 391 : 383, 373)
+  let (ox, oy) = (383, 373)
 
   drawLeftArm((ox, oy))
-  Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 166), () => {
-    Generator.setBooleanInputValue("Show Left Arm Overlay", !showLeftArmOverlay)
-  })
 
   // Right Leg
 
   let (ox, oy) = (99, 587)
 
   drawRightLeg((ox, oy))
-  Generator.defineRegionInput((ox, oy, 128, 160), () => {
-    Generator.setBooleanInputValue("Show Right Leg Overlay", !showRightLegOverlay)
-  })
 
   // Left Leg
 
   let (ox, oy) = (383, 587)
 
   drawLeftLeg((ox, oy))
-  Generator.defineRegionInput((ox, oy, 128, 160), () => {
-    Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
-  })
 
   // Folds
 
