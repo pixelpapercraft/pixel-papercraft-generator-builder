@@ -28,73 +28,85 @@ let images: array<Generator.imageDef> = [
 
 let textures: array<Generator.textureDef> = [
   {
-    id: "Layer 1",
-    url: requireTexture("steve"), //"diamond_layer_1"),
+    id: "Helmet",
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
-    id: "Layer 2",
-    url: requireTexture("diamond_layer_2"),
+    id: "Chestplate",
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
-    standardHeight: 32,
+    standardHeight: 64,
   },
   {
-    id: "Chainmail 1",
+    id: "Leggings",
+    url: requireTexture("diamond_layer_2"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Boots",
+    url: requireTexture("diamond_layer_1"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Chainmail",
     url: requireTexture("chainmail_layer_1"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Chainmail 2",
+    id: "Chainmail ",
     url: requireTexture("chainmail_layer_2"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Diamond 1",
+    id: "Diamond",
     url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Diamond 2",
+    id: "Diamond ",
     url: requireTexture("diamond_layer_2"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Gold 1",
+    id: "Gold",
     url: requireTexture("gold_layer_1"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Gold 2",
+    id: "Gold ",
     url: requireTexture("gold_layer_2"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Iron 1",
+    id: "Iron",
     url: requireTexture("iron_layer_1"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Iron 2",
+    id: "Iron ",
     url: requireTexture("iron_layer_2"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Netherite 1",
+    id: "Netherite",
     url: requireTexture("netherite_layer_1"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
-    id: "Netherite 2",
+    id: "Netherite ",
     url: requireTexture("netherite_layer_2"),
     standardWidth: 64,
     standardHeight: 32,
@@ -124,7 +136,7 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
-    id: "Turtle 1",
+    id: "Turtle Shell",
     url: requireTexture("turtle_layer_1"),
     standardWidth: 64,
     standardHeight: 32,
@@ -191,23 +203,37 @@ let script = () => {
   // Inputs
 
   Generator.defineTextureInput(
-    "Layer 1",
+    "Helmet",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [
-        "Chainmail 1",
-        "Diamond 1",
-        "Gold 1",
-        "Iron 1",
-        "Netherite 1",
-        "Turtle 1",
-        "Notch",
-        "Steve",
-      ],
+      choices: ["Chainmail", "Gold", "Iron", "Diamond", "Netherite", "Turtle Shell"],
     },
   )
-  Generator.defineSelectInput("Layer 1 Model", ["Steve", "Alex"])
+  Generator.defineTextureInput(
+    "Chestplate",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+    },
+  )
+  Generator.defineTextureInput(
+    "Leggings",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "],
+    },
+  )
+  Generator.defineTextureInput(
+    "Boots",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+    },
+  )
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
   Generator.defineText(
@@ -225,9 +251,9 @@ let script = () => {
 
   let drawHead = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 64, 64)
-    Minecraft.drawCuboid("Layer 1", char.base.head, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Helmet", char.base.head, (ox, oy), scale, ())
     if showHeadOverlay {
-      Minecraft.drawCuboid("Layer 1", char.overlay.head, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Helmet", char.overlay.head, (ox, oy), scale, ())
     }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
@@ -236,7 +262,8 @@ let script = () => {
 
   let drawBody = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 96, 32)
-    Minecraft.drawCuboid("Layer 1", char.base.body, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Leggings", char.base.body, (ox, oy), scale, ()) // Leggings
+    Minecraft.drawCuboid("Chestplate", char.base.body, (ox, oy), scale, ()) // Chestplate
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
@@ -244,28 +271,30 @@ let script = () => {
 
   let drawRightArm = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Layer 1", char.base.rightArm, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Chestplate", char.base.rightArm, (ox, oy), scale, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    drawLeftCuboid("Layer 1", char.base.leftArm, (ox, oy))
+    drawLeftCuboid("Chestplate", char.base.leftArm, (ox, oy))
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
   }
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Layer 1", char.base.rightLeg, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Leggings", char.base.rightLeg, (ox, oy), scale, ()) // Leggings
+    Minecraft.drawCuboid("Boots", char.base.rightLeg, (ox, oy), scale, ()) // Boots
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    drawLeftCuboid("Layer 1", char.base.leftLeg, (ox, oy))
+    drawLeftCuboid("Leggings", char.base.leftLeg, (ox, oy)) // Leggings
+    drawLeftCuboid("Boots", char.base.leftLeg, (ox, oy)) // Boots
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
