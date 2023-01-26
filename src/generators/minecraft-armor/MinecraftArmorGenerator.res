@@ -29,7 +29,7 @@ let images: array<Generator.imageDef> = [
 let textures: array<Generator.textureDef> = [
   {
     id: "Layer 1",
-    url: requireTexture("diamond_layer_1"),
+    url: requireTexture("steve"), //"diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -129,6 +129,18 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 64,
     standardHeight: 32,
   },
+  {
+    id: "Notch",
+    url: requireTexture("Notch"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Steve",
+    url: requireTexture("steve"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
 ]
 
 // Armor model
@@ -167,12 +179,12 @@ let drawLeftCuboid = (
   dest: Generator_Builder.position,
 ) => {
   let (dx, dy) = dest
-  Generator.drawTexture(textureId, source.top, (dx + 64, dy, 32, 32), ()) // top
-  Generator.drawTexture(textureId, source.bottom, (dx + 64, dy + 96, 32, 32), ~rotate=180.0, ()) // top
-  Generator.drawTexture(textureId, source.right, (dx, dy + 32, 32, 96), ()) // top
-  Generator.drawTexture(textureId, source.front, (dx + 32, dy + 32, 32, 96), ()) // top
-  Generator.drawTexture(textureId, source.left, (dx + 64, dy + 32, 32, 96), ()) // top
-  Generator.drawTexture(textureId, source.back, (dx + 96, dy + 32, 32, 96), ()) // top
+  Generator.drawTexture(textureId, source.top, (dx + 64, dy, 32, 32), ~flip=#Horizontal, ()) // top
+  Generator.drawTexture(textureId, source.bottom, (dx + 64, dy + 128, 32, 32), ~rotate=180.0, ()) // top
+  Generator.drawTexture(textureId, source.back, (dx, dy + 32, 32, 96), ~flip=#Horizontal, ()) // top
+  Generator.drawTexture(textureId, source.left, (dx + 32, dy + 32, 32, 96), ~flip=#Horizontal, ()) // top
+  Generator.drawTexture(textureId, source.front, (dx + 64, dy + 32, 32, 96), ~flip=#Horizontal, ()) // top
+  Generator.drawTexture(textureId, source.right, (dx + 96, dy + 32, 32, 96), ~flip=#Horizontal, ()) // top
 }
 
 let script = () => {
@@ -183,7 +195,16 @@ let script = () => {
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: ["Chainmail 1", "Diamond 1", "Gold 1", "Iron 1", "Netherite 1", "Turtle 1"],
+      choices: [
+        "Chainmail 1",
+        "Diamond 1",
+        "Gold 1",
+        "Iron 1",
+        "Netherite 1",
+        "Turtle 1",
+        "Notch",
+        "Steve",
+      ],
     },
   )
   Generator.defineSelectInput("Layer 1 Model", ["Steve", "Alex"])
