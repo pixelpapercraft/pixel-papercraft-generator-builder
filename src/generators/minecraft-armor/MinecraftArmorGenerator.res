@@ -159,6 +159,22 @@ let old: Minecraft.Character.t = {
   },
 }
 
+// draw left cuboid
+
+let drawLeftCuboid = (
+  textureId: string,
+  source: Minecraft.Cuboid.Source.t,
+  dest: Generator_Builder.position,
+) => {
+  let (dx, dy) = dest
+  Generator.drawTexture(textureId, source.top, (dx + 64, dy, 32, 32), ()) // top
+  Generator.drawTexture(textureId, source.bottom, (dx + 64, dy + 96, 32, 32), ~rotate=180.0, ()) // top
+  Generator.drawTexture(textureId, source.right, (dx, dy + 32, 32, 96), ()) // top
+  Generator.drawTexture(textureId, source.front, (dx + 32, dy + 32, 32, 96), ()) // top
+  Generator.drawTexture(textureId, source.left, (dx + 64, dy + 32, 32, 96), ()) // top
+  Generator.drawTexture(textureId, source.back, (dx + 96, dy + 32, 32, 96), ()) // top
+}
+
 let script = () => {
   // Inputs
 
@@ -214,7 +230,7 @@ let script = () => {
   }
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Layer 1", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
+    drawLeftCuboid("Layer 1", char.base.leftArm, (ox, oy))
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
@@ -228,7 +244,7 @@ let script = () => {
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Layer 1", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
+    drawLeftCuboid("Layer 1", char.base.leftLeg, (ox, oy))
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
