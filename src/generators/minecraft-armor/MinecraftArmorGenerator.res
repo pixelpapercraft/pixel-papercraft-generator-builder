@@ -31,7 +31,7 @@ let textures: array<Generator.textureDef> = [
     id: "Layer 1",
     url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
-    standardHeight: 32,
+    standardHeight: 64,
   },
   {
     id: "Layer 2",
@@ -131,8 +131,33 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-let steve = Minecraft.Character.steve
-let alex = Minecraft.Character.alex
+// Armor model
+let make2 = ((w, h, d): Minecraft.scale): Minecraft.Cuboid.Source.t => {
+  top: (d, 0, w, d * 2),
+  bottom: (d + w, 0, w, d * 2),
+  front: (d, d * 2, w, h * 2),
+  right: (0, d * 2, d, h * 2),
+  left: (d + w, d * 2, d, h * 2),
+  back: (d * 2 + w, d * 2, w, h * 2),
+}
+let old: Minecraft.Character.t = {
+  base: {
+    head: make2((8, 8, 8))->Minecraft.Character.translate((0, 0)),
+    rightArm: make2((4, 12, 4))->Minecraft.Character.translate((40, 32)),
+    leftArm: make2((4, 12, 4))->Minecraft.Character.translate((40, 32)),
+    body: make2((8, 12, 4))->Minecraft.Character.translate((16, 32)),
+    rightLeg: make2((4, 12, 4))->Minecraft.Character.translate((0, 32)),
+    leftLeg: make2((4, 12, 4))->Minecraft.Character.translate((0, 32)),
+  },
+  overlay: {
+    head: make2((8, 8, 8))->Minecraft.Character.translate((32, 0)),
+    rightArm: make2((0, 0, 0))->Minecraft.Character.translate((0, 0)),
+    leftArm: make2((0, 0, 0))->Minecraft.Character.translate((0, 0)),
+    body: make2((0, 0, 0))->Minecraft.Character.translate((0, 0)),
+    rightLeg: make2((0, 0, 0))->Minecraft.Character.translate((0, 0)),
+    leftLeg: make2((0, 0, 0))->Minecraft.Character.translate((0, 0)),
+  },
+}
 
 let script = () => {
   // Inputs
@@ -145,7 +170,7 @@ let script = () => {
       choices: ["Chainmail 1", "Diamond 1", "Gold 1", "Iron 1", "Netherite 1", "Turtle 1"],
     },
   )
-  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
+  Generator.defineSelectInput("Layer 1 Model", ["Steve", "Alex"])
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
   Generator.defineText(
@@ -159,13 +184,13 @@ let script = () => {
 
   let showHeadOverlay = Generator.getBooleanInputValueWithDefault("Show Head Overlay", true)
 
-  let char = steve
+  let char = old
 
   let drawHead = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 64, 64)
-    Minecraft.drawCuboid("Skin", char.base.head, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Layer 1", char.base.head, (ox, oy), scale, ())
     if showHeadOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.head, (ox, oy), scale, ())
+      Minecraft.drawCuboid("Layer 1", char.overlay.head, (ox, oy), scale, ())
     }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
@@ -174,36 +199,36 @@ let script = () => {
 
   let drawBody = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.body, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Layer 1", char.base.body, (ox, oy), scale, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
 
   let drawRightArm = ((ox, oy): Generator_Builder.position) => {
-    let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.rightArm, (ox, oy), scale, ())
+    let scale = (32, 96, 32)
+    Minecraft.drawCuboid("Layer 1", char.base.rightArm, (ox, oy), scale, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
-    let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
+    let scale = (32, 96, 32)
+    Minecraft.drawCuboid("Layer 1", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
   }
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.rightLeg, (ox, oy), scale, ())
+    Minecraft.drawCuboid("Layer 1", char.base.rightLeg, (ox, oy), scale, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
+    Minecraft.drawCuboid("Layer 1", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
