@@ -110,12 +110,14 @@ module Cuboid = {
       rectangle: Builder.rectangle,
       flip: Generator_Texture.flip,
       rotate: float,
+      blend: Generator_Texture.blend,
     }
 
     let make = (rect: Builder.rectangle): t => {
       rectangle: rect,
       flip: #None,
       rotate: 0.0,
+      blend: #None,
     }
 
     // When a face is flipped both vertically and horizontally, this is the same as rotating 180 degrees.
@@ -135,10 +137,11 @@ module Cuboid = {
         rectangle: face.rectangle,
         flip: newFlip,
         rotate: newRotate,
+        blend: face.blend,
       }
     }
 
-    let rotate = ({rectangle, flip, rotate}: t, r: float) => {
+    let rotate = ({rectangle, flip, rotate, blend}: t, r: float) => {
       let (x, y, w, h) = rectangle
 
       {
@@ -147,13 +150,22 @@ module Cuboid = {
           : (x, y, w, h),
         flip: flip,
         rotate: rotate +. r,
+        blend: blend,
       }
     }
 
-    let translate = ({rectangle, flip, rotate}: t, position: Builder.position) => {
+    let translate = ({rectangle, flip, rotate, blend}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
       flip: flip,
       rotate: rotate,
+      blend: blend,
+    }
+
+    let blend = ({rectangle, flip, rotate, _}: t, newBlend: Generator_Texture.blend) => {
+      rectangle: rectangle,
+      flip: flip,
+      rotate: rotate,
+      blend: newBlend,
     }
 
     let draw = (textureId: string, source: Builder.rectangle, dest: t) => {
@@ -163,6 +175,7 @@ module Cuboid = {
         dest.rectangle,
         ~flip=dest.flip,
         ~rotate=dest.rotate,
+        ~blend=dest.blend,
         (),
       )
     }
@@ -228,7 +241,7 @@ module Cuboid = {
       }
     }
 
-    let setLayout = (scale, direction, center): t => {
+    let setLayout = (scale, direction, center, blend): t => {
       let (w, h, d) = scale
       let scale = switch center {
       | #Right => (d, h, w)
@@ -239,6 +252,15 @@ module Cuboid = {
       }
 
       let dest = make(scale, direction)
+
+      let dest = {
+        right: dest.right->Face.blend(blend),
+        front: dest.front->Face.blend(blend),
+        left: dest.left->Face.blend(blend),
+        back: dest.back->Face.blend(blend),
+        top: dest.top->Face.blend(blend),
+        bottom: dest.bottom->Face.blend(blend),
+      }
       switch center {
       | #Right => {
           right: dest.front,
@@ -299,9 +321,10 @@ module Cuboid = {
     scale: scale,
     ~direction: Dest.direction=#East,
     ~center: Dest.center=#Front,
+    ~blend: Generator_Texture.blend=#None,
     (),
   ) => {
-    let dest = Dest.setLayout(scale, direction, center)->Dest.translate(position)
+    let dest = Dest.setLayout(scale, direction, center, blend)->Dest.translate(position)
     Face.draw(textureId, source.front, dest.front)
     Face.draw(textureId, source.back, dest.back)
     Face.draw(textureId, source.top, dest.top)
@@ -318,8 +341,9 @@ let drawCuboid = (
   scale: scale,
   ~direction: Cuboid.Dest.direction=#East,
   ~center: Cuboid.Dest.center=#Front,
+  ~blend: Generator_Texture.blend=#None,
   (),
-) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ())
+) => Cuboid.draw(textureId, source, position, scale, ~direction, ~center, ~blend, ())
 
 module CharacterLegacy = {
   module Layer = {
