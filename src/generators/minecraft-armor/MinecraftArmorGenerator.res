@@ -1,5 +1,7 @@
 let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
 let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
+let requirePalette = id => requireTexture("trims/color_palettes/" ++ id)
+let requireTrim = id => requireTexture("trims/models/armor/" ++ id)
 
 let id = "minecraft-armor"
 
@@ -179,6 +181,234 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
+let palettes: array<Generator.textureDef> = [
+  {
+    id: "Amethyst  ",
+    url: requirePalette("amethyst"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Copper  ",
+    url: requirePalette("copper"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Diamond Darker  ",
+    url: requirePalette("diamond_darker"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Diamond  ",
+    url: requirePalette("diamond"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Emerald  ",
+    url: requirePalette("emerald"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Gold Darker  ",
+    url: requirePalette("gold_darker"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Gold  ",
+    url: requirePalette("gold"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Iron Darker  ",
+    url: requirePalette("iron_darker"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Iron  ",
+    url: requirePalette("iron"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Lapis Lazuli  ",
+    url: requirePalette("lapis"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Netherite Darker  ",
+    url: requirePalette("netherite_darker"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Netherite  ",
+    url: requirePalette("netherite"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Quartz  ",
+    url: requirePalette("quartz"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Redstone  ",
+    url: requirePalette("redstone"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Trim Palette  ",
+    url: requirePalette("trim_palette"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+]
+
+let trims: array<Generator.textureDef> = [
+  {
+    id: "Coast ",
+    url: requirePalette("coast_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Coast",
+    url: requirePalette("coast"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Dune ",
+    url: requirePalette("dune_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Dune",
+    url: requirePalette("dune"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Eye ",
+    url: requirePalette("eye_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Eye",
+    url: requirePalette("eye"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Rib ",
+    url: requirePalette("rib_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Rib",
+    url: requirePalette("rib"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Sentry ",
+    url: requirePalette("sentry_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Sentry",
+    url: requirePalette("sentry"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Snout ",
+    url: requirePalette("snout_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Snout",
+    url: requirePalette("snout"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Spire ",
+    url: requirePalette("spire_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Spire",
+    url: requirePalette("spire"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Tide ",
+    url: requirePalette("tide_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Tide",
+    url: requirePalette("tide"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Vex ",
+    url: requirePalette("vex_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Vex",
+    url: requirePalette("vex"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Ward ",
+    url: requirePalette("ward_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Ward",
+    url: requirePalette("ward"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Wild ",
+    url: requirePalette("wild_leggings"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Wild",
+    url: requirePalette("wild"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+]
+
 // Armor model
 let make2 = ((w, h, d): Minecraft.scale): Minecraft.Cuboid.Source.t => {
   top: (d, 0, w, d * 2),
@@ -284,6 +514,9 @@ let materials = ["Chainmail", "Gold", "Iron", "Diamond", "Netherite", "Turtle Sh
 let script = () => {
   // Inputs
 
+  Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Show Labels", true)
+
   Generator.defineTextureInput(
     "Helmet",
     {
@@ -315,11 +548,6 @@ let script = () => {
       standardHeight: 64,
       choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
     },
-  )
-  Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", true)
-  Generator.defineText(
-    "Click in the papercraft template to turn on and off the overlay for each part.",
   )
 
   // Draw
