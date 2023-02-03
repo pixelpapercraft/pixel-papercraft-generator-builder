@@ -179,9 +179,6 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 64,
     standardHeight: 32,
   },
-]
-
-let palettes: array<Generator.textureDef> = [
   {
     id: "Amethyst  ",
     url: requirePalette("amethyst"),
@@ -272,138 +269,135 @@ let palettes: array<Generator.textureDef> = [
     standardWidth: 8,
     standardHeight: 1,
   },
-]
-
-let trims: array<Generator.textureDef> = [
   {
     id: "Coast ",
-    url: requirePalette("coast_leggings"),
+    url: requireTrim("coast_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Coast",
-    url: requirePalette("coast"),
+    url: requireTrim("coast"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Dune ",
-    url: requirePalette("dune_leggings"),
+    url: requireTrim("dune_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Dune",
-    url: requirePalette("dune"),
+    url: requireTrim("dune"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Eye ",
-    url: requirePalette("eye_leggings"),
+    url: requireTrim("eye_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Eye",
-    url: requirePalette("eye"),
+    url: requireTrim("eye"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Rib ",
-    url: requirePalette("rib_leggings"),
+    url: requireTrim("rib_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Rib",
-    url: requirePalette("rib"),
+    url: requireTrim("rib"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Sentry ",
-    url: requirePalette("sentry_leggings"),
+    url: requireTrim("sentry_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Sentry",
-    url: requirePalette("sentry"),
+    url: requireTrim("sentry"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Snout ",
-    url: requirePalette("snout_leggings"),
+    url: requireTrim("snout_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Snout",
-    url: requirePalette("snout"),
+    url: requireTrim("snout"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Spire ",
-    url: requirePalette("spire_leggings"),
+    url: requireTrim("spire_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Spire",
-    url: requirePalette("spire"),
+    url: requireTrim("spire"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Tide ",
-    url: requirePalette("tide_leggings"),
+    url: requireTrim("tide_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Tide",
-    url: requirePalette("tide"),
+    url: requireTrim("tide"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Vex ",
-    url: requirePalette("vex_leggings"),
+    url: requireTrim("vex_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Vex",
-    url: requirePalette("vex"),
+    url: requireTrim("vex"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Ward ",
-    url: requirePalette("ward_leggings"),
+    url: requireTrim("ward_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Ward",
-    url: requirePalette("ward"),
+    url: requireTrim("ward"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Wild ",
-    url: requirePalette("wild_leggings"),
+    url: requireTrim("wild_leggings"),
     standardWidth: 64,
     standardHeight: 32,
   },
   {
     id: "Wild",
-    url: requirePalette("wild"),
+    url: requireTrim("wild"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -516,39 +510,6 @@ let script = () => {
 
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", true)
-
-  Generator.defineTextureInput(
-    "Helmet",
-    {
-      standardWidth: 64,
-      standardHeight: 64,
-      choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite", "Turtle Shell"],
-    },
-  )
-  Generator.defineTextureInput(
-    "Chestplate",
-    {
-      standardWidth: 64,
-      standardHeight: 64,
-      choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
-    },
-  )
-  Generator.defineTextureInput(
-    "Leggings",
-    {
-      standardWidth: 64,
-      standardHeight: 64,
-      choices: ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "],
-    },
-  )
-  Generator.defineTextureInput(
-    "Boots",
-    {
-      standardWidth: 64,
-      standardHeight: 64,
-      choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
-    },
-  )
 
   // Draw
 
@@ -703,6 +664,14 @@ let script = () => {
   }
 
   let drawHelmet = () => {
+    Generator.defineTextureInput(
+      "Helmet",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite", "Turtle Shell"],
+      },
+    )
     let tintHelmet = Generator.defineAndGetBooleanInput("Tint Helmet", false)
     if tintHelmet {
       let helmetColor = getTint("Helmet Color")
@@ -725,6 +694,14 @@ let script = () => {
   }
 
   let drawChestplate = () => {
+    Generator.defineTextureInput(
+      "Chestplate",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+      },
+    )
     let tintChestplate = Generator.defineAndGetBooleanInput("Tint Chestplate", false)
     if tintChestplate {
       let chestplateColor = getTint("Chestplate Color")
@@ -750,6 +727,14 @@ let script = () => {
   }
 
   let drawLeggings = () => {
+    Generator.defineTextureInput(
+      "Leggings",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "],
+      },
+    )
     let tintLeggings = Generator.defineAndGetBooleanInput("Tint Leggings", false)
     if tintLeggings {
       let leggingsColor = getTint("Leggings Color")
@@ -775,6 +760,134 @@ let script = () => {
   }
 
   let drawBoots = () => {
+    Generator.defineTextureInput(
+      "Boots",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+      },
+    )
+    let tintBoots = Generator.defineAndGetBooleanInput("Tint Boots", false)
+    if tintBoots {
+      let bootsColor = getTint("Boots Color")
+      drawLeftLeg("Boots", bootsColor)
+      drawRightLeg("Boots", bootsColor)
+      Generator.defineTextureInput(
+        "Boots Overlay",
+        {
+          standardWidth: 64,
+          standardHeight: 64,
+          choices: ["Leather Overlay"],
+        },
+      )
+      drawLeftLeg("Boots Overlay", "None")
+      drawRightLeg("Boots Overlay", "None")
+    } else {
+      drawLeftLeg("Boots", "None")
+      drawRightLeg("Boots", "None")
+    }
+  }
+
+  let drawHelmetTrim = () => {
+    Generator.defineTextureInput(
+      "Helmet Trim",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: [
+          "Coast",
+          "Dune",
+          "Eye",
+          "Rib",
+          "Sentry",
+          "Snout",
+          "Spire",
+          "Tide",
+          "Vex",
+          "Ward",
+          "Wild",
+        ],
+      },
+    )
+    drawHead("Helmet Trim", "None")
+  }
+
+  let drawChestplateTrim = () => {
+    Generator.defineTextureInput(
+      "Chestplate",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+      },
+    )
+    let tintChestplate = Generator.defineAndGetBooleanInput("Tint Chestplate", false)
+    if tintChestplate {
+      let chestplateColor = getTint("Chestplate Color")
+      drawBody("Chestplate", chestplateColor)
+      drawLeftArm("Chestplate", chestplateColor)
+      drawRightArm("Chestplate", chestplateColor)
+      Generator.defineTextureInput(
+        "Chestplate Overlay",
+        {
+          standardWidth: 64,
+          standardHeight: 64,
+          choices: ["Leather Overlay"],
+        },
+      )
+      drawBody("Chestplate Overlay", "None")
+      drawLeftArm("Chestplate Overlay", "None")
+      drawRightArm("Chestplate Overlay", "None")
+    } else {
+      drawBody("Chestplate", "None")
+      drawLeftArm("Chestplate", "None")
+      drawRightArm("Chestplate", "None")
+    }
+  }
+
+  let drawLeggingsTrim = () => {
+    Generator.defineTextureInput(
+      "Leggings",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "],
+      },
+    )
+    let tintLeggings = Generator.defineAndGetBooleanInput("Tint Leggings", false)
+    if tintLeggings {
+      let leggingsColor = getTint("Leggings Color")
+      drawBody("Leggings", leggingsColor)
+      drawLeftLeg("Leggings", leggingsColor)
+      drawRightLeg("Leggings", leggingsColor)
+      Generator.defineTextureInput(
+        "Leggings Overlay",
+        {
+          standardWidth: 64,
+          standardHeight: 64,
+          choices: ["Leather Overlay"],
+        },
+      )
+      drawBody("Leggings Overlay", "None")
+      drawLeftLeg("Leggings Overlay", "None")
+      drawRightLeg("Leggings Overlay", "None")
+    } else {
+      drawBody("Leggings", "None")
+      drawLeftLeg("Leggings", "None")
+      drawRightLeg("Leggings", "None")
+    }
+  }
+
+  let drawBootsTrim = () => {
+    Generator.defineTextureInput(
+      "Boots",
+      {
+        standardWidth: 64,
+        standardHeight: 64,
+        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+      },
+    )
     let tintBoots = Generator.defineAndGetBooleanInput("Tint Boots", false)
     if tintBoots {
       let bootsColor = getTint("Boots Color")
@@ -798,6 +911,10 @@ let script = () => {
 
   // Helmet
   drawHelmet()
+  let trimHelmet = Generator.defineAndGetBooleanInput("Trim Helmet", false)
+  if trimHelmet {
+    drawHelmetTrim()
+  }
 
   // Leggings
   drawLeggings()
