@@ -23,7 +23,13 @@ let makeFromUrl = (url, standardWidth, standardHeight) =>
 
 type flip = [#None | #Horizontal | #Vertical]
 type rotate = [#None | #Corner(float) | #Center(float)]
-type blend = [#None | #MultiplyHex(string) | #MultiplyRGB(int, int, int)]
+type blend = [
+  | #None
+  | #MultiplyHex(string)
+  | #MultiplyRGB(int, int, int)
+  | #ReplaceHex(string, string)
+  | #ReplaceRGB(int, int, int, int, int, int)
+]
 
 type drawNearestNeighborOptions = {rotate: rotate, flip: flip, blend: blend, pixelate: bool}
 
@@ -61,7 +67,7 @@ let hexToRGB = (hex: string) => {
       let r = shift(value, 16)
       let g = shift(value, 8)
       let b = shift(value, 0)
-      Some((r, g, b))
+      Some(r, g, b)
     }
   }
 }
@@ -71,6 +77,19 @@ let blendColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
   (Belt.Int.toFloat(g1) *. Belt.Int.toFloat(g2) /. 255.0)->Belt.Float.toInt,
   (Belt.Int.toFloat(b1) *. Belt.Int.toFloat(b2) /. 255.0)->Belt.Float.toInt,
 )
+
+// if 1(texture) = 2(base palette), draw 3(color palette) else draw 1
+let replaceColors = (
+  r1: int,
+  g1: int,
+  b1: int,
+  r2: int,
+  g2: int,
+  b2: int,
+  r3: int,
+  g3: int,
+  b3: int,
+) => (r1 == r2 ? r3 : r1, g1 == g2 ? g3 : g1, b1 == b2 ? b3 : b1)
 
 // Scale (dw, dh) so it fits inside (sw, sh)
 let fit = (sw, sh, dw, dh) => {
@@ -142,6 +161,16 @@ let drawNearestNeighbor = (
     | #None => None
     | #MultiplyHex(hex) => hexToRGB(hex)
     | #MultiplyRGB(r, g, b) => Some(r, g, b)
+    | #ReplaceHex(hex1, _) => hexToRGB(hex1)
+    | #ReplaceRGB(r, g, b, _, _, _) => Some(r, g, b)
+    | _ => None
+    }
+
+    let replace = switch options.blend {
+    | #None => None
+    | #ReplaceHex(_, hex2) => hexToRGB(hex2)
+    | #ReplaceRGB(_, _, _, r1, g1, b1) => Some(r1, g1, b1)
+    | _ => None
     }
 
     for y in 0 to sh - 1 {
@@ -158,7 +187,11 @@ let drawNearestNeighbor = (
 
         let (r, g, b) = switch blend {
         | None => (r, g, b)
-        | Some((r2, g2, b2)) => blendColors(r, g, b, r2, g2, b2)
+        | Some((r2, g2, b2)) =>
+          switch replace {
+          | None => blendColors(r, g, b, r2, g2, b2)
+          | Some((r3, g3, b3)) => replaceColors(r, g, b, r2, g2, b2, r3, g3, b3)
+          }
         }
 
         Context2d.setFillStyleRGBA(tempContext, r, g, b, a)
