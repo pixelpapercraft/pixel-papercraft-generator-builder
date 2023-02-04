@@ -806,14 +806,11 @@ let script = () => {
     }
   }
 
-  let baseVals = Js.Array.map(
-    x => getTexturePixelColor("Trim Palette  ", x, 0),
-    [0, 1, 2, 3, 4, 5, 6, 7],
-  )
-  let newColors = Js.Array.map(
-    x => getTexturePixelColor("Amethyst  ", x, 0),
-    [0, 1, 2, 3, 4, 5, 6, 7],
-  )
+  let getPalette = (id, length) =>
+    Js.Array.map(x => getTexturePixelColor(id, x, 0), Belt.Array.range(0, length - 1))
+  let baseVals = getPalette("Trim Palette  ", 8)
+  let newColors = getPalette("Amethyst  ", 8)
+
   let drawHelmetTrim = () => {
     Generator.defineTextureInput(
       "Helmet Trim",
@@ -835,12 +832,31 @@ let script = () => {
         ],
       },
     )
-    drawHead("Helmet Trim", #ReplaceHex(baseVals, newColors))
-    drawBody("Helmet Trim", #ReplaceHex(baseVals, newColors))
-    drawLeftArm("Helmet Trim", #ReplaceHex(baseVals, newColors))
-    drawRightArm("Helmet Trim", #ReplaceHex(baseVals, newColors))
-    drawLeftLeg("Helmet Trim", #ReplaceHex(baseVals, newColors))
-    drawRightLeg("Helmet Trim", #ReplaceHex(baseVals, newColors))
+    Generator.defineTextureInput(
+      "Helmet Trim Material",
+      {
+        standardWidth: 8,
+        standardHeight: 1,
+        choices: [
+          "Amethyst  ",
+          "Copper  ",
+          "Diamond Darker  ",
+          "Diamond  ",
+          "Emerald  ",
+          "Gold Darker  ",
+          "Gold  ",
+          "Iron Darker  ",
+          "Iron  ",
+          "Lapis Lazuli  ",
+          "Netherite Darker  ",
+          "Netherite  ",
+          "Redstone  ",
+          "Quartz  ",
+        ],
+      },
+    )
+    let helmetTrimColors = getPalette("Helmet Trim Material", 8)
+    drawHead("Helmet Trim", #ReplaceHex(baseVals, helmetTrimColors))
   }
 
   let drawChestplateTrim = () => {
