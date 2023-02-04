@@ -270,6 +270,30 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 1,
   },
   {
+    id: "Helmet Trim",
+    url: requireTrim("coast"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Chestplate Trim",
+    url: requireTrim("coast"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Leggings Trim",
+    url: requireTrim("coast_leggings"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Boots Trim",
+    url: requireTrim("coast"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Coast ",
     url: requireTrim("coast_leggings"),
     standardWidth: 64,
@@ -450,23 +474,16 @@ let drawLeftCuboid = (
   textureId: string,
   source: Minecraft.Cuboid.Source.t,
   dest: Generator_Builder.position,
-  tint: string,
+  blend: Generator_Texture.blend,
 ) => {
   let (dx, dy) = dest
-  Generator.drawTexture(
-    textureId,
-    source.top,
-    (dx + 64, dy, 32, 32),
-    ~flip=#Horizontal,
-    ~blend=#MultiplyHex(tint),
-    (),
-  ) // top
+  Generator.drawTexture(textureId, source.top, (dx + 64, dy, 32, 32), ~flip=#Horizontal, ~blend, ()) // top
   Generator.drawTexture(
     textureId,
     source.bottom,
     (dx + 64, dy + 128, 32, 32),
     ~rotate=180.0,
-    ~blend=#MultiplyHex(tint),
+    ~blend,
     (),
   ) // top
   Generator.drawTexture(
@@ -474,7 +491,7 @@ let drawLeftCuboid = (
     source.back,
     (dx, dy + 32, 32, 96),
     ~flip=#Horizontal,
-    ~blend=#MultiplyHex(tint),
+    ~blend,
     (),
   ) // top
   Generator.drawTexture(
@@ -482,7 +499,7 @@ let drawLeftCuboid = (
     source.left,
     (dx + 32, dy + 32, 32, 96),
     ~flip=#Horizontal,
-    ~blend=#MultiplyHex(tint),
+    ~blend,
     (),
   ) // top
   Generator.drawTexture(
@@ -490,7 +507,7 @@ let drawLeftCuboid = (
     source.front,
     (dx + 64, dy + 32, 32, 96),
     ~flip=#Horizontal,
-    ~blend=#MultiplyHex(tint),
+    ~blend,
     (),
   ) // top
   Generator.drawTexture(
@@ -498,7 +515,7 @@ let drawLeftCuboid = (
     source.right,
     (dx + 96, dy + 32, 32, 96),
     ~flip=#Horizontal,
-    ~blend=#MultiplyHex(tint),
+    ~blend,
     (),
   ) // top
 }
@@ -520,84 +537,56 @@ let script = () => {
 
   let char = old
 
-  let drawHead = (textureId: string, tint: string) => {
+  let drawHead = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (74, 25)
     let scale = (64, 64, 64)
-    Minecraft.drawCuboid(textureId, char.base.head, (ox, oy), scale, ~blend=#MultiplyHex(tint), ())
+    Minecraft.drawCuboid(textureId, char.base.head, (ox, oy), scale, ~blend, ())
     if showHeadOverlay {
-      Minecraft.drawCuboid(
-        textureId,
-        char.overlay.head,
-        (ox, oy),
-        scale,
-        ~blend=#MultiplyHex(tint),
-        (),
-      )
+      Minecraft.drawCuboid(textureId, char.overlay.head, (ox, oy), scale, ~blend, ())
     }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
 
-  let drawBody = (textureId: string, tint: string) => {
+  let drawBody = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (268, 201)
     let scale = (64, 96, 32)
-    Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend=#MultiplyHex(tint), ())
+    Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
 
-  let drawRightArm = (textureId: string, tint: string) => {
+  let drawRightArm = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (99, 373)
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid(
-      textureId,
-      char.base.rightArm,
-      (ox, oy),
-      scale,
-      ~blend=#MultiplyHex(tint),
-      (),
-    )
+    Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
-  let drawLeftArm = (textureId: string, tint: string) => {
+  let drawLeftArm = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (383, 373)
     //let scale = (32, 96, 32)
-    drawLeftCuboid(textureId, char.base.leftArm, (ox, oy), tint)
+    drawLeftCuboid(textureId, char.base.leftArm, (ox, oy), blend)
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
   }
-  let drawRightLeg = (textureId: string, tint: string) => {
+  let drawRightLeg = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (99, 587)
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid(
-      textureId,
-      char.base.rightLeg,
-      (ox, oy),
-      scale,
-      ~blend=#MultiplyHex(tint),
-      (),
-    ) // Leggings
-    Minecraft.drawCuboid(
-      textureId,
-      char.base.rightLeg,
-      (ox, oy),
-      scale,
-      ~blend=#MultiplyHex(tint),
-      (),
-    ) // Boots
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Leggings
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Boots
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
-  let drawLeftLeg = (textureId: string, tint: string) => {
+  let drawLeftLeg = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (383, 587)
     //let scale = (32, 96, 32)
-    drawLeftCuboid(textureId, char.base.leftLeg, (ox, oy), tint)
+    drawLeftCuboid(textureId, char.base.leftLeg, (ox, oy), blend)
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
     } */
@@ -641,7 +630,7 @@ let script = () => {
       ],
     )
 
-    switch Generator.getSelectInputValue(colorId) {
+    let hex = switch Generator.getSelectInputValue(colorId) {
     | "Leather" => "A06540"
     | "Black" => "1D1D21"
     | "Red" => "B02E26"
@@ -661,6 +650,7 @@ let script = () => {
     | "White" => "F9FFFE"
     | _ => "A06540"
     }
+    #MultiplyHex(hex)
   }
 
   let drawHelmet = () => {
@@ -684,9 +674,9 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawHead("Helmet Overlay", "None")
+      drawHead("Helmet Overlay", #None)
     } else {
-      drawHead("Helmet", "None")
+      drawHead("Helmet", #None)
     }
     Generator.defineRegionInput((74, 25, 256, 192), () => {
       Generator.setBooleanInputValue("Show Head Overlay", !showHeadOverlay)
@@ -716,13 +706,13 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawBody("Chestplate Overlay", "None")
-      drawLeftArm("Chestplate Overlay", "None")
-      drawRightArm("Chestplate Overlay", "None")
+      drawBody("Chestplate Overlay", #None)
+      drawLeftArm("Chestplate Overlay", #None)
+      drawRightArm("Chestplate Overlay", #None)
     } else {
-      drawBody("Chestplate", "None")
-      drawLeftArm("Chestplate", "None")
-      drawRightArm("Chestplate", "None")
+      drawBody("Chestplate", #None)
+      drawLeftArm("Chestplate", #None)
+      drawRightArm("Chestplate", #None)
     }
   }
 
@@ -749,13 +739,13 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawBody("Leggings Overlay", "None")
-      drawLeftLeg("Leggings Overlay", "None")
-      drawRightLeg("Leggings Overlay", "None")
+      drawBody("Leggings Overlay", #None)
+      drawLeftLeg("Leggings Overlay", #None)
+      drawRightLeg("Leggings Overlay", #None)
     } else {
-      drawBody("Leggings", "None")
-      drawLeftLeg("Leggings", "None")
-      drawRightLeg("Leggings", "None")
+      drawBody("Leggings", #None)
+      drawLeftLeg("Leggings", #None)
+      drawRightLeg("Leggings", #None)
     }
   }
 
@@ -781,14 +771,49 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawLeftLeg("Boots Overlay", "None")
-      drawRightLeg("Boots Overlay", "None")
+      drawLeftLeg("Boots Overlay", #None)
+      drawRightLeg("Boots Overlay", #None)
     } else {
-      drawLeftLeg("Boots", "None")
-      drawRightLeg("Boots", "None")
+      drawLeftLeg("Boots", #None)
+      drawRightLeg("Boots", #None)
     }
   }
 
+  let rgbaToHex: ((int, int, int, int)) => string = %raw(`
+  function rgbaToHex(rgba) {
+    let r = rgba[0].toString(16);
+    let g = rgba[1].toString(16);
+    let b = rgba[2].toString(16);
+    let a = rgba[3].toString(16);
+
+    if (r.length == 1)
+      r = "0" + r;
+    if (g.length == 1)
+      g = "0" + g;
+    if (b.length == 1)
+      b = "0" + b;
+    if (a.length == 1)
+      a = "0" + a;
+
+    return "#" + r + g + b;
+  }
+`)
+
+  let getTexturePixelColor = (id, x, y) => {
+    switch Generator.getTexturePixelColor(id, x, y) {
+    | None => "Unknown"
+    | Some(color) => rgbaToHex(color)
+    }
+  }
+
+  let baseVals = Js.Array.map(
+    x => getTexturePixelColor("Trim Palette  ", x, 0),
+    [0, 1, 2, 3, 4, 5, 6, 7],
+  )
+  let newColors = Js.Array.map(
+    x => getTexturePixelColor("Amethyst  ", x, 0),
+    [0, 1, 2, 3, 4, 5, 6, 7],
+  )
   let drawHelmetTrim = () => {
     Generator.defineTextureInput(
       "Helmet Trim",
@@ -810,7 +835,12 @@ let script = () => {
         ],
       },
     )
-    drawHead("Helmet Trim", "None")
+    drawHead("Helmet Trim", #ReplaceHex(baseVals, newColors))
+    drawBody("Helmet Trim", #ReplaceHex(baseVals, newColors))
+    drawLeftArm("Helmet Trim", #ReplaceHex(baseVals, newColors))
+    drawRightArm("Helmet Trim", #ReplaceHex(baseVals, newColors))
+    drawLeftLeg("Helmet Trim", #ReplaceHex(baseVals, newColors))
+    drawRightLeg("Helmet Trim", #ReplaceHex(baseVals, newColors))
   }
 
   let drawChestplateTrim = () => {
@@ -836,13 +866,13 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawBody("Chestplate Overlay", "None")
-      drawLeftArm("Chestplate Overlay", "None")
-      drawRightArm("Chestplate Overlay", "None")
+      drawBody("Chestplate Overlay", #None)
+      drawLeftArm("Chestplate Overlay", #None)
+      drawRightArm("Chestplate Overlay", #None)
     } else {
-      drawBody("Chestplate", "None")
-      drawLeftArm("Chestplate", "None")
-      drawRightArm("Chestplate", "None")
+      drawBody("Chestplate", #None)
+      drawLeftArm("Chestplate", #None)
+      drawRightArm("Chestplate", #None)
     }
   }
 
@@ -869,13 +899,13 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawBody("Leggings Overlay", "None")
-      drawLeftLeg("Leggings Overlay", "None")
-      drawRightLeg("Leggings Overlay", "None")
+      drawBody("Leggings Overlay", #None)
+      drawLeftLeg("Leggings Overlay", #None)
+      drawRightLeg("Leggings Overlay", #None)
     } else {
-      drawBody("Leggings", "None")
-      drawLeftLeg("Leggings", "None")
-      drawRightLeg("Leggings", "None")
+      drawBody("Leggings", #None)
+      drawLeftLeg("Leggings", #None)
+      drawRightLeg("Leggings", #None)
     }
   }
 
@@ -901,20 +931,20 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawLeftLeg("Boots Overlay", "None")
-      drawRightLeg("Boots Overlay", "None")
+      drawLeftLeg("Boots Overlay", #None)
+      drawRightLeg("Boots Overlay", #None)
     } else {
-      drawLeftLeg("Boots", "None")
-      drawRightLeg("Boots", "None")
+      drawLeftLeg("Boots", #None)
+      drawRightLeg("Boots", #None)
     }
   }
 
   // Helmet
   drawHelmet()
-  let trimHelmet = Generator.defineAndGetBooleanInput("Trim Helmet", false)
-  if trimHelmet {
-    drawHelmetTrim()
-  }
+  let trimHelmet = Generator.defineAndGetBooleanInput("Trim Helmet", true)
+  //if trimHelmet {
+  //  drawHelmetTrim()
+  //}
 
   // Leggings
   drawLeggings()
@@ -924,6 +954,10 @@ let script = () => {
 
   // Boots
   drawBoots()
+
+  if trimHelmet {
+    drawHelmetTrim()
+  }
 
   // Folds
 
