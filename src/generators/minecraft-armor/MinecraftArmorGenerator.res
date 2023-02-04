@@ -180,6 +180,30 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
+    id: "Helmet Trim Material",
+    url: requirePalette("amethyst"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Chestplate Trim Material",
+    url: requirePalette("amethyst"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Leggings Trim Material",
+    url: requirePalette("amethyst"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
+    id: "Boots Trim Material",
+    url: requirePalette("amethyst"),
+    standardWidth: 8,
+    standardHeight: 1,
+  },
+  {
     id: "Amethyst  ",
     url: requirePalette("amethyst"),
     standardWidth: 8,
@@ -808,8 +832,51 @@ let script = () => {
 
   let getPalette = (id, length) =>
     Js.Array.map(x => getTexturePixelColor(id, x, 0), Belt.Array.range(0, length - 1))
-  let baseVals = getPalette("Trim Palette  ", 8)
-  let newColors = getPalette("Amethyst  ", 8)
+  let baseColors = getPalette("Trim Palette  ", 8)
+
+  let trimTemplates = [
+    "Coast",
+    "Dune",
+    "Eye",
+    "Rib",
+    "Sentry",
+    "Snout",
+    "Spire",
+    "Tide",
+    "Vex",
+    "Ward",
+    "Wild",
+  ]
+  let trimTemplates2 = [
+    "Coast ",
+    "Dune ",
+    "Eye ",
+    "Rib ",
+    "Sentry ",
+    "Snout ",
+    "Spire ",
+    "Tide ",
+    "Vex ",
+    "Ward ",
+    "Wild ",
+  ]
+
+  let trimMaterials = [
+    "Amethyst  ",
+    "Copper  ",
+    "Diamond Darker  ",
+    "Diamond  ",
+    "Emerald  ",
+    "Gold Darker  ",
+    "Gold  ",
+    "Iron Darker  ",
+    "Iron  ",
+    "Lapis Lazuli  ",
+    "Netherite Darker  ",
+    "Netherite  ",
+    "Redstone  ",
+    "Quartz  ",
+  ]
 
   let drawHelmetTrim = () => {
     Generator.defineTextureInput(
@@ -817,19 +884,7 @@ let script = () => {
       {
         standardWidth: 64,
         standardHeight: 64,
-        choices: [
-          "Coast",
-          "Dune",
-          "Eye",
-          "Rib",
-          "Sentry",
-          "Snout",
-          "Spire",
-          "Tide",
-          "Vex",
-          "Ward",
-          "Wild",
-        ],
+        choices: trimTemplates,
       },
     )
     Generator.defineTextureInput(
@@ -837,142 +892,108 @@ let script = () => {
       {
         standardWidth: 8,
         standardHeight: 1,
-        choices: [
-          "Amethyst  ",
-          "Copper  ",
-          "Diamond Darker  ",
-          "Diamond  ",
-          "Emerald  ",
-          "Gold Darker  ",
-          "Gold  ",
-          "Iron Darker  ",
-          "Iron  ",
-          "Lapis Lazuli  ",
-          "Netherite Darker  ",
-          "Netherite  ",
-          "Redstone  ",
-          "Quartz  ",
-        ],
+        choices: trimMaterials,
       },
     )
     let helmetTrimColors = getPalette("Helmet Trim Material", 8)
-    drawHead("Helmet Trim", #ReplaceHex(baseVals, helmetTrimColors))
+    drawHead("Helmet Trim", #ReplaceHex(baseColors, helmetTrimColors))
   }
 
   let drawChestplateTrim = () => {
     Generator.defineTextureInput(
-      "Chestplate",
+      "Chestplate Trim",
       {
         standardWidth: 64,
         standardHeight: 64,
-        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+        choices: trimTemplates,
       },
     )
-    let tintChestplate = Generator.defineAndGetBooleanInput("Tint Chestplate", false)
-    if tintChestplate {
-      let chestplateColor = getTint("Chestplate Color")
-      drawBody("Chestplate", chestplateColor)
-      drawLeftArm("Chestplate", chestplateColor)
-      drawRightArm("Chestplate", chestplateColor)
-      Generator.defineTextureInput(
-        "Chestplate Overlay",
-        {
-          standardWidth: 64,
-          standardHeight: 64,
-          choices: ["Leather Overlay"],
-        },
-      )
-      drawBody("Chestplate Overlay", #None)
-      drawLeftArm("Chestplate Overlay", #None)
-      drawRightArm("Chestplate Overlay", #None)
-    } else {
-      drawBody("Chestplate", #None)
-      drawLeftArm("Chestplate", #None)
-      drawRightArm("Chestplate", #None)
-    }
+    Generator.defineTextureInput(
+      "Chestplate Trim Material",
+      {
+        standardWidth: 8,
+        standardHeight: 1,
+        choices: trimMaterials,
+      },
+    )
+    let chestplateTrimColors = getPalette("Chestplate Trim Material", 8)
+    drawBody("Chestplate Trim", #ReplaceHex(baseColors, chestplateTrimColors))
+    drawLeftArm("Chestplate Trim", #ReplaceHex(baseColors, chestplateTrimColors))
+    drawRightArm("Chestplate Trim", #ReplaceHex(baseColors, chestplateTrimColors))
   }
 
   let drawLeggingsTrim = () => {
     Generator.defineTextureInput(
-      "Leggings",
+      "Leggings Trim",
       {
         standardWidth: 64,
         standardHeight: 64,
-        choices: ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "],
+        choices: trimTemplates2,
       },
     )
-    let tintLeggings = Generator.defineAndGetBooleanInput("Tint Leggings", false)
-    if tintLeggings {
-      let leggingsColor = getTint("Leggings Color")
-      drawBody("Leggings", leggingsColor)
-      drawLeftLeg("Leggings", leggingsColor)
-      drawRightLeg("Leggings", leggingsColor)
-      Generator.defineTextureInput(
-        "Leggings Overlay",
-        {
-          standardWidth: 64,
-          standardHeight: 64,
-          choices: ["Leather Overlay"],
-        },
-      )
-      drawBody("Leggings Overlay", #None)
-      drawLeftLeg("Leggings Overlay", #None)
-      drawRightLeg("Leggings Overlay", #None)
-    } else {
-      drawBody("Leggings", #None)
-      drawLeftLeg("Leggings", #None)
-      drawRightLeg("Leggings", #None)
-    }
+    Generator.defineTextureInput(
+      "Leggings Trim Material",
+      {
+        standardWidth: 8,
+        standardHeight: 1,
+        choices: trimMaterials,
+      },
+    )
+    let leggingsTrimColors = getPalette("Leggings Trim Material", 8)
+    drawBody("Leggings Trim", #ReplaceHex(baseColors, leggingsTrimColors))
+    drawLeftLeg("Leggings Trim", #ReplaceHex(baseColors, leggingsTrimColors))
+    drawRightLeg("Leggings Trim", #ReplaceHex(baseColors, leggingsTrimColors))
   }
 
   let drawBootsTrim = () => {
     Generator.defineTextureInput(
-      "Boots",
+      "Boots Trim",
       {
         standardWidth: 64,
         standardHeight: 64,
-        choices: ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"],
+        choices: trimTemplates,
       },
     )
-    let tintBoots = Generator.defineAndGetBooleanInput("Tint Boots", false)
-    if tintBoots {
-      let bootsColor = getTint("Boots Color")
-      drawLeftLeg("Boots", bootsColor)
-      drawRightLeg("Boots", bootsColor)
-      Generator.defineTextureInput(
-        "Boots Overlay",
-        {
-          standardWidth: 64,
-          standardHeight: 64,
-          choices: ["Leather Overlay"],
-        },
-      )
-      drawLeftLeg("Boots Overlay", #None)
-      drawRightLeg("Boots Overlay", #None)
-    } else {
-      drawLeftLeg("Boots", #None)
-      drawRightLeg("Boots", #None)
-    }
+    Generator.defineTextureInput(
+      "Boots Trim Material",
+      {
+        standardWidth: 8,
+        standardHeight: 1,
+        choices: trimMaterials,
+      },
+    )
+    let bootsTrimColors = getPalette("Boots Trim Material", 8)
+
+    drawLeftLeg("Boots Trim", #ReplaceHex(baseColors, bootsTrimColors))
+    drawRightLeg("Boots Trim", #ReplaceHex(baseColors, bootsTrimColors))
   }
 
   // Helmet
   drawHelmet()
-  let trimHelmet = Generator.defineAndGetBooleanInput("Trim Helmet", true)
-  //if trimHelmet {
-  //  drawHelmetTrim()
-  //}
+  let trimHelmet = Generator.defineAndGetBooleanInput("Trim Helmet", false)
+  if trimHelmet {
+    drawHelmetTrim()
+  }
 
   // Leggings
   drawLeggings()
+  let trimLeggings = Generator.defineAndGetBooleanInput("Trim Leggings", false)
+  if trimLeggings {
+    drawLeggingsTrim()
+  }
 
   // Chestplate
   drawChestplate()
+  let trimChestplate = Generator.defineAndGetBooleanInput("Trim Chestplate", false)
+  if trimChestplate {
+    drawChestplateTrim()
+  }
 
   // Boots
   drawBoots()
-
-  if trimHelmet {
-    drawHelmetTrim()
+  let trimBoots = Generator.defineAndGetBooleanInput("Trim Boots", false)
+  if trimBoots {
+    drawBootsTrim()
   }
 
   // Folds
