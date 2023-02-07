@@ -19,11 +19,12 @@ let make = (image, standardWidth, standardHeight): t => {
 let makeFromUrl = (url, standardWidth, standardHeight) => {
   // if url starts with "skin:" , then use makeFrom Skin(), else use makeFromUrl()
   if !Js.String.startsWith("skin:", url) {
-    let url = Js.String.substringToEnd(~from=5, url)
     Generator_ImageFactory.makeFromUrl(url)->Promise.thenResolve(image =>
       make(image, standardWidth, standardHeight)
     )
   } else {
+    let url = Js.String.substringToEnd(~from=5, url)
+    Js.Console.log("url is called: " ++ url)
     Generator_MinecraftSkinApi.getSkinImage(url)->Promise.thenResolve(image =>
       make(image, standardWidth, standardHeight)
     )

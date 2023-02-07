@@ -89,6 +89,8 @@ let getSkinImage = username => {
   ->Promise.then(Fetch.json)
   ->Promise.then(json => {
     let user = json->Jzon.decodeWith(User.codec)
+    Js.Console.log("User data below:")
+    Js.Console.log(user)
     switch user {
     | Error(_) =>
       let skinUrl = "data:image/png;base64," ++ steveData
