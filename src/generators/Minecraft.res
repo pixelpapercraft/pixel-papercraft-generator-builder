@@ -489,13 +489,34 @@ let drawFaceTabs = (
   })
 }
 
+/* let minecraftSkinTextures: array<Generator.textureDef> = [
+  {
+    id: "Skin",
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Steve",
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Alex",
+    url: requireTexture("SkinAlex64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+]*/
+
 let defineMinecraftSkinInput = (skinId: string) => {
   Generator.defineTextureInput(
     skinId,
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: ["Steve", "Alex"],
+      choices: ["Steve", "Alex", "Custom"],
     },
   )
 }

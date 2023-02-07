@@ -57,6 +57,12 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 64,
     standardHeight: 64,
   },
+  {
+    id: "Custom",
+    url: "skin:NinjolasNJM",
+    standardWidth: 64,
+    standardHeight: 64,
+  },
 ]
 
 let steve = Minecraft.Character.steve
