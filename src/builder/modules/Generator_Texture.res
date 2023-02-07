@@ -24,7 +24,6 @@ let makeFromUrl = (url, standardWidth, standardHeight) => {
     )
   } else {
     let url = Js.String.substringToEnd(~from=5, url)
-    Js.Console.log("url is called: " ++ url)
     Generator_MinecraftSkinApi.getSkinImage(url)->Promise.thenResolve(image =>
       make(image, standardWidth, standardHeight)
     )
