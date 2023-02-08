@@ -132,11 +132,11 @@ let drawGrid = () => {
   Generator.drawTexture("WebTexture", (0, 0, 16, 16), (100, 100, 164, 164), ())
 } */
 let drawTextInput = () => {
-  Generator.defineCustomStringInput(Testing_Constants.currentBlockTextureId, onChange => {
+  Generator.defineCustomStringInput("Input", onChange => {
     <TexturePicker onChange={onChange} />
   })
 
-  Generator.defineText(Generator.getStringInputValue(Testing_Constants.currentBlockTextureId))
+  Generator.defineText(Generator.getStringInputValue("Input"))
 }
 
 let drawTextInputPage = () => {
