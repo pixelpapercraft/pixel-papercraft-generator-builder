@@ -56,6 +56,10 @@ let script = () => {
     <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
+  Generator.defineText(
+    Generator.getStringInputValue(MinecraftBlock_Constants.currentBlockTextureId),
+  )
+
   Generator.defineSelectInput("Number of Blocks", ["1", "2"])
   let numberOfBlocks =
     Generator.getSelectInputValue("Number of Blocks")
