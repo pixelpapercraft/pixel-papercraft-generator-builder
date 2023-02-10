@@ -146,6 +146,10 @@ let defineTextureInput = (id: string, options) => {
   model := Builder.defineTextureInput(model.contents, id, options)
 }
 
+let defineTextInput = (id: string) => {
+  model := Builder.defineTextInput(model.contents, id)
+}
+
 let defineText = (text: string) => {
   model := Builder.defineText(model.contents, text)
 }

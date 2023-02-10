@@ -190,6 +190,35 @@ module ButtonInput = {
   }
 }
 
+module TextInput = {
+  @react.component
+  let make = (~id, ~onChange) => {
+    let onTextChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let text = switch target["value"] {
+      | None => None
+      | Some(text) => text
+      }
+      switch text {
+      | None => ()
+      | Some(value) => onChange(Some(value))
+      }
+    }
+
+    <div className="mb-4">
+      <div className="font-bold"> {React.string(id)} </div>
+      <div className="flex">
+        <div>
+          <input
+            className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-4 bg-white"
+            onChange={onTextChange}
+          />
+        </div>
+      </div>
+    </div>
+  }
+}
+
 module Text = {
   @react.component
   let make = (~text) => {
@@ -242,6 +271,15 @@ let make = (~model: Builder.Model.t, ~onChange) => {
     onChange(Generator.getModel())
   }
 
+  let onTextInputChange = (id: string, value) => {
+    let text = switch value {
+    | None => "None"
+    | Some(v) => v
+    }
+    let model = Builder.setStringInputValue(model, id, text)
+    onChange(model)
+  }
+
   if Js.Array2.length(model.inputs) > 0 {
     <div className="bg-gray-100 p-4 mb-8 rounded">
       {Js.Array2.map(model.inputs, input => {
@@ -257,6 +295,7 @@ let make = (~model: Builder.Model.t, ~onChange) => {
             textures={model.values.textures}
             onChange={onTextureChange(id, standardWidth, standardHeight)}
           />
+        | TextInput(id) => <TextInput key={id} id={id} onChange={onTextInputChange(id)} />
         | BooleanInput(id) => {
             let checked = Builder.getBooleanInputValue(model, id)
             <BooleanInput key={id} id={id} onChange={onBooleanInputChange(id)} checked={checked} />

@@ -1,10 +1,5 @@
 module PageSize = Generator.PageSize
 
-module TexturePicker = Testing_TexturePicker
-module Textures = Testing_Textures
-module Face = Testing_Face
-module Types = Testing_Types
-
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
 let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
@@ -132,9 +127,7 @@ let drawGrid = () => {
   Generator.drawTexture("WebTexture", (0, 0, 16, 16), (100, 100, 164, 164), ())
 } */
 let drawTextInput = () => {
-  Generator.defineCustomStringInput("Input", onChange => {
-    <TexturePicker onChange={onChange} />
-  })
+  Generator.defineTextInput("Input")
 
   Generator.defineText(Generator.getStringInputValue("Input"))
 }

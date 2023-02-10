@@ -63,6 +63,7 @@ module Input = {
     | CustomStringInput(id, (string => unit) => React.element)
     | RegionInput(pageId, (int, int, int, int), unit => unit)
     | TextureInput(id, textureArgs)
+    | TextInput(id)
     | BooleanInput(id)
     | SelectInput(id, array<string>)
     | RangeInput(id, rangeArgs)
@@ -250,6 +251,7 @@ let hasInput = (model: Model.t, idToFind: string) => {
     | RegionInput(_, _, _) => ""
     | CustomStringInput(id, _) => id
     | TextureInput(id, _) => id
+    | TextInput(id) => id
     | BooleanInput(id) => id
     | SelectInput(id, _) => id
     | RangeInput(id, _) => id
@@ -467,6 +469,15 @@ let defineRangeInput = (model: Model.t, id: string, rangeArgs: Input.rangeArgs) 
 
 let defineTextureInput = (model: Model.t, id, options) => {
   let input = Input.TextureInput(id, options)
+  let inputs = Js.Array2.concat(model.inputs, [input])
+  {
+    ...model,
+    inputs: inputs,
+  }
+}
+
+let defineTextInput = (model: Model.t, id) => {
+  let input = Input.TextInput(id)
   let inputs = Js.Array2.concat(model.inputs, [input])
   {
     ...model,
