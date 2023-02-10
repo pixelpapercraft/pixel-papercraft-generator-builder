@@ -139,6 +139,7 @@ let drawTextInputPage = () => {
   let textInput = Generator.defineAndGetSelectInput("Text Choices", ["One", "Two", "Three", "Four"])
   Generator.drawText(textInput, (20, 40), 24)
   Generator.drawText(Generator.getStringInputValue("Input"), (20, 70), 24)
+  Generator.drawImage(Generator.getStringInputValue("Input"), (100, 100))
 }
 
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {

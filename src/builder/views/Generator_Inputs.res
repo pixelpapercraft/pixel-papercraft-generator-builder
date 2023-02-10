@@ -3,6 +3,35 @@ module Builder = Generator_Builder
 module Icon = Generator_Icon
 module Buttons = Generator_Buttons
 
+module TextInput = {
+  @react.component
+  let make = (~id, ~onChange) => {
+    let onTextChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let text = switch target["value"] {
+      | None => None
+      | Some(text) => text
+      }
+      switch text {
+      | None => ()
+      | Some(value) => onChange(Some(value))
+      }
+    }
+
+    <div className="mb-4">
+      <div className="font-bold"> {React.string(id)} </div>
+      <div className="flex">
+        <div>
+          <input
+            className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-4 bg-white"
+            onChange={onTextChange}
+          />
+        </div>
+      </div>
+    </div>
+  }
+}
+
 module TextureInput = {
   @react.component
   let make = (
@@ -49,6 +78,22 @@ module TextureInput = {
       }
     }
 
+    let onTextChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let text = switch target["value"] {
+      | None => None
+      | Some(text) => text
+      }
+      Js.Console.log(text)
+      switch text {
+      | None => ()
+      | Some(text) =>
+        Generator_MinecraftSkinApi.getSkinImage(text)
+        ->Promise.thenResolve(image => onChange(Some(image)))
+        ->ignore
+      }
+    }
+
     <div className="mb-4">
       <div className="font-bold"> {React.string(id)} </div>
       <div className="flex items-center">
@@ -76,11 +121,19 @@ module TextureInput = {
             onChange={onInputChange}
           />
         </div>
+        <span className="px-2"> {React.string("or")} </span>
         <div className="ml-3">
           {switch name {
           | None => React.null
           | Some(name) => React.string(name)
           }}
+          <div>
+            <input
+              className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-4 bg-white"
+              placeholder="Input Username..."
+              onChange={onTextChange}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -186,35 +239,6 @@ module ButtonInput = {
       <Buttons.Button key={id} onClick={_ => onClick()} state=#Ready size=#Small color=#Blue>
         {React.string(id)}
       </Buttons.Button>
-    </div>
-  }
-}
-
-module TextInput = {
-  @react.component
-  let make = (~id, ~onChange) => {
-    let onTextChange = e => {
-      let target = ReactEvent.Form.target(e)
-      let text = switch target["value"] {
-      | None => None
-      | Some(text) => text
-      }
-      switch text {
-      | None => ()
-      | Some(value) => onChange(Some(value))
-      }
-    }
-
-    <div className="mb-4">
-      <div className="font-bold"> {React.string(id)} </div>
-      <div className="flex">
-        <div>
-          <input
-            className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-4 bg-white"
-            onChange={onTextChange}
-          />
-        </div>
-      </div>
     </div>
   }
 }
