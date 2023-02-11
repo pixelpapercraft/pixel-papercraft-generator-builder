@@ -69,6 +69,8 @@ let ninjolasNJM: array<Generator.generatorDef> = [
   MinecraftMinecartGenerator.generator,
   MinecraftActionFigureMiniGenerator.generator,
   MinecraftBlockGenerator.generator,
+  MinecraftItemGenerator.generator,
+  MinecraftCapeAndElytraGenerator.generator,
 ]
 
 let paperDoggy: array<Generator.generatorDef> = [MinecraftBlockGenerator.generator]
