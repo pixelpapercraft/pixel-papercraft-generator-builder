@@ -4,7 +4,11 @@
   "package-specs": { "module": "commonjs", "in-source": true },
   "namespace": false,
   "suffix": ".bs.js",
-  "bs-dependencies": ["@rescript/core", "@rescript/react", "rescript-jzon"],
-  "bsc-flags": ["-bs-super-errors", "-open RescriptCore"],
+  "bs-dependencies": [
+    "@ryyppy/rescript-promise",
+    "@rescript/react",
+    "rescript-jzon"
+  ],
+  "bsc-flags": ["-bs-super-errors"],
   "reason": { "react-jsx": 3 }
 }

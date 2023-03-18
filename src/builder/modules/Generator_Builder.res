@@ -448,7 +448,7 @@ let defineSelectInput = (model: Model.t, id: string, options: array<string>) => 
   let inputs = Js.Array2.concat(model.inputs, [Input.SelectInput(id, options)])
   let newModel = {...model, inputs}
   if !hasSelectValue(model, id) {
-    let value = Belt.Option.getWithDefault(options[0], "")
+    let value = Belt.Array.length(options) > 0 ? options[0] : ""
     setSelectInputValue(newModel, id, value)
   } else {
     newModel

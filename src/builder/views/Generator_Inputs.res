@@ -20,26 +20,21 @@ module TextureInput = {
       | None => ()
       | Some(files) => {
           let file = files[0]
-          switch file {
-          | None => ()
-          | Some(file) => {
-              let fileReader = Dom2.FileReader.make()
-              fileReader->Dom2.FileReader.setOnLoad(e => {
-                let target = ReactEvent.Form.target(e)
-                let result: option<string> = target["result"]
-                switch result {
-                | None => ()
-                | Some(result) => {
-                    setName(_ => Some(file.name))
-                    Generator_ImageFactory.makeFromUrl(result)
-                    ->Promise.thenResolve(image => onChange(Some(image)))
-                    ->ignore
-                  }
-                }
-              })
-              fileReader->Dom2.FileReader.readAsDataUrl(file)
+          let fileReader = Dom2.FileReader.make()
+          fileReader->Dom2.FileReader.setOnLoad(e => {
+            let target = ReactEvent.Form.target(e)
+            let result: option<string> = target["result"]
+            switch result {
+            | None => ()
+            | Some(result) => {
+                setName(_ => Some(file.name))
+                Generator_ImageFactory.makeFromUrl(result)
+                ->Promise.thenResolve(image => onChange(Some(image)))
+                ->ignore
+              }
             }
-          }
+          })
+          fileReader->Dom2.FileReader.readAsDataUrl(file)
         }
       }
     }
