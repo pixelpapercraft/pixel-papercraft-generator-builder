@@ -4,14 +4,29 @@
 
 ### First time setup
 
-Install Node v16 and Git.
+Install Node and Git.
 
 Node is best installed using [Node Version Manager](https://github.com/nvm-sh/nvm).
 
-Once you have NVM installed, then install Node v18:
+The project currently requires Node and NPM versions:
+
+```
+"engines": {
+  "node": "16.19.1",
+  "npm": "9.6.2"
+}
+```
+
+Install Node.
 
 ```sh
 nvm install v16.19.1
+```
+
+To ensure you have the latest NPM:
+
+```
+npm i -g npm@latest
 ```
 
 Install Git [from the official site](https://git-scm.com/downloads).
