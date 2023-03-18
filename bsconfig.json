@@ -1,12 +1,13 @@
 {
   "name": "pixel-papercraft-generators",
-  "bsc-flags": ["-bs-super-errors"],
+  "bsc-flags": ["-bs-super-errors", "-open RescriptCore"],
   "sources": [{ "dir": "src", "subdirs": true }],
   "package-specs": [{ "module": "commonjs", "in-source": true }],
   "suffix": ".bs.js",
   "namespace": false,
   "ppx-flags": [],
   "bs-dependencies": [
+    "@rescript/core",
     "@rescript/react",
     "@ryyppy/rescript-promise",
     "rescript-jzon"
