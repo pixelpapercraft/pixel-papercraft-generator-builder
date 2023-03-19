@@ -736,8 +736,13 @@ let drawTextureCropTest = () => {
       let index = col - 1 + (row - 1) * Config.colCount
       if index < Js.Array2.length(tests) {
         let test = tests[index]
-        let (sx, sy, sw, sh, dw, dh, pixelate) = test
-        Generator.drawTexture("Steve", (sx, sy, sw, sh), (x, y, dw, dh), ~pixelate, ())
+        switch test {
+        | None => ()
+        | Some(test) => {
+            let (sx, sy, sw, sh, dw, dh, pixelate) = test
+            Generator.drawTexture("Steve", (sx, sy, sw, sh), (x, y, dw, dh), ~pixelate, ())
+          }
+        }
       }
     }
   }

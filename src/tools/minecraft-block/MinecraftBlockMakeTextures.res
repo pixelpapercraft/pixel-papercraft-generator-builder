@@ -115,7 +115,7 @@ let makeVersions = () => {
       ->Js.Array2.reduce((acc, image) => {
         let result = Path.parse(image.path)
         let textureCount = Js.Array2.length(acc)
-        let lastTexture = textureCount > 0 ? Some(acc[textureCount - 1]) : None
+        let lastTexture = textureCount > 0 ? acc[textureCount - 1] : None
         let index = switch lastTexture {
         | None => 0
         | Some(lastTexture) => lastTexture.index + lastTexture.frames * 16

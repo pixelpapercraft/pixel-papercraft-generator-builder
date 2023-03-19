@@ -8,19 +8,19 @@ Install Node and Git.
 
 Node is best installed using [Node Version Manager](https://github.com/nvm-sh/nvm).
 
-The project currently requires Node and NPM versions:
+The project currently requires the following Node and NPM versions:
 
 ```
 "engines": {
-  "node": "16.19.1",
-  "npm": "9.6.2"
+  "node": ">=18",
+  "npm": ">=9"
 }
 ```
 
 Install Node.
 
 ```sh
-nvm install v16.19.1
+nvm install v18
 ```
 
 To ensure you have the latest NPM:
