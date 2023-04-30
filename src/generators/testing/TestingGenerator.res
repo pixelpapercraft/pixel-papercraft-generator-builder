@@ -110,11 +110,13 @@ let drawGrid = () => {
   }
 }
 
+// simple test for debugging that a given face is on a coordinate divisible by 2.
 let isAligned = ({rectangle, _}: Minecraft.Cuboid.Face.t) => {
   let (x, y, _, _) = rectangle
   mod(x, 2) == 0 && mod(y, 2) == 0
 }
 
+// prints whether a face is incorrectly offset or not, and draws a transparent rectangle over any offset faces. Not infallible, as sometimes when testing the face would be two pixels offset meaning that isAligned would not detect it, but it would usually still be visible as offset.
 let debugFace = (dest: Minecraft.Cuboid.Face.t) => {
   let rectString = (rectangle: Generator_Builder.rectangle): string => {
     let (x, y, _, _) = rectangle
@@ -140,6 +142,7 @@ let debugFace = (dest: Minecraft.Cuboid.Face.t) => {
   output
 }
 
+// draws a cuboid, then returns the output of the debug code for the cuboid.
 let drawAndDebugCuboid = (
   textureId: string,
   source: Minecraft.Cuboid.Source.t,
@@ -159,6 +162,7 @@ let drawAndDebugCuboid = (
       rotate,
     )->Minecraft.Cuboid.Dest.translate(position)
 
+  // duplicate of code found in Cuboid.draw, so that the same points can be used for debugging.
   let (w, h, d) = scale
   let (x, y) = position
   let scale = switch center {
@@ -169,9 +173,11 @@ let drawAndDebugCuboid = (
   | _ => (w, h, d)
   }
 
+  // draw a blue dot at the axis of rotation, to make sure that the cuboid is rotating around the right place
   let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, orientation)
   Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
 
+// Tests whether each face is incorrectly drawn or not.
   let output =
     "(" ++
     Belt.Float.toString(rotate) ++
@@ -191,6 +197,7 @@ let drawAndDebugCuboid = (
   output
 }
 
+// draw a Steve body, and display the debug output as text.
 let drawSteveBodyCuboid2 = (x, y, rotate, face, orientation) => {
   let x = x - 64
   let y = y - 64
@@ -209,10 +216,12 @@ let drawSteveBodyCuboid2 = (x, y, rotate, face, orientation) => {
   Generator.defineText(text)
 }
 
+// Draw Steve's body at a given angle, and display whether its faces were drawn properly.
 let drawCuboidTestPage4 = () => {
   Generator.usePage("Cuboid 4")
   Generator.fillBackgroundColorWithWhite()
 
+  // Creates a button that changes the angle in increments of 90 degrees
   let angle =
     Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
 
@@ -222,11 +231,13 @@ let drawCuboidTestPage4 = () => {
     Generator.setSelectInputValue("Angle", nextAngleString)
   })
 
+  // Selector for which face to be at the center of Steve's body.
   let f = Generator.defineAndGetSelectInput(
     "Face",
     ["Front", "Right", "Back", "Left", "Top", "Bottom"],
   )
 
+  // Selector for which orientation Steve's body will be in.
   let d = Generator.defineAndGetSelectInput("orientation", ["West", "East", "South", "North"])
   let face: Minecraft.Cuboid.Dest.center = switch f {
   | "Right" => #Right
@@ -246,9 +257,11 @@ let drawCuboidTestPage4 = () => {
   | _ => #West
   }
 
+  // Draw Steve Body
   drawSteveBodyCuboid2(256, 256, Belt.Int.toFloat(angle), face, orientation)
 }
 
+// Draw Steve Body with options to change the scale, orientation, and center.
 let drawSteveBodyCuboid = (x, y, scale, orientation, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
@@ -261,6 +274,7 @@ let drawSteveBodyCuboid = (x, y, scale, orientation, center) => {
   )
 }
 
+// Page with every permutation of a cuboid with differing height, width and depth simultaneously.
 let drawCuboidTestPage3 = () => {
   Generator.usePage("Cuboid 3")
   Generator.fillBackgroundColorWithWhite()
@@ -298,6 +312,7 @@ let drawCuboidTestPage3 = () => {
   drawSteveBodyCuboid(420, y + 20, scale, #West, #Bottom)
 }
 
+// Draw a debug texture head with the option to change the head's center face.
 let drawSteveHeadCuboid2 = (x, y, center) => {
   let x = x - 64
   let y = y - 64
@@ -313,6 +328,7 @@ let drawSteveHeadCuboid2 = (x, y, center) => {
   )
 }
 
+// Draw heads with every possible face at the center, to check if the corners and faces are in the right position each time.
 let drawCuboidTestPage2 = () => {
   Generator.usePage("Cuboid 2")
   Generator.fillBackgroundColorWithWhite()
@@ -327,6 +343,7 @@ let drawCuboidTestPage2 = () => {
   drawSteveHeadCuboid2(387, 679, #Front)
 }
 
+// Draw Steve's head, with the option to change the placement of the back face.
 let drawSteveHeadCuboid = (x, y, size, orientation) => {
   let (w, h) = switch orientation {
   | #South | #North => (size * 3, size * 4)
@@ -343,6 +360,7 @@ let drawSteveHeadCuboid = (x, y, size, orientation) => {
   )
 }
 
+// Testing out the placements of the back face with the cuboid function.
 let drawCuboidTestPage = () => {
   Generator.usePage("Cuboid")
   Generator.fillBackgroundColorWithWhite()
