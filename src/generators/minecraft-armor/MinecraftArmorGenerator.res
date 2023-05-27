@@ -588,7 +588,7 @@ let script = () => {
   let drawChestplateBody = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (268, 201 - 16)
     let scale = (64, 96, 48)
-    Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ~direction=#West, ())
+    Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ~orientation=#East, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
@@ -606,9 +606,9 @@ let script = () => {
     let (ox, oy) = (383, 373 - 32)
     let scale = (40, 112, 48)
     //drawLeftCuboid(textureId, char.base.leftArm, (ox, oy), blend)
-     Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ~direction=#West, ())
+     Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ~orientation=#East, ())
     /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
     } */
   }
   let drawRightBoot = (textureId: string, blend: Generator_Texture.blend) => {
@@ -623,9 +623,9 @@ let script = () => {
     let (ox, oy) = (383, 587 + 16)
     let scale = (40, 96, 48)
     //drawLeftCuboid(textureId, char.base.leftLeg, (ox, oy), blend)
-    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ~direction=#West, ()) // Boots- romove
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ~orientation=#East, ()) // Boots- romove
     /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
     } */
   }
 
