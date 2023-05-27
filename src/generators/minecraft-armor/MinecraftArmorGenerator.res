@@ -55,7 +55,7 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Leggings",
-    url: requireTexture("SkinSteveReference64x64"),//"diamond_layer_2"),
+    url: requireTexture("steve"),//"diamond_layer_2"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -574,7 +574,7 @@ let script = () => {
   let char = old
 
   let drawHead = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (74 - 32, 25 - 8)
+    let (ox, oy) = (74 - 74, 25 - 25)
     let scale = (80, 80, 80)
     Minecraft.drawCuboid(textureId, char.base.head, (ox, oy), scale, ~blend, ())
     if showHeadOverlay {
@@ -586,7 +586,7 @@ let script = () => {
   }
 
   let drawChestplateBody = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (268, 201 - 16)
+    let (ox, oy) = (332, 0)
     let scale = (64, 96, 48)
     Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ~orientation=#East, ())
     /* if showFolds {
@@ -594,8 +594,17 @@ let script = () => {
     } */
   }
 
+    let drawLeggingsBody = (textureId: string, blend: Generator_Texture.blend) => {
+    let (ox, oy) = (268, 201 + 32)
+    let scale = (64, 96, 40)
+    Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ~orientation=#East, ())
+    /* if showFolds {
+      Generator.drawFoldLineCuboid((ox, oy), scale, ())
+    } */
+  }
+
   let drawRightShoulder = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (99, 373 - 32)
+    let (ox, oy) = (99 - 64, 373 - 96)
     let scale = (40, 112, 48)
     Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ())
     /* if showFolds {
@@ -603,7 +612,7 @@ let script = () => {
     } */
   }
   let drawLeftShoulder = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (383, 373 - 32)
+    let (ox, oy) = (383, 373 - 96)
     let scale = (40, 112, 48)
     //drawLeftCuboid(textureId, char.base.leftArm, (ox, oy), blend)
      Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ~orientation=#East, ())
@@ -612,7 +621,7 @@ let script = () => {
     } */
   }
   let drawRightBoot = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (99, 587 + 16)
+    let (ox, oy) = (99 - 64, 587 + 16)
     let scale = (40, 96, 48)
     Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Boots
     /* if showFolds {
@@ -622,6 +631,23 @@ let script = () => {
   let drawLeftBoot = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (383, 587 + 16)
     let scale = (40, 96, 48)
+    //drawLeftCuboid(textureId, char.base.leftLeg, (ox, oy), blend)
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ~orientation=#East, ()) // Boots- romove
+    /* if showFolds {
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
+    } */
+  }
+    let drawRightLegging = (textureId: string, blend: Generator_Texture.blend) => {
+    let (ox, oy) = (99 - 64, 587 - 32)
+    let scale = (36, 96, 40)
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Boots
+    /* if showFolds {
+      Generator.drawFoldLineCuboid((ox, oy), scale, ())
+    } */
+  }
+  let drawLeftLegging = (textureId: string, blend: Generator_Texture.blend) => {
+    let (ox, oy) = (383, 587 - 32)
+    let scale = (36, 96, 40)
     //drawLeftCuboid(textureId, char.base.leftLeg, (ox, oy), blend)
     Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ~orientation=#East, ()) // Boots- romove
     /* if showFolds {
@@ -776,13 +802,13 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawChestplateBody("Leggings Overlay", #None)
-      drawLeftBoot("Leggings Overlay", #None)
-      drawRightBoot("Leggings Overlay", #None)
+      drawLeggingsBody("Leggings Overlay", #None)
+      drawRightLegging("Leggings Overlay", #None)
+      drawLeftLegging("Leggings Overlay", #None)
     } else {
-      drawChestplateBody("Leggings", #None)
-      drawLeftBoot("Leggings", #None)
-      drawRightBoot("Leggings", #None)
+      drawLeggingsBody("Leggings", #None)
+      drawRightLegging("Leggings", #None)
+      drawLeftLegging("Leggings", #None)
     }
   }
 
