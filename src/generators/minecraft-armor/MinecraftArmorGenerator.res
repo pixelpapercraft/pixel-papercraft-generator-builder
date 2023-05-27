@@ -43,25 +43,25 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Helmet",
-    url: requireTexture("SkinSteveReference64x64"),//"diamond_layer_1"),
+    url: requireTexture("netherite_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Chestplate",
-    url: requireTexture("SkinSteveReference64x64"),//"diamond_layer_1"),
+    url: requireTexture("netherite_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Leggings",
-    url: requireTexture("steve"),//"diamond_layer_2"),
+    url: requireTexture("diamond_layer_2"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Boots",
-    url: requireTexture("SkinSteveReference64x64"),//"diamond_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -595,7 +595,7 @@ let script = () => {
   }
 
     let drawLeggingsBody = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (268, 201 + 32)
+    let (ox, oy) = (268 - 64, 201 - 16)
     let scale = (64, 96, 40)
     Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ~orientation=#East, ())
     /* if showFolds {
@@ -638,7 +638,7 @@ let script = () => {
     } */
   }
     let drawRightLegging = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (99 - 64, 587 - 32)
+    let (ox, oy) = (99 + 32, 587 - 32 - 96)
     let scale = (36, 96, 40)
     Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Boots
     /* if showFolds {
@@ -646,7 +646,7 @@ let script = () => {
     } */
   }
   let drawLeftLegging = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (383, 587 - 32)
+    let (ox, oy) = (383 - 64, 587 - 32 - 96)
     let scale = (36, 96, 40)
     //drawLeftCuboid(textureId, char.base.leftLeg, (ox, oy), blend)
     Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ~orientation=#East, ()) // Boots- romove
