@@ -150,16 +150,29 @@ let drawAndDebugCuboid = (
   scale: Minecraft.scale,
   ~orientation: Generator.Orientation.t=#West,
   ~center: Minecraft.Cuboid.Dest.center=#Front,
+  ~flip: Generator_Texture.flip=#None,
   ~rotate: float=0.0,
   ~blend: Generator_Texture.blend=#None,
   (),
 ): string => {
-  Minecraft.drawCuboid(textureId, source, position, scale, ~orientation, ~center, ~rotate, ~blend, ())
+  Minecraft.drawCuboid(
+    textureId,
+    source,
+    position,
+    scale,
+    ~orientation,
+    ~center,
+    ~flip,
+    ~rotate,
+    ~blend,
+    (),
+  )
   let dest =
     Minecraft.Cuboid.Dest.setLayout(
       scale,
       orientation,
       center,
+      flip,
       rotate,
       blend,
     )->Minecraft.Cuboid.Dest.translate(position)
@@ -177,9 +190,9 @@ let drawAndDebugCuboid = (
 
   // draw a blue dot at the axis of rotation, to make sure that the cuboid is rotating around the right place
   let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, orientation)
-  Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
+  //Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
 
-// Tests whether each face is incorrectly drawn or not.
+  // Tests whether each face is incorrectly drawn or not.
   let output =
     "(" ++
     Belt.Float.toString(rotate) ++
@@ -218,6 +231,70 @@ let drawSteveBodyCuboid2 = (x, y, rotate, face, orientation) => {
   Generator.defineText(text)
 }
 
+// draw a Steve body, and display the debug output as text.
+let drawSteveBodyCuboid3 = (x, y, rotate, face, orientation, flip) => {
+  let text = drawAndDebugCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (48, 72, 24),
+    ~center=face,
+    ~orientation,
+    ~rotate,
+    ~flip,
+    (),
+  )
+
+  Generator.defineText(text)
+}
+
+// Draw Steve's body at a given reflection.
+let drawCuboidTestPage5 = () => {
+  Generator.usePage("Cuboid 5")
+  Generator.fillBackgroundColorWithWhite()
+
+  // Creates a button that changes the angle in increments of 90 degrees
+  let angle =
+    Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 270 ? 0 : angle + 45
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+
+  // Selector for which face to be at the center of Steve's body.
+  let f = Generator.defineAndGetSelectInput(
+    "Face",
+    ["Right", "Front", "Back", "Left", "Top", "Bottom"],
+  )
+
+  // Selector for which orientation Steve's body will be in.
+  let d = Generator.defineAndGetSelectInput("orientation", ["West", "East", "South", "North"])
+  let face: Minecraft.Cuboid.Dest.center = switch f {
+  | "Right" => #Right
+  | "Front" => #Front
+  | "Left" => #Left
+  | "Back" => #Back
+  | "Top" => #Top
+  | "Bottom" => #Bottom
+  | _ => #Front
+  }
+
+  let orientation: Minecraft.Cuboid.Dest.orientation = switch d {
+  | "West" => #West
+  | "East" => #East
+  | "South" => #South
+  | "North" => #North
+  | _ => #West
+  }
+
+  // Draw Steve Bodies
+  drawSteveBodyCuboid3(96, 96, Belt.Int.toFloat(angle), face, orientation, #None)
+  drawSteveBodyCuboid3(96, 320, Belt.Int.toFloat(angle), face, orientation, #Vertical)
+  drawSteveBodyCuboid3(320, 96, Belt.Int.toFloat(angle), face, orientation, #Horizontal)
+}
+
 // Draw Steve's body at a given angle, and display whether its faces were drawn properly.
 let drawCuboidTestPage4 = () => {
   Generator.usePage("Cuboid 4")
@@ -228,7 +305,7 @@ let drawCuboidTestPage4 = () => {
     Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
 
   Generator.defineButtonInput("Increment Angle", () => {
-    let nextAngle = angle >= 270 ? 0 : angle + 90
+    let nextAngle = angle >= 270 ? 0 : angle + 45
     let nextAngleString = Belt.Int.toString(nextAngle)
     Generator.setSelectInputValue("Angle", nextAngleString)
   })
@@ -1023,7 +1100,8 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
-  drawCuboidTestPage4()
+  drawCuboidTestPage5()
+  //drawCuboidTestPage4()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()
