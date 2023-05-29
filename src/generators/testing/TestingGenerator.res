@@ -190,7 +190,7 @@ let drawAndDebugCuboid = (
 
   // draw a blue dot at the axis of rotation, to make sure that the cuboid is rotating around the right place
   let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, orientation)
-  //Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
+  Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
 
   // Tests whether each face is incorrectly drawn or not.
   let output =
@@ -306,7 +306,7 @@ let drawCuboidTestPage4 = () => {
     Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
 
   Generator.defineButtonInput("Increment Angle", () => {
-    let nextAngle = angle >= 270 ? 0 : angle + 45
+    let nextAngle = angle >= 270 ? 0 : angle + 90
     let nextAngleString = Belt.Int.toString(nextAngle)
     Generator.setSelectInputValue("Angle", nextAngleString)
   })
