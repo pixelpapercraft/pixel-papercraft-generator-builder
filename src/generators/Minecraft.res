@@ -147,29 +147,39 @@ module Cuboid = {
       }
     }
 
-    // rotate in relation to its own center. Uses rotateOnAxis with the axis as the face's center.
+    //add rotate values
     let rotate = ({rectangle, flip, rotate, blend}: t, r: float) => {
+      let r = flip == #None ? addAngle(r, rotate) : addAngle(r *. -1.0, rotate)
+      {
+        rectangle: rectangle,
+        flip: flip,
+        rotate: r,
+        blend: blend,
+      }
+    }
+
+    // rotate in relation to its own center. Uses rotateOnAxis with the axis as the face's center.
+    let rotateFace = ({rectangle, flip, rotate, blend}: t) => {
       let (x, y, w, h) = rectangle
-      let r = flip == #None ? addAngle(r, 0.0) : addAngle(r *. -1.0, 0.0)
 
       let f =
-        rotate +. r >= 360.0
+        rotate >= 360.0
           ? rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: rotate, blend: blend},
+              {rectangle: rectangle, flip: flip, rotate: 0.0, blend: blend},
               (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
-              r,
+              rotate,
             )
           : rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: rotate, blend: blend},
+              {rectangle: rectangle, flip: flip, rotate: 0.0, blend: blend},
               (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
-              r,
+              rotate,
             )
       let {rectangle, flip, rotate, blend} = f
 
       let (x, y, w, h) = rectangle
       // If the face is rotated 90 or 270 degrees, then the height and width values will need to be swapped, and the corner moved to its correct position.
       {
-        rectangle: switch addAngle(r, 0.0) {
+        rectangle: switch addAngle(rotate, 0.0) {
         | 90.0 => (
             toInt(toFloat(x) +. (toFloat(w) -. toFloat(h)) /. 2.0),
             toInt(toFloat(y) +. (toFloat(w) -. toFloat(h)) /. 2.0),
@@ -397,7 +407,7 @@ module Cuboid = {
           front: dest.left,
           left: dest.back,
           back: dest.right,
-          top: dest.top->Face.rotate(270.0), /////////
+          top: dest.top->Face.rotate(270.0),
           bottom: dest.bottom->Face.rotate(90.0)->Face.flip(#Vertical),
         }
       | #Front => {
@@ -440,6 +450,15 @@ module Cuboid = {
           top: dest.back->Face.rotate(180.0),
           bottom: dest.front->Face.flip(#Vertical),
         }
+      }
+      //actually rotate the faces
+      let dest = {
+        right: dest.right->Face.rotateFace,
+        front: dest.front->Face.rotateFace,
+        left: dest.left->Face.rotateFace,
+        back: dest.back->Face.rotateFace,
+        top: dest.top->Face.rotateFace,
+        bottom: dest.bottom->Face.rotateFace,
       }
 
       // Rotate the destination by the given rotation, with the center of the center face as the axis
