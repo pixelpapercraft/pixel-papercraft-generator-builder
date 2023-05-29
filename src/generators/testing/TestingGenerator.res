@@ -293,6 +293,7 @@ let drawCuboidTestPage5 = () => {
   drawSteveBodyCuboid3(96, 96, Belt.Int.toFloat(angle), face, orientation, #None)
   drawSteveBodyCuboid3(96, 320, Belt.Int.toFloat(angle), face, orientation, #Vertical)
   drawSteveBodyCuboid3(320, 96, Belt.Int.toFloat(angle), face, orientation, #Horizontal)
+  drawSteveBodyCuboid3(320, 320, Belt.Int.toFloat(angle), #Front, #West, #None)
 }
 
 // Draw Steve's body at a given angle, and display whether its faces were drawn properly.

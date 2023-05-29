@@ -150,12 +150,7 @@ module Cuboid = {
     // rotate in relation to its own center. Uses rotateOnAxis with the axis as the face's center.
     let rotate = ({rectangle, flip, rotate, blend}: t, r: float) => {
       let (x, y, w, h) = rectangle
-      let r = addAngle(r, 0.0)
-      let is180 = rotate == 180.0
-      if rotate == 180.0 {
-        Generator.fillRect(rectangle, "#ff000080")
-        Generator.drawText(Belt.Float.toString(r), (x, y), w)
-      }
+      let r = flip == #None ? addAngle(r, 0.0) : addAngle(r *. -1.0, 0.0)
 
       let f =
         rotate +. r >= 360.0
@@ -170,13 +165,8 @@ module Cuboid = {
               r,
             )
       let {rectangle, flip, rotate, blend} = f
+
       let (x, y, w, h) = rectangle
-
-      if is180 {
-        Generator.fillRect((0, 0, 0, 0), "#00ff0080")
-        Generator.drawText(Belt.Float.toString(rotate), (x, y), w)
-      }
-
       // If the face is rotated 90 or 270 degrees, then the height and width values will need to be swapped, and the corner moved to its correct position.
       {
         rectangle: switch addAngle(r, 0.0) {
@@ -250,13 +240,6 @@ module Cuboid = {
         ~blend=dest.blend,
         (),
       )
-      let (x, y, w, h) = dest.rectangle
-      switch dest.flip {
-      | #Horizontal => Generator.fillRect(dest.rectangle, "#ff800040")
-      | #Vertical => Generator.fillRect(dest.rectangle, "#0080ff40")
-      | _ => ()
-      }
-      Generator.drawText(Belt.Float.toString(dest.rotate), (x, y - 96), 10)
     }
   }
   // module with the six faces of a cuboid, as the destination- the final position and orientation that the faces will be drawn as
@@ -414,8 +397,8 @@ module Cuboid = {
           front: dest.left,
           left: dest.back,
           back: dest.right,
-          top: dest.top->Face.rotate(-90.0),
-          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(90.0),
+          top: dest.top->Face.rotate(270.0), /////////
+          bottom: dest.bottom->Face.rotate(90.0)->Face.flip(#Vertical),
         }
       | #Front => {
           right: dest.right,
@@ -431,7 +414,7 @@ module Cuboid = {
           left: dest.front,
           back: dest.left,
           top: dest.top->Face.rotate(90.0),
-          bottom: dest.bottom->Face.flip(#Vertical)->Face.rotate(-90.0),
+          bottom: dest.bottom->Face.rotate(270.0)->Face.flip(#Vertical),
         }
       | #Back => {
           right: dest.left,
@@ -444,13 +427,13 @@ module Cuboid = {
       | #Top => {
           right: dest.right->Face.rotate(90.0),
           front: dest.bottom,
-          left: dest.left->Face.rotate(-90.0),
+          left: dest.left->Face.rotate(270.0),
           back: dest.top->Face.rotate(180.0),
           top: dest.front,
           bottom: dest.back->Face.flip(#Horizontal),
         }
       | #Bottom => {
-          right: dest.right->Face.rotate(-90.0),
+          right: dest.right->Face.rotate(270.0),
           front: dest.top,
           left: dest.left->Face.rotate(90.0),
           back: dest.bottom->Face.rotate(180.0),
