@@ -528,6 +528,12 @@ let textures: array<Generator.textureDef> = [
     standardWidth: 64,
     standardHeight: 32,
   },
+  {
+    id: "Enchanted Glint",
+    url: requireTexture("enchanted_glint_entity"),
+    standardWidth: 128,
+    standardHeight: 128,
+  },
 ]
 
 // Armor model

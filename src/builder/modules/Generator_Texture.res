@@ -29,7 +29,13 @@ type blend = [
   | #MultiplyRGB(int, int, int)
   | #ReplaceHex(array<string>, array<string>)
   | #ReplaceRGB(array<(int, int, int)>, array<(int, int, int)>)
+  | #AddHex(string)
+  | #AddRGB(int, int, int)
 ]
+/* Try to:
+- Get pixel color for each pixel
+- Add to each color
+*/
 
 type drawNearestNeighborOptions = {rotate: rotate, flip: flip, blend: blend, pixelate: bool}
 
@@ -72,10 +78,16 @@ let hexToRGB = (hex: string) => {
   }
 }
 
-let blendColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
+let multiplyColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
   (Belt.Int.toFloat(r1) *. Belt.Int.toFloat(r2) /. 255.0)->Belt.Float.toInt,
   (Belt.Int.toFloat(g1) *. Belt.Int.toFloat(g2) /. 255.0)->Belt.Float.toInt,
   (Belt.Int.toFloat(b1) *. Belt.Int.toFloat(b2) /. 255.0)->Belt.Float.toInt,
+)
+
+let addColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
+  (Belt.Int.toFloat(r1) +. Belt.Int.toFloat(r2) /. 255.0)->Belt.Float.toInt,
+  (Belt.Int.toFloat(g1) +. Belt.Int.toFloat(g2) /. 255.0)->Belt.Float.toInt,
+  (Belt.Int.toFloat(b1) +. Belt.Int.toFloat(b2) /. 255.0)->Belt.Float.toInt,
 )
 
 // if 1(texture) = 2(base palette), draw 3(color palette) else draw 1
@@ -161,6 +173,8 @@ let drawNearestNeighbor = (
     | #None => None
     | #MultiplyHex(hex) => hexToRGB(hex)
     | #MultiplyRGB(r, g, b) => Some(r, g, b)
+    | #AddHex(hex) => hexToRGB(hex)
+    | #AddRGB(r, g, b) => Some(r, g, b)
     | _ => None
     }
 
@@ -195,7 +209,7 @@ let drawNearestNeighbor = (
 
         let (r, g, b) = switch blend {
         | None => (r, g, b)
-        | Some((r2, g2, b2)) => blendColors(r, g, b, r2, g2, b2)
+        | Some((r2, g2, b2)) => multiplyColors(r, g, b, r2, g2, b2)
         }
         let (r, g, b) = switch replace {
         | None => (r, g, b)
