@@ -820,13 +820,13 @@ let script = () => {
   }
 
   let drawLeggingsBody = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (193, 389)
-    let scale = (64, 96, 40)
-    Generator.drawTexture(textureId, (0, 40, 4, 8), (ox, oy + 128, 40, 32), ~blend, ()) // Right end
+    let (ox, oy) = (193, 385)
+    let scale = (64, 104, 40)
+    Generator.drawTexture(textureId, (0, 40, 4, 24), (ox, oy + 135, 40, 104), ~blend, ()) // Right end
     Generator.drawTexture(
       textureId,
-      (0, 40, 4, 8),
-      (ox + 104, oy + 128, 40, 32),
+      (0, 40, 4, 24),
+      (ox + 104, oy + 135, 40, 104),
       ~blend,
       ~flip=#Horizontal,
       (),
@@ -838,16 +838,18 @@ let script = () => {
   }
   let drawRightLegging = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (49, 541)
-    let scale = (32, 96, 40)
+    let scale = (32, 104, 40)
     Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ())
-    Generator.drawTexture(textureId, (16, 56, 4, 8), (ox, oy + 16, 40, 32), ~blend, ()) // End
+    Generator.drawTexture(textureId, (16, 40, 4, 24), (ox, oy - 55, 40, 104), ~blend, ()) // End
+    Generator.drawTexture(textureId, (0, 40, 4, 8), (ox + 72, oy + 20, 40, 34), ~blend, ()) // Circle- bottom part
+    Generator.drawTexture(textureId, (16, 40, 4, 24), (ox + 72, oy - 75, 40, 104), ~blend, ()) // Circle- top part
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
   }
   let drawLeftLegging = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (401, 541)
-    let scale = (32, 96, 40)
+    let scale = (32, 104, 40)
     Minecraft.drawCuboid(
       textureId,
       char.base.leftLeg,
@@ -857,7 +859,23 @@ let script = () => {
       ~flip=#Horizontal,
       (),
     )
-    Generator.drawTexture(textureId, (28, 56, 4, 8), (ox + 104, oy + 16, 40, 32), ~blend, ()) // End
+    Generator.drawTexture(textureId, (28, 40, 4, 24), (ox + 104, oy - 55, 40, 104), ~blend, ()) // End
+    Generator.drawTexture(
+      textureId,
+      (0, 40, 4, 8),
+      (ox + 32, oy + 20, 40, 34),
+      ~blend,
+      ~flip=#Horizontal,
+      (),
+    ) // Circle- bottom part
+    Generator.drawTexture(
+      textureId,
+      (28, 40, 4, 24),
+      (ox + 32, oy - 75, 40, 104),
+      ~blend,
+      ~flip=#Horizontal,
+      (),
+    ) // Circle- top part
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~flip=#Horizontal, ())
     } */
@@ -1150,7 +1168,7 @@ let script = () => {
   }
 
   // Foreground
-  //Generator.fillBackgroundColor("#a71810") //WithWhite()
+  Generator.fillBackgroundColorWithWhite() //("#a71810")
   Generator.drawImage("Foreground", (0, 0))
 
   // Folds
