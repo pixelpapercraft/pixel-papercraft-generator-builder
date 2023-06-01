@@ -822,6 +822,15 @@ let script = () => {
   let drawLeggingsBody = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (193, 389)
     let scale = (64, 96, 40)
+    Generator.drawTexture(textureId, (0, 40, 4, 8), (ox, oy + 128, 40, 32), ~blend, ()) // Right end
+    Generator.drawTexture(
+      textureId,
+      (0, 40, 4, 8),
+      (ox + 104, oy + 128, 40, 32),
+      ~blend,
+      ~flip=#Horizontal,
+      (),
+    ) // Left end
     Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ())
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
@@ -830,7 +839,8 @@ let script = () => {
   let drawRightLegging = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (49, 541)
     let scale = (32, 96, 40)
-    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Boots
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ())
+    Generator.drawTexture(textureId, (16, 56, 4, 8), (ox, oy + 16, 40, 32), ~blend, ()) // End
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
     } */
@@ -846,7 +856,8 @@ let script = () => {
       ~blend,
       ~flip=#Horizontal,
       (),
-    ) // Boots- romove
+    )
+    Generator.drawTexture(textureId, (28, 56, 4, 8), (ox + 104, oy + 16, 40, 32), ~blend, ()) // End
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~flip=#Horizontal, ())
     } */
