@@ -745,11 +745,19 @@ let script = () => {
   let drawRightShoulder = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (-27, 169)
     let scale = (40, 96, 48)
+    Generator.drawTexture(
+      textureId,
+      char.base.rightArm.left,
+      (ox + 100, oy + 92, 48, 96),
+      ~blend,
+      ~rotate=270.0,
+      (),
+    ) // Part that ensures the side goes far enough down
     Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ~rotate=90.0, ())
     Generator.drawTexture(
       textureId,
       char.base.rightArm.back,
-      (ox + 192, oy + 83, 40, 96),
+      (ox + 192, oy + 88, 40, 96),
       ~blend,
       ~rotate=270.0,
       (),
@@ -769,7 +777,15 @@ let script = () => {
   let drawLeftShoulder = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (445, 169)
     let scale = (40, 96, 48)
-    //drawLeftCuboid(textureId, char.base.leftArm, (ox, oy), blend)
+    Generator.drawTexture(
+      textureId,
+      char.base.leftArm.left,
+      (ox + 28, oy + 92, 48, 96),
+      ~blend,
+      ~flip=#Horizontal,
+      ~rotate=90.0,
+      (),
+    ) // Part that ensures the side goes far enough down
     Minecraft.drawCuboid(
       textureId,
       char.base.leftArm,
@@ -783,12 +799,21 @@ let script = () => {
     Generator.drawTexture(
       textureId,
       char.base.leftArm.back,
+      (ox - 56, oy + 88, 40, 96),
+      ~blend,
+      ~flip=#Horizontal,
+      ~rotate=90.0,
+      (),
+    ) // Tab that goes inside the back face
+    Generator.drawTexture(
+      textureId,
+      char.base.leftArm.back,
       (ox - 56, oy + 48, 40, 96),
       ~blend,
       ~flip=#Horizontal,
       ~rotate=90.0,
       (),
-    )
+    ) // Back texture to loop around
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ~flip=#Horizontal, ())
     } */
