@@ -56,19 +56,19 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Chestplate",
-    url: requireTexture("diamond_layer_1"),
+    url: requireTexture("netherite_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Leggings",
-    url: requireTexture("diamond_layer_2"),
+    url: requireTexture("netherite_layer_2"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Boots",
-    url: requireTexture("diamond_layer_1"),
+    url: requireTexture("netherite_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -703,12 +703,64 @@ let script = () => {
     Js.Array.map(x => getTexturePixelColor(id, x, 0), Belt.Array.range(0, length - 1))
   let baseColors = getPalette("Trim Palette  ", 8)
 
-  let drawHead = (textureId: string, showHeadOverlay: bool, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (137, 21)
+  let drawHelmetHead = (
+    textureId: string,
+    showHeadOverlay: bool,
+    blend: Generator_Texture.blend,
+  ) => {
+    let (ox, oy) = (41, 21)
     let scale = (80, 80, 80)
     Minecraft.drawCuboid(textureId, char.base.head, (ox, oy), scale, ~blend, ())
     if showHeadOverlay {
       Minecraft.drawCuboid(textureId, char.overlay.head, (ox, oy), scale, ~blend, ())
+    }
+    /* if showFolds {
+      Generator.drawFoldLineCuboid((ox, oy), scale, ())
+    } */
+  }
+
+  let drawHelmetLiner = (
+    textureId: string,
+    showHeadOverlay: bool,
+    blend: Generator_Texture.blend,
+  ) => {
+    let (ox, oy) = (329, 37)
+    let scale = (64, 64, 64)
+    Minecraft.drawCuboid(textureId, char.base.head, (ox, oy), scale, ~blend, ~rotate=90.0, ())
+    Generator.drawTexture(
+      textureId,
+      (0, 16, 8, 2),
+      (ox + 100, oy + 28, 64, 8),
+      ~blend,
+      ~rotate=90.0,
+      (),
+    ) // Right top part
+    Generator.drawTexture(
+      textureId,
+      (16, 16, 8, 2),
+      (ox + 100, oy + 156, 64, 8),
+      ~blend,
+      ~rotate=90.0,
+      (),
+    ) // Left top part
+    if showHeadOverlay {
+      Minecraft.drawCuboid(textureId, char.overlay.head, (ox, oy), scale, ~blend, ~rotate=90.0, ())
+      Generator.drawTexture(
+        textureId,
+        (32, 16, 8, 2),
+        (ox + 100, oy + 28, 64, 8),
+        ~blend,
+        ~rotate=90.0,
+        (),
+      ) // Right top part
+      Generator.drawTexture(
+        textureId,
+        (48, 16, 8, 2),
+        (ox + 100, oy + 156, 64, 8),
+        ~blend,
+        ~rotate=90.0,
+        (),
+      ) // Left top part
     }
     /* if showFolds {
       Generator.drawFoldLineCuboid((ox, oy), scale, ())
@@ -734,7 +786,8 @@ let script = () => {
       ~rotate=180.0,
       ~blend,
       (),
-    ) // Tab that goes insie the back face
+    ) // Tab that goes inside the back face
+    Generator.drawTexture(textureId, (20, 44, 8, 2), (ox + 48, oy, 64, 48), ~blend, ())
     Generator.drawTexture(textureId, (20, 42, 8, 2), (ox + 48, oy, 64, 48), ~blend, ()) // Improvised top texture, since no default armor texture has one, and one is needed to facilitate the over the head design of the armor
 
     /* if showFolds {
@@ -743,7 +796,7 @@ let script = () => {
   }
 
   let drawRightShoulder = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (-27, 169)
+    let (ox, oy) = (-27, 233)
     let scale = (40, 96, 48)
     Generator.drawTexture(
       textureId,
@@ -775,7 +828,7 @@ let script = () => {
     } */
   }
   let drawLeftShoulder = (textureId: string, blend: Generator_Texture.blend) => {
-    let (ox, oy) = (445, 169)
+    let (ox, oy) = (445, 233)
     let scale = (40, 96, 48)
     Generator.drawTexture(
       textureId,
@@ -923,7 +976,8 @@ let script = () => {
     let tintHelmet = Generator.defineAndGetBooleanInput("Tint Helmet", false)
     if tintHelmet {
       let helmetColor = getTint("Helmet Color")
-      drawHead("Helmet", showHeadOverlay, helmetColor)
+      drawHelmetHead("Helmet", showHeadOverlay, helmetColor)
+      drawHelmetLiner("Helmet", showHeadOverlay, helmetColor)
       Generator.defineTextureInput(
         "Helmet Overlay",
         {
@@ -932,11 +986,13 @@ let script = () => {
           choices: ["Leather Overlay"],
         },
       )
-      drawHead("Helmet Overlay", showHeadOverlay, #None)
+      drawHelmetHead("Helmet Overlay", showHeadOverlay, #None)
+      drawHelmetLiner("Helmet Overlay", showHeadOverlay, #None)
     } else {
-      drawHead("Helmet", showHeadOverlay, #None)
+      drawHelmetHead("Helmet", showHeadOverlay, #None)
+      drawHelmetLiner("Helmet", showHeadOverlay, #None)
     }
-    Generator.defineRegionInput((137, 21, 320, 160), () => {
+    Generator.defineRegionInput((41, 21, 320, 160), () => {
       Generator.setBooleanInputValue("Show Head Overlay", !showHeadOverlay)
     })
   }
@@ -1055,7 +1111,8 @@ let script = () => {
       },
     )
     let helmetTrimColors = getPalette("Helmet Trim Material", 8)
-    drawHead("Helmet Trim", showHeadOverlay, #ReplaceHex(baseColors, helmetTrimColors))
+    drawHelmetHead("Helmet Trim", showHeadOverlay, #ReplaceHex(baseColors, helmetTrimColors))
+    drawHelmetLiner("Helmet Trim", showHeadOverlay, #ReplaceHex(baseColors, helmetTrimColors))
   }
 
   let drawChestplateTrim = () => {
@@ -1168,7 +1225,8 @@ let script = () => {
   }
 
   // Foreground
-  Generator.fillBackgroundColorWithWhite() //("#a71810")
+  //Generator.fillBackgroundColor("#a71810")
+  Generator.fillBackgroundColorWithWhite()
   Generator.drawImage("Foreground", (0, 0))
 
   // Folds
