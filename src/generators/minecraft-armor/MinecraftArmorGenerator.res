@@ -14,9 +14,24 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let instructions = `
-## How to use the Minecraft armor Generator?
+## How to use the Minecraft Armor Generator?
 
-We don't know 
+### Choosing the Armor
+*  Select from the drop down menu under each armor part which material you want for each piece of armor.
+* Alternatively, you can select "Choose file" to provide your own armor texture files.
+* If your custom helmet texture has an overlay layer, you can click on the helmet to toggle on and off the overlay layer.
+* If a part of the design doesn't look right for your armor texture, you can try clicking on that part in the papercraft template to adjust that part.
+
+### Armor Options
+* For each armor part, there are a few options you can select from:
+#### Tint Armor
+  - Select from the drop down menu what color you want to tint the armor.
+  - Select either from the drop down menu or from "Choose file" to choose the overlay that goes over the tinted part of the armor.
+#### Trim Armor
+  - Select either from the drop down menu or from "Choose file" to choose which trim pattern to apply to the armor.
+  - Select either from the drop down menu or select "Choose file" to choose the material that the trim is made out of.
+#### Enchant Armor
+  - Coming Soon???
 `
 
 let images: array<Generator.imageDef> = [
@@ -50,25 +65,25 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Helmet",
-    url: requireTexture("netherite_layer_1"),
+    url: requireTexture("iron_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Chestplate",
-    url: requireTexture("netherite_layer_1"),
+    url: requireTexture("iron_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Leggings",
-    url: requireTexture("netherite_layer_2"),
+    url: requireTexture("iron_layer_2"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Boots",
-    url: requireTexture("netherite_layer_1"),
+    url: requireTexture("iron_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -175,7 +190,7 @@ let textures: array<Generator.textureDef> = [
     standardHeight: 32,
   },
   {
-    id: "Leather  Overlay",
+    id: "Leather Overlay ",
     url: requireTexture("leather_layer_2_overlay"),
     standardWidth: 64,
     standardHeight: 32,
@@ -1042,15 +1057,15 @@ let script = () => {
     let tintLeggings = Generator.defineAndGetBooleanInput("Tint Leggings", false)
     if tintLeggings {
       let leggingsColor = getTint("Leggings Color")
-      drawChestplateBody("Leggings", leggingsColor)
-      drawLeftBoot("Leggings", leggingsColor)
-      drawRightBoot("Leggings", leggingsColor)
+      drawLeggingsBody("Leggings", leggingsColor)
+      drawRightLegging("Leggings", leggingsColor)
+      drawLeftLegging("Leggings", leggingsColor)
       Generator.defineTextureInput(
         "Leggings Overlay",
         {
           standardWidth: 64,
           standardHeight: 64,
-          choices: ["Leather Overlay"],
+          choices: ["Leather Overlay "],
         },
       )
       drawLeggingsBody("Leggings Overlay", #None)
