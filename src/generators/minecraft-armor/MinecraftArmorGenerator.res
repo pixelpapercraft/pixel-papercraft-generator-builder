@@ -37,6 +37,7 @@ let instructions = `
 let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background")},
   {id: "Foreground", url: requireImage("Foreground")},
+  {id: "Folds", url: requireImage("Folds")},
   {id: "SteveTabs", url: requireImage("SteveTabs")},
   {id: "SteveFolds", url: requireImage("SteveFolds")},
   {id: "AlexTabs", url: requireImage("AlexTabs")},
@@ -974,10 +975,10 @@ let script = () => {
     } */
   }
 
-  /* let drawFolds = () => {
-    Generator.drawImage("SteveFolds", (0, 0))
+  let drawFolds = () => {
+    Generator.drawImage("Folds", (0, 0))
     // Later replace with drawLineFold functions
-  } */
+  }
 
   let drawHelmet = (showHeadOverlay: bool) => {
     Generator.defineTextureInput(
@@ -1202,11 +1203,11 @@ let script = () => {
   // Inputs
 
   Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", true)
+  //Generator.defineBooleanInput("Show Labels", true)
 
   // Draw
 
-  //let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let showFolds = Generator.getBooleanInputValue("Show Folds")
   //let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   let showHeadOverlay = Generator.getBooleanInputValueWithDefault("Show Head Overlay", true)
@@ -1246,13 +1247,13 @@ let script = () => {
 
   // Folds
 
-  /* if showFolds {
+  if showFolds {
     drawFolds()
   }
 
   // Labels
 
-  if showLabels {
+  /* if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }*/
 }
