@@ -4,7 +4,7 @@ let isDevEnvironment: bool = process["env"]["NODE_ENV"] == "development"
 
 let tryitout: array<Generator.generatorDef> = [MinecraftArmorGenerator.generator]
 
-let character: array<Generator.generatorDef> = [
+/* let character: array<Generator.generatorDef> = [
   MinecraftCharacterGenerator.generator,
   MinecraftActionFigureGenerator.generator,
   MinecraftUltimateBendableGenerator.generator,
@@ -59,16 +59,6 @@ let dev: array<Generator.generatorDef> = isDevEnvironment
 
 let test: array<Generator.generatorDef> = isDevEnvironment
   ? [ExampleGenerator.generator, TestingGenerator.generator]
-  : []
+  : []*/
 
-let all = Belt.Array.concatMany([
-  tryitout,
-  character,
-  mobCharacter,
-  mob,
-  utility,
-  mod,
-  other,
-  dev,
-  test,
-])
+let all = Belt.Array.concatMany([tryitout])
