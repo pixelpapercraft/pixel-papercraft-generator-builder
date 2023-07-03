@@ -1,6 +1,7 @@
 type generatorGroup = {label: string, generators: array<Generator.generatorDef>}
 
 let generatorGroups = [
+  {label: "Try It Out", generators: Generators.tryitout},
   {label: "Characters", generators: Generators.character},
   {label: "Mob Characters", generators: Generators.mobCharacter},
   {label: "Mobs", generators: Generators.mob},
