@@ -18,7 +18,13 @@ let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 let textures: array<Generator.textureDef> = [
   {
     id: "Spider",
-    url: requireTexture("spider"),
+    url: requireTexture("testing"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Testing",
+    url: requireTexture("testing"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -36,47 +42,6 @@ let textures: array<Generator.textureDef> = [
   },
 ]
 
-let drawCuboidCenterTopRotate180 = (
-  texture: string,
-  source: Minecraft.Cuboid.Source.t,
-  (ox, oy): Generator_Builder.position,
-  scale: Minecraft.scale,
-  direction: Minecraft.Cuboid.Dest.direction,
-) => {
-  let dest = Minecraft.Cuboid.Dest.setLayout(scale, direction, #Top)
-
-  Minecraft.Cuboid.Face.draw(
-    texture,
-    source.right,
-    dest.left->Minecraft.Cuboid.Face.translate((ox, oy)),
-  )
-  Minecraft.Cuboid.Face.draw(
-    texture,
-    source.front,
-    dest.back->Minecraft.Cuboid.Face.rotate(180.0)->Minecraft.Cuboid.Face.translate((ox, oy)),
-  )
-  Minecraft.Cuboid.Face.draw(
-    texture,
-    source.left,
-    dest.right->Minecraft.Cuboid.Face.translate((ox, oy)),
-  )
-  Minecraft.Cuboid.Face.draw(
-    texture,
-    source.back,
-    dest.front->Minecraft.Cuboid.Face.translate((ox, oy)),
-  )
-  Minecraft.Cuboid.Face.draw(
-    texture,
-    source.top,
-    dest.top->Minecraft.Cuboid.Face.rotate(180.0)->Minecraft.Cuboid.Face.translate((ox, oy)),
-  )
-  Minecraft.Cuboid.Face.draw(
-    texture,
-    source.bottom,
-    dest.bottom->Minecraft.Cuboid.Face.rotate(180.0)->Minecraft.Cuboid.Face.translate((ox, oy)),
-  )
-}
-
 let drawHead = (texture: string, (ox, oy): Generator_Builder.position) => {
   let scale = (64, 64, 64)
   Minecraft.drawCuboid(texture, Minecraft.Spider.spider.head, (ox, oy), scale, ())
@@ -84,57 +49,62 @@ let drawHead = (texture: string, (ox, oy): Generator_Builder.position) => {
 
 let drawThorax = (texture: string, (ox, oy): Generator_Builder.position) => {
   let scale = (48, 48, 48)
-  drawCuboidCenterTopRotate180(texture, Minecraft.Spider.spider.thorax, (ox, oy), scale, #South)
+  /* here */ Minecraft.drawCuboid(
+    texture,
+    Minecraft.Spider.spider.thorax,
+    (ox, oy),
+    scale,
+    ~center=#Top,
+    ~rotate=180.0,
+    ~orientation=#South,
+    (),
+  )
 }
 
 let drawAbdomen = (texture: string, (ox, oy): Generator_Builder.position) => {
   let scale = (80, 64, 96)
-  drawCuboidCenterTopRotate180(texture, Minecraft.Spider.spider.abdomen, (ox, oy), scale, #East)
+  /* here */ Minecraft.drawCuboid(
+    texture,
+    Minecraft.Spider.spider.abdomen,
+    (ox, oy),
+    scale,
+    ~center=#Top,
+    ~rotate=180.0,
+    ~orientation=#East,
+    (),
+  )
 }
 
 let drawLeg = (
   texture: string,
   (ox, oy): Generator_Builder.position,
-  direction: Minecraft.Cuboid.Dest.direction,
+  orientation: Minecraft.Cuboid.Dest.orientation,
   leftSide: bool,
 ) => {
   let scale = (128, 16, 16)
   if leftSide {
-    let source = Minecraft.Spider.spider.leg
-    let dest =
-      Minecraft.Cuboid.Dest.setLayout(scale, direction, #Top)->Minecraft.Cuboid.Dest.translate((
-        ox,
-        oy,
-      ))
-
-    Minecraft.Cuboid.Face.draw(
+    Minecraft.drawCuboid(
       texture,
-      source.right,
-      dest.right->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.front,
-      dest.back->Minecraft.Cuboid.Face.flip(#Vertical),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.left,
-      dest.left->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.back,
-      dest.front->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(texture, source.top, dest.top->Minecraft.Cuboid.Face.flip(#Vertical))
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.bottom,
-      dest.bottom->Minecraft.Cuboid.Face.flip(#Vertical),
+      Minecraft.Spider.spider.leg,
+      (ox, oy),
+      scale,
+      ~center=#Top,
+      ~rotate=180.0,
+      ~orientation,
+      ~flip=#Horizontal,
+      (),
     )
   } else {
-    drawCuboidCenterTopRotate180(texture, Minecraft.Spider.spider.leg, (ox, oy), scale, direction)
+    /* here */ Minecraft.drawCuboid(
+      texture,
+      Minecraft.Spider.spider.leg,
+      (ox, oy),
+      scale,
+      ~center=#Top,
+      ~rotate=180.0,
+      ~orientation,
+      (),
+    )
   }
 }
 
@@ -144,7 +114,7 @@ let drawSpider = (texture: string) => {
   drawThorax(texture, (225, 309))
 
   drawAbdomen(texture, (177, 549))
-  drawLeg(texture, (393, 205), #North, false)
+  drawLeg(texture, (393, 205 - 16), #South, false)
   drawLeg(texture, (393, 301), #North, false)
   drawLeg(texture, (393, 405), #South, false)
   drawLeg(texture, (393, 501), #South, false)
@@ -205,7 +175,7 @@ let script = () => {
   drawSpider("Spider Eyes")
 
   // Background
-  Generator.drawImage("Foreground", (0, 0))
+  //Generator.drawImage("Foreground", (0, 0))
 
   // Fold Lines
   if showFolds {
