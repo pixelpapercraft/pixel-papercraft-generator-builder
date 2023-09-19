@@ -5,6 +5,7 @@ module TextureData = {
   let definitions: array<(Generator.textureDef, {..})> = [
     MinecraftBlock_Texture_minecraft_1_13_2.data,
     MinecraftBlock_Texture_minecraft_1_18_1.data,
+    MinecraftBlock_Texture_minecraft_1_20_1.data,
   ]
 
   let versions = definitions->Belt.Array.map(((_, version)) => version)
@@ -59,10 +60,10 @@ let findTextureFrames = (versionId): option<array<textureFrame>> => {
           let textureFrames = Belt.Array.range(1, frames)->Belt.Array.map(frame => {
             let frameIndex = calculateTextureFrameIndex(index, frame)
             let textureFrame = {
-              versionId: versionId,
-              textureId: textureId,
-              frame: frame,
-              frameIndex: frameIndex,
+              versionId,
+              textureId,
+              frame,
+              frameIndex,
               blend: #None,
             }
             textureFrame
