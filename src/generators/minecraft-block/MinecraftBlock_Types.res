@@ -604,3 +604,122 @@ module Cake = {
     Generator.drawImage("Tabs-Cake-Corner", (ox - 32 - bites * 16, oy - 1))
   }
 }
+
+module Free = {
+  module Regions = {
+    type faces = {
+      a1: region,
+      a2: region,
+      a3: region,
+      a4: region,
+      b1: region,
+      b2: region,
+      b3: region,
+      b4: region,
+      c1: region,
+      c2: region,
+      c3: region,
+      c4: region,
+      d1: region,
+      d2: region,
+      d3: region,
+      d4: region,
+      e1: region,
+      e2: region,
+      e3: region,
+      e4: region,
+      f1: region,
+      f2: region,
+      f3: region,
+      f4: region,
+    }
+
+    let size = 128
+
+    let make = (ox, oy): faces => {
+      a1: (ox + size * 0, oy + size * 0, size, size),
+      a2: (ox + size * 1, oy + size * 0, size, size),
+      a3: (ox + size * 2, oy + size * 0, size, size),
+      a4: (ox + size * 3, oy + size * 0, size, size),
+      b1: (ox + size * 0, oy + size * 1, size, size),
+      b2: (ox + size * 1, oy + size * 1, size, size),
+      b3: (ox + size * 2, oy + size * 1, size, size),
+      b4: (ox + size * 3, oy + size * 1, size, size),
+      c1: (ox + size * 0, oy + size * 2, size, size),
+      c2: (ox + size * 1, oy + size * 2, size, size),
+      c3: (ox + size * 2, oy + size * 2, size, size),
+      c4: (ox + size * 3, oy + size * 2, size, size),
+      d1: (ox + size * 0, oy + size * 3, size, size),
+      d2: (ox + size * 1, oy + size * 3, size, size),
+      d3: (ox + size * 2, oy + size * 3, size, size),
+      d4: (ox + size * 3, oy + size * 3, size, size),
+      e1: (ox + size * 0, oy + size * 4, size, size),
+      e2: (ox + size * 1, oy + size * 4, size, size),
+      e3: (ox + size * 2, oy + size * 4, size, size),
+      e4: (ox + size * 3, oy + size * 4, size, size),
+      f1: (ox + size * 0, oy + size * 5, size, size),
+      f2: (ox + size * 1, oy + size * 5, size, size),
+      f3: (ox + size * 2, oy + size * 5, size, size),
+      f4: (ox + size * 3, oy + size * 5, size, size),
+    }
+  }
+
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
+    let regions = Regions.make(ox, oy)
+
+    Face.defineInputRegion("FreeFaceA1" ++ blockId, regions.a1)
+    Face.defineInputRegion("FreeFaceA2" ++ blockId, regions.a2)
+    Face.defineInputRegion("FreeFaceA3" ++ blockId, regions.a3)
+    Face.defineInputRegion("FreeFaceA4" ++ blockId, regions.a4)
+    Face.defineInputRegion("FreeFaceB1" ++ blockId, regions.b1)
+    Face.defineInputRegion("FreeFaceB2" ++ blockId, regions.b2)
+    Face.defineInputRegion("FreeFaceB3" ++ blockId, regions.b3)
+    Face.defineInputRegion("FreeFaceB4" ++ blockId, regions.b4)
+    Face.defineInputRegion("FreeFaceC1" ++ blockId, regions.c1)
+    Face.defineInputRegion("FreeFaceC2" ++ blockId, regions.c2)
+    Face.defineInputRegion("FreeFaceC3" ++ blockId, regions.c3)
+    Face.defineInputRegion("FreeFaceC4" ++ blockId, regions.c4)
+    Face.defineInputRegion("FreeFaceD1" ++ blockId, regions.d1)
+    Face.defineInputRegion("FreeFaceD2" ++ blockId, regions.d2)
+    Face.defineInputRegion("FreeFaceD3" ++ blockId, regions.d3)
+    Face.defineInputRegion("FreeFaceD4" ++ blockId, regions.d4)
+    Face.defineInputRegion("FreeFaceE1" ++ blockId, regions.e1)
+    Face.defineInputRegion("FreeFaceE2" ++ blockId, regions.e2)
+    Face.defineInputRegion("FreeFaceE3" ++ blockId, regions.e3)
+    Face.defineInputRegion("FreeFaceE4" ++ blockId, regions.e4)
+    Face.defineInputRegion("FreeFaceF1" ++ blockId, regions.f1)
+    Face.defineInputRegion("FreeFaceF2" ++ blockId, regions.f2)
+    Face.defineInputRegion("FreeFaceF3" ++ blockId, regions.f3)
+    Face.defineInputRegion("FreeFaceF4" ++ blockId, regions.f4)
+
+    Face.draw("FreeFaceA1" ++ blockId, (0, 0, 16, 16), regions.a1, ())
+    Face.draw("FreeFaceA2" ++ blockId, (0, 0, 16, 16), regions.a2, ())
+    Face.draw("FreeFaceA3" ++ blockId, (0, 0, 16, 16), regions.a3, ())
+    Face.draw("FreeFaceA4" ++ blockId, (0, 0, 16, 16), regions.a4, ())
+    Face.draw("FreeFaceB1" ++ blockId, (0, 0, 16, 16), regions.b1, ())
+    Face.draw("FreeFaceB2" ++ blockId, (0, 0, 16, 16), regions.b2, ())
+    Face.draw("FreeFaceB3" ++ blockId, (0, 0, 16, 16), regions.b3, ())
+    Face.draw("FreeFaceB4" ++ blockId, (0, 0, 16, 16), regions.b4, ())
+    Face.draw("FreeFaceC1" ++ blockId, (0, 0, 16, 16), regions.c1, ())
+    Face.draw("FreeFaceC2" ++ blockId, (0, 0, 16, 16), regions.c2, ())
+    Face.draw("FreeFaceC3" ++ blockId, (0, 0, 16, 16), regions.c3, ())
+    Face.draw("FreeFaceC4" ++ blockId, (0, 0, 16, 16), regions.c4, ())
+    Face.draw("FreeFaceD1" ++ blockId, (0, 0, 16, 16), regions.d1, ())
+    Face.draw("FreeFaceD2" ++ blockId, (0, 0, 16, 16), regions.d2, ())
+    Face.draw("FreeFaceD3" ++ blockId, (0, 0, 16, 16), regions.d3, ())
+    Face.draw("FreeFaceD4" ++ blockId, (0, 0, 16, 16), regions.d4, ())
+    Face.draw("FreeFaceE1" ++ blockId, (0, 0, 16, 16), regions.e1, ())
+    Face.draw("FreeFaceE2" ++ blockId, (0, 0, 16, 16), regions.e2, ())
+    Face.draw("FreeFaceE3" ++ blockId, (0, 0, 16, 16), regions.e3, ())
+    Face.draw("FreeFaceE4" ++ blockId, (0, 0, 16, 16), regions.e4, ())
+    Face.draw("FreeFaceF1" ++ blockId, (0, 0, 16, 16), regions.f1, ())
+    Face.draw("FreeFaceF2" ++ blockId, (0, 0, 16, 16), regions.f2, ())
+    Face.draw("FreeFaceF3" ++ blockId, (0, 0, 16, 16), regions.f3, ())
+    Face.draw("FreeFaceF4" ++ blockId, (0, 0, 16, 16), regions.f4, ())
+    //Generator.drawImage("Tabs-Block", (ox - 32, oy - 1))
+
+    //if showFolds {
+    //  Generator.drawImage("Folds-Block", (ox - 32, oy - 1))
+    //}
+  }
+}

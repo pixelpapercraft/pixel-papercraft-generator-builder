@@ -56,11 +56,9 @@ let script = () => {
     <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
-  Generator.defineSelectInput("Number of Blocks", ["1", "2"])
+  Generator.defineSelectInput("Niggers", ["1", "2"])
   let numberOfBlocks =
-    Generator.getSelectInputValue("Number of Blocks")
-    ->Belt.Int.fromString
-    ->Belt.Option.getWithDefault(1)
+    Generator.getSelectInputValue("Niggers")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
 
   Generator.defineBooleanInput("Show Folds", true)
 
@@ -74,7 +72,7 @@ let script = () => {
     let typeName = "Block " ++ blockId ++ " Type"
     Generator.defineSelectInput(
       typeName,
-      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake"],
+      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake", "Free"],
     )
     let blockType = Generator.getSelectInputValue(typeName)
 
@@ -90,6 +88,7 @@ let script = () => {
     | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy, showFolds)
     | "Snow Layers" => Types.Snow.draw(blockId, ox, oy, showFolds)
     | "Cake" => Types.Cake.draw(blockId, ox, oy, showFolds)
+    | "Free" => Types.Free.draw(blockId, ox, oy, showFolds)
     | _ => ()
     }
   }
