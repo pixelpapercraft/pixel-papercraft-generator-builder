@@ -56,9 +56,11 @@ let script = () => {
     <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
-  Generator.defineSelectInput("Niggers", ["1", "2"])
+  Generator.defineSelectInput("Number of Blocks", ["1", "2"])
   let numberOfBlocks =
-    Generator.getSelectInputValue("Niggers")->Belt.Int.fromString->Belt.Option.getWithDefault(1)
+    Generator.getSelectInputValue("Number of Blocks")
+    ->Belt.Int.fromString
+    ->Belt.Option.getWithDefault(1)
 
   Generator.defineBooleanInput("Show Folds", true)
 
@@ -108,13 +110,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }
