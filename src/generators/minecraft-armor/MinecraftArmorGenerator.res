@@ -1203,12 +1203,12 @@ let script = () => {
   // Inputs
 
   Generator.defineBooleanInput("Show Folds", true)
-  //Generator.defineBooleanInput("Show Labels", true)
+  Generator.defineBooleanInput("Show Labels", true)
 
   // Draw
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
-  //let showLabels = Generator.getBooleanInputValue("Show Labels")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   let showHeadOverlay = Generator.getBooleanInputValueWithDefault("Show Head Overlay", true)
 
@@ -1253,9 +1253,9 @@ let script = () => {
 
   // Labels
 
-  /* if showLabels {
+  if showLabels {
     Generator.drawImage("Labels", (0, 0))
-  }*/
+  }
 }
 
 let generator: Generator.generatorDef = {
