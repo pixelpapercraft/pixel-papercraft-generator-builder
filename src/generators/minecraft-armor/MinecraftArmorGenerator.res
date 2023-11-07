@@ -580,9 +580,9 @@ let old: Minecraft.Character.t = {
   },
 }
 
-let materials = ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite", "Debug"]
+let materials = ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"]
 
-let materials2 = ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite ", "Debug"]
+let materials2 = ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "]
 
 let trimTemplates = [
   "Coast",
