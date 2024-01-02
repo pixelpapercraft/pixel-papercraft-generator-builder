@@ -110,6 +110,83 @@ let drawGrid = () => {
   }
 }
 
+let drawItem = (textureId, rectangle, x, y, size) => {
+  //let tileWidth = getTileWidth(rectangle)
+  //let regionId = makeRegionId(textureId, rectangle)
+
+  /* Generator.defineRegionInput((x, y, size, size), () => {
+    Generator.setSelectInputValue(regionId, cycleTextureOffset(textureOffset, tileWidth))
+  }) */
+
+  Generator.drawTexture(textureId, rectangle, (x, y, size, size), ())
+}
+
+let drawItems = (
+  ~selectedTextureFrames: array<string>, // array<TexturePicker.SelectedTexture.t>,
+  ~size: int,
+  ~border: int,
+  ~maxCols: int,
+  ~maxRows: int,
+) => {
+  let maxItems = maxCols * maxRows
+
+  // Draw the page backgrounds
+  let addedCount = Belt.Array.length(selectedTextureFrames)
+  let pageCount = addedCount > 0 ? (addedCount - 1) / maxItems + 1 : 0
+
+  for page in 1 to pageCount {
+    Generator.usePage("Page " ++ Belt.Int.toString(page))
+    Generator.drawImage("Background", (0, 0))
+
+    // Draw the added textures
+    Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
+      //let {textureDefId, frame} = selectedTextureFrame
+
+      let page = index / maxItems + 1
+      let pageId = "Page " ++ Belt.Int.toString(page)
+
+      let col = mod(index, maxCols)
+      let row = mod(index / maxCols, maxRows)
+
+      let x = col * size
+      let x = col > 0 ? x + border * col : x
+      let x = border + x
+
+      let y = row * size
+      let y = row > 0 ? y + border * row : y
+      let y = border + y
+
+      Generator.usePage(pageId)
+      drawItem(selectedTextureFrame, (0, 0, 16, 16), x, y, size) // (textureDefId, frame.rectangle, x, y, size)
+      //Generator.drawImage("Title", (0, 0))
+    })
+  }
+}
+
+let drawArraysTestPage = () => {
+  //Generator.usePage("Draw Arrays")
+  let selectedTextureFrames = [
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+    "GrassTop",
+  ]
+  Generator.fillBackgroundColorWithWhite()
+  drawItems(~selectedTextureFrames, ~size=128, ~border=2, ~maxCols=4, ~maxRows=6)
+}
+
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
@@ -871,6 +948,7 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawArraysTestPage()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()
