@@ -55,43 +55,22 @@ let script = () => {
     },
   )
 
-  Generator.defineSelectInput("Number of Dioramas", ["1", "2"])
-  let numberOfDioramas =
-    Generator.getSelectInputValue("Number of Dioramas")
-    ->Belt.Int.fromString
-    ->Belt.Option.getWithDefault(1)
-
   Generator.defineBooleanInput("Show Folds", true)
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
   Generator.drawImage("Background", (0, 0))
 
-  for i in 1 to numberOfDioramas {
-    let dioramaId = Js.Int.toString(i)
+  Generator.defineSelectInput("Diorama Type", ["Diorama", "Free"])
+  let dioramaType = Generator.getSelectInputValue("Diorama Type")
 
-    let typeName = "Diorama " ++ dioramaId ++ " Type"
-    Generator.defineSelectInput(
-      typeName,
-      ["Diorama", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake", "Free"],
-    )
-    let dioramaType = Generator.getSelectInputValue(typeName)
+  let ox = 57
+  let oy = 16
 
-    let ox = 57
-    let oy = 16 + 400 * (i - 1)
-
-    switch dioramaType {
-    | "Diorama" => Types.Diorama.draw(dioramaId, ox, oy, showFolds)
-    | "Slab" => Types.Slab.draw(dioramaId, ox, oy, showFolds)
-    | "Stair" => Types.Stair.draw(dioramaId, ox, oy, showFolds)
-    | "Fence" => Types.Fence.draw(dioramaId, ox, oy, showFolds)
-    | "Door" => Types.Door.draw(dioramaId, ox, oy, showFolds)
-    | "Trapdoor" => Types.Trapdoor.draw(dioramaId, ox, oy, showFolds)
-    | "Snow Layers" => Types.Snow.draw(dioramaId, ox, oy, showFolds)
-    | "Cake" => Types.Cake.draw(dioramaId, ox, oy, showFolds)
-    | "Free" => Types.Free.draw(dioramaId, ox, oy, showFolds)
-    | _ => ()
-    }
+  switch dioramaType {
+  | "Diorama" => Types.Diorama.draw(ox, oy, showFolds)
+  | "Free" => Types.Free.draw(ox, oy, showFolds)
+  | _ => ()
   }
 
   Generator.defineButtonInput("Clear", () => {
