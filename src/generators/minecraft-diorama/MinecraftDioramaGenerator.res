@@ -85,15 +85,16 @@ let script = () => {
     }
   }) */
 
-  Generator.defineSelectInput("Diorama Size", ["Diorama", "Free"])
+  Generator.defineSelectInput("Diorama Size", ["800%", "400%", "200%"])
   let dioramaSize = Generator.getSelectInputValue("Diorama Size")
 
   let ox = 57
   let oy = 16
 
   switch dioramaSize {
-  | "Diorama" => Types.Diorama.draw(ox, oy, 128, 4, 6)
-  | "Free" => Types.Free.draw(ox, oy, showFolds)
+  | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6)
+  | "400%" => Types.Diorama.draw(ox, oy, 64, 8, 12)
+  | "200%" => Types.Diorama.draw(ox, oy, 32, 16, 24)
   | _ => ()
   }
 
