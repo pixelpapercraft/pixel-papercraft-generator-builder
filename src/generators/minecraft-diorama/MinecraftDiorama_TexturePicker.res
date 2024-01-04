@@ -174,7 +174,7 @@ let makeGridTileStyle = (~textureDef, frameIndex) => {
   let height = width
   makeTileStyle(~textureDef, ~frameIndex, ~size, ~width, ~height)->ReactDOM.Style.combine(
     ReactDOM.Style.make(
-      ~display="inline-Diorama",
+      ~display="inline-block",
       ~borderWidth=px(borderSize),
       ~marginRight=px(6),
       ~marginBottom=px(6),
@@ -445,7 +445,7 @@ let make = (~versionId: string, ~onChange: string => unit) => {
       }
 
       <div className="mb-4">
-        <div className="font-bold"> {React.string("Diorama Texture")} </div>
+        <div className="font-bold"> {React.string("Block Texture")} </div>
         <div>
           <input className="p-2 mb-2 w-full" placeholder="Search" onChange={onSearchChange} />
         </div>

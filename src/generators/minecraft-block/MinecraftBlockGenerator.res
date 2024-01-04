@@ -74,7 +74,7 @@ let script = () => {
     let typeName = "Block " ++ blockId ++ " Type"
     Generator.defineSelectInput(
       typeName,
-      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake", "Free"],
+      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake"],
     )
     let blockType = Generator.getSelectInputValue(typeName)
 

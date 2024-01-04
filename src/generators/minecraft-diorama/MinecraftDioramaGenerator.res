@@ -57,7 +57,7 @@ let script = () => {
 
   Generator.defineBooleanInput("Show Folds", true)
 
-  let showFolds = Generator.getBooleanInputValue("Show Folds")
+  //let showFolds = Generator.getBooleanInputValue("Show Folds")
 
   Generator.drawImage("Background", (0, 0))
 
