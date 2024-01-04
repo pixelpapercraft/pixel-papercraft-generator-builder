@@ -165,26 +165,21 @@ let drawItems = (
 
 let drawArraysTestPage = () => {
   //Generator.usePage("Draw Arrays")
-  let selectedTextureFrames = [
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-    "GrassTop",
-  ]
+  let selectedTextureFrames = ["GrassTop"]
+
+  // Show a button which adds the selected texture to the page
+  let arraySize = Generator.defineAndGetSelectInput("Array Size", ["800%", "400%", "200%"])
+  let (s, b, c, r) = {
+    switch arraySize {
+    | "800%" => (128, 2, 4, 6)
+    | "400%" => (64, 2, 8, 12)
+    | "200%" => (32, 2, 16, 24)
+    | _ => (128, 2, 4, 6)
+    }
+  }
+  Generator.defineText("Frames are " ++ Belt.Int.toString(Belt.Array.length(selectedTextureFrames)))
   Generator.fillBackgroundColorWithWhite()
-  drawItems(~selectedTextureFrames, ~size=128, ~border=2, ~maxCols=4, ~maxRows=6)
+  drawItems(~selectedTextureFrames, ~size=s, ~border=b, ~maxCols=c, ~maxRows=r)
 }
 
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {

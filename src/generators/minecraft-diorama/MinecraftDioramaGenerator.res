@@ -61,13 +61,37 @@ let script = () => {
 
   Generator.drawImage("Background", (0, 0))
 
-  Generator.defineSelectInput("Diorama Type", ["Diorama", "Free"])
-  let dioramaType = Generator.getSelectInputValue("Diorama Type")
+  /* // Decode the selected texture
+  let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
+    Generator.getStringInputValue("SelectedTextureFrame"),
+  )
+
+  // Decode the added textures
+  let selectedTextureFrames = TexturePicker.SelectedTexture.decodeArray(
+    Generator.getStringInputValue("SelectedTextureFrames"),
+  )
+
+  // Show a button which adds the selected texture to the page
+  Generator.defineButtonInput("Add Item", () => {
+    switch selectedTextureFrame {
+    | Some(selectedTextureFrame) => {
+        let selectedTextureFrames = Belt.Array.concat(selectedTextureFrames, [selectedTextureFrame])
+        Generator.setStringInputValue(
+          "SelectedTextureFrames",
+          TexturePicker.SelectedTexture.encodeArray(selectedTextureFrames),
+        )
+      }
+    | None => ()
+    }
+  }) */
+
+  Generator.defineSelectInput("Diorama Size", ["Diorama", "Free"])
+  let dioramaSize = Generator.getSelectInputValue("Diorama Size")
 
   let ox = 57
   let oy = 16
 
-  switch dioramaType {
+  switch dioramaSize {
   | "Diorama" => Types.Diorama.draw(ox, oy, showFolds)
   | "Free" => Types.Free.draw(ox, oy, showFolds)
   | _ => ()
