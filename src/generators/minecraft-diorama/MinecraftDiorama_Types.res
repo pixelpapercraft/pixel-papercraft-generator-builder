@@ -12,7 +12,7 @@ module Diorama = {
       for c in 0 to cols - 1 {
         for r in 0 to rows - 1 {
           let face = (
-            "DioramaFace" ++ Belt.Int.toString(c) ++ Belt.Int.toString(r),
+            "DioramaFace" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
             (ox + size * c, oy + size * r, size, size),
           )
           regions := Belt.Array.concat(regions.contents, [face])
