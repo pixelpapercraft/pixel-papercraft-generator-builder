@@ -14,32 +14,7 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let images: array<Generator.imageDef> = [
-  {id: "Background", url: Generator.requireImage("./images/Background.png")},
   {id: "Title", url: Generator.requireImage("./images/Title.png")},
-  {id: "Folds-Diorama", url: Generator.requireImage("./images/Folds-Block.png")},
-  {id: "Tabs-Diorama", url: Generator.requireImage("./images/Tabs-Block.png")},
-  {id: "Folds-Slab", url: Generator.requireImage("./images/Folds-Slab.png")},
-  {id: "Tabs-Slab", url: Generator.requireImage("./images/Tabs-Slab.png")},
-  {id: "Folds-Stair", url: Generator.requireImage("./images/Folds-Stair.png")},
-  {id: "Tabs-Stair", url: Generator.requireImage("./images/Tabs-Stair.png")},
-  {id: "Folds-Fence", url: Generator.requireImage("./images/Folds-Fence.png")},
-  {id: "Tabs-Fence", url: Generator.requireImage("./images/Tabs-Fence.png")},
-  {id: "Folds-Door", url: Generator.requireImage("./images/Folds-Door.png")},
-  {id: "Tabs-Door", url: Generator.requireImage("./images/Tabs-Door.png")},
-  {id: "Folds-Trapdoor", url: Generator.requireImage("./images/Folds-Trapdoor.png")},
-  {id: "Tabs-Trapdoor", url: Generator.requireImage("./images/Tabs-Trapdoor.png")},
-  {id: "Folds-Snow-Top", url: Generator.requireImage("./images/Folds-Snow-Top.png")},
-  {id: "Folds-Snow-Bottom", url: Generator.requireImage("./images/Folds-Snow-Bottom.png")},
-  {id: "Tabs-Snow-Top", url: Generator.requireImage("./images/Tabs-Snow-Top.png")},
-  {id: "Tabs-Snow-Middle", url: Generator.requireImage("./images/Tabs-Snow-Middle.png")},
-  {id: "Tabs-Snow-Bottom", url: Generator.requireImage("./images/Tabs-Snow-Bottom.png")},
-  {id: "Folds-Cake-Left", url: Generator.requireImage("./images/Folds-Cake-Left.png")},
-  {id: "Folds-Cake-Middle", url: Generator.requireImage("./images/Folds-Cake-Middle.png")},
-  {id: "Folds-Cake-Right", url: Generator.requireImage("./images/Folds-Cake-Right.png")},
-  {id: "Tabs-Cake-Left", url: Generator.requireImage("./images/Tabs-Cake-Left.png")},
-  {id: "Tabs-Cake-Middle", url: Generator.requireImage("./images/Tabs-Cake-Middle.png")},
-  {id: "Tabs-Cake-Corner", url: Generator.requireImage("./images/Tabs-Cake-Corner.png")},
-  {id: "Tabs-Cake-Right", url: Generator.requireImage("./images/Tabs-Cake-Right.png")},
 ]
 
 let textures: array<Generator.textureDef> = Textures.textures
@@ -58,8 +33,6 @@ let script = () => {
   Generator.defineBooleanInput("Show Folds", true)
 
   //let showFolds = Generator.getBooleanInputValue("Show Folds")
-
-  Generator.drawImage("Background", (0, 0))
 
   /* // Decode the selected texture
   let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
@@ -110,6 +83,7 @@ let script = () => {
   })
 
   Generator.drawImage("Title", (0, 0))
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
