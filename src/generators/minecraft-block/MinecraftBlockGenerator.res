@@ -90,7 +90,6 @@ let script = () => {
     | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy, showFolds)
     | "Snow Layers" => Types.Snow.draw(blockId, ox, oy, showFolds)
     | "Cake" => Types.Cake.draw(blockId, ox, oy, showFolds)
-    | "Free" => Types.Free.draw(blockId, ox, oy, showFolds)
     | _ => ()
     }
   }
