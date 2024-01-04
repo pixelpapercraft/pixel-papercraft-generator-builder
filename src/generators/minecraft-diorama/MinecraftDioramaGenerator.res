@@ -92,7 +92,7 @@ let script = () => {
   let oy = 16
 
   switch dioramaSize {
-  | "Diorama" => Types.Diorama.draw(ox, oy, showFolds)
+  | "Diorama" => Types.Diorama.draw(ox, oy, 128, 4, 6)
   | "Free" => Types.Free.draw(ox, oy, showFolds)
   | _ => ()
   }

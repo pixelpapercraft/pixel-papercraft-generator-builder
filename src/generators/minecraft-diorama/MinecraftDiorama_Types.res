@@ -3,52 +3,97 @@ module Textures = MinecraftDiorama_Textures
 module Face = MinecraftDiorama_Face
 
 type region = (int, int, int, int)
+type face = (string, region)
+
+/* let drawBlocks = (
+  ~selectedTextureFrames: array<TexturePicker.SelectedTexture.t>,
+  ~size: int,
+  ~border: int,
+  ~maxCols: int,
+  ~maxRows: int,
+  ~showFolds: bool,
+) => {
+  let maxItems = maxCols * maxRows
+
+  // Draw the page backgrounds
+  let addedCount = Belt.Array.length(selectedTextureFrames)
+  let pageCount = addedCount > 0 ? (addedCount - 1) / maxItems + 1 : 0
+
+  for page in 1 to pageCount {
+    Generator.usePage("Page " ++ Belt.Int.toString(page))
+    Generator.drawImage("Background", (0, 0))
+
+    // Draw the added textures
+    Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
+      let {textureDefId, frame} = selectedTextureFrame
+
+      let page = index / maxItems + 1
+      let pageId = "Page " ++ Belt.Int.toString(page)
+
+      let col = mod(index, maxCols)
+      let row = mod(index / maxCols, maxRows)
+
+      let x = col * size * 2
+      let x = col > 0 ? x + border * col : x
+      let x = border + x
+
+      let y = row * size
+      let y = row > 0 ? y + border * row : y
+      let y = border + y
+
+      Generator.usePage(pageId)
+      drawBlock(textureDefId, frame.rectangle, x, y, size, showFolds)
+      Generator.drawImage("Title", (0, 0))
+    })
+  }
+} */
+
+/* let drawBlock = 
+ let regions = Regions.make(ox, oy)
+ Face.defineInputRegion()
+ Face.draw()
+ */
 
 module Diorama = {
   module Regions = {
-    type faces = {
-      top: region,
-      bottom: region,
-      right: region,
-      front: region,
-      left: region,
-      back: region,
-    }
+    //type faces = { top: region, ...
 
-    let size = 128
-
-    let make = (ox, oy): faces => {
-      top: (ox + size, oy + 0, size, size),
-      bottom: (ox + size, oy + size * 2, size, size),
-      right: (ox, oy + size, size, size),
-      front: (ox + size, oy + size, size, size),
-      left: (ox + size * 2, oy + size, size, size),
-      back: (ox + size * 3, oy + size, size, size),
+    let make = (ox, oy, size, cols, rows): array<face> => {
+      let regions = ref([])
+      for c in 0 to cols - 1 {
+        for r in 0 to rows - 1 {
+          let face = (
+            "DioramaFace" ++ Belt.Int.toString(c) ++ Belt.Int.toString(r),
+            (ox + size * c, oy + size * r, size, size),
+          )
+          regions := Belt.Array.concat(regions.contents, [face])
+        }
+      }
+      regions.contents
+      /*
+       for each:
+        regions.concat((string = cols ++ rows, (ox + size * cols, oy + size * rows, size, size)))
+ */
     }
   }
 
-  let draw = (ox: int, oy: int, showFolds: bool) => {
-    let regions = Regions.make(ox, oy)
+  let draw = (ox: int, oy: int, size: int, cols: int, rows: int) => {
+    let regions = Regions.make(ox, oy, size, cols, rows)
 
-    Face.defineInputRegion("DioramaFaceTop", regions.top)
-    Face.defineInputRegion("DioramaFaceBottom", regions.bottom)
-    Face.defineInputRegion("DioramaFaceRight", regions.right)
-    Face.defineInputRegion("DioramaFaceFront", regions.front)
-    Face.defineInputRegion("DioramaFaceLeft", regions.left)
-    Face.defineInputRegion("DioramaFaceBack", regions.back)
+    /* for face in regions:
+     Face.defineInputRegion(face.string, face.region)
+     Face.draw(face.string, (0, 0, 16, 16), face.region, ())
+ */
+    Belt.Array.forEach(regions, face => {
+      let (faceName, faceRegion) = face
+      Face.defineInputRegion(faceName, faceRegion)
+      Face.draw(faceName, (0, 0, 16, 16), faceRegion, ())
+    })
+    //Generator.drawImage("Tabs-Diorama", (ox - 32, oy - 1))
 
-    Face.draw("DioramaFaceTop", (0, 0, 16, 16), regions.top, ())
-    Face.draw("DioramaFaceBottom", (0, 0, 16, 16), regions.bottom, ())
-    Face.draw("DioramaFaceRight", (0, 0, 16, 16), regions.right, ())
-    Face.draw("DioramaFaceFront", (0, 0, 16, 16), regions.front, ())
-    Face.draw("DioramaFaceLeft", (0, 0, 16, 16), regions.left, ())
-    Face.draw("DioramaFaceBack", (0, 0, 16, 16), regions.back, ())
-
-    Generator.drawImage("Tabs-Diorama", (ox - 32, oy - 1))
-
-    if showFolds {
-      Generator.drawImage("Folds-Diorama", (ox - 32, oy - 1))
-    }
+    //if showFolds {
+    //  Generator.drawImage("Folds-Diorama", (ox - 32, oy - 1))
+    //}
   }
 }
 
