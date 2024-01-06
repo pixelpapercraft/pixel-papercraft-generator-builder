@@ -20,21 +20,26 @@ module TextureInput = {
       | None => ()
       | Some(files) => {
           let file = files[0]
-          let fileReader = Dom2.FileReader.make()
-          fileReader->Dom2.FileReader.setOnLoad(e => {
-            let target = ReactEvent.Form.target(e)
-            let result: option<string> = target["result"]
-            switch result {
-            | None => ()
-            | Some(result) => {
-                setName(_ => Some(file.name))
-                Generator_ImageFactory.makeFromUrl(result)
-                ->Promise.thenResolve(image => onChange(Some(image)))
-                ->ignore
-              }
+          switch file {
+          | None => ()
+          | Some(file) => {
+              let fileReader = Dom2.FileReader.make()
+              fileReader->Dom2.FileReader.setOnLoad(e => {
+                let target = ReactEvent.Form.target(e)
+                let result: option<string> = target["result"]
+                switch result {
+                | None => ()
+                | Some(result) => {
+                    setName(_ => Some(file.name))
+                    Generator_ImageFactory.makeFromUrl(result)
+                    ->Promise.thenResolve(image => onChange(Some(image)))
+                    ->ignore
+                  }
+                }
+              })
+              fileReader->Dom2.FileReader.readAsDataUrl(file)
             }
-          })
-          fileReader->Dom2.FileReader.readAsDataUrl(file)
+          }
         }
       }
     }
@@ -68,7 +73,8 @@ module TextureInput = {
         <div className="overflow-hidden relative w-48">
           <button
             className="bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
-            <Icon.Upload /> <span className="ml-2"> {React.string("Choose file")} </span>
+            <Icon.Upload />
+            <span className="ml-2"> {React.string("Choose file")} </span>
           </button>
           <input
             className="cursor-pointer absolute block opacity-0 top-0 bottom-0 left-0 right-0"
@@ -193,7 +199,9 @@ module ButtonInput = {
 module Text = {
   @react.component
   let make = (~text) => {
-    <div className="mb-4"> <p> {React.string(text)} </p> </div>
+    <div className="mb-4">
+      <p> {React.string(text)} </p>
+    </div>
   }
 }
 
