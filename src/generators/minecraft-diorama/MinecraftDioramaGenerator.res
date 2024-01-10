@@ -61,8 +61,8 @@ let script = () => {
   Generator.defineSelectInput("Diorama Size", ["800%", "400%", "200%"])
   let dioramaSize = Generator.getSelectInputValue("Diorama Size")
 
-  let ox = 57
-  let oy = 16
+  let ox = 42
+  let oy = 40
 
   switch dioramaSize {
   | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6)
