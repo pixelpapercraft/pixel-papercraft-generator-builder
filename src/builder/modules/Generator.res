@@ -339,10 +339,10 @@ let drawTab = (
         (inset, h)
       }
 
-      let p1 = (0.0, h)
-      let p2 = (0.0 +. inset, h -. tabHeight)
+      let p1 = (-1.0, h +. 1.0)
+      let p2 = (inset, h -. tabHeight)
       let p3 = (w -. inset, h -. tabHeight)
-      let p4 = (w, h)
+      let p4 = (w +. 1.0, h +. 1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
@@ -380,10 +380,10 @@ let drawTab = (
         (inset, w)
       }
 
-      let p1 = (0.0, 0.0)
+      let p1 = (-1.0, -1.0)
       let p2 = (tabHeight, 0.0 +. inset)
       let p3 = (tabHeight, h -. inset)
-      let p4 = (0.0, h)
+      let p4 = (-1.0, h +. 1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
@@ -415,10 +415,10 @@ let drawTab = (
         (inset, h)
       }
 
-      let p1 = (w, 0.0)
+      let p1 = (w +. 1.0, -1.0)
       let p2 = (w -. inset, tabHeight)
       let p3 = (0.0 +. inset, tabHeight)
-      let p4 = (0.0, 0.0)
+      let p4 = (-1.0, -1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
@@ -456,10 +456,10 @@ let drawTab = (
         (inset, w)
       }
 
-      let p1 = (w, h)
+      let p1 = (w +. 1.0, h +. 1.0)
       let p2 = (w -. tabHeight, h -. inset)
       let p3 = (w -. tabHeight, 0.0 +. inset)
-      let p4 = (w, 0.0)
+      let p4 = (w +. 1.0, -1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint

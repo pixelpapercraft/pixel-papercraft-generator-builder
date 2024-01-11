@@ -615,6 +615,7 @@ let drawLine = (
       context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
       context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
       context->Context2d.stroke
+      context->Context2d.filter("none")
 
       model
     }

@@ -14,7 +14,7 @@ type faceTexture = {
   blend: Generator_Texture.blend,
 }
 
-let drawTexture = (
+let drawTab = (
   textureId,
   source,
   (dx, dy, dw, dh),
@@ -24,13 +24,24 @@ let drawTexture = (
 ) => {
   let destination = switch rotate {
   | 0 => (dx, dy, dw, dh)
-  | 1 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+  | 1 => (dx, dy, dw, dh)
   | 2 => (dx, dy, dw, dh)
-  | 3 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+  | 3 => (dx, dy, dw, dh)
   | _ => (dx, dy, dw, dh)
   }
+  let orientation = switch rotate {
+  | 0 => #North
+  | 1 => #East
+  | 2 => #South
+  | 3 => #West
+  | _ => #North
+  }
   let rotate = (rotate * 90)->Js.Int.toFloat
+
   Generator.drawTexture(textureId, source, destination, ~flip, ~rotate, ())
+  //if textureId {
+  Generator.drawTab(destination, orientation, ~showFoldLine=false, ())
+  //}
 }
 
 let draw = (destination, rotate, value, ~flip: Generator_Texture.flip=#None, ()) => {
@@ -42,5 +53,6 @@ let draw = (destination, rotate, value, ~flip: Generator_Texture.flip=#None, ())
   | 4 => "Tab Middle"
   | _ => "None"
   }
-  drawTexture(textureId, (0, 96, 128, 32), destination, rotate, ~flip, ())
+
+  drawTab(textureId, (0, 96, 128, 32), destination, rotate, ~flip, ())
 }
