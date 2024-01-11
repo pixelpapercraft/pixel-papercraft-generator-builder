@@ -46,6 +46,12 @@ let textures: array<Generator.textureDef> = Belt.Array.concat(
       standardHeight: 128,
     },
     {
+      id: "Fold",
+      url: requireTexture("Fold"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
       id: "Debug",
       url: requireTexture("debug"),
       standardWidth: 128,
@@ -65,9 +71,7 @@ let script = () => {
     },
   )
 
-  Generator.defineBooleanInput("Edit Tabs", false)
-
-  let editTabs = Generator.getBooleanInputValue("Edit Tabs")
+  let editMode = Generator.defineAndGetSelectInput("Edit Mode", ["Blocks", "Tabs", "Folds"])
 
   /* // Decode the selected texture
   let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
@@ -100,18 +104,27 @@ let script = () => {
   let oy = 40
 
   switch dioramaSize {
-  | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6, editTabs)
-  | "400%" => Types.Diorama.draw(ox, oy, 64, 8, 12, editTabs)
-  | "200%" => Types.Diorama.draw(ox, oy, 32, 16, 24, editTabs)
+  | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6, editMode)
+  | "400%" => Types.Diorama.draw(ox, oy, 64, 8, 12, editMode)
+  | "200%" => Types.Diorama.draw(ox, oy, 32, 16, 24, editMode)
   | _ => ()
   }
 
-  /// Tabs
+  // Tabs
 
   switch dioramaSize {
-  | "800%" => Types.Tabs.draw(ox, oy, 128, 4, 6, editTabs)
-  | "400%" => Types.Tabs.draw(ox, oy, 64, 8, 12, editTabs)
-  | "200%" => Types.Tabs.draw(ox, oy, 32, 16, 24, editTabs)
+  | "800%" => Types.Tabs.draw(ox, oy, 128, 4, 6, editMode)
+  | "400%" => Types.Tabs.draw(ox, oy, 64, 8, 12, editMode)
+  | "200%" => Types.Tabs.draw(ox, oy, 32, 16, 24, editMode)
+  | _ => ()
+  }
+
+  // Folds
+
+  switch dioramaSize {
+  | "800%" => Types.Folds.draw(ox, oy, 128, 4, 6, editMode)
+  | "400%" => Types.Folds.draw(ox, oy, 64, 8, 12, editMode)
+  | "200%" => Types.Folds.draw(ox, oy, 32, 16, 24, editMode)
   | _ => ()
   }
 
