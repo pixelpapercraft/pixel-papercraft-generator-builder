@@ -206,7 +206,7 @@ module Folds = {
         })
       }
       if foldValue {
-        Fold.draw(foldRegion, foldRot, ())
+        Fold.draw(foldRegion, foldRot)
       }
     })
   }

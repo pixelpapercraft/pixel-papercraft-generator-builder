@@ -14,25 +14,18 @@ type faceTexture = {
   blend: Generator_Texture.blend,
 }
 
-let drawTexture = (
-  textureId,
-  source,
-  (dx, dy, dw, dh),
-  rotate,
-  ~flip: Generator_Texture.flip=#None,
-  (),
-) => {
+let drawFoldLine = ((dx, dy, dw, dh), rotate) => {
   let destination = switch rotate {
-  | 0 => (dx, dy, dw, dh)
-  | 1 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
-  | 2 => (dx, dy, dw, dh)
-  | 3 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+  | 0 => (dx, dy + dh - 1, dx + dw, dy + dh - 1)
+  | 1 => (dx, dy, dx, dy + dh)
+  | 2 => (dx, dy, dx + dw, dy)
+  | 3 => (dx + dw - 1, dy, dx + dw - 1, dy + dh)
   | _ => (dx, dy, dw, dh)
   }
-  let rotate = (rotate * 90)->Js.Int.toFloat
-  Generator.drawTexture(textureId, source, destination, ~flip, ~rotate, ())
+  let (x1, y1, x2, y2) = destination
+  Generator.drawFoldLine((x1, y1), (x2, y2))
 }
 
-let draw = (destination, rotate, ~flip: Generator_Texture.flip=#None, ()) => {
-  drawTexture("Fold", (0, 96, 128, 32), destination, rotate, ~flip, ())
+let draw = (destination, rotate) => {
+  drawFoldLine(destination, rotate)
 }
