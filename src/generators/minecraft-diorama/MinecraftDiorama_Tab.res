@@ -33,6 +33,14 @@ let drawTexture = (
   Generator.drawTexture(textureId, source, destination, ~flip, ~rotate, ())
 }
 
-let draw = (destination, rotate, ~flip: Generator_Texture.flip=#None, ()) => {
-  drawTexture("Tab", (0, 96, 128, 32), destination, rotate, ~flip, ())
+let draw = (destination, rotate, value, ~flip: Generator_Texture.flip=#None, ()) => {
+  let textureId = switch value {
+  | 0 => "None"
+  | 1 => "Tab"
+  | 2 => "Tab Right"
+  | 3 => "Tab Left"
+  | 4 => "Tab Middle"
+  | _ => "None"
+  }
+  drawTexture(textureId, (0, 96, 128, 32), destination, rotate, ~flip, ())
 }

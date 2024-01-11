@@ -5,7 +5,7 @@ module Tab = MinecraftDiorama_Tab
 
 type region = (int, int, int, int)
 type face = (string, region)
-type tab = (string, region, int)
+type tab = (string, region, int, int)
 
 module Diorama = {
   module Regions = {
@@ -46,12 +46,14 @@ module Tabs = {
           "TabsFaceNorth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
           (ox + size * c, oy + size * r, size, size / 4),
           2,
+          0,
         )
       }
       let makeSouth = (c, r) => {
         (
           "TabsFaceSouth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
           (ox + size * c, oy + size * 3 / 4 + size * r, size, size / 4),
+          0,
           0,
         )
       }
@@ -60,6 +62,7 @@ module Tabs = {
           "TabsFaceEast" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
           (ox + size * c, oy + size * r, size / 4, size),
           1,
+          0,
         )
       }
       let makeWest = (c, r) => {
@@ -67,6 +70,7 @@ module Tabs = {
           "TabsFaceWest" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
           (ox + size * 3 / 4 + size * c, oy + size * r, size / 4, size),
           3,
+          0,
         )
       }
       let makeTabs = (c, r) => {
@@ -100,23 +104,31 @@ module Tabs = {
     }
   }
 
+  let cycleTabValue = t => {
+    let t = if t === 4 {
+      0
+    } else {
+      t + 1
+    }
+    Belt.Int.toString(t)
+  }
+
   let draw = (ox: int, oy: int, size: int, cols: int, rows: int, editTabs: bool) => {
     let regions = Regions.make(ox, oy, size, cols, rows)
 
     Belt.Array.forEach(regions, tab => {
-      let (tabName, tabRegion, tabRot) = tab
-      let tabValue = Generator.getBooleanInputValue(tabName)
+      let (tabName, tabRegion, tabRot, tabType) = tab
+      let tabValue =
+        Generator.getSelectInputValue(tabName)->Belt.Int.fromString->Belt.Option.getWithDefault(0)
       if editTabs {
         Generator.defineRegionInput(tabRegion, () => {
-          Generator.setBooleanInputValue(tabName, !tabValue)
+          Generator.setSelectInputValue(tabName, cycleTabValue(tabValue))
         })
       }
 
       //Face.draw(tabName, (0, 0, 16, 16), tabRegion, ())
-      //Generator.drawTexture("Tab", (0, 0, 128, 128), tabRegion, ())
-      if tabValue {
-        Tab.draw(tabRegion, tabRot, ())
-      }
+      //Generator.drawTexture("Tab", (0, 0, 128, 128), tabRegion, ()
+      Tab.draw(tabRegion, tabRot, tabValue, ())
     })
   }
 }
