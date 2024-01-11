@@ -104,9 +104,9 @@ let script = () => {
   let oy = 40
 
   switch dioramaSize {
-  | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6, editMode)
-  | "400%" => Types.Diorama.draw(ox, oy, 64, 8, 12, editMode)
-  | "200%" => Types.Diorama.draw(ox, oy, 32, 16, 24, editMode)
+  | "800%" => Types.Block.draw(ox, oy, 128, 4, 6, editMode)
+  | "400%" => Types.Block.draw(ox, oy, 64, 8, 12, editMode)
+  | "200%" => Types.Block.draw(ox, oy, 32, 16, 24, editMode)
   | _ => ()
   }
 
@@ -129,14 +129,27 @@ let script = () => {
   }
 
   Generator.defineButtonInput("Clear", () => {
+    // Save things we don't want cleared
     let currentTextureChoice = Generator.getStringInputValue(
       MinecraftDiorama_Constants.currentDioramaTextureId,
     )
+    let currentVersionId = versionId
+    let currentEditMode = editMode
+    let currentDioramaSize = dioramaSize
+
+    // Clear everything
     Generator.clearStringInputValues()
+    Generator.clearBooleanInputValues()
+    Generator.clearSelectInputValues()
+
+    // Restore everything except the blocks, tabs and folds
     Generator.setStringInputValue(
       MinecraftDiorama_Constants.currentDioramaTextureId,
       currentTextureChoice,
     )
+    Generator.setSelectInputValue("Version", currentVersionId)
+    Generator.setSelectInputValue("Edit Mode", currentEditMode)
+    Generator.setSelectInputValue("Diorama Size", currentDioramaSize)
   })
 
   Generator.drawImage("Title", (0, 0))

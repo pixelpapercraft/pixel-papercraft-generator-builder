@@ -289,6 +289,16 @@ let getStringInputValue = (model: Model.t, id: string) => {
   }
 }
 
+let clearBooleanInputValues = (model: Model.t) => {
+  {
+    ...model,
+    values: {
+      ...model.values,
+      booleans: Js.Dict.empty(),
+    },
+  }
+}
+
 let setBooleanInputValue = (model: Model.t, id: string, value: bool) => {
   let booleans = Js.Dict.fromArray(Js.Dict.entries(model.values.booleans))
   Js.Dict.set(booleans, id, value)
@@ -314,6 +324,16 @@ let getBooleanInputValueWithDefault = (model: Model.t, id: string, default: bool
   switch value {
   | None => default
   | Some(value) => value
+  }
+}
+
+let clearSelectInputValues = (model: Model.t) => {
+  {
+    ...model,
+    values: {
+      ...model.values,
+      selects: Js.Dict.empty(),
+    },
   }
 }
 

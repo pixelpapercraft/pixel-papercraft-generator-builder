@@ -71,6 +71,14 @@ let clearStringInputValues = () => {
   model := Builder.clearStringInputValues(model.contents)
 }
 
+let clearBooleanInputValues = () => {
+  model := Builder.clearBooleanInputValues(model.contents)
+}
+
+let clearSelectInputValues = () => {
+  model := Builder.clearSelectInputValues(model.contents)
+}
+
 let defineButtonInput = (id, onClick) => {
   model := Builder.defineButtonInput(model.contents, id, onClick)
 }

@@ -9,14 +9,14 @@ type face = (string, region)
 type tab = (string, region, int)
 type fold = (string, region, int)
 
-module Diorama = {
+module Block = {
   module Regions = {
     let make = (ox, oy, size, cols, rows): array<face> => {
       let regions = ref([])
       for c in 0 to cols - 1 {
         for r in 0 to rows - 1 {
           let face = (
-            "DioramaFace" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
+            "BlockFace" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
             (ox + size * c, oy + size * r, size, size),
           )
           regions := Belt.Array.concat(regions.contents, [face])
