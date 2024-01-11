@@ -1,3 +1,4 @@
+let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
 module TexturePicker = MinecraftDiorama_TexturePicker
 module Textures = MinecraftDiorama_Textures
 module Face = MinecraftDiorama_Face
@@ -17,7 +18,41 @@ let images: array<Generator.imageDef> = [
   {id: "Title", url: Generator.requireImage("./images/Title.png")},
 ]
 
-let textures: array<Generator.textureDef> = Textures.textures
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  Textures.textures,
+  [
+    {
+      id: "Tab",
+      url: requireTexture("Tab"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
+      id: "Tab Left",
+      url: requireTexture("TabLeft"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
+      id: "Tab Right",
+      url: requireTexture("TabRight"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
+      id: "Tab Middle",
+      url: requireTexture("TabMiddle"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
+      id: "Debug",
+      url: requireTexture("debug"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+  ],
+)
 
 let script = () => {
   Generator.defineSelectInput("Version", Textures.versionIds)
@@ -30,9 +65,9 @@ let script = () => {
     },
   )
 
-  Generator.defineBooleanInput("Show Folds", true)
+  Generator.defineBooleanInput("Edit Tabs", false)
 
-  //let showFolds = Generator.getBooleanInputValue("Show Folds")
+  let editTabs = Generator.getBooleanInputValue("Edit Tabs")
 
   /* // Decode the selected texture
   let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
@@ -65,9 +100,18 @@ let script = () => {
   let oy = 40
 
   switch dioramaSize {
-  | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6)
-  | "400%" => Types.Diorama.draw(ox, oy, 64, 8, 12)
-  | "200%" => Types.Diorama.draw(ox, oy, 32, 16, 24)
+  | "800%" => Types.Diorama.draw(ox, oy, 128, 4, 6, editTabs)
+  | "400%" => Types.Diorama.draw(ox, oy, 64, 8, 12, editTabs)
+  | "200%" => Types.Diorama.draw(ox, oy, 32, 16, 24, editTabs)
+  | _ => ()
+  }
+
+  /// Tabs
+
+  switch dioramaSize {
+  | "800%" => Types.Tabs.draw(ox, oy, 128, 4, 6, editTabs)
+  | "400%" => Types.Tabs.draw(ox, oy, 64, 8, 12, editTabs)
+  | "200%" => Types.Tabs.draw(ox, oy, 32, 16, 24, editTabs)
   | _ => ()
   }
 
