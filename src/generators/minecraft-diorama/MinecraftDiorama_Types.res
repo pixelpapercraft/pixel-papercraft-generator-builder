@@ -41,31 +41,60 @@ module Tabs = {
   module Regions = {
     let make = (ox, oy, size, cols, rows): array<tab> => {
       let regions = ref([])
-      // for
+      let makeNorth = (c, r) => {
+        (
+          "TabsFaceNorth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
+          (ox + size * c, oy + size * r, size, size / 4),
+          2,
+        )
+      }
+      let makeSouth = (c, r) => {
+        (
+          "TabsFaceSouth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
+          (ox + size * c, oy + size * 3 / 4 + size * r, size, size / 4),
+          0,
+        )
+      }
+      let makeEast = (c, r) => {
+        (
+          "TabsFaceEast" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
+          (ox + size * c, oy + size * r, size / 4, size),
+          1,
+        )
+      }
+      let makeWest = (c, r) => {
+        (
+          "TabsFaceWest" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
+          (ox + size * 3 / 4 + size * c, oy + size * r, size / 4, size),
+          3,
+        )
+      }
+      let makeTabs = (c, r) => {
+        let north = makeNorth(c, r)
+        let south = makeSouth(c, r)
+        let east = makeEast(c, r)
+        let west = makeWest(c, r)
+        [north, south, east, west]
+      }
+      // tabs on the grid
       for c in 0 to cols - 1 {
         for r in 0 to rows - 1 {
-          let northFace = (
-            "TabsFaceNorth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-            (ox + size * c, oy + size * r, size, size / 4),
-            2,
-          )
-          let southFace = (
-            "TabsFaceSouth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-            (ox + size * c, oy + size * 3 / 4 + size * r, size, size / 4),
-            0,
-          )
-          let eastFace = (
-            "TabsFaceEast" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-            (ox + size * c, oy + size * r, size / 4, size),
-            1,
-          )
-          let westFace = (
-            "TabsFaceWest" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-            (ox + size * 3 / 4 + size * c, oy + size * r, size / 4, size),
-            3,
-          )
-          regions := Belt.Array.concat(regions.contents, [northFace, southFace, eastFace, westFace])
+          let tabs = makeTabs(c, r)
+          regions := Belt.Array.concat(regions.contents, tabs)
         }
+      }
+      // tabs on the edge
+      for c in 0 to cols - 1 {
+        let tabs = [makeSouth(c, -1)]
+        regions := Belt.Array.concat(regions.contents, tabs)
+      }
+      for r in 0 to rows - 1 {
+        let tabs = [makeWest(-1, r)]
+        regions := Belt.Array.concat(regions.contents, tabs)
+      }
+      for r in 0 to rows - 1 {
+        let tabs = [makeEast(cols, r)]
+        regions := Belt.Array.concat(regions.contents, tabs)
       }
       regions.contents
     }
