@@ -175,6 +175,10 @@ module Folds = {
       }
       // folds on the edge
       for c in 0 to cols - 1 {
+        let folds = [makeNorth(c, rows)]
+        regions := Belt.Array.concat(regions.contents, folds)
+      }
+      for c in 0 to cols - 1 {
         let folds = [makeSouth(c, -1)]
         regions := Belt.Array.concat(regions.contents, folds)
       }
