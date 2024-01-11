@@ -23,7 +23,7 @@ let drawFoldLine = ((dx, dy, dw, dh), rotate) => {
   | _ => (dx, dy, dw, dh)
   }
   let (x1, y1, x2, y2) = destination
-  Generator.drawFoldLine((x1, y1), (x2, y2))
+  Generator.drawLine((x1, y1), (x2, y2), ~color="#a1a1a1", ~width=1, ~pattern=[2, 2], ~offset=3, ())
 }
 
 let draw = (destination, rotate) => {
