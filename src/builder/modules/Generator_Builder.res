@@ -398,7 +398,7 @@ let hasRangeValue = (model: Model.t, id: string) => {
   }
 }
 
-let usePage = (model: Model.t, id) => {
+let usePage = (model: Model.t, id: string, isLandscape: bool) => {
   let page = findPage(model, id)
   switch page {
   | Some(page) => {
@@ -406,7 +406,7 @@ let usePage = (model: Model.t, id) => {
       currentPage: Some(page),
     }
   | None => {
-      let page = Generator_Page.make(id)
+      let page = Generator_Page.make(id, isLandscape)
       let pages = Js.Array2.concat(model.pages, [page])
       {
         ...model,
@@ -428,7 +428,7 @@ let getCurrentPageId = (model: Model.t) => {
 
 let ensureCurrentPage = (model: Model.t) => {
   switch model.currentPage {
-  | None => usePage(model, getDefaultPageId())
+  | None => usePage(model, getDefaultPageId(), false)
   | Some(_) => model
   }
 }

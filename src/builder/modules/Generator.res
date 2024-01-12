@@ -158,8 +158,8 @@ let defineText = (text: string) => {
   model := Builder.defineText(model.contents, text)
 }
 
-let usePage = id => {
-  model := Builder.usePage(model.contents, id)
+let usePage = (~isLandscape: bool=false, id: string) => {
+  model := Builder.usePage(model.contents, id, isLandscape)
 }
 
 let fillBackgroundColor = (color: string) => {

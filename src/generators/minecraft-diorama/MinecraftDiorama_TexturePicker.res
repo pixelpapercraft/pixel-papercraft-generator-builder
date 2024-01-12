@@ -484,7 +484,7 @@ let make = (~versionId: string, ~onChange: string => unit) => {
               <button
                 className="bg-blue-500 rounded text-white my-4 py-1 px-4 text-center"
                 onClick={onRotate}>
-                {React.string("Rotate")}
+                {React.string("↻")}
               </button>
             </div>
           </div>

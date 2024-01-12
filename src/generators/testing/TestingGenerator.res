@@ -163,6 +163,11 @@ let drawItems = (
   }
 }
 
+let drawLandscapeTestPage = () => {
+  Generator.usePage(~isLandscape=true, "Landscape Test Page")
+  Generator.drawTexture("Steve", Minecraft.Character.steve.base.head.front, (100, 100, 64, 64), ())
+}
+
 let drawArraysTestPage = () => {
   //Generator.usePage("Draw Arrays")
   let selectedTextureFrames = ["GrassTop"]
@@ -943,6 +948,7 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
+  drawLandscapeTestPage()
   drawArraysTestPage()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
