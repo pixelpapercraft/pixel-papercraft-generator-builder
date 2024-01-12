@@ -309,6 +309,7 @@ let drawTab = (
   rectangle: Builder.rectangle,
   orientation: Orientation.t,
   ~showFoldLine: bool=true,
+  ~tabType: int=1,
   ~tabAngle: float=45.0,
   (),
 ) => {
@@ -320,6 +321,12 @@ let drawTab = (
   let h = Belt.Int.toFloat(h)
 
   let tabAngleRad = Angle.toRadians(tabAngle)
+
+  // For 0, dont print
+  // For 1, keep it the same
+  // for 2, p1 is up
+  // For 3, p4 is up
+  // for 4, both are up
 
   switch orientation {
   | #North => {
@@ -339,19 +346,21 @@ let drawTab = (
         (inset, h)
       }
 
-      let p1 = (-1.0, h +. 1.0)
-      let p2 = (inset, h -. tabHeight)
-      let p3 = (w -. inset, h -. tabHeight)
-      let p4 = (w +. 1.0, h +. 1.0)
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h -. tabHeight) : (-1.0, h +. 1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (inset, h -. tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (w, h -. tabHeight) : (w -. inset, h -. tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w +. 1.0, h +. 1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p2, p1, ())
-      drawLine(p2, p3, ())
-      drawLine(p4, p3, ())
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p4, p1)
@@ -380,19 +389,21 @@ let drawTab = (
         (inset, w)
       }
 
-      let p1 = (-1.0, -1.0)
-      let p2 = (tabHeight, 0.0 +. inset)
-      let p3 = (tabHeight, h -. inset)
-      let p4 = (-1.0, h +. 1.0)
+      let p1 = tabType == 2 || tabType == 4 ? (tabHeight, 0.0) : (-1.0, -1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (tabHeight, 0.0 +. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (tabHeight, h) : (tabHeight, h -. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (-1.0, h +. 1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p1, p2, ())
-      drawLine(p3, p2, ())
-      drawLine(p3, p4, ())
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p1, p4)
@@ -415,19 +426,21 @@ let drawTab = (
         (inset, h)
       }
 
-      let p1 = (w +. 1.0, -1.0)
-      let p2 = (w -. inset, tabHeight)
-      let p3 = (0.0 +. inset, tabHeight)
-      let p4 = (-1.0, -1.0)
+      let p1 = tabType == 2 || tabType == 4 ? (w, tabHeight) : (w +. 1.0, -1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. inset, tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, tabHeight) : (0.0 +. inset, tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (-1.0, -1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p2, p1, ())
-      drawLine(p2, p3, ())
-      drawLine(p4, p3, ())
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p4, p1)
@@ -456,19 +469,21 @@ let drawTab = (
         (inset, w)
       }
 
-      let p1 = (w +. 1.0, h +. 1.0)
-      let p2 = (w -. tabHeight, h -. inset)
-      let p3 = (w -. tabHeight, 0.0 +. inset)
-      let p4 = (w +. 1.0, -1.0)
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h) : (w +. 1.0, h +. 1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. tabHeight, h -. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, 0.0) : (w -. tabHeight, 0.0 +. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w +. 1.0, -1.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p1, p2, ())
-      drawLine(p3, p2, ())
-      drawLine(p3, p4, ())
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p1, p4)

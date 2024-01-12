@@ -598,9 +598,11 @@ let drawLine = (
   ~pattern: array<int>,
   ~offset: int,
 ) => {
+  let model = ensureCurrentPage(model)
+  let currentPage = model.currentPage
   let (ox, oy) = getOffset((x1, y1), (x2, y2))
 
-  switch model.currentPage {
+  switch currentPage {
   | None => model
   | Some(currentPage) => {
       let context = currentPage.canvasWithContext.context
