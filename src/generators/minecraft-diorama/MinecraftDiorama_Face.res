@@ -23,6 +23,10 @@ let encodeFaceTexture = (faceTexture: faceTexture): string => {
   asJson(faceTexture)->Js.Json.stringify
 }
 
+let clearFaceTexture = (): string => {
+  ""
+}
+
 let decodeFaceTexture = (s: string): faceTexture => {
   if Js.String2.length(s) === 0 {
     {versionId: "", textureId: "", frame: 0, rot: 0, blend: #None}
@@ -48,9 +52,15 @@ let defineInputRegion = (faceId, region) => {
     let faceTextureString = Generator.getStringInputValue(
       MinecraftDiorama_Constants.currentDioramaTextureId,
     )
-    let faceTexture = faceTextureString->decodeFaceTexture
-    let curentFaceTextures = Generator.getStringInputValue(faceId)->decodeFaceTextures
-    let newFaceTextures = Js.Array2.concat(curentFaceTextures, [faceTexture])
+    let currentFaceTextures = Generator.getStringInputValue(faceId)->decodeFaceTextures
+    let newFaceTextures = if faceTextureString == "" {
+      let _ = Js.Array2.pop(currentFaceTextures)
+      currentFaceTextures
+    } else {
+      let faceTexture = faceTextureString->decodeFaceTexture
+      Js.Array2.concat(currentFaceTextures, [faceTexture])
+    }
+
     let newFaceTexturesString = encodeFaceTextures(newFaceTextures)
     Generator.setStringInputValue(faceId, newFaceTexturesString)
   })

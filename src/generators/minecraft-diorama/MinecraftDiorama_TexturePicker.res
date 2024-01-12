@@ -414,6 +414,10 @@ let make = (~versionId: string, ~onChange: string => unit) => {
         }
       }
 
+      let onErase = _ => {
+        onChange(Face.clearFaceTexture())
+      }
+
       let onTintChange = tint => {
         setTint(_ => tint)
         switch selectedTextureFrame {
@@ -485,6 +489,11 @@ let make = (~versionId: string, ~onChange: string => unit) => {
                 className="bg-blue-500 rounded text-white my-4 py-1 px-4 text-center"
                 onClick={onRotate}>
                 {React.string("↻")}
+              </button>
+              <button
+                className="bg-red-500 rounded text-white my-4 py-1 px-4 text-center"
+                onClick={onErase}>
+                {React.string("⌫")}
               </button>
             </div>
           </div>

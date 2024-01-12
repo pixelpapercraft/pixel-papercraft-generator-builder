@@ -166,6 +166,7 @@ let drawItems = (
 let drawLandscapeTestPage = () => {
   Generator.usePage(~isLandscape=true, "Landscape Test Page")
   Generator.drawTexture("Steve", Minecraft.Character.steve.base.head.front, (100, 100, 64, 64), ())
+  Generator.fillBackgroundColor("#a71810")
 }
 
 let drawArraysTestPage = () => {

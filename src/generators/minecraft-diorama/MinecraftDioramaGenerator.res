@@ -73,6 +73,11 @@ let script = () => {
 
   let editMode = Generator.defineAndGetSelectInput("Edit Mode", ["Blocks", "Tabs", "Folds"])
 
+  Generator.defineText(
+    "Texture: " ++
+    Generator.getStringInputValue(MinecraftDiorama_Constants.currentDioramaTextureId),
+  )
+
   /* // Decode the selected texture
   let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
     Generator.getStringInputValue("SelectedTextureFrame"),
