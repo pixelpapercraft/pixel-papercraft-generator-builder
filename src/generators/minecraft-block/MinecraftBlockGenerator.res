@@ -2,6 +2,9 @@ module TexturePicker = MinecraftBlock_TexturePicker
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 module Types = MinecraftBlock_Types
+module Markdown = Generator.Markdown
+//module TexturePicker = TexturePicker
+module TextureVersions = TextureVersions
 
 let id = "minecraft-block"
 
@@ -49,7 +52,7 @@ let images: array<Generator.imageDef> = [
 let textures: array<Generator.textureDef> = Textures.textures
 
 let script = () => {
-  Generator.defineSelectInput("Version", Textures.versionIds)
+  Generator.defineSelectInput("Version", TextureVersions.versionIds)
   let versionId = Generator.getSelectInputValue("Version")
 
   Generator.defineCustomStringInput(MinecraftBlock_Constants.currentBlockTextureId, onChange => {
