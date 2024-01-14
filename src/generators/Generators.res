@@ -59,4 +59,4 @@ let test: array<Generator.generatorDef> = isDevEnvironment
   ? [ExampleGenerator.generator, TestingGenerator.generator]
   : []
 
-let all = Belt.Array.concatMany([character, mobCharacter, mob, utility, mod, other, dev, test])
+let all = Belt.Array.concatMany([character, utility, mob, mobCharacter, mod, other, dev, test])
