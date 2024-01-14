@@ -26,7 +26,7 @@ module Block = {
     }
   }
 
-  let draw = (ox: int, oy: int, size: int, cols: int, rows: int, editMode: string) => {
+  let draw = ((ox: int, oy: int, size: int, cols: int, rows: int, editMode: string)) => {
     let regions = Regions.make(ox, oy, size, cols, rows)
 
     Belt.Array.forEach(regions, face => {
@@ -111,7 +111,7 @@ module Tabs = {
     Belt.Int.toString(t)
   }
 
-  let draw = (ox: int, oy: int, size: int, cols: int, rows: int, editMode: string) => {
+  let draw = ((ox: int, oy: int, size: int, cols: int, rows: int, editMode: string)) => {
     let regions = Regions.make(ox, oy, size, cols, rows)
 
     Belt.Array.forEach(regions, tab => {
@@ -194,7 +194,7 @@ module Folds = {
     }
   }
 
-  let draw = (ox: int, oy: int, size: int, cols: int, rows: int, editMode: string) => {
+  let draw = ((ox: int, oy: int, size: int, cols: int, rows: int, editMode: string)) => {
     let regions = Regions.make(ox, oy, size, cols, rows)
 
     Belt.Array.forEach(regions, fold => {

@@ -1,6 +1,6 @@
 module Markdown = Generator.Markdown
-module TexturePicker = MinecraftItem_TexturePicker
-module TextureVersions = MinecraftItem_TextureVersions
+module TexturePicker = TexturePicker
+module TextureVersions = TextureVersions
 
 let id = "minecraft-item"
 
@@ -275,13 +275,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Markdown> {instructions} </Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

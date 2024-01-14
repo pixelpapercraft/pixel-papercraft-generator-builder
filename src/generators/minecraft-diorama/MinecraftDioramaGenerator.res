@@ -15,7 +15,8 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let images: array<Generator.imageDef> = [
-  {id: "Title", url: Generator.requireImage("./images/Title.png")},
+  {id: "Title Portrait", url: Generator.requireImage("./images/TitlePortrait.png")},
+  {id: "Title Landscape", url: Generator.requireImage("./images/TitleLandscape.png")},
 ]
 
 let textures: array<Generator.textureDef> = Belt.Array.concat(
@@ -73,63 +74,41 @@ let script = () => {
 
   let editMode = Generator.defineAndGetSelectInput("Edit Mode", ["Blocks", "Tabs", "Folds"])
 
-  Generator.defineText(
-    "Texture: " ++
-    Generator.getStringInputValue(MinecraftDiorama_Constants.currentDioramaTextureId),
-  )
+  let dioramaSize = Generator.defineAndGetSelectInput("Diorama Size", ["800%", "400%", "200%"])
 
-  /* // Decode the selected texture
-  let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
-    Generator.getStringInputValue("SelectedTextureFrame"),
-  )
-
-  // Decode the added textures
-  let selectedTextureFrames = TexturePicker.SelectedTexture.decodeArray(
-    Generator.getStringInputValue("SelectedTextureFrames"),
-  )
-
-  // Show a button which adds the selected texture to the page
-  Generator.defineButtonInput("Add Item", () => {
-    switch selectedTextureFrame {
-    | Some(selectedTextureFrame) => {
-        let selectedTextureFrames = Belt.Array.concat(selectedTextureFrames, [selectedTextureFrame])
-        Generator.setStringInputValue(
-          "SelectedTextureFrames",
-          TexturePicker.SelectedTexture.encodeArray(selectedTextureFrames),
-        )
-      }
-    | None => ()
-    }
-  }) */
-
-  Generator.defineSelectInput("Diorama Size", ["800%", "400%", "200%"])
-  let dioramaSize = Generator.getSelectInputValue("Diorama Size")
+  let pageFormat = Generator.defineAndGetBooleanInput("Landscape Mode", false)
 
   let ox = 42
   let oy = 40
 
+  let options800 = pageFormat ? (ox, oy, 128, 6, 4, editMode) : (ox, oy, 128, 4, 6, editMode)
+  let options400 = pageFormat ? (ox, oy, 64, 12, 8, editMode) : (ox, oy, 64, 8, 12, editMode)
+  let options200 = pageFormat ? (ox, oy, 32, 24, 18, editMode) : (ox, oy, 32, 16, 24, editMode)
+
+  Generator.usePage(~isLandscape=pageFormat, "Page")
+
   switch dioramaSize {
-  | "800%" => Types.Block.draw(ox, oy, 128, 4, 6, editMode)
-  | "400%" => Types.Block.draw(ox, oy, 64, 8, 12, editMode)
-  | "200%" => Types.Block.draw(ox, oy, 32, 16, 24, editMode)
+  | "800%" => Types.Block.draw(options800)
+  | "400%" => Types.Block.draw(options400)
+  | "200%" => Types.Block.draw(options200)
   | _ => ()
   }
 
   // Tabs
 
   switch dioramaSize {
-  | "800%" => Types.Tabs.draw(ox, oy, 128, 4, 6, editMode)
-  | "400%" => Types.Tabs.draw(ox, oy, 64, 8, 12, editMode)
-  | "200%" => Types.Tabs.draw(ox, oy, 32, 16, 24, editMode)
+  | "800%" => Types.Tabs.draw(options800)
+  | "400%" => Types.Tabs.draw(options400)
+  | "200%" => Types.Tabs.draw(options200)
   | _ => ()
   }
 
   // Folds
 
   switch dioramaSize {
-  | "800%" => Types.Folds.draw(ox, oy, 128, 4, 6, editMode)
-  | "400%" => Types.Folds.draw(ox, oy, 64, 8, 12, editMode)
-  | "200%" => Types.Folds.draw(ox, oy, 32, 16, 24, editMode)
+  | "800%" => Types.Folds.draw(options800)
+  | "400%" => Types.Folds.draw(options400)
+  | "200%" => Types.Folds.draw(options200)
   | _ => ()
   }
 
@@ -157,7 +136,10 @@ let script = () => {
     Generator.setSelectInputValue("Diorama Size", currentDioramaSize)
   })
 
-  Generator.drawImage("Title", (0, 0))
+  pageFormat
+    ? Generator.drawImage("Title Landscape", (0, 0))
+    : Generator.drawImage("Title Portrait", (0, 0))
+  Generator.fillBackgroundColorWithWhite()
   Generator.fillBackgroundColorWithWhite()
 }
 

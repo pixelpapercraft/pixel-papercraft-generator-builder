@@ -1,4 +1,4 @@
-module TextureVersions = MinecraftItem_TextureVersions
+module TextureVersions = TextureVersions
 module TexturePicker = Generator_TexturePicker
 
 module SelectedTexture = TexturePicker.SelectedTexture
@@ -13,7 +13,9 @@ let make = (
   | None => React.null
   | Some(textureVersion) => {
       let {textureDef, frames} = textureVersion
-      <div className="mb-4"> <TexturePicker textureDef frames onSelect /> </div>
+      <div className="mb-4">
+        <TexturePicker textureDef frames onSelect />
+      </div>
     }
   }
 }
