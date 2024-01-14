@@ -78,12 +78,13 @@ let script = () => {
 
   let pageFormat = Generator.defineAndGetBooleanInput("Landscape Mode", false)
 
-  let ox = 42
-  let oy = 40
+  let ox = pageFormat ? 37 : 42
+  let oy = 41
+  let (bx, by) = pageFormat ? (6, 4) : (4, 6)
 
-  let options800 = pageFormat ? (ox, oy, 128, 6, 4, editMode) : (ox, oy, 128, 4, 6, editMode)
-  let options400 = pageFormat ? (ox, oy, 64, 12, 8, editMode) : (ox, oy, 64, 8, 12, editMode)
-  let options200 = pageFormat ? (ox, oy, 32, 24, 18, editMode) : (ox, oy, 32, 16, 24, editMode)
+  let options800 = (ox, oy, 128, bx, by, editMode)
+  let options400 = (ox, oy, 64, bx * 2, by * 2, editMode)
+  let options200 = (ox, oy, 32, bx * 4, by * 4, editMode)
 
   Generator.usePage(~isLandscape=pageFormat, "Page")
 
