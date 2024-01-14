@@ -52,7 +52,7 @@ let images: array<Generator.imageDef> = [
 let textures: array<Generator.textureDef> = Textures.textures
 
 let script = () => {
-  Generator.defineSelectInput("Version", TextureVersions.versionIds)
+  Generator.defineSelectInput("Version", Textures.versionIds)
   let versionId = Generator.getSelectInputValue("Version")
 
   Generator.defineCustomStringInput(MinecraftBlock_Constants.currentBlockTextureId, onChange => {

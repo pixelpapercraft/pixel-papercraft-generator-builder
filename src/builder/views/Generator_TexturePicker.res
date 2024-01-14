@@ -1,7 +1,124 @@
 module TextureFrame = Generator_TextureFrame
 module Icon = Generator_Icon
+module Tints = Generator_Tints
 
 external asJson: 'a => Js.Json.t = "%identity"
+
+module TintSelector = {
+  type selectedTint = NoTint | CustomTint | HexTint(string)
+
+  let makeOptions = tints => {
+    tints
+    ->Belt.Array.mapWithIndex((index1, {biomes, color}: Tints.tint) => {
+      biomes->Belt.Array.mapWithIndex((index2, biome) => {
+        let key = Js.Int.toString(index1) ++ "-" ++ Js.Int.toString(index2)
+        <option key={key} value={color}> {biome->React.string} </option>
+      })
+    })
+    ->Belt.Array.concatMany
+    ->React.array
+  }
+
+  let isValidTint = tint => {
+    switch Generator_Texture.hexToRGB(tint) {
+    | None => false
+    | Some(_) => true
+    }
+  }
+
+  let normalizeTint = tint => {
+    let tint = Js.String2.trim(tint)
+    if Js.String2.length(tint) === 0 {
+      None
+    } else {
+      let tint = if Js.String2.startsWith(tint, "#") {
+        tint
+      } else {
+        "#" ++ tint
+      }
+      if isValidTint(tint) {
+        Some(tint)
+      } else {
+        None
+      }
+    }
+  }
+
+  @react.component
+  let make = (~onChange) => {
+    let (selectedTint, setSelectedTint) = React.useState(() => NoTint)
+    let (customTint, setCustomTint) = React.useState(() => None)
+
+    let onSelectChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let tint = switch target["value"] {
+      | None => NoTint
+      | Some(value) =>
+        switch value {
+        | "None" => NoTint
+        | "Custom" => CustomTint
+        | _ => HexTint(value)
+        }
+      }
+      setSelectedTint(_ => tint)
+      switch tint {
+      | NoTint => onChange(None)
+      | CustomTint => onChange(None)
+      | HexTint(value) => onChange(Some(value))
+      }
+    }
+
+    let onInputChange = e => {
+      let target = ReactEvent.Form.target(e)
+      let tint = switch target["value"] {
+      | None => None
+      | Some(tint) => normalizeTint(tint)
+      }
+      setCustomTint(_ => tint)
+      switch tint {
+      | None => ()
+      | Some(value) => onChange(Some(value))
+      }
+    }
+
+    let color = switch selectedTint {
+    | NoTint => None
+    | CustomTint => customTint
+    | HexTint(color) => Some(color)
+    }
+
+    <div className="flex">
+      <select
+        placeholder="Tint"
+        onChange={onSelectChange}
+        className="border border-gray-300 rounded text-gray-600 h-8 pl-5 pr-10 mr-4 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+        <option value="None"> {"No tint"->React.string} </option>
+        <option value="Custom"> {"Custom tint"->React.string} </option>
+        <optgroup key="grass" label="Grass"> {makeOptions(Tints.tints.grass)} </optgroup>
+        <optgroup key="foliage" label="Foliage"> {makeOptions(Tints.tints.foliage)} </optgroup>
+        <optgroup key="water" label="Water"> {makeOptions(Tints.tints.water)} </optgroup>
+      </select>
+      {switch selectedTint {
+      | CustomTint =>
+        <div>
+          <span> {"#"->React.string} </span>
+          <input
+            className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-4 bg-white"
+            onChange={onInputChange}
+          />
+        </div>
+      | _ => React.null
+      }}
+      {switch color {
+      | None => React.null
+      | Some(color) =>
+        <div>
+          <div className="border w-8 h-8" style={ReactDOM.Style.make(~backgroundColor=color, ())} />
+        </div>
+      }}
+    </div>
+  }
+}
 
 module Rotation = {
   type t = Rot0 | Rot90 | Rot180 | Rot270
@@ -30,6 +147,7 @@ module SelectedTexture = {
     textureDefId: string,
     frame: TextureFrame.frame,
     rotation: Rotation.t,
+    blend: Generator_Texture.blend,
   }
 
   external asSelectedTexture: Js.Json.t => t = "%identity"
@@ -117,6 +235,13 @@ let makeTileStyle = (
   })
 
   ReactDOM.Style.combine(baseStyle, backgroundStyle)
+}
+
+let getBlend = tint => {
+  switch tint {
+  | None => #None
+  | Some(tint) => #MultiplyHex(tint)
+  }
 }
 
 module TileButton = {
@@ -208,11 +333,12 @@ let make = (
   ~textureDef: Generator.textureDef,
   ~frames: array<TextureFrame.frame>,
   ~onSelect: SelectedTexture.t => unit,
-  ~enableRotation: bool=false,
+  ~enableRotation: bool=true,
 ) => {
   let (search, setSearch) = React.useState(() => None)
   let (selectedFrame, setSelectedFrame) = React.useState(() => None)
   let (rotation, setRotation) = React.useState(() => Rotation.Rot0)
+  let (tint, setTint) = React.useState(() => None)
 
   let framesFiltered = switch search {
   | None => frames
@@ -230,8 +356,25 @@ let make = (
     | Some(frame) => {
         let selectedTexture: SelectedTexture.t = {
           textureDefId: textureDef.id,
-          frame: frame,
+          frame,
           rotation: nextRotation,
+          blend: getBlend(tint),
+        }
+        onSelect(selectedTexture)
+      }
+    }
+  }
+
+  let onTintChange = tint => {
+    setTint(_ => tint)
+    switch selectedFrame {
+    | None => ()
+    | Some(frame) => {
+        let selectedTexture: SelectedTexture.t = {
+          textureDefId: textureDef.id,
+          frame,
+          rotation,
+          blend: getBlend(tint),
         }
         onSelect(selectedTexture)
       }
@@ -242,8 +385,9 @@ let make = (
     setSelectedFrame(_ => Some(frame))
     let selectedTexture: SelectedTexture.t = {
       textureDefId: textureDef.id,
-      frame: frame,
-      rotation: rotation,
+      frame,
+      rotation,
+      blend: getBlend(tint),
     }
     onSelect(selectedTexture)
   }
@@ -283,6 +427,9 @@ let make = (
             </div>
           : React.null}
       </div>
+    </div>
+    <div className="mb-2">
+      <TintSelector onChange={onTintChange} />
     </div>
   </div>
 }
