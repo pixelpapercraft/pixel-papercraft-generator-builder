@@ -317,14 +317,14 @@ module Preview = {
 
 module RotationButton = {
   @react.component
-  let make = (~rotation: Rotation.t, ~onClick) => {
-    let icon = switch rotation {
-    | Rot0 => <Icon.ArrowUp color=#White />
-    | Rot90 => <Icon.ArrowRight color=#White />
-    | Rot180 => <Icon.ArrowDown color=#White />
-    | Rot270 => <Icon.ArrowLeft color=#White />
-    }
-    <button className="bg-blue-500 rounded p-2 w-10 h-10" onClick> {icon} </button>
+  let make = (~onClick) => {
+    let icon = React.string("↻")
+    <button
+      className="bg-blue-500 rounded text-white 
+     w-10 h-10 text-3xl"
+      onClick>
+      {icon}
+    </button>
   }
 }
 
@@ -424,7 +424,7 @@ let make = (
         <Preview textureDef frame=selectedFrame rotation />
         {enableRotation
           ? <div className="flex justify-center">
-              <RotationButton rotation onClick={_ => onRotateClick()} />
+              <RotationButton onClick={_ => onRotateClick()} />
             </div>
           : React.null}
       </div>
