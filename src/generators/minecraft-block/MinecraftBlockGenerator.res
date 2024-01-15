@@ -1,9 +1,9 @@
+module TexturePicker2 = TexturePicker
 module TexturePicker = MinecraftBlock_TexturePicker
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 module Types = MinecraftBlock_Types
 module Markdown = Generator.Markdown
-//module TexturePicker = TexturePicker
 module TextureVersions = TextureVersions
 
 let id = "minecraft-block"
@@ -49,13 +49,30 @@ let images: array<Generator.imageDef> = [
   {id: "Tabs-Cake-Right", url: Generator.requireImage("./images/Tabs-Cake-Right.png")},
 ]
 
-let textures: array<Generator.textureDef> = Textures.textures
+let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
 
 let script = () => {
-  Generator.defineSelectInput("Version", Textures.versionIds)
+  // Show a drop down of different texture versions
+
+  //Generator.defineSelectInput("Version", Textures.versionIds)
+  Generator.defineSelectInput("Version", TextureVersions.versionIds)
   let versionId = Generator.getSelectInputValue("Version")
 
-  Generator.defineCustomStringInput(MinecraftBlock_Constants.currentBlockTextureId, onChange => {
+  // Get the current selected version
+  let textureVersion = TextureVersions.findVersion(versionId)
+
+  // Show the Texture Picker
+  // When a texture is selected, we need to encode it into a string variable
+  Generator.defineCustomStringInput("SelectedTextureFrame", (onChange: string => unit) => {
+    <TexturePicker2
+      textureVersion
+      onSelect={selectedTexture => {
+        onChange(TexturePicker2.SelectedTexture.encode(selectedTexture))
+      }}
+    />
+  })
+
+  Generator.defineCustomStringInput("CurrentBlockTexture", onChange => {
     <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
@@ -68,6 +85,16 @@ let script = () => {
   Generator.defineBooleanInput("Show Folds", true)
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
+
+  // Decode the selected texture
+  let selectedTextureFrame = TexturePicker2.SelectedTexture.decode(
+    Generator.getStringInputValue("SelectedTextureFrame"),
+  )
+  // Wherever it gets used, ( in item it was first and array that is iterated through,) SelectedTextureFreame is split into textureDefId and frame, then its rectangle is used as frame.rectangle. Example:
+  /* let {textureDefId, frame} = selectedTextureFrame
+   ... Generator.drawItem(textureDefId, frame.rectangle, etc. )
+   In our case we need not just the rectangle, but the rotation and blend and maybe more (we need to add a flip part?) so using all of frame may be optimal.  
+ */
 
   Generator.drawImage("Background", (0, 0))
 
@@ -97,15 +124,11 @@ let script = () => {
     }
   }
 
+  // Show a button which allows the items to be cleared
   Generator.defineButtonInput("Clear", () => {
-    let currentTextureChoice = Generator.getStringInputValue(
-      MinecraftBlock_Constants.currentBlockTextureId,
-    )
+    let currentTextureChoice = Generator.getStringInputValue("CurrentBlockTexture")
     Generator.clearStringInputValues()
-    Generator.setStringInputValue(
-      MinecraftBlock_Constants.currentBlockTextureId,
-      currentTextureChoice,
-    )
+    Generator.setStringInputValue("CurrentBlockTexture", currentTextureChoice)
   })
 
   Generator.drawImage("Title", (0, 0))

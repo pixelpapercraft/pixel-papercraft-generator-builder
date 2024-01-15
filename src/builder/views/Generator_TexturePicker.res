@@ -428,7 +428,7 @@ let make = (
           : React.null}
       </div>
     </div>
-    <div className="mb-2">
+    <div className="mb-2 mt-4">
       <TintSelector onChange={onTintChange} />
     </div>
   </div>
