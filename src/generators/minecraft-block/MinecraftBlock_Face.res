@@ -91,17 +91,15 @@ let drawTexture = (
   // width = 16
   // height = 16
   let (tx, ty, tw, th) = frame.rectangle
-  let index = 0
-  let ix = index + sx
-  let iy = index + sy
-  let i = index
+  let ix = tx + sx
+  let iy = ty + sy
   //let size = 128
   //let source = (sx, index * 16 + sy, sw, sh)
   let source = switch rotation {
-  | Rot0 => (sx, iy, sw, sh) // Default positions
-  | Rot90 => (sy, i + 16 - (sw + sx), sh, sw) // ()
-  | Rot180 => (16 - (sw + sx), i + 16 - (sh + sy), sw, sh)
-  | Rot270 => (16 - (sh + sy), ix, sh, sw)
+  | Rot0 => (ix, iy, sw, sh) // Default positions
+  | Rot90 => (tx + sy, ty + tw - (sw + sx), sh, sw) //(sy, i + 16 - (sw + sx), sh, sw) // ()
+  | Rot180 => (tx + tw - (sw + sx), ty + th - (sh + sy), sw, sh) //(16 - (sw + sx), i + 16 - (sh + sy), sw, sh)
+  | Rot270 => (tx + th - (sh + sy), ty + sx, sh, sw) //(16 - (sh + sy), ix, sh, sw)
   }
   let destination = switch rotation {
   | Rot0 => (dx, dy, dw, dh)
@@ -109,16 +107,8 @@ let drawTexture = (
   | Rot180 => (dx, dy, dw, dh)
   | Rot270 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
   }
-  let rot = rotate +. TexturePicker.Rotation.toDegrees(rotation) *. 90.0
-  Generator.drawTexture(
-    textureDefId,
-    frame.rectangle,
-    destination,
-    ~flip,
-    ~rotate={rot},
-    ~blend={blend},
-    (),
-  )
+  let rot = rotate +. TexturePicker.Rotation.toDegrees(rotation)
+  Generator.drawTexture(textureDefId, source, destination, ~flip, ~rotate={rot}, ~blend={blend}, ())
 }
 
 let draw = (
