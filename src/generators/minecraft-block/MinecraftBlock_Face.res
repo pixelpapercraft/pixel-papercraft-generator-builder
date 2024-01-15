@@ -63,10 +63,6 @@ let defineInputRegion = (faceId, region) => {
       }
     | None => ()
     }
-    /* let curentFaceTextures = Generator.getStringInputValue(faceId)->decodeFaceTextures
-    let newFaceTextures = Js.Array2.concat(curentFaceTextures, [faceTexture])
-    let newFaceTexturesString = encodeFaceTextures(newFaceTextures)
-    Generator.setStringInputValue(faceId, newFaceTexturesString)*/
   })
 }
 
@@ -79,27 +75,15 @@ let drawTexture = (
   (),
 ) => {
   let {textureDefId, frame, rotation, blend} = face // selectedTextureFrame
-  // {id, name, rectangle, frameIndex, frameCount} = frame // Might only need rectangle anyways
-  //switch Textures.findTextureFrameIndex(versionId, textureId, frame) {
-  //| None => ()
-  //| Some(index) => {
-  // The texture image file is a column of texture images.
-  // Each individual texture is 16 x 16.
-  // So to locate a single texture, we use coordinates:
-  // x = 0
-  // y = index * 16
-  // width = 16
-  // height = 16
   let (tx, ty, tw, th) = frame.rectangle
   let ix = tx + sx
   let iy = ty + sy
-  //let size = 128
-  //let source = (sx, index * 16 + sy, sw, sh)
+
   let source = switch rotation {
   | Rot0 => (ix, iy, sw, sh) // Default positions
-  | Rot90 => (tx + sy, ty + tw - (sw + sx), sh, sw) //(sy, i + 16 - (sw + sx), sh, sw) // ()
-  | Rot180 => (tx + tw - (sw + sx), ty + th - (sh + sy), sw, sh) //(16 - (sw + sx), i + 16 - (sh + sy), sw, sh)
-  | Rot270 => (tx + th - (sh + sy), ty + sx, sh, sw) //(16 - (sh + sy), ix, sh, sw)
+  | Rot90 => (tx + sy, ty + tw - (sw + sx), sh, sw)
+  | Rot180 => (tx + tw - (sw + sx), ty + th - (sh + sy), sw, sh)
+  | Rot270 => (tx + th - (sh + sy), ty + sx, sh, sw)
   }
   let destination = switch rotation {
   | Rot0 => (dx, dy, dw, dh)

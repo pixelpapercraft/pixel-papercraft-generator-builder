@@ -1,5 +1,4 @@
-module TexturePicker2 = TexturePicker
-module TexturePicker = MinecraftBlock_TexturePicker
+module TexturePicker = TexturePicker
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 module Types = MinecraftBlock_Types
@@ -64,16 +63,12 @@ let script = () => {
   // Show the Texture Picker
   // When a texture is selected, we need to encode it into a string variable
   Generator.defineCustomStringInput("SelectedTextureFrame", (onChange: string => unit) => {
-    <TexturePicker2
+    <TexturePicker
       textureVersion
       onSelect={selectedTexture => {
-        onChange(TexturePicker2.SelectedTexture.encode(selectedTexture))
+        onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
       }}
     />
-  })
-
-  Generator.defineCustomStringInput("CurrentBlockTexture", onChange => {
-    <TexturePicker versionId={versionId} onChange={onChange} />
   })
 
   Generator.defineSelectInput("Number of Blocks", ["1", "2"])
@@ -86,10 +81,6 @@ let script = () => {
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
-  // Decode the selected texture
-  let selectedTextureFrame = TexturePicker2.SelectedTexture.decode(
-    Generator.getStringInputValue("SelectedTextureFrame"),
-  )
   // Wherever it gets used, ( in item it was first and array that is iterated through,) SelectedTextureFreame is split into textureDefId and frame, then its rectangle is used as frame.rectangle. Example:
   /* let {textureDefId, frame} = selectedTextureFrame
    ... Generator.drawItem(textureDefId, frame.rectangle, etc. )
@@ -126,9 +117,11 @@ let script = () => {
 
   // Show a button which allows the items to be cleared
   Generator.defineButtonInput("Clear", () => {
-    let currentTextureChoice = Generator.getStringInputValue("CurrentBlockTexture")
+    let currentTextureChoice = Generator.getStringInputValue("SelectedTextureFrame")
+
     Generator.clearStringInputValues()
-    Generator.setStringInputValue("CurrentBlockTexture", currentTextureChoice)
+
+    Generator.setStringInputValue("SelectedTextureFrame", currentTextureChoice)
   })
 
   Generator.drawImage("Title", (0, 0))

@@ -382,11 +382,12 @@ let make = (
   }
 
   let onSelectClick = (frame: TextureFrame.frame) => {
+    setRotation(_ => Rot0)
     setSelectedFrame(_ => Some(frame))
     let selectedTexture: SelectedTexture.t = {
       textureDefId: textureDef.id,
       frame,
-      rotation,
+      rotation: Rot0,
       blend: getBlend(tint),
     }
     onSelect(selectedTexture)
