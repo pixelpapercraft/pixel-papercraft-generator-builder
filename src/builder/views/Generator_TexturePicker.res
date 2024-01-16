@@ -297,7 +297,21 @@ module Preview = {
   ) => {
     <div className="flex flex-col items-center" style={ReactDOM.Style.make(~width="148px", ())}>
       {switch frame {
-      | None => <div style={makeTileBaseStyle(false, 128)} />
+      | None => {
+          let frame: TextureFrame.frame = {
+            id: "",
+            name: "Erase",
+            rectangle: (0, 0, 0, 0),
+            frameIndex: 0,
+            frameCount: 0,
+          }
+          <>
+            <div style={makeTileBaseStyle(false, 128)} />
+            <div className="text-center text-gray-500 p-2 pt-0">
+              {TextureFrame.makeFrameLabel(frame)->React.string}
+            </div>
+          </>
+        }
       | Some(frame) => {
           let rotationDegrees = Rotation.toDegrees(rotation)
           let tileStyle = makeTileStyle(textureDef, frame, false, false, 128)
@@ -334,7 +348,7 @@ module EraseButton = {
     let icon = React.string("⌫")
     <button
       className="bg-red-500 rounded text-white 
-     w-10 h-10 text-2xl"
+     w-10 h-10 text-2xl ml-8"
       onClick>
       {icon}
     </button>
@@ -453,16 +467,10 @@ let make = (
       </div>
       <div>
         <Preview textureDef frame=selectedFrame rotation />
-        {enableRotation
-          ? <div className="flex justify-center">
-              <RotationButton onClick={_ => onRotateClick()} />
-            </div>
-          : React.null}
-        {enableErase
-          ? <div className="flex justify-center">
-              <EraseButton onClick={_ => onEraseClick()} />
-            </div>
-          : React.null}
+        <div className="flex justify-center">
+          {enableRotation ? <RotationButton onClick={_ => onRotateClick()} /> : React.null}
+          {enableErase ? <EraseButton onClick={_ => onEraseClick()} /> : React.null}
+        </div>
       </div>
     </div>
     <div className="mb-2 mt-4">

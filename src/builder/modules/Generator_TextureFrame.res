@@ -40,7 +40,7 @@ let textureToFrames = (texture: texture, frameSize: int) => {
         let frameIndex = col * rows + row
         let id = texture.name ++ "-" ++ Belt.Int.toString(frameIndex)
         let frame: frame = {
-          id: id,
+          id,
           name: texture.name,
           rectangle: (
             texture.x + col * frameSize,
@@ -48,7 +48,7 @@ let textureToFrames = (texture: texture, frameSize: int) => {
             frameSize,
             frameSize,
           ),
-          frameIndex: frameIndex,
+          frameIndex,
           frameCount: rows * cols,
         }
         Js.Array2.push(frames.contents, frame)->ignore
