@@ -74,6 +74,7 @@ let script = () => {
         onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
       }}
       enableRotation=true
+      enableErase=true
     />
   })
 

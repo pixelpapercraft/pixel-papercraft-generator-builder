@@ -221,6 +221,7 @@ let script = () => {
         onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
       }}
       enableRotation=false
+      enableErase=false
     />
   })
 

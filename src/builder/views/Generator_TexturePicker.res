@@ -321,7 +321,20 @@ module RotationButton = {
     let icon = React.string("↻")
     <button
       className="bg-blue-500 rounded text-white 
-     w-10 h-10 text-3xl"
+     w-10 h-10 text-2xl"
+      onClick>
+      {icon}
+    </button>
+  }
+}
+
+module EraseButton = {
+  @react.component
+  let make = (~onClick) => {
+    let icon = React.string("⌫")
+    <button
+      className="bg-red-500 rounded text-white 
+     w-10 h-10 text-2xl"
       onClick>
       {icon}
     </button>
@@ -334,6 +347,7 @@ let make = (
   ~frames: array<TextureFrame.frame>,
   ~onSelect: SelectedTexture.t => unit,
   ~enableRotation: bool=true,
+  ~enableErase: bool=true,
 ) => {
   let (search, setSearch) = React.useState(() => None)
   let (selectedFrame, setSelectedFrame) = React.useState(() => None)
@@ -358,6 +372,23 @@ let make = (
           textureDefId: textureDef.id,
           frame,
           rotation: nextRotation,
+          blend: getBlend(tint),
+        }
+        onSelect(selectedTexture)
+      }
+    }
+  }
+
+  let onEraseClick = () => {
+    setRotation(_ => Rot0)
+    setSelectedFrame(_ => None)
+    switch selectedFrame {
+    | None => ()
+    | Some(frame) => {
+        let selectedTexture: SelectedTexture.t = {
+          textureDefId: "",
+          frame,
+          rotation: Rot0,
           blend: getBlend(tint),
         }
         onSelect(selectedTexture)
@@ -425,6 +456,11 @@ let make = (
         {enableRotation
           ? <div className="flex justify-center">
               <RotationButton onClick={_ => onRotateClick()} />
+            </div>
+          : React.null}
+        {enableErase
+          ? <div className="flex justify-center">
+              <EraseButton onClick={_ => onEraseClick()} />
             </div>
           : React.null}
       </div>

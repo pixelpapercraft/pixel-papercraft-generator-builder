@@ -55,10 +55,16 @@ let defineInputRegion = (faceId, region) => {
     )
     switch selectedTextureFrame {
     | Some(selectedTextureFrame) => {
-        let selectedTextureFrames = Belt.Array.concat(selectedTextureFrames, [selectedTextureFrame])
+        //if textureDefId = "" erase
+        let newTextureFrames = if selectedTextureFrame.textureDefId == "" {
+          let _ = Js.Array2.pop(selectedTextureFrames)
+          selectedTextureFrames
+        } else {
+          Belt.Array.concat(selectedTextureFrames, [selectedTextureFrame])
+        }
         Generator.setStringInputValue(
           faceId,
-          TexturePicker.SelectedTexture.encodeArray(selectedTextureFrames),
+          TexturePicker.SelectedTexture.encodeArray(newTextureFrames),
         )
       }
     | None => ()
