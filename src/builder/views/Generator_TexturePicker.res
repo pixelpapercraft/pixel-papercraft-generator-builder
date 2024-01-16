@@ -348,7 +348,7 @@ module EraseButton = {
     let icon = React.string("⌫")
     <button
       className="bg-red-500 rounded text-white 
-     w-10 h-10 text-2xl ml-8"
+     w-10 h-10 text-2xl ml-10"
       onClick>
       {icon}
     </button>

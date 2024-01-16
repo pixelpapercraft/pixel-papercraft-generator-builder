@@ -1,12 +1,60 @@
-module Textures = MinecraftDiorama_Textures
-module Face = MinecraftDiorama_Face
-module Tab = MinecraftDiorama_Tab
-module Fold = MinecraftDiorama_Fold
+module Face = TextureFace
 
 type region = (int, int, int, int)
 type face = (string, region)
 type tab = (string, region, int)
 type fold = (string, region, int)
+
+module Tab = {
+  let drawTab = ((dx, dy, dw, dh), rotate, tabType, ()) => {
+    let destination = switch rotate {
+    | 0 => (dx, dy, dw, dh)
+    | 1 => (dx, dy, dw, dh)
+    | 2 => (dx, dy, dw, dh)
+    | 3 => (dx, dy, dw, dh)
+    | _ => (dx, dy, dw, dh)
+    }
+    let orientation = switch rotate {
+    | 0 => #North
+    | 1 => #East
+    | 2 => #South
+    | 3 => #West
+    | _ => #North
+    }
+
+    Generator.drawTab(destination, orientation, ~tabType, ~showFoldLine=false, ())
+  }
+
+  let draw = (destination, rotate, tabType) => {
+    drawTab(destination, rotate, tabType)
+  }
+}
+
+module Fold = {
+  let drawFoldLine = ((dx, dy, dw, dh), rotate) => {
+    let destination = switch rotate {
+    | 0 => (dx, dy + dh - 1, dx + dw, dy + dh - 1)
+    | 1 => (dx, dy, dx, dy + dh)
+    | 2 => (dx, dy, dx + dw, dy)
+    | 3 => (dx + dw - 1, dy, dx + dw - 1, dy + dh)
+    | _ => (dx, dy, dw, dh)
+    }
+    let (x1, y1, x2, y2) = destination
+    Generator.drawLine(
+      (x1, y1),
+      (x2, y2),
+      ~color="#a1a1a1",
+      ~width=1,
+      ~pattern=[2, 2],
+      ~offset=3,
+      (),
+    )
+  }
+
+  let draw = (destination, rotate) => {
+    drawFoldLine(destination, rotate)
+  }
+}
 
 module Block = {
   module Regions = {

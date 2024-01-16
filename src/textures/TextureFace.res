@@ -1,53 +1,6 @@
 module Builder = Generator.Builder
 
-module Textures = MinecraftDiorama_Textures
-
 module TexturePicker = Generator_TexturePicker
-
-type versionId = string
-type textureId = string
-type frame = int
-type rotation = int // 0 = 0°, 1 = 90°, 2 = 180°, 3 = 270°
-type faceTexture = {
-  versionId: string,
-  textureId: string,
-  frame: int,
-  rot: int,
-  blend: Generator_Texture.blend,
-}
-type faceTextures = array<faceTexture>
-
-external asJson: 'a => Js.Json.t = "%identity"
-external asFaceTexture: Js.Json.t => faceTexture = "%identity"
-external asFaceTextures: Js.Json.t => faceTextures = "%identity"
-
-let encodeFaceTexture = (faceTexture: faceTexture): string => {
-  asJson(faceTexture)->Js.Json.stringify
-}
-
-let clearFaceTexture = (): string => {
-  ""
-}
-
-let decodeFaceTexture = (s: string): faceTexture => {
-  if Js.String2.length(s) === 0 {
-    {versionId: "", textureId: "", frame: 0, rot: 0, blend: #None}
-  } else {
-    Js.Json.parseExn(s)->asFaceTexture
-  }
-}
-
-let encodeFaceTextures = (faceTextures: faceTextures): string => {
-  asJson(faceTextures)->Js.Json.stringify
-}
-
-let decodeFaceTextures = (s: string): faceTextures => {
-  if Js.String2.length(s) === 0 {
-    []
-  } else {
-    Js.Json.parseExn(s)->asFaceTextures
-  }
-}
 
 let defineInputRegion = (faceId, region) => {
   Generator.defineRegionInput(region, () => {

@@ -1,7 +1,6 @@
 let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
 module TexturePicker = TexturePicker
-module Textures = MinecraftDiorama_Textures
-module Face = MinecraftDiorama_Face
+module Face = TextureFace
 module Types = MinecraftDiorama_Types
 module Markdown = Generator.Markdown
 module TextureVersions = TextureVersions

@@ -1,6 +1,5 @@
 module TexturePicker = TexturePicker
-module Textures = MinecraftBlock_Textures
-module Face = MinecraftBlock_Face
+module Face = TextureFace
 module Types = MinecraftBlock_Types
 module Markdown = Generator.Markdown
 module TextureVersions = TextureVersions
