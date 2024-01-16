@@ -42,6 +42,12 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
     },
   ],
 )
+
+let definitions = Belt.Array.concat(
+  TextureVersions.blockDefinitions,
+  TextureVersions.itemDefinitions,
+)
+
 let cycleTextureOffset = (t, tileWidth) => {
   let t = if t === tileWidth {
     0
@@ -196,11 +202,11 @@ let sizes = [sizeMedium, sizeLarge, sizeSmall, sizeFullPage]
 
 let script = () => {
   // Show a drop down of different texture versions
-  Generator.defineSelectInput("Version", TextureVersions.versionIds)
+  Generator.defineSelectInput("Version", TextureVersions.versionIds(definitions))
   let versionId = Generator.getSelectInputValue("Version")
 
   // Get the current selected version
-  let textureVersion = TextureVersions.findVersion(versionId)
+  let textureVersion = TextureVersions.findVersion(versionId, definitions)
 
   // Show a drop down of sizes
   Generator.defineSelectInput("Size", sizes)

@@ -50,15 +50,20 @@ let images: array<Generator.imageDef> = [
 
 let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
 
+let definitions = Belt.Array.concat(
+  TextureVersions.itemDefinitions,
+  TextureVersions.blockDefinitions,
+)
+
 let script = () => {
   // Show a drop down of different texture versions
 
   //Generator.defineSelectInput("Version", Textures.versionIds)
-  Generator.defineSelectInput("Version", TextureVersions.versionIds)
+  Generator.defineSelectInput("Version", TextureVersions.versionIds(definitions))
   let versionId = Generator.getSelectInputValue("Version")
 
   // Get the current selected version
-  let textureVersion = TextureVersions.findVersion(versionId)
+  let textureVersion = TextureVersions.findVersion(versionId, definitions)
 
   // Show the Texture Picker
   // When a texture is selected, we need to encode it into a string variable

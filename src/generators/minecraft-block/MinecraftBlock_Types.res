@@ -1,4 +1,3 @@
-module TexturePicker = MinecraftBlock_TexturePicker
 module Textures = MinecraftBlock_Textures
 module Face = MinecraftBlock_Face
 
