@@ -1,4 +1,3 @@
-module TexturePicker = MinecraftDiorama_TexturePicker
 module Textures = MinecraftDiorama_Textures
 module Face = MinecraftDiorama_Face
 module Tab = MinecraftDiorama_Tab

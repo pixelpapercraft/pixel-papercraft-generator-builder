@@ -58,7 +58,6 @@ let definitions = Belt.Array.concat(
 let script = () => {
   // Show a drop down of different texture versions
 
-  //Generator.defineSelectInput("Version", Textures.versionIds)
   Generator.defineSelectInput("Version", TextureVersions.versionIds(definitions))
   let versionId = Generator.getSelectInputValue("Version")
 

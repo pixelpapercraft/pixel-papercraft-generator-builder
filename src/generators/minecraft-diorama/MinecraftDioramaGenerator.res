@@ -1,8 +1,10 @@
 let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
-module TexturePicker = MinecraftDiorama_TexturePicker
+module TexturePicker = TexturePicker
 module Textures = MinecraftDiorama_Textures
 module Face = MinecraftDiorama_Face
 module Types = MinecraftDiorama_Types
+module Markdown = Generator.Markdown
+module TextureVersions = TextureVersions
 
 let id = "minecraft-diorama"
 
@@ -20,7 +22,7 @@ let images: array<Generator.imageDef> = [
 ]
 
 let textures: array<Generator.textureDef> = Belt.Array.concat(
-  Textures.textures,
+  TextureVersions.allTextureDefs,
   [
     {
       id: "Tab",
@@ -61,16 +63,32 @@ let textures: array<Generator.textureDef> = Belt.Array.concat(
   ],
 )
 
+let definitions = Belt.Array.concat(
+  TextureVersions.itemDefinitions,
+  TextureVersions.blockDefinitions,
+)
+
 let script = () => {
-  Generator.defineSelectInput("Version", Textures.versionIds)
+  // Show a drop down of different texture versions
+
+  Generator.defineSelectInput("Version", TextureVersions.versionIds(definitions))
   let versionId = Generator.getSelectInputValue("Version")
 
-  Generator.defineCustomStringInput(
-    MinecraftDiorama_Constants.currentDioramaTextureId,
-    onChange => {
-      <TexturePicker versionId={versionId} onChange={onChange} />
-    },
-  )
+  // Get the current selected version
+  let textureVersion = TextureVersions.findVersion(versionId, definitions)
+
+  // Show the Texture Picker
+  // When a texture is selected, we need to encode it into a string variable
+  Generator.defineCustomStringInput("SelectedTextureFrame", (onChange: string => unit) => {
+    <TexturePicker
+      textureVersion
+      onSelect={selectedTexture => {
+        onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
+      }}
+      enableRotation=true
+      enableErase=true
+    />
+  })
 
   let editMode = Generator.defineAndGetSelectInput("Edit Mode", ["Blocks", "Tabs", "Folds"])
 
@@ -115,9 +133,7 @@ let script = () => {
 
   Generator.defineButtonInput("Clear", () => {
     // Save things we don't want cleared
-    let currentTextureChoice = Generator.getStringInputValue(
-      MinecraftDiorama_Constants.currentDioramaTextureId,
-    )
+    let currentTextureChoice = Generator.getStringInputValue("SelectedTextureFrame")
     let currentVersionId = versionId
     let currentEditMode = editMode
     let currentDioramaSize = dioramaSize
@@ -128,10 +144,7 @@ let script = () => {
     Generator.clearSelectInputValues()
 
     // Restore everything except the blocks, tabs and folds
-    Generator.setStringInputValue(
-      MinecraftDiorama_Constants.currentDioramaTextureId,
-      currentTextureChoice,
-    )
+    Generator.setStringInputValue("SelectedTextureFrame", currentTextureChoice)
     Generator.setSelectInputValue("Version", currentVersionId)
     Generator.setSelectInputValue("Edit Mode", currentEditMode)
     Generator.setSelectInputValue("Diorama Size", currentDioramaSize)

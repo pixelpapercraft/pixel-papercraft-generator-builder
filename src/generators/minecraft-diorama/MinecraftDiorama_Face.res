@@ -2,6 +2,8 @@ module Builder = Generator.Builder
 
 module Textures = MinecraftDiorama_Textures
 
+module TexturePicker = Generator_TexturePicker
+
 type versionId = string
 type textureId = string
 type frame = int
@@ -49,74 +51,58 @@ let decodeFaceTextures = (s: string): faceTextures => {
 
 let defineInputRegion = (faceId, region) => {
   Generator.defineRegionInput(region, () => {
-    let faceTextureString = Generator.getStringInputValue(
-      MinecraftDiorama_Constants.currentDioramaTextureId,
+    let selectedTextureFrame = TexturePicker.SelectedTexture.decode(
+      Generator.getStringInputValue("SelectedTextureFrame"),
     )
-    let currentFaceTextures = Generator.getStringInputValue(faceId)->decodeFaceTextures
-    let newFaceTextures = if faceTextureString == "" {
-      let _ = Js.Array2.pop(currentFaceTextures)
-      currentFaceTextures
-    } else {
-      let faceTexture = faceTextureString->decodeFaceTexture
-      Js.Array2.concat(currentFaceTextures, [faceTexture])
+    let selectedTextureFrames = TexturePicker.SelectedTexture.decodeArray(
+      Generator.getStringInputValue(faceId),
+    )
+    switch selectedTextureFrame {
+    | Some(selectedTextureFrame) => {
+        //if textureDefId = "" erase
+        let newTextureFrames = if selectedTextureFrame.textureDefId == "" {
+          let _ = Js.Array2.pop(selectedTextureFrames)
+          selectedTextureFrames
+        } else {
+          Belt.Array.concat(selectedTextureFrames, [selectedTextureFrame])
+        }
+        Generator.setStringInputValue(
+          faceId,
+          TexturePicker.SelectedTexture.encodeArray(newTextureFrames),
+        )
+      }
+    | None => ()
     }
-
-    let newFaceTexturesString = encodeFaceTextures(newFaceTextures)
-    Generator.setStringInputValue(faceId, newFaceTexturesString)
   })
 }
 
 let drawTexture = (
-  face,
+  face: TexturePicker.SelectedTexture.t,
   (sx, sy, sw, sh),
   (dx, dy, dw, dh),
   ~flip: Generator_Texture.flip=#None,
   ~rotate: float=0.0,
   (),
 ) => {
-  let {versionId, textureId, frame, rot, blend} = face
-  switch Textures.findTextureFrameIndex(versionId, textureId, frame) {
-  | None => ()
-  | Some(index) => {
-      // The texture image file is a column of texture images.
-      // Each individual texture is 16 x 16.
-      // So to locate a single texture, we use coordinates:
-      // x = 0
-      // y = index * 16
-      // width = 16
-      // height = 16
-      let ix = index + sx
-      let iy = index + sy
-      let i = index
-      //let size = 128
-      //let source = (sx, index * 16 + sy, sw, sh)
-      let source = switch rot {
-      | 0 => (sx, iy, sw, sh)
-      | 1 => (sy, i + 16 - (sw + sx), sh, sw)
-      | 2 => (16 - (sw + sx), i + 16 - (sh + sy), sw, sh)
-      | 3 => (16 - (sh + sy), ix, sh, sw)
-      | _ => (sx, iy, sw, sh)
-      }
-      let destination = switch rot {
-      | 0 => (dx, dy, dw, dh)
-      | 1 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
-      | 2 => (dx, dy, dw, dh)
-      | 3 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
-      | _ => (dx, dy, dw, dh)
-      }
-      //let destination = (dx, dy, dw, dh)
-      let rot = (Belt.Float.toInt(rotate) + rot * 90)->Js.Int.toFloat
-      Generator.drawTexture(
-        versionId,
-        source,
-        destination,
-        ~flip,
-        ~rotate={rot},
-        ~blend={blend},
-        (),
-      )
-    }
+  let {textureDefId, frame, rotation, blend} = face // selectedTextureFrame
+  let (tx, ty, tw, th) = frame.rectangle
+  let ix = tx + sx
+  let iy = ty + sy
+
+  let source = switch rotation {
+  | Rot0 => (ix, iy, sw, sh) // Default positions
+  | Rot90 => (tx + sy, ty + tw - (sw + sx), sh, sw)
+  | Rot180 => (tx + tw - (sw + sx), ty + th - (sh + sy), sw, sh)
+  | Rot270 => (tx + th - (sh + sy), ty + sx, sh, sw)
   }
+  let destination = switch rotation {
+  | Rot0 => (dx, dy, dw, dh)
+  | Rot90 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+  | Rot180 => (dx, dy, dw, dh)
+  | Rot270 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+  }
+  let rot = rotate +. TexturePicker.Rotation.toDegrees(rotation)
+  Generator.drawTexture(textureDefId, source, destination, ~flip, ~rotate={rot}, ~blend={blend}, ())
 }
 
 let draw = (
@@ -127,9 +113,10 @@ let draw = (
   ~rotate: float=0.0,
   (),
 ) => {
-  let faceTexturesString = Generator.getStringInputValue(faceId)
-  let faceTextures = decodeFaceTextures(faceTexturesString)
-  faceTextures->Js.Array2.forEach(faceTexture => {
-    drawTexture(faceTexture, source, destination, ~flip, ~rotate, ())
+  let selectedTextureFrames = TexturePicker.SelectedTexture.decodeArray(
+    Generator.getStringInputValue(faceId),
+  )
+  selectedTextureFrames->Js.Array2.forEach(selectedTextureFrame => {
+    drawTexture(selectedTextureFrame, source, destination, ~flip, ~rotate, ())
   })
 }
