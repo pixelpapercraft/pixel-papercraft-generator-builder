@@ -341,3 +341,82 @@ module ArrowUp = {
     </svg>
   }
 }
+
+module ArrowsCircle = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      display="block">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+      />
+    </svg>
+  }
+}
+
+module ArrowsHorizontal = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      display="block">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+      />
+    </svg>
+  }
+}
+
+module ArrowsVertical = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      display="block">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+      />
+    </svg>
+  }
+}
+
+module Erase = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+      />
+    </svg>
+  }
+}

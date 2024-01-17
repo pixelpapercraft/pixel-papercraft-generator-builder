@@ -406,7 +406,7 @@ let usePage = (model: Model.t, id: string, isLandscape: bool) => {
       currentPage: Some(page),
     }
   | None => {
-      let page = Generator_Page.make(id, isLandscape)
+      let page = Generator_Page.make(id)
       let pages = Js.Array2.concat(model.pages, [page])
       {
         ...model,

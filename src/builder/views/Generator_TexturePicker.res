@@ -146,31 +146,31 @@ module Flip = {
   type t = Generator_Texture.flip
 
   let next = (current: t, flip: t, rotation: Rotation.t) => {
-switch (current, flip) {
-      | (#None, #None) => (#None, rotation)
-      | (#None, #Vertical) => (#Vertical, rotation)
-      | (#None, #Horizontal) => (#Horizontal, rotation)
-      | (#Vertical, #None) => (#Vertical, rotation)
-      | (#Vertical, #Vertical) => (#None, rotation)
-      | (#Vertical, #Horizontal) => (#None, rotation->Rotation.next->Rotation.next)
-      | (#Horizontal, #None) => (#Horizontal, rotation)
-      | (#Horizontal, #Vertical) => (#None, rotation->Rotation.next->Rotation.next)
-      | (#Horizontal, #Horizontal) => (#None, rotation)
-      }
+    switch (current, flip) {
+    | (#None, #None) => (#None, rotation)
+    | (#None, #Vertical) => (#Vertical, rotation)
+    | (#None, #Horizontal) => (#Horizontal, rotation)
+    | (#Vertical, #None) => (#Vertical, rotation)
+    | (#Vertical, #Vertical) => (#None, rotation)
+    | (#Vertical, #Horizontal) => (#None, rotation->Rotation.next->Rotation.next)
+    | (#Horizontal, #None) => (#Horizontal, rotation)
+    | (#Horizontal, #Vertical) => (#None, rotation->Rotation.next->Rotation.next)
+    | (#Horizontal, #Horizontal) => (#None, rotation)
+    }
   } // It needs to access rotation! (for 180 degrees) COnsult block generator and/or drawCuboid(?)
   let toTransform = (flip: t) => {
     switch flip {
-      | #Horizontal => "scaleX(-1)"
-      | #Vertical => "scaleY(-1)"
-      | #None => ""
+    | #Horizontal => "scaleX(-1)"
+    | #Vertical => "scaleY(-1)"
+    | #None => ""
     }
   }
-  
+
   let toString = (flip: t) => {
     switch flip {
-      | #Horizontal => "#Horizontal"
-      | #Vertical => "#Vertical"
-      | #None => "#None"
+    | #Horizontal => "#Horizontal"
+    | #Vertical => "#Vertical"
+    | #None => "#None"
     }
   }
 }
@@ -351,9 +351,12 @@ module Preview = {
           let rotationDegrees = Rotation.toDegrees(rotation)
           let flipTransform = Flip.toTransform(flip)
           let tileStyle = makeTileStyle(textureDef, frame, false, false, 128)
-          let transformStyle = ReactDOM.Style.make(~transform=`rotate(${deg(rotationDegrees)}) ${flipTransform}`, ())
+          let transformStyle = ReactDOM.Style.make(
+            ~transform=`rotate(${deg(rotationDegrees)}) ${flipTransform}`,
+            (),
+          )
           let style = ReactDOM.Style.combine(tileStyle, transformStyle)
-          
+
           <>
             <div style />
             <div className="text-center text-gray-500 p-2 pt-0">
@@ -369,10 +372,10 @@ module Preview = {
 module RotationButton = {
   @react.component
   let make = (~onClick) => {
-    let icon = React.string("↻")
+    let icon = <Icon.ArrowsCircle color=#White />
     <button
-      className="bg-blue-500 rounded text-white 
-     w-10 h-10 text-2xl"
+      className="bg-blue-500 rounded  
+    flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
     </button>
@@ -382,10 +385,10 @@ module RotationButton = {
 module EraseButton = {
   @react.component
   let make = (~onClick) => {
-    let icon = React.string("⌫")
+    let icon = <Icon.X color=#White />
     <button
-      className="bg-red-500 rounded text-white 
-     w-10 h-10 text-2xl ml-6"
+      className="bg-red-500 rounded  
+       flex items-center justify-center w-10 h-10 ml-6"
       onClick>
       {icon}
     </button>
@@ -395,10 +398,10 @@ module EraseButton = {
 module FlipHorizontalButton = {
   @react.component
   let make = (~onClick) => {
-    let icon = React.string("↔") // ↕ ↔ (yuck! find a better set of arrows)
+    let icon = <Icon.ArrowsHorizontal color=#White />
     <button
-      className="bg-green-500 rounded text-white 
-     w-10 h-10 text-2xl"
+      className="bg-green-500 rounded  
+       flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
     </button>
@@ -408,10 +411,10 @@ module FlipHorizontalButton = {
 module FlipVerticalButton = {
   @react.component
   let make = (~onClick) => {
-    let icon = React.string("↕") // ↕ ↔ (yuck! find a better set of arrows)
+    let icon = <Icon.ArrowsVertical color=#White />
     <button
-      className="bg-green-500 rounded text-white 
-     w-10 h-10 text-2xl ml-6"
+      className="bg-green-500 rounded  
+       flex items-center justify-center w-10 h-10 ml-6"
       onClick>
       {icon}
     </button>
@@ -443,8 +446,8 @@ let make = (
   let onRotateClick = () => {
     let nextRotation = Rotation.next(rotation)
     setRotation(_ => nextRotation)
-    /*let toString = "Rotate: (" ++ Flip.toString(flip) ++ ", " ++ Belt.Float.toString(Rotation.toDegrees(nextRotation)) ++ ")" 
-    Js.Console.log(toString)*/
+    /* let toString = "Rotate: (" ++ Flip.toString(flip) ++ ", " ++ Belt.Float.toString(Rotation.toDegrees(nextRotation)) ++ ")"
+     Js.Console.log(toString) */
     switch selectedFrame {
     | None => ()
     | Some(frame) => {
@@ -463,8 +466,8 @@ let make = (
     let (nextFlip, nextRotation) = Flip.next(vertical ? #Vertical : #Horizontal, flip, rotation)
     setFlip(_ => nextFlip)
     setRotation(_ => nextRotation)
-    /*let toString = "Flip: (" ++ Flip.toString(nextFlip) ++ ", " ++ Belt.Float.toString(Rotation.toDegrees(nextRotation)) ++ ")" 
-    Js.Console.log(toString)*/
+    /* let toString = "Flip: (" ++ Flip.toString(nextFlip) ++ ", " ++ Belt.Float.toString(Rotation.toDegrees(nextRotation)) ++ ")"
+     Js.Console.log(toString) */
     switch selectedFrame {
     | None => ()
     | Some(frame) => {
@@ -557,14 +560,18 @@ let make = (
         })->React.array}
       </div>
       <div>
-        <Preview textureDef frame=selectedFrame rotation flip/>
+        <Preview textureDef frame=selectedFrame rotation flip />
         <div className="flex justify-center">
           {enableRotation ? <RotationButton onClick={_ => onRotateClick()} /> : React.null}
           {enableErase ? <EraseButton onClick={_ => onEraseClick()} /> : React.null}
         </div>
         <div className="flex justify-center mt-2">
-          {enableRotation ? <FlipHorizontalButton onClick={_ => onFlipClick(~vertical=false)} /> : React.null}
-          {enableRotation ? <FlipVerticalButton onClick={_ => onFlipClick(~vertical=true)} /> : React.null}
+          {enableRotation
+            ? <FlipHorizontalButton onClick={_ => onFlipClick(~vertical=false)} />
+            : React.null}
+          {enableRotation
+            ? <FlipVerticalButton onClick={_ => onFlipClick(~vertical=true)} />
+            : React.null}
         </div>
       </div>
     </div>
