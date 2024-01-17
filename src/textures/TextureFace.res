@@ -37,10 +37,12 @@ let drawTexture = (
   ~rotate: float=0.0,
   (),
 ) => {
-  let {textureDefId, frame, rotation, blend} = face // selectedTextureFrame
+  let {textureDefId, frame, rotation, flip: textureFlip, blend} = face // selectedTextureFrame
   let (tx, ty, tw, th) = frame.rectangle
   let ix = tx + sx
   let iy = ty + sy
+
+  let (newFlip, rotation) = TexturePicker.Flip.next(flip, textureFlip, rotation)
 
   let source = switch rotation {
   | Rot0 => (ix, iy, sw, sh) // Default positions
@@ -55,7 +57,15 @@ let drawTexture = (
   | Rot270 => (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
   }
   let rot = rotate +. TexturePicker.Rotation.toDegrees(rotation)
-  Generator.drawTexture(textureDefId, source, destination, ~flip, ~rotate={rot}, ~blend={blend}, ())
+  Generator.drawTexture(
+    textureDefId,
+    source,
+    destination,
+    ~flip={newFlip},
+    ~rotate={rot},
+    ~blend={blend},
+    (),
+  )
 }
 
 let draw = (
