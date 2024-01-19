@@ -385,10 +385,10 @@ module RotationButton = {
 module EraseButton = {
   @react.component
   let make = (~onClick) => {
-    let icon = <Icon.X color=#White />
+    let icon = <Icon.Erase color=#White />
     <button
       className="bg-red-500 rounded  
-       flex items-center justify-center w-10 h-10 ml-6"
+       flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
     </button>
@@ -414,7 +414,7 @@ module FlipVerticalButton = {
     let icon = <Icon.ArrowsVertical color=#White />
     <button
       className="bg-green-500 rounded  
-       flex items-center justify-center w-10 h-10 ml-6"
+       flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
     </button>
@@ -543,7 +543,7 @@ let make = (
       }}
     />
     <div className="flex xitems-center">
-      <div className="overflow-y-auto h-60 w-full">
+      <div className="overflow-y-auto h-80 w-80">
         {Belt.Array.map(framesFiltered, frame => {
           let isSelected = Belt.Option.mapWithDefault(selectedFrame, false, (
             selectedFrame: TextureFrame.frame,
@@ -559,13 +559,13 @@ let make = (
           />
         })->React.array}
       </div>
-      <div>
+      <div className="ml-4">
         <Preview textureDef frame=selectedFrame rotation flip />
-        <div className="flex justify-center">
+        <div className="flex justify-around">
           {enableRotation ? <RotationButton onClick={_ => onRotateClick()} /> : React.null}
           {enableErase ? <EraseButton onClick={_ => onEraseClick()} /> : React.null}
         </div>
-        <div className="flex justify-center mt-2">
+        <div className="flex justify-around mt-4">
           {enableRotation
             ? <FlipHorizontalButton onClick={_ => onFlipClick(~vertical=false)} />
             : React.null}
