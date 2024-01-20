@@ -9,9 +9,9 @@ type t = {
 let make = (image, standardWidth, standardHeight): t => {
   let imageWithCanvas = Generator_ImageWithCanvas.makeFromImage(image)
   let texture = {
-    standardWidth: standardWidth,
-    standardHeight: standardHeight,
-    imageWithCanvas: imageWithCanvas,
+    standardWidth,
+    standardHeight,
+    imageWithCanvas,
   }
   texture
 }
@@ -151,10 +151,11 @@ let drawNearestNeighbor = (
 
         // Source pixel
         let i = (y * sw + x) * 4
-        let r = pix[i + 0]
-        let g = pix[i + 1]
-        let b = pix[i + 2]
-        let a = Belt.Int.toFloat(pix[i + 3]) /. 255.0
+
+        let r = Belt.Option.getWithDefault(pix[i + 0], 0)
+        let g = Belt.Option.getWithDefault(pix[i + 1], 0)
+        let b = Belt.Option.getWithDefault(pix[i + 2], 0)
+        let a = Belt.Int.toFloat(Belt.Option.getWithDefault(pix[i + 3], 0)) /. 255.0
 
         let (r, g, b) = switch blend {
         | None => (r, g, b)
@@ -245,7 +246,7 @@ let draw = (
       dy,
       dw,
       dh,
-      {rotate: rotate, flip: flip, blend: blend, pixelate: pixelate},
+      {rotate, flip, blend, pixelate},
     )
   }
 }
