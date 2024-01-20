@@ -563,7 +563,7 @@ let fillRect = (model: Model.t, dest: rectangle, color: string) => {
   }
 }
 
-let getOffset = ((x1, y1): position, (x2, y2): position) => {
+let getOffset = ((x1, y1): position, (x2, y2): position, isLandscape: bool) => {
   let x1 = Belt.Int.toFloat(x1)
   let y1 = Belt.Int.toFloat(y1)
   let x2 = Belt.Int.toFloat(x2)
@@ -582,11 +582,20 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   in a fully opaque line with the correct width if the line is vertical or
   horizontal, but antialiasing may still affect lines at other angles.
  */
-  let angle = Js.Math.atan2(~y=h, ~x=w, ())
+  let angle = if isLandscape {
+    /* Adjust the angle calculation for landscape mode */
+    Js.Math.atan2(~y=-.h, ~x=-.w, ())
+  } else {
+    Js.Math.atan2(~y=h, ~x=w, ())
+  }
+
   let ox = Js.Math.sin(angle) *. 0.5
   let oy = Js.Math.cos(angle) *. 0.5
 
   (ox, oy)
+}
+let adjustPosition = ((x, y): position, w: int) => {
+  (w - y, x)
 }
 
 let drawLine = (
@@ -600,11 +609,18 @@ let drawLine = (
 ) => {
   let model = ensureCurrentPage(model)
   let currentPage = model.currentPage
-  let (ox, oy) = getOffset((x1, y1), (x2, y2))
-
   switch currentPage {
   | None => model
   | Some(page) => {
+      let ((x1, y1), (x2, y2)) = page.isLandscape
+        ? (
+            adjustPosition((x1, y1), page.canvasWithContext.width),
+            adjustPosition((x2, y2), page.canvasWithContext.width),
+          )
+        : ((x1, y1), (x2, y2))
+
+      let (ox, oy) = getOffset((x1, y1), (x2, y2), page.isLandscape)
+
       let context = page.canvasWithContext.context
       context->Context2d.filter(
         "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9ImZpbHRlciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jUiB0eXBlPSJpZGVudGl0eSIvPjxmZUZ1bmNHIHR5cGU9ImlkZW50aXR5Ii8+PGZlRnVuY0IgdHlwZT0iaWRlbnRpdHkiLz48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjAgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L3N2Zz4=#filter)",

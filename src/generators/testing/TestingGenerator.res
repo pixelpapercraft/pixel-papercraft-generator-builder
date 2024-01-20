@@ -167,8 +167,10 @@ let drawLandscapeTestPage = () => {
   let pageFormat = Generator.defineAndGetBooleanInput("Landscape", true)
   Generator.usePage(~isLandscape=pageFormat, "Landscape Test Page")
   Generator.drawTexture("Steve", Minecraft.Character.steve.base.head.front, (100, 100, 64, 64), ())
+  Generator.drawTab((100, 100, 64, 64), #North, ())
   Generator.drawTexture("GrassTop", (0, 0, 16, 16), (200, 400, 128, 128), ())
   Minecraft.drawCuboid("Steve", Minecraft.Character.steve.base.body, (200, 400), (64, 96, 32), ())
+  Generator.drawLine((200, 400), (300, 500), ~color="#00ff00", ())
 
   Generator.fillBackgroundColor("#a71810")
 }

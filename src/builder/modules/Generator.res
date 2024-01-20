@@ -158,7 +158,7 @@ let defineText = (text: string) => {
   model := Builder.defineText(model.contents, text)
 }
 
-let usePage = (~isLandscape: bool=false, id: string) => {
+let usePage = (~isLandscape: bool=true, id: string) => {
   model := Builder.usePage(model.contents, id, isLandscape)
 }
 
