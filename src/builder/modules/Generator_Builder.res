@@ -691,8 +691,22 @@ let drawTexture = (
   switch (currentPage, texture) {
   | (Some(page), Some(texture)) =>
     let (dx, dy, dw, dh) = page.isLandscape
-      ? (page.canvasWithContext.width - dy - dw, dx, dw, dh)
+    //? (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+    //: (dx, dy, dw, dh)
+      ? {
+          (page.canvasWithContext.width - (dy - (dw - dh) / 2 + dw), dx + (dw - dh) / 2, dw, dh)
+        }
       : (dx, dy, dw, dh)
+    let rotate = page.isLandscape
+      ? {
+          switch rotate {
+          | #None => #Center(90.0)
+          | #Center(angle) => #Center(angle +. 90.0)
+          | #Corner(angle) => #Corner(angle +. 90.0)
+          }
+        }
+      : rotate
+
     Generator_Texture.draw(
       texture,
       page,
