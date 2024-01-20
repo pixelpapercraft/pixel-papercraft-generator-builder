@@ -604,8 +604,8 @@ let drawLine = (
 
   switch currentPage {
   | None => model
-  | Some(currentPage) => {
-      let context = currentPage.canvasWithContext.context
+  | Some(page) => {
+      let context = page.canvasWithContext.context
       context->Context2d.filter(
         "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9ImZpbHRlciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jUiB0eXBlPSJpZGVudGl0eSIvPjxmZUZ1bmNHIHR5cGU9ImlkZW50aXR5Ii8+PGZlRnVuY0IgdHlwZT0iaWRlbnRpdHkiLz48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjAgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L3N2Zz4=#filter)",
       )
@@ -690,6 +690,9 @@ let drawTexture = (
   let texture = Js.Dict.get(model.values.textures, id)
   switch (currentPage, texture) {
   | (Some(page), Some(texture)) =>
+    let (dx, dy, dw, dh) = page.isLandscape
+      ? (page.canvasWithContext.width - dy - dw, dx, dw, dh)
+      : (dx, dy, dw, dh)
     Generator_Texture.draw(
       texture,
       page,

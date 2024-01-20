@@ -10,12 +10,14 @@ let blockDefinitions = [
   (Texture_minecraft_1_7_10_blocks.data, 16),
   (Texture_minecraft_1_13_2_blocks.data, 16),
   (Texture_minecraft_1_18_1_blocks.data, 16),
+  (Texture_minecraft_1_20_4_blocks.data, 16),
 ]
 
 let itemDefinitions = [
   (Texture_minecraft_1_7_10_items.data, 16),
   (Texture_minecraft_1_13_2_items.data, 16),
   (Texture_minecraft_1_18_1_items.data, 16),
+  (Texture_minecraft_1_20_4_items.data, 16),
 ]
 
 let allDefinitions = Belt.Array.concat(blockDefinitions, itemDefinitions)
