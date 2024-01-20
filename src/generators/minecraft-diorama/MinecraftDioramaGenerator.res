@@ -136,6 +136,7 @@ let script = () => {
     let currentVersionId = versionId
     let currentEditMode = editMode
     let currentDioramaSize = dioramaSize
+    let currentPageFormat = pageFormat
 
     // Clear everything
     Generator.clearStringInputValues()
@@ -147,6 +148,7 @@ let script = () => {
     Generator.setSelectInputValue("Version", currentVersionId)
     Generator.setSelectInputValue("Edit Mode", currentEditMode)
     Generator.setSelectInputValue("Diorama Size", currentDioramaSize)
+    Generator.setBooleanInputValue("Landscape Mode", currentPageFormat)
   })
 
   pageFormat

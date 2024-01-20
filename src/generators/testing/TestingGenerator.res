@@ -171,6 +171,7 @@ let drawLandscapeTestPage = () => {
   Generator.drawTexture("GrassTop", (0, 0, 16, 16), (200, 400, 128, 128), ())
   Minecraft.drawCuboid("Steve", Minecraft.Character.steve.base.body, (200, 400), (64, 96, 32), ())
   Generator.drawLine((200, 400), (300, 500), ~color="#00ff00", ())
+  Generator.drawText("Hello There", (200, 400), 16)
 
   Generator.fillBackgroundColor("#a71810")
 }
