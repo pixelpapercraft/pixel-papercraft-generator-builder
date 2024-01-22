@@ -770,11 +770,12 @@ let drawText = (model: Model.t, text: string, position: position, size: int) => 
       let (x, y) = page.isLandscape ? (page.canvasWithContext.width - y, x) : (x, y)
       page.canvasWithContext.context->Context2d.save
       if page.isLandscape {
-        page.canvasWithContext.context->Context2d.translate(Belt.Int.toFloat(x + y), 0.0) //Belt.Int.toFloat(x),
+        page.canvasWithContext.context->Context2d.translate(Belt.Int.toFloat(x + y), 5.0)
         page.canvasWithContext.context->Context2d.rotate(Js.Math._PI /. 2.0)
       }
       let font = Belt.Int.toString(size) ++ "px sans-serif"
       page.canvasWithContext.context->Context2d.font(font)
+      page.canvasWithContext.context->Context2d.fillRect(x, y, size, size)
       page.canvasWithContext.context->Context2d.fillText(text, x, y)
       page.canvasWithContext.context->Context2d.restore
     }
