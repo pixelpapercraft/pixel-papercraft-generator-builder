@@ -41,6 +41,24 @@ type rectangleLegacy = {
 
 type rectangle = (int, int, int, int)
 
+type cuboid = {
+  top: rectangle,
+  bottom: rectangle,
+  front: rectangle,
+  right: rectangle,
+  left: rectangle,
+  back: rectangle,
+}
+
+let makeCuboid = ((x, y): position, (w, h, l)): cuboid => {
+  top: (x + l, y, w, l),
+  bottom: (x + l + w, y, w, l),
+  front: (x + l, y + l, w, h),
+  right: (x, y + l, l, h),
+  left: (x + l + w, y + l, l, h),
+  back: (x + l * 2 + w, y + l, w, h),
+}
+
 module Input = {
   type rangeArgs = {
     min: int,
@@ -581,6 +599,11 @@ let getOffset = ((x1, y1): position, (x2, y2): position, isLandscape: bool) => {
   resolution: https://physics.info/vector-components/summary.shtml This results
   in a fully opaque line with the correct width if the line is vertical or
   horizontal, but antialiasing may still affect lines at other angles.
+
+  The angle should be 3 pi / 2 radians if the angle is 270 degrees, but with 
+  the ternary making it pi / 2 regardless of sign the rectangle lines functions
+  are much easier to do, for some reason. Maybe later, this could be replaced 
+  with something using the absolute value of the angle?
  */
   let angle = if isLandscape {
     /* Adjust the angle calculation for landscape mode */
@@ -634,6 +657,45 @@ let drawLine = (
       context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
       context->Context2d.stroke
       context->Context2d.filter("none")
+
+      model
+    }
+  }
+}
+
+let drawPath = (
+  model: Model.t,
+  points: array<position>,
+  ~color: string,
+  ~width: int,
+  ~pattern: array<int>,
+  ~offset: int,
+  ~close: bool,
+) => {
+  switch model.currentPage {
+  | None => model
+  | Some(currentPage) => {
+      let context = currentPage.canvasWithContext.context
+      context->Context2d.beginPath
+      context->Context2d.strokeStyle(color)
+      context->Context2d.lineWidth(width)
+      context->Context2d.setLineDash(pattern)
+      context->Context2d.lineDashOffset(offset)
+      for i in 1 to Js.Array.length(points) - 1 {
+        let (x, y) = points[i]
+        let (x0, y0) = points[i - 1]
+        let (ox, oy) = getOffset((x, y), (x0, y0))
+        context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
+        context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
+      }
+      if close {
+        let (x, y) = points[Js.Array.length(points) - 1]
+        let (x0, y0) = points[0]
+        let (ox, oy) = getOffset((x, y), (x0, y0))
+        context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
+        context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
+      }
+      context->Context2d.stroke
 
       model
     }
