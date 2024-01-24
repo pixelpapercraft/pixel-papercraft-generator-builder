@@ -12,6 +12,7 @@ let history = [
   "Dec 2021 lostminer - Block generator rewrite.",
   "Dec 2021 NinjolasNJM - Add Stairs, Fence, Door, Trapdoor and Snow.",
   "Jan 2022 NinjolasNJM - Add Cake Block type.",
+  "Jan 2024 NinjolasNJM - Now uses the universal texture picker, with erase mode, flip buttons and new textures.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

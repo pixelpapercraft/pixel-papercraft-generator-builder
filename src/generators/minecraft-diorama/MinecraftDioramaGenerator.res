@@ -9,7 +9,7 @@ let id = "minecraft-diorama"
 
 let name = "Minecraft Diorama"
 
-let history = ["Mystery"]
+let history = ["24 Jan 2024 NinjolasNJM - Initial Script Finished"]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),

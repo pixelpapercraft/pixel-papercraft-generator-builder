@@ -9,6 +9,7 @@ let name = "Minecraft Item"
 let history = [
   "26 Jan 2022 lostminer - First release.",
   "05 Feb 2022 NinjolasNJM - Added fold lines and gap removal feature.",
+  "Jan 2024 NinjolasNJM - Now uses the universal texture picker.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
