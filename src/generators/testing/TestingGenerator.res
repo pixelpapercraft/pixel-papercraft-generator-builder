@@ -114,7 +114,6 @@ let drawGrid = () => {
   }
 }
 
-
 let drawLandscapeTestPage = () => {
   let pageFormat = Generator.defineAndGetBooleanInput("Landscape", true)
   Generator.usePage(~isLandscape=pageFormat, "Landscape Test Page")
@@ -128,14 +127,14 @@ let drawLandscapeTestPage = () => {
   Generator.fillBackgroundColor("#a71810")
 }
 
-let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
+let drawSteveBodyCuboid = (x, y, scale, orientation, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
     Minecraft.Character.steve.base.body,
     (x, y),
     (2 * scale, 3 * scale, scale),
-    ~center,
     ~orientation,
+    ~center,
     (),
   )
 }
