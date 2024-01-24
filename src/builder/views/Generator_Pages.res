@@ -214,7 +214,7 @@ let make = (
 
       let style = ReactDOM.Style.combine(canvasStyle, transformStyle)
 
-      let pageMaxWidth = page.isLandscape ? PageSize.A4.px.height : PageSize.A4.px.width
+      let pageMaxWidth = PageSize.A4.px.width //page.isLandscape ? PageSize.A4.px.height : PageSize.A4.px.width
 
       <div key={page.id}>
         {showPageIds
@@ -222,7 +222,8 @@ let make = (
           : React.null}
         <div
           className="mb-4 flex justify-between items-center"
-          style={ReactDOM.Style.make(~width={px(pageMaxWidth)}, ())}>
+          style={ReactDOM.Style.make(~maxWidth={px(pageMaxWidth)}, ())}>
+          // set to width instead of maxWidth for enabling side by side
           <div>
             <span className="mr-4">
               <PrintImageButton size=#Small color=#Blue dataUrl={dataUrl} />
@@ -266,7 +267,3 @@ let make = (
     ->React.array}
   </div>
 }
-/* ReactDOM.Style.make(
-            ~transform=`rotate(${deg(rotationDegrees)}) ${flipTransform}`,
-            (),
-          )*/

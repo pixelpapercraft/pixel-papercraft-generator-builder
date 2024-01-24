@@ -156,32 +156,67 @@ let make = (
     | None => React.null
     | Some(model) =>
       <div>
+        <div className="md:flex md:items-center mb-8">
+          <div className="w-full mb-8 md:mb-0">
+            <GeneratorPhotoOrVideo generatorDef={generatorDef} />
+          </div>
+          {switch afterInfo {
+          | None => React.null
+          | Some(afterInfo) => <div> afterInfo </div>
+          }}
+        </div>
+        <GeneratorInstructions generatorDef />
+        <GeneratorInputs model onChange={onInputsChange} />
+        <div>
+          <div className="lg:flex lg:justify-between">
+            <div className="mb-16 lg:mb-0">
+              <GeneratorPages generatorDef model onChange={onPagesInputsChange} />
+            </div>
+            {switch afterInputs {
+            | None => React.null
+            | Some(afterInputs) => <div> afterInputs </div>
+            }}
+          </div>
+          <GeneratorHistory generatorDef />
+        </div>
+      </div>
+    }}
+  </div>
+
+  /* Pages are side by side with inputs: 
+   <div>
+    {switch model {
+    | None => React.null
+    | Some(model) =>
+      <div>
+        <div className="lg:flex lg:justify-between">
+          <div className="md:flex md:items-center mb-8">
+            <div className="w-full mb-8 md:mb-0">
+              <GeneratorPhotoOrVideo generatorDef={generatorDef} />
+            </div>
+            {switch afterInfo {
+            | None => React.null
+            | Some(afterInfo) => <div> afterInfo </div>
+            }}
+          </div>
+          <GeneratorInstructions generatorDef />
+        </div>
         <div className="lg:flex lg:justify-between">
           <div>
-            <div className="md:flex md:items-center mb-8">
-              <div className="w-full mb-8 md:mb-0">
-                <GeneratorPhotoOrVideo generatorDef={generatorDef} />
-              </div>
-              {switch afterInfo {
-              | None => React.null
-              | Some(afterInfo) => <div> afterInfo </div>
-              }}
-            </div>
-            <GeneratorInstructions generatorDef />
             <GeneratorInputs model onChange={onInputsChange} />
             {switch afterInputs {
             | None => React.null
             | Some(afterInputs) => <div> afterInputs </div>
             }}
           </div>
-          <div className="lg:flex lg:justify-end lg:full">
+          <div className=" lg:justify-end lg:full ml-8">
             <GeneratorPages generatorDef model onChange={onPagesInputsChange} />
           </div>
         </div>
         <GeneratorHistory generatorDef />
       </div>
     }}
-  </div>
+  </div> */
 }
 
 let default = make

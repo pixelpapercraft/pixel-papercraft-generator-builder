@@ -775,7 +775,7 @@ let drawText = (model: Model.t, text: string, position: position, size: int) => 
       }
       let font = Belt.Int.toString(size) ++ "px sans-serif"
       page.canvasWithContext.context->Context2d.font(font)
-      page.canvasWithContext.context->Context2d.fillRect(x, y, size, size)
+
       page.canvasWithContext.context->Context2d.fillText(text, x, y)
       page.canvasWithContext.context->Context2d.restore
     }

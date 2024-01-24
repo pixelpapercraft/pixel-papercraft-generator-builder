@@ -543,7 +543,7 @@ let make = (
       }}
     />
     <div className="flex xitems-center">
-      <div className="overflow-y-auto h-80 w-80">
+      <div className="overflow-y-auto h-80 w-full">
         {Belt.Array.map(framesFiltered, frame => {
           let isSelected = Belt.Option.mapWithDefault(selectedFrame, false, (
             selectedFrame: TextureFrame.frame,
