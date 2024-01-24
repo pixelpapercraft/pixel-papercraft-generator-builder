@@ -17,7 +17,8 @@ module Upload = {
   @react.component
   let make = () => {
     <svg fill="#FFF" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 0h24v24H0z" fill="none" /> <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
     </svg>
   }
 }
@@ -336,6 +337,85 @@ module ArrowUp = {
       stroke="currentColor">
       <path
         strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"
+      />
+    </svg>
+  }
+}
+
+module ArrowsCircle = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      display="block">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+      />
+    </svg>
+  }
+}
+
+module ArrowsHorizontal = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      display="block">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+      />
+    </svg>
+  }
+}
+
+module ArrowsVertical = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      display="block">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+      />
+    </svg>
+  }
+}
+
+module Erase = {
+  @react.component
+  let make = (~size=#Medium, ~color=#Black) => {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={makeClassName(size, color)}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M12 9.75 14.25 12m0 0 2.25 2.25M14.25 12l2.25-2.25M14.25 12 12 14.25m-2.58 4.92-6.374-6.375a1.125 1.125 0 0 1 0-1.59L9.42 4.83c.21-.211.497-.33.795-.33H19.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-9.284c-.298 0-.585-.119-.795-.33Z"
       />
     </svg>
   }

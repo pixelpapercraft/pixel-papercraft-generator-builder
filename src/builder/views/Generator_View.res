@@ -121,9 +121,11 @@ let make = (
               model,
             )
           ScriptRunner.run(generatorDef, model)
-          ->Promise.thenResolve(model => {
-            setModel(_ => Some(model))
-          })
+          ->Promise.thenResolve(
+            model => {
+              setModel(_ => Some(model))
+            },
+          )
           ->ignore
         }
       }
@@ -180,6 +182,41 @@ let make = (
       </div>
     }}
   </div>
+
+  /* Pages are side by side with inputs: 
+   <div>
+    {switch model {
+    | None => React.null
+    | Some(model) =>
+      <div>
+        <div className="lg:flex lg:justify-between">
+          <div className="md:flex md:items-center mb-8">
+            <div className="w-full mb-8 md:mb-0">
+              <GeneratorPhotoOrVideo generatorDef={generatorDef} />
+            </div>
+            {switch afterInfo {
+            | None => React.null
+            | Some(afterInfo) => <div> afterInfo </div>
+            }}
+          </div>
+          <GeneratorInstructions generatorDef />
+        </div>
+        <div className="lg:flex lg:justify-between">
+          <div>
+            <GeneratorInputs model onChange={onInputsChange} />
+            {switch afterInputs {
+            | None => React.null
+            | Some(afterInputs) => <div> afterInputs </div>
+            }}
+          </div>
+          <div className=" lg:justify-end lg:full ml-8">
+            <GeneratorPages generatorDef model onChange={onPagesInputsChange} />
+          </div>
+        </div>
+        <GeneratorHistory generatorDef />
+      </div>
+    }}
+  </div> */
 }
 
 let default = make

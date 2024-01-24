@@ -1,5 +1,5 @@
 // https://minecraft.fandom.com/wiki/Tint
-
+// If you're reading this, here's a reminder to move this into a more sensible area, like having it be per generator somehow
 type tint = {
   biomes: array<string>,
   color: string,

@@ -307,6 +307,16 @@ let getStringInputValue = (model: Model.t, id: string) => {
   }
 }
 
+let clearBooleanInputValues = (model: Model.t) => {
+  {
+    ...model,
+    values: {
+      ...model.values,
+      booleans: Js.Dict.empty(),
+    },
+  }
+}
+
 let setBooleanInputValue = (model: Model.t, id: string, value: bool) => {
   let booleans = Js.Dict.fromArray(Js.Dict.entries(model.values.booleans))
   Js.Dict.set(booleans, id, value)
@@ -332,6 +342,16 @@ let getBooleanInputValueWithDefault = (model: Model.t, id: string, default: bool
   switch value {
   | None => default
   | Some(value) => value
+  }
+}
+
+let clearSelectInputValues = (model: Model.t) => {
+  {
+    ...model,
+    values: {
+      ...model.values,
+      selects: Js.Dict.empty(),
+    },
   }
 }
 
@@ -396,7 +416,7 @@ let hasRangeValue = (model: Model.t, id: string) => {
   }
 }
 
-let usePage = (model: Model.t, id) => {
+let usePage = (model: Model.t, id: string, isLandscape: bool) => {
   let page = findPage(model, id)
   switch page {
   | Some(page) => {
@@ -404,7 +424,7 @@ let usePage = (model: Model.t, id) => {
       currentPage: Some(page),
     }
   | None => {
-      let page = Generator_Page.make(id)
+      let page = Generator_Page.make(id, isLandscape)
       let pages = Js.Array2.concat(model.pages, [page])
       {
         ...model,
@@ -426,7 +446,7 @@ let getCurrentPageId = (model: Model.t) => {
 
 let ensureCurrentPage = (model: Model.t) => {
   switch model.currentPage {
-  | None => usePage(model, getDefaultPageId())
+  | None => usePage(model, getDefaultPageId(), false)
   | Some(_) => model
   }
 }
@@ -561,7 +581,7 @@ let fillRect = (model: Model.t, dest: rectangle, color: string) => {
   }
 }
 
-let getOffset = ((x1, y1): position, (x2, y2): position) => {
+let getOffset = ((x1, y1): position, (x2, y2): position, isLandscape: bool) => {
   let x1 = Belt.Int.toFloat(x1)
   let y1 = Belt.Int.toFloat(y1)
   let x2 = Belt.Int.toFloat(x2)
@@ -585,11 +605,20 @@ let getOffset = ((x1, y1): position, (x2, y2): position) => {
   are much easier to do, for some reason. Maybe later, this could be replaced 
   with something using the absolute value of the angle?
  */
-  let angle = Js.Math.atan2(~y=h, ~x=w, ())
+  let angle = if isLandscape {
+    /* Adjust the angle calculation for landscape mode */
+    Js.Math.atan2(~y=-.h, ~x=-.w, ())
+  } else {
+    Js.Math.atan2(~y=h, ~x=w, ())
+  }
+
   let ox = Js.Math.sin(angle) *. 0.5
   let oy = Js.Math.cos(angle) *. 0.5
 
   (ox, oy)
+}
+let adjustPosition = ((x, y): position, w: int) => {
+  (w - y, x)
 }
 
 let drawLine = (
@@ -601,12 +630,24 @@ let drawLine = (
   ~pattern: array<int>,
   ~offset: int,
 ) => {
-  let (ox, oy) = getOffset((x1, y1), (x2, y2))
-
-  switch model.currentPage {
+  let model = ensureCurrentPage(model)
+  let currentPage = model.currentPage
+  switch currentPage {
   | None => model
-  | Some(currentPage) => {
-      let context = currentPage.canvasWithContext.context
+  | Some(page) => {
+      let ((x1, y1), (x2, y2)) = page.isLandscape
+        ? (
+            adjustPosition((x1, y1), page.canvasWithContext.width),
+            adjustPosition((x2, y2), page.canvasWithContext.width),
+          )
+        : ((x1, y1), (x2, y2))
+
+      let (ox, oy) = getOffset((x1, y1), (x2, y2), page.isLandscape)
+
+      let context = page.canvasWithContext.context
+      context->Context2d.filter(
+        "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9ImZpbHRlciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jUiB0eXBlPSJpZGVudGl0eSIvPjxmZUZ1bmNHIHR5cGU9ImlkZW50aXR5Ii8+PGZlRnVuY0IgdHlwZT0iaWRlbnRpdHkiLz48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjAgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L3N2Zz4=#filter)",
+      )
       context->Context2d.beginPath
       context->Context2d.strokeStyle(color)
       context->Context2d.lineWidth(width)
@@ -615,6 +656,7 @@ let drawLine = (
       context->Context2d.moveTo(Belt.Int.toFloat(x1) +. ox, Belt.Int.toFloat(y1) +. oy)
       context->Context2d.lineTo(Belt.Int.toFloat(x2) +. ox, Belt.Int.toFloat(y2) +. oy)
       context->Context2d.stroke
+      context->Context2d.filter("none")
 
       model
     }
@@ -726,6 +768,23 @@ let drawTexture = (
   let texture = Js.Dict.get(model.values.textures, id)
   switch (currentPage, texture) {
   | (Some(page), Some(texture)) =>
+    let (dx, dy, dw, dh) = page.isLandscape
+    //? (dx + (dw - dh) / 2, dy - (dw - dh) / 2, dh, dw)
+    //: (dx, dy, dw, dh)
+      ? {
+          (page.canvasWithContext.width - (dy - (dw - dh) / 2 + dw), dx + (dw - dh) / 2, dw, dh)
+        }
+      : (dx, dy, dw, dh)
+    let rotate = page.isLandscape
+      ? {
+          switch rotate {
+          | #None => #Center(90.0)
+          | #Center(angle) => #Center(angle +. 90.0)
+          | #Corner(angle) => #Corner(angle +. 90.0)
+          }
+        }
+      : rotate
+
     Generator_Texture.draw(
       texture,
       page,
@@ -768,11 +827,19 @@ let drawText = (model: Model.t, text: string, position: position, size: int) => 
   let model = ensureCurrentPage(model)
   switch model.currentPage {
   | None => ()
-  | Some(currentPage) => {
+  | Some(page) => {
       let (x, y) = position
+      let (x, y) = page.isLandscape ? (page.canvasWithContext.width - y, x) : (x, y)
+      page.canvasWithContext.context->Context2d.save
+      if page.isLandscape {
+        page.canvasWithContext.context->Context2d.translate(Belt.Int.toFloat(x + y), 5.0)
+        page.canvasWithContext.context->Context2d.rotate(Js.Math._PI /. 2.0)
+      }
       let font = Belt.Int.toString(size) ++ "px sans-serif"
-      currentPage.canvasWithContext.context->Context2d.font(font)
-      currentPage.canvasWithContext.context->Context2d.fillText(text, x, y)
+      page.canvasWithContext.context->Context2d.font(font)
+
+      page.canvasWithContext.context->Context2d.fillText(text, x, y)
+      page.canvasWithContext.context->Context2d.restore
     }
   }
   model

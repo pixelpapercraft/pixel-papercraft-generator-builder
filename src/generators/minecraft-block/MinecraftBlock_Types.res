@@ -1,6 +1,4 @@
-module TexturePicker = MinecraftBlock_TexturePicker
-module Textures = MinecraftBlock_Textures
-module Face = MinecraftBlock_Face
+module Face = TextureFace
 
 type region = (int, int, int, int)
 

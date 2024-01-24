@@ -2,9 +2,9 @@ type generatorGroup = {label: string, generators: array<Generator.generatorDef>}
 
 let generatorGroups = [
   {label: "Characters", generators: Generators.character},
-  {label: "Mob Characters", generators: Generators.mobCharacter},
-  {label: "Mobs", generators: Generators.mob},
   {label: "Blocks, Items and Accessories", generators: Generators.utility},
+  {label: "Mobs", generators: Generators.mob},
+  {label: "Mob Characters", generators: Generators.mobCharacter},
   {label: "Mods", generators: Generators.mod},
   {label: "Other", generators: Generators.other},
   {label: "Development", generators: Generators.dev},
