@@ -127,6 +127,237 @@ let drawLandscapeTestPage = () => {
   Generator.fillBackgroundColor("#a71810")
 }
 
+// simple test for debugging that a given face is on a coordinate divisible by 2.
+let isAligned = ({rectangle, _}: Minecraft.Cuboid.Face.t) => {
+  let (x, y, _, _) = rectangle
+  mod(x, 2) == 0 && mod(y, 2) == 0
+}
+
+// prints whether a face is incorrectly offset or not, and draws a transparent rectangle over any offset faces. Not infallible, as sometimes when testing the face would be two pixels offset meaning that isAligned would not detect it, but it would usually still be visible as offset.
+let debugFace = (dest: Minecraft.Cuboid.Face.t) => {
+  let rectString = (rectangle: Generator_Builder.rectangle): string => {
+    let (x, y, _, _) = rectangle
+    "(" ++ Belt.Int.toString(x) ++ ", " ++ Belt.Int.toString(y) ++ ")"
+  }
+  let flipString = (flip: Generator_Texture.flip): string =>
+    switch flip {
+    | #Horizontal => " f H"
+    | #Vertical => " f V"
+    | #None => " f N"
+    }
+  if !isAligned(dest) {
+    Generator.fillRect(dest.rectangle, "#ff800080")
+  }
+  let output = isAligned(dest)
+    ? "OK; "
+    : " @ " ++
+      rectString(dest.rectangle) ++
+      flipString(dest.flip) ++
+      " r " ++
+      Belt.Float.toString(dest.rotate) ++ ";"
+
+  output
+}
+
+// draws a cuboid, then returns the output of the debug code for the cuboid.
+let drawAndDebugCuboid = (
+  textureId: string,
+  source: Minecraft.Cuboid.Source.t,
+  position: Generator_Builder.position,
+  scale: Minecraft.scale,
+  ~orientation: Generator.Orientation.t=#West,
+  ~center: Minecraft.Cuboid.Dest.center=#Front,
+  ~flip: Generator_Texture.flip=#None,
+  ~rotate: float=0.0,
+  ~blend: Generator_Texture.blend=#None,
+  (),
+): string => {
+  Minecraft.drawCuboid(
+    textureId,
+    source,
+    position,
+    scale,
+    ~orientation,
+    ~center,
+    //~flip,
+    ~rotate,
+    //~blend,
+    (),
+  )
+  let dest = Minecraft.Cuboid.Dest.setLayout(
+    scale,
+    orientation,
+    center,
+    //flip,
+    rotate,
+    //blend,
+  )->Minecraft.Cuboid.Dest.translate(position)
+
+  // duplicate of code found in Cuboid.draw, so that the same points can be used for debugging.
+  let (w, h, d) = scale
+  let (x, y) = position
+  let scale = switch center {
+  | #Right => (d, h, w)
+  | #Left => (d, h, w)
+  | #Top => (w, d, h)
+  | #Bottom => (w, d, h)
+  | _ => (w, h, d)
+  }
+
+  // draw a blue dot at the axis of rotation, to make sure that the cuboid is rotating around the right place
+  let (ax, ay) = Minecraft.Cuboid.Dest.getAxis(scale, orientation)
+  Generator.fillRect((x + Minecraft.toInt(ax) - 2, y + Minecraft.toInt(ay) - 2, 4, 4), "#0000ff")
+
+  // Tests whether each face is incorrectly drawn or not.
+  let output =
+    "(" ++
+    Belt.Float.toString(rotate) ++
+    ")- R: " ++
+    debugFace(dest.right) ++
+    "F: " ++
+    debugFace(dest.front) ++
+    "L: " ++
+    debugFace(dest.left) ++
+    "B: " ++
+    debugFace(dest.back) ++
+    "T: " ++
+    debugFace(dest.top) ++
+    "O: " ++
+    debugFace(dest.bottom)
+
+  output
+}
+
+// draw a Steve body, and display the debug output as text.
+let drawSteveBodyCuboid2 = (x, y, rotate, face, orientation) => {
+  let x = x - 64
+  let y = y - 64
+
+  let text = drawAndDebugCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (64, 96, 32),
+    ~center=face,
+    ~orientation,
+    ~rotate,
+    (),
+  )
+
+  Generator.defineText(text)
+}
+
+// draw a Steve body, and display the debug output as text.
+let drawSteveBodyCuboid3 = (x, y, rotate, face, orientation, flip) => {
+  let text = drawAndDebugCuboid(
+    "Steve-Faces",
+    Minecraft.Character.steve.base.body,
+    (x, y),
+    (48, 72, 24),
+    ~center=face,
+    ~orientation,
+    ~rotate,
+    ~flip,
+    (),
+  )
+
+  Generator.defineText(text)
+}
+
+// Draw Steve's body at a given reflection.
+let drawCuboidTestPage5 = () => {
+  Generator.usePage("Cuboid 5")
+  Generator.fillBackgroundColorWithWhite()
+
+  // Creates a button that changes the angle in increments of 90 degrees
+  let angle =
+    Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 270 ? 0 : angle + 45
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+
+  // Selector for which face to be at the center of Steve's body.
+  let f = Generator.defineAndGetSelectInput(
+    "Face",
+    ["Right", "Front", "Back", "Left", "Top", "Bottom"],
+  )
+
+  // Selector for which orientation Steve's body will be in.
+  let d = Generator.defineAndGetSelectInput("orientation", ["West", "East", "South", "North"])
+  let face: Minecraft.Cuboid.Dest.center = switch f {
+  | "Right" => #Right
+  | "Front" => #Front
+  | "Left" => #Left
+  | "Back" => #Back
+  | "Top" => #Top
+  | "Bottom" => #Bottom
+  | _ => #Front
+  }
+
+  let orientation: Minecraft.Cuboid.Dest.orientation = switch d {
+  | "West" => #West
+  | "East" => #East
+  | "South" => #South
+  | "North" => #North
+  | _ => #West
+  }
+
+  // Draw Steve Bodies
+  drawSteveBodyCuboid3(96, 96, Belt.Int.toFloat(angle), face, orientation, #None)
+  drawSteveBodyCuboid3(96, 320, Belt.Int.toFloat(angle), face, orientation, #Vertical)
+  drawSteveBodyCuboid3(320, 96, Belt.Int.toFloat(angle), face, orientation, #Horizontal)
+  drawSteveBodyCuboid3(320, 320, Belt.Int.toFloat(angle), #Front, #West, #None)
+}
+
+// Draw Steve's body at a given angle, and display whether its faces were drawn properly.
+let drawCuboidTestPage4 = () => {
+  Generator.usePage("Cuboid 4")
+  Generator.fillBackgroundColorWithWhite()
+
+  // Creates a button that changes the angle in increments of 90 degrees
+  let angle =
+    Generator.getSelectInputValue("Angle")->Belt.Int.fromString->Belt.Option.getWithDefault(0)
+
+  Generator.defineButtonInput("Increment Angle", () => {
+    let nextAngle = angle >= 270 ? 0 : angle + 90
+    let nextAngleString = Belt.Int.toString(nextAngle)
+    Generator.setSelectInputValue("Angle", nextAngleString)
+  })
+  // Selector for which face to be at the center of Steve's body.
+  let f = Generator.defineAndGetSelectInput(
+    "Face",
+    ["Front", "Right", "Back", "Left", "Top", "Bottom"],
+  )
+
+  // Selector for which orientation Steve's body will be in.
+  let d = Generator.defineAndGetSelectInput("orientation", ["West", "East", "South", "North"])
+  let face: Minecraft.Cuboid.Dest.center = switch f {
+  | "Right" => #Right
+  | "Front" => #Front
+  | "Left" => #Left
+  | "Back" => #Back
+  | "Top" => #Top
+  | "Bottom" => #Bottom
+  | _ => #Front
+  }
+
+  let orientation: Minecraft.Cuboid.Dest.orientation = switch d {
+  | "West" => #West
+  | "East" => #East
+  | "South" => #South
+  | "North" => #North
+  | _ => #West
+  }
+
+  // Draw Steve Body
+  drawSteveBodyCuboid2(256, 256, Belt.Int.toFloat(angle), face, orientation)
+}
+
+// Draw Steve Body with options to change the scale, orientation, and center.
+
 let drawSteveBodyCuboid = (x, y, scale, orientation, center) => {
   Minecraft.drawCuboid(
     "Steve-Faces",
@@ -893,7 +1124,8 @@ let drawFaceTabsTestPage = () => {
 
 let script = () => {
   drawLandscapeTestPage()
-  //drawCuboidTestPage4()
+  drawCuboidTestPage5()
+  drawCuboidTestPage4()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()
