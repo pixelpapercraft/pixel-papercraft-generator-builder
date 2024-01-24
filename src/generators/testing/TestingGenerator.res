@@ -110,59 +110,6 @@ let drawGrid = () => {
   }
 }
 
-let drawItem = (textureId, rectangle, x, y, size) => {
-  //let tileWidth = getTileWidth(rectangle)
-  //let regionId = makeRegionId(textureId, rectangle)
-
-  /* Generator.defineRegionInput((x, y, size, size), () => {
-    Generator.setSelectInputValue(regionId, cycleTextureOffset(textureOffset, tileWidth))
-  }) */
-
-  Generator.drawTexture(textureId, rectangle, (x, y, size, size), ())
-}
-
-let drawItems = (
-  ~selectedTextureFrames: array<string>, // array<TexturePicker.SelectedTexture.t>,
-  ~size: int,
-  ~border: int,
-  ~maxCols: int,
-  ~maxRows: int,
-) => {
-  let maxItems = maxCols * maxRows
-
-  // Draw the page backgrounds
-  let addedCount = Belt.Array.length(selectedTextureFrames)
-  let pageCount = addedCount > 0 ? (addedCount - 1) / maxItems + 1 : 0
-
-  for page in 1 to pageCount {
-    Generator.usePage("Page " ++ Belt.Int.toString(page))
-    Generator.drawImage("Background", (0, 0))
-
-    // Draw the added textures
-    Belt.Array.forEachWithIndex(selectedTextureFrames, (index, selectedTextureFrame) => {
-      //let {textureDefId, frame} = selectedTextureFrame
-
-      let page = index / maxItems + 1
-      let pageId = "Page " ++ Belt.Int.toString(page)
-
-      let col = mod(index, maxCols)
-      let row = mod(index / maxCols, maxRows)
-
-      let x = col * size
-      let x = col > 0 ? x + border * col : x
-      let x = border + x
-
-      let y = row * size
-      let y = row > 0 ? y + border * row : y
-      let y = border + y
-
-      Generator.usePage(pageId)
-      drawItem(selectedTextureFrame, (0, 0, 16, 16), x, y, size) // (textureDefId, frame.rectangle, x, y, size)
-      //Generator.drawImage("Title", (0, 0))
-    })
-  }
-}
-
 let drawLandscapeTestPage = () => {
   let pageFormat = Generator.defineAndGetBooleanInput("Landscape", true)
   Generator.usePage(~isLandscape=pageFormat, "Landscape Test Page")
@@ -174,25 +121,6 @@ let drawLandscapeTestPage = () => {
   Generator.drawText("Hello There", (200, 400), 16)
 
   Generator.fillBackgroundColor("#a71810")
-}
-
-let drawArraysTestPage = () => {
-  //Generator.usePage("Draw Arrays")
-  let selectedTextureFrames = ["GrassTop"]
-
-  // Show a button which adds the selected texture to the page
-  let arraySize = Generator.defineAndGetSelectInput("Array Size", ["800%", "400%", "200%"])
-  let (s, b, c, r) = {
-    switch arraySize {
-    | "800%" => (128, 2, 4, 6)
-    | "400%" => (64, 2, 8, 12)
-    | "200%" => (32, 2, 16, 24)
-    | _ => (128, 2, 4, 6)
-    }
-  }
-  Generator.defineText("Frames are " ++ Belt.Int.toString(Belt.Array.length(selectedTextureFrames)))
-  Generator.fillBackgroundColorWithWhite()
-  drawItems(~selectedTextureFrames, ~size=s, ~border=b, ~maxCols=c, ~maxRows=r)
 }
 
 let drawSteveBodyCuboid = (x, y, scale, direction, center) => {
@@ -957,7 +885,6 @@ let drawFaceTabsTestPage = () => {
 
 let script = () => {
   drawLandscapeTestPage()
-  drawArraysTestPage()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
   drawFaceTabsTestPage()
