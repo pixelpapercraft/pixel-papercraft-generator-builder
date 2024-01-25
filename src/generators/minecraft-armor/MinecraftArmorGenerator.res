@@ -66,25 +66,25 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Helmet",
-    url: requireTexture("iron_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Chestplate",
-    url: requireTexture("iron_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Leggings",
-    url: requireTexture("iron_layer_2"),
+    url: requireTexture("diamond_layer_2"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Boots",
-    url: requireTexture("iron_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -1249,13 +1249,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }
