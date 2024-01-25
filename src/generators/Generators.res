@@ -43,6 +43,24 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftBeeCharacterGenerator.generator,
 ]
 
+let mob: array<Generator.generatorDef> = [
+  MinecraftCreeperGenerator.generator,
+  MinecraftEndermanGenerator.generator,
+  MinecraftGolemGenerator.generator,
+  MinecraftHorseGenerator.generator,
+  MinecraftPigGenerator.generator,
+  MinecraftCatGenerator.generator,
+  MinecraftVillagerGenerator.generator,
+]
+
+// Blocks, Items and Accessories
+let utility: array<Generator.generatorDef> = [
+  MinecraftBlockGenerator.generator,
+  MinecraftItemGenerator.generator,
+  MinecraftCapeAndElytraGenerator.generator,
+  MinecraftCharacterHeadsGenerator.generator,
+]
+
 let mod: array<Generator.generatorDef> = [
   MinecraftMutantCharacterGenerator.generator,
   DalekModDalekGenerator.generator,

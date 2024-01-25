@@ -179,19 +179,20 @@ let drawAndDebugCuboid = (
     scale,
     ~orientation,
     ~center,
-    //~flip,
+    ~flip,
     ~rotate,
-    //~blend,
+    ~blend,
     (),
   )
-  let dest = Minecraft.Cuboid.Dest.setLayout(
-    scale,
-    orientation,
-    center,
-    //flip,
-    rotate,
-    //blend,
-  )->Minecraft.Cuboid.Dest.translate(position)
+  let dest =
+    Minecraft.Cuboid.Dest.setLayout(
+      scale,
+      orientation,
+      center,
+      flip,
+      rotate,
+      blend,
+    )->Minecraft.Cuboid.Dest.translate(position)
 
   // duplicate of code found in Cuboid.draw, so that the same points can be used for debugging.
   let (w, h, d) = scale
@@ -1123,8 +1124,6 @@ let drawFaceTabsTestPage = () => {
 }
 
 let script = () => {
-  drawLandscapeTestPage()
-  drawCuboidTestPage5()
   drawCuboidTestPage4()
   drawCuboidTestPage3()
   drawCuboidTestPage2()
