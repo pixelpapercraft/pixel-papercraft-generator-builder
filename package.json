@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@rescript/react": "0.10.3",
-    "@ryyppy/rescript-promise": "2.1.0",
+    "@ryyppy/rescript-promise": "^2.1.0",
     "jspdf": "2.5.1",
     "marked": "4.0.18",
     "print-html-element": "0.5.1",

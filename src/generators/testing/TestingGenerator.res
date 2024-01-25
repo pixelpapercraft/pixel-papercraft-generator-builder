@@ -125,7 +125,7 @@ let drawSteveBodyCuboid = (x, y, center) => {
     (x, y),
     (64, 96, 32),
     ~center,
-    ~direction=#North,
+    ~orientation=#North,
     (),
   )
 }
@@ -155,7 +155,7 @@ let drawSteveHeadCuboid2 = (x, y, center) => {
     (x, y),
     (64, 64, 64),
     ~center,
-    ~direction=#East,
+    ~orientation=#East,
     (),
   )
 }
@@ -176,8 +176,8 @@ let drawCuboidTestPage2 = () => {
   drawSteveHeadCuboid2(387, 679, #Front)
 }
 
-let drawSteveHeadCuboid = (x, y, size, direction) => {
-  let (w, h) = switch direction {
+let drawSteveHeadCuboid = (x, y, size, orientation) => {
+  let (w, h) = switch orientation {
   | #North | #South => (size * 3, size * 4)
   | #West | #East => (size * 4, size * 3)
   }
@@ -187,7 +187,7 @@ let drawSteveHeadCuboid = (x, y, size, direction) => {
     Minecraft.Character.steve.base.head,
     (x, y),
     (size, size, size),
-    ~direction,
+    ~orientation,
     (),
   )
 }
@@ -228,12 +228,12 @@ let drawSteveHead = (texture, ox, oy, size) => {
   )
 }
 
-let drawFoldBox = (x, y, size, direction: [#clockwise | #anticlockwise]) => {
+let drawFoldBox = (x, y, size, orientation: [#clockwise | #anticlockwise]) => {
   let p1 = (x, y)
   let p2 = (x + size, y)
   let p3 = (x + size, y + size)
   let p4 = (x, y + size)
-  if direction === #clockwise {
+  if orientation === #clockwise {
     Generator.drawFoldLine(p1, p2)
     Generator.drawFoldLine(p2, p3)
     Generator.drawFoldLine(p3, p4)

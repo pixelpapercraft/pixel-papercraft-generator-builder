@@ -60,7 +60,7 @@ let drawBody = (texture: string, (ox, oy): Generator_Builder.position) => {
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~direction=#North,
+    ~orientation=#North,
     (),
   )
 }
@@ -68,7 +68,7 @@ let drawBody = (texture: string, (ox, oy): Generator_Builder.position) => {
 let drawWing1 = (texture: string, (ox, oy): Generator_Builder.position, leftSide: bool) => {
   let scale = (48, 16, 72)
   // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
-  if leftSide {
+  /* if leftSide {
     let source = Minecraft.Phantom.phantom.wing1
     let dest =
       Minecraft.Cuboid.Dest.setLayout(scale, #North, #Bottom)->Minecraft.Cuboid.Dest.translate((
@@ -112,16 +112,16 @@ let drawWing1 = (texture: string, (ox, oy): Generator_Builder.position, leftSide
       (ox, oy),
       scale,
       ~center=#Bottom,
-      ~direction=#North,
-      (),
+      ~orientation=#North,
+      (), 
     )
-  }
+  }*/
 }
 
 let drawWing2 = (texture: string, (ox, oy): Generator_Builder.position, leftSide: bool) => {
   let scale = (104, 8, 72)
   // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
-  if leftSide {
+  /* if leftSide {
     let source = Minecraft.Phantom.phantom.wing2
     let dest =
       Minecraft.Cuboid.Dest.setLayout(scale, #North, #Bottom)->Minecraft.Cuboid.Dest.translate((
@@ -165,10 +165,10 @@ let drawWing2 = (texture: string, (ox, oy): Generator_Builder.position, leftSide
       (ox, oy),
       scale,
       ~center=#Bottom,
-      ~direction=#North,
+      ~orientation=#North,
       (),
     )
-  }
+  } */
 }
 
 let drawTail1 = (texture: string, (ox, oy): Generator_Builder.position) => {
@@ -179,7 +179,7 @@ let drawTail1 = (texture: string, (ox, oy): Generator_Builder.position) => {
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~direction=#West,
+    ~orientation=#West,
     (),
   )
 }
@@ -192,7 +192,7 @@ let drawTail2 = (texture: string, (ox, oy): Generator_Builder.position) => {
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~direction=#West,
+    ~orientation=#West,
     (),
   )
 }
@@ -205,7 +205,7 @@ let drawBodyActionFigure = (texture: string, (ox, oy): Generator_Builder.positio
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~direction=#North,
+    ~orientation=#North,
     (),
   )
 }
@@ -217,7 +217,7 @@ let drawWing1ActionFigure = (
 ) => {
   let scale = (48, 16, 72)
   // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
-  if leftSide {
+  /* if leftSide {
     let source = Minecraft.Phantom.phantom.wing1
     let dest =
       Minecraft.Cuboid.Dest.setLayout(scale, #North, #Top)->Minecraft.Cuboid.Dest.translate((
@@ -280,7 +280,7 @@ let drawWing1ActionFigure = (
       (ox, oy),
       scale,
       ~center=#Top,
-      ~direction=#North,
+      ~orientation=#North,
       (),
     )
     // New things
@@ -303,7 +303,7 @@ let drawWing1ActionFigure = (
       Minecraft.Phantom.phantom.wing1.back,
       Minecraft.Cuboid.Face.make((ox + 64, oy, 48, 16))->Minecraft.Cuboid.Face.flip(#Horizontal),
     )
-  }
+  }*/
 }
 
 let drawFoldLineRect = (dest: Generator_Builder.rectangle) => {
