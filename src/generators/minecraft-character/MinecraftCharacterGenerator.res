@@ -33,6 +33,8 @@ let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background")},
   {id: "SteveTabs", url: requireImage("SteveTabs")},
   {id: "AlexTabs", url: requireImage("AlexTabs")},
+  {id: "SteveFolds", url: requireImage("SteveFolds")},
+  {id: "AlexFolds", url: requireImage("AlexFolds")},
   {id: "Labels", url: requireImage("Labels")},
 ]
 
@@ -253,13 +255,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

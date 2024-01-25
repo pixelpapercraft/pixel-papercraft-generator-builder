@@ -674,24 +674,36 @@ let drawPath = (
 ) => {
   switch model.currentPage {
   | None => model
-  | Some(currentPage) => {
-      let context = currentPage.canvasWithContext.context
+  | Some(page) => {
+      let context = page.canvasWithContext.context
       context->Context2d.beginPath
       context->Context2d.strokeStyle(color)
       context->Context2d.lineWidth(width)
       context->Context2d.setLineDash(pattern)
       context->Context2d.lineDashOffset(offset)
       for i in 1 to Js.Array.length(points) - 1 {
-        let (x, y) = points[i]
-        let (x0, y0) = points[i - 1]
-        let (ox, oy) = getOffset((x, y), (x0, y0))
+        let (x, y) = switch points[i] {
+        | None => (0, 0)
+        | Some(a, b) => (a, b)
+        }
+        let (x0, y0) = switch points[i - 1] {
+        | None => (0, 0)
+        | Some(a, b) => (a, b)
+        }
+        let (ox, oy) = getOffset((x, y), (x0, y0), page.isLandscape)
         context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
         context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
       }
       if close {
-        let (x, y) = points[Js.Array.length(points) - 1]
-        let (x0, y0) = points[0]
-        let (ox, oy) = getOffset((x, y), (x0, y0))
+        let (x, y) = switch points[Js.Array.length(points) - 1] {
+        | None => (0, 0)
+        | Some(a, b) => (a, b)
+        }
+        let (x0, y0) = switch points[0] {
+        | None => (0, 0)
+        | Some(a, b) => (a, b)
+        }
+        let (ox, oy) = getOffset((x, y), (x0, y0), page.isLandscape)
         context->Context2d.moveTo(Belt.Int.toFloat(x0) +. ox, Belt.Int.toFloat(y0) +. oy)
         context->Context2d.lineTo(Belt.Int.toFloat(x) +. ox, Belt.Int.toFloat(y) +. oy)
       }
