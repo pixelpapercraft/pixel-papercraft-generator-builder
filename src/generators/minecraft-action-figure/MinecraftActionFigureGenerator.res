@@ -17,8 +17,16 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
-let imageIds = ["Backgroundalex", "Backgroundsteve", "Foldsalex", "Foldssteve", "Labels", "Notch"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let imageIds = [
+  "Backgroundalex",
+  "Backgroundsteve",
+  "Foldsalex",
+  "Foldssteve",
+  "Foreground",
+  "Labels",
+  "Notch",
+]
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
@@ -58,13 +66,13 @@ let script = () => {
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: ["Steve", "Alex"],
+      choices: ["Steve", "Alex", "Skin2"],
     },
   )
   Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
-  Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", true)
-  Generator.defineBooleanInput("Hand Notches", true)
+  Generator.defineBooleanInput("Show Folds", false)
+  Generator.defineBooleanInput("Show Labels", false)
+  Generator.defineBooleanInput("Hand Notches", false)
 
   // Get user variable values
   let isAlexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
@@ -88,584 +96,22 @@ let script = () => {
 
   let char = isAlexModel ? alex : steve
 
-  // Define regions
-  /* Generator.defineRegionInput((10, 534, 192, 256), () => {
-    Generator.setBooleanInputValue("Show Helmet", !showHeadOverlay)
-  })
-  Generator.defineRegionInput((35, 50, 192, 144), () => {
-    Generator.setBooleanInputValue("Show BodyOverlay", !showBodyOverlay)
-  })
-  Generator.defineRegionInput((265, 211, 128, 160), () => {
-    Generator.setBooleanInputValue("Show Left Arm Overlay", !showLeftArmOverlay)
-  })
-  Generator.defineRegionInput((425, 587, 128, 160), () => {
-    Generator.setBooleanInputValue("Show Right Arm Overlay", !showRightArmOverlay)
-  })
-  Generator.defineRegionInput((425, 162, 128, 208), () => {
-    Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
-  })
-  Generator.defineRegionInput((265, 538, 128, 208), () => {
-    Generator.setBooleanInputValue("Show Right Leg Overlay", !showRightLegOverlay)
-  })*/
-
-  // Head
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 0, y: 8, w: 8, h: 8},
-    {x: 74, y: 790, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    (),
-  ) // Right
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 8, y: 8, w: 8, h: 8},
-    {x: 74, y: 726, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    (),
-  ) // Face
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 16, y: 8, w: 8, h: 8},
-    {x: 74, y: 662, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    (),
-  ) // Left
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 24, y: 8, w: 8, h: 8},
-    {x: 74, y: 598, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    (),
-  ) // Back
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 8, y: 0, w: 8, h: 8},
-    {x: 10, y: 726, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    (),
-  ) // Top
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 16, y: 0, w: 8, h: 8},
-    {x: 138, y: 726, w: 64, h: 64},
-    ~rotateLegacy=-90.0,
-    ~flip=#Vertical,
-    (),
-  ) // Bot
-
-  //Neck
-  Generator.drawTextureLegacy("Skin2", {x: 16, y: 0, w: 8, h: 8}, {x: 36, y: 414, w: 64, h: 96}, ()) // Bot
-
-  //Pelvis
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 20, y: 48, w: 4, h: 4},
-    {x: 163, y: 380, w: 32, h: 130},
-    (),
-  ) // Left Pelvis
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 4, y: 16, w: 4, h: 4},
-    {x: 131, y: 380, w: 32, h: 130},
-    (),
-  ) // Right Pelvis
-
-  //Body
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 16, y: 16, w: 24, h: 16},
-    {x: 35, y: 50, w: 192, h: 128},
-    (),
-  ) // Body
-  Generator.drawTextureLegacy("Skin2", {x: 0, y: 20, w: 4, h: 4}, {x: 35, y: 178, w: 32, h: 32}, ()) // Right hip
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 24, y: 52, w: 4, h: 4},
-    {x: 131, y: 178, w: 32, h: 32},
-    (),
-  ) // Left hip
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 28, y: 16, w: 8, h: 4},
-    {x: 67, y: 178, w: 64, h: 32},
-    ~flip=#Vertical,
-    (),
-  ) // Bot
-
-  // Arms
-
-  if isAlexModel {
-    //Left Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 39, y: 48, w: 3, h: 4},
-      {x: 329, y: 338, w: 24, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) //Left Hand
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 48, w: 11, h: 16},
-      {x: 297, y: 211, w: 88, h: 128},
-      (),
-    ) //Left arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 43, y: 52, w: 3, h: 12},
-      {x: 273, y: 243, w: 24, h: 96},
-      (),
-    ) //Back Left Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 52, w: 4, h: 4},
-      {x: 297, y: 121, w: 32, h: 32},
-      (),
-    ) //Left Shoulder
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 52, w: 4, h: 4},
-      {x: 297, y: 86, w: 32, h: 32},
-      (),
-    ) //Left Shoulder Inside
-
-    //Right Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 47, y: 16, w: 3, h: 4},
-      {x: 465, y: 714, w: 24, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) //Right Hand
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 40, y: 16, w: 14, h: 16},
-      {x: 433, y: 587, w: 112, h: 128},
-      (),
-    ) //Right Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 47, y: 20, w: 4, h: 4},
-      {x: 489, y: 496, w: 32, h: 32},
-      (),
-    ) //Right Shoulder
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 47, y: 20, w: 4, h: 4},
-      {x: 489, y: 462, w: 32, h: 32},
-      (),
-    ) //Right Shoulder Inside
-  } else {
-    //Left Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 40, y: 48, w: 4, h: 4},
-      {x: 329, y: 338, w: 32, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) //Left Hand
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 48, w: 12, h: 16},
-      {x: 297, y: 211, w: 96, h: 128},
-      (),
-    ) //Left arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 44, y: 52, w: 4, h: 12},
-      {x: 265, y: 243, w: 32, h: 96},
-      (),
-    ) //Back Left Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 52, w: 4, h: 4},
-      {x: 297, y: 121, w: 32, h: 32},
-      (),
-    ) //Left Shoulder
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 52, w: 4, h: 4},
-      {x: 297, y: 86, w: 32, h: 32},
-      (),
-    ) //Left Shoulder Inside
-
-    //Right Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 48, y: 16, w: 4, h: 4},
-      {x: 457, y: 714, w: 32, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) //Right Hand
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 40, y: 16, w: 16, h: 16},
-      {x: 425, y: 587, w: 128, h: 128},
-      (),
-    ) //Right Arm
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 48, y: 20, w: 4, h: 4},
-      {x: 489, y: 496, w: 32, h: 32},
-      (),
-    ) //Right Shoulder
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 48, y: 20, w: 4, h: 4},
-      {x: 489, y: 462, w: 32, h: 32},
-      (),
-    ) //Right Shoulder Inside
-  }
-  // Legs
-
-  //Left Leg
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 16, y: 48, w: 12, h: 16},
-    {x: 457, y: 210, w: 96, h: 128},
-    (),
-  ) //Left Leg
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 28, y: 52, w: 4, h: 8},
-    {x: 521, y: 210, w: 32, h: 64},
-    ~rotateLegacy=180.0,
-    (),
-  ) //Left Buttock
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 28, y: 52, w: 4, h: 12},
-    {x: 425, y: 242, w: 32, h: 96},
-    (),
-  ) //Back Left Leg
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 24, y: 48, w: 4, h: 4},
-    {x: 489, y: 338, w: 32, h: 32},
-    ~flip=#Vertical,
-    (),
-  ) //Left foot
-
-  //Right Leg
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 0, y: 16, w: 16, h: 16},
-    {x: 265, y: 586, w: 128, h: 128},
-    (),
-  ) //Right Leg
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 12, y: 20, w: 4, h: 8},
-    {x: 329, y: 586, w: 32, h: 64},
-    ~rotateLegacy=180.0,
-    (),
-  ) //Right Buttock
-  Generator.drawTextureLegacy(
-    "Skin2",
-    {x: 8, y: 16, w: 4, h: 4},
-    {x: 297, y: 714, w: 32, h: 32},
-    ~flip=#Vertical,
-    (),
-  ) //Right foot
-
-  //Overlay
-  if !showHeadOverlay {
-    // Helmet
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 32, y: 8, w: 8, h: 8},
-      {x: 74, y: 790, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      (),
-    ) // Right
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 40, y: 8, w: 8, h: 8},
-      {x: 74, y: 726, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      (),
-    ) // Face
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 48, y: 8, w: 8, h: 8},
-      {x: 74, y: 662, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      (),
-    ) // Left
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 56, y: 8, w: 8, h: 8},
-      {x: 74, y: 598, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      (),
-    ) // Back
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 40, y: 0, w: 8, h: 8},
-      {x: 10, y: 726, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      (),
-    ) // Top
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 48, y: 0, w: 8, h: 8},
-      {x: 138, y: 726, w: 64, h: 64},
-      ~rotateLegacy=-90.0,
-      ~flip=#Vertical,
-      (),
-    ) // Bot
-
-    //Neck
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 48, y: 0, w: 8, h: 8},
-      {x: 36, y: 414, w: 64, h: 96},
-      (),
-    )
-  } // Bot
-
-  if !showBodyOverlay {
-    //BodyOverlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 16, y: 32, w: 24, h: 16},
-      {x: 35, y: 50, w: 192, h: 128},
-      (),
-    ) // BodyOverlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 28, y: 32, w: 8, h: 4},
-      {x: 67, y: 178, w: 64, h: 32},
-      ~flip=#Vertical,
-      (),
-    )
-  } // Bot
-
-  // Arm Overlays
-
-  if isAlexModel {
-    if !showLeftArmOverlay {
-      //Left Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 55, y: 48, w: 3, h: 4},
-        {x: 329, y: 338, w: 24, h: 32},
-        ~flip=#Vertical,
-        (),
-      ) //Left Glove
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 48, w: 11, h: 16},
-        {x: 297, y: 211, w: 88, h: 128},
-        (),
-      ) //Left Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 59, y: 52, w: 3, h: 12},
-        {x: 273, y: 243, w: 24, h: 96},
-        (),
-      ) //Back Left Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 52, w: 4, h: 4},
-        {x: 297, y: 121, w: 32, h: 32},
-        (),
-      ) //Left Shoulder Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 52, w: 4, h: 4},
-        {x: 297, y: 86, w: 32, h: 32},
-        (),
-      )
-    } //Left Shoulder Arm Overlay Inside
-
-    if !showRightArmOverlay {
-      //Right Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 47, y: 32, w: 3, h: 4},
-        {x: 465, y: 714, w: 24, h: 32},
-        ~flip=#Vertical,
-        (),
-      ) //Right Glove
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 40, y: 32, w: 14, h: 16},
-        {x: 433, y: 587, w: 112, h: 128},
-        (),
-      ) //Right Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 47, y: 36, w: 4, h: 4},
-        {x: 489, y: 496, w: 32, h: 32},
-        (),
-      ) //Right Shoulder Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 47, y: 36, w: 4, h: 4},
-        {x: 489, y: 462, w: 32, h: 32},
-        (),
-      ) //Right Shoulder Arm Overlay Inside
-    }
-  } else {
-    if !showLeftArmOverlay {
-      //Left Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 56, y: 48, w: 4, h: 4},
-        {x: 329, y: 338, w: 32, h: 32},
-        ~flip=#Vertical,
-        (),
-      ) //Left Glove
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 48, w: 12, h: 16},
-        {x: 297, y: 211, w: 96, h: 128},
-        (),
-      ) //Left Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 60, y: 52, w: 4, h: 12},
-        {x: 265, y: 243, w: 32, h: 96},
-        (),
-      ) //Back Left Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 52, w: 4, h: 4},
-        {x: 297, y: 121, w: 32, h: 32},
-        (),
-      ) //Left Shoulder Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 52, w: 4, h: 4},
-        {x: 297, y: 86, w: 32, h: 32},
-        (),
-      )
-    } //Left Shoulder Arm Overlay Inside
-
-    if !showRightArmOverlay {
-      //Right Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 32, w: 4, h: 4},
-        {x: 457, y: 714, w: 32, h: 32},
-        ~flip=#Vertical,
-        (),
-      ) //Right Glove
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 40, y: 32, w: 16, h: 16},
-        {x: 425, y: 587, w: 128, h: 128},
-        (),
-      ) //Right Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 36, w: 4, h: 4},
-        {x: 489, y: 496, w: 32, h: 32},
-        (),
-      ) //Right Shoulder Arm Overlay
-      Generator.drawTextureLegacy(
-        "Skin2",
-        {x: 48, y: 36, w: 4, h: 4},
-        {x: 489, y: 462, w: 32, h: 32},
-        (),
-      )
-    } //Right Shoulder Arm Overlay Inside
-  }
-  // Leg Overlays
-
-  if !showLeftLegOverlay {
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 4, y: 48, w: 4, h: 4},
-      {x: 163, y: 380, w: 32, h: 130},
-      (),
-    ) // Left Pelvis
-
-    //Left Leg Leg Overlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 0, y: 48, w: 12, h: 16},
-      {x: 457, y: 210, w: 96, h: 128},
-      (),
-    ) //Left Leg Leg Overlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 12, y: 52, w: 4, h: 8},
-      {x: 521, y: 210, w: 32, h: 64},
-      ~rotateLegacy=180.0,
-      (),
-    ) //Left Buttock Leg Overlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 12, y: 52, w: 4, h: 12},
-      {x: 425, y: 242, w: 32, h: 96},
-      (),
-    ) //Back Left Leg Leg Overlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 8, y: 48, w: 4, h: 4},
-      {x: 489, y: 338, w: 32, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) //Left foot Shoe
-
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 8, y: 52, w: 4, h: 4},
-      {x: 131, y: 178, w: 32, h: 32},
-      (),
-    ) // Left Hip Leg Overlay
-  }
-
-  if !showRightLegOverlay {
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 4, y: 32, w: 4, h: 4},
-      {x: 131, y: 380, w: 32, h: 130},
-      (),
-    ) // Right Pelvis
-
-    //Right Leg Leg Overlay
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 0, y: 32, w: 16, h: 16},
-      {x: 265, y: 586, w: 128, h: 128},
-      (),
-    ) //Right Leg
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 12, y: 36, w: 4, h: 8},
-      {x: 329, y: 586, w: 32, h: 64},
-      ~rotateLegacy=180.0,
-      (),
-    ) //Right Buttock
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 8, y: 32, w: 4, h: 4},
-      {x: 297, y: 714, w: 32, h: 32},
-      ~flip=#Vertical,
-      (),
-    ) //Right foot
-
-    Generator.drawTextureLegacy(
-      "Skin2",
-      {x: 0, y: 36, w: 4, h: 4},
-      {x: 35, y: 178, w: 32, h: 32},
-      (),
-    ) // Right Hip Leg Overlay
-  }
-
   let drawHead = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 64, 64)
-    Minecraft.drawCuboid("Skin", char.base.head, (ox, oy), ~rotate=270.0, scale, ())
-    Generator.drawTexture("Skin", char.base.head.bottom, (36, 414, 64, 96), ()) // Neck
+    Minecraft.drawCuboid("Skin", char.base.head, (ox, oy), scale, ())
+
     if showHeadOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.head, (ox, oy), ~rotate=270.0, scale, ())
+      Minecraft.drawCuboid("Skin", char.overlay.head, (ox, oy), scale, ())
       Generator.drawTexture("Skin", char.overlay.head.bottom, (36, 414, 64, 96), ()) // Neck
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
+  }
+
+  let drawNeck = ((ox, oy): Generator_Builder.position) => {
+    Generator.drawTexture("Skin", char.base.head.bottom, (ox + 16, oy, 96, 64), ()) // Neck
+
+    if showHeadOverlay {
+      Generator.drawTexture("Skin", char.overlay.head.bottom, (ox + 16, oy, 96, 64), ()) // Neck
+    }
   }
 
   let drawBody = ((ox, oy): Generator_Builder.position) => {
@@ -673,74 +119,139 @@ let script = () => {
     Minecraft.drawCuboid("Skin", char.base.body, (ox, oy), scale, ())
     Generator.drawTexture("Skin", char.base.rightLeg.right, (ox, oy + 128, 32, 96), ()) // Right Hip
     Generator.drawTexture("Skin", char.base.leftLeg.left, (ox + 96, oy + 128, 32, 96), ()) // Left Hip
-    Generator.drawTexture("Skin", char.base.rightLeg.top, (131, 380, 32, 128), ()) // Right Pelvis
-    Generator.drawTexture("Skin", char.base.leftLeg.top, (163, 380, 32, 128), ()) // Left Pelvis
+
     if showBodyOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.body, (ox, oy), scale, ())
     }
     if showRightLegOverlay {
-      Generator.drawTexture("Skin", char.base.rightLeg.right, (ox, oy + 128, 32, 96), ()) // Right Hip
-      Generator.drawTexture("Skin", char.base.rightLeg.top, (131, 380, 32, 128), ()) // Right Pelvis
+      Generator.drawTexture("Skin", char.overlay.rightLeg.right, (ox, oy + 128, 32, 96), ()) // Right Hip
     }
     if showLeftLegOverlay {
-      Generator.drawTexture("Skin", char.base.leftLeg.left, (ox + 96, oy + 128, 32, 96), ()) // Left Hip
-      Generator.drawTexture("Skin", char.base.leftLeg.top, (163, 380, 32, 128), ()) // Left Pelvis
+      Generator.drawTexture("Skin", char.overlay.leftLeg.left, (ox + 96, oy + 128, 32, 96), ()) // Left Hip
+    }
+  }
+
+  let drawPelvis = ((ox, oy): Generator_Builder.position) => {
+    Generator.drawTexture("Skin", char.base.rightLeg.top, (ox, oy, 32, 128), ()) // Right Pelvis
+    Generator.drawTexture("Skin", char.base.leftLeg.top, (ox + 32, oy, 32, 128), ()) // Left Pelvis
+
+    if showRightLegOverlay {
+      Generator.drawTexture("Skin", char.overlay.rightLeg.top, (ox, oy, 32, 128), ()) // Right Pelvis
+    }
+
+    if showLeftLegOverlay {
+      Generator.drawTexture("Skin", char.overlay.leftLeg.top, (ox + 32, oy, 32, 128), ()) // Left Pelvis
     }
   }
 
   let drawRightArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.rightArm, (ox, oy), scale, ())
+
     if showRightArmOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.rightArm, (ox, oy), scale, ())
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
+
+  let drawRightShoulder = ((ox, oy): Generator_Builder.position) => {
+    Generator.drawTexture("Skin", (char == alex ? 47 : 48, 20, 4, 4), (ox, oy + 15, 32, 32), ()) //Right Shoulder Inside
+    Generator.drawTexture("Skin", (char == alex ? 47 : 48, 20, 4, 4), (ox, oy + 49, 32, 32), ()) //Right Shoulder
+
+    if showRightArmOverlay {
+      Generator.drawTexture("Skin", (char == alex ? 47 : 48, 36, 4, 4), (ox, oy + 15, 32, 32), ()) //Right Shoulder Inside
+      Generator.drawTexture("Skin", (char == alex ? 47 : 48, 36, 4, 4), (ox, oy + 49, 32, 32), ()) //Right Shoulder
+    }
+  }
+
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~orientation=#East, ())
+
     if showLeftArmOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~orientation=#East, ())
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
-    } */
   }
+
+  let drawLeftShoulder = ((ox, oy): Generator_Builder.position) => {
+    Generator.drawTexture("Skin", (32, 52, 4, 4), (ox, oy + 15, 32, 32), ()) //Left Shoulder Inside
+    Generator.drawTexture("Skin", (32, 52, 4, 4), (ox, oy + 49, 32, 32), ()) //Left Shoulder
+
+    if showLeftArmOverlay {
+      Generator.drawTexture("Skin", (48, 52, 4, 4), (ox, oy + 15, 32, 32), ()) //Left Shoulder Inside
+      Generator.drawTexture("Skin", (48, 52, 4, 4), (ox, oy + 49, 32, 32), ()) //Left Shoulder
+    }
+  }
+
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.rightLeg, (ox, oy), scale, ())
+    Generator.drawTexture(
+      "Skin",
+      char.base.rightLeg.back,
+      (ox + 32, oy - 114, 32, 96),
+      ~rotate=180.0,
+      (),
+    )
+    Generator.drawTexture("Skin", char.base.rightLeg.top, (ox + 32, oy - 18, 32, 50), ())
+
+    // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
+
     if showRightLegOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.rightLeg, (ox, oy), scale, ())
+      Generator.drawTexture(
+        "Skin",
+        char.overlay.rightLeg.back,
+        (ox + 32, oy - 114, 32, 96),
+        ~rotate=180.0,
+        (),
+      )
+      Generator.drawTexture("Skin", char.base.rightLeg.top, (ox + 32, oy - 18, 32, 50), ())
+      Generator.drawTexture("Skin", char.overlay.rightLeg.top, (ox + 32, oy - 18, 32, 50), ())
+      // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~orientation=#East, ())
+    Generator.drawTexture(
+      "Skin",
+      char.base.leftLeg.back,
+      (ox + 64, oy - 114, 32, 96),
+      ~rotate=180.0,
+      (),
+    )
+    Generator.drawTexture("Skin", char.base.leftLeg.top, (ox + 64, oy - 18, 32, 50), ())
+
+    // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
     if showLeftLegOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~orientation=#East, ())
+      Generator.drawTexture(
+        "Skin",
+        char.overlay.leftLeg.back,
+        (ox + 64, oy - 114, 32, 96),
+        ~rotate=180.0,
+        (),
+      )
+      Generator.drawTexture("Skin", char.base.leftLeg.top, (ox + 64, oy - 18, 32, 50), ())
+      Generator.drawTexture("Skin", char.overlay.leftLeg.top, (ox + 64, oy - 18, 32, 50), ())
+      // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
-    } */
   }
 
-  // Head
+  // The foreground was designed on a 32px grid with an offset of (9, 5) that makes the cells more centered. This function makes finding the (ox, oy) much easier as you only need to count the cells instead of find the actual coordinates.
+  let getGridOrigin = (x: int, y: int) => (9 + 32 * x, 5 + 32 * y)
 
-  let (ox, oy) = (9, 598)
+  // Head
+  let (ox, oy) = getGridOrigin(1, 1)
 
   drawHead((ox, oy))
-  Generator.defineRegionInput((ox, oy, 192, 256), () => {
+  Generator.defineRegionInput((ox, oy, 256, 192), () => {
     Generator.setBooleanInputValue("Show Head Overlay", !showHeadOverlay)
   })
 
   // Body
 
-  let (ox, oy) = (35, 50)
+  let (ox, oy) = getGridOrigin(11, 2)
 
   drawBody((ox, oy))
   Generator.defineRegionInput((ox, oy, 192, 160), () => {
@@ -751,7 +262,7 @@ let script = () => {
 
   // Right Arm
 
-  let (ox, oy) = (isAlexModel ? 433 : 425, 587)
+  let (ox, oy) = getGridOrigin(2, 10)
 
   drawRightArm((ox, oy))
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 160), () => {
@@ -760,7 +271,7 @@ let script = () => {
 
   // Left Arm
 
-  let (ox, oy) = (isAlexModel ? 273 : 265, 211)
+  let (ox, oy) = getGridOrigin(12, 10)
 
   drawLeftArm((ox, oy))
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 166), () => {
@@ -769,7 +280,7 @@ let script = () => {
 
   // Right Leg
 
-  let (ox, oy) = (265, 587)
+  let (ox, oy) = getGridOrigin(3, 18)
 
   drawRightLeg((ox, oy))
   Generator.defineRegionInput((ox, oy, 128, 160), () => {
@@ -778,19 +289,45 @@ let script = () => {
 
   // Left Leg
 
-  let (ox, oy) = (425, 211)
+  let (ox, oy) = getGridOrigin(11, 18)
 
   drawLeftLeg((ox, oy))
   Generator.defineRegionInput((ox, oy, 128, 160), () => {
     Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
   })
 
+  // Neck
+
+  let (ox, oy) = getGridOrigin(7, 7)
+
+  drawNeck((ox, oy))
+
+  // Pelvis
+
+  let (ox, oy) = getGridOrigin(8, 15)
+
+  drawPelvis((ox, oy))
+
+  // Right Shoulder
+
+  let (ox, oy) = getGridOrigin(7, 11)
+
+  drawRightShoulder((ox, oy))
+
+  // Left  Shoulder
+
+  let (ox, oy) = getGridOrigin(10, 11)
+
+  drawLeftShoulder((ox, oy))
+
   // Background
-  if isAlexModel {
+  /* if isAlexModel {
     Generator.drawImage("Backgroundalex", (0, 0))
   } else {
     Generator.drawImage("Backgroundsteve", (0, 0))
-  }
+  } */
+  // Foreground
+  Generator.drawImage("Foreground", (0, 0))
 
   // Folds
   if showFolds {
@@ -800,6 +337,7 @@ let script = () => {
       Generator.drawImage("Foldssteve", (0, 0))
     }
   }
+
   // Hand Notches
   if handNotches {
     if isAlexModel {
@@ -822,13 +360,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }
