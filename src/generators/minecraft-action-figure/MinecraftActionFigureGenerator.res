@@ -102,32 +102,31 @@ let script = () => {
 
     if showHeadOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.head, (ox, oy), scale, ())
-      Generator.drawTexture("Skin", char.overlay.head.bottom, (36, 414, 64, 96), ()) // Neck
     }
   }
 
   let drawNeck = ((ox, oy): Generator_Builder.position) => {
-    Generator.drawTexture("Skin", char.base.head.bottom, (ox + 16, oy, 96, 64), ()) // Neck
+    Generator.drawTexture("Skin", char.base.head.bottom, (ox, oy, 96, 64), ()) // Neck
 
     if showHeadOverlay {
-      Generator.drawTexture("Skin", char.overlay.head.bottom, (ox + 16, oy, 96, 64), ()) // Neck
+      Generator.drawTexture("Skin", char.overlay.head.bottom, (ox, oy, 96, 64), ()) // Neck
     }
   }
 
   let drawBody = ((ox, oy): Generator_Builder.position) => {
     let scale = (64, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.body, (ox, oy), scale, ())
-    Generator.drawTexture("Skin", char.base.rightLeg.right, (ox, oy + 128, 32, 96), ()) // Right Hip
-    Generator.drawTexture("Skin", char.base.leftLeg.left, (ox + 96, oy + 128, 32, 96), ()) // Left Hip
+    Generator.drawTexture("Skin", (0, 20, 4, 4), (ox, oy + 128, 32, 32), ()) // Right Hip
+    Generator.drawTexture("Skin", (24, 52, 4, 4), (ox + 96, oy + 128, 32, 32), ()) // Left Hip
 
     if showBodyOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.body, (ox, oy), scale, ())
     }
     if showRightLegOverlay {
-      Generator.drawTexture("Skin", char.overlay.rightLeg.right, (ox, oy + 128, 32, 96), ()) // Right Hip
+      Generator.drawTexture("Skin", (0, 36, 4, 4), (ox, oy + 128, 32, 32), ()) // Right Hip
     }
     if showLeftLegOverlay {
-      Generator.drawTexture("Skin", char.overlay.leftLeg.left, (ox + 96, oy + 128, 32, 96), ()) // Left Hip
+      Generator.drawTexture("Skin", (8, 52, 4, 4), (ox + 96, oy + 128, 32, 32), ()) // Left Hip
     }
   }
 
@@ -185,26 +184,14 @@ let script = () => {
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.rightLeg, (ox, oy), scale, ())
-    Generator.drawTexture(
-      "Skin",
-      char.base.rightLeg.back,
-      (ox + 32, oy - 114, 32, 96),
-      ~rotate=180.0,
-      (),
-    )
+    Generator.drawTexture("Skin", (12, 20, 4, 4), (ox + 32, oy - 50, 32, 32), ~rotate=180.0, ())
     Generator.drawTexture("Skin", char.base.rightLeg.top, (ox + 32, oy - 18, 32, 50), ())
 
     // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
 
     if showRightLegOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.rightLeg, (ox, oy), scale, ())
-      Generator.drawTexture(
-        "Skin",
-        char.overlay.rightLeg.back,
-        (ox + 32, oy - 114, 32, 96),
-        ~rotate=180.0,
-        (),
-      )
+      Generator.drawTexture("Skin", (12, 36, 4, 4), (ox + 32, oy - 50, 32, 32), ~rotate=180.0, ())
       Generator.drawTexture("Skin", char.base.rightLeg.top, (ox + 32, oy - 18, 32, 50), ())
       Generator.drawTexture("Skin", char.overlay.rightLeg.top, (ox + 32, oy - 18, 32, 50), ())
       // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
@@ -213,25 +200,13 @@ let script = () => {
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
     Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~orientation=#East, ())
-    Generator.drawTexture(
-      "Skin",
-      char.base.leftLeg.back,
-      (ox + 64, oy - 114, 32, 96),
-      ~rotate=180.0,
-      (),
-    )
+    Generator.drawTexture("Skin", (28, 52, 4, 4), (ox + 64, oy - 50, 32, 32), ~rotate=180.0, ())
     Generator.drawTexture("Skin", char.base.leftLeg.top, (ox + 64, oy - 18, 32, 50), ())
 
     // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
     if showLeftLegOverlay {
       Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~orientation=#East, ())
-      Generator.drawTexture(
-        "Skin",
-        char.overlay.leftLeg.back,
-        (ox + 64, oy - 114, 32, 96),
-        ~rotate=180.0,
-        (),
-      )
+      Generator.drawTexture("Skin", (12, 52, 4, 4), (ox + 64, oy - 50, 32, 32), ~rotate=180.0, ())
       Generator.drawTexture("Skin", char.base.leftLeg.top, (ox + 64, oy - 18, 32, 50), ())
       Generator.drawTexture("Skin", char.overlay.leftLeg.top, (ox + 64, oy - 18, 32, 50), ())
       // 50 pixels tall top, so that the back texture is in line with where it should be on the back side
@@ -249,14 +224,26 @@ let script = () => {
     Generator.setBooleanInputValue("Show Head Overlay", !showHeadOverlay)
   })
 
+  // Neck
+
+  let (ox, oy) = getGridOrigin(13, 3)
+
+  drawNeck((ox, oy))
+
   // Body
 
-  let (ox, oy) = getGridOrigin(11, 2)
+  let (ox, oy) = getGridOrigin(7, 6)
 
   drawBody((ox, oy))
   Generator.defineRegionInput((ox, oy, 192, 160), () => {
     Generator.setBooleanInputValue("Show Body Overlay", !showBodyOverlay)
   })
+
+  // Pelvis
+
+  let (ox, oy) = getGridOrigin(8, 15)
+
+  drawPelvis((ox, oy))
 
   // Arms
 
@@ -269,6 +256,12 @@ let script = () => {
     Generator.setBooleanInputValue("Show Right Arm Overlay", !showRightArmOverlay)
   })
 
+  // Right Shoulder
+
+  let (ox, oy) = getGridOrigin(7, 11)
+
+  drawRightShoulder((ox, oy))
+
   // Left Arm
 
   let (ox, oy) = getGridOrigin(12, 10)
@@ -278,47 +271,29 @@ let script = () => {
     Generator.setBooleanInputValue("Show Left Arm Overlay", !showLeftArmOverlay)
   })
 
-  // Right Leg
-
-  let (ox, oy) = getGridOrigin(3, 18)
-
-  drawRightLeg((ox, oy))
-  Generator.defineRegionInput((ox, oy, 128, 160), () => {
-    Generator.setBooleanInputValue("Show Right Leg Overlay", !showRightLegOverlay)
-  })
-
-  // Left Leg
-
-  let (ox, oy) = getGridOrigin(11, 18)
-
-  drawLeftLeg((ox, oy))
-  Generator.defineRegionInput((ox, oy, 128, 160), () => {
-    Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
-  })
-
-  // Neck
-
-  let (ox, oy) = getGridOrigin(7, 7)
-
-  drawNeck((ox, oy))
-
-  // Pelvis
-
-  let (ox, oy) = getGridOrigin(8, 15)
-
-  drawPelvis((ox, oy))
-
-  // Right Shoulder
-
-  let (ox, oy) = getGridOrigin(7, 11)
-
-  drawRightShoulder((ox, oy))
-
   // Left  Shoulder
 
   let (ox, oy) = getGridOrigin(10, 11)
 
   drawLeftShoulder((ox, oy))
+
+  // Right Leg
+
+  let (ox, oy) = getGridOrigin(2, 18)
+
+  drawRightLeg((ox, oy))
+  Generator.defineRegionInput((ox, oy - 48, 128, 208), () => {
+    Generator.setBooleanInputValue("Show Right Leg Overlay", !showRightLegOverlay)
+  })
+
+  // Left Leg
+
+  let (ox, oy) = getGridOrigin(12, 18)
+
+  drawLeftLeg((ox, oy))
+  Generator.defineRegionInput((ox, oy - 48, 128, 208), () => {
+    Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
+  })
 
   // Background
   /* if isAlexModel {
@@ -327,7 +302,7 @@ let script = () => {
     Generator.drawImage("Backgroundsteve", (0, 0))
   } */
   // Foreground
-  Generator.drawImage("Foreground", (0, 0))
+  //Generator.drawImage("Foreground", (0, 0))
 
   // Folds
   if showFolds {
