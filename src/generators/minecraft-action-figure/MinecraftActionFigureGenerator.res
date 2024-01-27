@@ -22,6 +22,7 @@ let imageIds = [
   "Backgroundsteve",
   "Foldsalex",
   "Foldssteve",
+  "Folds",
   "Foreground",
   "Labels",
   "Notch",
@@ -70,7 +71,7 @@ let script = () => {
     },
   )
   Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
-  Generator.defineBooleanInput("Show Folds", false)
+  Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Labels", false)
   Generator.defineBooleanInput("Hand Notches", false)
 
@@ -241,7 +242,7 @@ let script = () => {
 
   // Pelvis
 
-  let (ox, oy) = getGridOrigin(8, 15)
+  let (ox, oy) = getGridOrigin(8, 17)
 
   drawPelvis((ox, oy))
 
@@ -249,7 +250,7 @@ let script = () => {
 
   // Right Arm
 
-  let (ox, oy) = getGridOrigin(2, 10)
+  let (ox, oy) = getGridOrigin(1, 10)
 
   drawRightArm((ox, oy))
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 160), () => {
@@ -258,13 +259,13 @@ let script = () => {
 
   // Right Shoulder
 
-  let (ox, oy) = getGridOrigin(7, 11)
+  let (ox, oy) = getGridOrigin(7, 12)
 
   drawRightShoulder((ox, oy))
 
   // Left Arm
 
-  let (ox, oy) = getGridOrigin(12, 10)
+  let (ox, oy) = getGridOrigin(13, 10)
 
   drawLeftArm((ox, oy))
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 166), () => {
@@ -273,13 +274,13 @@ let script = () => {
 
   // Left  Shoulder
 
-  let (ox, oy) = getGridOrigin(10, 11)
+  let (ox, oy) = getGridOrigin(10, 12)
 
   drawLeftShoulder((ox, oy))
 
   // Right Leg
 
-  let (ox, oy) = getGridOrigin(2, 18)
+  let (ox, oy) = getGridOrigin(1, 18)
 
   drawRightLeg((ox, oy))
   Generator.defineRegionInput((ox, oy - 48, 128, 208), () => {
@@ -288,7 +289,7 @@ let script = () => {
 
   // Left Leg
 
-  let (ox, oy) = getGridOrigin(12, 18)
+  let (ox, oy) = getGridOrigin(13, 18)
 
   drawLeftLeg((ox, oy))
   Generator.defineRegionInput((ox, oy - 48, 128, 208), () => {
@@ -302,15 +303,16 @@ let script = () => {
     Generator.drawImage("Backgroundsteve", (0, 0))
   } */
   // Foreground
-  //Generator.drawImage("Foreground", (0, 0))
+  Generator.drawImage("Foreground", (0, 0))
 
   // Folds
   if showFolds {
-    if isAlexModel {
-      Generator.drawImage("Foldsalex", (0, 0))
-    } else {
-      Generator.drawImage("Foldssteve", (0, 0))
-    }
+    //if isAlexModel {
+    //  Generator.drawImage("Foldsalex", (0, 0))
+    //} else {
+    //  Generator.drawImage("Foldssteve", (0, 0))
+    //}
+    Generator.drawImage("Folds", (0, 0))
   }
 
   // Hand Notches
