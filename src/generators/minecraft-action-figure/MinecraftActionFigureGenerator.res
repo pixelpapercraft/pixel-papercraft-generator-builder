@@ -17,16 +17,7 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
-let imageIds = [
-  "Backgroundalex",
-  "Backgroundsteve",
-  "Foldsalex",
-  "Foldssteve",
-  "Folds",
-  "Foreground",
-  "Labels",
-  "Notch",
-]
+let imageIds = ["Folds", "Foreground", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -72,8 +63,8 @@ let script = () => {
   )
   Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
   Generator.defineBooleanInput("Show Folds", true)
-  Generator.defineBooleanInput("Show Labels", false)
-  Generator.defineBooleanInput("Hand Notches", false)
+  Generator.defineBooleanInput("Show Labels", true)
+  Generator.defineBooleanInput("Hand Notches", true)
 
   // Get user variable values
   let isAlexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
@@ -214,6 +205,24 @@ let script = () => {
     }
   }
 
+  let drawNotch = ((ox, oy): Generator_Builder.position, isLeftSide: bool) => {
+    let dir = isLeftSide ? 1 : 0
+    let (x, y, w, h) = (ox + dir, oy, 8, 24)
+
+    let color = "#7b7b7b"
+    //Generator.fillRect((x - dir, y, w, h), "#ff0000")
+    Generator.drawLine((x, y - 1), (x + w - 1, y - 1), ~color, ())
+    Generator.drawLine(
+      (x + w - 10 * dir, y),
+      (x + w - 10 * dir, y + h),
+      ~color,
+      ~pattern=[7, 1],
+      (),
+    )
+    Generator.drawLine((x + w - 1, y + h + 1), (x, y + h + 1), ~color, ())
+    //Generator.drawFoldLine((x, y + h), (x, y))
+  }
+
   // The foreground was designed on a 32px grid with an offset of (9, 5) that makes the cells more centered. This function makes finding the (ox, oy) much easier as you only need to count the cells instead of find the actual coordinates.
   let getGridOrigin = (x: int, y: int) => (9 + 32 * x, 5 + 32 * y)
 
@@ -253,6 +262,7 @@ let script = () => {
   let (ox, oy) = getGridOrigin(1, 10)
 
   drawRightArm((ox, oy))
+
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 160), () => {
     Generator.setBooleanInputValue("Show Right Arm Overlay", !showRightArmOverlay)
   })
@@ -268,6 +278,7 @@ let script = () => {
   let (ox, oy) = getGridOrigin(13, 10)
 
   drawLeftArm((ox, oy))
+
   Generator.defineRegionInput((ox, oy, isAlexModel ? 112 : 128, 166), () => {
     Generator.setBooleanInputValue("Show Left Arm Overlay", !showLeftArmOverlay)
   })
@@ -317,17 +328,15 @@ let script = () => {
 
   // Hand Notches
   if handNotches {
-    if isAlexModel {
-      Generator.drawImage("Notch", (341, 307)) // Front Left Notch
-      Generator.drawImage("Notch", (285, 307)) // Back Left Notch
-      Generator.drawImage("Notch", (477, 683)) // Front Right Notch
-      Generator.drawImage("Notch", (533, 683)) // Back Right Notch
-    } else {
-      Generator.drawImage("Notch", (345, 307)) // Front Left Notch
-      Generator.drawImage("Notch", (281, 307)) // Back Left Notch
-      Generator.drawImage("Notch", (473, 683)) // Front Right Notch
-      Generator.drawImage("Notch", (537, 683)) // Back Right Notch
-    }
+    // Right Hand Notches
+    let (ox, oy) = getGridOrigin(1, 10)
+    drawNotch((ox + 44, oy + 104), false) // Front Notch
+    drawNotch((ox + 108, oy + 104), true) // Back Notch
+
+    // Left Hand Notches
+    let (ox, oy) = getGridOrigin(13, 10)
+    drawNotch((ox + 76, oy + 104), true) // Front Notch
+    drawNotch((ox + 12, oy + 104), false) // Back Notch
   }
 
   // Labels
