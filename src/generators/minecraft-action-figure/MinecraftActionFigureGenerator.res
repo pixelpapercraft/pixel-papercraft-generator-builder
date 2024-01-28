@@ -86,6 +86,8 @@ let script = () => {
     true,
   )
 
+  let m16Mode = Generator.getBooleanInputValueWithDefault("M16 Mode", false)
+
   let char = isAlexModel ? alex : steve
 
   let drawHead = ((ox, oy): Generator_Builder.position) => {
@@ -323,6 +325,22 @@ let script = () => {
     } else {
       Generator.drawImage("Folds-Steve", (0, 0))
     }
+  }
+
+  // M16 Mode
+
+  Generator.defineRegionInput((1016, 1016, 64, 64), () => {
+    // M + 16 = 1000 + 16 = 1016
+    Generator.setBooleanInputValue("M16 Mode", !m16Mode)
+  })
+  if m16Mode {
+    // draw new body
+    let (ox, oy) = getGridOrigin(7, 6)
+    Generator.fillRect((0, 0, 595, 842), "#ff8000")
+    drawBody((ox, oy))
+
+    // Draw new image
+    // if showFolds draw new folds
   }
 
   // Hand Notches
