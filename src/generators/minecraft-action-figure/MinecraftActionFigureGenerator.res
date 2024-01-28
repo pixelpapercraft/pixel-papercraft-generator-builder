@@ -17,7 +17,7 @@ let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
-let imageIds = ["Folds", "Foreground", "Labels"]
+let imageIds = ["Folds-Alex", "Folds-Steve", "Foreground-Alex", "Foreground-Steve", "Labels"]
 let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -260,6 +260,7 @@ let script = () => {
   // Right Arm
 
   let (ox, oy) = getGridOrigin(1, 10)
+  let (ox, oy) = (isAlexModel ? ox + 8 : ox, oy)
 
   drawRightArm((ox, oy))
 
@@ -276,6 +277,7 @@ let script = () => {
   // Left Arm
 
   let (ox, oy) = getGridOrigin(13, 10)
+  let (ox, oy) = (isAlexModel ? ox + 8 : ox, oy)
 
   drawLeftArm((ox, oy))
 
@@ -307,35 +309,34 @@ let script = () => {
     Generator.setBooleanInputValue("Show Left Leg Overlay", !showLeftLegOverlay)
   })
 
-  // Background
-  /* if isAlexModel {
-    Generator.drawImage("Backgroundalex", (0, 0))
-  } else {
-    Generator.drawImage("Backgroundsteve", (0, 0))
-  } */
   // Foreground
-  Generator.drawImage("Foreground", (0, 0))
+  if isAlexModel {
+    Generator.drawImage("Foreground-Alex", (0, 0))
+  } else {
+    Generator.drawImage("Foreground-Steve", (0, 0))
+  }
 
   // Folds
   if showFolds {
-    //if isAlexModel {
-    //  Generator.drawImage("Foldsalex", (0, 0))
-    //} else {
-    //  Generator.drawImage("Foldssteve", (0, 0))
-    //}
-    Generator.drawImage("Folds", (0, 0))
+    if isAlexModel {
+      Generator.drawImage("Folds-Alex", (0, 0))
+    } else {
+      Generator.drawImage("Folds-Steve", (0, 0))
+    }
   }
 
   // Hand Notches
   if handNotches {
     // Right Hand Notches
     let (ox, oy) = getGridOrigin(1, 10)
+    let (ox, oy) = (isAlexModel ? ox + 4 : ox, oy)
     drawNotch((ox + 44, oy + 104), false) // Front Notch
-    drawNotch((ox + 108, oy + 104), true) // Back Notch
+    drawNotch((ox + (isAlexModel ? 100 : 108), oy + 104), true) // Back Notch
 
     // Left Hand Notches
     let (ox, oy) = getGridOrigin(13, 10)
-    drawNotch((ox + 76, oy + 104), true) // Front Notch
+    let (ox, oy) = (isAlexModel ? ox + 4 : ox, oy)
+    drawNotch((ox + (isAlexModel ? 68 : 76), oy + 104), true) // Front Notch
     drawNotch((ox + 12, oy + 104), false) // Back Notch
   }
 
