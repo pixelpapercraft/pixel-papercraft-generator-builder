@@ -47,8 +47,8 @@ module CuboidLegacy = {
     {
       x: x + xTranslate,
       y: y + yTranslate,
-      w: w,
-      h: h,
+      w,
+      h,
     }
   }
 
@@ -141,9 +141,9 @@ module Cuboid = {
 
       {
         rectangle: (x3, y3, w, h),
-        flip: flip,
+        flip,
         rotate: addAngle(rotate, r),
-        blend: blend,
+        blend,
       }
     }
 
@@ -151,10 +151,10 @@ module Cuboid = {
     let rotate = ({rectangle, flip, rotate, blend}: t, r: float) => {
       let r = flip == #None ? addAngle(r, rotate) : addAngle(r *. -1.0, rotate)
       {
-        rectangle: rectangle,
-        flip: flip,
+        rectangle,
+        flip,
         rotate: r,
-        blend: blend,
+        blend,
       }
     }
 
@@ -165,12 +165,12 @@ module Cuboid = {
       let f =
         rotate >= 360.0
           ? rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: 0.0, blend: blend},
+              {rectangle, flip, rotate: 0.0, blend},
               (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
               rotate,
             )
           : rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: 0.0, blend: blend},
+              {rectangle, flip, rotate: 0.0, blend},
               (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
               rotate,
             )
@@ -194,9 +194,9 @@ module Cuboid = {
           )
         | _ => (x, y, w, h)
         },
-        flip: flip,
-        rotate: rotate,
-        blend: blend,
+        flip,
+        rotate,
+        blend,
       }
     }
 
@@ -227,15 +227,15 @@ module Cuboid = {
     // Translate a face.
     let translate = ({rectangle, flip, rotate, blend}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
-      flip: flip,
-      rotate: rotate,
-      blend: blend,
+      flip,
+      rotate,
+      blend,
     }
 
     let blend = ({rectangle, flip, rotate, _}: t, newBlend: Generator_Texture.blend) => {
-      rectangle: rectangle,
-      flip: flip,
-      rotate: rotate,
+      rectangle,
+      flip,
+      rotate,
       blend: newBlend,
     }
 
@@ -305,14 +305,6 @@ module Cuboid = {
           bottom: Face.make((d, h * 2 + d, w, d)),
         }
       | #North => {
-          back: Face.make((d, 0, w, h))->Face.rotate(180.0),
-          top: Face.make((d, h, w, d)),
-          right: Face.make((0, h + d, d, h)),
-          front: Face.make((d, h + d, w, h)),
-          left: Face.make((d + w, h + d, d, h)),
-          bottom: Face.make((d, h * 2 + d, w, d)),
-        }
-      | #South => {
           top: Face.make((d, 0, w, d)),
           right: Face.make((0, d, d, h)),
           front: Face.make((d, d, w, h)),
@@ -705,6 +697,7 @@ let getTabSize = () => {
   | Some(value) => value
   }
 }
+
 let drawFaceTab = (
   face: Builder.rectangle,
   side: Generator.Orientation.t,

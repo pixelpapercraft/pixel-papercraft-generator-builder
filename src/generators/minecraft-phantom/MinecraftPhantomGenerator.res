@@ -5,7 +5,10 @@ let id = "minecraft-phantom"
 
 let name = "Minecraft Phantom"
 
-let history = ["30 Jun 2022 NinjolasNJM - first release."]
+let history = [
+  "30 Jun 2022 NinjolasNJM - first release.",
+  "28 Jan 2024 NinjolasNJM - Updated to work with current functions.",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
@@ -29,7 +32,7 @@ let instructions = `
 `
 
 let imageIds = ["Foreground", "Folds", "Foreground-Action-Figure", "Folds-Action-Figure", "Labels"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
@@ -60,115 +63,38 @@ let drawBody = (texture: string, (ox, oy): Generator_Builder.position) => {
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~orientation=#North,
+    ~orientation=#South,
     (),
   )
 }
 
 let drawWing1 = (texture: string, (ox, oy): Generator_Builder.position, leftSide: bool) => {
   let scale = (48, 16, 72)
-  // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
-  /* if leftSide {
-    let source = Minecraft.Phantom.phantom.wing1
-    let dest =
-      Minecraft.Cuboid.Dest.setLayout(scale, #North, #Bottom)->Minecraft.Cuboid.Dest.translate((
-        ox,
-        oy,
-      ))
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.front,
-      dest.front->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.back,
-      dest.back->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.top,
-      dest.top->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.bottom,
-      dest.bottom->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.left,
-      dest.right->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.right,
-      dest.left->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-  } else {
-    Minecraft.drawCuboid(
-      texture,
-      Minecraft.Phantom.phantom.wing1,
-      (ox, oy),
-      scale,
-      ~center=#Bottom,
-      ~orientation=#North,
-      (), 
-    )
-  }*/
+  Minecraft.drawCuboid(
+    texture,
+    Minecraft.Phantom.phantom.wing1,
+    (ox, oy),
+    scale,
+    ~center=#Bottom,
+    ~flip=leftSide ? #Horizontal : #None,
+    ~orientation=#South,
+    (),
+  )
 }
 
 let drawWing2 = (texture: string, (ox, oy): Generator_Builder.position, leftSide: bool) => {
   let scale = (104, 8, 72)
-  // Horrifically hacky way to get the wing flipped without using a flip parameter, which does not exist yet
-  /* if leftSide {
-    let source = Minecraft.Phantom.phantom.wing2
-    let dest =
-      Minecraft.Cuboid.Dest.setLayout(scale, #North, #Bottom)->Minecraft.Cuboid.Dest.translate((
-        ox,
-        oy,
-      ))
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.front,
-      dest.front->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.back,
-      dest.back->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.top,
-      dest.top->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.bottom,
-      dest.bottom->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.left,
-      dest.right->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-    Minecraft.Cuboid.Face.draw(
-      texture,
-      source.right,
-      dest.left->Minecraft.Cuboid.Face.flip(#Horizontal),
-    )
-  } else {
-    Minecraft.drawCuboid(
-      texture,
-      Minecraft.Phantom.phantom.wing2,
-      (ox, oy),
-      scale,
-      ~center=#Bottom,
-      ~orientation=#North,
-      (),
-    )
-  } */
+
+  Minecraft.drawCuboid(
+    texture,
+    Minecraft.Phantom.phantom.wing2,
+    (ox, oy),
+    scale,
+    ~center=#Bottom,
+    ~flip=leftSide ? #Horizontal : #None,
+    ~orientation=#South,
+    (),
+  )
 }
 
 let drawTail1 = (texture: string, (ox, oy): Generator_Builder.position) => {
@@ -179,7 +105,7 @@ let drawTail1 = (texture: string, (ox, oy): Generator_Builder.position) => {
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~orientation=#West,
+    ~orientation=#East,
     (),
   )
 }
@@ -192,12 +118,12 @@ let drawTail2 = (texture: string, (ox, oy): Generator_Builder.position) => {
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~orientation=#West,
+    ~orientation=#East,
     (),
   )
 }
 
-let drawBodyActionFigure = (texture: string, (ox, oy): Generator_Builder.position) => {
+/* let drawBodyActionFigure = (texture: string, (ox, oy): Generator_Builder.position) => {
   let scale = (40, 24, 72)
   Minecraft.drawCuboid(
     texture,
@@ -205,7 +131,7 @@ let drawBodyActionFigure = (texture: string, (ox, oy): Generator_Builder.positio
     (ox, oy),
     scale,
     ~center=#Bottom,
-    ~orientation=#North,
+    ~orientation=#South,
     (),
   )
 }
@@ -304,7 +230,7 @@ let drawWing1ActionFigure = (
       Minecraft.Cuboid.Face.make((ox + 64, oy, 48, 16))->Minecraft.Cuboid.Face.flip(#Horizontal),
     )
   }*/
-}
+} */
 
 let drawFoldLineRect = (dest: Generator_Builder.rectangle) => {
   let (x, y, w, h) = dest
@@ -423,7 +349,7 @@ let drawPhantom = (texture: string, showFolds: bool, showLabels: bool) => {
   }
 }
 
-let drawPhantomActionFigure = (texture: string, showFolds: bool, showLabels: bool) => {
+/* let drawPhantomActionFigure = (texture: string, showFolds: bool, showLabels: bool) => {
   let (ox, oy) = (201, 37)
   drawHead(texture, (ox, oy))
   let (ox, oy) = (253, 197)
@@ -453,7 +379,7 @@ let drawPhantomActionFigure = (texture: string, showFolds: bool, showLabels: boo
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
-}
+}*/
 
 let script = () => {
   // Define user inputs
@@ -468,31 +394,32 @@ let script = () => {
   // Get user variable values
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
-  let actionFigure = Generator.getBooleanInputValue("Action Figure")
+
+  //let actionFigure = Generator.getBooleanInputValue("Action Figure")
 
   // Draw Phantom
-  if actionFigure {
-    drawPhantomActionFigure("Phantom", false, false) //, showFolds, showLabels)
-    // Draw Phantom Eyes
-    drawPhantomActionFigure("Phantom Eyes", false, false) //, showFolds, showLabels)
-  } else {
-    drawPhantom("Phantom", showFolds, showLabels)
-    // Draw Phantom Eyes
-    drawPhantom("Phantom Eyes", showFolds, showLabels)
-  }
+  //if actionFigure {
+  //  drawPhantomActionFigure("Phantom", false, false) //, showFolds, showLabels)
+  //  // Draw Phantom Eyes
+  //  drawPhantomActionFigure("Phantom Eyes", false, false) //, showFolds, showLabels)
+  //} else {
+  drawPhantom("Phantom", showFolds, showLabels)
+  // Draw Phantom Eyes
+  drawPhantom("Phantom Eyes", showFolds, showLabels)
+  //}
 
   // Fill Transparent Parts, with a different color while creating
   Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: None,
   video: Some(video),
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

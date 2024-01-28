@@ -16,7 +16,7 @@ To make blocks that fit in a minecart, go to the Block Generator and select the 
 "
 
 let imageIds = ["Foreground-Advanced", "Foreground-Simple"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
@@ -391,28 +391,26 @@ let script = () => {
   )
 
   // Define And Get user variables
-  //let modelType = Generator.defineAndGetSelectInput("Model Type", ["Advanced", "Simple"])
+  let modelType = Generator.defineAndGetSelectInput("Model Type", ["Advanced", "Simple"])
   let showFolds = Generator.defineAndGetBooleanInput("Show Folds", true)
 
   // Minecart
 
-  drawAdvanced(showFolds)
-
-  /* switch modelType {
+  switch modelType {
   | "Advanced" => drawAdvanced(showFolds)
   | "Simple" => drawSimple(showFolds)
   | _ => drawAdvanced(showFolds)
-  } */
+  }
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: None,
   video: None,
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

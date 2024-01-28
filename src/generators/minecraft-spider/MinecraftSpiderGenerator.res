@@ -5,20 +5,23 @@ let id = "minecraft-spider"
 
 let name = "Minecraft Spider"
 
-let history = ["30 Jun 2022 NinjolasNJM - first release."]
+let history = [
+  "30 Jun 2022 NinjolasNJM - first release.",
+  "28 Jan 2024 NinjolasNJM - Fixed to work with new functions.",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/v2-thumbnail-256.jpeg"),
 }
 
 let imageIds = ["Foreground", "Labels", "Folds"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
 let textures: array<Generator.textureDef> = [
   {
     id: "Spider",
-    url: requireTexture("testing"),
+    url: requireTexture("spider"),
     standardWidth: 64,
     standardHeight: 32,
   },
@@ -111,18 +114,18 @@ let drawLeg = (
 let drawSpider = (texture: string) => {
   drawHead(texture, (169, 21))
 
-  drawThorax(texture, (225, 309))
+  drawThorax(texture, (225, 261))
 
-  drawAbdomen(texture, (177, 549))
-  drawLeg(texture, (393, 205 - 16), #South, false)
-  drawLeg(texture, (393, 301), #North, false)
-  drawLeg(texture, (393, 405), #South, false)
-  drawLeg(texture, (393, 501), #South, false)
+  drawAbdomen(texture, (97, 549))
+  drawLeg(texture, (393, 205 + 16), #North, false)
+  drawLeg(texture, (393, 301 + 16), #North, false)
+  drawLeg(texture, (393, 405 - 16), #South, false)
+  drawLeg(texture, (393, 501 - 16), #South, false)
 
-  drawLeg(texture, (41, 205), #North, true)
-  drawLeg(texture, (41, 301), #North, true)
-  drawLeg(texture, (41, 405), #South, true)
-  drawLeg(texture, (41, 501), #South, true)
+  drawLeg(texture, (41, 205 + 16), #North, true)
+  drawLeg(texture, (41, 301 + 16), #North, true)
+  drawLeg(texture, (41, 405 - 16), #South, true)
+  drawLeg(texture, (41, 501 - 16), #South, true)
 }
 
 let drawFoldLineRect = ((x, y, w, h): Generator_Builder.rectangle) => {
@@ -175,12 +178,13 @@ let script = () => {
   drawSpider("Spider Eyes")
 
   // Background
-  //Generator.drawImage("Foreground", (0, 0))
+  Generator.drawImage("Foreground", (0, 0))
 
   // Fold Lines
   if showFolds {
     drawFolds()
   }
+
   // Labels
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
@@ -191,13 +195,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: None,
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

@@ -18,6 +18,7 @@ let utility: array<Generator.generatorDef> = [
   MinecraftArmorGenerator.generator,
   MinecraftCapeAndElytraGenerator.generator,
   MinecraftCharacterHeadsGenerator.generator,
+  MinecraftMinecartGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
@@ -26,6 +27,8 @@ let mob: array<Generator.generatorDef> = [
   MinecraftGolemGenerator.generator,
   MinecraftHorseGenerator.generator,
   MinecraftPigGenerator.generator,
+  MinecraftSpiderGenerator.generator,
+  MinecraftPhantomGenerator.generator,
   MinecraftCatGenerator.generator,
   MinecraftVillagerGenerator.generator,
 ]
@@ -43,28 +46,6 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftAxolotlCharacterGenerator.generator,
   MinecraftAllayCharacterGenerator.generator,
   MinecraftBeeCharacterGenerator.generator,
-]
-
-let mob: array<Generator.generatorDef> = [
-  MinecraftCreeperGenerator.generator,
-  MinecraftEndermanGenerator.generator,
-  MinecraftGolemGenerator.generator,
-  MinecraftHorseGenerator.generator,
-  MinecraftPigGenerator.generator,
-  MinecraftSpiderGenerator.generator,
-  MinecraftPhantomGenerator.generator,
-  MinecraftCatGenerator.generator,
-  MinecraftVillagerGenerator.generator,
-]
-
-// Blocks, Items and Accessories
-let utility: array<Generator.generatorDef> = [
-  MinecraftBlockGenerator.generator,
-  MinecraftItemGenerator.generator,
-  MinecraftArmorGenerator.generator,
-  MinecraftCapeAndElytraGenerator.generator,
-  MinecraftCharacterHeadsGenerator.generator,
-  MinecraftMinecartGenerator.generator,
 ]
 
 let mod: array<Generator.generatorDef> = [
