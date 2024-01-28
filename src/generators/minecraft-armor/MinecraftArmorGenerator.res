@@ -35,13 +35,8 @@ let instructions = `
 `
 
 let images: array<Generator.imageDef> = [
-  {id: "Background", url: requireImage("Background")},
   {id: "Foreground", url: requireImage("Foreground")},
   {id: "Folds", url: requireImage("Folds")},
-  {id: "SteveTabs", url: requireImage("SteveTabs")},
-  {id: "SteveFolds", url: requireImage("SteveFolds")},
-  {id: "AlexTabs", url: requireImage("AlexTabs")},
-  {id: "AlexFolds", url: requireImage("AlexFolds")},
   {id: "Labels", url: requireImage("Labels")},
 ]
 
@@ -66,25 +61,25 @@ let textures: array<Generator.textureDef> = [
   },
   {
     id: "Helmet",
-    url: requireTexture("iron_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Chestplate",
-    url: requireTexture("iron_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Leggings",
-    url: requireTexture("iron_layer_2"),
+    url: requireTexture("diamond_layer_2"),
     standardWidth: 64,
     standardHeight: 64,
   },
   {
     id: "Boots",
-    url: requireTexture("iron_layer_1"),
+    url: requireTexture("diamond_layer_1"),
     standardWidth: 64,
     standardHeight: 64,
   },
@@ -580,9 +575,9 @@ let old: Minecraft.Character.t = {
   },
 }
 
-let materials = ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite", "Debug"]
+let materials = ["Leather", "Chainmail", "Gold", "Iron", "Diamond", "Netherite"]
 
-let materials2 = ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite ", "Debug"]
+let materials2 = ["Leather ", "Chainmail ", "Gold ", "Iron ", "Diamond ", "Netherite "]
 
 let trimTemplates = [
   "Coast",
@@ -730,9 +725,6 @@ let script = () => {
     if showHeadOverlay {
       Minecraft.drawCuboid(textureId, char.overlay.head, (ox, oy), scale, ~blend, ())
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
 
   let drawHelmetLiner = (
@@ -778,9 +770,6 @@ let script = () => {
         (),
       ) // Left top part
     }
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
 
   let drawChestplateBody = (textureId: string, blend: Generator_Texture.blend) => {
@@ -805,10 +794,6 @@ let script = () => {
     ) // Tab that goes inside the back face
     Generator.drawTexture(textureId, (20, 44, 8, 2), (ox + 48, oy, 64, 48), ~blend, ())
     Generator.drawTexture(textureId, (20, 42, 8, 2), (ox + 48, oy, 64, 48), ~blend, ()) // Improvised top texture, since no default armor texture has one, and one is needed to facilitate the over the head design of the armor
-
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
 
   let drawRightShoulder = (textureId: string, blend: Generator_Texture.blend) => {
@@ -839,9 +824,6 @@ let script = () => {
       ~rotate=270.0,
       (),
     ) // Back texture to loop around
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
   let drawLeftShoulder = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (445, 233)
@@ -883,9 +865,6 @@ let script = () => {
       ~rotate=90.0,
       (),
     ) // Back texture to loop around
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~flip=#Horizontal, ())
-    } */
   }
 
   let drawLeggingsBody = (textureId: string, blend: Generator_Texture.blend) => {
@@ -901,9 +880,6 @@ let script = () => {
       (),
     ) // Left end
     Minecraft.drawCuboid(textureId, char.base.body, (ox, oy), scale, ~blend, ())
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
   let drawRightLegging = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (49, 541)
@@ -912,9 +888,6 @@ let script = () => {
     Generator.drawTexture(textureId, (16, 40, 4, 24), (ox, oy - 55, 40, 104), ~blend, ()) // End
     Generator.drawTexture(textureId, (0, 40, 4, 8), (ox + 72, oy + 20, 40, 34), ~blend, ()) // Circle- bottom part
     Generator.drawTexture(textureId, (16, 40, 4, 24), (ox + 72, oy - 75, 40, 104), ~blend, ()) // Circle- top part
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
   }
   let drawLeftLegging = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (401, 541)
@@ -945,18 +918,22 @@ let script = () => {
       ~flip=#Horizontal,
       (),
     ) // Circle- top part
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~flip=#Horizontal, ())
-    } */
   }
 
   let drawRightBoot = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (35, 597)
     let scale = (40, 96, 48)
-    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Boots
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ())
-    } */
+    Minecraft.drawCuboid(textureId, char.base.rightLeg, (ox, oy), scale, ~blend, ()) // Right Boot
+    Minecraft.drawCuboid(
+      textureId,
+      char.base.rightLeg,
+      (169, 613),
+      (32, 96, 32),
+      ~blend,
+      ~rotate=-90.0,
+      ~center=#Back,
+      (),
+    ) // Right Boot Lining
   }
   let drawLeftBoot = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (383, 597)
@@ -969,10 +946,18 @@ let script = () => {
       ~blend,
       ~flip=#Horizontal,
       (),
-    ) // Boots- romove
-    /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~flip=#Horizontal, ())
-    } */
+    ) // Left Boot
+    Minecraft.drawCuboid(
+      textureId,
+      char.base.leftLeg,
+      (297, 613),
+      (32, 96, 32),
+      ~blend,
+      ~flip=#Horizontal,
+      ~rotate=90.0,
+      ~center=#Back,
+      (),
+    ) // Left Boot Lining
   }
 
   let drawFolds = () => {
@@ -1203,12 +1188,12 @@ let script = () => {
   // Inputs
 
   Generator.defineBooleanInput("Show Folds", true)
-  //Generator.defineBooleanInput("Show Labels", true)
+  Generator.defineBooleanInput("Show Labels", true)
 
   // Draw
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
-  //let showLabels = Generator.getBooleanInputValue("Show Labels")
+  let showLabels = Generator.getBooleanInputValue("Show Labels")
 
   let showHeadOverlay = Generator.getBooleanInputValueWithDefault("Show Head Overlay", true)
 
@@ -1253,19 +1238,19 @@ let script = () => {
 
   // Labels
 
-  /* if showLabels {
+  if showLabels {
     Generator.drawImage("Labels", (0, 0))
-  }*/
+  }
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

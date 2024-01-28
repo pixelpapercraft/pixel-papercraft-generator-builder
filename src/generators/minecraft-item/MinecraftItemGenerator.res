@@ -1,6 +1,6 @@
 module Markdown = Generator.Markdown
-module TexturePicker = MinecraftItem_TexturePicker
-module TextureVersions = MinecraftItem_TextureVersions
+module TexturePicker = TexturePicker
+module TextureVersions = TextureVersions
 
 let id = "minecraft-item"
 
@@ -9,6 +9,7 @@ let name = "Minecraft Item"
 let history = [
   "26 Jan 2022 lostminer - First release.",
   "05 Feb 2022 NinjolasNJM - Added fold lines and gap removal feature.",
+  "Jan 2024 NinjolasNJM - Now uses the universal texture picker.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -42,6 +43,12 @@ let textures: array<Generator.textureDef> = Js.Array.concat(
     },
   ],
 )
+
+let definitions = Belt.Array.concat(
+  TextureVersions.blockDefinitions,
+  TextureVersions.itemDefinitions,
+)
+
 let cycleTextureOffset = (t, tileWidth) => {
   let t = if t === tileWidth {
     0
@@ -196,11 +203,11 @@ let sizes = [sizeMedium, sizeLarge, sizeSmall, sizeFullPage]
 
 let script = () => {
   // Show a drop down of different texture versions
-  Generator.defineSelectInput("Version", TextureVersions.versionIds)
+  Generator.defineSelectInput("Version", TextureVersions.versionIds(definitions))
   let versionId = Generator.getSelectInputValue("Version")
 
   // Get the current selected version
-  let textureVersion = TextureVersions.findVersion(versionId)
+  let textureVersion = TextureVersions.findVersion(versionId, definitions)
 
   // Show a drop down of sizes
   Generator.defineSelectInput("Size", sizes)
@@ -214,6 +221,8 @@ let script = () => {
       onSelect={selectedTexture => {
         onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
       }}
+      enableRotation=false
+      enableErase=false
     />
   })
 
@@ -275,13 +284,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Markdown> {instructions} </Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

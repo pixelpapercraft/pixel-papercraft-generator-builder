@@ -113,6 +113,7 @@ module Context2d = {
   @send external rotate: (context2d, float) => unit = "rotate"
   @send external fillRect: (context2d, int, int, int, int) => unit = "fillRect"
   @send external fill: context2d => unit = "fill"
+  @set external filter: (context2d, string) => unit = "filter"
   @send external getTransform: context2d => domMatrix = "getTransform"
   @send external moveTo: (context2d, float, float) => unit = "moveTo"
   @send external lineTo: (context2d, float, float) => unit = "lineTo"

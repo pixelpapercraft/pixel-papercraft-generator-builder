@@ -199,13 +199,31 @@ let make = (
           ? generatorDef.name ++ " - " ++ page.id
           : generatorDef.name
 
+      let canvasStyle = {
+        ReactDOM.Style.make()->ReactDOM.Style.unsafeAddStyle({
+          "imageRendering": "pixelated",
+        })
+      }
+      // h - w / 2
+      let transformStyle = ReactDOM.Style.make(
+        ~transform=`${page.isLandscape
+            ? `rotate(270deg) translateX(123.5px) translateY(123.5px)`
+            : ``}`,
+        (),
+      )
+
+      let style = ReactDOM.Style.combine(canvasStyle, transformStyle)
+
+      let pageMaxWidth = PageSize.A4.px.width //page.isLandscape ? PageSize.A4.px.height : PageSize.A4.px.width
+
       <div key={page.id}>
         {showPageIds
           ? <h1 className="font-bold text-2xl mb-4"> {React.string(page.id)} </h1>
           : React.null}
         <div
           className="mb-4 flex justify-between items-center"
-          style={ReactDOM.Style.make(~maxWidth={px(PageSize.A4.px.width)}, ())}>
+          style={ReactDOM.Style.make(~maxWidth={px(pageMaxWidth)}, ())}>
+          // set to width instead of maxWidth for enabling side by side
           <div>
             <span className="mr-4">
               <PrintImageButton size=#Small color=#Blue dataUrl={dataUrl} />
@@ -223,16 +241,11 @@ let make = (
         // Important: The following div uses absolute positioning for the regions.
         <div
           className="relative"
-          style={ReactDOM.Style.make(
-            ~maxWidth={px(PageSize.A4.px.width + pageBorderWidth * 2)},
-            (),
-          )}>
+          style={ReactDOM.Style.make(~maxWidth={px(pageMaxWidth + pageBorderWidth * 2)}, ())}>
           <img
             ref={ReactDOM.Ref.domRef(containerElRef)}
             className="border shadow-xl mb-8"
-            style={ReactDOM.Style.make()->ReactDOM.Style.unsafeAddStyle({
-              "imageRendering": "pixelated",
-            })}
+            style
             src={dataUrl}
           />
           {switch containerWidth {

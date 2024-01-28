@@ -64,7 +64,7 @@ let toImageWithInfo = (path: string): option<imageWithInfo> => {
     let file = Fs.readFileSync(path)
     let info = ImageInfo.imageInfo(file)
     if info.format === #PNG && info.width === 16 && mod(info.height, 16) === 0 {
-      Some({path: path, info: info})
+      Some({path, info})
     } else {
       None
     }
@@ -115,7 +115,7 @@ let makeVersions = () => {
       ->Js.Array2.reduce((acc, image) => {
         let result = Path.parse(image.path)
         let textureCount = Js.Array2.length(acc)
-        let lastTexture = textureCount > 0 ? Some(acc[textureCount - 1]) : None
+        let lastTexture = textureCount > 0 ? acc[textureCount - 1] : None
         let index = switch lastTexture {
         | None => 0
         | Some(lastTexture) => lastTexture.index + lastTexture.frames * 16
@@ -124,13 +124,13 @@ let makeVersions = () => {
           id: result.name,
           filePath: dirPath ++ "/" ++ result.base,
           frames: image.info.height / 16,
-          index: index,
+          index,
         }
         Js.Array2.concat(acc, [texture])
       }, [])
     let version = {
       id: dirName,
-      textures: textures,
+      textures,
     }
     version
   })
@@ -147,14 +147,19 @@ let makeMergedTextureImages = (versions: array<version>) => {
     let outPath = texturesDir ++ "/" ++ id ++ ".png"
     let filePaths = textures->Js.Array2.map(({filePath}) => filePath)
     MergeImg.merge(filePaths, {direction: #vertical})->Promise.thenResolve(result => {
-      Promise.make((resolve, reject) => {
-        result->MergeImg.write(outPath, error => {
-          switch Js.Nullable.toOption(error) {
-          | None => resolve(. ignore())
-          | Some(exn) => reject(. exn)
-          }
-        })
-      })
+      Promise.make(
+        (resolve, reject) => {
+          result->MergeImg.write(
+            outPath,
+            error => {
+              switch Js.Nullable.toOption(error) {
+              | None => resolve(. ignore())
+              | Some(exn) => reject(. exn)
+              }
+            },
+          )
+        },
+      )
     })
   })
   ->Promise.all
