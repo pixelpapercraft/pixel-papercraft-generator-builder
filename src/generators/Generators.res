@@ -7,6 +7,7 @@ let character: array<Generator.generatorDef> = [
   MinecraftActionFigureGenerator.generator,
   MinecraftUltimateBendableGenerator.generator,
   MinecraftCharacterMiniGenerator.generator,
+  MinecraftActionFigureMiniGenerator.generator,
 ]
 
 // Blocks, Items and Accessories
@@ -17,6 +18,7 @@ let utility: array<Generator.generatorDef> = [
   MinecraftArmorGenerator.generator,
   MinecraftCapeAndElytraGenerator.generator,
   MinecraftCharacterHeadsGenerator.generator,
+  MinecraftMinecartGenerator.generator,
 ]
 
 let mob: array<Generator.generatorDef> = [
@@ -25,6 +27,8 @@ let mob: array<Generator.generatorDef> = [
   MinecraftGolemGenerator.generator,
   MinecraftHorseGenerator.generator,
   MinecraftPigGenerator.generator,
+  MinecraftSpiderGenerator.generator,
+  MinecraftPhantomGenerator.generator,
   MinecraftCatGenerator.generator,
   MinecraftVillagerGenerator.generator,
 ]

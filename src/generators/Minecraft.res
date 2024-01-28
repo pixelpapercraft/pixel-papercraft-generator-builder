@@ -47,8 +47,8 @@ module CuboidLegacy = {
     {
       x: x + xTranslate,
       y: y + yTranslate,
-      w: w,
-      h: h,
+      w,
+      h,
     }
   }
 
@@ -141,9 +141,9 @@ module Cuboid = {
 
       {
         rectangle: (x3, y3, w, h),
-        flip: flip,
+        flip,
         rotate: addAngle(rotate, r),
-        blend: blend,
+        blend,
       }
     }
 
@@ -151,10 +151,10 @@ module Cuboid = {
     let rotate = ({rectangle, flip, rotate, blend}: t, r: float) => {
       let r = flip == #None ? addAngle(r, rotate) : addAngle(r *. -1.0, rotate)
       {
-        rectangle: rectangle,
-        flip: flip,
+        rectangle,
+        flip,
         rotate: r,
-        blend: blend,
+        blend,
       }
     }
 
@@ -165,12 +165,12 @@ module Cuboid = {
       let f =
         rotate >= 360.0
           ? rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: 0.0, blend: blend},
+              {rectangle, flip, rotate: 0.0, blend},
               (toFloat(x) -. toFloat(w) /. 2.0, toFloat(y) -. toFloat(h) /. 2.0),
               rotate,
             )
           : rotateOnAxis(
-              {rectangle: rectangle, flip: flip, rotate: 0.0, blend: blend},
+              {rectangle, flip, rotate: 0.0, blend},
               (toFloat(x) +. toFloat(w) /. 2.0, toFloat(y) +. toFloat(h) /. 2.0),
               rotate,
             )
@@ -194,9 +194,9 @@ module Cuboid = {
           )
         | _ => (x, y, w, h)
         },
-        flip: flip,
-        rotate: rotate,
-        blend: blend,
+        flip,
+        rotate,
+        blend,
       }
     }
 
@@ -227,15 +227,15 @@ module Cuboid = {
     // Translate a face.
     let translate = ({rectangle, flip, rotate, blend}: t, position: Builder.position) => {
       rectangle: rectangle->translateRectangle(position),
-      flip: flip,
-      rotate: rotate,
-      blend: blend,
+      flip,
+      rotate,
+      blend,
     }
 
     let blend = ({rectangle, flip, rotate, _}: t, newBlend: Generator_Texture.blend) => {
-      rectangle: rectangle,
-      flip: flip,
-      rotate: rotate,
+      rectangle,
+      flip,
+      rotate,
       blend: newBlend,
     }
 
@@ -628,6 +628,60 @@ module Character = {
       rightLeg: steve.overlay.rightLeg,
       leftLeg: steve.overlay.leftLeg,
     },
+  }
+}
+
+module Spider = {
+  type t = {
+    head: Cuboid.Source.t,
+    thorax: Cuboid.Source.t,
+    abdomen: Cuboid.Source.t,
+    leg: Cuboid.Source.t,
+  }
+
+  let {make, translate} = module(Cuboid.Source)
+
+  let spider: t = {
+    head: make((8, 8, 8))->translate((32, 4)),
+    thorax: make((6, 6, 6))->translate((0, 0)),
+    abdomen: make((10, 8, 12))->translate((0, 12)),
+    leg: make((16, 2, 2))->translate((18, 0)),
+  }
+}
+
+module Phantom = {
+  type t = {
+    head: Cuboid.Source.t,
+    body: Cuboid.Source.t,
+    wing1: Cuboid.Source.t,
+    wing2: Cuboid.Source.t,
+    tail1: Cuboid.Source.t,
+    tail2: Cuboid.Source.t,
+  }
+
+  let {make, translate} = module(Cuboid.Source)
+
+  let phantom: t = {
+    head: make((7, 3, 5))->translate((0, 0)),
+    body: make((5, 3, 9))->translate((0, 8)),
+    wing1: make((6, 2, 9))->translate((23, 12)),
+    wing2: make((13, 1, 9))->translate((16, 24)),
+    tail1: make((3, 2, 6))->translate((3, 20)),
+    tail2: make((1, 1, 6))->translate((4, 29)),
+  }
+}
+
+module Minecart = {
+  type t = {
+    bottom: Cuboid.Source.t,
+    sides: Cuboid.Source.t,
+  }
+
+  let {make, translate} = module(Cuboid.Source)
+
+  let minecart = {
+    bottom: make((20, 16, 2))->translate((0, 10)),
+    sides: make((16, 8, 2))->translate((0, 0)),
   }
 }
 

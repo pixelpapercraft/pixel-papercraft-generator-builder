@@ -13,6 +13,7 @@ let history = [
   "Dec 2021 NinjolasNJM - Add Stairs, Fence, Door, Trapdoor and Snow.",
   "Jan 2022 NinjolasNJM - Add Cake Block type.",
   "Jan 2024 NinjolasNJM - Now uses the universal texture picker, with erase mode, flip buttons and new textures.",
+  "Jan 2024 NinjolasNJM - Add Minecart Block type.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -46,6 +47,8 @@ let images: array<Generator.imageDef> = [
   {id: "Tabs-Cake-Middle", url: Generator.requireImage("./images/Tabs-Cake-Middle.png")},
   {id: "Tabs-Cake-Corner", url: Generator.requireImage("./images/Tabs-Cake-Corner.png")},
   {id: "Tabs-Cake-Right", url: Generator.requireImage("./images/Tabs-Cake-Right.png")},
+  {id: "Folds-Minecart", url: Generator.requireImage("./images/Folds-Minecart.png")},
+  {id: "Tabs-Minecart", url: Generator.requireImage("./images/Tabs-Minecart.png")},
 ]
 
 let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
@@ -101,7 +104,17 @@ let script = () => {
     let typeName = "Block " ++ blockId ++ " Type"
     Generator.defineSelectInput(
       typeName,
-      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake"],
+      [
+        "Block",
+        "Slab",
+        "Stair",
+        "Fence",
+        "Door",
+        "Trapdoor",
+        "Snow Layers",
+        "Cake",
+        "Minecart Block",
+      ],
     )
     let blockType = Generator.getSelectInputValue(typeName)
 
@@ -117,6 +130,7 @@ let script = () => {
     | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy, showFolds)
     | "Snow Layers" => Types.Snow.draw(blockId, ox, oy, showFolds)
     | "Cake" => Types.Cake.draw(blockId, ox, oy, showFolds)
+    | "Minecart Block" => Types.Minecart.draw(blockId, ox, oy, showFolds)
     | _ => ()
     }
   }
