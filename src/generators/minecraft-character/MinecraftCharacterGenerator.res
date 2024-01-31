@@ -32,8 +32,8 @@ let instructions = `
 let images: array<Generator.imageDef> = [
   {id: "Background", url: requireImage("Background")},
   {id: "SteveTabs", url: requireImage("SteveTabs")},
-  {id: "SteveFolds", url: requireImage("SteveFolds")},
   {id: "AlexTabs", url: requireImage("AlexTabs")},
+  {id: "SteveFolds", url: requireImage("SteveFolds")},
   {id: "AlexFolds", url: requireImage("AlexFolds")},
   {id: "Labels", url: requireImage("Labels")},
 ]
@@ -135,12 +135,12 @@ let script = () => {
   }
   let drawLeftArm = ((ox, oy): Generator_Builder.position) => {
     let scale = char == alex ? (24, 96, 32) : (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~direction=#West, ())
+    Minecraft.drawCuboid("Skin", char.base.leftArm, (ox, oy), scale, ~orientation=#East, ())
     if showLeftArmOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~direction=#West, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftArm, (ox, oy), scale, ~orientation=#East, ())
     }
     /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
     } */
   }
   let drawRightLeg = ((ox, oy): Generator_Builder.position) => {
@@ -155,12 +155,12 @@ let script = () => {
   }
   let drawLeftLeg = ((ox, oy): Generator_Builder.position) => {
     let scale = (32, 96, 32)
-    Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~direction=#West, ())
+    Minecraft.drawCuboid("Skin", char.base.leftLeg, (ox, oy), scale, ~orientation=#East, ())
     if showLeftLegOverlay {
-      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~direction=#West, ())
+      Minecraft.drawCuboid("Skin", char.overlay.leftLeg, (ox, oy), scale, ~orientation=#East, ())
     }
     /* if showFolds {
-      Generator.drawFoldLineCuboid((ox, oy), scale, ~direction=#West, ())
+      Generator.drawFoldLineCuboid((ox, oy), scale, ~orientation=#East, ())
     } */
   }
 
@@ -254,13 +254,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: Some(<Generator.Markdown> {instructions} </Generator.Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

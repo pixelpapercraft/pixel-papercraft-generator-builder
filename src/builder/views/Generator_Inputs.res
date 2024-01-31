@@ -62,21 +62,26 @@ module TextureInput = {
       | None => ()
       | Some(files) => {
           let file = files[0]
-          let fileReader = Dom2.FileReader.make()
-          fileReader->Dom2.FileReader.setOnLoad(e => {
-            let target = ReactEvent.Form.target(e)
-            let result: option<string> = target["result"]
-            switch result {
-            | None => ()
-            | Some(result) => {
-                setName(_ => Some(file.name))
-                Generator_ImageFactory.makeFromUrl(result)
-                ->Promise.thenResolve(image => onChange(Some(image)))
-                ->ignore
-              }
+          switch file {
+          | None => ()
+          | Some(file) => {
+              let fileReader = Dom2.FileReader.make()
+              fileReader->Dom2.FileReader.setOnLoad(e => {
+                let target = ReactEvent.Form.target(e)
+                let result: option<string> = target["result"]
+                switch result {
+                | None => ()
+                | Some(result) => {
+                    setName(_ => Some(file.name))
+                    Generator_ImageFactory.makeFromUrl(result)
+                    ->Promise.thenResolve(image => onChange(Some(image)))
+                    ->ignore
+                  }
+                }
+              })
+              fileReader->Dom2.FileReader.readAsDataUrl(file)
             }
-          })
-          fileReader->Dom2.FileReader.readAsDataUrl(file)
+          }
         }
       }
     }
@@ -110,7 +115,8 @@ module TextureInput = {
         <div className="overflow-hidden relative w-48">
           <button
             className="bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
-            <Icon.Upload /> <span className="ml-2"> {React.string("Choose file")} </span>
+            <Icon.Upload />
+            <span className="ml-2"> {React.string("Choose file")} </span>
           </button>
           <input
             className="cursor-pointer absolute block opacity-0 top-0 bottom-0 left-0 right-0"
@@ -130,128 +136,7 @@ module TextureInput = {
 }
 
 // This isn't how it should be implemented at all. This should be done as a CustomStringInput like the Texture Picker. Move everything to Minecraft or to a related module for organization, and add it to the generators in a similar fashion to the texture picker. Text Input is mostly fine though, it will be useful and needed for sign generator and such I guess.
-module MinecraftSkinInput = {
-  @react.component
-  let make = (
-    ~id: string,
-    ~textures: Js.Dict.t<Generator_Texture.t>,
-    ~choices: array<string>,
-    ~onChange: option<Dom2.Image.t> => unit,
-  ) => {
-    let (name, setName) = React.useState(() => None)
 
-    let (inputValue, setInputValue) = React.useState(() => "")
-
-    let onTextChange = e => {
-      let target = ReactEvent.Form.target(e)
-      let text = switch target["value"] {
-      | None => None
-      | Some(text) => text
-      }
-
-      switch text {
-      | None => ()
-      | Some(value) => setInputValue(value)
-      }
-    }
-
-    let updateValue = () => {
-      Generator_MinecraftSkinApi.getSkinImage(inputValue)
-      ->Promise.thenResolve(image => onChange(Some(image)))
-      ->ignore
-    }
-
-    let onInputChange = e => {
-      let target = ReactEvent.Form.target(e)
-      let files: option<array<Dom2.File.t>> = target["files"]
-      switch files {
-      | None => ()
-      | Some(files) => {
-          let file = files[0]
-          let fileReader = Dom2.FileReader.make()
-          fileReader->Dom2.FileReader.setOnLoad(e => {
-            let target = ReactEvent.Form.target(e)
-            let result: option<string> = target["result"]
-            switch result {
-            | None => ()
-            | Some(result) => {
-                setName(_ => Some(file.name))
-                Generator_ImageFactory.makeFromUrl(result)
-                ->Promise.thenResolve(image => onChange(Some(image)))
-                ->ignore
-              }
-            }
-          })
-          fileReader->Dom2.FileReader.readAsDataUrl(file)
-        }
-      }
-    }
-
-    let onChoiceChange = e => {
-      let target = ReactEvent.Form.target(e)
-      let value = target["value"]
-      let texture = Js.Dict.get(textures, value)
-      switch texture {
-      | None => onChange(None)
-      | Some(texture) => onChange(Some(texture.imageWithCanvas.image))
-      }
-    }
-
-    <div className="mb-4">
-      <div className="font-bold"> {React.string(id)} </div>
-      <div className="flex items-center">
-        {Js.Array2.length(choices) > 0
-          ? <div>
-              <select onChange={onChoiceChange} className="p-2">
-                <option value=""> {React.string("None")} </option>
-                {choices
-                ->Js.Array2.map(choice => {
-                  <option key={choice} value={choice}> {React.string(choice)} </option>
-                })
-                ->React.array}
-              </select>
-              <span className="px-2"> {React.string("or")} </span>
-            </div>
-          : React.null}
-        <div className="overflow-hidden relative w-48">
-          <button
-            className="bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
-            <Icon.Upload /> <span className="ml-2"> {React.string("Choose file")} </span>
-          </button>
-          <input
-            className="cursor-pointer absolute block opacity-0 top-0 bottom-0 left-0 right-0"
-            type_="file"
-            onChange={onInputChange}
-          />
-        </div>
-        <div className="ml-3">
-          {switch name {
-          | None => React.null
-          | Some(name) => React.string(name)
-          }}
-        </div>
-        <span className="px-2"> {React.string("or")} </span>
-        <div className="mb-4">
-          <div className="font-bold"> {React.string(id)} </div>
-          <div className="flex">
-            <div>
-              <input
-                className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-2 bg-white"
-                onChange={onTextChange}
-              />
-            </div>
-            <div className="mb-4">
-              <Buttons.Button
-                key={id} onClick={_ => updateValue()} state=#Ready size=#Small color=#Blue>
-                {React.string("Enter")}
-              </Buttons.Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  }
-}
 /* module MinecraftSkinInput = {
   @react.component
   let make = (
@@ -467,7 +352,9 @@ module ButtonInput = {
 module Text = {
   @react.component
   let make = (~text) => {
-    <div className="mb-4"> <p> {React.string(text)} </p> </div>
+    <div className="mb-4">
+      <p> {React.string(text)} </p>
+    </div>
   }
 }
 

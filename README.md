@@ -4,14 +4,29 @@
 
 ### First time setup
 
-Install Node v14 and Git.
+Install Node and Git.
 
 Node is best installed using [Node Version Manager](https://github.com/nvm-sh/nvm).
 
-Once you have NVM installed, then install Node v14:
+The project currently requires the following Node and NPM versions:
+
+```
+"engines": {
+  "node": ">=18",
+  "npm": ">=9"
+}
+```
+
+Install Node.
 
 ```sh
-nvm install 14.16.0
+nvm install v18
+```
+
+To ensure you have the latest NPM:
+
+```
+npm i -g npm@latest
 ```
 
 Install Git [from the official site](https://git-scm.com/downloads).
@@ -50,7 +65,7 @@ npm run res:watch
 In another terminal, start the web server:
 
 ```
-npm start
+npm run dev
 ```
 
 Then open your browser:
