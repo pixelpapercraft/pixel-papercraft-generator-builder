@@ -206,9 +206,17 @@ module SkinInput = {
       ->ignore
     }
 
+    let onKeyPress = e => {
+      let keyCode = ReactEvent.Keyboard.which(e)
+      if keyCode === 13 {
+        Js.Console.log("Key Pressed")
+        updateValue()
+      }
+    }
+
     <div className="mb-4">
       <div className="font-bold"> {React.string(id)} </div>
-      <div className="flex items-center">
+      <div className="flex flex-wrap items-center">
         {Js.Array2.length(choices) > 0
           ? <div>
               <select onChange={onChoiceChange} className="p-2">
@@ -231,6 +239,7 @@ module SkinInput = {
           <input
             className="cursor-pointer absolute block opacity-0 top-0 bottom-0 left-0 right-0"
             type_="file"
+            onKeyPress={onKeyPress}
             onChange={onInputChange}
           />
         </div>
@@ -243,7 +252,7 @@ module SkinInput = {
           | Some(name) => React.string(name)
           }}
           <div>
-            <div className="flex items-center">
+            <div className="flex flex-wrap items-center">
               <div>
                 <input
                   className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-2 bg-white"
