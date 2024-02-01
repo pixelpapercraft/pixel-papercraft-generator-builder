@@ -261,7 +261,7 @@ let drawMini = (textureId: string, x: int, y: int) => {
   )
 
   if Generator.hasTexture(textureId) {
-    let modelTypeName = textureId ++ " Model Type"
+    let modelTypeName = textureId ++ " Model"
     Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
     let modelType = Generator.getSelectInputValue(modelTypeName)
 
