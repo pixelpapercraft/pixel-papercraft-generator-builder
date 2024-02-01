@@ -18,7 +18,6 @@ module TextInput = {
       | None => ()
       | Some(value) => setInputValue(value)
       }
-      //setInputValue(text)
     }
 
     let updateValue = () => {
@@ -114,7 +113,7 @@ module TextureInput = {
           : React.null}
         <div className="overflow-hidden relative w-48">
           <button
-            className="bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
+            className="bg-blue-500 hover:bg-blue-400 rounded text-white py-1 px-4 w-full inline-flex items-center">
             <Icon.Upload />
             <span className="ml-2"> {React.string("Choose file")} </span>
           </button>
@@ -232,7 +231,7 @@ module SkinInput = {
           : React.null}
         <div className="overflow-hidden relative w-48">
           <button
-            className="bg-blue-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
+            className="bg-green-600 hover:bg-green-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
             <Icon.Upload />
             <span className="ml-2"> {React.string("Choose file")} </span>
           </button>
@@ -262,7 +261,7 @@ module SkinInput = {
               </div>
               <div>
                 <Buttons.Button
-                  key={id} onClick={_ => updateValue()} state=#Ready size=#Small color=#Blue>
+                  key={id} onClick={_ => updateValue()} state=#Ready size=#Small color=#Green>
                   {React.string("Enter")}
                 </Buttons.Button>
               </div>

@@ -374,7 +374,7 @@ module RotationButton = {
   let make = (~onClick) => {
     let icon = <Icon.ArrowsCircle color=#White />
     <button
-      className="bg-blue-500 rounded  
+      className="bg-blue-500 hover:bg-blue-400 rounded  
     flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
@@ -387,7 +387,7 @@ module EraseButton = {
   let make = (~onClick) => {
     let icon = <Icon.Erase color=#White />
     <button
-      className="bg-red-500 rounded  
+      className="bg-red-500 hover:bg-red-400 rounded  
        flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
@@ -400,7 +400,7 @@ module FlipHorizontalButton = {
   let make = (~onClick) => {
     let icon = <Icon.ArrowsHorizontal color=#White />
     <button
-      className="bg-green-500 rounded  
+      className="bg-green-600 hover:bg-green-500 rounded  
        flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
@@ -413,7 +413,7 @@ module FlipVerticalButton = {
   let make = (~onClick) => {
     let icon = <Icon.ArrowsVertical color=#White />
     <button
-      className="bg-green-500 rounded  
+      className="bg-green-600 hover:bg-green-500 rounded  
        flex items-center justify-center w-10 h-10"
       onClick>
       {icon}
