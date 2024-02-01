@@ -7,6 +7,24 @@ let skins: array<Generator.textureDef> = [
     standardHeight: 64,
   },
   {
+    id: "Mini 1",
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Skin 1",
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
+    id: "Skin 2",
+    url: requireTexture("SkinSteve64x64"),
+    standardWidth: 64,
+    standardHeight: 64,
+  },
+  {
     id: "Steve",
     url: requireTexture("SkinSteve64x64"),
     standardWidth: 64,

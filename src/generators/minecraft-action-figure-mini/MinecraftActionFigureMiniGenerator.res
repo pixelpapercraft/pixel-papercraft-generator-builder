@@ -29,18 +29,7 @@ let images: array<Generator.imageDef> = [
   },
 ]
 
-let textures: array<Generator.textureDef> = Belt.Array.concat(
-  MinecraftSkins.skins,
-  [
-    // Default texture for "Mini 1"
-    {
-      id: "Mini 1",
-      url: requireTexture("SkinSteve64x64"),
-      standardWidth: 64,
-      standardHeight: 64,
-    },
-  ],
-)
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = Minecraft.Character.steve
 let alex = Minecraft.Character.alex

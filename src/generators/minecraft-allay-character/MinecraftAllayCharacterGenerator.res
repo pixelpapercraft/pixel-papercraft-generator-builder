@@ -13,23 +13,7 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let images: array<Generator.imageDef> = [{id: "Overlay", url: requireImage("OverlayAllay.png")}]
 
-let textures: array<Generator.textureDef> = Belt.Array.concat(
-  MinecraftSkins.skins,
-  [
-    {
-      id: "Skin 1",
-      url: requireTexture("Skin1.png"),
-      standardWidth: 64,
-      standardHeight: 64,
-    },
-    {
-      id: "Skin 2",
-      url: requireTexture("Skin2.png"),
-      standardWidth: 64,
-      standardHeight: 64,
-    },
-  ],
-)
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
