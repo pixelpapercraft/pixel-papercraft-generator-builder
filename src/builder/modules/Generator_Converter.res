@@ -46,9 +46,9 @@ let convertCallback = (source: Image.t, onSuccess: Image.t => unit, onError: exn
   let sw = Image.width(source)
   let sh = Image.height(source)
 
-  // Ensure the source has a 2:1 ratio for width:height
+  // Ensure the source has a 2:1 ratio for width:height, and if not, return the original image
   if !hasValidSourceDimensions(sw, sh) {
-    Js.Exn.raiseError("Source image dimensions are not valid")
+    onSuccess(source)
   }
 
   // The destination image will be a square with the same

@@ -96,7 +96,9 @@ let getSkinImage = username => {
     | Ok(user) => {
         let skinUrl = "data:image/png;base64," ++ user.textures.skin.data
         Js.Console.log(json)
-        Generator_ImageFactory.makeFromUrl(skinUrl)
+        Generator_ImageFactory.makeFromUrl(skinUrl)->Promise.then(image =>
+          Generator_Converter.convert(image)
+        )
       }
     }
   })
