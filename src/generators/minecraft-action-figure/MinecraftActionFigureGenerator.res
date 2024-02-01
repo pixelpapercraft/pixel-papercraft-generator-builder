@@ -21,44 +21,20 @@ let imageIds = ["Folds-Alex", "Folds-Steve", "Foreground-Alex", "Foreground-Stev
 let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Skin64x64Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Skin2",
-    url: requireTexture("Skin64x64ReferenceSteve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Steve",
-    url: requireTexture("Skin64x64Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Alex",
-    url: requireTexture("Skin64x64Alex"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = Minecraft.Character.steve
 let alex = Minecraft.Character.alex
 
 let script = () => {
-  // Define user inputs
-  Generator.defineTextureInput(
+  // Inputs
+
+  Generator.defineSkinInput(
     "Skin",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: ["Steve", "Alex", "Skin2"],
+      choices: ["Steve", "Alex"],
     },
   )
   Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])

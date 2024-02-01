@@ -38,45 +38,7 @@ let images: array<Generator.imageDef> = [
   {id: "Labels", url: requireImage("Labels")},
 ]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("SkinSteve64x64"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Steve",
-    url: requireTexture("SkinSteve64x64"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Alex",
-    url: requireTexture("SkinAlex64x64"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Custom",
-    url: "skin:NinjolasNJM",
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
-
-/* let textures = from module
- Generator.defineCustomStringInput("Skin", (onChange: string => unit) => {
-  <MinecraftSkinInput inputs />
- })
-
- should have:
- - drop down for default skins- steve, alex, debugs, etc
- - Choose file
- - Username Input- has go button to avoid problem with too many requests and such- should set to a distinct skin if not found
- - drop down or toggle for skin type- it could eventually include old skin type, but if new default textures are added, "Wide" and "Slim" may be better than "Steve" and "Alex"- I'm not sure
- - All of these change the "Skin" string input, it is not certain that boolean or select inputs can also be included, but I mostly would love it if they are all uniform so having most things uniform is the ultimate goal. Really the main benefit of having it in a custom string input is having custom CSS, because it returns a textureDef just like it usually does.
- */
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = Minecraft.Character.steve
 let alex = Minecraft.Character.alex
