@@ -80,7 +80,9 @@ module Input = {
     | Text(id, string)
     | CustomStringInput(id, (string => unit) => React.element)
     | RegionInput(pageId, (int, int, int, int), unit => unit)
+    | SkinInput(id, textureArgs)
     | TextureInput(id, textureArgs)
+    | TextInput(id)
     | BooleanInput(id)
     | SelectInput(id, array<string>)
     | RangeInput(id, rangeArgs)
@@ -213,7 +215,7 @@ let setVariable = (model: Model.t, id: string, value: Model.Variable.t) => {
     ...model,
     values: {
       ...model.values,
-      variables: variables,
+      variables,
     },
   }
 }
@@ -267,7 +269,9 @@ let hasInput = (model: Model.t, idToFind: string) => {
     | Text(id, _) => id
     | RegionInput(_, _, _) => ""
     | CustomStringInput(id, _) => id
+    | SkinInput(id, _) => id
     | TextureInput(id, _) => id
+    | TextInput(id) => id
     | BooleanInput(id) => id
     | SelectInput(id, _) => id
     | RangeInput(id, _) => id
@@ -294,7 +298,7 @@ let setStringInputValue = (model: Model.t, id: string, value: string) => {
     ...model,
     values: {
       ...model.values,
-      strings: strings,
+      strings,
     },
   }
 }
@@ -324,7 +328,7 @@ let setBooleanInputValue = (model: Model.t, id: string, value: bool) => {
     ...model,
     values: {
       ...model.values,
-      booleans: booleans,
+      booleans,
     },
   }
 }
@@ -362,7 +366,7 @@ let setSelectInputValue = (model: Model.t, id: string, value: string) => {
     ...model,
     values: {
       ...model.values,
-      selects: selects,
+      selects,
     },
   }
 }
@@ -382,7 +386,7 @@ let setRangeInputValue = (model: Model.t, id: string, value: int) => {
     ...model,
     values: {
       ...model.values,
-      ranges: ranges,
+      ranges,
     },
   }
 }
@@ -428,7 +432,7 @@ let usePage = (model: Model.t, id: string, isLandscape: bool) => {
       let pages = Js.Array2.concat(model.pages, [page])
       {
         ...model,
-        pages: pages,
+        pages,
         currentPage: Some(page),
       }
     }
@@ -454,7 +458,7 @@ let ensureCurrentPage = (model: Model.t) => {
 let defineRegionInput = (model: Model.t, region: (int, int, int, int), callback) => {
   let pageId = getCurrentPageId(model)
   let inputs = Js.Array2.concat(model.inputs, [Input.RegionInput(pageId, region, callback)])
-  {...model, inputs: inputs}
+  {...model, inputs}
 }
 
 let defineCustomStringInput = (
@@ -463,12 +467,12 @@ let defineCustomStringInput = (
   fn: (string => unit) => React.element,
 ) => {
   let inputs = Js.Array2.concat(model.inputs, [Input.CustomStringInput(id, fn)])
-  {...model, inputs: inputs}
+  {...model, inputs}
 }
 
 let defineBooleanInput = (model: Model.t, id: string, initial: bool) => {
   let inputs = Js.Array2.concat(model.inputs, [Input.BooleanInput(id)])
-  let newModel = {...model, inputs: inputs}
+  let newModel = {...model, inputs}
   if !hasBooleanValue(model, id) {
     setBooleanInputValue(newModel, id, initial)
   } else {
@@ -478,13 +482,13 @@ let defineBooleanInput = (model: Model.t, id: string, initial: bool) => {
 
 let defineButtonInput = (model: Model.t, id: string, onClick) => {
   let inputs = Js.Array2.concat(model.inputs, [Input.ButtonInput(id, onClick)])
-  let newModel = {...model, inputs: inputs}
+  let newModel = {...model, inputs}
   newModel
 }
 
 let defineSelectInput = (model: Model.t, id: string, options: array<string>) => {
   let inputs = Js.Array2.concat(model.inputs, [Input.SelectInput(id, options)])
-  let newModel = {...model, inputs: inputs}
+  let newModel = {...model, inputs}
   if !hasSelectValue(model, id) {
     let value = Belt.Option.getWithDefault(options[0], "")
     setSelectInputValue(newModel, id, value)
@@ -495,11 +499,20 @@ let defineSelectInput = (model: Model.t, id: string, options: array<string>) => 
 
 let defineRangeInput = (model: Model.t, id: string, rangeArgs: Input.rangeArgs) => {
   let inputs = Js.Array2.concat(model.inputs, [Input.RangeInput(id, rangeArgs)])
-  let newModel = {...model, inputs: inputs}
+  let newModel = {...model, inputs}
   if !hasRangeValue(model, id) {
     setRangeInputValue(newModel, id, rangeArgs.value)
   } else {
     newModel
+  }
+}
+
+let defineSkinInput = (model: Model.t, id, options) => {
+  let input = Input.SkinInput(id, options)
+  let inputs = Js.Array2.concat(model.inputs, [input])
+  {
+    ...model,
+    inputs,
   }
 }
 
@@ -508,7 +521,16 @@ let defineTextureInput = (model: Model.t, id, options) => {
   let inputs = Js.Array2.concat(model.inputs, [input])
   {
     ...model,
-    inputs: inputs,
+    inputs,
+  }
+}
+
+let defineTextInput = (model: Model.t, id) => {
+  let input = Input.TextInput(id)
+  let inputs = Js.Array2.concat(model.inputs, [input])
+  {
+    ...model,
+    inputs,
   }
 }
 
@@ -524,7 +546,7 @@ let defineText = (model: Model.t, text: string) => {
   let inputs = Js.Array2.concat(model.inputs, [input])
   {
     ...model,
-    inputs: inputs,
+    inputs,
   }
 }
 
@@ -734,7 +756,7 @@ let addImage = (model: Model.t, id: string, image: Image.t) => {
     ...model,
     values: {
       ...model.values,
-      images: images,
+      images,
     },
   }
 }
@@ -746,7 +768,7 @@ let addTexture = (model: Model.t, id: string, texture: Generator_Texture.t) => {
     ...model,
     values: {
       ...model.values,
-      textures: textures,
+      textures,
     },
   }
 }
@@ -759,7 +781,7 @@ let clearTexture = (model: Model.t, id: string) => {
     ...model,
     values: {
       ...model.values,
-      textures: textures,
+      textures,
     },
   }
 }

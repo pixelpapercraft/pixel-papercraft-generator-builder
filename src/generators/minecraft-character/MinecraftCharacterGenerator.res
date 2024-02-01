@@ -38,26 +38,7 @@ let images: array<Generator.imageDef> = [
   {id: "Labels", url: requireImage("Labels")},
 ]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("SkinSteve64x64"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Steve",
-    url: requireTexture("SkinSteve64x64"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Alex",
-    url: requireTexture("SkinAlex64x64"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = Minecraft.Character.steve
 let alex = Minecraft.Character.alex
@@ -65,7 +46,7 @@ let alex = Minecraft.Character.alex
 let script = () => {
   // Inputs
 
-  Generator.defineTextureInput(
+  Generator.defineSkinInput(
     "Skin",
     {
       standardWidth: 64,

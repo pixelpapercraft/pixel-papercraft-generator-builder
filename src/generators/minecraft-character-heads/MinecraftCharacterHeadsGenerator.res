@@ -24,67 +24,58 @@ let images: array<Generator.imageDef> = [
   {id: "Action Figure", url: requireImage("Action-Figure")},
 ]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin 1",
-    url: requireTexture("Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Steve",
-    url: requireTexture("Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Alex",
-    url: requireTexture("Alex"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Zombie",
-    url: requireTexture("Zombie"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Enderman",
-    url: requireTexture("Enderman"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Skeleton",
-    url: requireTexture("Skeleton"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Wither Skeleton",
-    url: requireTexture("Wither_Skeleton"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Creeper",
-    url: requireTexture("Creeper"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Blaze",
-    url: requireTexture("Blaze"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  MinecraftSkins.skins,
+  [
+    {
+      id: "Skin 1",
+      url: requireTexture("Steve"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Zombie",
+      url: requireTexture("Zombie"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Enderman",
+      url: requireTexture("Enderman"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Skeleton",
+      url: requireTexture("Skeleton"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Wither Skeleton",
+      url: requireTexture("Wither_Skeleton"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Creeper",
+      url: requireTexture("Creeper"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Blaze",
+      url: requireTexture("Blaze"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+  ],
+)
 
 let script = () => {
   // Define user inputs
   for i in 1 to 8 {
-    Generator.defineTextureInput(
+    Generator.defineSkinInput(
       "Skin " ++ Js.Int.toString(i),
       {
         standardWidth: 64,
@@ -129,6 +120,7 @@ let script = () => {
       if showOverlay {
         Minecraft.drawCuboid(textureId, steve.overlay.head, (x, y), (64, 64, 64), ())
       }
+
       // draw Folds and Action Figure Cut lines
       if showFolds {
         //Generator.drawFoldLineCuboid((x, y), (64, 64, 64), ())
@@ -156,13 +148,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

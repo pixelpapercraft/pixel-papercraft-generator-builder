@@ -27,32 +27,7 @@ let images: array<Generator.imageDef> = [
   },
 ]
 
-let steveSkin = requireTexture("SkinSteve64x64")
-let alexSkin = requireTexture("SkinAlex64x64")
-
-let textures: array<Generator.textureDef> = [
-  // Default texture for "Mini 1"
-  {
-    id: "Mini 1",
-    url: steveSkin,
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  // Steve texture choice
-  {
-    id: "Steve",
-    url: steveSkin,
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  // Alex texture choice
-  {
-    id: "Alex",
-    url: alexSkin,
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
@@ -265,13 +240,17 @@ let drawFolds = ((x, y): (int, int)) => {
 }
 
 let drawMini = (textureId: string, x: int, y: int) => {
-  Generator.defineTextureInput(
+  Generator.defineSkinInput(
     textureId,
-    {standardWidth: 64, standardHeight: 64, choices: ["Steve", "Alex"]},
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
   )
 
   if Generator.hasTexture(textureId) {
-    let modelTypeName = textureId ++ " Model Type"
+    let modelTypeName = textureId ++ " Model"
     Generator.defineSelectInput(modelTypeName, ["Steve", "Alex"])
     let modelType = Generator.getSelectInputValue(modelTypeName)
 
@@ -406,13 +385,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

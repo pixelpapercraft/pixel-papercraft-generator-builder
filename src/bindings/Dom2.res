@@ -176,7 +176,7 @@ module Document = {
 
 module Canvas = {
   type t = Dom.htmlCanvasElement
-  type getContextOptions = {alpha: bool}
+  type getContextOptions = {alpha: bool, willReadFrequently: bool}
 
   @set external setWidth: (t, int) => unit = "width"
   @set external setHeight: (t, int) => unit = "height"
@@ -193,9 +193,10 @@ module Canvas = {
     canvas
   }
 
-  let getContext2d = (canvas: t): Context2d.t => getContext(canvas, "2d")
+  let getContext2d = (canvas: t): Context2d.t =>
+    getContextWithOptions(canvas, "2d", {alpha: true, willReadFrequently: true}) //getContext(canvas, "2d")
   let getContext2dWithAlpha = (canvas: t): Context2d.t =>
-    getContextWithOptions(canvas, "2d", {alpha: true})
+    getContextWithOptions(canvas, "2d", {alpha: true, willReadFrequently: true})
   let toDataUrlAsPng = (canvas: t) => toDataUrl(canvas, "image/png")
 }
 

@@ -150,8 +150,16 @@ let defineAndGetRangeInput = (id: string, options) => {
   getRangeInputValue(id)
 }
 
+let defineSkinInput = (id: string, options) => {
+  model := Builder.defineSkinInput(model.contents, id, options)
+}
+
 let defineTextureInput = (id: string, options) => {
   model := Builder.defineTextureInput(model.contents, id, options)
+}
+
+let defineTextInput = (id: string) => {
+  model := Builder.defineTextInput(model.contents, id)
 }
 
 let defineText = (text: string) => {

@@ -23,27 +23,20 @@ let images: array<Generator.imageDef> = [
   {id: "Hole3", url: requireImage("Hole3.png")},
 ]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Skin.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let script = () => {
-  Generator.defineTextureInput(
+  Generator.defineSkinInput(
     "Skin",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [],
+      choices: ["Steve", "Alex"],
     },
   )
 
-  Generator.defineSelectInput("Skin style", ["Steve", "Alex"])
-  let alexModel = Generator.getSelectInputValue("Skin style") === "Alex"
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
 
   Generator.usePage("Page 1")
   Generator.drawImage("Page1", (0, 0))
@@ -987,13 +980,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }
