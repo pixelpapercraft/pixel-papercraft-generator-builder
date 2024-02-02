@@ -297,7 +297,7 @@ To do this, you need to:
 
 For example, suppose we want to copy the face from the following texture onto the page.
 
-![Texture with part of the image highlighted](./docs/images/draw-texture-skin.png)
+![Texture with part of the image highlighted](./static/draw-texture-skin.png)
 
 This is a rectangle (a square in this case) with the following coordinates and size:
 
@@ -316,7 +316,7 @@ In ReScript we will write these coordinates as:
 
 Next, we need to identify the rectange on the page.
 
-![Page with part of the image highlighted](./docs/images/draw-texture-page.png)
+![Page with part of the image highlighted](./static/draw-texture-page.png)
 
 It needs to draw onto the page as a bigger rectangle with the following coordinates and size:
 
