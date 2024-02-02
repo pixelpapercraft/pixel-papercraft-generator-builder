@@ -23,6 +23,12 @@ module TextInput = {
     let updateValue = () => {
       onChange(Some(inputValue))
     }
+    let onKeyUp = e => {
+      let keyCode = ReactEvent.Keyboard.which(e)
+      if keyCode === 13 {
+        updateValue()
+      }
+    }
 
     <div className="mb-4">
       <div className="font-bold"> {React.string(id)} </div>
@@ -31,6 +37,7 @@ module TextInput = {
           <input
             className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-2 bg-white"
             onChange={onTextChange}
+            onKeyUp={onKeyUp}
           />
         </div>
         <div className="mb-4">
@@ -205,10 +212,9 @@ module SkinInput = {
       ->ignore
     }
 
-    let onKeyPress = e => {
+    let onKeyUp = e => {
       let keyCode = ReactEvent.Keyboard.which(e)
       if keyCode === 13 {
-        Js.Console.log("Key Pressed")
         updateValue()
       }
     }
@@ -238,7 +244,6 @@ module SkinInput = {
           <input
             className="cursor-pointer absolute block opacity-0 top-0 bottom-0 left-0 right-0"
             type_="file"
-            onKeyPress={onKeyPress}
             onChange={onInputChange}
           />
         </div>
@@ -257,6 +262,7 @@ module SkinInput = {
                   className="border border-gray-300 rounded text-gray-600 h-8 px-5 mr-2 bg-white"
                   placeholder="Enter Username..."
                   onChange={onTextChange}
+                  onKeyUp={onKeyUp}
                 />
               </div>
               <div>
