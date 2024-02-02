@@ -111,7 +111,7 @@ module TextureInput = {
               <span className="px-2"> {React.string("or")} </span>
             </div>
           : React.null}
-        <div className="overflow-hidden relative w-48">
+        <div className="overflow-hidden relative w-36">
           <button
             className="bg-blue-500 hover:bg-blue-400 rounded text-white py-1 px-4 w-full inline-flex items-center">
             <Icon.Upload />
@@ -229,7 +229,7 @@ module SkinInput = {
               <span className="px-2"> {React.string("or")} </span>
             </div>
           : React.null}
-        <div className="overflow-hidden relative w-48">
+        <div className="overflow-hidden relative w-36">
           <button
             className="bg-green-600 hover:bg-green-500 rounded text-white py-1 px-4 w-full inline-flex items-center">
             <Icon.Upload />
