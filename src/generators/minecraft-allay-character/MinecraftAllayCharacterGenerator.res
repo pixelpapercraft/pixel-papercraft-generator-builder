@@ -1,5 +1,4 @@
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
-let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
 let id = "minecraft-allay-character"
 

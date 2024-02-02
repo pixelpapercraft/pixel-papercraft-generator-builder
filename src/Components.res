@@ -7,8 +7,8 @@ let generatorGroups = [
   {label: "Mob Characters", generators: Generators.mobCharacter},
   {label: "Mods", generators: Generators.mod},
   {label: "Other", generators: Generators.other},
-  {label: "Development", generators: Generators.dev},
-  {label: "Testing", generators: Generators.test},
+  //{label: "Development", generators: Generators.dev},
+  //{label: "Testing", generators: Generators.test},
 ]
 
 module Heading = {
