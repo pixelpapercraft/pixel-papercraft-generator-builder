@@ -10,6 +10,7 @@ let history = [
   "13 Feb 2015 lostminer: Update to use new version of generator.",
   "13 Sep 2020 NinjolasNJM: Updated to use 1.8+ Skins.",
   "23 Jul 2021 NinjolasNJM: Replaced generator with one derived from Pig Generator by TepigMC.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

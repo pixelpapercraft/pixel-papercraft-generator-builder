@@ -10,13 +10,21 @@ let history = [
   "09 Oct 2020 NinjolasNJM - Tweaked pelvis, bottom of body and leg height.",
   "24 Feb 2021 NinjolasNJM - Moved pelvis so that the leg's pivot point is accurate to the game, changed leg height accordingly.",
   "06 Jun 2021 NinjolasNJM - Converted to ReScript generator.",
+  "02 Feb 2024 NinjolasNJM - Reworked layout, improved notches and added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
 }
 
-let imageIds = ["Folds-Alex", "Folds-Steve", "Foreground-Alex", "Foreground-Steve", "Labels"]
+let imageIds = [
+  "Folds-Alex",
+  "Folds-Steve",
+  "Foreground-Alex",
+  "Foreground-Steve",
+  "Foreground-M16",
+  "Labels",
+]
 let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
@@ -311,8 +319,9 @@ let script = () => {
   if m16Mode {
     // draw new body
     let (ox, oy) = getGridOrigin(7, 6)
-    Generator.fillRect((0, 0, 595, 842), "#ff8000")
+    //Generator.fillRect((0, 0, 595, 842), "#ff8000")
     drawBody((ox, oy))
+    Generator.drawImage("Foreground-M16", (0, 0))
 
     // Draw new image
     // if showFolds draw new folds

@@ -6,7 +6,8 @@ let name = "Minecraft Action Figure Mini"
 
 let history = [
   "Original Mini Action Figure designed by diamondcrafter99.",
-  "30 Jun NinjolasNJM - first release",
+  "30 Jun 2022 NinjolasNJM - first release",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

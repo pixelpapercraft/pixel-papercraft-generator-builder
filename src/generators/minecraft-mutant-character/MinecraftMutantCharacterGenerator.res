@@ -4,7 +4,7 @@ let id = "minecraft-mutant-character"
 
 let name = "Mutant Character"
 
-let history = ["Created by PaperDogChannel."]
+let history = ["Created by PaperDogChannel.", "02 Feb 2024 NinjolasNJM - added skin input"]
 
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/DVzumgRinjY?rel=0"}
 

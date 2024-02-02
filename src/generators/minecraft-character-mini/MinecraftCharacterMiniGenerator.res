@@ -9,6 +9,7 @@ let history = [
   "17 Sep 2020 NinjolasNJM - Added support for Alex skins and fixed bottom of legs.",
   "11 Feb 2022 LostMiner - Refactor. Add pixelate option.",
   "03 Jun 2022 NinjolasNJM - Overhauled the foreground, added a title and an opaque background, a folds toggle, and overlay region inputs",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

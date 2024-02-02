@@ -5,7 +5,11 @@ let id = "minecraft-axolotl-character"
 
 let name = "Minecraft Axolotl Character"
 
-let history = ["Feb 2022 M16 - Initial script developed.", "6 Feb 2022 lostminer - Refactoring."]
+let history = [
+  "Feb 2022 M16 - Initial script developed.",
+  "6 Feb 2022 lostminer - Refactoring.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),

@@ -14,6 +14,7 @@ let history = [
   "17 Jul 2021 M16 - Updated generator photo.",
   "27 May 2022 NinjolasNJM - Made folds drawn using drawFolds, and parts drawn using drawCuboid, and added title",
   "12 Jun 2022 NinjolasNJM - Updated to use new Minecraft module",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

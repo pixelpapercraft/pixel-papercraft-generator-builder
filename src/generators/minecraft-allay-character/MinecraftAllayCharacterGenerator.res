@@ -4,7 +4,10 @@ let id = "minecraft-allay-character"
 
 let name = "Minecraft Allay Character"
 
-let history = ["1 May 2022 PaperDoggy - Initial script developed."]
+let history = [
+  "1 May 2022 PaperDoggy - Initial script developed.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/vG-mXWu0OlA?rel=0"}
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),

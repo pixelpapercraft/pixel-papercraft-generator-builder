@@ -7,7 +7,10 @@ let id = "amogus-bendable"
 
 let name = "Amogus Bendable"
 
-let history = ["Jan 2022 PaperDogChannel - First release."]
+let history = [
+  "Jan 2022 PaperDogChannel - First release.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),

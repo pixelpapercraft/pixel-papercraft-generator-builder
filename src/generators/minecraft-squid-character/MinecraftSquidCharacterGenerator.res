@@ -11,6 +11,7 @@ let history = [
   "13 Feb 2015 lostminer - Update to use new version of generator.",
   "18 Mar 2015 frownieman - Added compatibility to 1.8 skins.",
   "29 Sep 2020 NinjolasNJM - Fixed bottom texture rotations, and added the ability to choose which tentacle has which textures.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

@@ -10,6 +10,7 @@ let history = [
   "06 Feb 2015 lostminer - Add user variables.",
   "13 Feb 2015 lostminer - Update to use new version of generator.",
   "29 Sep 2020 NinjolasNJM - Various updates.",
+  "02 Feb 2024 NinjolasNJM - added skin input.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {

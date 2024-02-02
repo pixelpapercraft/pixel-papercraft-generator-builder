@@ -162,7 +162,7 @@ let generator: Generator.generatorDef = {
   id,
   name,
   history,
-  thumbnail: Some(thumbnail),
+  thumbnail: None, // Some(thumbnail),
   video: None,
   instructions: None,
   images,
