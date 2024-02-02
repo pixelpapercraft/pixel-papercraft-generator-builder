@@ -20,6 +20,7 @@ let thumbnail: Generator.thumnbnailDef = {
 let imageIds = [
   "Folds-Alex",
   "Folds-Steve",
+  "Folds-M16",
   "Foreground-Alex",
   "Foreground-Steve",
   "Foreground-M16",
@@ -317,14 +318,21 @@ let script = () => {
     Generator.setBooleanInputValue("M16 Mode", !m16Mode)
   })
   if m16Mode {
-    // draw new body
+    // draw new body and legs
     let (ox, oy) = getGridOrigin(7, 6)
-    //Generator.fillRect((0, 0, 595, 842), "#ff8000")
     drawBody((ox, oy))
-    Generator.drawImage("Foreground-M16", (0, 0))
+    let (ox, oy) = getGridOrigin(1, 18)
 
-    // Draw new image
-    // if showFolds draw new folds
+    drawRightLeg((ox, oy))
+    let (ox, oy) = getGridOrigin(13, 18)
+
+    drawLeftLeg((ox, oy))
+
+    // Draw images
+    Generator.drawImage("Foreground-M16", (0, 0))
+    if showFolds {
+      Generator.drawImage("Folds-M16", (0, 0))
+    }
   }
 
   // Hand Notches
