@@ -38,6 +38,8 @@ let images: array<Generator.imageDef> = [
   {id: "Foreground", url: requireImage("Foreground")},
   {id: "Folds", url: requireImage("Folds")},
   {id: "Labels", url: requireImage("Labels")},
+  {id: "Foreground-Shoulders", url: requireImage("Foreground-Shoulders")},
+  {id: "Folds-Shoulders", url: requireImage("Folds-Shoulders")},
 ]
 
 let textures: array<Generator.textureDef> = [
@@ -714,6 +716,15 @@ let script = () => {
     Js.Array.map(x => getTexturePixelColor(id, x, 0), Belt.Array.range(0, length - 1))
   let baseColors = getPalette("Trim Palette  ", 8)
 
+  let shoulderAlpha = (textureId: string) => {
+    let (_, _, _, a) = switch Generator.getTexturePixelColor(textureId, 51, 24) {
+    | None => (0, 0, 0, 33)
+    | Some(color) => color
+    }
+    Js.Console.log(textureId ++ ": " ++ Belt.Int.toString(a))
+    a
+  }
+
   let drawHelmetHead = (
     textureId: string,
     showHeadOverlay: bool,
@@ -799,14 +810,16 @@ let script = () => {
   let drawRightShoulder = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (-27, 233)
     let scale = (40, 96, 48)
-    Generator.drawTexture(
-      textureId,
-      char.base.rightArm.left,
-      (ox + 100, oy + 92, 48, 96),
-      ~blend,
-      ~rotate=270.0,
-      (),
-    ) // Part that ensures the side goes far enough down
+    if shoulderAlpha(textureId) == 0 {
+      Generator.drawTexture(
+        textureId,
+        char.base.rightArm.left,
+        (ox + 100, oy + 92, 48, 96),
+        ~blend,
+        ~rotate=270.0,
+        (),
+      )
+    } // Part that ensures the side goes far enough down
     Minecraft.drawCuboid(textureId, char.base.rightArm, (ox, oy), scale, ~blend, ~rotate=90.0, ())
     Generator.drawTexture(
       textureId,
@@ -828,15 +841,17 @@ let script = () => {
   let drawLeftShoulder = (textureId: string, blend: Generator_Texture.blend) => {
     let (ox, oy) = (445, 233)
     let scale = (40, 96, 48)
-    Generator.drawTexture(
-      textureId,
-      char.base.leftArm.left,
-      (ox + 28, oy + 92, 48, 96),
-      ~blend,
-      ~flip=#Horizontal,
-      ~rotate=90.0,
-      (),
-    ) // Part that ensures the side goes far enough down
+    if shoulderAlpha(textureId) == 0 {
+      Generator.drawTexture(
+        textureId,
+        char.base.leftArm.left,
+        (ox + 28, oy + 92, 48, 96),
+        ~blend,
+        ~flip=#Horizontal,
+        ~rotate=90.0,
+        (),
+      )
+    } // Part that ensures the side goes far enough down
     Minecraft.drawCuboid(
       textureId,
       char.base.leftArm,
@@ -1226,8 +1241,6 @@ let script = () => {
   }
 
   // Foreground
-  //Generator.fillBackgroundColor("#a71810")
-  Generator.fillBackgroundColorWithWhite()
   Generator.drawImage("Foreground", (0, 0))
 
   // Folds
@@ -1236,11 +1249,28 @@ let script = () => {
     drawFolds()
   }
 
+  // Shoulder Curve
+  if (
+    shoulderAlpha("Chestplate") == 0 &&
+      (shoulderAlpha("Chestplate Trim") == 33 ||
+      !trimChestplate ||
+      shoulderAlpha("Chestplate Trim") == 0)
+  ) {
+    Generator.drawImage("Foreground-Shoulders", (0, 0))
+    if showFolds {
+      Generator.drawImage("Folds-Shoulders", (0, 0))
+    }
+  }
+
+  // (Chestplate.isEmpty() && (trim.isEmpty() || !trim.exists()))
+
   // Labels
 
   if showLabels {
     Generator.drawImage("Labels", (0, 0))
   }
+
+  Generator.fillBackgroundColorWithWhite()
 }
 
 let generator: Generator.generatorDef = {
