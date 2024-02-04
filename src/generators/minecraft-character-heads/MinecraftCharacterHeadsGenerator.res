@@ -29,12 +29,6 @@ let textures: array<Generator.textureDef> = Belt.Array.concat(
   MinecraftSkins.skins,
   [
     {
-      id: "Skin 1",
-      url: requireTexture("Steve"),
-      standardWidth: 64,
-      standardHeight: 64,
-    },
-    {
       id: "Zombie",
       url: requireTexture("Zombie"),
       standardWidth: 64,
@@ -77,7 +71,7 @@ let script = () => {
   // Define user inputs
   for i in 1 to 8 {
     Generator.defineSkinInput(
-      "Skin " ++ Js.Int.toString(i),
+      "Head " ++ Js.Int.toString(i),
       {
         standardWidth: 64,
         standardHeight: 64,
@@ -138,14 +132,14 @@ let script = () => {
   Generator.drawImage("Background", (0, 0))
 
   // Draw the heads
-  drawHead("Skin 1", 99, 79)
-  drawHead("Skin 2", 387, 79)
-  drawHead("Skin 3", 99, 279)
-  drawHead("Skin 4", 387, 279)
-  drawHead("Skin 5", 99, 479)
-  drawHead("Skin 6", 387, 479)
-  drawHead("Skin 7", 99, 679)
-  drawHead("Skin 8", 387, 679)
+  drawHead("Head 1", 99, 79)
+  drawHead("Head 2", 387, 79)
+  drawHead("Head 3", 99, 279)
+  drawHead("Head 4", 387, 279)
+  drawHead("Head 5", 99, 479)
+  drawHead("Head 6", 387, 479)
+  drawHead("Head 7", 99, 679)
+  drawHead("Head 8", 387, 679)
 }
 
 let generator: Generator.generatorDef = {

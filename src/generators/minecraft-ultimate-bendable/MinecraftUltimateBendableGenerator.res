@@ -51,7 +51,7 @@ let script = () => {
   Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
   //let showOverlay = Generator.getBooleanInputValue("Show Overlay")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showColorCodes = Generator.getBooleanInputValue("Show Color Codes")
