@@ -476,6 +476,169 @@ let drawTab = (
         (inset, h)
       }
 
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h -. tabHeight) : (0.0, h +. 0.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (inset, h -. tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (w, h -. tabHeight) : (w -. inset, h -. tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w, h)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p4, p1)
+      }
+    }
+  | #East => {
+      //
+      //  p1
+      //   +
+      //   | ⟍
+      //   |   ⟍  p2
+      //   |     |
+      //   |     |
+      //   |    ⟋ p3
+      //   |  ⟋
+      //   +
+      //  p4
+      //
+
+      let maxInset = h /. 2.0
+      let inset = w /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, w)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (tabHeight, 0.0) : (0.0, 0.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (tabHeight, 0.0 +. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (tabHeight, h) : (tabHeight, h -. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (0.0, h)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p1, p4)
+      }
+    }
+  | #South => {
+      //
+      // p4 +----------+ p1
+      //     \         /
+      //      \      /
+      //    p3 +----+ p2
+      //
+
+      let maxInset = w /. 2.0
+      let inset = h /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, h)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (w, tabHeight) : (w, 0.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. inset, tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, tabHeight) : (0.0 +. inset, tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (0.0, 0.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p4, p1)
+      }
+    }
+  | #West => {
+      //
+      //       p4
+      //         +
+      //       / |
+      //  p3 /   |
+      //    |    |
+      //    |    |
+      //  p2 \   |
+      //       \ |
+      //         +
+      //        p1
+      //
+
+      let maxInset = h /. 2.0
+      let inset = w /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, w)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h) : (w, h)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. tabHeight, h -. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, 0.0) : (w -. tabHeight, 0.0 +. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w, 0.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p1, p4)
+      }
+    }
+  }
+
+  /* switch orientation {
+  | #North => {
+      //
+      //    p2 ______ p3
+      //      /|    |\
+      //     / |    | \
+      // p1 +--|----|--+ p4
+      //
+
+      let maxInset = w /. 2.0
+      let inset = h /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, h)
+      }
+
       let p1 = tabType == 2 || tabType == 4 ? (0.0, h -. tabHeight) : (-1.0, h +. 1.0)
       let p2 = tabType == 2 || tabType == 4 ? p1 : (inset, h -. tabHeight)
       let p3 = tabType == 3 || tabType == 4 ? (w, h -. tabHeight) : (w -. inset, h -. tabHeight)
@@ -619,5 +782,5 @@ let drawTab = (
         drawFoldLine(p1, p4)
       }
     }
-  }
+  }*/
 }
