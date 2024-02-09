@@ -359,14 +359,18 @@ module RangeInput = {
     }
     <div className="mb-4">
       <div className="font-bold"> {React.string(id)} </div>
-      <input
-        type_="range"
-        min={min->Js.Int.toString}
-        max={max->Js.Int.toString}
-        value={value->Js.Int.toString}
-        step={step->Js.Int.toFloat}
-        onChange={onRangeChange}
-      />
+      <div className="flex flex-wrap items-center">
+        <input
+          className="mr-2"
+          type_="range"
+          min={min->Js.Int.toString}
+          max={max->Js.Int.toString}
+          value={value->Js.Int.toString}
+          step={step->Js.Int.toFloat}
+          onChange={onRangeChange}
+        />
+        {React.string(value->Js.Int.toString)}
+      </div>
     </div>
   }
 }

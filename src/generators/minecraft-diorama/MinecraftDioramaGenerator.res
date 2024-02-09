@@ -91,7 +91,18 @@ let script = () => {
 
   let editMode = Generator.defineAndGetSelectInput("Edit Mode", ["Blocks", "Tabs", "Folds"])
 
-  let dioramaSize = Generator.defineAndGetSelectInput("Diorama Size", ["800%", "400%", "200%"])
+  let dioramaSize = Generator.defineAndGetSelectInput(
+    "Diorama Size",
+    ["800%", "400%", "200%", "Custom"],
+  )
+  if dioramaSize == "Custom" {
+    Generator.defineSelectInput("Diorama Scale", ["1", "2", "3", "4", "5", "6", "7", "8"])
+
+    let dioramaScale =
+      Generator.getSelectInputValue("Diorama Scale")
+      ->Belt.Int.fromString
+      ->Belt.Option.getWithDefault(1)
+  }
 
   let pageFormat = Generator.defineAndGetBooleanInput("Landscape Mode", false)
 
