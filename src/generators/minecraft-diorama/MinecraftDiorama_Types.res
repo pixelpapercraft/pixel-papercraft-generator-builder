@@ -58,13 +58,13 @@ module Fold = {
 
 module Block = {
   module Regions = {
-    let make = (ox, oy, size, cols, rows): array<face> => {
+    let make = (ox, oy, width, height, cols, rows): array<face> => {
       let regions = ref([])
       for c in 0 to cols - 1 {
         for r in 0 to rows - 1 {
           let face = (
             "BlockFace" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-            (ox + size * c, oy + size * r, size, size),
+            (ox + width * c, oy + height * r, width, height),
           )
           regions := Belt.Array.concat(regions.contents, [face])
         }
@@ -73,8 +73,16 @@ module Block = {
     }
   }
 
-  let draw = ((ox: int, oy: int, size: int, cols: int, rows: int, editMode: string)) => {
-    let regions = Regions.make(ox, oy, size, cols, rows)
+  let draw = ((
+    ox: int,
+    oy: int,
+    width: int,
+    height: int,
+    cols: int,
+    rows: int,
+    editMode: string,
+  )) => {
+    let regions = Regions.make(ox, oy, width, height, cols, rows)
 
     Belt.Array.forEach(regions, face => {
       let (faceName, faceRegion) = face
@@ -88,33 +96,33 @@ module Block = {
 
 module Tabs = {
   module Regions = {
-    let make = (ox, oy, size, cols, rows): array<tab> => {
+    let make = (ox, oy, width, height, cols, rows): array<tab> => {
       let regions = ref([])
       let makeNorth = (c, r) => {
         (
           "TabsNorth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * c, oy + size * r, size, size / 4),
+          (ox + width * c, oy + height * r, width, height / 4),
           2,
         )
       }
       let makeSouth = (c, r) => {
         (
           "TabsSouth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * c, oy + size * 3 / 4 + size * r, size, size / 4),
+          (ox + width * c, oy + height * 3 / 4 + height * r, width, height / 4),
           0,
         )
       }
       let makeEast = (c, r) => {
         (
           "TabsEast" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * c, oy + size * r, size / 4, size),
+          (ox + width * c, oy + height * r, width / 4, height),
           1,
         )
       }
       let makeWest = (c, r) => {
         (
           "TabsWest" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * 3 / 4 + size * c, oy + size * r, size / 4, size),
+          (ox + width * 3 / 4 + width * c, oy + height * r, width / 4, height),
           3,
         )
       }
@@ -158,8 +166,16 @@ module Tabs = {
     Belt.Int.toString(t)
   }
 
-  let draw = ((ox: int, oy: int, size: int, cols: int, rows: int, editMode: string)) => {
-    let regions = Regions.make(ox, oy, size, cols, rows)
+  let draw = ((
+    ox: int,
+    oy: int,
+    width: int,
+    height: int,
+    cols: int,
+    rows: int,
+    editMode: string,
+  )) => {
+    let regions = Regions.make(ox, oy, width, height, cols, rows)
 
     Belt.Array.forEach(regions, tab => {
       let (tabName, tabRegion, tabRot) = tab
@@ -176,33 +192,33 @@ module Tabs = {
 }
 module Folds = {
   module Regions = {
-    let make = (ox, oy, size, cols, rows): array<fold> => {
+    let make = (ox, oy, width, height, cols, rows): array<fold> => {
       let regions = ref([])
       let makeNorth = (c, r) => {
         (
           "FoldsNorth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * c, oy + size * r, size, size / 4),
+          (ox + width * c, oy + height * r, width, height / 4),
           2,
         )
       }
       let makeSouth = (c, r) => {
         (
           "FoldsSouth" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * c, oy + size * 3 / 4 + size * r, size, size / 4),
+          (ox + width * c, oy + height * 3 / 4 + height * r, width, height / 4),
           0,
         )
       }
       let makeEast = (c, r) => {
         (
           "FoldsEast" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * c, oy + size * r, size / 4, size),
+          (ox + width * c, oy + height * r, width / 4, height),
           1,
         )
       }
       let makeWest = (c, r) => {
         (
           "FoldsWest" ++ Belt.Int.toString(c) ++ " " ++ Belt.Int.toString(r),
-          (ox + size * 3 / 4 + size * c, oy + size * r, size / 4, size),
+          (ox + width * 3 / 4 + width * c, oy + height * r, width / 4, height),
           3,
         )
       }
@@ -241,8 +257,16 @@ module Folds = {
     }
   }
 
-  let draw = ((ox: int, oy: int, size: int, cols: int, rows: int, editMode: string)) => {
-    let regions = Regions.make(ox, oy, size, cols, rows)
+  let draw = ((
+    ox: int,
+    oy: int,
+    width: int,
+    height: int,
+    cols: int,
+    rows: int,
+    editMode: string,
+  )) => {
+    let regions = Regions.make(ox, oy, width, height, cols, rows)
 
     Belt.Array.forEach(regions, fold => {
       let (foldName, foldRegion, foldRot) = fold

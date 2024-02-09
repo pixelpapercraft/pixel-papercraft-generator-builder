@@ -93,53 +93,54 @@ let script = () => {
 
   let dioramaSize = Generator.defineAndGetSelectInput(
     "Diorama Size",
-    ["800%", "400%", "200%", "Custom"],
+    ["Custom", "800%", "400%", "200%"],
   )
-  if dioramaSize == "Custom" {
-    Generator.defineSelectInput("Diorama Scale", ["1", "2", "3", "4", "5", "6", "7", "8"])
 
-    let dioramaScale =
-      Generator.getSelectInputValue("Diorama Scale")
-      ->Belt.Int.fromString
-      ->Belt.Option.getWithDefault(1)
+  let dioramaWidth = switch dioramaSize {
+  | "800%" => 800
+  | "400%" => 400
+  | "200%" => 200
+  | "Custom" =>
+    Generator.defineAndGetRangeInput("Diorama Width", {min: 100, max: 1600, value: 800, step: 50})
+  | _ => 128
   }
+
+  let dioramaHeight =
+    dioramaSize !== "Custom"
+      ? dioramaWidth
+      : {
+          let separateHeight = Generator.defineAndGetBooleanInput("Separate Height", false)
+          separateHeight
+            ? Generator.defineAndGetRangeInput(
+                "Diorama Height",
+                {min: 100, max: 1600, value: 800, step: 50},
+              )
+            : dioramaWidth
+        }
+
+  // if dioramaSize is not custom, = dioramaWidth
+  // if dioramaSize is custom, define boolean, and then = rangeInput
 
   let pageFormat = Generator.defineAndGetBooleanInput("Landscape Mode", false)
 
   let ox = pageFormat ? 37 : 42
   let oy = 41
-  let (bx, by) = pageFormat ? (6, 4) : (4, 6)
+  let (bx, by) = pageFormat ? (768, 512) : (512, 768)
+  let width = 16 * dioramaWidth / 100 //Belt.Float.toInt(16.0 *. Belt.Int.toFloat(dioramaWidth) /. 100.0)
+  let height = 16 * dioramaHeight / 100
 
-  let options800 = (ox, oy, 128, bx, by, editMode)
-  let options400 = (ox, oy, 64, bx * 2, by * 2, editMode)
-  let options200 = (ox, oy, 32, bx * 4, by * 4, editMode)
+  let options = (ox, oy, width, height, bx / width, by / height, editMode)
 
   Generator.usePage(~isLandscape=pageFormat, "Page")
 
-  switch dioramaSize {
-  | "800%" => Types.Block.draw(options800)
-  | "400%" => Types.Block.draw(options400)
-  | "200%" => Types.Block.draw(options200)
-  | _ => ()
-  }
+  // Blocks
+  Types.Block.draw(options)
 
   // Tabs
-
-  switch dioramaSize {
-  | "800%" => Types.Tabs.draw(options800)
-  | "400%" => Types.Tabs.draw(options400)
-  | "200%" => Types.Tabs.draw(options200)
-  | _ => ()
-  }
+  Types.Tabs.draw(options)
 
   // Folds
-
-  switch dioramaSize {
-  | "800%" => Types.Folds.draw(options800)
-  | "400%" => Types.Folds.draw(options400)
-  | "200%" => Types.Folds.draw(options200)
-  | _ => ()
-  }
+  Types.Folds.draw(options)
 
   Generator.defineButtonInput("Clear", () => {
     // Save things we don't want cleared
