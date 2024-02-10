@@ -8,7 +8,7 @@ let generatorGroups = [
   {label: "Mods", generators: Generators.mod},
   {label: "Other", generators: Generators.other},
   //{label: "Development", generators: Generators.dev},
-  //{label: "Testing", generators: Generators.test},
+  {label: "Testing", generators: Generators.test},
 ]
 
 module Heading = {

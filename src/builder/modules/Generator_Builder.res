@@ -643,6 +643,13 @@ let adjustPosition = ((x, y): position, w: int) => {
   (w - y, x)
 }
 
+/* By default canvas2d is always antialiased and can't be turned off by a setting, but this filter will eliminate transparent pixels, effectively making it appear aliased */
+let addAliasingFilter = canvas => {
+  canvas->Context2d.filter(
+    "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9ImZpbHRlciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jUiB0eXBlPSJpZGVudGl0eSIvPjxmZUZ1bmNHIHR5cGU9ImlkZW50aXR5Ii8+PGZlRnVuY0IgdHlwZT0iaWRlbnRpdHkiLz48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjAgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L3N2Zz4=#filter)",
+  )
+}
+
 let drawLine = (
   model: Model.t,
   (x1, y1): position,
@@ -667,9 +674,7 @@ let drawLine = (
       let (ox, oy) = getOffset((x1, y1), (x2, y2), page.isLandscape)
 
       let context = page.canvasWithContext.context
-      context->Context2d.filter(
-        "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9ImZpbHRlciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jUiB0eXBlPSJpZGVudGl0eSIvPjxmZUZ1bmNHIHR5cGU9ImlkZW50aXR5Ii8+PGZlRnVuY0IgdHlwZT0iaWRlbnRpdHkiLz48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjAgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L3N2Zz4=#filter)",
-      )
+      context->addAliasingFilter
       context->Context2d.beginPath
       context->Context2d.strokeStyle(color)
       context->Context2d.lineWidth(width)
@@ -864,16 +869,18 @@ let drawText = (model: Model.t, text: string, position: position, size: int) => 
   | Some(page) => {
       let (x, y) = position
       let (x, y) = page.isLandscape ? (page.canvasWithContext.width - y, x) : (x, y)
+      page.canvasWithContext.context->addAliasingFilter
       page.canvasWithContext.context->Context2d.save
       if page.isLandscape {
         page.canvasWithContext.context->Context2d.translate(Belt.Int.toFloat(x + y), 5.0)
         page.canvasWithContext.context->Context2d.rotate(Js.Math._PI /. 2.0)
       }
-      let font = Belt.Int.toString(size) ++ "px sans-serif"
+      let font = Belt.Int.toString(size * 10) ++ "px Mojangles"
       page.canvasWithContext.context->Context2d.font(font)
 
       page.canvasWithContext.context->Context2d.fillText(text, x, y)
       page.canvasWithContext.context->Context2d.restore
+      page.canvasWithContext.context->addAliasingFilter
     }
   }
   model

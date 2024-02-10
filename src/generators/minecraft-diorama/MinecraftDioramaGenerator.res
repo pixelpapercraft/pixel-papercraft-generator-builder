@@ -93,7 +93,7 @@ let script = () => {
 
   let dioramaSize = Generator.defineAndGetSelectInput(
     "Diorama Size",
-    ["Custom", "800%", "400%", "200%"],
+    ["800%", "400%", "200%", "Custom"],
   )
 
   let dioramaWidth = switch dioramaSize {
