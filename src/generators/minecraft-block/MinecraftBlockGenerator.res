@@ -1,7 +1,8 @@
-module TexturePicker = MinecraftBlock_TexturePicker
-module Textures = MinecraftBlock_Textures
-module Face = MinecraftBlock_Face
+module TexturePicker = TexturePicker
+module Face = TextureFace
 module Types = MinecraftBlock_Types
+module Markdown = Generator.Markdown
+module TextureVersions = TextureVersions
 
 let id = "minecraft-block"
 
@@ -11,6 +12,8 @@ let history = [
   "Dec 2021 lostminer - Block generator rewrite.",
   "Dec 2021 NinjolasNJM - Add Stairs, Fence, Door, Trapdoor and Snow.",
   "Jan 2022 NinjolasNJM - Add Cake Block type.",
+  "Jan 2024 NinjolasNJM - Now uses the universal texture picker, with erase mode, flip buttons and new textures.",
+  "Jan 2024 NinjolasNJM - Add Minecart Block type.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -44,16 +47,37 @@ let images: array<Generator.imageDef> = [
   {id: "Tabs-Cake-Middle", url: Generator.requireImage("./images/Tabs-Cake-Middle.png")},
   {id: "Tabs-Cake-Corner", url: Generator.requireImage("./images/Tabs-Cake-Corner.png")},
   {id: "Tabs-Cake-Right", url: Generator.requireImage("./images/Tabs-Cake-Right.png")},
+  {id: "Folds-Minecart", url: Generator.requireImage("./images/Folds-Minecart.png")},
+  {id: "Tabs-Minecart", url: Generator.requireImage("./images/Tabs-Minecart.png")},
 ]
 
-let textures: array<Generator.textureDef> = Textures.textures
+let textures: array<Generator.textureDef> = TextureVersions.allTextureDefs
+
+let definitions = Belt.Array.concat(
+  TextureVersions.itemDefinitions,
+  TextureVersions.blockDefinitions,
+)
 
 let script = () => {
-  Generator.defineSelectInput("Version", Textures.versionIds)
+  // Show a drop down of different texture versions
+
+  Generator.defineSelectInput("Version", TextureVersions.versionIds(definitions))
   let versionId = Generator.getSelectInputValue("Version")
 
-  Generator.defineCustomStringInput(MinecraftBlock_Constants.currentBlockTextureId, onChange => {
-    <TexturePicker versionId={versionId} onChange={onChange} />
+  // Get the current selected version
+  let textureVersion = TextureVersions.findVersion(versionId, definitions)
+
+  // Show the Texture Picker
+  // When a texture is selected, we need to encode it into a string variable
+  Generator.defineCustomStringInput("SelectedTextureFrame", (onChange: string => unit) => {
+    <TexturePicker
+      textureVersion
+      onSelect={selectedTexture => {
+        onChange(TexturePicker.SelectedTexture.encode(selectedTexture))
+      }}
+      enableRotation=true
+      enableErase=true
+    />
   })
 
   Generator.defineSelectInput("Number of Blocks", ["1", "2"])
@@ -66,6 +90,12 @@ let script = () => {
 
   let showFolds = Generator.getBooleanInputValue("Show Folds")
 
+  // Wherever it gets used, ( in item it was first and array that is iterated through,) SelectedTextureFreame is split into textureDefId and frame, then its rectangle is used as frame.rectangle. Example:
+  /* let {textureDefId, frame} = selectedTextureFrame
+   ... Generator.drawItem(textureDefId, frame.rectangle, etc. )
+   In our case we need not just the rectangle, but the rotation and blend and maybe more (we need to add a flip part?) so using all of frame may be optimal.  
+ */
+
   Generator.drawImage("Background", (0, 0))
 
   for i in 1 to numberOfBlocks {
@@ -74,7 +104,17 @@ let script = () => {
     let typeName = "Block " ++ blockId ++ " Type"
     Generator.defineSelectInput(
       typeName,
-      ["Block", "Slab", "Stair", "Fence", "Door", "Trapdoor", "Snow Layers", "Cake"],
+      [
+        "Block",
+        "Slab",
+        "Stair",
+        "Fence",
+        "Door",
+        "Trapdoor",
+        "Snow Layers",
+        "Cake",
+        "Minecart Block",
+      ],
     )
     let blockType = Generator.getSelectInputValue(typeName)
 
@@ -90,32 +130,31 @@ let script = () => {
     | "Trapdoor" => Types.Trapdoor.draw(blockId, ox, oy, showFolds)
     | "Snow Layers" => Types.Snow.draw(blockId, ox, oy, showFolds)
     | "Cake" => Types.Cake.draw(blockId, ox, oy, showFolds)
+    | "Minecart Block" => Types.Minecart.draw(blockId, ox, oy, showFolds)
     | _ => ()
     }
   }
 
+  // Show a button which allows the items to be cleared
   Generator.defineButtonInput("Clear", () => {
-    let currentTextureChoice = Generator.getStringInputValue(
-      MinecraftBlock_Constants.currentBlockTextureId,
-    )
+    let currentTextureChoice = Generator.getStringInputValue("SelectedTextureFrame")
+
     Generator.clearStringInputValues()
-    Generator.setStringInputValue(
-      MinecraftBlock_Constants.currentBlockTextureId,
-      currentTextureChoice,
-    )
+
+    Generator.setStringInputValue("SelectedTextureFrame", currentTextureChoice)
   })
 
   Generator.drawImage("Title", (0, 0))
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

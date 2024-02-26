@@ -10,6 +10,7 @@ let history = [
   "13 Feb 2015 lostminer: Update to use new version of generator.",
   "13 Sep 2020 NinjolasNJM: Updated to use 1.8+ Skins.",
   "23 Jul 2021 NinjolasNJM: Replaced generator with one derived from Pig Generator by TepigMC.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -18,122 +19,119 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let images: array<Generator.imageDef> = []
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Background Sprites",
-    url: Generator.requireImage("./images/background-sprites.png"),
-    standardWidth: 592,
-    standardHeight: 608,
-  },
-  {
-    id: "Fold Sprites",
-    url: Generator.requireImage("./images/fold-sprites.png"),
-    standardWidth: 600,
-    standardHeight: 808,
-  },
-  {
-    id: "Label Sprites",
-    url: Generator.requireImage("./images/label-sprites.png"),
-    standardWidth: 208,
-    standardHeight: 80,
-  },
-  {
-    id: "Title Sprites",
-    url: Generator.requireImage("./images/title-sprites.png"),
-    standardWidth: 294,
-    standardHeight: 48,
-  },
-  {
-    id: "Pig Texture",
-    url: Generator.requireImage("./textures/vanilla/pig2.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Saddle (Vanilla)",
-    url: Generator.requireImage("./textures/vanilla/pig_saddle2.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Saddle (Vanilla) (Programmer Art)",
-    url: Generator.requireImage("./textures/vanilla/pig_saddle.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Diamond Armor (Vanilla)",
-    url: Generator.requireImage("./textures/vanilla/diamond-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Gold Armor (Vanilla)",
-    url: Generator.requireImage("./textures/vanilla/gold-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Chainmail Armor (Vanilla)",
-    url: Generator.requireImage("./textures/vanilla/chainmail-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Iron Armor (Vanilla)",
-    url: Generator.requireImage("./textures/vanilla/iron-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Saddle (Faithful)",
-    url: Generator.requireImage("./textures/faithful/saddle.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Diamond Armor (Faithful)",
-    url: Generator.requireImage("./textures/faithful/diamond-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Gold Armor (Faithful)",
-    url: Generator.requireImage("./textures/faithful/gold-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Chainmail Armor (Faithful)",
-    url: Generator.requireImage("./textures/faithful/chainmail-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Iron Armor (Faithful)",
-    url: Generator.requireImage("./textures/faithful/iron-armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Saddle (Space Pig)",
-    url: Generator.requireImage("./textures/space-pig/saddle.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Armor (Space Pig)",
-    url: Generator.requireImage("./textures/space-pig/armor.png"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-  {
-    id: "Skin",
-    url: Generator.requireImage("./textures/Steve.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  MinecraftSkins.skins,
+  [
+    {
+      id: "Background Sprites",
+      url: Generator.requireImage("./images/background-sprites.png"),
+      standardWidth: 592,
+      standardHeight: 608,
+    },
+    {
+      id: "Fold Sprites",
+      url: Generator.requireImage("./images/fold-sprites.png"),
+      standardWidth: 600,
+      standardHeight: 808,
+    },
+    {
+      id: "Label Sprites",
+      url: Generator.requireImage("./images/label-sprites.png"),
+      standardWidth: 208,
+      standardHeight: 80,
+    },
+    {
+      id: "Title Sprites",
+      url: Generator.requireImage("./images/title-sprites.png"),
+      standardWidth: 294,
+      standardHeight: 48,
+    },
+    {
+      id: "Pig Texture",
+      url: Generator.requireImage("./textures/vanilla/pig2.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Saddle (Vanilla)",
+      url: Generator.requireImage("./textures/vanilla/pig_saddle2.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Saddle (Vanilla) (Programmer Art)",
+      url: Generator.requireImage("./textures/vanilla/pig_saddle.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Diamond Armor (Vanilla)",
+      url: Generator.requireImage("./textures/vanilla/diamond-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Gold Armor (Vanilla)",
+      url: Generator.requireImage("./textures/vanilla/gold-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Chainmail Armor (Vanilla)",
+      url: Generator.requireImage("./textures/vanilla/chainmail-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Iron Armor (Vanilla)",
+      url: Generator.requireImage("./textures/vanilla/iron-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Saddle (Faithful)",
+      url: Generator.requireImage("./textures/faithful/saddle.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Diamond Armor (Faithful)",
+      url: Generator.requireImage("./textures/faithful/diamond-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Gold Armor (Faithful)",
+      url: Generator.requireImage("./textures/faithful/gold-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Chainmail Armor (Faithful)",
+      url: Generator.requireImage("./textures/faithful/chainmail-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Iron Armor (Faithful)",
+      url: Generator.requireImage("./textures/faithful/iron-armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Saddle (Space Pig)",
+      url: Generator.requireImage("./textures/space-pig/saddle.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+    {
+      id: "Armor (Space Pig)",
+      url: Generator.requireImage("./textures/space-pig/armor.png"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+  ],
+)
 
 type bgSprites = {
   body: Builder.rectangleLegacy,
@@ -265,13 +263,21 @@ let script = () => {
       {
         standardWidth: width,
         standardHeight: height,
-        choices: choices,
+        choices,
       },
     )
   }
 
-  // Define user inputs
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
   makeTextureInput(skinTexture, 64, 64, [])
   makeTextureInput(
     saddleTexture,
@@ -306,7 +312,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       sprite,
       {x: spriteJson.x, y: spriteJson.y, w: spriteJson.w, h: spriteJson.h},
-      {x: x, y: y, w: spriteJson.w, h: spriteJson.h},
+      {x, y, w: spriteJson.w, h: spriteJson.h},
       (),
     )
   }
@@ -316,7 +322,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       sprite,
       {x: spriteJson.x, y: spriteJson.y, w: spriteJson.w, h: spriteJson.h},
-      {x: x, y: y, w: width, h: height},
+      {x, y, w: width, h: height},
       (),
     )
   }
@@ -327,7 +333,7 @@ let script = () => {
   Generator.defineBooleanInput("Show Titles", true)
   Generator.defineBooleanInput("Transparent Background", false)
 
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showTitles = Generator.getBooleanInputValue("Show Titles")
@@ -380,7 +386,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: tx, y: ty + 8, w: 8, h: 2},
-      {x: x, y: y + 64, w: 64, h: 16},
+      {x, y: y + 64, w: 64, h: 16},
       (),
     ) // Right 1
     Generator.drawTextureLegacy(
@@ -410,7 +416,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: tx + 8, y: ty, w: 8, h: 8},
-      {x: x + 64, y: y, w: 64, h: 64},
+      {x: x + 64, y, w: 64, h: 64},
       (),
     ) // Top
     Generator.drawTextureLegacy(
@@ -436,7 +442,7 @@ let script = () => {
       Generator.drawTextureLegacy(
         texture,
         {x: tx + 24, y: ty + 10, w: 8, h: 2},
-        {x: x, y: y + 144, w: 64, h: 16},
+        {x, y: y + 144, w: 64, h: 16},
         ~rotateLegacy=270.0,
         (),
       )
@@ -486,7 +492,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: textureOffsetX, y: 8, w: 8, h: 8},
-      {x: x, y: y + 64, w: 64, h: 64},
+      {x, y: y + 64, w: 64, h: 64},
       (),
     ) // Right
     Generator.drawTextureLegacy(
@@ -510,7 +516,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: textureOffsetX + 8, y: 0, w: 8, h: 8},
-      {x: x + 64, y: y, w: 64, h: 64},
+      {x: x + 64, y, w: 64, h: 64},
       (),
     ) // Top
     Generator.drawTextureLegacy(
@@ -572,7 +578,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       pig,
       {x: 10, y: 12, w: 4, h: 3},
-      {x: x + 24, y: y, w: 32, h: 24},
+      {x: x + 24, y, w: 32, h: 24},
       ~flip=#Vertical,
       (),
     ) // Back
@@ -620,7 +626,7 @@ let script = () => {
         Generator.drawTextureLegacy(
           texture,
           {x: sx, y: sy + 4, w: 4, h: 12},
-          {x: x, y: y + 88, w: 64, h: 128},
+          {x, y: y + 88, w: 64, h: 128},
           (),
         ) // Right
         Generator.drawTextureLegacy(
@@ -658,7 +664,7 @@ let script = () => {
         Generator.drawTextureLegacy(
           texture,
           {x: 28, y: 16, w: 8, h: 16},
-          {x: x, y: y + 88, w: 64, h: 128},
+          {x, y: y + 88, w: 64, h: 128},
           (),
         ) // Right
         Generator.drawTextureLegacy(
@@ -843,41 +849,36 @@ let script = () => {
   // Saddle Function (only for separate saddle)
   let drawSaddleSeparate = (texture, x, y) => {
     // Top
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 41, y: 16, w: 5, h: 16},
-      {x: x, y: y, w: 40, h: 128},
-      (),
-    ) // Bottom Left
+    Generator.drawTextureLegacy(texture, {x: 41, y: 16, w: 5, h: 16}, {x, y, w: 40, h: 128}, ()) // Bottom Left
     Generator.drawTextureLegacy(
       texture,
       {x: 46, y: 16, w: 8, h: 16},
-      {x: x + 40, y: y, w: 64, h: 128},
+      {x: x + 40, y, w: 64, h: 128},
       (),
     ) // Left
     Generator.drawTextureLegacy(
       texture,
       {x: 54, y: 16, w: 10, h: 16},
-      {x: x + 104, y: y, w: 80, h: 128},
+      {x: x + 104, y, w: 80, h: 128},
       (),
     ) // Top
     Generator.drawTextureLegacy(
       texture,
       {x: 28, y: 16, w: 8, h: 16},
-      {x: x + 184, y: y, w: 64, h: 128},
+      {x: x + 184, y, w: 64, h: 128},
       (),
     ) // Right
     Generator.drawTextureLegacy(
       texture,
       {x: 41, y: 16, w: 5, h: 16},
-      {x: x + 248, y: y, w: 40, h: 128},
+      {x: x + 248, y, w: 40, h: 128},
       (),
     ) // Bottom Right
     // Bottom
     Generator.drawTextureLegacy(
       texture,
       {x: 41, y: 16, w: 5, h: 16},
-      {x: x, y: y + 128, w: 40, h: 128},
+      {x, y: y + 128, w: 40, h: 128},
       ~flip=#Vertical,
       (),
     ) // Bottom Left
@@ -922,7 +923,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: tx, y: ty + 8, w: 8, h: 3},
-      {x: x, y: y + 64, w: 64, h: 24},
+      {x, y: y + 64, w: 64, h: 24},
       (),
     ) // Right 1
     Generator.drawTextureLegacy(
@@ -958,7 +959,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: tx + 8, y: ty, w: 8, h: 8},
-      {x: x + 64, y: y, w: 64, h: 64},
+      {x: x + 64, y, w: 64, h: 64},
       (),
     ) // Top
   }
@@ -986,12 +987,7 @@ let script = () => {
       drawSprite(bgSprite, bgSprites.boot, x, y)
     }
 
-    Generator.drawTextureLegacy(
-      texture,
-      {x: 0, y: 26, w: 4, h: 6},
-      {x: x, y: y + 0, w: 32, h: 48},
-      (),
-    ) // Right
+    Generator.drawTextureLegacy(texture, {x: 0, y: 26, w: 4, h: 6}, {x, y: y + 0, w: 32, h: 48}, ()) // Right
     Generator.drawTextureLegacy(
       texture,
       {x: 4, y: 26, w: 4, h: 6},
@@ -1243,7 +1239,7 @@ let script = () => {
     Generator.drawTextureLegacy(
       texture,
       {x: 28, y: 16, w: 8, h: 4},
-      {x: x + 8, y: y, w: 8, h: 8},
+      {x: x + 8, y, w: 8, h: 8},
       ~flip=#Vertical,
       (),
     ) // Back
@@ -1251,7 +1247,7 @@ let script = () => {
       Generator.drawTextureLegacy(
         texture,
         {x: 28, y: 32, w: 8, h: 4},
-        {x: x + 8, y: y, w: 8, h: 8},
+        {x: x + 8, y, w: 8, h: 8},
         ~flip=#Vertical,
         (),
       ) // Back Overlay
@@ -1406,13 +1402,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

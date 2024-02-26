@@ -5,7 +5,11 @@ let id = "minecraft-axolotl-character"
 
 let name = "Minecraft Axolotl Character"
 
-let history = ["Feb 2022 M16 - Initial script developed.", "6 Feb 2022 lostminer - Refactoring."]
+let history = [
+  "Feb 2022 M16 - Initial script developed.",
+  "6 Feb 2022 lostminer - Refactoring.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
@@ -14,47 +18,44 @@ let thumbnail: Generator.thumnbnailDef = {
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/QVRD8Bl_hjA?rel=0"}
 
 let imageIds = ["Background", "Folds", "Labels"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Blue",
-    url: requireTexture("axolotl_blue"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Cyan",
-    url: requireTexture("axolotl_cyan"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Pink",
-    url: requireTexture("axolotl_lucy"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Gold",
-    url: requireTexture("axolotl_gold"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Brown",
-    url: requireTexture("axolotl_wild"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  MinecraftSkins.skins,
+  [
+    {
+      id: "Blue",
+      url: requireTexture("axolotl_blue"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Cyan",
+      url: requireTexture("axolotl_cyan"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Pink",
+      url: requireTexture("axolotl_lucy"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Gold",
+      url: requireTexture("axolotl_gold"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+    {
+      id: "Brown",
+      url: requireTexture("axolotl_wild"),
+      standardWidth: 64,
+      standardHeight: 64,
+    },
+  ],
+)
 
 let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
@@ -282,9 +283,16 @@ let drawTailFinsTexture = () => {
 }
 
 let script = () => {
-  // Define input textures
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
   Generator.defineTextureInput(
     "Head Fins Texture",
     {
@@ -309,7 +317,7 @@ let script = () => {
   Generator.defineRangeInput("Axolotl Face", {min: 0, max: 5, step: 1, value: 0})
 
   // Get user variable values
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showOverlay = Generator.getBooleanInputValue("Show Overlay")
@@ -365,13 +373,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

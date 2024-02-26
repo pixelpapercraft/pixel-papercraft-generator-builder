@@ -1,5 +1,4 @@
 let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
-let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
 
 let id = "minecraft-creeper-character"
 
@@ -9,6 +8,7 @@ let history = [
   "Created by CanadaCraft, template by BrickyBoy99.",
   "13 Sep 2020 NinjolasNJM - Updated to work with 1.8+ Skins.",
   "17 Jul 2021 M16 - Updated generator photo.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -24,23 +24,23 @@ let imageIds = [
   "Action-Figure-Folds",
   "Action-Figure-Labels",
 ]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = TextureMap.MinecraftCharacter.steve
 
 let script = () => {
-  // Define input textures
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
@@ -310,6 +310,7 @@ let script = () => {
   if actionFigure {
     //Neck
     Generator.drawTexture("Skin", steve.base.head.bottom, (44, 254, 64, 96), ())
+
     // Neck Overlay
     if !hideHelmet {
       Generator.drawTexture("Skin", steve.overlay.head.bottom, (44, 254, 64, 96), ())
@@ -328,6 +329,7 @@ let script = () => {
       Generator.drawImage("Action-Figure-Labels", (0, 0))
     }
   }
+
   // Folds
   if showFolds {
     Generator.drawImage("Folds", (0, 0))
@@ -340,13 +342,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

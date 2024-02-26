@@ -1,5 +1,4 @@
 let requireImage = id => Generator.requireImage("./images/" ++ id ++ ".png")
-let requireTexture = id => Generator.requireImage("./textures/" ++ id ++ ".png")
 
 let id = "minecraft-ultimate-bendable"
 
@@ -12,6 +11,7 @@ let history = [
   "22 Nov 2018 NinjolasNJM - Fixed rotations of tops and bottoms and the placement of arm textures, and made compatible with 1.8+ skins.",
   "30 Aug 2020 NinjolasNJM - Fixed a few more things such as the rotation of the bottom of the head and the bottom of the waist using the wrong textures, changed the tubes and tabs to look better on more skins, and updated the code comments.",
   "06 Jun 2021 NinjolasNJM - Converted to ReScript generator, and fixed the lines on the head.",
+  "02 Feb 2024 NinjolasNJM - added skin input.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -29,31 +29,29 @@ let imageIds = [
   "Folds-Alex",
   "Labels",
 ]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Skin64x64Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let script = () => {
-  // Define user inputs
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
+  // Inputs
 
-  // Define user variables
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
-  //Generator.defineBooleanInput("Show Overlay", true)
+  Generator.defineSkinInput(
+    "Skin",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
   Generator.defineBooleanInput("Show Folds", true)
   Generator.defineBooleanInput("Show Color Codes", true)
   Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
   //let showOverlay = Generator.getBooleanInputValue("Show Overlay")
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showColorCodes = Generator.getBooleanInputValue("Show Color Codes")
@@ -1013,13 +1011,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

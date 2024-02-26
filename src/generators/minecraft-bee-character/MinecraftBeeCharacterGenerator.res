@@ -1,11 +1,13 @@
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
-let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
 let id = "minecraft-bee-character"
 
 let name = "Minecraft Bee Character"
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/vG-mXWu0OlA?rel=0"}
-let history = ["1 May 2022 PaperDoggy - Initial script developed."]
+let history = [
+  "1 May 2022 PaperDoggy - Initial script developed.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
@@ -13,20 +15,7 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let images: array<Generator.imageDef> = [{id: "OverlayBee", url: requireImage("OverlayBee.png")}]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin1",
-    url: requireTexture("Skin1.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Skin2",
-    url: requireTexture("Skin2.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
@@ -404,89 +393,90 @@ module Drawing = {
   }
 }
 let script = () => {
-  Generator.defineSelectInput("Character 1 skin model type", ["Steve", "Alex"])
-  Generator.defineTextureInput(
-    "Skin1",
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin 1",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [],
+      choices: ["Steve", "Alex"],
     },
   )
-  let alexModel1 = Generator.getSelectInputValue("Character 1 skin model type") === "Alex"
-  Generator.defineRangeInput("Head size 1", {min: 0, max: 10, step: 1, value: 0})
-  let headmultiplier1 = Generator.getRangeInputValue("Head size 1")
+  Generator.defineSelectInput("Skin 1 Model", ["Steve", "Alex"])
+  let alexModel1 = Generator.getSelectInputValue("Skin 1 Model") === "Alex"
+  Generator.defineRangeInput("Head Size 1", {min: 0, max: 10, step: 1, value: 0})
+  let headmultiplier1 = Generator.getRangeInputValue("Head Size 1")
 
-  Generator.defineSelectInput("Character 2 skin model type", ["Steve", "Alex"])
-  Generator.defineTextureInput(
-    "Skin2",
+  Generator.defineSkinInput(
+    "Skin 2",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [],
+      choices: ["Steve", "Alex"],
     },
   )
-  let alexModel2 = Generator.getSelectInputValue("Character 2 skin model type") === "Alex"
-  Generator.defineRangeInput("Head size 2", {min: 0, max: 10, step: 1, value: 0})
-  let headmultiplier2 = Generator.getRangeInputValue("Head size 2")
+  Generator.defineSelectInput("Skin 2 Model", ["Steve", "Alex"])
+  let alexModel2 = Generator.getSelectInputValue("Skin 2 Model") === "Alex"
+  Generator.defineRangeInput("Head Size 2", {min: 0, max: 10, step: 1, value: 0})
+  let headmultiplier2 = Generator.getRangeInputValue("Head Size 2")
 
   Generator.drawImage("OverlayBee", (0, 0))
   let ox = 108
   let oy = 103
-  Drawing.drawHead(ox, oy, headmultiplier1, "Skin1")
-  Drawing.drawBody(ox, oy, headmultiplier1, "Skin1")
+  Drawing.drawHead(ox, oy, headmultiplier1, "Skin 1")
+  Drawing.drawBody(ox, oy, headmultiplier1, "Skin 1")
   if alexModel1 {
-    Drawing.drawRightArmAlex(ox + 221, oy - 53, "Skin1")
-    Drawing.drawLeftArmAlex(ox + 245, oy - 53, "Skin1")
+    Drawing.drawRightArmAlex(ox + 221, oy - 53, "Skin 1")
+    Drawing.drawLeftArmAlex(ox + 245, oy - 53, "Skin 1")
   } else {
-    Drawing.drawRightArm(ox + 221, oy - 53, "Skin1")
-    Drawing.drawLeftArm(ox + 245, oy - 53, "Skin1")
+    Drawing.drawRightArm(ox + 221, oy - 53, "Skin 1")
+    Drawing.drawLeftArm(ox + 245, oy - 53, "Skin 1")
   }
-  Drawing.drawRightLeg(ox + 221, oy - 20, "Skin1")
-  Drawing.drawLeftLeg(ox + 245, oy - 20, "Skin1")
-  Drawing.drawRightLeg(ox + 221, oy + 12, "Skin1")
-  Drawing.drawLeftLeg(ox + 245, oy + 12, "Skin1")
-  Drawing.drawPlan(ox + 321, oy - 48, headmultiplier1, "Skin1")
+  Drawing.drawRightLeg(ox + 221, oy - 20, "Skin 1")
+  Drawing.drawLeftLeg(ox + 245, oy - 20, "Skin 1")
+  Drawing.drawRightLeg(ox + 221, oy + 12, "Skin 1")
+  Drawing.drawLeftLeg(ox + 245, oy + 12, "Skin 1")
+  Drawing.drawPlan(ox + 321, oy - 48, headmultiplier1, "Skin 1")
 
   if alexModel1 {
-    Drawing.drawPlanArmsAlex(ox + 321, oy - 48, "Skin1")
+    Drawing.drawPlanArmsAlex(ox + 321, oy - 48, "Skin 1")
   } else {
-    Drawing.drawPlanArms(ox + 321, oy - 48, "Skin1")
+    Drawing.drawPlanArms(ox + 321, oy - 48, "Skin 1")
   }
 
   let ox = 108
   let oy = 416
-  Drawing.drawHead(ox, oy, headmultiplier2, "Skin2")
-  Drawing.drawBody(ox, oy, headmultiplier2, "Skin2")
+  Drawing.drawHead(ox, oy, headmultiplier2, "Skin 2")
+  Drawing.drawBody(ox, oy, headmultiplier2, "Skin 2")
   if alexModel2 {
-    Drawing.drawRightArmAlex(ox + 221, oy - 53, "Skin2")
-    Drawing.drawLeftArmAlex(ox + 245, oy - 53, "Skin2")
+    Drawing.drawRightArmAlex(ox + 221, oy - 53, "Skin 2")
+    Drawing.drawLeftArmAlex(ox + 245, oy - 53, "Skin 2")
   } else {
-    Drawing.drawRightArm(ox + 221, oy - 53, "Skin2")
-    Drawing.drawLeftArm(ox + 245, oy - 53, "Skin2")
+    Drawing.drawRightArm(ox + 221, oy - 53, "Skin 2")
+    Drawing.drawLeftArm(ox + 245, oy - 53, "Skin 2")
   }
-  Drawing.drawRightLeg(ox + 221, oy - 20, "Skin2")
-  Drawing.drawLeftLeg(ox + 245, oy - 20, "Skin2")
-  Drawing.drawRightLeg(ox + 221, oy + 12, "Skin2")
-  Drawing.drawLeftLeg(ox + 245, oy + 12, "Skin2")
-  Drawing.drawPlan(ox + 321, oy - 48, headmultiplier2, "Skin2")
+  Drawing.drawRightLeg(ox + 221, oy - 20, "Skin 2")
+  Drawing.drawLeftLeg(ox + 245, oy - 20, "Skin 2")
+  Drawing.drawRightLeg(ox + 221, oy + 12, "Skin 2")
+  Drawing.drawLeftLeg(ox + 245, oy + 12, "Skin 2")
+  Drawing.drawPlan(ox + 321, oy - 48, headmultiplier2, "Skin 2")
 
   if alexModel2 {
-    Drawing.drawPlanArmsAlex(ox + 321, oy - 48, "Skin2")
+    Drawing.drawPlanArmsAlex(ox + 321, oy - 48, "Skin 2")
   } else {
-    Drawing.drawPlanArms(ox + 321, oy - 48, "Skin2")
+    Drawing.drawPlanArms(ox + 321, oy - 48, "Skin 2")
   }
   Generator.drawImage("OverlayBee", (0, 0))
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
+  id,
+  name,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
-  history: history,
+  images,
+  textures,
+  script,
+  history,
 }

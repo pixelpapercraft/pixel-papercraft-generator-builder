@@ -11,6 +11,7 @@ let history = [
   "13 Feb 2015 lostminer: Update to use new version of generator.",
   "19 Sep 2020 NinjolasNJM: Updated to use 1.8+ Skins, fixed bottom textures, and added the ability to choose from multiple flowers and damage cracks.",
   "17 Jul 2021 M16 - Updated generator photo.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -18,60 +19,64 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let imageIds = ["Background", "Folds", "Labels"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Poppy",
-    url: requireTexture("Flower-Poppy"),
-    standardWidth: 16,
-    standardHeight: 16,
-  },
-  {
-    id: "Rose",
-    url: requireTexture("Flower-Rose"),
-    standardWidth: 16,
-    standardHeight: 16,
-  },
-  {
-    id: "Cyan Flower",
-    url: requireTexture("Flower-Cyan"),
-    standardWidth: 16,
-    standardHeight: 16,
-  },
-  {
-    id: "High",
-    url: requireTexture("Damage-High"),
-    standardWidth: 128,
-    standardHeight: 128,
-  },
-  {
-    id: "Medium",
-    url: requireTexture("Damage-Medium"),
-    standardWidth: 128,
-    standardHeight: 128,
-  },
-  {
-    id: "Low",
-    url: requireTexture("Damage-Low"),
-    standardWidth: 128,
-    standardHeight: 128,
-  },
-]
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  MinecraftSkins.skins,
+  [
+    {
+      id: "Poppy",
+      url: requireTexture("Flower-Poppy"),
+      standardWidth: 16,
+      standardHeight: 16,
+    },
+    {
+      id: "Rose",
+      url: requireTexture("Flower-Rose"),
+      standardWidth: 16,
+      standardHeight: 16,
+    },
+    {
+      id: "Cyan Flower",
+      url: requireTexture("Flower-Cyan"),
+      standardWidth: 16,
+      standardHeight: 16,
+    },
+    {
+      id: "High",
+      url: requireTexture("Damage-High"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
+      id: "Medium",
+      url: requireTexture("Damage-Medium"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+    {
+      id: "Low",
+      url: requireTexture("Damage-Low"),
+      standardWidth: 128,
+      standardHeight: 128,
+    },
+  ],
+)
 
 let steve = TextureMap.MinecraftCharacterLegacy.steve
 
 let script = () => {
-  // Define input textures
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
 
   Generator.defineTextureInput(
     "Flower",
@@ -96,7 +101,7 @@ let script = () => {
   Generator.defineBooleanInput("Show Labels", true)
 
   // Get user variable values
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
 
@@ -1324,13 +1329,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

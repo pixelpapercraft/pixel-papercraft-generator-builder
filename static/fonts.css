@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'Mojangles';
+    src: url('static/fonts/Mojangles-Normal.otf') format('opentype');
+
+}
+
+@font-face {
+    font-family: 'Mojangles';
+    src: url('static/fonts/Mojangles-Bold.otf') format('opentype');
+    font-weight: bold;
+
+}
+
+@font-face {
+    font-family: 'Illageralt';
+    src: url('static/fonts/Illageralt-Normal.otf') format('opentype');
+
+}
+
+@font-face {
+    font-family: 'Illageralt';
+    src: url('static/fonts/Illageralt-Bold.otf') format('opentype');
+    font-weight: bold;
+
+}
+
+@font-face {
+    font-family: 'Standard Galactic Alphabet';
+    src: url('static/fonts/SGA-Normal.otf') format('opentype');
+
+}
+
+@font-face {
+    font-family: 'Standard Galactic Alphabet';
+    src: url('static/fonts/SGA-Bold.otf') format('opentype');
+    font-weight: bold;
+
+}

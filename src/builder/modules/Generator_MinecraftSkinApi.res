@@ -46,15 +46,15 @@ module User = {
   }
 
   module Textures = {
-    type t = {custom: bool, slim: bool, skin: Texture.t, cape: Texture.t}
+    type t = {custom: bool, slim: bool, skin: Texture.t} //, cape: Texture.t}
 
-    let codec = Jzon.object4(
-      ({custom, slim, skin, cape}) => (custom, slim, skin, cape),
-      ((custom, slim, skin, cape)) => Ok({custom, slim, skin, cape}),
+    let codec = Jzon.object3(
+      ({custom, slim, skin}) => (custom, slim, skin),
+      ((custom, slim, skin)) => Ok({custom, slim, skin}),
       Jzon.field("custom", Jzon.bool),
       Jzon.field("slim", Jzon.bool),
       Jzon.field("skin", Texture.codec),
-      Jzon.field("cape", Texture.codec),
+      //Jzon.field("cape", Texture.codec),
     )
   }
 
@@ -62,7 +62,12 @@ module User = {
 
   let codec = Jzon.object4(
     ({uuid, username, createdAt, textures}) => (uuid, username, createdAt, textures),
-    ((uuid, username, createdAt, textures)) => Ok({uuid, username, createdAt, textures}),
+    ((uuid, username, createdAt, textures)) => Ok({
+      uuid,
+      username,
+      createdAt,
+      textures,
+    }),
     Jzon.field("uuid", Jzon.string),
     Jzon.field("username", Jzon.string),
     Jzon.field("created_at", Jzon.string),
@@ -83,10 +88,17 @@ let getSkinImage = username => {
   ->Promise.then(json => {
     let user = json->Jzon.decodeWith(User.codec)
     switch user {
-    | Error(_) => Promise.reject(makeError("Cannot decode API response"))
+    | Error(_) =>
+      let skinUrl = "data:image/png;base64,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" //"https://api.ashcon.app/mojang/v2/user/NinjolasNJM" //"data:image/png;base64," ++ steveData
+      //Js.Console.log(json)
+      Generator_ImageFactory.makeFromUrl(skinUrl)
+
     | Ok(user) => {
         let skinUrl = "data:image/png;base64," ++ user.textures.skin.data
-        Generator_ImageFactory.makeFromUrl(skinUrl)
+        //Js.Console.log(json)
+        Generator_ImageFactory.makeFromUrl(skinUrl)->Promise.then(image =>
+          Generator_Converter.convert(image)
+        )
       }
     }
   })

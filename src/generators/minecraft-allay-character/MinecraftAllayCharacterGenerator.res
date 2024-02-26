@@ -1,11 +1,13 @@
 let requireImage = fileName => Generator.requireImage("./images/" ++ fileName)
-let requireTexture = fileName => Generator.requireImage("./textures/" ++ fileName)
 
 let id = "minecraft-allay-character"
 
 let name = "Minecraft Allay Character"
 
-let history = ["1 May 2022 PaperDoggy - Initial script developed."]
+let history = [
+  "1 May 2022 PaperDoggy - Initial script developed.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 let video: Generator.videoDef = {url: "https://www.youtube.com/embed/vG-mXWu0OlA?rel=0"}
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail-256.jpeg"),
@@ -13,20 +15,7 @@ let thumbnail: Generator.thumnbnailDef = {
 
 let images: array<Generator.imageDef> = [{id: "Overlay", url: requireImage("OverlayAllay.png")}]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin1",
-    url: requireTexture("Skin1.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Skin2",
-    url: requireTexture("Skin2.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-]
+let textures: array<Generator.textureDef> = MinecraftSkins.skins
 
 let steve = TextureMap.MinecraftCharacter.steve
 let alex = TextureMap.MinecraftCharacter.alex
@@ -439,58 +428,59 @@ module Drawing = {
   }
 }
 let script = () => {
-  Generator.defineSelectInput("Character 1 skin model type", ["Steve", "Alex"])
-  Generator.defineTextureInput(
-    "Skin1",
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin 1",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [],
+      choices: ["Steve", "Alex"],
     },
   )
-  let alexModel1 = Generator.getSelectInputValue("Character 1 skin model type") === "Alex"
-  Generator.defineSelectInput("Character 2 skin model type", ["Steve", "Alex"])
-  Generator.defineTextureInput(
-    "Skin2",
+  Generator.defineSelectInput("Skin 1 Model", ["Steve", "Alex"])
+  let alexModel1 = Generator.getSelectInputValue("Skin 1 Model") === "Alex"
+  Generator.defineSkinInput(
+    "Skin 2",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [],
+      choices: ["Steve", "Alex"],
     },
   )
-  let alexModel2 = Generator.getSelectInputValue("Character 2 skin model type") === "Alex"
-  Drawing.drawHead(62, 63, "Skin1")
-  Drawing.drawBody(422, 84, "Skin1")
+  Generator.defineSelectInput("Skin 2 Model", ["Steve", "Alex"])
+  let alexModel2 = Generator.getSelectInputValue("Skin 2 Model") === "Alex"
+  Drawing.drawHead(62, 63, "Skin 1")
+  Drawing.drawBody(422, 84, "Skin 1")
   if alexModel1 {
-    Drawing.drawRightArmAlex(186, 198, "Skin1")
-    Drawing.drawLeftArmAlex(48, 198, "Skin1")
+    Drawing.drawRightArmAlex(186, 198, "Skin 1")
+    Drawing.drawLeftArmAlex(48, 198, "Skin 1")
   } else {
-    Drawing.drawRightArm(186, 198, "Skin1")
-    Drawing.drawLeftArm(48, 198, "Skin1")
+    Drawing.drawRightArm(186, 198, "Skin 1")
+    Drawing.drawLeftArm(48, 198, "Skin 1")
   }
-  Drawing.drawLegs(279, 197, "Skin1")
+  Drawing.drawLegs(279, 197, "Skin 1")
 
-  Drawing.drawHead(62, 424, "Skin2")
-  Drawing.drawBody(422, 445, "Skin2")
+  Drawing.drawHead(62, 424, "Skin 2")
+  Drawing.drawBody(422, 445, "Skin 2")
   if alexModel2 {
-    Drawing.drawRightArmAlex(186, 198 + 361, "Skin2")
-    Drawing.drawLeftArmAlex(48, 198 + 361, "Skin2")
+    Drawing.drawRightArmAlex(186, 198 + 361, "Skin 2")
+    Drawing.drawLeftArmAlex(48, 198 + 361, "Skin 2")
   } else {
-    Drawing.drawRightArm(186, 198 + 361, "Skin2")
-    Drawing.drawLeftArm(48, 198 + 361, "Skin2")
+    Drawing.drawRightArm(186, 198 + 361, "Skin 2")
+    Drawing.drawLeftArm(48, 198 + 361, "Skin 2")
   }
-  Drawing.drawLegs(278, 559, "Skin2")
+  Drawing.drawLegs(278, 559, "Skin 2")
   Generator.drawImage("Overlay", (0, 0))
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
+  id,
+  name,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
-  history: history,
+  images,
+  textures,
+  script,
+  history,
 }

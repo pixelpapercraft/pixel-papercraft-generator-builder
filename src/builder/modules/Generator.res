@@ -71,6 +71,14 @@ let clearStringInputValues = () => {
   model := Builder.clearStringInputValues(model.contents)
 }
 
+let clearBooleanInputValues = () => {
+  model := Builder.clearBooleanInputValues(model.contents)
+}
+
+let clearSelectInputValues = () => {
+  model := Builder.clearSelectInputValues(model.contents)
+}
+
 let defineButtonInput = (id, onClick) => {
   model := Builder.defineButtonInput(model.contents, id, onClick)
 }
@@ -142,16 +150,24 @@ let defineAndGetRangeInput = (id: string, options) => {
   getRangeInputValue(id)
 }
 
+let defineSkinInput = (id: string, options) => {
+  model := Builder.defineSkinInput(model.contents, id, options)
+}
+
 let defineTextureInput = (id: string, options) => {
   model := Builder.defineTextureInput(model.contents, id, options)
+}
+
+let defineTextInput = (id: string) => {
+  model := Builder.defineTextInput(model.contents, id)
 }
 
 let defineText = (text: string) => {
   model := Builder.defineText(model.contents, text)
 }
 
-let usePage = id => {
-  model := Builder.usePage(model.contents, id)
+let usePage = (~isLandscape: bool=false, id: string) => {
+  model := Builder.usePage(model.contents, id, isLandscape)
 }
 
 let fillBackgroundColor = (color: string) => {
@@ -171,12 +187,81 @@ let drawLine = (
   to: Builder.position,
   ~color: string="#000000",
   ~width: int=1,
+  ~pattern: array<int>=[],
+  ~offset: int=0,
+  (),
+) => {
+  model := Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern, ~offset)
+}
+
+let drawLinePath = (
+  points: array<Builder.position>,
+  ~color: string="#000000",
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
+  ~close: bool=false,
+  (),
+) => {
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      points,
+      ~color,
+      ~width,
+      ~pattern=[],
+      ~offset=0,
+      ~close,
+    )
+}
+
+let drawLineRect = (
+  dest: Builder.rectangle,
+  ~color: string="#000000",
+  ~width: int=1,
   /* ~pattern: array<int>=[],
    ~offset: int=0, */
   (),
 ) => {
-  model :=
-    Generator_Builder.drawLine(model.contents, from, to, ~color, ~width, ~pattern=[], ~offset=0)
+  let (x, y, w, h) = dest
+  // model :=
+  /* Generator_Builder.drawPath(
+      model.contents,
+      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
+      ~color,
+      ~width,
+      ~pattern=[],
+      ~offset=0,
+      ~close=false,
+    ) */
+  drawLine((x, y - 1), (x + w, y - 1), ~color, ~width, ())
+  drawLine((x + w, y - 1), (x + w, y + h + 1), ~color, ~width, ())
+  drawLine((x + w, y + h + 1), (x, y + h + 1), ~color, ~width, ())
+  drawLine((x, y + h + 1), (x, y - 1), ~color, ~width, ())
+}
+
+let drawLineCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~color: string="#000000",
+  ~width: int=1,
+  /* ~pattern: array<int>=[],
+   ~offset: int=0, */
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawLineRect((x + l, y, w, w * 2 + h), ~color, ~width, ())
+    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ())
+    drawLine((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h), ~color, ~width, ())
+  } else {
+    drawLineRect((x + l + w, y, w, w * 2 + h), ~color, ~width, ())
+    drawLineRect((x, y + l, l * 2 + w * 2, h), ~color, ~width, ())
+    drawLine((x + l, y + l), (x + l, y + l + h), ~color, ~width, ())
+  }
 }
 
 let drawFoldLine = (from: Builder.position, to: Builder.position) => {
@@ -190,6 +275,58 @@ let drawFoldLine = (from: Builder.position, to: Builder.position) => {
       ~pattern=[2, 2],
       ~offset=3,
     )
+}
+
+let drawFoldLinePath = (points: array<Builder.position>, ~close: bool=false, ()) => {
+  model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      points,
+      ~color="#7b7b7b",
+      ~width=1,
+      ~pattern=[2, 2],
+      ~offset=3,
+      ~close,
+    )
+}
+
+let drawFoldLineRect = (dest: Builder.rectangle) => {
+  let (x, y, w, h) = dest
+  /* model :=
+    Generator_Builder.drawPath(
+      model.contents,
+      [(x, y), (x + w, y), (x + w, y + h), (x - 1, y + h), (x - 1, y)],
+      ~color="#7b7b7b",
+      ~width=1,
+      ~pattern=[2, 2],
+      ~offset=3,
+      ~close=false,
+    ) */
+
+  drawFoldLine((x, y - 1), (x + w, y - 1))
+  drawFoldLine((x + w, y), (x + w, y + h))
+  drawFoldLine((x + w, y + h + 1), (x, y + h + 1))
+  drawFoldLine((x, y + h), (x, y))
+}
+
+let drawFoldLineCuboid = (
+  position: Builder.position,
+  scale: (int, int, int),
+  ~leftSide: bool=false,
+  (),
+) => {
+  let (x, y) = position
+  let (w, h, l) = scale
+
+  if !leftSide {
+    drawFoldLineRect((x + l, y, w, l * 2 + h))
+    drawFoldLineRect((x, y + l, l * 2 + w * 2, h))
+    drawFoldLine((x + l * 2 + w - 1, y + l), (x + l * 2 + w - 1, y + l + h))
+  } else {
+    drawFoldLineRect((x + l + w, y, w, l * 2 + h))
+    drawFoldLineRect((x, y + l, l * 2 + w * 2, h))
+    drawFoldLine((x + w, y + l), (x + w, y + l + h))
+  }
 }
 
 let drawTexture = (
@@ -302,6 +439,7 @@ let drawTab = (
   rectangle: Builder.rectangle,
   orientation: Orientation.t,
   ~showFoldLine: bool=true,
+  ~tabType: int=1,
   ~tabAngle: float=45.0,
   (),
 ) => {
@@ -313,6 +451,12 @@ let drawTab = (
   let h = Belt.Int.toFloat(h)
 
   let tabAngleRad = Angle.toRadians(tabAngle)
+
+  // For 0, dont print
+  // For 1, keep it the same
+  // for 2, p1 is up
+  // For 3, p4 is up
+  // for 4, both are up
 
   switch orientation {
   | #North => {
@@ -332,19 +476,21 @@ let drawTab = (
         (inset, h)
       }
 
-      let p1 = (0.0, h)
-      let p2 = (0.0 +. inset, h -. tabHeight)
-      let p3 = (w -. inset, h -. tabHeight)
-      let p4 = (w, h)
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h -. tabHeight) : (0.0, h +. 0.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (inset, h -. tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (w, h -. tabHeight) : (w -. inset, h -. tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w, h)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p2, p1, ())
-      drawLine(p2, p3, ())
-      drawLine(p4, p3, ())
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p4, p1)
@@ -373,19 +519,21 @@ let drawTab = (
         (inset, w)
       }
 
-      let p1 = (0.0, 0.0)
-      let p2 = (tabHeight, 0.0 +. inset)
-      let p3 = (tabHeight, h -. inset)
-      let p4 = (0.0, h)
+      let p1 = tabType == 2 || tabType == 4 ? (tabHeight, 0.0) : (0.0, 0.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (tabHeight, 0.0 +. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (tabHeight, h) : (tabHeight, h -. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (0.0, h)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p1, p2, ())
-      drawLine(p3, p2, ())
-      drawLine(p3, p4, ())
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p1, p4)
@@ -408,19 +556,21 @@ let drawTab = (
         (inset, h)
       }
 
-      let p1 = (w, 0.0)
-      let p2 = (w -. inset, tabHeight)
-      let p3 = (0.0 +. inset, tabHeight)
-      let p4 = (0.0, 0.0)
+      let p1 = tabType == 2 || tabType == 4 ? (w, tabHeight) : (w, 0.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. inset, tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, tabHeight) : (0.0 +. inset, tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (0.0, 0.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p2, p1, ())
-      drawLine(p2, p3, ())
-      drawLine(p4, p3, ())
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p4, p1)
@@ -449,23 +599,188 @@ let drawTab = (
         (inset, w)
       }
 
-      let p1 = (w, h)
-      let p2 = (w -. tabHeight, h -. inset)
-      let p3 = (w -. tabHeight, 0.0 +. inset)
-      let p4 = (w, 0.0)
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h) : (w, h)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. tabHeight, h -. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, 0.0) : (w -. tabHeight, 0.0 +. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w, 0.0)
 
       let p1 = p1->Point.translate(x, y)->Point.toIntPoint
       let p2 = p2->Point.translate(x, y)->Point.toIntPoint
       let p3 = p3->Point.translate(x, y)->Point.toIntPoint
       let p4 = p4->Point.translate(x, y)->Point.toIntPoint
 
-      drawLine(p1, p2, ())
-      drawLine(p3, p2, ())
-      drawLine(p3, p4, ())
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
 
       if showFoldLine {
         drawFoldLine(p1, p4)
       }
     }
   }
+
+  /* switch orientation {
+  | #North => {
+      //
+      //    p2 ______ p3
+      //      /|    |\
+      //     / |    | \
+      // p1 +--|----|--+ p4
+      //
+
+      let maxInset = w /. 2.0
+      let inset = h /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, h)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h -. tabHeight) : (-1.0, h +. 1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (inset, h -. tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (w, h -. tabHeight) : (w -. inset, h -. tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w +. 1.0, h +. 1.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p4, p1)
+      }
+    }
+  | #East => {
+      //
+      //  p1
+      //   +
+      //   | ⟍
+      //   |   ⟍  p2
+      //   |     |
+      //   |     |
+      //   |    ⟋ p3
+      //   |  ⟋
+      //   +
+      //  p4
+      //
+
+      let maxInset = h /. 2.0
+      let inset = w /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, w)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (tabHeight, 0.0) : (-1.0, -1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (tabHeight, 0.0 +. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (tabHeight, h) : (tabHeight, h -. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (-1.0, h +. 1.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p1, p4)
+      }
+    }
+  | #South => {
+      //
+      // p4 +----------+ p1
+      //     \         /
+      //      \      /
+      //    p3 +----+ p2
+      //
+
+      let maxInset = w /. 2.0
+      let inset = h /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, h)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (w, tabHeight) : (w +. 1.0, -1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. inset, tabHeight)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, tabHeight) : (0.0 +. inset, tabHeight)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (-1.0, -1.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p2, p1, ())
+        drawLine(p2, p3, ())
+        drawLine(p4, p3, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p4, p1)
+      }
+    }
+  | #West => {
+      //
+      //       p4
+      //         +
+      //       / |
+      //  p3 /   |
+      //    |    |
+      //    |    |
+      //  p2 \   |
+      //       \ |
+      //         +
+      //        p1
+      //
+
+      let maxInset = h /. 2.0
+      let inset = w /. Js.Math.tan(tabAngleRad)
+
+      let (inset, tabHeight) = if inset > maxInset {
+        (maxInset, Js.Math.tan(tabAngleRad) *. maxInset)
+      } else {
+        (inset, w)
+      }
+
+      let p1 = tabType == 2 || tabType == 4 ? (0.0, h) : (w +. 1.0, h +. 1.0)
+      let p2 = tabType == 2 || tabType == 4 ? p1 : (w -. tabHeight, h -. inset)
+      let p3 = tabType == 3 || tabType == 4 ? (0.0, 0.0) : (w -. tabHeight, 0.0 +. inset)
+      let p4 = tabType == 3 || tabType == 4 ? p3 : (w +. 1.0, -1.0)
+
+      let p1 = p1->Point.translate(x, y)->Point.toIntPoint
+      let p2 = p2->Point.translate(x, y)->Point.toIntPoint
+      let p3 = p3->Point.translate(x, y)->Point.toIntPoint
+      let p4 = p4->Point.translate(x, y)->Point.toIntPoint
+
+      if tabType != 0 {
+        drawLine(p1, p2, ())
+        drawLine(p3, p2, ())
+        drawLine(p3, p4, ())
+      }
+
+      if showFoldLine {
+        drawFoldLine(p1, p4)
+      }
+    }
+  }*/
 }

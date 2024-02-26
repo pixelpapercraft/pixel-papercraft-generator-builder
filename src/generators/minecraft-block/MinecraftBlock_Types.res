@@ -1,6 +1,4 @@
-module TexturePicker = MinecraftBlock_TexturePicker
-module Textures = MinecraftBlock_Textures
-module Face = MinecraftBlock_Face
+module Face = TextureFace
 
 type region = (int, int, int, int)
 
@@ -602,5 +600,54 @@ module Cake = {
     }
 
     Generator.drawImage("Tabs-Cake-Corner", (ox - 32 - bites * 16, oy - 1))
+  }
+}
+
+module Minecart = {
+  module Regions = {
+    type faces = {
+      top: region,
+      bottom: region,
+      right: region,
+      front: region,
+      left: region,
+      back: region,
+    }
+
+    let size = 96
+    let d = 48
+
+    let make = (ox, oy): faces => {
+      top: (ox + d + size, oy + d, size, size),
+      bottom: (ox + d + size, oy + d + size * 2, size, size),
+      right: (ox + d, oy + d + size, size, size),
+      front: (ox + d + size, oy + d + size, size, size),
+      left: (ox + d + size * 2, oy + d + size, size, size),
+      back: (ox + d + size * 3, oy + d + size, size, size),
+    }
+  }
+
+  let draw = (blockId: string, ox: int, oy: int, showFolds: bool) => {
+    let regions = Regions.make(ox, oy)
+
+    Face.defineInputRegion("MinecartFaceTop" ++ blockId, regions.top)
+    Face.defineInputRegion("MinecartFaceBottom" ++ blockId, regions.bottom)
+    Face.defineInputRegion("MinecartFaceRight" ++ blockId, regions.right)
+    Face.defineInputRegion("MinecartFaceFront" ++ blockId, regions.front)
+    Face.defineInputRegion("MinecartFaceLeft" ++ blockId, regions.left)
+    Face.defineInputRegion("MinecartFaceBack" ++ blockId, regions.back)
+
+    Face.draw("MinecartFaceTop" ++ blockId, (0, 0, 16, 16), regions.top, ())
+    Face.draw("MinecartFaceBottom" ++ blockId, (0, 0, 16, 16), regions.bottom, ())
+    Face.draw("MinecartFaceRight" ++ blockId, (0, 0, 16, 16), regions.right, ())
+    Face.draw("MinecartFaceFront" ++ blockId, (0, 0, 16, 16), regions.front, ())
+    Face.draw("MinecartFaceLeft" ++ blockId, (0, 0, 16, 16), regions.left, ())
+    Face.draw("MinecartFaceBack" ++ blockId, (0, 0, 16, 16), regions.back, ())
+
+    Generator.drawImage("Tabs-Minecart", (ox - 32, oy - 1))
+
+    if showFolds {
+      Generator.drawImage("Folds-Minecart", (ox - 32, oy - 1))
+    }
   }
 }

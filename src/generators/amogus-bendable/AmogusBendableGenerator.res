@@ -7,7 +7,10 @@ let id = "amogus-bendable"
 
 let name = "Amogus Bendable"
 
-let history = ["Jan 2022 PaperDogChannel - First release."]
+let history = [
+  "Jan 2022 PaperDogChannel - First release.",
+  "02 Feb 2024 NinjolasNJM - added skin input",
+]
 
 let thumbnail: Generator.thumnbnailDef = {
   url: Generator.requireImage("./thumbnail/thumbnail.jpeg"),
@@ -30,20 +33,17 @@ let images: array<Generator.imageDef> = [
   {id: "Folds", url: requireImage("Folds.png")},
 ]
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Skin.png"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Colors",
-    url: requireTexture("Colors.png"),
-    standardWidth: 16,
-    standardHeight: 2,
-  },
-]
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  MinecraftSkins.skins,
+  [
+    {
+      id: "Colors",
+      url: requireTexture("Colors.png"),
+      standardWidth: 16,
+      standardHeight: 2,
+    },
+  ],
+)
 
 let script = () => {
   Generator.defineSelectInput(
@@ -70,12 +70,12 @@ let script = () => {
     ],
   )
 
-  Generator.defineTextureInput(
+  Generator.defineSkinInput(
     "Skin",
     {
       standardWidth: 64,
       standardHeight: 64,
-      choices: [],
+      choices: ["Steve", "Alex"],
     },
   )
   Generator.drawImage("Background", (0, 0))
@@ -97,6 +97,7 @@ let script = () => {
   let maroon = Generator.getSelectInputValue("Color") === "Maroon"
   let brown = Generator.getSelectInputValue("Color") === "Brown"
   let tancolour = Generator.getSelectInputValue("Color") === "Tan"
+
   //Drawing
   if red {
     Generator.drawTextureLegacy(
@@ -261,13 +262,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: Some(video),
   instructions: Some(<Markdown> {instructions} </Markdown>),
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

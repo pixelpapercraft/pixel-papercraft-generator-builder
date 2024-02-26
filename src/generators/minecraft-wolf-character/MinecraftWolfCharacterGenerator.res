@@ -10,6 +10,7 @@ let history = [
   "06 Feb 2015 lostminer - Add user variables.",
   "13 Feb 2015 lostminer - Update to use new version of generator.",
   "29 Sep 2020 NinjolasNJM - Various updates.",
+  "02 Feb 2024 NinjolasNJM - added skin input.",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -17,30 +18,34 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let imageIds = ["Background", "Folds", "Labels"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = [
-  {
-    id: "Skin",
-    url: requireTexture("Steve"),
-    standardWidth: 64,
-    standardHeight: 64,
-  },
-  {
-    id: "Angry Wolf",
-    url: requireTexture("wolf_angry"),
-    standardWidth: 64,
-    standardHeight: 32,
-  },
-]
+let textures: array<Generator.textureDef> = Belt.Array.concat(
+  MinecraftSkins.skins,
+  [
+    {
+      id: "Angry Wolf",
+      url: requireTexture("wolf_angry"),
+      standardWidth: 64,
+      standardHeight: 32,
+    },
+  ],
+)
 
 let steve = TextureMap.MinecraftCharacterLegacy.steve
 
 let script = () => {
-  // Define user inputs
-  Generator.defineSelectInput("Skin Model Type", ["Steve", "Alex"])
-  Generator.defineTextureInput("Skin", {standardWidth: 64, standardHeight: 64, choices: []})
+  // Inputs
+  Generator.defineSkinInput(
+    "Skin",
+    {
+      standardWidth: 64,
+      standardHeight: 64,
+      choices: ["Steve", "Alex"],
+    },
+  )
+  Generator.defineSelectInput("Skin Model", ["Steve", "Alex"])
 
   // Define user variables
   Generator.defineBooleanInput("Show Folds", true)
@@ -48,7 +53,7 @@ let script = () => {
   Generator.defineBooleanInput("Show Red Eyes", false)
 
   // Get user variables
-  let alexModel = Generator.getSelectInputValue("Skin Model Type") === "Alex"
+  let alexModel = Generator.getSelectInputValue("Skin Model") === "Alex"
   let showFolds = Generator.getBooleanInputValue("Show Folds")
   let showLabels = Generator.getBooleanInputValue("Show Labels")
   let showRedEyes = Generator.getBooleanInputValue("Show Red Eyes")
@@ -792,13 +797,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

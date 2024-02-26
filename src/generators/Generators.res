@@ -7,6 +7,30 @@ let character: array<Generator.generatorDef> = [
   MinecraftActionFigureGenerator.generator,
   MinecraftUltimateBendableGenerator.generator,
   MinecraftCharacterMiniGenerator.generator,
+  MinecraftActionFigureMiniGenerator.generator,
+]
+
+// Blocks, Items and Accessories
+let utility: array<Generator.generatorDef> = [
+  MinecraftBlockGenerator.generator,
+  MinecraftItemGenerator.generator,
+  MinecraftDioramaGenerator.generator,
+  MinecraftArmorGenerator.generator,
+  MinecraftCapeAndElytraGenerator.generator,
+  MinecraftCharacterHeadsGenerator.generator,
+  MinecraftMinecartGenerator.generator,
+]
+
+let mob: array<Generator.generatorDef> = [
+  MinecraftCreeperGenerator.generator,
+  MinecraftEndermanGenerator.generator,
+  MinecraftGolemGenerator.generator,
+  MinecraftHorseGenerator.generator,
+  MinecraftPigGenerator.generator,
+  MinecraftSpiderGenerator.generator,
+  MinecraftPhantomGenerator.generator,
+  MinecraftCatGenerator.generator,
+  MinecraftVillagerGenerator.generator,
 ]
 
 let mobCharacter: array<Generator.generatorDef> = [
@@ -22,24 +46,6 @@ let mobCharacter: array<Generator.generatorDef> = [
   MinecraftAxolotlCharacterGenerator.generator,
   MinecraftAllayCharacterGenerator.generator,
   MinecraftBeeCharacterGenerator.generator,
-]
-
-let mob: array<Generator.generatorDef> = [
-  MinecraftCreeperGenerator.generator,
-  MinecraftEndermanGenerator.generator,
-  MinecraftGolemGenerator.generator,
-  MinecraftHorseGenerator.generator,
-  MinecraftPigGenerator.generator,
-  MinecraftCatGenerator.generator,
-  MinecraftVillagerGenerator.generator,
-]
-
-// Blocks, Items and Accessories
-let utility: array<Generator.generatorDef> = [
-  MinecraftBlockGenerator.generator,
-  MinecraftItemGenerator.generator,
-  MinecraftCapeAndElytraGenerator.generator,
-  MinecraftCharacterHeadsGenerator.generator,
 ]
 
 let mod: array<Generator.generatorDef> = [
@@ -58,4 +64,4 @@ let test: array<Generator.generatorDef> = isDevEnvironment
   ? [ExampleGenerator.generator, TestingGenerator.generator]
   : []
 
-let all = Belt.Array.concatMany([character, mobCharacter, mob, utility, mod, other, dev, test])
+let all = Belt.Array.concatMany([character, utility, mob, mobCharacter, mod, other, dev, test])

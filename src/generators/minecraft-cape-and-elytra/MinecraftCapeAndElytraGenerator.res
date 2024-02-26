@@ -8,6 +8,7 @@ let name = "Minecraft Cape And Elytra"
 let history = [
   "16 Mar 2021 NinjolasNJM - Initially completed both cape and elytra generation.",
   "06 Jun 2021 NinjolasNJM - Converted to ReScript generator.",
+  "02 Feb 2024 NinjolasNJM - added default textures and improved folds. ",
 ]
 
 let thumbnail: Generator.thumnbnailDef = {
@@ -15,10 +16,83 @@ let thumbnail: Generator.thumnbnailDef = {
 }
 
 let imageIds = ["Foreground", "Folds", "Labels"]
-let toImageDef = (id): Generator.imageDef => {id: id, url: requireImage(id)}
+let toImageDef = (id): Generator.imageDef => {id, url: requireImage(id)}
 let images: array<Generator.imageDef> = imageIds->Js.Array2.map(toImageDef)
 
-let textures: array<Generator.textureDef> = []
+let textures: array<Generator.textureDef> = [
+  {
+    id: "Cape",
+    url: requireTexture("Migrator"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Migrator Cape",
+    url: requireTexture("Migrator"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Vanilla Cape",
+    url: requireTexture("Vanilla"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Cherry Blossom Cape",
+    url: requireTexture("CherryBlossom"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Minecon 2011 Cape",
+    url: requireTexture("Minecon2011"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Minecon 2012 Cape",
+    url: requireTexture("Minecon2012"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Minecon 2013 Cape",
+    url: requireTexture("Minecon2013"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Minecon 2015 Cape",
+    url: requireTexture("Minecon2015"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Minecon 2016 Cape",
+    url: requireTexture("Minecon2016"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Founder's Cape",
+    url: requireTexture("Minecon2019"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Mojang Cape",
+    url: requireTexture("Mojang"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+  {
+    id: "Elytra",
+    url: requireTexture("Elytra"),
+    standardWidth: 64,
+    standardHeight: 32,
+  },
+]
 
 let script = () => {
   // Define the user inputs
@@ -27,7 +101,19 @@ let script = () => {
     {
       standardWidth: 64,
       standardHeight: 32,
-      choices: [],
+      choices: [
+        "Migrator Cape",
+        "Vanilla Cape",
+        "Cherry Blossom Cape",
+        "Minecon 2011 Cape",
+        "Minecon 2012 Cape",
+        "Minecon 2013 Cape",
+        "Minecon 2015 Cape",
+        "Minecon 2016 Cape",
+        "Founder's Cape",
+        "Mojang Cape",
+        "Elytra",
+      ],
     },
   )
 
@@ -228,13 +314,13 @@ let script = () => {
 }
 
 let generator: Generator.generatorDef = {
-  id: id,
-  name: name,
-  history: history,
+  id,
+  name,
+  history,
   thumbnail: Some(thumbnail),
   video: None,
   instructions: None,
-  images: images,
-  textures: textures,
-  script: script,
+  images,
+  textures,
+  script,
 }

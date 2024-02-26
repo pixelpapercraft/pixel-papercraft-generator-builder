@@ -16,14 +16,35 @@ let make = (image, standardWidth, standardHeight): t => {
   texture
 }
 
-let makeFromUrl = (url, standardWidth, standardHeight) =>
-  Generator_ImageFactory.makeFromUrl(url)->Promise.thenResolve(image =>
-    make(image, standardWidth, standardHeight)
-  )
+let makeFromUrl = (url, standardWidth, standardHeight) => {
+  // if url starts with "skin:" , then use makeFrom Skin(), else use makeFromUrl()
+  if !Js.String.startsWith("skin:", url) {
+    Generator_ImageFactory.makeFromUrl(url)->Promise.thenResolve(image =>
+      make(image, standardWidth, standardHeight)
+    )
+  } else {
+    let url = Js.String.substringToEnd(~from=5, url)
+    Generator_MinecraftSkinApi.getSkinImage(url)->Promise.thenResolve(image =>
+      make(image, standardWidth, standardHeight)
+    )
+  }
+}
 
 type flip = [#None | #Horizontal | #Vertical]
 type rotate = [#None | #Corner(float) | #Center(float)]
-type blend = [#None | #MultiplyHex(string) | #MultiplyRGB(int, int, int)]
+type blend = [
+  | #None
+  | #MultiplyHex(string)
+  | #MultiplyRGB(int, int, int)
+  | #ReplaceHex(array<string>, array<string>)
+  | #ReplaceRGB(array<(int, int, int)>, array<(int, int, int)>)
+  | #AddHex(string)
+  | #AddRGB(int, int, int)
+]
+/* Try to:
+- Get pixel color for each pixel
+- Add to each color
+*/
 
 type drawNearestNeighborOptions = {rotate: rotate, flip: flip, blend: blend, pixelate: bool}
 
@@ -61,16 +82,36 @@ let hexToRGB = (hex: string) => {
       let r = shift(value, 16)
       let g = shift(value, 8)
       let b = shift(value, 0)
-      Some((r, g, b))
+      Some(r, g, b)
     }
   }
 }
 
-let blendColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
+let multiplyColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
   (Belt.Int.toFloat(r1) *. Belt.Int.toFloat(r2) /. 255.0)->Belt.Float.toInt,
   (Belt.Int.toFloat(g1) *. Belt.Int.toFloat(g2) /. 255.0)->Belt.Float.toInt,
   (Belt.Int.toFloat(b1) *. Belt.Int.toFloat(b2) /. 255.0)->Belt.Float.toInt,
 )
+
+let addColors = (r1: int, g1: int, b1: int, r2: int, g2: int, b2: int) => (
+  (Belt.Int.toFloat(r1) +. Belt.Int.toFloat(r2) /. 255.0)->Belt.Float.toInt,
+  (Belt.Int.toFloat(g1) +. Belt.Int.toFloat(g2) /. 255.0)->Belt.Float.toInt,
+  (Belt.Int.toFloat(b1) +. Belt.Int.toFloat(b2) /. 255.0)->Belt.Float.toInt,
+)
+
+// if 1(texture) = 2(base palette), draw 3(color palette) else draw 1
+let replaceColors = (
+  (r1, g1, b1): (int, int, int),
+  (r2, g2, b2): (int, int, int),
+  (r3, g3, b3): (int, int, int),
+) => (r1 == r2 ? r3 : r1, g1 == g2 ? g3 : g1, b1 == b2 ? b3 : b1)
+
+let replaceColorsFromPalette = (
+  rgb1: (int, int, int),
+  rgb2: array<(int, int, int)>,
+  rgb3: array<(int, int, int)>,
+) =>
+  Js.Array.some(v => v == rgb1, rgb2) ? rgb3[Js.Array.findIndex(v => v == rgb1, rgb2)] : Some(rgb1)
 
 // Scale (dw, dh) so it fits inside (sw, sh)
 let fit = (sw, sh, dw, dh) => {
@@ -142,6 +183,26 @@ let drawNearestNeighbor = (
     | #None => None
     | #MultiplyHex(hex) => hexToRGB(hex)
     | #MultiplyRGB(r, g, b) => Some(r, g, b)
+    | #AddHex(hex) => hexToRGB(hex)
+    | #AddRGB(r, g, b) => Some(r, g, b)
+    | _ => None
+    }
+
+    let replace = switch options.blend {
+    | #None => None
+    | #ReplaceHex(hex1, hex2) => Some(Js.Array.map(x =>
+          switch hexToRGB(x) {
+          | None => (0, 0, 0)
+          | Some(r1, g1, b1) => (r1, g1, b1)
+          }
+        , hex1), Js.Array.map(x =>
+          switch hexToRGB(x) {
+          | None => (0, 0, 0)
+          | Some(r2, g2, b2) => (r2, g2, b2)
+          }
+        , hex2))
+    | #ReplaceRGB(rgb1, rgb2) => Some(rgb1, rgb2)
+    | _ => None
     }
 
     for y in 0 to sh - 1 {
@@ -159,7 +220,15 @@ let drawNearestNeighbor = (
 
         let (r, g, b) = switch blend {
         | None => (r, g, b)
-        | Some((r2, g2, b2)) => blendColors(r, g, b, r2, g2, b2)
+        | Some((r2, g2, b2)) => multiplyColors(r, g, b, r2, g2, b2)
+        }
+        let (r, g, b) = switch replace {
+        | None => (r, g, b)
+        | Some(rgb2, rgb3) =>
+          switch replaceColorsFromPalette((r, g, b), rgb2, rgb3) {
+          | None => assert false
+          | Some(v) => v
+          }
         }
 
         Context2d.setFillStyleRGBA(tempContext, r, g, b, a)
